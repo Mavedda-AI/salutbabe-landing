@@ -15,7 +15,7 @@ const FloatingHeader = () => {
   };
   return (
     <>
-      <header className="premium-header fixed top-0 left-0 right-0 z-9999 transition-all duration-500 ease-out px-4 md:px-8 py-4 bg-white">
+      <header className="premium-header fixed top-0 left-0 right-0 z-9999 transition-all duration-500 ease-out px-4 md:px-8 py-4 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
         <div className="mx-auto max-w-7xl transition-all duration-700 ease-in-out backdrop-blur-3xl flex items-center justify-between px-4 sm:px-6 py-3 rounded-4xl bg-white w-full">
           <div className="flex items-center gap-4 sm:gap-8 w-full">
             <Link className="relative flex items-center group" href="/">
