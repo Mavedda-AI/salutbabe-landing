@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
+
 const Hero = () => (
   <section className="hero-section flex flex-col items-center justify-center text-center py-24 bg-linear-to-r from-pink-100 via-blue-100 to-yellow-100 relative overflow-hidden">
     {/* Hareketli arka plan şekilleri */}
@@ -10,12 +11,16 @@ const Hero = () => (
       <div className="absolute left-1/2 bottom-10 w-40 h-40 bg-yellow-300 rounded-full blur-2xl opacity-30 animate-bounce" />
     </div>
     <Image src="/logo-salutbabe.png" alt="Salutbabe Logo" width={192} height={48} className="mb-8 w-48 h-auto z-10 drop-shadow-lg" />
-    <h1 className="text-5xl md:text-6xl font-extrabold text-pink-600 mb-6 z-10 animate-fade-in">
-      Eğlenceli İkinci El Deneyimi
+    <h1 className="text-4xl md:text-6xl font-extrabold text-pink-600 mb-6 z-10 animate-fade-in">
+      Anneler İçin <span className="text-blue-500">İkinci El</span> Bebek Kıyafetleri Platformu
     </h1>
-    <p className="text-xl md:text-2xl text-blue-700 mb-8 max-w-xl z-10 animate-fade-in">
-      Şeffaf, güvenli ve adil alışveriş. Gardırobunu yenile, döngüsel modaya katıl.
+    <p className="text-lg md:text-2xl text-blue-700 mb-8 max-w-2xl z-10 animate-fade-in">
+      Bebeğinizin küçülen kıyafetlerini güvenle satın, başka annelerin bebekleri için uygun fiyatlı ve kaliteli ürünler keşfedin. Döngüsel ekonomiye katkı sağlayın, sürdürülebilir alışverişin keyfini çıkarın.
     </p>
+    <div className="flex flex-col md:flex-row gap-4 z-10 animate-fade-in">
+      <a href="#" className="px-8 py-4 bg-pink-500 text-white font-bold rounded-full shadow-lg hover:bg-pink-600 transition-all text-lg">Hemen Satmaya Başla</a>
+      <a href="#" className="px-8 py-4 bg-blue-400 text-white font-bold rounded-full shadow-lg hover:bg-blue-500 transition-all text-lg">Alışverişe Başla</a>
+    </div>
   </section>
 );
 
