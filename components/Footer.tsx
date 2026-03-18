@@ -3,12 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Footer = () => (
-  <footer className="site-footer bg-gray-100 py-14">
+  <footer className="site-footer bg-gray-100 pt-8 pb-0">
     <div className="max-w-7xl mx-auto px-4">
       <div className="flex flex-col md:flex-row md:justify-between items-center md:items-start gap-8 mb-8">
-        <div className="flex flex-col items-center md:items-start">
-          <div className="w-full flex justify-center mb-2">
-            <Image src="/logo_band_colored.svg" alt="logo band colored" className="h-8" width={160} height={32} />
+        <div className="flex flex-col items-start md:items-start">
+          <div className="mb-2">
+            <Image src="/logo-salutbabe.png" alt="salutbabe logo" className="h-8" width={160} height={32} />
           </div>
           <p className="text-sm text-gray-600 mb-2">“Yeni nesil ikinci el deneyimi — şeffaf, güvenli ve hızlı.”</p>
           <hr className="w-full border-gray-300 my-2" />
@@ -49,9 +49,13 @@ const Footer = () => (
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 mt-2">
+      <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 mt-0">
         <p>© 2026 salutbabe — Tüm hakları saklıdır.</p>
         <p>salutbabe bir Mavedda markasıdır.</p>
+      </div>
+      {/* Ana içerik bloğu bittiği yer */}
+      <div className="w-full flex justify-center items-end m-0 p-0">
+        <Image src="/logo_band_colored.svg" alt="logo band colored" className="h-16 m-0 p-0" width={320} height={64} />
       </div>
     </div>
   </footer>

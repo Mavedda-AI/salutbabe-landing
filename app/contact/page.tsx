@@ -12,14 +12,7 @@ export default function ContactPage() {
           <li>Telefon: 0 (555) 123 45 67</li>
         </ul>
         <h2 className="text-2xl font-bold mb-3 text-neutral-800">Çalışma Saatlerimiz</h2>
-        <p className="mb-6 text-neutral-700">Hafta içi: 09:00 - 18:00<br/>Cumartesi: 10:00 - 16:00<br/>Pazar: Kapalı</p>
-        <h2 className="text-2xl font-bold mb-3 text-neutral-800">Bize Yazın</h2>
-        <form className="space-y-4">
-          <input type="text" placeholder="Adınız Soyadınız" className="w-full border rounded px-3 py-2" />
-          <input type="email" placeholder="E-posta Adresiniz" className="w-full border rounded px-3 py-2" />
-          <textarea placeholder="Mesajınız" className="w-full border rounded px-3 py-2" rows={4}></textarea>
-          <button type="submit" className="bg-blue-700 text-white px-6 py-2 rounded font-semibold">Gönder</button>
-        </form>
+        <p className="mb-0 text-neutral-700">Hafta içi: 09:00 - 18:00<br/>Cumartesi: 10:00 - 16:00<br/>Pazar: Kapalı</p>
       </div>
     </main>
   );

@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
             istediğiniz ürünü detaylıca açıklayın ve fotoğraflarını yükleyin.
           </li>
           <li>
-            <span className="font-semibold">Alıcı ile Güvenli İletişim:</span>
+            <span className="font-semibold">Güvenli İletişim:</span>
             Platform üzerinden güvenli mesajlaşma ile iletişime geçin.
           </li>
           <li>
@@ -25,7 +25,7 @@ export default function HowItWorksPage() {
             güvencesiyle gerçekleşir. Satıcıya ürün tesliminden sonra aktarılır.
           </li>
           <li>
-            <span className="font-semibold">Kargo ve Teslimat:</span> Ürün,
+            <span className="font-semibold">Kargo & Teslimat:</span> Ürün,
             anlaşmalı kargo ile hızlıca alıcıya ulaşır.
           </li>
           <li>
@@ -45,7 +45,7 @@ export default function HowItWorksPage() {
         <p className="text-neutral-600">
           Daha fazla bilgi için{" "}
           <a
-            href="/iletisim"
+            href="/contact"
             className="underline text-blue-700"
           >
             iletişim

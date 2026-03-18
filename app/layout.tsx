@@ -9,7 +9,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased bg-white">
         <FloatingHeader />
         <div className="relative">{children}</div>
         <Footer />
