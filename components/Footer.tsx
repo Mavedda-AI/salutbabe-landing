@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => (
   <footer className="site-footer bg-gray-100 py-14">
@@ -21,31 +23,32 @@ const Footer = () => (
           <div>
             <p className="font-semibold text-xs text-gray-700 mb-2">Hakkımızda</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li><a href="#hakkimizda" className="hover:underline">Kurumsal</a></li>
-              <li><a href="#gizlilik" className="hover:underline">Gizlilik Politikası</a></li>
-              <li><a href="#iletisim" className="hover:underline">İletişim</a></li>
+              <li><Link href="/hakkimizda" className="hover:underline">Hakkımızda</Link></li>
+              <li><Link href="/kurumsal" className="hover:underline">Kurumsal</Link></li>
+              <li><Link href="/gizlilik-politikasi" className="hover:underline">Gizlilik Politikası</Link></li>
+              <li><Link href="/iletisim" className="hover:underline">İletişim</Link></li>
             </ul>
           </div>
           <div>
             <p className="font-semibold text-xs text-gray-700 mb-2">Platform</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li><a href="#nasilcalisir" className="hover:underline">Nasıl Çalışır</a></li>
-              <li><a href="#hizmetpaket" className="hover:underline">Hizmet Paketleri</a></li>
+              <li><Link href="/nasil-calisir" className="hover:underline">Nasıl Çalışır</Link></li>
+              <li><Link href="/hizmet-paketleri" className="hover:underline">Hizmet Paketleri</Link></li>
             </ul>
           </div>
           <div>
             <p className="font-semibold text-xs text-gray-700 mb-2">Güvenlik & Uyum</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li><a href="#kvkk" className="hover:underline">KVKK Aydınlatma Metni</a></li>
-              <li><a href="#ticari" className="hover:underline">Ticari İletişim İzin Metni</a></li>
-              <li><a href="#bilgilendirme" className="hover:underline">Mesafeli Satış Ön Bilgilendirme</a></li>
-              <li><a href="#kosullar" className="hover:underline">Kullanım Koşulları</a></li>
+              <li><Link href="/kvkk-aydinlatma-metni" className="hover:underline">KVKK Aydınlatma Metni</Link></li>
+              <li><Link href="/ticari-iletisim-izin-metni" className="hover:underline">Ticari İletişim İzin Metni</Link></li>
+              <li><Link href="/mesafeli-satis-on-bilgilendirme" className="hover:underline">Mesafeli Satış Ön Bilgilendirme</Link></li>
+              <li><Link href="/kullanim-kosullari" className="hover:underline">Kullanım Koşulları</Link></li>
             </ul>
           </div>
         </div>
       </div>
       <div className="w-full flex justify-center mt-4">
-        <img src="/logo_band_colored.svg" alt="logo band colored" className="h-8" />
+        <Image src="/logo_band_colored.svg" alt="logo band colored" className="h-8" width={160} height={32} />
       </div>
       <hr className="border-gray-300 mb-6 mt-2" />
       <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 mt-2">
