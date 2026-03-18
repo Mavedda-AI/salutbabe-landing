@@ -23,26 +23,26 @@ const Footer = () => (
           <div>
             <p className="font-semibold text-xs text-gray-700 mb-2">Hakkımızda</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li><Link href="/hakkimizda" className="hover:underline">Hakkımızda</Link></li>
-              <li><Link href="/kurumsal" className="hover:underline">Kurumsal</Link></li>
-              <li><Link href="/gizlilik-politikasi" className="hover:underline">Gizlilik Politikası</Link></li>
-              <li><Link href="/iletisim" className="hover:underline">İletişim</Link></li>
+              <li><Link href="/about" className="hover:underline">About</Link></li>
+              <li><Link href="/corporate" className="hover:underline">Corporate</Link></li>
+              <li><Link href="/privacy-policy" className="hover:underline">Privacy Policy</Link></li>
+              <li><Link href="/contact" className="hover:underline">Contact</Link></li>
             </ul>
           </div>
           <div>
             <p className="font-semibold text-xs text-gray-700 mb-2">Platform</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li><Link href="/nasil-calisir" className="hover:underline">Nasıl Çalışır</Link></li>
+              <li><Link href="/how-it-works" className="hover:underline">How It Works</Link></li>
               <li><Link href="/premium" className="hover:underline">Premium</Link></li>
             </ul>
           </div>
           <div>
             <p className="font-semibold text-xs text-gray-700 mb-2">Güvenlik & Uyum</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li><Link href="/kvkk-aydinlatma-metni" className="hover:underline">KVKK Aydınlatma Metni</Link></li>
-              <li><Link href="/ticari-iletisim-izin-metni" className="hover:underline">Ticari İletişim İzin Metni</Link></li>
-              <li><Link href="/mesafeli-satis-on-bilgilendirme" className="hover:underline">Mesafeli Satış Ön Bilgilendirme</Link></li>
-              <li><Link href="/kullanim-kosullari" className="hover:underline">Kullanım Koşulları</Link></li>
+              <li><Link href="/kvkk-disclosure" className="hover:underline">KVKK Disclosure</Link></li>
+              <li><Link href="/commercial-communication-consent" className="hover:underline">Commercial Communication Consent</Link></li>
+              <li><Link href="/distance-sales-info" className="hover:underline">Distance Sales Info</Link></li>
+              <li><Link href="/terms-of-use" className="hover:underline">Terms of Use</Link></li>
             </ul>
           </div>
         </div>
