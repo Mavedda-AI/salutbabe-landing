@@ -3,23 +3,17 @@ import Image from "next/image";
 
 
 const Hero = () => (
-  <section className="hero-section flex flex-col items-center justify-center text-center py-24 bg-linear-to-r from-pink-100 via-blue-100 to-yellow-100 relative overflow-hidden">
-    {/* Hareketli arka plan şekilleri */}
-    <div className="absolute top-0 left-0 w-full h-full pointer-events-none animate-pulse">
-      <div className="absolute left-10 top-10 w-32 h-32 bg-pink-300 rounded-full blur-2xl opacity-30 animate-bounce" />
-      <div className="absolute right-10 top-20 w-24 h-24 bg-blue-300 rounded-full blur-2xl opacity-30 animate-bounce" />
-      <div className="absolute left-1/2 bottom-10 w-40 h-40 bg-yellow-300 rounded-full blur-2xl opacity-30 animate-bounce" />
-    </div>
-    <Image src="/logo-salutbabe.png" alt="Salutbabe Logo" width={192} height={48} className="mb-8 w-48 h-auto z-10 drop-shadow-lg" />
-    <h1 className="text-4xl md:text-6xl font-extrabold text-pink-600 mb-6 z-10 animate-fade-in">
-      Anneler İçin <span className="text-blue-500">İkinci El</span> Bebek Kıyafetleri Platformu
+  <section className="hero-section flex flex-col items-center justify-center text-center py-20 bg-white border-b border-neutral-200">
+    <Image src="/logo-salutbabe.png" alt="Salutbabe Logo" width={160} height={40} className="mb-8 w-40 h-auto z-10" />
+    <h1 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-6 z-10">
+      Anneler İçin <span className="text-blue-700">İkinci El</span> Bebek Kıyafetleri Platformu
     </h1>
-    <p className="text-lg md:text-2xl text-blue-700 mb-8 max-w-2xl z-10 animate-fade-in">
+    <p className="text-lg md:text-xl text-neutral-600 mb-8 max-w-2xl z-10">
       Bebeğinizin küçülen kıyafetlerini güvenle satın, başka annelerin bebekleri için uygun fiyatlı ve kaliteli ürünler keşfedin. Döngüsel ekonomiye katkı sağlayın, sürdürülebilir alışverişin keyfini çıkarın.
     </p>
-    <div className="flex flex-col md:flex-row gap-4 z-10 animate-fade-in">
-      <a href="#" className="px-8 py-4 bg-pink-500 text-white font-bold rounded-full shadow-lg hover:bg-pink-600 transition-all text-lg">Hemen Satmaya Başla</a>
-      <a href="#" className="px-8 py-4 bg-blue-400 text-white font-bold rounded-full shadow-lg hover:bg-blue-500 transition-all text-lg">Alışverişe Başla</a>
+    <div className="flex flex-col md:flex-row gap-4 z-10">
+      <a href="#" className="px-8 py-3 bg-blue-700 text-white font-semibold rounded-full shadow-sm hover:bg-blue-800 transition text-base">Hemen Satmaya Başla</a>
+      <a href="#" className="px-8 py-3 bg-neutral-200 text-neutral-800 font-semibold rounded-full shadow-sm hover:bg-neutral-300 transition text-base">Alışverişe Başla</a>
     </div>
   </section>
 );

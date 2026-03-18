@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const advantages = [
 	{
@@ -19,29 +20,29 @@ const advantages = [
 ];
 
 const Advantages = () => (
-	<section className="advantages-section py-16 bg-linear-to-r from-yellow-100 via-pink-100 to-blue-100">
-		<div className="max-w-7xl mx-auto px-4">
-			<h2 className="text-3xl md:text-4xl font-extrabold text-center mb-10 text-blue-700 animate-fade-in">
-				Avantajlarımız
-			</h2>
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-				{advantages.map((adv, idx) => (
-					<div
-						key={idx}
-						className="flex flex-col items-center text-center p-8 rounded-2xl shadow-xl bg-white border-4 border-pink-200 hover:border-blue-300 transition-all duration-300 hover:scale-105 animate-fade-in"
-					>
-						<div className="mb-4 w-16 h-16 flex items-center justify-center rounded-full bg-linear-to-r from-pink-300 via-yellow-300 to-blue-300 shadow-lg animate-bounce">
-							<img src={adv.icon} alt={adv.title} className="w-10 h-10" />
-						</div>
-						<h3 className="text-xl font-bold mb-2 text-pink-600">
-							{adv.title}
-						</h3>
-						<p className="text-blue-700 text-base">{adv.desc}</p>
-					</div>
-				))}
+  <section className="advantages-section py-12 bg-white border-b border-neutral-200">
+	<div className="max-w-7xl mx-auto px-4">
+	  <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-neutral-800">
+		Avantajlarımız
+	  </h2>
+	  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+		{advantages.map((adv, idx) => (
+		  <div
+			key={idx}
+			className="flex flex-col items-center text-center p-6 rounded-xl shadow-sm bg-white border border-neutral-200 hover:border-blue-700 transition-all duration-300 hover:scale-105"
+		  >
+			<div className="mb-4 w-14 h-14 flex items-center justify-center rounded-full bg-neutral-100">
+			  <Image src={adv.icon} alt={adv.title} width={32} height={32} className="w-8 h-8" />
 			</div>
-		</div>
-	</section>
+			<h3 className="text-lg font-semibold mb-2 text-blue-700">
+			  {adv.title}
+			</h3>
+			<p className="text-neutral-600 text-base">{adv.desc}</p>
+		  </div>
+		))}
+	  </div>
+	</div>
+  </section>
 );
 
 export default Advantages;
