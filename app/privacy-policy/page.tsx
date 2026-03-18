@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function GizlilikPolitikasiPage() {
+export default function PrivacyPolicyPage() {
   return (
     <main className="max-w-3xl mx-auto pt-28 pb-20 px-4">
       <div className="bg-white/80 rounded-2xl shadow-md border border-neutral-100 p-8">

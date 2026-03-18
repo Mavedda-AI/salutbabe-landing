@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function HakkimizdaPage() {
+export default function AboutPage() {
   return (
     <main className="max-w-3xl mx-auto pt-28 pb-20 px-4">
       <div className="bg-white/80 rounded-2xl shadow-md border border-neutral-100 p-8">
@@ -36,7 +36,7 @@ export default function HakkimizdaPage() {
           <li>Sosyal sorumluluk</li>
         </ul>
         <p className="text-neutral-600">
-          Daha fazla bilgi için bizimle{" "}
+          Daha fazla bilgi için{" "}
           <a
             href="/contact"
             className="underline text-blue-700"
