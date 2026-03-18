@@ -5,9 +5,7 @@ const Footer = () => (
     <div className="max-w-7xl mx-auto px-4">
       <div className="flex flex-col md:flex-row md:justify-between items-center md:items-start gap-8 mb-8">
         <div className="flex flex-col items-center md:items-start">
-          <div className="mb-2">
-            <img alt="salutbabe logo" src="/logo-salutbabe.png" width={180} height={34} className="h-10" />
-          </div>
+          {/* Logo kaldırıldı */}
           <p className="text-sm text-gray-600 mb-2">“Yeni nesil ikinci el deneyimi — şeffaf, güvenli ve hızlı.”</p>
           <hr className="w-full border-gray-300 my-2" />
           <div className="text-xs text-gray-500 mb-2">

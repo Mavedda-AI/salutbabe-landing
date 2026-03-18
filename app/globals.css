@@ -24,3 +24,18 @@ body {
   color: var(--foreground);
   font-family: 'SF Pro Display', Arial, Helvetica, sans-serif;
 }
+
+@keyframes toast-slide {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-toast-slide {
+  animation: toast-slide 0.4s cubic-bezier(0.4,0,0.2,1);
+}
