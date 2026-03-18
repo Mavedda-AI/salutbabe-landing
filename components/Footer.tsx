@@ -33,7 +33,7 @@ const Footer = () => (
             <p className="font-semibold text-xs text-gray-700 mb-2">Platform</p>
             <ul className="text-xs text-gray-600 space-y-1">
               <li><Link href="/nasil-calisir" className="hover:underline">Nasıl Çalışır</Link></li>
-              <li><Link href="/hizmet-paketleri" className="hover:underline">Hizmet Paketleri</Link></li>
+              <li><Link href="/premium" className="hover:underline">Premium</Link></li>
             </ul>
           </div>
           <div>
