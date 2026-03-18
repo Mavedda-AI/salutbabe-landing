@@ -23,10 +23,10 @@ const FloatingHeader = () => {
               <Image alt="salutbabe logo" width={130} height={38} className="relative transition-transform duration-500 group-hover:scale-105" src="/logo-salutbabe.png" style={{ color: "transparent" }} />
             </Link>
             <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center">
-              <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/corporate">Corporate</Link>
-              <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/how-it-works">How It Works</Link>
+              <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/corporate">Kurumsal</Link>
+              <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/how-it-works">Nasıl Çalışır</Link>
               <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/premium">Premium</Link>
-              <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/contact">Contact</Link>
+              <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/contact">İletişim</Link>
             </nav>
             <div className="flex items-center gap-2 ml-auto">
               <button
