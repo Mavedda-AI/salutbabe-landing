@@ -18,8 +18,8 @@ const advantages = [
 				/>
 			</svg>
 		),
-		title: "Transparent Shopping",
-		desc: "Full transparency and trust in every transaction.",
+		title: "Şeffaf Alışveriş",
+		desc: "Her işlemde tam şeffaflık ve güven.",
 	},
 	{
 		icon: (
@@ -38,8 +38,8 @@ const advantages = [
 				/>
 			</svg>
 		),
-		title: "Circular Fashion",
-		desc: "Renew your wardrobe, contribute to a sustainable lifestyle.",
+		title: "Döngüsel Moda",
+		desc: "Gardırobunuzu yenileyin, sürdürülebilir bir yaşama katkı sağlayın.",
 	},
 	{
 		icon: (
@@ -59,8 +59,8 @@ const advantages = [
 				<path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15.75l7.5-7.5" />
 			</svg>
 		),
-		title: "Easy Selling",
-		desc: "List your products quickly and sell instantly.",
+		title: "Kolay Satış",
+		desc: "Ürünlerinizi hızlıca listeleyin ve anında satın.",
 	},
 ];
 
@@ -68,7 +68,7 @@ const Advantages = () => (
 	<section className="advantages-section py-16 bg-linear-to-b from-blue-50 via-white to-pink-50 border-b border-neutral-200">
 		<div className="max-w-7xl mx-auto px-4">
 			<h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-neutral-800">
-				Why Salutbabe?
+				Neden Salutbabe?
 			</h2>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 				{advantages.map((adv, idx) => (

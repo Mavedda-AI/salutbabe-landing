@@ -8,7 +8,7 @@ const Footer = () => (
       <div className="flex flex-col md:flex-row md:justify-between items-center md:items-start gap-8 mb-8">
         <div className="flex flex-col items-start md:items-start">
           <div className="mb-2">
-            <Image src="/logo-salutbabe.png" alt="salutbabe logo" className="h-8" width={160} height={32} />
+            <Image src="/logo-salutbabe.png" alt="salutbabe logosu" className="h-8" width={160} height={32} />
           </div>
           <p className="text-sm text-gray-600 mb-2">“Yeni nesil ikinci el deneyimi — şeffaf, güvenli ve hızlı.”</p>
           <hr className="w-full border-gray-300 my-2" />
@@ -55,7 +55,7 @@ const Footer = () => (
       </div>
       {/* Ana içerik bloğu bittiği yer */}
       <div className="w-full flex justify-center items-end m-0 p-0">
-        <Image src="/logo_band_colored.svg" alt="logo band colored" className="h-16 m-0 p-0" width={320} height={64} />
+        <Image src="/logo-tami.avif" alt="tami logosu" className="h-16 m-0 p-0 object-contain" width={160} height={64} />
       </div>
     </div>
   </footer>

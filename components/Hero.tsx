@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Hero = () => (
   <section className="hero-section flex flex-col items-center justify-center text-center py-20 bg-white border-b border-neutral-200">
-    <Image src="/logo-salutbabe.png" alt="Salutbabe Logo" width={160} height={40} className="mb-8 w-40 h-auto z-10" />
+    <Image src="/logo-salutbabe.png" alt="Salutbabe Logosu" width={160} height={40} className="mb-8 w-40 h-auto z-10" />
     <h1 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-6 z-10">
       Anneler İçin <span className="text-blue-700">İkinci El</span> Bebek Kıyafetleri Platformu
     </h1>

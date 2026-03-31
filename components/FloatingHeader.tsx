@@ -20,7 +20,7 @@ const FloatingHeader = () => {
           <div className="flex items-center gap-4 sm:gap-8 w-full">
             <Link className="relative flex items-center group" href="/">
               <div className="absolute -inset-2 bg-linear-to-r from-red-500/20 to-blue-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <Image alt="salutbabe logo" width={130} height={38} className="relative transition-transform duration-500 group-hover:scale-105" src="/logo-salutbabe.png" style={{ color: "transparent" }} />
+              <Image alt="salutbabe logosu" width={130} height={38} className="relative transition-transform duration-500 group-hover:scale-105" src="/logo-salutbabe.png" style={{ color: "transparent" }} />
             </Link>
             <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center">
               <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/corporate">Kurumsal</Link>
