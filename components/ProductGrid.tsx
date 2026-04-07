@@ -1,20 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-
-interface Product {
-  listingID: string;
-  title: string;
-  price: number;
-  originalPrice?: number;
-  primaryImage: string;
-  brand?: { name: string };
-  category?: { name: string };
-  seller?: { userNickname: string };
-}
+import React, {useEffect, useState} from 'react';
+import {Product, useCart} from '../context/CartContext';
 
 const ProductGrid = () => {
+  const { addToCart } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +65,7 @@ const ProductGrid = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product) => (
-            <div key={product.listingID} className="group cursor-pointer">
+            <div key={product.listingID} className="group relative">
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-neutral-100 mb-4 shadow-sm group-hover:shadow-md transition">
                 {product.primaryImage ? (
                   <img
@@ -90,6 +80,14 @@ const ProductGrid = () => {
                     </svg>
                   </div>
                 )}
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                  <button 
+                    onClick={() => addToCart(product)}
+                    className="w-full bg-white text-neutral-900 font-bold py-2.5 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition duration-300 hover:bg-pink-600 hover:text-white"
+                  >
+                    Sepete Ekle
+                  </button>
+                </div>
                 {product.originalPrice && (
                   <span className="absolute top-4 left-4 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                     İndirim

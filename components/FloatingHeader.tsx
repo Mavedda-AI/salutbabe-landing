@@ -4,8 +4,10 @@ import React, {useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CustomToast from "./CustomToast";
+import {useCart} from "../context/CartContext";
 
 const FloatingHeader = () => {
+  const { cartCount } = useCart();
   const [showToast, setShowToast] = useState(false);
   const handleToast = () => {
     setShowToast(true);
@@ -29,8 +31,18 @@ const FloatingHeader = () => {
               <Link className="relative group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:text-pink-600 text-neutral-600" href="/contact">İletişim</Link>
             </nav>
             <div className="flex items-center gap-2 ml-auto">
+              <Link href="/cart" className="relative p-2 text-neutral-600 hover:text-pink-600 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-cart">
+                  <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-sm animate-in zoom-in duration-300">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
               <button
-                className="px-6 py-2 bg-pink-600 text-white rounded-full font-bold text-base shadow-lg hover:bg-blue-600 transition"
+                className="hidden sm:block px-6 py-2 bg-pink-600 text-white rounded-full font-bold text-base shadow-lg hover:bg-blue-600 transition"
                 onClick={handleToast}
               >
                 Hemen Başla
