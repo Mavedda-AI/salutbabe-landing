@@ -8,6 +8,9 @@ interface SharedData {
   type: 'cart' | 'product';
   product?: any;
   products?: any[];
+  metadata?: {
+    flavor?: string;
+  };
 }
 
 export default function SharedPage({ params }: { params: Promise<{ id: string }> }) {
@@ -133,14 +136,22 @@ export default function SharedPage({ params }: { params: Promise<{ id: string }>
   };
 
   const renderCart = (products: any[]) => {
+    const isHusbandPays = data?.metadata?.flavor === 'husband-pays';
+
     return (
       <div className="space-y-8">
         <div className="bg-pink-50 p-8 rounded-3xl border-2 border-dashed border-pink-200 text-center mb-12">
           <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-pink-500">
              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
-          <h2 className="text-2xl font-bold text-neutral-800 mb-2">Beğenilen Ürünler Paketi</h2>
-          <p className="text-neutral-500 max-w-md mx-auto">Bu ürün sizin için seçildi. Hemen sepetinize ekleyip alışverişi tamamlayabilirsiniz.</p>
+          <h2 className="text-2xl font-bold text-neutral-800 mb-2">
+            {isHusbandPays ? 'Kocam Ödesin - Özel Sepet' : 'Beğenilen Ürünler Paketi'}
+          </h2>
+          <p className="text-neutral-500 max-w-md mx-auto">
+            {isHusbandPays 
+              ? 'Bütün seçimleri o yaptı, en iyilerini buldu... Şimdi sıra sende! Bu sepet senin için hazırlandı.' 
+              : 'Bu ürünler sizin için seçildi. Hemen sepetinize ekleyip alışverişi tamamlayabilirsiniz.'}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
