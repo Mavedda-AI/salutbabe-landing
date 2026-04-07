@@ -8,6 +8,7 @@ interface SharedData {
   type: 'cart' | 'product';
   product?: any;
   products?: any[];
+  expiresAt?: number;
   metadata?: {
     flavor?: string;
   };
@@ -92,9 +93,9 @@ export default function SharedPage({ params }: { params: Promise<{ id: string }>
               <p className="text-neutral-600 mb-6 line-clamp-4">{p.description}</p>
               
               <div className="flex items-center gap-4 mb-8">
-                <div className="text-4xl font-black text-neutral-900">{p.price} TL</div>
+                <div className="text-4xl font-black text-neutral-900">{(p.price ?? 0).toLocaleString('tr-TR')} TL</div>
                 {p.originalPrice && (
-                  <div className="text-xl text-neutral-400 line-through">{p.originalPrice} TL</div>
+                  <div className="text-xl text-neutral-400 line-through">{(p.originalPrice ?? 0).toLocaleString('tr-TR')} TL</div>
                 )}
               </div>
             </div>
@@ -162,6 +163,11 @@ export default function SharedPage({ params }: { params: Promise<{ id: string }>
               Özel Seçim Paketi
             </div>
           )}
+          {data?.expiresAt && (
+            <div className={`mt-4 text-xs font-semibold ${isHusbandPays ? 'text-neutral-500' : 'text-neutral-400'}`}>
+              ⏳ Bu link {new Date(data.expiresAt).toLocaleString('tr-TR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })} tarihinde sona eriyor
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -186,7 +192,7 @@ export default function SharedPage({ params }: { params: Promise<{ id: string }>
                     <p className="text-xs text-neutral-400 mt-1">{p.seller?.userNickname} tarafından</p>
                   </div>
                   <div className="flex justify-between items-end">
-                    <div className="font-bold text-pink-600">{p.price} TL</div>
+                    <div className="font-bold text-pink-600">{(p.price ?? 0).toLocaleString('tr-TR')} TL</div>
                     <button 
                       onClick={() => addToCart(formattedProduct)}
                       className="text-xs bg-neutral-900 text-white px-3 py-1.5 rounded-lg font-bold hover:bg-pink-600 transition"
@@ -204,7 +210,7 @@ export default function SharedPage({ params }: { params: Promise<{ id: string }>
           <div>
             <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-1">Toplam Tutar</p>
             <p className="text-4xl font-black text-neutral-900">
-              {products.reduce((acc, p) => acc + (parseFloat(p.price) || 0), 0)} TL
+              {products.reduce((acc, p) => acc + (parseFloat(p.price) || 0), 0).toLocaleString('tr-TR')} TL
             </p>
           </div>
           <button 
