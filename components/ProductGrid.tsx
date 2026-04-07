@@ -8,32 +8,73 @@ const ProductGrid = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+  const fetchProducts = async (pageNum: number, isInitial: boolean = false) => {
+    if (isInitial) {
+      setLoading(true);
+    } else {
+      setIsFetchingMore(true);
+    }
+    
+    try {
+      const response = await fetch(`https://api.salutbabe.com/v1/listings/get-all-products?limit=20&page=${pageNum}`, {
+        headers: {
+          'X-Device-Type': 'web'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Ürünler yüklenirken bir hata oluştu');
+      }
+      const data = await response.json();
+      const newProducts = data.payload.products || [];
+      
+      if (newProducts.length < 20) {
+        setHasMore(false);
+      }
+      
+      if (isInitial) {
+        setProducts(newProducts);
+      } else {
+        setProducts(prev => [...prev, ...newProducts]);
+      }
+    } catch (err) {
+      console.error(err);
+      if (isInitial) {
+        setError('Ürünler şu an yüklenemiyor, lütfen daha sonra tekrar deneyiniz.');
+      }
+    } finally {
+      setLoading(false);
+      setIsFetchingMore(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('https://api.salutbabe.com/v1/listings/get-all-products?limit=100', {
-          headers: {
-            'X-Device-Type': 'web'
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Ürünler yüklenirken bir hata oluştu');
+    fetchProducts(1, true);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Near bottom (400px)
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 400 >= 
+        document.documentElement.offsetHeight
+      ) {
+        if (!loading && !isFetchingMore && hasMore) {
+          const nextPage = page + 1;
+          setPage(nextPage);
+          fetchProducts(nextPage);
         }
-        const data = await response.json();
-        setProducts(data.payload.products || []);
-      } catch (err) {
-        console.error(err);
-        setError('Ürünler şu an yüklenemiyor, lütfen daha sonra tekrar deneyiniz.');
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchProducts();
-  }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, isFetchingMore, hasMore, page]);
 
-  if (loading) {
+  if (loading && page === 1) {
     return (
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
@@ -43,7 +84,7 @@ const ProductGrid = () => {
     );
   }
 
-  if (error || products.length === 0) {
+  if (error || (products.length === 0 && !loading)) {
     return (
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
@@ -54,7 +95,7 @@ const ProductGrid = () => {
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white pb-32">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-end mb-10">
           <div>
@@ -116,6 +157,19 @@ const ProductGrid = () => {
             </div>
           ))}
         </div>
+
+        {isFetchingMore && (
+          <div className="mt-16 text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-pink-500 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+            <p className="mt-4 text-neutral-500 font-medium">Yeni ürünler yükleniyor...</p>
+          </div>
+        )}
+        
+        {!hasMore && products.length > 0 && (
+          <div className="mt-16 text-center text-neutral-400 font-medium italic">
+            Daha fazla ürün bulunamadı.
+          </div>
+        )}
       </div>
     </section>
   );
