@@ -25,12 +25,17 @@ interface CartContextType {
   clearCart: () => void;
   cartTotal: number;
   cartCount: number;
+  showToast: boolean;
+  toastProduct: Product | null;
+  setShowToast: (show: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [showToast, setShowToast] = useState(false);
+  const [toastProduct, setToastProduct] = useState<Product | null>(null);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -50,6 +55,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, [cart]);
 
   const addToCart = (product: Product) => {
+    setToastProduct(product);
+    setShowToast(true);
+    
+    // Auto-hide toast after 4s
+    setTimeout(() => {
+      setShowToast(false);
+    }, 4000);
+
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.listingID === product.listingID);
       if (existingItem) {
@@ -96,6 +109,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         clearCart,
         cartTotal,
         cartCount,
+        showToast,
+        toastProduct,
+        setShowToast
       }}
     >
       {children}

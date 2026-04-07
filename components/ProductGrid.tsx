@@ -1,6 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from 'react';
+import Link from 'next/link';
 import {Product, useCart} from '../context/CartContext';
 
 const ProductGrid = () => {
@@ -165,13 +166,14 @@ const ProductGrid = () => {
                     onClick={() => addToCart(product)}
                     className="w-full bg-white text-neutral-900 font-bold py-3.5 rounded-2xl shadow-xl hover:bg-primary-blue hover:text-white transition-all duration-300 active:scale-95 mb-2"
                   >
-                    Hemen Al
+                    Sepete Ekle
                   </button>
-                  <button 
-                    className="w-full bg-white/20 backdrop-blur-md text-white font-bold py-3.5 rounded-2xl hover:bg-white/30 transition-all duration-300"
+                  <Link 
+                    href={`/product/${product.listingID}`}
+                    className="w-full bg-white/20 backdrop-blur-md text-white border border-white/20 font-bold py-3.5 rounded-2xl hover:bg-white/30 transition-all duration-300 text-center"
                   >
                     Detaylar
-                  </button>
+                  </Link>
                 </div>
 
                 {product.originalPrice && (
