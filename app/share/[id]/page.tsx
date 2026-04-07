@@ -140,18 +140,28 @@ export default function SharedPage({ params }: { params: Promise<{ id: string }>
 
     return (
       <div className="space-y-8">
-        <div className="bg-pink-50 p-8 rounded-3xl border-2 border-dashed border-pink-200 text-center mb-12">
-          <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-pink-500">
-             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <div className={`p-10 rounded-[2.5rem] text-center mb-12 shadow-2xl relative overflow-hidden ${isHusbandPays ? 'bg-neutral-900 text-white' : 'bg-pink-50 text-neutral-800 border-2 border-dashed border-pink-200'}`}>
+          {isHusbandPays && (
+            <div className="absolute top-0 right-0 p-4 opacity-10">
+               <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+          )}
+          <div className={`${isHusbandPays ? 'bg-pink-500' : 'bg-white'} w-20 h-20 rounded-3xl rotate-12 flex items-center justify-center mx-auto mb-6 shadow-xl text-${isHusbandPays ? 'white' : 'pink-500'}`}>
+             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </div>
-          <h2 className="text-2xl font-bold text-neutral-800 mb-2">
-            {isHusbandPays ? 'Kocam Ödesin - Özel Sepet' : 'Beğenilen Ürünler Paketi'}
+          <h2 className="text-4xl font-black mb-3 tracking-tight">
+            {isHusbandPays ? 'Kocam Ödesin ✨' : 'Beğenilen Ürünler Paketi'}
           </h2>
-          <p className="text-neutral-500 max-w-md mx-auto">
+          <p className={`text-lg max-w-lg mx-auto font-medium ${isHusbandPays ? 'text-neutral-400' : 'text-neutral-500'}`}>
             {isHusbandPays 
-              ? 'Bütün seçimleri o yaptı, en iyilerini buldu... Şimdi sıra sende! Bu sepet senin için hazırlandı.' 
+              ? 'Mükemmel seçimler yapıldı, en şıkları bir araya getirildi... Şimdi bu muhteşem paketi onaylama zamanı!' 
               : 'Bu ürünler sizin için seçildi. Hemen sepetinize ekleyip alışverişi tamamlayabilirsiniz.'}
           </p>
+          {isHusbandPays && (
+            <div className="mt-6 inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-bold text-pink-400 border border-white/5 uppercase tracking-widest">
+              Özel Seçim Paketi
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
