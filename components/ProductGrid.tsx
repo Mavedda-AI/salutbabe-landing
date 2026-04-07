@@ -12,7 +12,7 @@ const ProductGrid = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://api.salutbabe.com/v1/listings/get-all-products?limit=20', {
+        const response = await fetch('https://api.salutbabe.com/v1/listings/get-all-products?limit=100', {
           headers: {
             'X-Device-Type': 'web'
           }
