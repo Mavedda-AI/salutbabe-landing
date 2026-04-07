@@ -121,12 +121,46 @@ const ProductGrid = () => {
                     </svg>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4 gap-2">
                   <button 
                     onClick={() => addToCart(product)}
-                    className="w-full bg-white text-neutral-900 font-bold py-2.5 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition duration-300 hover:bg-pink-600 hover:text-white"
+                    className="flex-1 bg-white text-neutral-900 font-bold py-2.5 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition duration-300 hover:bg-pink-600 hover:text-white"
                   >
                     Sepete Ekle
+                  </button>
+                  <button 
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      try {
+                        const response = await fetch('https://api.salutbabe.com/v1/common/shared-link/create-shared-link', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json', 'X-Device-Type': 'web' },
+                          body: JSON.stringify({
+                            type: 'product',
+                            targetID: product.listingID
+                          })
+                        });
+                        if (!response.ok) throw new Error('Link oluşturulamadı');
+                        const json = await response.json();
+                        const link = `https://salutbabe.com/share/${json.payload.shareID}`;
+                        
+                        if (navigator.share) {
+                          await navigator.share({
+                            title: product.title,
+                            text: 'Bak ne buldum! 😍',
+                            url: link
+                          });
+                        } else {
+                          await navigator.clipboard.writeText(link);
+                          alert('Paylaşma linki kopyalandı! ❤️');
+                        }
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                    className="w-11 h-11 bg-white text-neutral-900 flex items-center justify-center rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition duration-300 hover:bg-blue-600 hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
                   </button>
                 </div>
                 {product.originalPrice && (

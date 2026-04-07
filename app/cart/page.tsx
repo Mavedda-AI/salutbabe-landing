@@ -116,6 +116,42 @@ export default function CartPage() {
                 Satın Almayı Tamamla
               </Link>
               
+              <button 
+                onClick={async () => {
+                  try {
+                    const response = await fetch('https://api.salutbabe.com/v1/common/shared-link/create-shared-link', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', 'X-Device-Type': 'web' },
+                      body: JSON.stringify({
+                        type: 'cart',
+                        listingIDs: cart.map(item => item.listingID)
+                      })
+                    });
+                    if (!response.ok) throw new Error('Link oluşturulamadı');
+                    const json = await response.json();
+                    const link = `https://salutbabe.com/share/${json.payload.shareID}`;
+                    
+                    if (navigator.share) {
+                      await navigator.share({
+                        title: 'SalutBabe Sepetim',
+                        text: 'Beğendiğim ürünleri seçtim, ödemeyi senin için bıraktım! ❤️',
+                        url: link
+                      });
+                    } else {
+                      await navigator.clipboard.writeText(link);
+                      alert('Paylaşma linki kopyalandı! ❤️');
+                    }
+                  } catch (err) {
+                    console.error(err);
+                    alert('Hata: Link oluşturulamadı.');
+                  }
+                }}
+                className="mt-4 w-full flex items-center justify-center gap-2 py-3 border-2 border-pink-100 text-pink-600 rounded-2xl font-bold hover:bg-pink-50 transition duration-300"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Kocam Ödesin (Link Paylaş)
+              </button>
+              
               <div className="mt-6 flex flex-col gap-3">
                 <div className="flex items-center gap-2 text-xs text-neutral-500">
                   <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
