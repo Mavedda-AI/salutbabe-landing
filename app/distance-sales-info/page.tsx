@@ -17,8 +17,7 @@ export default function DistanceSalesInfoPage() {
         <p className="mb-6 text-neutral-700">Satın alınan ürün/hizmetin temel özellikleri, fiyatı ve ödeme bilgileri sipariş sırasında ayrıca sunulmaktadır.</p>
         <h2 className="text-2xl font-bold mb-3 text-neutral-800">Cayma Hakkı</h2>
         <p className="mb-6 text-neutral-700">Tüketici, 14 gün içinde hiçbir gerekçe göstermeksizin ve cezai şart ödemeksizin sözleşmeden cayma hakkına sahiptir.</p>
-        <h2 className="text-2xl font-bold mb-3 text-neutral-800">İade ve İptal Koşulları</h2>
-        <p className="mb-6 text-neutral-700">İade ve iptal işlemleri için <a href="mailto:destek@salutbabe.com" className="underline text-blue-700">destek@salutbabe.com</a> adresine başvurabilirsiniz.</p>
+
       </div>
     </main>
   );

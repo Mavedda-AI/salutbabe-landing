@@ -44,6 +44,7 @@ const Footer = () => (
               <li><Link href="/kvkk-disclosure" className="hover:underline">KVKK Aydınlatma Metni</Link></li>
               <li><Link href="/commercial-communication-consent" className="hover:underline">Ticari İletişim İzin Metni</Link></li>
               <li><Link href="/distance-sales-info" className="hover:underline">Mesafeli Satış Ön Bilgilendirme</Link></li>
+              <li><Link href="/return-and-cancellation-policy" className="hover:underline">İade ve İptal Koşulları</Link></li>
               <li><Link href="/terms-of-use" className="hover:underline">Kullanım Koşulları</Link></li>
             </ul>
           </div>
@@ -54,9 +55,7 @@ const Footer = () => (
         <p>salutbabe bir Mavedda markasıdır.</p>
       </div>
       {/* Ana içerik bloğu bittiği yer */}
-      <div className="w-full flex justify-center items-end m-0 p-0">
-        <Image src="/logo-tami.avif" alt="tami logosu" className="h-16 m-0 p-0 object-contain" width={160} height={64} />
-      </div>
+
     </div>
   </footer>
 );
