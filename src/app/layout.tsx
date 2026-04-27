@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import "../styles/globals.css";
 import {Navbar} from "../components/layout/Navbar";
 import {Footer} from "../components/layout/Footer";
+import {CartProvider} from "../context/CartContext";
 
 export const metadata: Metadata = {
   title: "Salutbabe | Anne ve Bebekler İçin Güvenli Alışveriş",
@@ -16,11 +17,13 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className="antialiased">
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
