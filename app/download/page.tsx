@@ -2,8 +2,6 @@
 
 import React, {useEffect, useState} from "react";
 import Image from "next/image";
-import FloatingHeader from "@/components/FloatingHeader";
-import Footer from "@/components/Footer";
 
 export default function DownloadPage() {
   const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop" | "loading">("loading");
@@ -78,56 +76,52 @@ export default function DownloadPage() {
   };
 
   return (
-    <>
-      <FloatingHeader />
-      <main className="min-h-screen relative pt-32 pb-20 overflow-hidden bg-neutral-50 flex items-center justify-center">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[70%] bg-primary-blue/10 rounded-full blur-[120px] animate-pulse"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[70%] bg-primary-pink/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <main className="min-h-screen relative pt-32 pb-20 overflow-hidden bg-neutral-50 flex items-center justify-center">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[70%] bg-primary-blue/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[70%] bg-primary-pink/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 flex flex-col items-center text-center w-full z-10">
+        
+        {/* Logo / App Icon placeholder */}
+        <div className="w-32 h-32 bg-white rounded-3xl shadow-2xl flex items-center justify-center mb-8 animate-fade-in-up border border-neutral-100 overflow-hidden">
+          <Image 
+             src="/logo-salutbabe.png" 
+             alt="Salutbabe Icon" 
+             width={100} 
+             height={100}
+             className="object-contain"
+          />
         </div>
 
-        <div className="max-w-4xl mx-auto px-6 flex flex-col items-center text-center w-full z-10">
-          
-          {/* Logo / App Icon placeholder */}
-          <div className="w-32 h-32 bg-white rounded-3xl shadow-2xl flex items-center justify-center mb-8 animate-fade-in-up border border-neutral-100 overflow-hidden">
-            <Image 
-               src="/logo-salutbabe.png" 
-               alt="Salutbabe Icon" 
-               width={100} 
-               height={100}
-               className="object-contain"
-            />
-          </div>
+        <h1 className="text-5xl md:text-6xl font-extrabold text-neutral-900 mb-6 tracking-tight animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          Salutbabe'i <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-500 to-pink-500">İndir</span>
+        </h1>
 
-          <h1 className="text-5xl md:text-6xl font-extrabold text-neutral-900 mb-6 tracking-tight animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            Salutbabe'i <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-500 to-pink-500">İndir</span>
-          </h1>
+        <p className="text-lg md:text-xl text-neutral-600 mb-12 max-w-2xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          Anneler için tasarlanmış ikinci el giyim platformuna katılın. 
+          Bebeğinizin kıyafetlerini satın, yeni ürünler keşfedin ve topluluğumuzun bir parçası olun.
+        </p>
 
-          <p className="text-lg md:text-xl text-neutral-600 mb-12 max-w-2xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Anneler için tasarlanmış ikinci el giyim platformuna katılın. 
-            Bebeğinizin kıyafetlerini satın, yeni ürünler keşfedin ve topluluğumuzun bir parçası olun.
-          </p>
-
-          <div className="animate-fade-in-up w-full" style={{ animationDelay: '0.3s' }}>
-            <div className="bg-white/80 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/50 relative">
-              <div className="absolute -inset-1 bg-linear-to-r from-blue-500 to-pink-500 rounded-[2.5rem] blur opacity-10 -z-10"></div>
-              
-              <div className="flex flex-col items-center gap-6">
-                <p className="text-neutral-500 font-medium mb-2">
-                  {deviceType === "loading" ? "Cihazınız tespit ediliyor..." : 
-                   deviceType === "ios" ? "Uygulamayı App Store'dan indirebilirsiniz" : 
-                   deviceType === "android" ? "Uygulamayı Google Play'den indirebilirsiniz" : 
-                   "Uygulamamızı mağazalardan indirebilirsiniz"}
-                </p>
-                {renderButtons()}
-              </div>
+        <div className="animate-fade-in-up w-full" style={{ animationDelay: '0.3s' }}>
+          <div className="bg-white/80 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/50 relative">
+            <div className="absolute -inset-1 bg-linear-to-r from-blue-500 to-pink-500 rounded-[2.5rem] blur opacity-10 -z-10"></div>
+            
+            <div className="flex flex-col items-center gap-6">
+              <p className="text-neutral-500 font-medium mb-2">
+                {deviceType === "loading" ? "Cihazınız tespit ediliyor..." : 
+                 deviceType === "ios" ? "Uygulamayı App Store'dan indirebilirsiniz" : 
+                 deviceType === "android" ? "Uygulamayı Google Play'den indirebilirsiniz" : 
+                 "Uygulamamızı mağazalardan indirebilirsiniz"}
+              </p>
+              {renderButtons()}
             </div>
           </div>
-          
         </div>
-      </main>
-      <Footer />
-    </>
+        
+      </div>
+    </main>
   );
 }
