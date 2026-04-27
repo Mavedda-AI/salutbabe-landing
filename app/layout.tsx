@@ -1,4 +1,4 @@
-import FloatingHeader from "../components/FloatingHeader";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "./globals.css";
 import {CartProvider} from "../context/CartContext";
@@ -11,11 +11,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <body className="antialiased bg-white">
+      <body className="antialiased bg-[#f8fafc]">
         <CartProvider>
           <CartToast />
-          <FloatingHeader />
-          <div className="relative">{children}</div>
+          <Header />
+          <div className="relative pt-32">{children}</div>
           <Footer />
         </CartProvider>
       </body>
