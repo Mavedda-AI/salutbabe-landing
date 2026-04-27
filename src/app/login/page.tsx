@@ -1,77 +1,59 @@
-import React from 'react';
-import Link from 'next/link';
-import {Button} from '../../components/ui/Button';
-import {Input} from '../../components/ui/Input';
+"use client";
 
-export default function LoginPage() {
+import React from "react";
+import Link from "next/link";
+
+const LoginPage = () => {
   return (
-    <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-brand-bg px-6">
-      <div className="w-full max-w-lg space-y-10">
-        <div className="text-center space-y-4">
-          <Link href="/" className="inline-flex items-center space-x-2 group mb-6">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <span className="text-white font-black text-xl">S</span>
-            </div>
-            <span className="text-2xl font-black tracking-tight text-primary">salutbabe</span>
-          </Link>
-          <h1 className="text-4xl font-black text-primary">Hoş Geldiniz</h1>
-          <p className="text-gray-500 font-medium">Bebekler için daha akıllı alışverişe devam edin.</p>
-        </div>
+    <main className="min-h-[80vh] flex items-center justify-center px-4 py-24">
+      <div className="max-w-md w-full animate-fade-in-up">
+        <div className="bg-white rounded-[3rem] p-10 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl font-black text-slate-900 mb-3">Welcome Back.</h1>
+            <p className="text-slate-500 text-sm">Please enter your details to continue.</p>
+          </div>
 
-        <div className="glass-card p-10 rounded-[40px] space-y-8">
           <form className="space-y-6">
-            <Input 
-              label="E-posta veya Telefon" 
-              placeholder="örnek@eposta.com" 
-              type="text"
-            />
-            <div className="space-y-2">
-              <Input 
-                label="Şifre" 
-                placeholder="••••••••" 
-                type="password"
+            <div>
+              <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Email Address</label>
+              <input 
+                type="email" 
+                placeholder="hello@salutbabe.com"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-primary-blue/20 transition-all outline-none text-slate-900 font-bold placeholder:text-slate-300"
               />
-              <div className="flex justify-end">
-                <Link 
-                  href="/forgot-password" 
-                  className="text-sm font-bold text-secondary hover:opacity-70 transition-opacity"
-                >
-                  Şifremi Unuttum
+            </div>
+
+            <div>
+              <div className="flex justify-between items-center mb-3 px-1">
+                <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest">Password</label>
+                <Link href="/forgot-password" className="text-[10px] font-black text-primary-blue hover:text-slate-900 transition-colors uppercase tracking-widest">
+                  Forgot?
                 </Link>
               </div>
+              <input 
+                type="password" 
+                placeholder="••••••••"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-primary-blue/20 transition-all outline-none text-slate-900 font-bold placeholder:text-slate-300"
+              />
             </div>
 
-            <Button size="full">Giriş Yap</Button>
+            <button className="w-full py-5 bg-slate-900 text-white rounded-full font-black text-sm hover:bg-slate-800 transition-all duration-300 shadow-xl shadow-slate-900/10 active:scale-[0.98] mt-4">
+              SIGN IN
+            </button>
           </form>
 
-          <div className="relative py-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-primary/5"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-4 text-gray-400 font-bold tracking-widest">veya</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center space-x-3 px-4 py-3 rounded-2xl border-2 border-primary/5 hover:border-primary/20 transition-all font-bold text-sm text-primary">
-              <img src="https://www.google.com/favicon.ico" className="w-5 h-5" alt="Google" />
-              <span>Google</span>
-            </button>
-            <button className="flex items-center justify-center space-x-3 px-4 py-3 rounded-2xl border-2 border-primary/5 hover:border-primary/20 transition-all font-bold text-sm text-primary">
-              <img src="https://www.apple.com/favicon.ico" className="w-5 h-5" alt="Apple" />
-              <span>Apple</span>
-            </button>
+          <div className="mt-10 pt-10 border-t border-slate-50 text-center">
+            <p className="text-sm text-slate-500">
+              New to SalutBabe?{" "}
+              <Link href="/register" className="font-black text-slate-900 hover:text-primary-blue transition-colors">
+                Create an account
+              </Link>
+            </p>
           </div>
         </div>
-
-        <p className="text-center text-sm font-medium text-gray-400">
-          Henüz bir hesabınız yok mu?{' '}
-          <Link href="/register" className="text-primary font-black hover:underline">
-            Hemen Kaydolun
-          </Link>
-        </p>
       </div>
-    </div>
+    </main>
   );
-}
+};
+
+export default LoginPage;

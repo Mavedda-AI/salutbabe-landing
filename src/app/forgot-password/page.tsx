@@ -1,54 +1,47 @@
-import React from 'react';
-import Link from 'next/link';
-import {Button} from '../../components/ui/Button';
-import {Input} from '../../components/ui/Input';
+"use client";
 
-export default function ForgotPasswordPage() {
+import React from "react";
+import Link from "next/link";
+
+const ForgotPasswordPage = () => {
   return (
-    <div className="min-h-screen pt-32 pb-20 flex items-center justify-center bg-brand-bg px-6">
-      <div className="w-full max-w-lg space-y-10">
-        <div className="text-center space-y-4">
-          <Link href="/" className="inline-flex items-center space-x-2 group mb-6">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <span className="text-white font-black text-xl">S</span>
-            </div>
-            <span className="text-2xl font-black tracking-tight text-primary">salutbabe</span>
-          </Link>
-          <h1 className="text-4xl font-black text-primary">Şifre Sıfırlama</h1>
-          <p className="text-gray-500 font-medium max-w-sm mx-auto">
-            Hesabınızla ilişkili e-posta adresini girin, size şifre sıfırlama bağlantısı gönderelim.
-          </p>
-        </div>
+    <main className="min-h-[80vh] flex items-center justify-center px-4 py-24">
+      <div className="max-w-md w-full animate-fade-in-up">
+        <div className="bg-white rounded-[3rem] p-10 md:p-12 border border-slate-100 shadow-2xl shadow-slate-200/50">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl font-black text-slate-900 mb-3">Reset Password.</h1>
+            <p className="text-slate-500 text-sm leading-relaxed px-4">
+              Enter your email and we'll send you instructions to reset your password.
+            </p>
+          </div>
 
-        <div className="glass-card p-10 rounded-[40px] space-y-8">
           <form className="space-y-6">
-            <Input 
-              label="E-posta Adresi" 
-              placeholder="örnek@eposta.com" 
-              type="email"
-            />
+            <div>
+              <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Email Address</label>
+              <input 
+                type="email" 
+                placeholder="hello@salutbabe.com"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-primary-blue/20 transition-all outline-none text-slate-900 font-bold placeholder:text-slate-300"
+              />
+            </div>
 
-            <Button size="full">Bağlantı Gönder</Button>
+            <button className="w-full py-5 bg-slate-900 text-white rounded-full font-black text-sm hover:bg-slate-800 transition-all duration-300 shadow-xl shadow-slate-900/10 active:scale-[0.98] mt-4">
+              SEND RESET LINK
+            </button>
           </form>
-          
-          <div className="text-center pt-2">
-            <Link 
-              href="/login" 
-              className="text-sm font-bold text-primary hover:opacity-70 transition-opacity flex items-center justify-center space-x-2"
-            >
-              <span>←</span>
-              <span>Giriş Sayfasına Dön</span>
-            </Link>
+
+          <div className="mt-10 pt-10 border-t border-slate-50 text-center">
+            <p className="text-sm text-slate-500">
+              Wait, I remember!{" "}
+              <Link href="/login" className="font-black text-slate-900 hover:text-primary-blue transition-colors">
+                Back to sign in
+              </Link>
+            </p>
           </div>
         </div>
-
-        <div className="bg-primary/5 p-6 rounded-3xl border border-primary/10">
-          <p className="text-xs text-center text-primary/60 font-medium leading-relaxed">
-            Eğer bir e-posta almazsanız lütfen spam kutunuzu kontrol edin veya{' '}
-            <Link href="/contact" className="font-bold underline">destek ekibimizle</Link> iletişime geçin.
-          </p>
-        </div>
       </div>
-    </div>
+    </main>
   );
-}
+};
+
+export default ForgotPasswordPage;
