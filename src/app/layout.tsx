@@ -1,13 +1,8 @@
-import type {Metadata} from "next";
-import "../styles/globals.css";
-import {Navbar} from "../components/layout/Navbar";
-import {Footer} from "../components/layout/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import "./globals.css";
 import {CartProvider} from "../context/CartContext";
-
-export const metadata: Metadata = {
-  title: "Salutbabe | Anne ve Bebekler İçin Güvenli Alışveriş",
-  description: "Türkiye'nin ilk anne-bebek pazaryeri. Bebek kıyafetleri, pusetler, oyuncaklar ve daha fazlasını güvenle alın, satın veya kiralayın.",
-};
+import CartToast from "../components/CartToast";
 
 export default function RootLayout({
   children,
@@ -16,12 +11,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <body className="antialiased">
+      <body className="antialiased bg-[#f8fafc]">
         <CartProvider>
-          <Navbar />
-          <main className="min-h-screen">
-            {children}
-          </main>
+          <CartToast />
+          <Header />
+          <div className="relative pt-32">{children}</div>
           <Footer />
         </CartProvider>
       </body>

@@ -1,119 +1,63 @@
-'use client';
+"use client";
 
-import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 
 export interface Product {
-  listingID: string;
-  title: string;
-  price: number;
-  originalPrice?: number;
-  primaryImage: string;
-  brand?: { name: string };
-  category?: { name: string };
-  seller?: { userNickname: string };
-}
-
-interface CartItem extends Product {
-  quantity: number;
+  id: string | number;
+  title?: string;
+  name?: string;
+  price: string | number;
+  primaryImage?: string;
+  image?: string | null;
+  category?: any;
+  brand?: any;
+  seller?: any;
 }
 
 interface CartContextType {
-  cart: CartItem[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  clearCart: () => void;
-  cartTotal: number;
+  cartItems: Product[];
   cartCount: number;
-  showToast: boolean;
-  toastProduct: Product | null;
-  setShowToast: (show: boolean) => void;
+  addToCart: (product: Product) => void;
+  removeFromCart: (id: string | number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [showToast, setShowToast] = useState(false);
-  const [toastProduct, setToastProduct] = useState<Product | null>(null);
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
-  // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('salutbabe-cart');
+    const savedCart = localStorage.getItem('cart');
     if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart));
-      } catch (e) {
-        console.error('Failed to parse cart', e);
-      }
+      setCartItems(JSON.parse(savedCart));
     }
   }, []);
 
-  // Save cart to localStorage on change
   useEffect(() => {
-    localStorage.setItem('salutbabe-cart', JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (product: Product) => {
-    setToastProduct(product);
-    setShowToast(true);
-    
-    // Auto-hide toast after 4s
-    setTimeout(() => {
-      setShowToast(false);
-    }, 4000);
-
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.listingID === product.listingID);
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.listingID === product.listingID
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+    setCartItems((prev) => [...prev, product]);
   };
 
-  const removeFromCart = (productId: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.listingID !== productId));
-  };
-
-  const updateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.listingID === productId ? { ...item, quantity } : item
-      )
-    );
+  const removeFromCart = (id: string | number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const clearCart = () => {
-    setCart([]);
+    setCartItems([]);
   };
 
-  const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
-
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        cartTotal,
-        cartCount,
-        showToast,
-        toastProduct,
-        setShowToast
-      }}
-    >
+    <CartContext.Provider value={{ 
+      cartItems, 
+      cartCount: cartItems.length, 
+      addToCart, 
+      removeFromCart, 
+      clearCart 
+    }}>
       {children}
     </CartContext.Provider>
   );

@@ -1,8 +1,16 @@
 import React from "react";
 import BentoHero from "../components/BentoHero";
+import ProductCard from "../components/ProductCard";
 import Link from "next/link";
 
 export default function Home() {
+  const featuredProducts = [
+    { id: 1, name: "Eco-Friendly Stroller", price: "₺12,499", category: "Travel", image: "/images/stroller.png" },
+    { id: 2, name: "Smart Sleep Monitor", price: "₺4,250", category: "Tech", image: "/images/monitor.png" },
+    { id: 3, name: "Organic Cotton Onesie", price: "₺450", category: "Clothing", image: null },
+    { id: 4, name: "Silicone Feeding Set", price: "₺890", category: "Dining", image: null },
+  ];
+
   return (
     <main className="min-h-screen">
       <BentoHero />
@@ -22,27 +30,12 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            { name: "Eco-Friendly Stroller", price: "₺12,499", category: "Travel" },
-            { name: "Smart Sleep Monitor", price: "₺4,250", category: "Tech" },
-            { name: "Organic Cotton Onesie", price: "₺450", category: "Clothing" },
-            { name: "Silicone Feeding Set", price: "₺890", category: "Dining" },
-          ].map((product, i) => (
-            <div key={i} className="group cursor-pointer animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
-              <div className="aspect-[4/5] rounded-[2.5rem] bg-white border border-slate-100 overflow-hidden relative mb-6 transition-all duration-500 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] hover:-translate-y-2">
-                <div className="absolute inset-0 bg-slate-100/50 flex items-center justify-center">
-                   <div className="w-20 h-20 bg-slate-200 rounded-full animate-pulse"></div>
-                </div>
-                <div className="absolute top-6 right-6 z-10">
-                   <button className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-sm hover:bg-white transition-all duration-300 hover:scale-110">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                   </button>
-                </div>
-              </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">{product.category}</p>
-              <h3 className="text-lg font-black text-slate-900 group-hover:text-primary-blue transition-colors duration-300">{product.name}</h3>
-              <p className="font-bold text-slate-500 mt-1">{product.price}</p>
-            </div>
+          {featuredProducts.map((product, i) => (
+            <ProductCard 
+              key={product.id}
+              {...product}
+              animationDelay={`${i * 100}ms`}
+            />
           ))}
         </div>
       </section>

@@ -1,57 +1,87 @@
-import {Hero} from "../components/sections/Hero";
+import React from "react";
+import BentoHero from "../components/BentoHero";
+import ProductCard from "../components/ProductCard";
+import Link from "next/link";
 
 export default function Home() {
+  const featuredProducts = [
+    { id: 1, name: "Eco-Friendly Stroller", price: "₺12,499", category: "Travel", image: "/images/stroller.png" },
+    { id: 2, name: "Smart Sleep Monitor", price: "₺4,250", category: "Tech", image: "/images/monitor.png" },
+    { id: 3, name: "Organic Cotton Onesie", price: "₺450", category: "Clothing", image: null },
+    { id: 4, name: "Silicone Feeding Set", price: "₺890", category: "Dining", image: null },
+  ];
+
   return (
-    <>
-      <Hero />
+    <main className="min-h-screen">
+      <BentoHero />
       
-      {/* Featured Categories Section */}
-      <section className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-black text-primary">Kategorilere Göz Atın</h2>
-              <p className="text-lg text-gray-500 font-medium max-w-md">Bebeğinizin her ihtiyacı için özenle seçilmiş kategoriler.</p>
-            </div>
-            <button className="text-primary font-bold border-b-2 border-primary/10 hover:border-primary transition-all pb-1 px-1">
-              Tüm Kategoriler →
-            </button>
+      {/* Product Showcase Section */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-24">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 leading-tight">Curated for Quality.</h2>
+            <p className="text-slate-500 max-w-md text-lg">
+              We handpick every product to ensure it meets our rigorous safety and style standards.
+            </p>
           </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { name: 'Giyim', icon: '👕', color: 'bg-blue-50' },
-              { name: 'Beslenme', icon: '🍼', color: 'bg-orange-50' },
-              { name: 'Oyuncak', icon: '🧸', color: 'bg-purple-50' },
-              { name: 'Mobilya', icon: '🛏️', color: 'bg-green-50' }
-            ].map((cat, i) => (
-              <div key={i} className={`${cat.color} group p-10 rounded-[40px] text-center cursor-pointer hover:scale-105 transition-all`}>
-                <span className="text-6xl mb-6 block group-hover:scale-125 transition-transform">{cat.icon}</span>
-                <h3 className="text-xl font-black text-primary">{cat.name}</h3>
-              </div>
-            ))}
-          </div>
+          <Link href="/shop" className="text-sm font-black text-slate-900 border-b-2 border-slate-900 pb-1 hover:text-primary-blue hover:border-primary-blue transition-all duration-300">
+            SHOP THE COLLECTION
+          </Link>
         </div>
-      </section>
 
-      {/* Corporate Features Section */}
-      <section className="section-padding bg-brand-bg">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-          {[
-            { title: 'Güvenli Ödeme', desc: 'Para havuzda tutulur, siz onaylamadan satıcıya aktarılmaz.', icon: '🛡️' },
-            { title: 'Kolay Kargo', desc: 'Anlaşmalı kargo kodları ile saniyeler içinde gönderim yapın.', icon: '📦' },
-            { title: '7/24 Destek', desc: 'Dilediğiniz an uzman ekibimize ulaşıp destek alabilirsiniz.', icon: '💬' }
-          ].map((feat, i) => (
-            <div key={i} className="space-y-6">
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-primary/5">
-                {feat.icon}
-              </div>
-              <h3 className="text-2xl font-black text-primary">{feat.title}</h3>
-              <p className="text-gray-500 font-medium leading-relaxed">{feat.desc}</p>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {featuredProducts.map((product, i) => (
+            <ProductCard 
+              key={product.id}
+              {...product}
+              animationDelay={`${i * 100}ms`}
+            />
           ))}
         </div>
       </section>
-    </>
+
+      {/* Stats / Info Section */}
+      <section className="bg-white py-24">
+         <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+               <div>
+                  <h4 className="text-5xl font-black text-slate-900 mb-2">100%</h4>
+                  <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Safe Payments</p>
+               </div>
+               <div>
+                  <h4 className="text-5xl font-black text-slate-900 mb-2">48K+</h4>
+                  <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Active Moms</p>
+               </div>
+               <div>
+                  <h4 className="text-5xl font-black text-slate-900 mb-2">24/7</h4>
+                  <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Expert Support</p>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-24">
+        <div className="rounded-[4rem] bg-slate-900 p-12 md:p-32 text-center relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-blue/20 blur-[120px] rounded-full animate-float"></div>
+           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary-pink/10 blur-[120px] rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+           
+           <div className="relative z-10 max-w-3xl mx-auto">
+             <h2 className="text-4xl md:text-7xl font-black text-white mb-10 leading-[1.1] tracking-tight">
+               Join the Modern <br />
+               <span className="text-accent-lime">Revolution.</span>
+             </h2>
+             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+               <Link href="/register" className="w-full sm:w-auto px-12 py-6 bg-accent-lime text-slate-900 rounded-full font-black text-sm hover:scale-105 transition-all duration-300 shadow-2xl shadow-lime-500/20 active:scale-95">
+                 START SHOPPING NOW
+               </Link>
+               <Link href="/download" className="w-full sm:w-auto px-12 py-6 bg-white/10 backdrop-blur-xl text-white border border-white/10 rounded-full font-black text-sm hover:bg-white/20 transition-all duration-300">
+                 DOWNLOAD OUR APP
+               </Link>
+             </div>
+           </div>
+        </div>
+      </section>
+    </main>
   );
 }
