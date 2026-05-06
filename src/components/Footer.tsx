@@ -236,18 +236,20 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center sm:items-start md:items-center pt-8 border-t border-slate-200 text-[11px] font-bold tracking-widest gap-6 opacity-60">
-          <div className="order-2 md:order-1 text-center md:text-left">
-            <p>© 2026 salutbabe. ALL RIGHTS RESERVED.</p>
-          </div>
-          <div className="flex items-center gap-4 sm:gap-8 order-1 md:order-2">
+        <div className="flex flex-col pt-8 border-t border-slate-200 text-[11px] font-bold tracking-widest opacity-60">
+          <div className="flex justify-center mb-8">
             <Link className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 transition-all hover:bg-blue-500 hover:text-white hover:border-blue-500" href="/download">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 group-hover:bg-white animate-pulse"></span>
               Download App
             </Link>
           </div>
-          <div className="order-3 mt-4 md:mt-0">
-            <p>designed by <a href="https://www.linkedin.com/in/hidirektor/" target="_blank" rel="noopener noreferrer" data-underline-link="alt" className="text-slate-900 hover:text-blue-500 transition-colors">hidirektor</a></p>
+          <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 md:gap-0">
+            <div>
+              <p>© 2026 salutbabe. ALL RIGHTS RESERVED.</p>
+            </div>
+            <div>
+              <p>designed by <a href="https://www.linkedin.com/in/hidirektor/" target="_blank" rel="noopener noreferrer" data-underline-link="alt" className="text-slate-900 hover:text-blue-500 transition-colors">hidirektor</a></p>
+            </div>
           </div>
         </div>
 
