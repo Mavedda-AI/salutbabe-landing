@@ -12,7 +12,7 @@ const BentoHero = () => {
         <div className="col-span-12 lg:col-span-8 bento-item bg-white p-12 flex flex-col justify-between group">
           <div className="max-w-md">
             <span className="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-[10px] font-black tracking-widest text-slate-500 mb-6 uppercase">
-              ✨ Premium Collection
+              Premium Collection
             </span>
             <h1 className="text-6xl font-black text-slate-900 leading-[1.1] mb-6">
               Modern Baby <br />

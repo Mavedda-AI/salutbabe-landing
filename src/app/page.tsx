@@ -105,7 +105,7 @@ export default function Home() {
            <div className="relative z-10 max-w-4xl mx-auto">
              <h2 className="text-5xl md:text-8xl font-black text-text-primary mb-12 leading-[1] tracking-tighter">
                Ready to Join the <br />
-               <span className="text-secondary italic">SalutBabe</span> Family?
+               <span className="text-secondary italic">salutbabe</span> family?
              </h2>
              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                <Link href="/register" className="w-full sm:w-auto px-16 py-7 bg-primary text-white rounded-full font-black text-sm hover:scale-105 transition-all duration-500 shadow-2xl shadow-primary/30 active:scale-95">

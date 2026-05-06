@@ -69,7 +69,7 @@ const DiscountCards = () => {
             <div className="relative z-10">
               <Link 
                 href="/shop" 
-                className={`inline-block px-8 py-3 rounded-full bg-white text-text-primary font-black text-[11px] tracking-widest hover:scale-105 transition-all shadow-xl shadow-black/5`}
+                className={`inline-block px-8 py-3 rounded-full bg-white text-[#1A1A1A] font-black text-[11px] tracking-widest hover:scale-105 transition-all shadow-xl shadow-black/5`}
               >
                 {deal.buttonText}
               </Link>
