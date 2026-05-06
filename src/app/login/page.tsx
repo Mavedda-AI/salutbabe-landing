@@ -1,6 +1,11 @@
 "use client";
 
+import React, {useState} from "react";
+import Link from "next/link";
+import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
+import {signInWithApple, signInWithGoogle} from "../../lib/firebase";
+import {apiUrl} from "../../lib/api";
 
 const LoginPage = () => {
   const { t } = useThemeLanguage();
