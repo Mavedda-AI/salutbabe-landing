@@ -56,7 +56,7 @@ const LoginPage = () => {
       localStorage.setItem("auth_token", token);
       localStorage.setItem("token", token);
       if (user) localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "/";
+      window.location.href = "/admin";
     } else {
       // If we are here, it means res.ok was true but we don't have a token.
       // This might happen if the backend message is "Social login status processed" but user not found.
@@ -127,7 +127,7 @@ const LoginPage = () => {
         localStorage.setItem("auth_token", token);
         localStorage.setItem("token", token);
         if (user) localStorage.setItem("user", JSON.stringify(user));
-        window.location.href = "/";
+        window.location.href = "/admin";
       } else {
         throw new Error(data?.request?.resultMessage || "Invalid response from server.");
       }

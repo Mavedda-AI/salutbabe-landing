@@ -55,7 +55,7 @@ const RegisterPage = () => {
       localStorage.setItem("auth_token", token);
       localStorage.setItem("token", token);
       if (user) localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "/";
+      window.location.href = "/admin";
     } else {
       // For registration page, if no token and no needsRegistration, redirect to details anyway
       window.location.href = "/register/details";
