@@ -12,7 +12,10 @@ export const dictionaries = {
       search: "Ara",
       login: "Giriş Yap",
       categories: "Kategoriler",
-      panel: "Panel"
+      panel: "Panel",
+      back_to_panel: "Panele Dön",
+      favorites: "Favoriler",
+      cart_label: "Sepet"
     },
     home: {
       new_arrivals: "Yeni Gelenler",
@@ -93,7 +96,10 @@ export const dictionaries = {
       search: "Search",
       login: "Log in",
       categories: "Categories",
-      panel: "Panel"
+      panel: "Panel",
+      back_to_panel: "Back to Panel",
+      favorites: "Favorites",
+      cart_label: "Cart"
     },
     home: {
       new_arrivals: "New Arrivals",
