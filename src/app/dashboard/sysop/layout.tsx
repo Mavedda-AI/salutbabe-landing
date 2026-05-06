@@ -243,7 +243,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           {!isSidebarCollapsed ? (
             <>
               <Link href="/dashboard/sysop" className="flex items-center justify-center">
-                 <img src="/logo-salutbabe.png" alt="Logo" className={`h-7 w-auto ${theme === 'light' ? '' : 'brightness-0 invert'}`} />
+                 <img src="/logo-salutbabe.png" alt="Logo" className={`h-7 w-auto ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
               </Link>
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
@@ -260,7 +260,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               <img 
                 src="/logo-favicon.png" 
                 alt="Logo" 
-                className="w-full h-full rounded-md object-contain transition-all duration-300 group-hover/expand:opacity-0 group-hover/expand:scale-75" 
+                className={`w-full h-full rounded-md object-contain transition-all duration-300 group-hover/expand:opacity-0 group-hover/expand:scale-75 ${theme === 'light' ? 'brightness-0' : ''}`} 
               />
               <img 
                 src="/images/icon/expand.svg" 
