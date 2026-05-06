@@ -96,11 +96,11 @@ export default function ProfilePage() {
               <div>
                 <h1 className="text-2xl font-black text-text-primary tracking-tighter mb-2">{formData.userName} {formData.userSurname}</h1>
                 <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                   {(Array.isArray(user?.userType) ? user.userType : [user?.userType]).map((role: any, i: number) => (
-                     <span key={i} className="px-3 py-1 rounded-lg bg-primary/10 text-primary text-[9px] font-black uppercase tracking-widest border border-primary/20">
-                       {role}
-                     </span>
-                   ))}
+                    {(Array.isArray(user?.userType) ? user.userType : [user?.userType]).map((role: any, i: number) => (
+                      <span key={i} className="px-3 py-1 rounded-lg bg-primary/10 text-primary text-[9px] font-black uppercase tracking-widest border border-primary/20">
+                        {t('dashboard.role_' + (role?.toLowerCase() || 'user'))}
+                      </span>
+                    ))}
                 </div>
               </div>
             </div>

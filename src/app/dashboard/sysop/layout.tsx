@@ -16,6 +16,18 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [toast, setToast] = useState<{ message: string, visible: boolean, type: 'warning' | 'success' | 'error' }>({
+    message: '',
+    visible: false,
+    type: 'warning'
+  });
+
+  const showToast = (message: string, type: 'warning' | 'success' | 'error' = 'warning') => {
+    setToast({ message, visible: true, type });
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, visible: false }));
+    }, 4000);
+  };
 
   const fetchNotifications = async () => {
     try {
@@ -125,7 +137,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
     if (!implementedRoutes.includes(href)) {
       e.preventDefault();
-      alert(t('dashboard.under_construction') || "Bu özellik yapım aşamasındadır.");
+      showToast(t('dashboard.under_construction') || "Bu özellik yapım aşamasındadır.", 'warning');
     }
   };
 
@@ -606,6 +618,33 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           </div>
         </footer>
       </div>
+
+      {/* Custom Toast */}
+      {toast.visible && (
+        <div className="fixed bottom-10 right-10 z-[999] animate-in slide-in-from-right-10 fade-in duration-300">
+           <div className={`flex items-center gap-4 px-6 py-4 rounded-[1.5rem] border shadow-2xl backdrop-blur-xl min-w-[320px] max-w-md
+             ${toast.type === 'warning' 
+               ? (theme === 'light' ? 'bg-orange-50 border-orange-200 text-orange-800' : 'bg-orange-500/10 border-orange-500/20 text-orange-400 shadow-orange-500/10') 
+               : (theme === 'light' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-green-500/10 border-green-500/20 text-green-400 shadow-green-500/10')
+             }`}>
+             <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0
+               ${toast.type === 'warning' ? 'bg-orange-500/20' : 'bg-green-500/20'}`}>
+               {toast.type === 'warning' ? (
+                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+               ) : (
+                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+               )}
+             </div>
+             <div className="flex-1 pr-4">
+                <p className="text-[13px] font-black leading-tight uppercase tracking-tight">{toast.type === 'warning' ? 'Warning' : 'Success'}</p>
+                <p className="text-[12px] font-bold opacity-80 mt-0.5">{toast.message}</p>
+             </div>
+             <button onClick={() => setToast(prev => ({ ...prev, visible: false }))} className="text-inherit opacity-40 hover:opacity-100 transition-opacity">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+             </button>
+           </div>
+        </div>
+      )}
     </div>
   );
 }
