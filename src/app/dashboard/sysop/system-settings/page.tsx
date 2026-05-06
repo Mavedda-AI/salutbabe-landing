@@ -73,16 +73,10 @@ export default function SystemSettingsPage() {
   const LoadingSkeleton = () => (
     <div className="max-w-6xl mx-auto flex flex-col gap-8 pb-20 animate-pulse">
       {/* Skeleton Bar */}
-      <div className={`p-4 rounded-[2.5rem] border flex items-center justify-between transition-all duration-300
-        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5 shadow-2xl'}`}>
-        <div className="flex items-center gap-4 ml-4">
-           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-           <div className="space-y-2">
-             <div className={`w-32 h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-             <div className={`w-48 h-3 rounded-full ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
-           </div>
-        </div>
-        <div className={`w-32 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+      {/* Title Skeleton */}
+      <div className="flex flex-col gap-4 ml-6 mb-4">
+         <div className={`w-64 h-8 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+         <div className={`w-96 h-4 rounded-full ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
       </div>
 
       {[1, 2, 3].map((i) => (
@@ -105,45 +99,60 @@ export default function SystemSettingsPage() {
   if (!settings) return null;
 
   const SettingSection = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
-    <div className={`p-10 rounded-[3rem] border transition-all duration-500 flex flex-col gap-8
+    <div className={`p-10 rounded-[3.5rem] border transition-all duration-500 flex flex-col gap-10 group
       ${theme === 'light' 
-        ? 'bg-white border-border-color shadow-sm' 
-        : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+        ? 'bg-white border-border-color shadow-sm hover:shadow-2xl hover:border-primary/20' 
+        : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-black text-text-primary tracking-tight uppercase">{title}</h3>
-        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${theme === 'light' ? 'bg-primary/10 text-primary' : 'bg-primary/20 text-primary border border-primary/20'}`}>
-          {icon}
+        <div className="flex items-center gap-6">
+          <div className={`w-16 h-16 rounded-[1.8rem] flex items-center justify-center transition-all duration-500 group-hover:rotate-6 group-hover:scale-110
+            ${theme === 'light' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-primary/20 text-primary border border-primary/20 shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
+            {icon}
+          </div>
+          <div>
+            <h3 className="text-2xl font-black text-text-primary tracking-tight uppercase">{title}</h3>
+            <div className="w-12 h-1.5 bg-primary rounded-full mt-2 group-hover:w-24 transition-all duration-500 opacity-20 group-hover:opacity-100" />
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {children}
       </div>
     </div>
   );
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-6xl mx-auto flex flex-col gap-8 pb-20">
-      {/* Save Floating Bar */}
-      <div className={`sticky top-6 z-[100] p-4 rounded-[2.5rem] border flex items-center justify-between backdrop-blur-2xl transition-all duration-300
-        ${theme === 'light' ? 'bg-white/80 border-border-color shadow-xl' : 'bg-[#121214]/80 border-white/5 shadow-2xl shadow-black'}`}>
-        <div className="flex items-center gap-4 ml-4">
-           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-           </div>
-           <div>
-             <h2 className="text-[14px] font-black text-text-primary tracking-tight">{t('dashboard.sysop.nav_settings')}</h2>
-             <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">{t('dashboard.nav_admin_settings_desc')}</p>
-           </div>
-        </div>
-        <button 
-          type="submit"
-          disabled={saving}
-          className="h-12 px-10 rounded-2xl bg-primary text-white font-black text-[13px] shadow-lg shadow-primary/30 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-2"
-        >
-          {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
-          {t('dashboard.btn_save').toUpperCase()}
-        </button>
+    <form onSubmit={handleSubmit} className="max-w-6xl mx-auto flex flex-col gap-10 pb-32 pt-4">
+      {/* Dynamic Page Header */}
+      <div className="flex flex-col gap-2 mb-6 ml-6">
+          <h1 className="text-[32px] font-black text-text-primary tracking-tight uppercase">{t('dashboard.sysop.nav_settings')}</h1>
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <p className="text-[13px] font-bold text-text-secondary/60 uppercase tracking-[0.2em]">{t('dashboard.nav_admin_settings_desc')}</p>
+          </div>
       </div>
+
+      {/* Floating Modern Save Button */}
+      <button 
+        type="submit"
+        disabled={saving}
+        className={`fixed bottom-10 right-10 z-[100] h-20 px-12 rounded-[2.5rem] bg-primary text-white font-black text-[15px] 
+          shadow-[0_20px_50px_rgba(95,200,192,0.4)] hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-4 group
+          disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed
+          ${theme === 'light' ? '' : 'shadow-[0_20px_50px_rgba(0,0,0,0.5)]'}`}
+      >
+        <div className="flex flex-col items-start leading-none">
+          <span className="text-[10px] opacity-60 uppercase tracking-widest mb-1">{t('dashboard.sysop.nav_settings')}</span>
+          <span>{saving ? t('auth.loading').toUpperCase() : t('dashboard.btn_save').toUpperCase()}</span>
+        </div>
+        {saving ? (
+          <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+        ) : (
+          <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center group-hover:rotate-12 transition-transform">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+          </div>
+        )}
+      </button>
 
       {/* Marketplace Fees */}
       <SettingSection title={t('dashboard.settings_marketplace_title') || "Pazaryeri Komisyon ve Ücretler"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM4.637 7.123A7.959 7.959 0 0112 4c1.868 0 3.593.639 4.977 1.714" /></svg>}>
