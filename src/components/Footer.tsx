@@ -238,7 +238,7 @@ const Footer = () => {
 
         <div className="flex flex-col pt-8 border-t border-slate-200 text-[11px] font-bold tracking-widest opacity-60">
           <div className="flex justify-center mb-8">
-            <Link className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 transition-all hover:bg-blue-500 hover:text-white hover:border-blue-500" href="/download">
+            <Link className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[10px] font-black capitalize tracking-[0.2em] text-slate-900 transition-all hover:bg-blue-500 hover:text-white hover:border-blue-500" href="/download">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 group-hover:bg-white animate-pulse"></span>
               Download App
             </Link>

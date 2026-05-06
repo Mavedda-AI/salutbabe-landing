@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm py-4" : "bg-transparent py-6"
+        scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border-color/50 shadow-sm py-4" : "bg-transparent py-6"
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col w-full">
@@ -42,7 +42,7 @@ const Header = () => {
           
           {/* Left: Mobile menu toggle */}
           <div className="md:absolute md:left-0 flex items-center">
-            <button className="md:hidden text-slate-900 dark:text-white">
+            <button className="md:hidden text-text-primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
@@ -50,7 +50,7 @@ const Header = () => {
           </div>
 
           {/* Center: Logo */}
-          <Link href="/" className="text-3xl font-black tracking-tighter text-slate-900 dark:text-white">
+          <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
             salutbabe
           </Link>
 
@@ -58,7 +58,7 @@ const Header = () => {
           <div className="md:absolute md:right-0 flex items-center gap-4 md:gap-6">
             
             {/* Theme Toggle */}
-            <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors" aria-label="Toggle Theme">
+            <button onClick={toggleTheme} className="text-text-secondary hover:text-primary transition-colors" aria-label="Toggle Theme">
               {theme === 'dark' ? (
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
@@ -73,17 +73,17 @@ const Header = () => {
             {/* Language Toggle */}
             <button 
               onClick={() => setLanguage(language === 'tr' ? 'en' : 'tr')}
-              className="text-[12px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1"
+              className="text-[12px] font-black capitalize tracking-widest text-text-secondary hover:text-primary transition-colors border border-border-color rounded-md px-2 py-1"
             >
               {language}
             </button>
 
             {/* Mobile Cart */}
-            <Link href="/cart" className="md:hidden relative text-slate-900 dark:text-white">
+            <Link href="/cart" className="md:hidden relative text-text-primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
-              <span className="absolute -top-1.5 -right-2 bg-blue-500 text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-2 bg-primary text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
                 0
               </span>
             </Link>
@@ -98,7 +98,7 @@ const Header = () => {
               <Link 
                 key={item.label}
                 href={item.href}
-                className="text-[13px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+                className="text-[13px] font-bold capitalize tracking-widest text-text-secondary hover:text-primary transition-colors"
               >
                 {item.label}
               </Link>
@@ -107,25 +107,25 @@ const Header = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-8">
-            <button className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest">
+            <button className="text-text-secondary hover:text-primary transition-colors flex items-center gap-2 text-[13px] font-bold capitalize tracking-widest">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
               {t('search')}
             </button>
             
-            <Link href="/login" className="text-[13px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+            <Link href="/login" className="text-[13px] font-bold capitalize tracking-widest text-text-secondary hover:text-primary transition-colors">
               {t('login')}
             </Link>
 
             <Link 
               href="/cart"
-              className="relative text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center"
+              className="relative text-text-secondary hover:text-primary transition-colors flex items-center"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
-              <span className="absolute -top-1.5 -right-2 bg-blue-500 text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-2 bg-primary text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
                 0
               </span>
             </Link>

@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <body className="antialiased bg-[#f8fafc] dark:bg-slate-950 transition-colors duration-300">
+      <body className="antialiased bg-background text-text-primary transition-colors duration-300">
         <ThemeLanguageProvider>
           <CartProvider>
             <CartToast />
