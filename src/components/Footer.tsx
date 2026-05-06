@@ -40,7 +40,7 @@ const Footer = () => {
           initMap();
         };
         document.head.appendChild(script);
-      } else if (window.mapboxgl) {
+      } else if ((window as any).mapboxgl) {
         initMap();
       }
     }
@@ -55,12 +55,12 @@ const Footer = () => {
         return;
       }
       
-      window.mapboxgl.accessToken = token;
+      (window as any).mapboxgl.accessToken = token;
       
       const isDark = document.documentElement.classList.contains('dark');
       const mapStyle = isDark ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/light-v11';
       
-      mapInstance.current = new window.mapboxgl.Map({
+      mapInstance.current = new (window as any).mapboxgl.Map({
         container: mapContainerRef.current,
         style: mapStyle,
         center: [-0.1276, 51.5072], // London coordinates
@@ -69,7 +69,7 @@ const Footer = () => {
       });
       
       // Add a marker for salutbabe HQ (London)
-      new window.mapboxgl.Marker({ color: '#FF85B2' })
+      new (window as any).mapboxgl.Marker({ color: '#FF85B2' })
         .setLngLat([-0.1276, 51.5072])
         .addTo(mapInstance.current);
     }
