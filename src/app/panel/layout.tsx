@@ -13,6 +13,42 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const fetchNotifications = async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      if (!token) return;
+      const res = await fetch(apiUrl("/notifications?page=1&limit=20"), {
+        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        const rows = data.payload?.notifications || data.payload?.rows || [];
+        setNotifications(rows);
+        const unreadRows = rows.filter((n: any) => !n.isRead).length;
+        setUnreadCount(data.payload?.unreadCount ?? unreadRows);
+      }
+    } catch (e) {
+      console.error("Notifications fetch failed:", e);
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      await fetch(apiUrl("/notifications/read-all"), {
+        method: "PUT",
+        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+      });
+      setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+      setUnreadCount(0);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,6 +66,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       }
     }
   }, [router]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchNotifications();
+      const interval = setInterval(fetchNotifications, 60000);
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -114,13 +158,71 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
           <div className="flex-1"></div>
 
-          <div className="flex items-center gap-4 relative group">
-            <button className="p-2 text-text-secondary hover:text-primary relative">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-              <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-primary text-[9px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-surface">32</span>
-            </button>
-            
+          <div className="flex items-center gap-4 relative">
             <div className="relative">
+              <button 
+                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                className="p-2 text-text-secondary hover:text-primary relative"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-[#5FC8C0] text-[9px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-surface">{unreadCount}</span>
+                )}
+              </button>
+
+              {isNotificationOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setIsNotificationOpen(false)}></div>
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-[#232C41] text-white border border-[#3A455C] rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
+                    <div className="p-4 border-b border-[#3A455C] flex items-center justify-between bg-[#1B2333]">
+                      <div>
+                        <h3 className="text-[14px] font-bold text-white">{t('dashboard.notifications_title')}</h3>
+                        <p className="text-[11px] text-gray-400 mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <button onClick={handleMarkAllAsRead} className="text-[11px] font-bold text-[#5FC8C0] hover:underline">
+                          {t('dashboard.notifications_mark_read')}
+                        </button>
+                        <button onClick={() => setIsNotificationOpen(false)} className="text-gray-400 hover:text-white">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="flex-1 overflow-y-auto bg-[#232C41]">
+                      {notifications.length === 0 ? (
+                        <div className="p-6 text-center text-[12px] text-gray-400">{t('dashboard.notifications_empty')}</div>
+                      ) : (
+                        notifications.map((notif: any) => (
+                          <div key={notif.userNotificationID || notif.id || Math.random()} className="p-4 border-b border-[#3A455C] hover:bg-[#2A354E] transition-colors relative cursor-pointer">
+                            <div className="flex gap-3">
+                              <div className="mt-1 flex-shrink-0">
+                                <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-[#5FC8C0]' : 'bg-transparent'}`}></div>
+                              </div>
+                              <div>
+                                <h4 className="text-[13px] font-bold text-white mb-1">{notif.title || 'Bildirim'}</h4>
+                                <p className="text-[12px] text-gray-300 leading-snug mb-2">{notif.body || notif.message}</p>
+                                <span className="text-[10px] font-bold text-gray-500">
+                                  {notif.createdAt ? new Date(notif.createdAt).toLocaleString() : ''}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                    
+                    <div className="p-3 border-t border-[#3A455C] bg-[#1B2333]">
+                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-white hover:bg-[#2A354E] rounded-lg transition-colors">
+                        {t('dashboard.notifications_close')}
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            
+            <div className="relative group">
               <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black text-[13px] shadow-lg shadow-primary/20 cursor-pointer hover:scale-105 transition-transform overflow-hidden peer">
                  {user?.profilePhotoUrl ? (
                    <img 
