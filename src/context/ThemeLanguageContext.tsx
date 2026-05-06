@@ -160,7 +160,7 @@ export const dictionaries = {
       signin_link: "Sign in",
       terms_prefix: "By continuing, you agree to our",
       terms_link: "terms of use",
-      terms_suffix: "and conditions.",
+      terms_suffix: "and regulations.",
       signing_in: "SIGNING IN...",
       continuing: "CONTINUING..."
     }
