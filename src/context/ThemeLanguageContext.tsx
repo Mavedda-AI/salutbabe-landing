@@ -58,6 +58,30 @@ export const dictionaries = {
       status_active: "AKTİF",
       loading: "Yükleniyor...",
       no_data: "Henüz bu dönemde veri bulunmuyor."
+    },
+    auth: {
+      welcome: "salutbabe'e Hoş Geldin.",
+      signin_desc: "Hesabına giriş yap.",
+      join: "salutbabe'e Katıl.",
+      signup_desc: "Başlamak için hesap oluştur.",
+      email: "E-posta Adresi",
+      password: "Şifre",
+      signin_btn: "GİRİŞ YAP",
+      signup_btn: "KAYIT OL",
+      google_signin: "Google ile devam et",
+      apple_signin: "Apple ile devam et",
+      google_signup: "Google ile kayıt ol",
+      apple_signup: "Apple ile kayıt ol",
+      or_email: "veya e-posta kullan",
+      no_account: "Hesabın yok mu?",
+      have_account: "Zaten hesabın var mı?",
+      signup_link: "Kayıt ol",
+      signin_link: "Giriş yap",
+      terms_prefix: "Devam ederek",
+      terms_link: "kullanım şartlarımızı",
+      terms_suffix: "kabul etmiş sayılırsınız.",
+      signing_in: "GİRİŞ YAPILIYOR...",
+      continuing: "DEVAM EDİLİYOR..."
     }
   },
   en: {
@@ -115,6 +139,30 @@ export const dictionaries = {
       status_active: "ACTIVE",
       loading: "Loading...",
       no_data: "No data available for this period."
+    },
+    auth: {
+      welcome: "Welcome to salutbabe.",
+      signin_desc: "Sign in to your account.",
+      join: "Join salutbabe.",
+      signup_desc: "Create an account to get started.",
+      email: "Email Address",
+      password: "Password",
+      signin_btn: "SIGN IN",
+      signup_btn: "SIGN UP",
+      google_signin: "Continue with Google",
+      apple_signin: "Continue with Apple",
+      google_signup: "Sign up with Google",
+      apple_signup: "Sign up with Apple",
+      or_email: "or use email",
+      no_account: "Don't have an account?",
+      have_account: "Already have an account?",
+      signup_link: "Sign up",
+      signin_link: "Sign in",
+      terms_prefix: "By continuing, you agree to our",
+      terms_link: "terms of use",
+      terms_suffix: "",
+      signing_in: "SIGNING IN...",
+      continuing: "CONTINUING..."
     }
   }
 };
