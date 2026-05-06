@@ -123,7 +123,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const activeNav = isAdmin ? adminNav : normalUserNav;
   const activeMenu = activeNav.find(item => pathname === item.href) || activeNav[0];
 
-
+  useEffect(() => {
+    if (activeMenu?.label) {
+      document.title = `salutbabe | ${activeMenu.label}`;
+    }
+  }, [activeMenu?.label]);
   return (
     <div className="min-h-screen bg-[#F8F9FB] dark:bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
