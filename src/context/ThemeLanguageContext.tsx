@@ -148,7 +148,12 @@ export const dictionaries = {
       modal_update_role_desc: "{name} kullanıcısının rollerini düzenliyorsunuz.",
       no_phone: "Telefon yok",
       anonymous: "anonim",
-      loading_users: "Kullanıcılar yükleniyor..."
+      loading_users: "Kullanıcılar yükleniyor...",
+      notifications_title: "Bildirimler",
+      notifications_unread: "{count} yeni bildirim",
+      notifications_mark_read: "Tümünü okundu işaretle",
+      notifications_close: "Kapat",
+      notifications_empty: "Yeni bildiriminiz yok."
     }
   },
   en: {
@@ -297,7 +302,12 @@ export const dictionaries = {
       modal_update_role_desc: "You are editing {name}'s roles.",
       no_phone: "No phone",
       anonymous: "anonymous",
-      loading_users: "Loading users..."
+      loading_users: "Loading users...",
+      notifications_title: "Notifications",
+      notifications_unread: "{count} new notification(s)",
+      notifications_mark_read: "Mark all as read",
+      notifications_close: "Close",
+      notifications_empty: "You have no new notifications."
     }
   }
 };
