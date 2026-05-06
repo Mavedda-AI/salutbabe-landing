@@ -198,8 +198,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 2V5M12 19V22M19 12H22M2 12H5M16.95 7.05L19.071 4.929M4.929 19.071L7.05 16.95M16.95 16.95L19.071 19.071M4.929 4.929L7.05 7.05" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M19.6224 10.3954L18.4568 8.37738C17.6708 7.01599 17.2778 6.33529 17.5549 5.44781C17.8321 4.56034 18.4727 3.99042 19.7538 2.8506C19.7538 2.8506 19.7538 2.8506 19.7538 2.8506" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M19.6224 10.3954L18.4568 8.37738C17.6708 7.01599 17.2778 6.33529 17.5549 5.44781C17.8321 4.56034 18.4727 3.99042 19.7538 2.8506M4.37756 13.6046L5.54316 15.6226C6.3292 16.984 6.72222 17.6647 6.44505 18.5522C6.16789 19.4397 5.52731 20.0096 4.24615 21.1494M13.6046 4.37756L15.6226 5.54316C16.984 6.3292 17.6647 6.72222 18.5522 6.44505C19.4397 6.16789 20.0096 5.52731 21.1494 4.24615M10.3954 19.6224L8.37738 18.4568C7.01599 17.6708 6.33529 17.2778 5.44781 17.5549C4.56034 17.8321 3.99042 18.4727 2.8506 19.7538M10.3954 4.37756L8.37738 5.54316C7.01599 6.3292 6.33529 6.72222 5.44781 6.44505C4.56034 6.16789 3.99042 5.52731 2.8506 4.24615M13.6046 19.6224L15.6226 18.4568C16.984 17.6708 17.6647 17.2778 18.5522 17.5549C19.4397 17.8321 20.0096 18.4727 21.1494 19.7538M4.37756 10.3954L5.54316 8.37738C6.3292 7.01599 6.72222 6.33529 6.44505 5.44781C6.16789 4.56034 5.52731 3.99042 4.24615 2.8506M19.6224 13.6046L18.4568 15.6226C17.6708 16.984 17.2778 17.6647 17.5549 18.5522C17.8321 19.4397 18.4727 20.0096 19.7538 21.1494" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       )
     },
@@ -373,9 +372,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                   >
                     <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
                       <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === item.href ? 'text-[#1A2332]' : 'text-inherit'}`}>
-                        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                        </svg>
+                        {item.icon || (
+                          <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                          </svg>
+                        )}
                       </div>
                     </div>
                     {!isSidebarCollapsed && (
