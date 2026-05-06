@@ -118,12 +118,21 @@ const Footer = () => {
       <div className="max-w-[1700px] mx-auto px-6 md:px-12">
         <div className="flex flex-col lg:flex-row justify-between mb-20 md:mb-32 gap-16">
           
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface shadow-sm border border-border-color group-hover:scale-105 transition-transform duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><path d="M2 12h10l-3-3m0 6l3-3m-3-3h12a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4"/></svg>
+          <div className="flex flex-col gap-10 lg:w-1/3">
+            <div className="flex flex-col gap-3">
+              <Link className="inline-block w-fit" href="/">
+                <span className="text-4xl font-black tracking-tighter" data-underline-link="true">
+                  <span data-brand-wordmark="true">salutbabe</span>
+                </span>
+              </Link>
+              <p className="font-bold text-[13px] uppercase tracking-wide opacity-90">
+                Anneden Anneye Güvenli Alışveriş
+              </p>
             </div>
-            <span className="text-xl font-black tracking-tight">salutbabe</span>
-          </Link>
+            <div className="text-[13px] opacity-60 leading-relaxed font-medium space-y-1">
+              <a href="mailto:info@salutbabe.com" className="block w-fit hover:text-primary transition-colors">info@salutbabe.com</a>
+            </div>
+          </div>
 
           <div className="flex flex-wrap md:flex-nowrap gap-x-16 gap-y-12 shrink-0 md:min-w-[600px] justify-between lg:justify-end xl:gap-32">
             
@@ -224,8 +233,8 @@ const Footer = () => {
 
         <div className="flex flex-col pt-8 border-t border-border-color text-[11px] font-bold tracking-widest opacity-60">
           <div className="flex justify-center mb-8">
-            <Link className="group inline-flex items-center gap-2 rounded-full border border-border-color bg-surface px-4 py-2 text-[10px] font-black capitalize tracking-[0.2em] text-text-primary transition-all hover:bg-primary hover:text-white hover:border-primary" href="/download">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary group-hover:bg-white animate-pulse"></span>
+            <Link className="group inline-flex items-center gap-2 rounded-full border border-border-color bg-surface px-4 py-2 text-[10px] font-black capitalize tracking-[0.2em] text-text-primary transition-all hover:bg-text-primary hover:text-background hover:border-text-primary" href="/download">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary group-hover:bg-background animate-pulse"></span>
               Download App
             </Link>
           </div>
