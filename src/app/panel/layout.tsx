@@ -132,13 +132,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* 3. Main Wrapper */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[70px]' : 'lg:pl-[310px]'} pl-[70px]`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[70px]' : 'lg:pl-[310px]'} pl-[70px] min-h-screen relative`}>
         
         {/* Header */}
-        <header className="h-16 bg-white/80 dark:bg-surface/80 backdrop-blur-md border-b border-border-color sticky top-0 z-40 px-8 flex items-center justify-between">
+        <header className="h-16 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
           <div className="flex items-center gap-4 text-[13px] font-bold text-text-secondary">
-             <span className="hover:text-text-primary cursor-pointer transition-colors">{user?.userName}'s Store</span>
+             <span className="hover:text-text-primary cursor-pointer transition-colors whitespace-nowrap">{user?.userName}'s Store</span>
              <span className="opacity-30">/</span>
              <span className="text-text-primary font-black">Shipments</span>
           </div>
