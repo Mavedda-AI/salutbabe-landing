@@ -235,7 +235,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       
       {/* Main Sidebar */}
       <aside 
-        className={`bg-[#0F172A] border-r border-white/5 fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}`}
+        className={`bg-[#0F172A] dark:bg-[#0F172A] light:bg-white border-r border-white/5 dark:border-white/5 light:border-border-color fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
+          ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#0F172A] border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">
@@ -246,9 +247,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               </Link>
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
-                className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors lg:flex hidden p-1 hover:bg-white/5 rounded-md"
+                className="absolute top-4 right-4 text-white/20 hover:text-white dark:text-white/20 dark:hover:text-white light:text-text-secondary/20 light:hover:text-text-primary transition-colors lg:flex hidden p-1 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-black/5 rounded-md"
               >
-                <img src="/images/icon/collapse.svg" alt="Collapse" className="w-4 h-4 brightness-0 invert opacity-40" />
+                <img src="/images/icon/collapse.svg" alt="Collapse" className={`w-4 h-4 opacity-40 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
               </button>
             </>
           ) : (
@@ -264,7 +265,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               <img 
                 src="/images/icon/expand.svg" 
                 alt="Expand" 
-                className="absolute w-6 h-6 brightness-0 invert opacity-0 group-hover/expand:opacity-100 transition-all duration-300 transform scale-75 group-hover/expand:scale-110" 
+                className={`absolute w-6 h-6 opacity-0 group-hover/expand:opacity-100 transition-all duration-300 transform scale-75 group-hover/expand:scale-110 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} 
               />
             </button>
           )}
@@ -272,7 +273,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
         {/* Divider */}
         <div className="px-6 mb-4">
-          <div className="h-px bg-white/10 w-full"></div>
+          <div className={`h-px w-full ${theme === 'light' ? 'bg-border-color' : 'bg-white/10'}`}></div>
         </div>
 
         {/* Dashboard Link (Separate) */}
@@ -281,8 +282,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             href={dashboardItem.href || '#'}
             className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
               ${pathname === dashboardItem.href 
-                ? 'bg-white text-[#1A2332] shadow-lg shadow-white/10' 
-                : 'text-white/60 hover:bg-white/5 hover:text-white'
+                ? (theme === 'light' ? 'bg-text-primary text-white' : 'bg-white text-[#1A2332]')
+                : (theme === 'light' ? 'text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'text-white/60 hover:bg-white/5 hover:text-white')
               }`}
           >
             <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
@@ -302,7 +303,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
         {/* Divider */}
         <div className="px-6 mb-4">
-          <div className="h-px bg-white/10 w-full"></div>
+          <div className={`h-px w-full ${theme === 'light' ? 'bg-border-color' : 'bg-white/10'}`}></div>
         </div>
 
         {/* Navigation (Other Items with Submenus) */}
@@ -320,8 +321,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                       onClick={() => toggleMenu(item.label)}
                       className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group relative
                         ${isActive && !isExpanded
-                          ? 'bg-white/10 text-white shadow-sm' 
-                          : 'text-white/60 hover:bg-white/5 hover:text-white'
+                          ? (theme === 'light' ? 'bg-black/5 text-text-primary' : 'bg-white/10 text-white shadow-sm')
+                          : (theme === 'light' ? 'text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'text-white/60 hover:bg-white/5 hover:text-white')
                         }`}
                     >
                       <div className="flex items-center gap-4">
@@ -352,8 +353,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                           <Link 
                             key={sIdx}
                             href={sub.href}
-                            className={`block py-2 text-[12px] font-bold transition-all hover:text-white
-                              ${pathname === sub.href ? 'text-white' : 'text-white/40'}`}
+                            className={`block py-2 text-[12px] font-bold transition-all
+                              ${pathname === sub.href 
+                                ? (theme === 'light' ? 'text-text-primary' : 'text-white') 
+                                : (theme === 'light' ? 'text-text-secondary/40 hover:text-text-primary' : 'text-white/40 hover:text-white')}`}
                           >
                             • {sub.label}
                           </Link>
@@ -366,8 +369,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                     href={item.href || '#'}
                     className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
                       ${pathname === item.href 
-                        ? 'bg-white text-[#1A2332] shadow-lg shadow-white/10' 
-                        : 'text-white/60 hover:bg-white/5 hover:text-white'
+                        ? (theme === 'light' ? 'bg-text-primary text-white' : 'bg-white text-[#1A2332]')
+                        : (theme === 'light' ? 'text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'text-white/60 hover:bg-white/5 hover:text-white')
                       }`}
                   >
                     <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
@@ -390,9 +393,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Bottom Actions */}
-        <div className="p-4 border-t border-white/5 space-y-3">
+        <div className={`p-4 border-t space-y-3 ${theme === 'light' ? 'border-border-color' : 'border-white/5'}`}>
           {!isSidebarCollapsed && (
-            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 hover:text-white text-[12px] font-bold transition-all">
+            <button className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-[12px] font-bold transition-all ${theme === 'light' ? 'border-border-color text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'border-white/10 text-white/60 hover:bg-white/5 hover:text-white'}`}>
                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                {t('sysop.support_title')}
             </button>
@@ -402,9 +405,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           <div className={`flex ${isSidebarCollapsed ? 'flex-col items-center gap-4' : 'items-center justify-between px-2'} pt-2`}>
             <button 
               onClick={toggleTheme}
-              className="flex items-center gap-3 text-white/60 hover:text-white transition-all group"
+              className={`flex items-center gap-3 transition-all group ${theme === 'light' ? 'text-text-secondary hover:text-text-primary' : 'text-white/60 hover:text-white'}`}
             >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${theme === 'light' ? 'bg-black/5 group-hover:bg-black/10' : 'bg-white/5 group-hover:bg-white/10'}`}>
                 {theme === 'dark' ? '☀️' : '🌙'}
               </div>
               {!isSidebarCollapsed && <span className="text-[12px] font-bold">{theme === 'dark' ? (language === 'tr' ? 'Aydınlık' : language === 'fr' ? 'Clair' : 'Light') : (language === 'tr' ? 'Karanlık' : language === 'fr' ? 'Sombre' : 'Dark')}</span>}
@@ -416,9 +419,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                 const nextIdx = (langs.indexOf(language) + 1) % langs.length;
                 setLanguage(langs[nextIdx]);
               }}
-              className="flex items-center gap-3 text-white/60 hover:text-white transition-all group"
+              className={`flex items-center gap-3 transition-all group ${theme === 'light' ? 'text-text-secondary hover:text-text-primary' : 'text-white/60 hover:text-white'}`}
             >
-               <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10">
+               <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${theme === 'light' ? 'bg-black/5 group-hover:bg-black/10' : 'bg-white/5 group-hover:bg-white/10'}`}>
                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                    <path d="M3.6001 9H20.4001" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

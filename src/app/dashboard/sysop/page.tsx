@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../../lib/api";
+import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 
 export default function SysopDashboard() {
   const [stats, setStats] = useState<any>(null);
@@ -41,24 +42,26 @@ export default function SysopDashboard() {
     }
   };
 
+  const { t } = useThemeLanguage();
+
   const statCards = [
     {
-      label: "Toplam Satış",
+      label: t('sysop.stats_total_sales'),
       value: `${(stats?.totalRevenue || 0).toLocaleString('tr-TR')} ₺`,
       textColor: "text-emerald-500"
     },
     {
-      label: "Aktif Kullanıcılar",
+      label: t('sysop.stats_active_users'),
       value: stats?.totalUsers || 0,
       textColor: "text-blue-500"
     },
     {
-      label: "Mağaza Sayısı",
+      label: t('sysop.stats_total_stores'),
       value: stats?.totalStores || 0,
       textColor: "text-purple-500"
     },
     {
-      label: "Bekleyen Onaylar",
+      label: t('sysop.stats_pending_approvals'),
       value: stats?.pendingListings || 0,
       textColor: "text-orange-500"
     }
@@ -68,7 +71,7 @@ export default function SysopDashboard() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-        <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary">Veriler Hazırlanıyor...</p>
+        <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary">{t('sysop.loading_data')}</p>
       </div>
     );
   }
@@ -97,29 +100,29 @@ export default function SysopDashboard() {
         {/* Recent Orders */}
         <div className="lg:col-span-2 bg-white dark:bg-surface rounded-[2.5rem] border border-border-color overflow-hidden shadow-sm">
           <div className="p-8 border-b border-border-color flex items-center justify-between">
-            <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">Son İşlemler</h3>
-            <button className="text-[12px] font-black text-primary hover:underline">Tümünü Gör</button>
+            <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('sysop.recent_transactions')}</h3>
+            <button className="text-[12px] font-black text-primary hover:underline">{t('sysop.view_all')}</button>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-gray-50 dark:bg-background/50 text-[10px] font-black text-text-secondary/60 uppercase tracking-widest">
-                  <th className="px-8 py-4">ID</th>
-                  <th className="px-8 py-4">Müşteri</th>
-                  <th className="px-8 py-4">Tutar</th>
-                  <th className="px-8 py-4">Durum</th>
+                  <th className="px-8 py-4">{t('sysop.table_id')}</th>
+                  <th className="px-8 py-4">{t('sysop.table_customer')}</th>
+                  <th className="px-8 py-4">{t('sysop.table_amount')}</th>
+                  <th className="px-8 py-4">{t('sysop.table_status')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border-color">
                 {recentOrders.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-8 py-10 text-center text-text-secondary text-[12px] font-bold">İşlem kaydı bulunamadı.</td>
+                    <td colSpan={4} className="px-8 py-10 text-center text-text-secondary text-[12px] font-bold">{t('sysop.no_records')}</td>
                   </tr>
                 ) : (
                   recentOrders.map((order: any, i: number) => (
                     <tr key={i} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                       <td className="px-8 py-5 text-[13px] font-black text-text-primary">#{order.shortID || order.id?.slice(-6).toUpperCase()}</td>
-                      <td className="px-8 py-5 text-[13px] font-bold text-text-secondary">{order.buyer?.userName || 'Anonim'}</td>
+                      <td className="px-8 py-5 text-[13px] font-bold text-text-secondary">{order.buyer?.userName || t('sysop.anonymous')}</td>
                       <td className="px-8 py-5 text-[13px] font-black text-text-primary">{order.totalAmount?.toLocaleString('tr-TR')} ₺</td>
                       <td className="px-8 py-5">
                         <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-tighter">
@@ -137,7 +140,7 @@ export default function SysopDashboard() {
         {/* System Activity */}
         <div className="bg-white dark:bg-surface rounded-[2.5rem] border border-border-color shadow-sm flex flex-col">
           <div className="p-8 border-b border-border-color">
-            <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">Hızlı Erişim</h3>
+            <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('sysop.quick_access')}</h3>
           </div>
           <div className="p-4">
             <button className="w-full flex items-center gap-4 p-6 rounded-[2rem] bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group">
@@ -147,8 +150,8 @@ export default function SysopDashboard() {
                 </svg>
               </div>
               <div className="text-left">
-                <p className="text-[15px] font-black text-text-primary uppercase tracking-wider">Support</p>
-                <p className="text-[12px] text-text-secondary font-bold">Yardım ve Destek</p>
+                <p className="text-[15px] font-black text-text-primary uppercase tracking-wider">{t('sysop.support_title')}</p>
+                <p className="text-[12px] text-text-secondary font-bold">{t('sysop.support_desc')}</p>
               </div>
             </button>
           </div>
