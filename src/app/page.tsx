@@ -61,8 +61,8 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 py-24">
-        <div className="rounded-[4rem] bg-slate-900 p-12 md:p-32 text-center relative overflow-hidden group">
+      <section className="w-full mt-12 md:mt-24">
+        <div className="bg-slate-900 py-20 px-6 md:py-32 text-center relative overflow-hidden group">
            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-blue/20 blur-[120px] rounded-full animate-float"></div>
            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary-pink/10 blur-[120px] rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
            

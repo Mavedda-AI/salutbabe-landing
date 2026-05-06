@@ -39,7 +39,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white text-slate-900 overflow-hidden pt-24 pb-8 selection:bg-blue-200 transition-colors duration-300">
+    <footer className="bg-white dark:bg-slate-950 text-slate-900 dark:text-white overflow-hidden pt-24 pb-8 selection:bg-blue-200 dark:selection:bg-blue-900 transition-colors duration-300">
       <style>{`
         @keyframes brandShift {
           0% { background-position: 0% 50%; }
@@ -50,12 +50,15 @@ const Footer = () => {
         [data-brand-wordmark] {
           position: relative;
           display: inline-block;
-          color: transparent;
+          color: inherit;
+          -webkit-text-fill-color: currentColor;
+          -webkit-text-stroke: 0.02em transparent;
           background-image: linear-gradient(110deg, #FF007A 0%, #00B2FF 50%, #FF007A 100%);
           background-size: 200% auto;
           -webkit-background-clip: text;
           background-clip: text;
           animation: brandShift 5.2s ease-in-out infinite;
+          font-family: 'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif;
         }
 
         [data-underline-link] {
@@ -125,7 +128,7 @@ const Footer = () => {
                 </span>
               </Link>
               <p className="font-bold text-[13px] uppercase tracking-wide opacity-90">
-                Premium Baby Platform
+                Anneden Anneye Güvenli Alışveriş
               </p>
             </div>
             <div className="text-[13px] opacity-60 leading-relaxed font-medium space-y-1">
@@ -220,13 +223,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="w-full mt-16 mb-8 md:mb-12 flex justify-center select-none pointer-events-none">
-          <div className="relative inline-block">
-            <h2 className="text-[11vw] font-black tracking-[-0.04em] text-slate-900/5 leading-none whitespace-nowrap">
+        <div className="w-full mt-16 mb-8 md:mb-12 flex justify-center select-none pointer-events-none overflow-hidden">
+          <div className="relative inline-block pb-4 pr-4">
+            <h2 className="text-[10vw] font-black tracking-[-0.04em] text-black/5 dark:text-white/5 leading-none whitespace-nowrap" style={{ fontFamily: "'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif" }}>
               salutbabe
             </h2>
-            <div className="absolute inset-0 overflow-hidden" style={{ clipPath: 'inset(0px 0% 0px 0px)' }}>
-              <h2 className="text-[11vw] font-black tracking-[-0.04em] leading-none whitespace-nowrap">
+            <div className="absolute inset-0">
+              <h2 className="text-[10vw] font-black tracking-[-0.04em] text-black dark:text-white leading-none whitespace-nowrap" style={{ fontFamily: "'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif" }}>
                 <span data-brand-wordmark="true">salutbabe</span>
               </h2>
             </div>
