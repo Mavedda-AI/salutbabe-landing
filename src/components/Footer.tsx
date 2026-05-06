@@ -1,11 +1,18 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import {useThemeLanguage} from "../context/ThemeLanguageContext";
 
 const Footer = () => {
   const pathname = usePathname();
+  const { language } = useThemeLanguage();
+  
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [isLegalOpen, setIsLegalOpen] = useState(false);
+  const [activeLegalTab, setActiveLegalTab] = useState('kvkk');
 
   if (pathname && pathname.startsWith('/admin')) {
     return null;
@@ -175,24 +182,19 @@ const Footer = () => {
               </p>
               <ul className="flex flex-col gap-2 list-none">
                 <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/contact">
+                  <button onClick={() => setIsContactOpen(true)} className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity">
                     {renderAnimatedWord("Contact")}
-                  </Link>
+                  </button>
                 </li>
                 <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/faq">
+                  <button onClick={() => setIsFaqOpen(true)} className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity">
                     {renderAnimatedWord("FAQ")}
-                  </Link>
+                  </button>
                 </li>
                 <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/privacy">
-                    {renderAnimatedWord("Privacy Policy")}
-                  </Link>
-                </li>
-                <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/terms">
-                    {renderAnimatedWord("Terms of Use")}
-                  </Link>
+                  <button onClick={() => setIsLegalOpen(true)} className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity">
+                    {renderAnimatedWord("Legal")}
+                  </button>
                 </li>
               </ul>
             </div>
@@ -254,6 +256,92 @@ const Footer = () => {
         </div>
 
       </div>
+
+      {/* Contact Popup */}
+      {isContactOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in-up" onClick={() => setIsContactOpen(false)}>
+          <div className="bg-background border border-border-color rounded-3xl p-8 max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button onClick={() => setIsContactOpen(false)} className="absolute top-6 right-6 text-text-secondary hover:text-text-primary transition-colors">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 className="text-2xl font-black mb-4">Contact Us</h3>
+            <p className="text-text-secondary mb-6 text-sm">We'd love to hear from you. Reach out to us through any of the following channels.</p>
+            <div className="space-y-4">
+              <a href="mailto:info@salutbabe.com" className="flex flex-col p-4 bg-surface rounded-xl border border-border-color hover:border-primary transition-colors">
+                <span className="font-bold text-sm text-text-primary">Email Support</span>
+                <span className="text-[12px] text-text-secondary">info@salutbabe.com</span>
+              </a>
+              <a href="tel:+908501234567" className="flex flex-col p-4 bg-surface rounded-xl border border-border-color hover:border-primary transition-colors">
+                <span className="font-bold text-sm text-text-primary">Phone Support</span>
+                <span className="text-[12px] text-text-secondary">+90 (850) 123 45 67</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FAQ Popup */}
+      {isFaqOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in-up" onClick={() => setIsFaqOpen(false)}>
+          <div className="bg-background border border-border-color rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
+            <button onClick={() => setIsFaqOpen(false)} className="absolute top-6 right-6 text-text-secondary hover:text-text-primary transition-colors">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 className="text-2xl font-black mb-6">Frequently Asked Questions</h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-surface rounded-xl border border-border-color">
+                <h4 className="font-bold text-sm mb-2">How does salutbabe work?</h4>
+                <p className="text-text-secondary text-sm">salutbabe is a secure marketplace connecting mothers. You can list your baby items or purchase from others safely.</p>
+              </div>
+              <div className="p-4 bg-surface rounded-xl border border-border-color">
+                <h4 className="font-bold text-sm mb-2">Is payment secure?</h4>
+                <p className="text-text-secondary text-sm">Yes, all payments are processed through secure payment gateways with buyer protection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Legal Popup */}
+      {isLegalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in-up" onClick={() => setIsLegalOpen(false)}>
+          <div className="bg-background border border-border-color rounded-3xl p-6 md:p-8 max-w-5xl w-full h-[85vh] flex flex-col relative" onClick={e => e.stopPropagation()}>
+            <button onClick={() => setIsLegalOpen(false)} className="absolute top-6 right-6 text-text-secondary hover:text-text-primary transition-colors z-10">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 className="text-2xl font-black mb-6 shrink-0">Legal Information</h3>
+            <div className="flex flex-col md:flex-row gap-6 h-full min-h-0">
+              {/* Tabs */}
+              <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto shrink-0 md:w-56 pb-2 md:pb-0 scrollbar-hide">
+                {[
+                  { id: 'kvkk', label: 'KVKK' },
+                  { id: 'terms-of-use', label: 'Terms of Use' },
+                  { id: 'distance-sales', label: 'Distance Sales' },
+                  { id: 'privacy-policy', label: 'Privacy Policy' },
+                  { id: 'delivery-returns', label: 'Delivery & Returns' },
+                  { id: 'cancellation-policy', label: 'Cancellation Policy' }
+                ].map(tab => (
+                  <button 
+                    key={tab.id}
+                    onClick={() => setActiveLegalTab(tab.id)}
+                    className={`whitespace-nowrap text-left px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all duration-300 ${activeLegalTab === tab.id ? 'bg-primary text-white shadow-md' : 'bg-surface text-text-secondary hover:bg-surface/80 border border-transparent hover:border-border-color'}`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+              {/* Content Area (Iframe fetches from backend) */}
+              <div className="flex-1 bg-surface rounded-2xl border border-border-color overflow-hidden relative shadow-inner">
+                <iframe 
+                  src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api/v1'}/legal/${activeLegalTab}?lang=${language}`} 
+                  className="w-full h-full border-none"
+                  title="Legal Document"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };
