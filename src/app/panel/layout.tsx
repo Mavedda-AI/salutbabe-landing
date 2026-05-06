@@ -102,6 +102,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   console.log("Logged in User Role:", userType);
   const isAdmin = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
 
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+
+  const toggleMenu = (label: string) => {
+    setExpandedMenus(prev => 
+      prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]
+    );
+  };
+
   const normalUserNav = [
     { label: t('dashboard.nav_dashboard'), href: '/panel', desc: t('dashboard.nav_dashboard_desc') },
     { label: t('dashboard.nav_customers'), href: '/panel/customers', desc: t('dashboard.nav_customers_desc') },
@@ -110,16 +118,111 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   ];
 
   const adminNav = [
-    { label: t('dashboard.nav_admin_users'), href: '/panel/admin/users', desc: t('dashboard.nav_admin_users_desc') },
-    { label: t('dashboard.nav_admin_products'), href: '/panel/admin/products', desc: t('dashboard.nav_admin_products_desc') },
-    { label: t('dashboard.nav_admin_complaints'), href: '/panel/admin/complaints', desc: t('dashboard.nav_admin_complaints_desc') },
-    { label: t('dashboard.nav_admin_reviews'), href: '/panel/admin/reviews', desc: t('dashboard.nav_admin_reviews_desc') },
-    { label: t('dashboard.nav_admin_questions'), href: '/panel/admin/questions', desc: t('dashboard.nav_admin_questions_desc') },
-    { label: t('dashboard.nav_admin_settings'), href: '/panel/admin/settings', desc: t('dashboard.nav_admin_settings_desc') },
+    { 
+      label: t('dashboard.nav_dashboard'), 
+      href: '/panel', 
+      desc: t('dashboard.nav_dashboard_desc'),
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M10 3H3V10H10V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 3H14V10H21V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 14H14V21H21V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M10 14H3V21H10V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )
+    },
+    { 
+      label: 'Kullanıcılar', 
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M17 16V18C17 19.1046 16.1046 20 15 20H5C3.89543 20 3 19.1046 3 18V16C3 13.7909 4.79086 12 7 12H13C15.2091 12 17 13.7909 17 16Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M10 12C12.2091 12 14 10.2091 14 8C14 5.79086 12.2091 4 10 4C7.79086 4 6 5.79086 6 8C6 10.2091 7.79086 12 10 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 16V18C21 18.5523 20.5523 19 20 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M18 12C19.6569 12 21 13.3431 21 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M15 4.5C16.3807 4.5 17.5 5.61929 17.5 7C17.5 8.38071 16.3807 9.5 15 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Kullanıcı Yönetimi', href: '/panel/admin/users' },
+        { label: 'Mağaza Yönetimi', href: '/panel/admin/stores' }
+      ] 
+    },
+    { 
+      label: 'Siparişler', 
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 8.5C3 7.11929 4.11929 6 5.5 6H18.5C19.8807 6 21 7.11929 21 8.5V17.5C21 19.9853 18.9853 22 16.5 22H7.5C5.01472 22 3 19.9853 3 17.5V8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M8 6V4.5C8 3.11929 9.11929 2 10.5 2H13.5C14.8807 2 16 3.11929 16 4.5V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 10H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Sipariş Yönetimi', href: '/panel/admin/orders' },
+        { label: 'Kargo Şirketleri', href: '/panel/admin/shipping' }
+      ] 
+    },
+    { 
+      label: 'Yorumlar ve Değerlendirmeler', 
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M8 10H16M8 14H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M7 22H11C13.8284 22 15.2426 22 16.1213 21.1213C17 20.2426 17 18.8284 17 16V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 14V6C21 3.17157 21 1.75736 20.1213 0.87868C19.2426 0 17.8284 0 15 0H7C4.17157 0 2.75736 0 1.87868 0.87868C1 1.75736 1 3.17157 1 6V16C1 18.8284 1 20.2426 1.87868 21.1213C2.75736 22 4.17157 22 7 22Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Ürün Yorumları', href: '/panel/admin/reviews' },
+        { label: 'Ürün Şikayetleri', href: '/panel/admin/complaints' },
+        { label: 'Mağaza Şikayetleri', href: '/panel/admin/store-complaints' },
+        { label: 'Kullanıcı Yorumları', href: '/panel/admin/user-reviews' }
+      ] 
+    },
+    { 
+      label: 'Ürünler', 
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 22V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 7L12 12L3 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Ürünler', href: '/panel/admin/products' },
+        { label: 'Kategoriler', href: '/panel/admin/categories' },
+        { label: 'Markalar', href: '/panel/admin/brands' }
+      ] 
+    },
+    { 
+      label: 'Sistem Ayarları', 
+      href: '/panel/admin/settings',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M19.6224 10.3954L18.4568 8.37738C17.6708 7.01599 17.2778 6.33529 17.5549 5.44781C17.8321 4.56034 18.4727 3.99042 19.7538 2.8506C19.7538 2.8506 19.7538 2.8506 19.7538 2.8506" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M12 2V4M12 20V22M4 12H2M22 12H20M5.636 5.636L7.05 7.05M16.95 16.95L18.364 18.364M18.364 5.636L16.95 7.05M7.05 16.95L5.636 18.364" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      )
+    },
   ];
 
   const activeNav = isAdmin ? adminNav : normalUserNav;
-  const activeMenu = activeNav.find(item => pathname === item.href) || activeNav[0];
+  const dashboardItem = activeNav[0];
+  const otherItems = activeNav.slice(1);
+  
+  // Find active menu for header title
+  const findActiveMenu = (items: any[]): any => {
+    for (const item of items) {
+      if (item.href === pathname) return item;
+      if (item.submenus) {
+        const activeSub = item.submenus.find((sub: any) => sub.href === pathname);
+        if (activeSub) return activeSub;
+      }
+    }
+    return items[0];
+  };
+
+  const activeMenu = findActiveMenu(activeNav);
 
   useEffect(() => {
     if (activeMenu?.label) {
@@ -169,37 +272,119 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           )}
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto no-scrollbar">
-          {activeNav.map((item, idx) => {
-            const isActive = pathname === item.href;
+        {/* Divider */}
+        <div className="px-6 mb-4">
+          <div className="h-px bg-white/10 w-full"></div>
+        </div>
+
+        {/* Dashboard Link (Separate) */}
+        <div className="px-4 mb-4">
+          <Link 
+            href={dashboardItem.href || '#'}
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
+              ${pathname === dashboardItem.href 
+                ? 'bg-white text-[#1A2332] shadow-lg shadow-white/10' 
+                : 'text-white/60 hover:bg-white/5 hover:text-white'
+              }`}
+          >
+            <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
+              <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === dashboardItem.href ? 'text-[#1A2332]' : 'text-inherit'}`}>
+                {dashboardItem.icon || (
+                  <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                )}
+              </div>
+            </div>
+            {!isSidebarCollapsed && (
+              <span className="font-bold text-[13px] whitespace-nowrap overflow-hidden text-ellipsis">{dashboardItem.label}</span>
+            )}
+          </Link>
+        </div>
+
+        {/* Divider */}
+        <div className="px-6 mb-4">
+          <div className="h-px bg-white/10 w-full"></div>
+        </div>
+
+        {/* Navigation (Other Items with Submenus) */}
+        <nav className="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
+          {otherItems.map((item, idx) => {
+            const hasSubmenus = !!item.submenus;
+            const isExpanded = expandedMenus.includes(item.label);
+            const isActive = item.href === pathname || (item.submenus?.some(sub => sub.href === pathname));
+            
             return (
-              <Link 
-                key={idx} 
-                href={item.href}
-                className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
-                  ${isActive 
-                    ? 'bg-white text-[#1A2332] shadow-lg shadow-white/10' 
-                    : 'text-white/60 hover:bg-white/5 hover:text-white'
-                  }`}
-              >
-                <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
-                  {/* Placeholder Icon - Replace with actual icons later */}
-                  <div className={`w-5 h-5 rounded flex items-center justify-center ${isActive ? 'text-[#1A2332]' : 'text-inherit'}`}>
-                    <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
-                  </div>
-                </div>
-                {!isSidebarCollapsed && (
-                  <span className="font-bold text-[13px] whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
+              <div key={idx} className="space-y-1">
+                {hasSubmenus ? (
+                  <>
+                    <button 
+                      onClick={() => toggleMenu(item.label)}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group relative
+                        ${isActive && !isExpanded
+                          ? 'bg-white/10 text-white shadow-sm' 
+                          : 'text-white/60 hover:bg-white/5 hover:text-white'
+                        }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
+                          <div className="w-5 h-5 rounded flex items-center justify-center text-inherit">
+                            {item.icon || (
+                              <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                        {!isSidebarCollapsed && (
+                          <span className="font-bold text-[13px] whitespace-nowrap">{item.label}</span>
+                        )}
+                      </div>
+                      {!isSidebarCollapsed && (
+                        <svg className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      )}
+                    </button>
+                    
+                    {/* Submenus */}
+                    {!isSidebarCollapsed && isExpanded && (
+                      <div className="pl-12 space-y-1 mt-1 animate-in slide-in-from-top-2 duration-200">
+                        {item.submenus?.map((sub, sIdx) => (
+                          <Link 
+                            key={sIdx}
+                            href={sub.href}
+                            className={`block py-2 text-[12px] font-bold transition-all hover:text-white
+                              ${pathname === sub.href ? 'text-white' : 'text-white/40'}`}
+                          >
+                            • {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link 
+                    href={item.href || '#'}
+                    className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
+                      ${pathname === item.href 
+                        ? 'bg-white text-[#1A2332] shadow-lg shadow-white/10' 
+                        : 'text-white/60 hover:bg-white/5 hover:text-white'
+                      }`}
+                  >
+                    <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
+                      <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === item.href ? 'text-[#1A2332]' : 'text-inherit'}`}>
+                        <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                      </div>
+                    </div>
+                    {!isSidebarCollapsed && (
+                      <span className="font-bold text-[13px] whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
+                    )}
+                  </Link>
                 )}
-                {isSidebarCollapsed && (
-                  <div className="absolute left-full ml-4 px-3 py-2 bg-[#0F172A] text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-[100] border border-white/10 shadow-xl">
-                    {item.label}
-                  </div>
-                )}
-              </Link>
+              </div>
             );
           })}
         </nav>
