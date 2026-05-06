@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const DiscountCards = () => {
   const deals = [
@@ -45,16 +46,17 @@ const DiscountCards = () => {
             key={deal.id}
             className={`relative overflow-hidden rounded-[3rem] p-10 min-h-[400px] flex flex-col justify-between group transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 ${deal.color}`}
           >
-            {/* Background Image with Improved Visibility */}
+            {/* Background Image using next/image for better handling */}
             <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover:scale-110">
-                <img 
+                <Image 
                   src={deal.image} 
                   alt={deal.title} 
-                  className="w-full h-full object-cover mix-blend-multiply" 
+                  fill
+                  className="object-cover mix-blend-multiply" 
                 />
             </div>
 
-            {/* Gradient Overlay for better text readability */}
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-transparent pointer-events-none"></div>
             
             <div className="relative z-10">
@@ -65,7 +67,7 @@ const DiscountCards = () => {
                 {deal.title}
               </h3>
               <p className={`text-base font-semibold opacity-90 max-w-[240px] leading-relaxed ${deal.textColor}`}>
-                {deal.description}
+                {deal.description.replace(/\s+/g, ' ').trim()}
               </p>
             </div>
 
