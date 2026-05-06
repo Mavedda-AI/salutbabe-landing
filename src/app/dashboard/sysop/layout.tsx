@@ -3,8 +3,8 @@
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
-import {useThemeLanguage} from "../../context/ThemeLanguageContext";
-import {API_BASE_URL, apiUrl} from "../../lib/api";
+import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
+import {API_BASE_URL, apiUrl} from "../../../lib/api";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -111,16 +111,16 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   };
 
   const normalUserNav = [
-    { label: t('dashboard.nav_dashboard'), href: '/panel', desc: t('dashboard.nav_dashboard_desc') },
-    { label: t('dashboard.nav_customers'), href: '/panel/customers', desc: t('dashboard.nav_customers_desc') },
-    { label: t('dashboard.nav_products'), href: '/panel/products', desc: t('dashboard.nav_products_desc') },
-    { label: t('dashboard.nav_orders'), href: '/panel/orders', desc: t('dashboard.nav_orders_desc') },
+    { label: t('dashboard.nav_dashboard'), href: '/dashboard/sysop', desc: t('dashboard.nav_dashboard_desc') },
+    { label: t('dashboard.nav_customers'), href: '/dashboard/sysop/customers', desc: t('dashboard.nav_customers_desc') },
+    { label: t('dashboard.nav_products'), href: '/dashboard/sysop/products', desc: t('dashboard.nav_products_desc') },
+    { label: t('dashboard.nav_orders'), href: '/dashboard/sysop/orders', desc: t('dashboard.nav_orders_desc') },
   ];
 
   const adminNav = [
     { 
       label: t('dashboard.nav_dashboard'), 
-      href: '/panel', 
+      href: '/dashboard/sysop', 
       desc: t('dashboard.nav_dashboard_desc'),
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -143,8 +143,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: 'Kullanıcı Yönetimi', href: '/panel/admin/users' },
-        { label: 'Mağaza Yönetimi', href: '/panel/admin/stores' }
+        { label: 'Kullanıcı Yönetimi', href: '/dashboard/sysop/admin/users' },
+        { label: 'Mağaza Yönetimi', href: '/dashboard/sysop/admin/stores' }
       ] 
     },
     { 
@@ -157,12 +157,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: 'Sipariş Yönetimi', href: '/panel/admin/orders' },
-        { label: 'Kargo Şirketleri', href: '/panel/admin/shipping' }
+        { label: 'Sipariş Yönetimi', href: '/dashboard/sysop/admin/orders' },
+        { label: 'Kargo Şirketleri', href: '/dashboard/sysop/admin/shipping' }
       ] 
     },
     { 
-      label: 'Yorumlar ve Değerlendirmeler', 
+      label: 'Yorumlar', 
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M8 10H16M8 14H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -171,10 +171,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: 'Ürün Yorumları', href: '/panel/admin/reviews' },
-        { label: 'Ürün Şikayetleri', href: '/panel/admin/complaints' },
-        { label: 'Mağaza Şikayetleri', href: '/panel/admin/store-complaints' },
-        { label: 'Kullanıcı Yorumları', href: '/panel/admin/user-reviews' }
+        { label: 'Ürün Yorumları', href: '/dashboard/sysop/admin/reviews' },
+        { label: 'Ürün Şikayetleri', href: '/dashboard/sysop/admin/complaints' },
+        { label: 'Mağaza Şikayetleri', href: '/dashboard/sysop/admin/store-complaints' },
+        { label: 'Kullanıcı Yorumları', href: '/dashboard/sysop/admin/user-reviews' }
       ] 
     },
     { 
@@ -187,14 +187,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: 'Ürünler', href: '/panel/admin/products' },
-        { label: 'Kategoriler', href: '/panel/admin/categories' },
-        { label: 'Markalar', href: '/panel/admin/brands' }
+        { label: 'Ürünler', href: '/dashboard/sysop/admin/products' },
+        { label: 'Kategoriler', href: '/dashboard/sysop/admin/categories' },
+        { label: 'Markalar', href: '/dashboard/sysop/admin/brands' }
       ] 
     },
     { 
       label: 'Sistem Ayarları', 
-      href: '/panel/admin/settings',
+      href: '/dashboard/sysop/admin/settings',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -243,7 +243,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         <div className="relative flex items-center justify-center h-24 p-6">
           {!isSidebarCollapsed ? (
             <>
-              <Link href="/panel" className="flex items-center justify-center">
+              <Link href="/dashboard/sysop" className="flex items-center justify-center">
                  <img src="/logo-salutbabe.png" alt="Logo" className="h-7 w-auto brightness-0 invert" />
               </Link>
               <button 
