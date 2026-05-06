@@ -311,7 +311,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         <div className="px-4 mb-4">
           <Link 
             href={dashboardItem.href || '#'}
-            onClick={(e) => handleNavClick(e, dashboardItem.href)}
+            onClick={(e) => handleNavClick(e, dashboardItem.href || '#')}
             className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
               ${pathname === dashboardItem.href 
                 ? (theme === 'light' ? 'bg-text-primary text-white' : 'bg-white text-[#1A2332]')
@@ -385,7 +385,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                           <Link 
                             key={sIdx}
                             href={sub.href}
-                            onClick={(e) => handleNavClick(e, sub.href)}
+                            onClick={(e) => handleNavClick(e, sub.href || '#')}
                             className={`block py-2 text-[12px] font-bold transition-all
                               ${pathname === sub.href 
                                 ? (theme === 'light' ? 'text-text-primary' : 'text-white') 
@@ -400,7 +400,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                 ) : (
                   <Link 
                     href={item.href || '#'}
-                    onClick={(e) => handleNavClick(e, item.href)}
+                    onClick={(e) => handleNavClick(e, item.href || '#')}
                     className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
                       ${pathname === item.href 
                         ? (theme === 'light' ? 'bg-text-primary text-white' : 'bg-white text-[#1A2332]')
