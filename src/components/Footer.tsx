@@ -222,11 +222,11 @@ const Footer = () => {
         </div>
 
         <div className="w-full mt-16 mb-8 md:mb-12 flex justify-center select-none pointer-events-none overflow-hidden">
-          <div className="relative inline-block pb-4 pr-4">
+          <div className="relative inline-block px-4 py-4 md:px-8">
             <h2 className="text-[10vw] font-black tracking-[-0.04em] text-text-primary/5 leading-none whitespace-nowrap" style={{ fontFamily: "'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif" }}>
               salutbabe
             </h2>
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 px-4 py-4 md:px-8">
               <h2 className="text-[10vw] font-black tracking-[-0.04em] text-text-primary leading-none whitespace-nowrap" style={{ fontFamily: "'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif" }}>
                 <span data-brand-wordmark="true">salutbabe</span>
               </h2>
@@ -279,20 +279,54 @@ const Footer = () => {
       {/* FAQ Popup */}
       {isFaqOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in-up" onClick={() => setIsFaqOpen(false)}>
-          <div className="bg-background border border-border-color rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
+          <div className="bg-background border border-border-color rounded-3xl p-6 md:p-8 max-w-3xl w-full max-h-[85vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
             <button onClick={() => setIsFaqOpen(false)} className="absolute top-6 right-6 text-text-secondary hover:text-text-primary transition-colors">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             <h3 className="text-2xl font-black mb-6">Frequently Asked Questions</h3>
-            <div className="space-y-4">
-              <div className="p-4 bg-surface rounded-xl border border-border-color">
-                <h4 className="font-bold text-sm mb-2">How does salutbabe work?</h4>
-                <p className="text-text-secondary text-sm">salutbabe is a secure marketplace connecting mothers. You can list your baby items or purchase from others safely.</p>
-              </div>
-              <div className="p-4 bg-surface rounded-xl border border-border-color">
-                <h4 className="font-bold text-sm mb-2">Is payment secure?</h4>
-                <p className="text-text-secondary text-sm">Yes, all payments are processed through secure payment gateways with buyer protection.</p>
-              </div>
+            <div className="space-y-3">
+              {[
+                {
+                  q: "What is salutbabe?",
+                  a: "salutbabe is a premium, secure marketplace dedicated entirely to mothers. You can easily buy and sell high-quality, pre-loved baby and maternity items in a trusted community."
+                },
+                {
+                  q: "How do I list my items for sale?",
+                  a: "Simply download our mobile app, take clear photos of your item, write a descriptive title and details, set a fair price, and publish. Your listing will instantly be available to thousands of mothers."
+                },
+                {
+                  q: "Is the payment secure?",
+                  a: "Absolutely. We use industry-leading secure payment gateways with an escrow-like system. The payment is held securely and only released to the seller once you receive and approve the item."
+                },
+                {
+                  q: "What happens if the item is not as described?",
+                  a: "If an item arrives damaged or significantly not as described, you have 48 hours to report it. Our buyer protection ensures you can return the item for a full refund."
+                },
+                {
+                  q: "How does shipping work?",
+                  a: "We provide integrated shipping codes. The seller just needs to pack the item, write the generated code on the box, and drop it off at the designated courier branch. Tracking is automatically updated."
+                },
+                {
+                  q: "Are there any seller fees?",
+                  a: "Listing an item is completely free. A small commission fee is only deducted when your item successfully sells, which covers the secure payment processing and platform maintenance."
+                },
+                {
+                  q: "How do I withdraw my earnings?",
+                  a: "Once a buyer confirms receipt of the item, the funds are added to your salutbabe wallet. You can instantly withdraw your balance to your registered bank account at any time."
+                }
+              ].map((faq, idx) => (
+                <details key={idx} className="group bg-surface rounded-xl border border-border-color cursor-pointer overflow-hidden transition-colors hover:border-primary">
+                  <summary className="font-bold text-[13px] md:text-sm list-none flex justify-between items-center p-4 outline-none">
+                    {faq.q}
+                    <svg className="w-5 h-5 text-text-secondary transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <p className="text-text-secondary text-[12px] md:text-[13px] leading-relaxed p-4 pt-0">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
         </div>
@@ -311,16 +345,16 @@ const Footer = () => {
               <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto shrink-0 md:w-56 pb-2 md:pb-0 scrollbar-hide">
                 {[
                   { id: 'kvkk', label: 'KVKK' },
-                  { id: 'terms-of-use', label: 'Terms of Use' },
-                  { id: 'distance-sales', label: 'Distance Sales' },
-                  { id: 'privacy-policy', label: 'Privacy Policy' },
-                  { id: 'delivery-returns', label: 'Delivery & Returns' },
-                  { id: 'cancellation-policy', label: 'Cancellation Policy' }
+                  { id: 'terms-of-use', label: 'TERMS OF USE' },
+                  { id: 'distance-sales', label: 'DISTANCE SALES' },
+                  { id: 'privacy-policy', label: 'PRIVACY POLICY' },
+                  { id: 'delivery-returns', label: 'DELIVERY & RETURNS' },
+                  { id: 'cancellation-policy', label: 'CANCELLATION POLICY' }
                 ].map(tab => (
                   <button 
                     key={tab.id}
                     onClick={() => setActiveLegalTab(tab.id)}
-                    className={`whitespace-nowrap text-left px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all duration-300 ${activeLegalTab === tab.id ? 'bg-primary text-white shadow-md' : 'bg-surface text-text-secondary hover:bg-surface/80 border border-transparent hover:border-border-color'}`}
+                    className={`whitespace-nowrap text-left px-4 py-3 rounded-xl text-[12px] font-bold tracking-wider transition-all duration-300 ${activeLegalTab === tab.id ? 'bg-primary text-white shadow-md' : 'bg-surface text-text-secondary hover:bg-surface/80 border border-transparent hover:border-border-color'}`}
                   >
                     {tab.label}
                   </button>
