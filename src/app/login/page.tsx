@@ -36,12 +36,12 @@ const LoginPage = () => {
       body: JSON.stringify(payload),
     });
 
+    const json = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data?.message || "Authentication failed.");
+      throw new Error(json?.request?.resultMessage || json?.message || "Authentication failed.");
     }
 
-    const json = await res.json();
     return json;
   };
 
@@ -52,15 +52,17 @@ const LoginPage = () => {
       const { idToken, user: firebaseUser } = await signInWithGoogle();
       const result = await sendToBackend(idToken, "google", firebaseUser);
 
-      if (result?.data?.needsRegistration) {
+      if (result?.payload?.needsRegistration) {
         window.location.href = "/register?provider=google";
-      } else {
-        const { token, user } = result.data;
-        localStorage.setItem("auth_token", token || "");
-        localStorage.setItem("token", token || ""); // For Admin compatibility
+      } else if (result?.payload?.token) {
+        const { token, user } = result.payload;
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem("token", token); // For Admin compatibility
         if (user) localStorage.setItem("user", JSON.stringify(user));
         
         window.location.href = "/";
+      } else {
+        throw new Error(result?.request?.resultMessage || "Login failed.");
       }
     } catch (err: any) {
       showToast(err.message || "Google sign-in failed.", "error");
@@ -76,15 +78,17 @@ const LoginPage = () => {
       const { idToken, user: firebaseUser } = await signInWithApple();
       const result = await sendToBackend(idToken, "apple", firebaseUser);
 
-      if (result?.data?.needsRegistration) {
+      if (result?.payload?.needsRegistration) {
         window.location.href = "/register?provider=apple";
-      } else {
-        const { token, user } = result.data;
-        localStorage.setItem("auth_token", token || "");
-        localStorage.setItem("token", token || ""); // For Admin compatibility
+      } else if (result?.payload?.token) {
+        const { token, user } = result.payload;
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem("token", token); // For Admin compatibility
         if (user) localStorage.setItem("user", JSON.stringify(user));
 
         window.location.href = "/";
+      } else {
+        throw new Error(result?.request?.resultMessage || "Login failed.");
       }
     } catch (err: any) {
       showToast(err.message || "Apple sign-in failed.", "error");
@@ -117,16 +121,15 @@ const LoginPage = () => {
         throw new Error(data?.request?.resultMessage || data?.message || "Login failed.");
       }
 
-      const { token, user } = data.payload || {};
-
-      if (token) {
+      if (data?.payload?.token) {
+        const { token, user } = data.payload;
         localStorage.setItem("auth_token", token);
         localStorage.setItem("token", token); // For Admin compatibility
         if (user) localStorage.setItem("user", JSON.stringify(user));
         
         window.location.href = "/";
       } else {
-        throw new Error("Invalid response from server.");
+        throw new Error(data?.request?.resultMessage || "Invalid response from server.");
       }
     } catch (err: any) {
       showToast(err.message || "Something went wrong.", "error");
@@ -190,7 +193,7 @@ const LoginPage = () => {
               <div className="w-full border-t border-border-color"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-surface text-text-secondary">Or use email</span>
+              <span className="px-4 bg-surface text-text-secondary">or use email</span>
             </div>
           </div>
 
