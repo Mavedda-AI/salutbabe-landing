@@ -152,7 +152,7 @@ const Header = () => {
                   </Link>
 
                   <Link 
-                    href="/admin" 
+                    href="/panel" 
                     className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity whitespace-nowrap"
                   >
                     {t("header.back_to_panel")}

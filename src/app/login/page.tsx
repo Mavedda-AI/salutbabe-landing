@@ -67,7 +67,7 @@ const LoginPage = () => {
       } else {
         // Redirect to seller panel. Since /panel doesn't exist yet, we go to home 
         // or a dedicated dashboard if provided. For now, home is the fallback.
-        window.location.href = "/";
+        window.location.href = "/panel";
       }
       return;
     }
@@ -155,7 +155,7 @@ const LoginPage = () => {
         if (isAdmin) {
           window.location.href = "/admin";
         } else {
-          window.location.href = "/";
+          window.location.href = "/panel";
         }
       } else {
         throw new Error(data?.request?.resultMessage || "Invalid response from server.");
