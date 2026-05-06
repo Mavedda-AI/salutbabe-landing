@@ -1,16 +1,12 @@
 "use client";
 
-import React, {useState} from "react";
-import Link from "next/link";
-import {useThemeLanguage} from "../../context/ThemeLanguageContext";
-import {signInWithApple, signInWithGoogle} from "../../lib/firebase";
-import {apiUrl} from "../../lib/api";
+import {useToast} from "../../context/ToastContext";
 
 const RegisterPage = () => {
   const { t } = useThemeLanguage();
+  const { showToast } = useToast();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<"google" | "apple" | "email" | null>(null);
-  const [error, setError] = useState("");
 
   // ── Shared: send idToken to backend social-login endpoint ───────────────────
   const sendToBackend = async (idToken: string, provider: "google" | "apple", user: any) => {
@@ -45,7 +41,6 @@ const RegisterPage = () => {
   // ── Google ──────────────────────────────────────────────────────────────────
   const handleGoogleLogin = async () => {
     setLoading("google");
-    setError("");
     try {
       const { idToken, user } = await signInWithGoogle();
       const result = await sendToBackend(idToken, "google", user);
@@ -57,7 +52,7 @@ const RegisterPage = () => {
         window.location.href = "/";
       }
     } catch (err: any) {
-      setError(err.message || "Google registration failed.");
+      showToast(err.message || "Google registration failed.", "error");
     } finally {
       setLoading(null);
     }
@@ -66,7 +61,6 @@ const RegisterPage = () => {
   // ── Apple ───────────────────────────────────────────────────────────────────
   const handleAppleLogin = async () => {
     setLoading("apple");
-    setError("");
     try {
       const { idToken, user } = await signInWithApple();
       const result = await sendToBackend(idToken, "apple", user);
@@ -78,7 +72,7 @@ const RegisterPage = () => {
         window.location.href = "/";
       }
     } catch (err: any) {
-      setError(err.message || "Apple registration failed.");
+      showToast(err.message || "Apple registration failed.", "error");
     } finally {
       setLoading(null);
     }
@@ -89,12 +83,11 @@ const RegisterPage = () => {
     e.preventDefault();
     if (!email) return;
     setLoading("email");
-    setError("");
     try {
       // Redirect to details to complete registration
       window.location.href = `/register/details?email=${encodeURIComponent(email)}`;
     } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+      showToast(err.message || "Something went wrong.", "error");
     } finally {
       setLoading(null);
     }
@@ -108,12 +101,6 @@ const RegisterPage = () => {
             <h1 className="text-3xl font-black text-text-primary mb-3">Join salutbabe.</h1>
             <p className="text-text-secondary text-sm">Create an account to get started.</p>
           </div>
-
-          {error && (
-            <div className="mb-6 px-4 py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
-              {error}
-            </div>
-          )}
 
           <div className="space-y-4">
             <button
