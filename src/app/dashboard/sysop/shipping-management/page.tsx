@@ -160,11 +160,7 @@ export default function ShippingManagementPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-black text-text-primary">{t('dashboard.shipping.title')}</h2>
-          <p className="text-sm font-bold text-text-secondary opacity-60 uppercase tracking-widest mt-1">{t('dashboard.shipping.subtitle')}</p>
-        </div>
+      <div className="flex justify-end">
         <button 
           onClick={handleAdd}
           className="h-12 px-8 bg-primary text-white font-black rounded-2xl shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"

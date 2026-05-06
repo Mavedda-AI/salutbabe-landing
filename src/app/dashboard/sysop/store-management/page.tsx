@@ -13,7 +13,7 @@ interface Store {
     userID: string;
     userName: string;
     userSurname: string;
-    userEmail: string;
+    eMail: string;
   };
   addressMappings: any[];
 }
@@ -71,10 +71,6 @@ export default function StoreManagementPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div>
-        <h2 className="text-2xl font-black text-text-primary">{t('dashboard.stores.title')}</h2>
-        <p className="text-sm font-bold text-text-secondary opacity-60 uppercase tracking-widest mt-1">{t('dashboard.stores.subtitle')}</p>
-      </div>
 
       <div className={`rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
         <table className="w-full text-left border-collapse">
@@ -107,7 +103,7 @@ export default function StoreManagementPage() {
                 <td className="px-8 py-5">
                   <div className="flex flex-col">
                     <span className="font-bold text-text-primary">{store.owner?.userName} {store.owner?.userSurname}</span>
-                    <span className="text-[11px] font-medium text-text-secondary opacity-60">{store.owner?.userEmail}</span>
+                    <span className="text-[11px] font-medium text-text-secondary opacity-60">{store.owner?.eMail}</span>
                   </div>
                 </td>
                 <td className="px-8 py-5">

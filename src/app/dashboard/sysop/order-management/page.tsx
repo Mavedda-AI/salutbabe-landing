@@ -64,10 +64,6 @@ export default function OrderManagementPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div>
-        <h2 className="text-2xl font-black text-text-primary">{t('dashboard.orders.title')}</h2>
-        <p className="text-sm font-bold text-text-secondary opacity-60 uppercase tracking-widest mt-1">{t('dashboard.orders.subtitle')}</p>
-      </div>
 
       <div className={`rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
         <table className="w-full text-left border-collapse">
