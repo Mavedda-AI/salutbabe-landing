@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {useThemeLanguage} from "../context/ThemeLanguageContext";
+import {CONTACT_INFO, SOCIAL_LINKS} from "../constants";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -137,11 +138,11 @@ const Footer = () => {
               </p>
             </div>
             <div className="text-[13px] opacity-60 leading-relaxed font-medium space-y-1">
-              <a href="mailto:info@salutbabe.com" className="flex items-center gap-2 w-fit hover:text-primary transition-colors">
+              <a href={`mailto:${CONTACT_INFO.email}`} className="flex items-center gap-2 w-fit hover:text-primary transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
-                info@salutbabe.com
+                {CONTACT_INFO.email}
               </a>
             </div>
           </div>
@@ -205,17 +206,12 @@ const Footer = () => {
               </p>
               <ul className="flex flex-col gap-2 list-none">
                 <li className="m-0">
-                  <a target="_blank" rel="noopener noreferrer" className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="https://www.instagram.com/salutbabe/">
+                  <a target="_blank" rel="noopener noreferrer" className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href={SOCIAL_LINKS.instagram}>
                     {renderAnimatedWord("Instagram")}
                   </a>
                 </li>
                 <li className="m-0">
-                  <a target="_blank" rel="noopener noreferrer" className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="https://www.tiktok.com/@salutbabe">
-                    {renderAnimatedWord("TikTok")}
-                  </a>
-                </li>
-                <li className="m-0">
-                  <a target="_blank" rel="noopener noreferrer" className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/company/salutbabe">
+                  <a target="_blank" rel="noopener noreferrer" className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href={SOCIAL_LINKS.linkedin}>
                     {renderAnimatedWord("LinkedIn")}
                   </a>
                 </li>
@@ -267,13 +263,13 @@ const Footer = () => {
             <h3 className="text-2xl font-black mb-4">Contact Us</h3>
             <p className="text-text-secondary mb-6 text-sm">We'd love to hear from you. Reach out to us through any of the following channels.</p>
             <div className="space-y-4">
-              <a href="mailto:info@salutbabe.com" className="flex flex-col p-4 bg-surface rounded-xl border border-border-color hover:border-primary transition-colors">
+              <a href={`mailto:${CONTACT_INFO.email}`} className="flex flex-col p-4 bg-surface rounded-xl border border-border-color hover:border-primary transition-colors">
                 <span className="font-bold text-sm text-text-primary">Email Support</span>
-                <span className="text-[12px] text-text-secondary">info@salutbabe.com</span>
+                <span className="text-[12px] text-text-secondary">{CONTACT_INFO.email}</span>
               </a>
-              <a href="tel:+908501234567" className="flex flex-col p-4 bg-surface rounded-xl border border-border-color hover:border-primary transition-colors">
+              <a href={`tel:${CONTACT_INFO.phone.replace(/[^+\d]/g, '')}`} className="flex flex-col p-4 bg-surface rounded-xl border border-border-color hover:border-primary transition-colors">
                 <span className="font-bold text-sm text-text-primary">Phone Support</span>
-                <span className="text-[12px] text-text-secondary">+90 (850) 123 45 67</span>
+                <span className="text-[12px] text-text-secondary">{CONTACT_INFO.phone}</span>
               </a>
             </div>
           </div>
