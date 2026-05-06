@@ -1,5 +1,4 @@
 import React from "react";
-import BentoHero from "../components/BentoHero";
 import ProductCard from "../components/ProductCard";
 import DiscountCards from "../components/DiscountCards";
 import Link from "next/link";
@@ -32,9 +31,6 @@ export default function Home() {
     <main className="min-h-screen">
       {/* Top Discount Section */}
       <DiscountCards />
-      
-      {/* Hero Section */}
-      <BentoHero />
       
       {/* Category Sections */}
       {categories.map((cat, idx) => (
