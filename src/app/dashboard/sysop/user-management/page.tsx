@@ -124,9 +124,42 @@ export default function AdminUsersPage() {
     }
   };
 
-  if (loading) {
-    return <div className="p-8 text-center text-text-secondary font-bold">{t('dashboard.loading_users')}</div>;
-  }
+  const LoadingSkeleton = () => (
+    <div className="flex flex-col gap-6 animate-pulse">
+      {/* Search & Filters Bar Skeleton */}
+      <div className={`p-4 rounded-[2rem] border flex items-center gap-4
+        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
+        <div className={`flex-1 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className="flex items-center gap-2">
+           {[1, 2, 3].map(i => <div key={i} className={`w-20 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />)}
+        </div>
+        <div className={`w-[1px] h-8 ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className="flex items-center gap-2">
+           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        </div>
+      </div>
+
+      {/* User Cards Skeleton */}
+      {[1, 2, 3, 4].map(i => (
+        <div key={i} className={`p-8 rounded-[2.5rem] border flex items-center gap-8
+          ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
+          <div className={`w-20 h-20 rounded-[2rem] ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          <div className="flex-1 space-y-2">
+            <div className={`w-48 h-5 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+            <div className={`w-32 h-3 rounded-full ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
+          </div>
+          <div className="hidden lg:flex flex-col gap-2 w-48">
+            <div className={`w-full h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+            <div className={`w-full h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          </div>
+          <div className={`w-32 h-10 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        </div>
+      ))}
+    </div>
+  );
+
+  if (loading) return <LoadingSkeleton />;
 
   return (
     <div className="flex flex-col gap-6">
