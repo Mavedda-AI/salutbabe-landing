@@ -16,7 +16,11 @@ const Leaderboard = () => {
     const fetchLeaderboard = async () => {
       setLoading(true);
       try {
-        const res = await fetch(apiUrl(`/leaderboard/sellers?timeframe=${timeframe}&metric=${metric}`));
+        const res = await fetch(apiUrl(`/leaderboard/sellers?timeframe=${timeframe}&metric=${metric}`), {
+          headers: {
+            'X-Device-Type': 'web'
+          }
+        });
         const json = await res.json();
         if (json.payload) {
           setSellers(json.payload);
@@ -30,6 +34,15 @@ const Leaderboard = () => {
 
     fetchLeaderboard();
   }, [timeframe, metric]);
+
+  const getPhotoUrl = (url: string) => {
+    if (!url) return null;
+    if (url.startsWith('http') || url.startsWith('/') || url.startsWith('blob:') || url.startsWith('data:')) {
+      return url;
+    }
+    // If it's a relative filename, prefix with the backend media path for users
+    return `https://api.salutbabe.com/v1/media/salutbabe-users/${url}`;
+  };
 
   const timeframes = [
     { id: "daily", label: t("leaderboard.tf_daily") },
@@ -105,9 +118,10 @@ const Leaderboard = () => {
                   <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 border-border-color group-hover:border-primary transition-colors">
                      {seller.seller.photoUrl ? (
                        <Image 
-                         src={seller.seller.photoUrl} 
+                         src={getPhotoUrl(seller.seller.photoUrl) || ""} 
                          alt={seller.seller.name} 
                          fill 
+                         sizes="(max-width: 768px) 80px, 100px"
                          className="object-cover"
                        />
                      ) : (

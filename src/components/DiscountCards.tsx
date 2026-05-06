@@ -41,17 +41,19 @@ const DiscountCards = () => {
   return (
     <section className="max-w-[1440px] mx-auto px-6 md:px-12 py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {deals.map((deal) => (
+        {deals.map((deal, index) => (
           <div 
             key={deal.id}
             className={`relative overflow-hidden rounded-[3rem] p-10 min-h-[400px] flex flex-col justify-between group transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 ${deal.color}`}
           >
-            {/* Background Image using next/image for better handling */}
+            {/* Background Image using next/image with performance optimizations */}
             <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover:scale-110">
                 <Image 
                   src={deal.image} 
                   alt={deal.title} 
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  priority={index === 0} // Priority for the first card (above the fold)
                   className="object-cover mix-blend-multiply" 
                 />
             </div>
