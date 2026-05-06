@@ -182,7 +182,7 @@ export default function AdminUsersPage() {
           {['ADMIN', 'SELLER', 'USER'].map(filter => (
             <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider transition-all
               ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
-              {filter}
+              {t('dashboard.role_' + filter.toLowerCase())}
             </button>
           ))}
         </div>
@@ -260,7 +260,7 @@ export default function AdminUsersPage() {
                          ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_15px_rgba(95,200,192,0.1)]' : 
                            role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
                            'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
-                         {role}
+                         {t('dashboard.role_' + role.toLowerCase())}
                        </span>
                      ))}
                   </div>
@@ -353,7 +353,7 @@ export default function AdminUsersPage() {
                        ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20' : 
                          role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
                          'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
-                       {role}
+                       {t('dashboard.role_' + role.toLowerCase())}
                      </span>
                    ))}
                 </div>
@@ -371,7 +371,7 @@ export default function AdminUsersPage() {
                  </div>
                  <div className="w-[1px] h-8 bg-text-secondary/10" />
                  <div className="text-center">
-                    <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">PENDING</p>
+                    <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.label_pending')}</p>
                     <div className="flex items-center gap-1 justify-center text-orange-400">
                        <span className="text-[20px] font-black">{user.pendingBalance || 0}</span>
                        <span className="text-[12px] font-black">₺</span>
@@ -526,7 +526,7 @@ export default function AdminUsersPage() {
                   ${roleInput.includes(role) 
                     ? 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(95,200,192,0.1)]' 
                     : theme === 'light' ? 'bg-gray-50 border-transparent hover:border-primary/20' : 'bg-white/5 border-transparent hover:border-white/10'}`}>
-                  <span className={`text-[14px] font-black transition-colors ${roleInput.includes(role) ? 'text-primary' : 'text-text-primary'}`}>{role}</span>
+                  <span className={`text-[14px] font-black transition-colors ${roleInput.includes(role) ? 'text-primary' : 'text-text-primary'}`}>{t('dashboard.role_' + role.toLowerCase())}</span>
                   <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
                     ${roleInput.includes(role) ? 'bg-primary border-primary' : 'border-text-secondary/20 group-hover:border-primary/50'}`}>
                     {roleInput.includes(role) && (
