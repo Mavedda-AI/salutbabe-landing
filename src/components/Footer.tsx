@@ -50,7 +50,7 @@ const Footer = () => {
           display: inline-block;
           color: inherit;
           -webkit-text-fill-color: currentColor;
-          -webkit-text-stroke: 0.02em transparent;
+          -webkit-text-stroke: 0.05em transparent;
           background-image: linear-gradient(110deg, #FF007A 0%, #00B2FF 50%, #FF007A 100%);
           background-size: 200% auto;
           -webkit-background-clip: text;
@@ -125,12 +125,17 @@ const Footer = () => {
                   <span data-brand-wordmark="true">salutbabe</span>
                 </span>
               </Link>
-              <p className="font-bold text-[13px] uppercase tracking-wide opacity-90">
+              <p className="font-semibold text-[10px] uppercase tracking-[0.15em] opacity-60">
                 Anneden Anneye Güvenli Alışveriş
               </p>
             </div>
             <div className="text-[13px] opacity-60 leading-relaxed font-medium space-y-1">
-              <a href="mailto:info@salutbabe.com" className="block w-fit hover:text-primary transition-colors">info@salutbabe.com</a>
+              <a href="mailto:info@salutbabe.com" className="flex items-center gap-2 w-fit hover:text-primary transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+                info@salutbabe.com
+              </a>
             </div>
           </div>
 
