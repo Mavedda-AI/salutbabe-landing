@@ -2,8 +2,10 @@
 
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../../../lib/api";
+import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 
 export default function AdminUsersPage() {
+  const { t } = useThemeLanguage();
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -54,15 +56,15 @@ export default function AdminUsersPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        alert("Bakiye başarıyla güncellendi.");
+        alert(t('dashboard.success') || "Başarılı");
         setEditingUser(null);
         fetchUsers();
       } else {
-        alert("Bakiye güncellenemedi.");
+        alert(t('dashboard.error') || "Hata oluştu");
       }
     } catch (e) {
       console.error(e);
-      alert("Bir hata oluştu.");
+      alert(t('dashboard.error') || "Hata oluştu");
     }
   };
 
@@ -101,15 +103,15 @@ export default function AdminUsersPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        alert("Rol başarıyla güncellendi.");
+        alert(t('dashboard.success') || "Başarılı");
         setEditingRoleUser(null);
         fetchUsers();
       } else {
-        alert("Rol güncellenemedi.");
+        alert(t('dashboard.error') || "Hata oluştu");
       }
     } catch (e) {
       console.error(e);
-      alert("Bir hata oluştu.");
+      alert(t('dashboard.error') || "Hata oluştu");
     }
   };
 
@@ -122,25 +124,25 @@ export default function AdminUsersPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-text-secondary font-bold">Kullanıcılar yükleniyor...</div>;
+    return <div className="p-8 text-center text-text-secondary font-bold">{t('dashboard.loading_users')}</div>;
   }
 
   return (
     <div className="bg-white dark:bg-surface rounded-3xl border border-border-color shadow-sm overflow-hidden">
       <div className="p-6 border-b border-border-color flex items-center justify-between">
-        <h2 className="text-lg font-black text-text-primary">Sistem Kullanıcıları</h2>
-        <div className="text-[12px] font-bold text-text-secondary">Toplam {users.length} kullanıcı</div>
+        <h2 className="text-lg font-black text-text-primary">{t('dashboard.admin_users_title')}</h2>
+        <div className="text-[12px] font-bold text-text-secondary">{t('dashboard.admin_users_total').replace('{count}', users.length.toString())}</div>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-border-color bg-[#F8F9FB] dark:bg-surface/50">
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">Kullanıcı</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">İletişim</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">Rol</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest text-right">Bakiye</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest text-center">İşlemler</th>
+              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">{t('dashboard.table_user')}</th>
+              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">{t('dashboard.table_contact')}</th>
+              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">{t('dashboard.table_role')}</th>
+              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest text-right">{t('dashboard.table_balance')}</th>
+              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest text-center">{t('dashboard.table_actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -153,13 +155,13 @@ export default function AdminUsersPage() {
                     </div>
                     <div>
                       <div className="font-bold text-[14px] text-text-primary">{user.userName} {user.userSurname}</div>
-                      <div className="text-[11px] font-bold text-text-secondary">@{user.userNickname || 'anonim'}</div>
+                      <div className="text-[11px] font-bold text-text-secondary">@{user.userNickname || t('dashboard.anonymous')}</div>
                     </div>
                   </div>
                 </td>
                 <td className="py-4 px-6">
                   <div className="text-[13px] font-bold text-text-primary">{user.eMail}</div>
-                  <div className="text-[11px] font-bold text-text-secondary">{user.phoneNumber || 'Telefon yok'}</div>
+                  <div className="text-[11px] font-bold text-text-secondary">{user.phoneNumber || t('dashboard.no_phone')}</div>
                 </td>
                 <td className="py-4 px-6">
                   <div className="flex gap-1 flex-wrap">
@@ -170,7 +172,7 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="py-4 px-6 text-right">
                   <div className="text-[14px] font-black text-text-primary">{user.balance || 0} ₺</div>
-                  <div className="text-[11px] font-bold text-orange-500 text-opacity-80">Bekleyen: {user.pendingBalance || 0} ₺</div>
+                  <div className="text-[11px] font-bold text-orange-500 text-opacity-80">{t('dashboard.pending_balance')}: {user.pendingBalance || 0} ₺</div>
                 </td>
                 <td className="py-4 px-6 text-center">
                   <div className="flex items-center justify-center gap-2">
@@ -182,7 +184,7 @@ export default function AdminUsersPage() {
                       }}
                       className="px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-[11px] font-black transition-colors"
                     >
-                      Bakiye
+                      {t('dashboard.btn_balance')}
                     </button>
                     <button 
                       onClick={() => {
@@ -191,13 +193,13 @@ export default function AdminUsersPage() {
                       }}
                       className="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500 text-blue-500 hover:text-white rounded-lg text-[11px] font-black transition-colors"
                     >
-                      Roller
+                      {t('dashboard.btn_roles')}
                     </button>
                     <button 
                       onClick={() => handleBlockUser(user.userID, !user.isActive)}
                       className={`px-3 py-1.5 rounded-lg text-[11px] font-black transition-colors ${!user.isActive ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}
                     >
-                      {!user.isActive ? 'Kaldır' : 'Engelle'}
+                      {!user.isActive ? t('dashboard.btn_unblock') : t('dashboard.btn_block')}
                     </button>
                   </div>
                 </td>

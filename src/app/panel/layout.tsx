@@ -45,19 +45,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const isAdmin = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
 
   const normalUserNav = [
-    { label: 'Dashboard', href: '/panel', desc: 'Mağaza özetiniz ve istatistikler' },
-    { label: 'Müşteri Yönetimi', href: '/panel/customers', desc: 'Müşterileriniz ve iletişim geçmişi' },
-    { label: 'Ürün Yönetimi', href: '/panel/products', desc: 'Ürün ekleme ve stok yönetimi' },
-    { label: 'Sipariş Yönetimi', href: '/panel/orders', desc: 'Siparişler, kargo ve iadeler' },
+    { label: t('dashboard.nav_dashboard'), href: '/panel', desc: t('dashboard.nav_dashboard_desc') },
+    { label: t('dashboard.nav_customers'), href: '/panel/customers', desc: t('dashboard.nav_customers_desc') },
+    { label: t('dashboard.nav_products'), href: '/panel/products', desc: t('dashboard.nav_products_desc') },
+    { label: t('dashboard.nav_orders'), href: '/panel/orders', desc: t('dashboard.nav_orders_desc') },
   ];
 
   const adminNav = [
-    { label: 'Kullanıcı Yönetimi', href: '/panel/admin/users', desc: 'Sistem kullanıcıları ve yetkilendirme' },
-    { label: 'Ürün Yönetimi', href: '/panel/admin/products', desc: 'Tüm ürünler ve onay süreçleri' },
-    { label: 'Ürün Şikayetleri', href: '/panel/admin/complaints', desc: 'Şikayet inceleme ve çözümleri' },
-    { label: 'Yorum Yönetimi', href: '/panel/admin/reviews', desc: 'Müşteri yorumları ve moderasyon' },
-    { label: 'Ürün Soruları', href: '/panel/admin/questions', desc: 'Satıcılara sorulan soruların takibi' },
-    { label: 'Sistem Ayarları', href: '/panel/admin/settings', desc: 'Komisyon oranları ve genel ayarlar' },
+    { label: t('dashboard.nav_admin_users'), href: '/panel/admin/users', desc: t('dashboard.nav_admin_users_desc') },
+    { label: t('dashboard.nav_admin_products'), href: '/panel/admin/products', desc: t('dashboard.nav_admin_products_desc') },
+    { label: t('dashboard.nav_admin_complaints'), href: '/panel/admin/complaints', desc: t('dashboard.nav_admin_complaints_desc') },
+    { label: t('dashboard.nav_admin_reviews'), href: '/panel/admin/reviews', desc: t('dashboard.nav_admin_reviews_desc') },
+    { label: t('dashboard.nav_admin_questions'), href: '/panel/admin/questions', desc: t('dashboard.nav_admin_questions_desc') },
+    { label: t('dashboard.nav_admin_settings'), href: '/panel/admin/settings', desc: t('dashboard.nav_admin_settings_desc') },
   ];
 
   const activeNav = isAdmin ? adminNav : normalUserNav;
@@ -80,7 +80,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
 
         <div className="px-6 mt-4 mb-2">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/50">MENÜ</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/50">{t('dashboard.menu')}</h3>
         </div>
 
         <nav className="px-3 space-y-1">
@@ -98,8 +98,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
 
         <div className="mt-auto p-6 bg-primary/5 mx-3 mb-6 rounded-2xl border border-primary/10">
-           <p className="text-[12px] font-bold text-text-primary mb-1">Yardım mı lazım?</p>
-           <button className="text-[11px] font-black text-primary hover:underline">Bize Yazın</button>
+           <p className="text-[12px] font-bold text-text-primary mb-1">{t('dashboard.need_help')}</p>
+           <button className="text-[11px] font-black text-primary hover:underline">{t('dashboard.contact_us')}</button>
         </div>
       </aside>
 
@@ -143,19 +143,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110]">
                  <div className="p-4 border-b border-border-color">
                     <p className="text-[12px] font-black text-text-primary truncate">{user?.userName} {user?.userSurname}</p>
-                    <p className="text-[10px] font-bold text-text-secondary uppercase tracking-tighter">Satıcı Hesabı</p>
+                    <p className="text-[10px] font-bold text-text-secondary uppercase tracking-tighter">{t('dashboard.seller_account')}</p>
                  </div>
                  <div className="p-2">
                    <Link href="/panel/settings" className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-text-secondary hover:bg-primary/5 hover:text-primary transition-all">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                      Profil Ayarları
+                      {t('dashboard.profile_settings')}
                    </Link>
                    <button 
                      onClick={handleLogout}
                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-red-500 hover:bg-red-500/5 transition-all text-left"
                    >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                      Çıkış Yap
+                      {t('dashboard.logout')}
                    </button>
                  </div>
               </div>
@@ -171,8 +171,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         {/* Mini Footer */}
         <footer className="py-6 px-10 border-t border-border-color bg-white dark:bg-surface/30">
           <div className="flex items-center justify-between">
-            <div className="text-[10px] font-bold text-text-secondary/60 uppercase tracking-wider">
-              developed by <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#7b61ff] font-black lowercase text-[12px]">salutbabe</span> . All rights reserved.
+            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider">
+              {t('dashboard.developed_by')} <span className="text-transparent bg-clip-text font-black text-[12px] bg-[linear-gradient(110deg,#FF007A_0%,#00B2FF_50%,#FF007A_100%)] bg-[length:200%_auto] animate-[brandShift_5.2s_ease-in-out_infinite]" style={{ WebkitTextStroke: "0.05em transparent" }}>salutbabe</span> {t('dashboard.all_rights')}
             </div>
             <div className="relative group flex items-center">
               <svg className="w-4 h-4 text-text-secondary/40 hover:text-primary transition-colors cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
