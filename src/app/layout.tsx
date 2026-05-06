@@ -1,5 +1,4 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import LayoutWrapper from "../components/LayoutWrapper";
 import "./globals.css";
 import {CartProvider} from "../context/CartContext";
 import {ThemeLanguageProvider} from "../context/ThemeLanguageContext";
@@ -28,9 +27,7 @@ export default function RootLayout({
           <ToastProvider>
             <CartProvider>
               <CartToast />
-              <Header />
-              <div className="relative pt-32">{children}</div>
-              <Footer />
+              <LayoutWrapper>{children}</LayoutWrapper>
             </CartProvider>
           </ToastProvider>
         </ThemeLanguageProvider>
