@@ -62,20 +62,20 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="w-full mt-12 md:mt-24">
-        <div className="bg-slate-900 py-20 px-6 md:py-32 text-center relative overflow-hidden group">
-           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-blue/20 blur-[120px] rounded-full animate-float"></div>
-           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary-pink/10 blur-[120px] rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="bg-surface py-20 px-6 md:py-32 text-center relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full animate-float"></div>
+           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/10 blur-[120px] rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
            
            <div className="relative z-10 max-w-3xl mx-auto">
-             <h2 className="text-4xl md:text-7xl font-black text-white mb-10 leading-[1.1] tracking-tight">
+             <h2 className="text-4xl md:text-7xl font-black text-text-primary mb-10 leading-[1.1] tracking-tight">
                Join the Modern <br />
-               <span className="text-accent-lime">Revolution.</span>
+               <span className="text-accent">Revolution.</span>
              </h2>
              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-               <Link href="/register" className="w-full sm:w-auto px-12 py-6 bg-accent-lime text-slate-900 rounded-full font-black text-sm hover:scale-105 transition-all duration-300 shadow-2xl shadow-lime-500/20 active:scale-95">
+               <Link href="/register" className="w-full sm:w-auto px-12 py-6 bg-accent text-text-primary rounded-full font-black text-sm hover:scale-105 transition-all duration-300 shadow-2xl shadow-accent/20 active:scale-95">
                  START SHOPPING NOW
                </Link>
-               <Link href="/download" className="w-full sm:w-auto px-12 py-6 bg-white/10 backdrop-blur-xl text-white border border-white/10 rounded-full font-black text-sm hover:bg-white/20 transition-all duration-300">
+               <Link href="/download" className="w-full sm:w-auto px-12 py-6 bg-background/10 backdrop-blur-xl text-text-primary border border-text-primary/10 rounded-full font-black text-sm hover:bg-background/20 transition-all duration-300">
                  DOWNLOAD OUR APP
                </Link>
              </div>
