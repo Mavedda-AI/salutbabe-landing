@@ -204,7 +204,17 @@ const LoginPage = () => {
       localStorage.setItem("auth_token", token);
       localStorage.setItem("token", token);
       if (user) localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "/panel";
+      
+      const userType = user?.userType || [];
+      const isAdmin = Array.isArray(userType) 
+        ? (userType.includes("SYSOP") || userType.includes("ADMIN"))
+        : (userType === "SYSOP" || userType === "ADMIN");
+        
+      if (isAdmin) {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/panel";
+      }
     } catch (err: any) {
       showToast(err.message || "Something went wrong.", "error");
     } finally {
