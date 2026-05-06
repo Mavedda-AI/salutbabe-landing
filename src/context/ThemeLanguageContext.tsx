@@ -11,7 +11,8 @@ export const dictionaries = {
       sell: "Satış Yap",
       search: "Ara",
       login: "Giriş Yap",
-      categories: "Kategoriler"
+      categories: "Kategoriler",
+      panel: "Panel"
     },
     home: {
       new_arrivals: "Yeni Gelenler",
@@ -67,7 +68,8 @@ export const dictionaries = {
       sell: "Sell",
       search: "Search",
       login: "Log in",
-      categories: "Categories"
+      categories: "Categories",
+      panel: "Panel"
     },
     home: {
       new_arrivals: "New Arrivals",
