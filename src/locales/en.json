@@ -151,6 +151,18 @@
     "notifications_close": "Close",
     "notifications_empty": "You have no new notifications.",
     "search_placeholder": "Search user, email or phone...",
+    "profile_title": "Profile Settings",
+    "profile_first_name": "FIRST NAME",
+    "profile_last_name": "LAST NAME",
+    "profile_nickname": "NICKNAME",
+    "profile_phone": "PHONE",
+    "profile_email": "EMAIL",
+    "email_not_editable": "Email address cannot be changed.",
+    "btn_save_profile": "SAVE PROFILE",
+    "security_settings": "SECURITY SETTINGS",
+    "security_desc": "Manage your password and account security.",
+    "btn_change_password": "CHANGE PASSWORD",
+    "profile_updated": "Profile updated successfully.",
     "sysop": {
       "nav_users": "Users",
       "nav_user_mgmt": "User Management",
@@ -184,19 +196,7 @@
       "no_records": "No transaction records found.",
       "default_desc": "General statistics and summaries",
       "anonymous": "Anonymous",
-      "notification": "Notification",
-      "profile_title": "Profile Settings",
-      "profile_first_name": "FIRST NAME",
-      "profile_last_name": "LAST NAME",
-      "profile_nickname": "NICKNAME",
-      "profile_phone": "PHONE",
-      "profile_email": "EMAIL",
-      "email_not_editable": "Email address cannot be changed.",
-      "btn_save_profile": "SAVE PROFILE",
-      "security_settings": "SECURITY SETTINGS",
-      "security_desc": "Manage your password and account security.",
-      "btn_change_password": "CHANGE PASSWORD",
-      "profile_updated": "Profile updated successfully."
+      "notification": "Notification"
     }
   }
 }
