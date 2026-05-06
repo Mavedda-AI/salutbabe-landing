@@ -27,8 +27,6 @@ const LoginPage = () => {
       },
     };
 
-    console.log(`[Auth] Sending payload to backend for ${provider}:`, payload);
-
     const res = await fetch(apiUrl("/auth/social-login"), {
       method: "POST",
       headers: { 
@@ -38,16 +36,12 @@ const LoginPage = () => {
       body: JSON.stringify(payload),
     });
 
-    console.log(`[Auth] Backend response status:`, res.status);
-
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      console.error(`[Auth] Backend error data:`, data);
       throw new Error(data?.message || "Authentication failed.");
     }
 
     const json = await res.json();
-    console.log(`[Auth] Backend success data:`, json);
     return json;
   };
 
@@ -55,17 +49,20 @@ const LoginPage = () => {
   const handleGoogleLogin = async () => {
     setLoading("google");
     try {
-      const { idToken, user } = await signInWithGoogle();
-      const result = await sendToBackend(idToken, "google", user);
+      const { idToken, user: firebaseUser } = await signInWithGoogle();
+      const result = await sendToBackend(idToken, "google", firebaseUser);
 
       if (result?.data?.needsRegistration) {
         window.location.href = "/register?provider=google";
       } else {
-        localStorage.setItem("auth_token", result?.data?.token || "");
+        const { token, user } = result.data;
+        localStorage.setItem("auth_token", token || "");
+        localStorage.setItem("token", token || ""); // For Admin compatibility
+        if (user) localStorage.setItem("user", JSON.stringify(user));
+        
         window.location.href = "/";
       }
     } catch (err: any) {
-      console.error("[Auth] Google sign-in process error:", err);
       showToast(err.message || "Google sign-in failed.", "error");
     } finally {
       setLoading(null);
@@ -76,17 +73,20 @@ const LoginPage = () => {
   const handleAppleLogin = async () => {
     setLoading("apple");
     try {
-      const { idToken, user } = await signInWithApple();
-      const result = await sendToBackend(idToken, "apple", user);
+      const { idToken, user: firebaseUser } = await signInWithApple();
+      const result = await sendToBackend(idToken, "apple", firebaseUser);
 
       if (result?.data?.needsRegistration) {
         window.location.href = "/register?provider=apple";
       } else {
-        localStorage.setItem("auth_token", result?.data?.token || "");
+        const { token, user } = result.data;
+        localStorage.setItem("auth_token", token || "");
+        localStorage.setItem("token", token || ""); // For Admin compatibility
+        if (user) localStorage.setItem("user", JSON.stringify(user));
+
         window.location.href = "/";
       }
     } catch (err: any) {
-      console.error("[Auth] Apple sign-in process error:", err);
       showToast(err.message || "Apple sign-in failed.", "error");
     } finally {
       setLoading(null);
@@ -114,11 +114,16 @@ const LoginPage = () => {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data?.request?.resultMessage || data?.message || "Login failed. Check your credentials.");
+        throw new Error(data?.request?.resultMessage || data?.message || "Login failed.");
       }
 
-      if (data?.payload?.token) {
-        localStorage.setItem("auth_token", data.payload.token);
+      const { token, user } = data.payload || {};
+
+      if (token) {
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem("token", token); // For Admin compatibility
+        if (user) localStorage.setItem("user", JSON.stringify(user));
+        
         window.location.href = "/";
       } else {
         throw new Error("Invalid response from server.");
