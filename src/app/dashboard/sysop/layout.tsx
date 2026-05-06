@@ -132,7 +132,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       )
     },
     { 
-      label: t('sysop.nav_users'), 
+      label: t('dashboard.sysop.nav_users'), 
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M17 16V18C17 19.1046 16.1046 20 15 20H5C3.89543 20 3 19.1046 3 18V16C3 13.7909 4.79086 12 7 12H13C15.2091 12 17 13.7909 17 16Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -143,12 +143,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('sysop.nav_user_mgmt'), href: '/dashboard/sysop/admin/users' },
-        { label: t('sysop.nav_store_mgmt'), href: '/dashboard/sysop/admin/stores' }
+        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/admin/users' },
+        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/admin/stores' }
       ] 
     },
     { 
-      label: t('sysop.nav_orders'), 
+      label: t('dashboard.sysop.nav_orders'), 
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M3 8.5C3 7.11929 4.11929 6 5.5 6H18.5C19.8807 6 21 7.11929 21 8.5V17.5C21 19.9853 18.9853 22 16.5 22H7.5C5.01472 22 3 19.9853 3 17.5V8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -157,12 +157,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('sysop.nav_order_mgmt'), href: '/dashboard/sysop/admin/orders' },
-        { label: t('sysop.nav_shipping_cos'), href: '/dashboard/sysop/admin/shipping' }
+        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/admin/orders' },
+        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/admin/shipping' }
       ] 
     },
     { 
-      label: t('sysop.nav_reviews'), 
+      label: t('dashboard.sysop.nav_reviews'), 
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M8 10H16M8 14H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -171,14 +171,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('sysop.nav_product_reviews'), href: '/dashboard/sysop/admin/reviews' },
-        { label: t('sysop.nav_product_complaints'), href: '/dashboard/sysop/admin/complaints' },
-        { label: t('sysop.nav_store_complaints'), href: '/dashboard/sysop/admin/store-complaints' },
-        { label: t('sysop.nav_user_reviews'), href: '/dashboard/sysop/admin/user-reviews' }
+        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/admin/reviews' },
+        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/admin/complaints' },
+        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/admin/store-complaints' },
+        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/admin/user-reviews' }
       ] 
     },
     { 
-      label: t('sysop.nav_products'), 
+      label: t('dashboard.sysop.nav_products'), 
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -187,13 +187,13 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('sysop.nav_products'), href: '/dashboard/sysop/admin/products' },
-        { label: t('sysop.nav_categories'), href: '/dashboard/sysop/admin/categories' },
-        { label: t('sysop.nav_brands'), href: '/dashboard/sysop/admin/brands' }
+        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/admin/products' },
+        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/admin/categories' },
+        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/admin/brands' }
       ] 
     },
     { 
-      label: t('sysop.nav_settings'), 
+      label: t('dashboard.sysop.nav_settings'), 
       href: '/dashboard/sysop/admin/settings',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -397,7 +397,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           {!isSidebarCollapsed && (
             <button className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-[12px] font-bold transition-all ${theme === 'light' ? 'border-border-color text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'border-white/10 text-white/60 hover:bg-white/5 hover:text-white'}`}>
                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-               {t('sysop.support_title')}
+               {t('dashboard.sysop.support_title')}
             </button>
           )}
 
@@ -445,7 +445,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
           <div className="flex flex-col justify-center">
              <h1 className="text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
-             <p className="text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('sysop.default_desc')}</p>
+             <p className="text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
           </div>
 
           <div className="flex-1"></div>
@@ -500,7 +500,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                                 <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-primary' : 'bg-transparent'}`}></div>
                               </div>
                               <div>
-                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.title || t('sysop.notification')}</h4>
+                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.title || t('dashboard.sysop.notification')}</h4>
                                 <p className="text-[12px] text-text-secondary leading-snug mb-2">{notif.body || notif.message || notif.notification?.body || ''}</p>
                                 <span className="text-[10px] font-bold text-text-secondary/80">
                                   {(notif.sentDate || notif.createdAt) ? new Date(notif.sentDate || notif.createdAt).toLocaleString(language === 'tr' ? 'tr-TR' : language === 'fr' ? 'fr-FR' : 'en-US') : ''}
