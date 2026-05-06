@@ -1,17 +1,13 @@
 "use client";
 
-import React, {useState} from "react";
-import Link from "next/link";
-import {useThemeLanguage} from "../../context/ThemeLanguageContext";
-import {signInWithApple, signInWithGoogle} from "../../lib/firebase";
-import {apiUrl} from "../../lib/api";
+import {useToast} from "../../context/ToastContext";
 
 const LoginPage = () => {
   const { t } = useThemeLanguage();
+  const { showToast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState<"google" | "apple" | "email" | null>(null);
-  const [error, setError] = useState("");
 
   // ── Shared: send idToken to backend social-login endpoint ───────────────────
   const sendToBackend = async (idToken: string, provider: "google" | "apple", user: any) => {
@@ -53,7 +49,6 @@ const LoginPage = () => {
   // ── Google ──────────────────────────────────────────────────────────────────
   const handleGoogleLogin = async () => {
     setLoading("google");
-    setError("");
     try {
       const { idToken, user } = await signInWithGoogle();
       const result = await sendToBackend(idToken, "google", user);
@@ -66,7 +61,7 @@ const LoginPage = () => {
       }
     } catch (err: any) {
       console.error("[Auth] Google sign-in process error:", err);
-      setError(err.message || "Google sign-in failed.");
+      showToast(err.message || "Google sign-in failed.", "error");
     } finally {
       setLoading(null);
     }
@@ -75,7 +70,6 @@ const LoginPage = () => {
   // ── Apple ───────────────────────────────────────────────────────────────────
   const handleAppleLogin = async () => {
     setLoading("apple");
-    setError("");
     try {
       const { idToken, user } = await signInWithApple();
       const result = await sendToBackend(idToken, "apple", user);
@@ -88,7 +82,7 @@ const LoginPage = () => {
       }
     } catch (err: any) {
       console.error("[Auth] Apple sign-in process error:", err);
-      setError(err.message || "Apple sign-in failed.");
+      showToast(err.message || "Apple sign-in failed.", "error");
     } finally {
       setLoading(null);
     }
@@ -99,7 +93,6 @@ const LoginPage = () => {
     e.preventDefault();
     if (!email || !password) return;
     setLoading("email");
-    setError("");
     try {
       const res = await fetch(apiUrl("/auth/sign-in"), {
         method: "POST",
@@ -126,7 +119,7 @@ const LoginPage = () => {
         throw new Error("Invalid response from server.");
       }
     } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+      showToast(err.message || "Something went wrong.", "error");
     } finally {
       setLoading(null);
     }
@@ -140,12 +133,6 @@ const LoginPage = () => {
             <h1 className="text-3xl font-black text-text-primary mb-3">Welcome to salutbabe.</h1>
             <p className="text-text-secondary text-sm">Sign in to your account.</p>
           </div>
-
-          {error && (
-            <div className="mb-6 px-4 py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
-              {error}
-            </div>
-          )}
 
           <div className="space-y-4">
             <button
