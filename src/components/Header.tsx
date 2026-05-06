@@ -13,6 +13,7 @@ const Header = () => {
   
   // Placeholder for login status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
