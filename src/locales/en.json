@@ -183,6 +183,7 @@
     "pref_language": "Language Choice",
     "theme_light": "Light Mode",
     "theme_dark": "Onyx Dark Mode",
+    "show_label": "SHOW",
     "sysop": {
       "nav_users": "Users",
       "nav_user_mgmt": "User Management",
