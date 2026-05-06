@@ -32,7 +32,10 @@ export default function OrderManagementPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(apiUrl(`/admin/orders?page=${p}&limit=20`), {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       const data = await res.json();
       if (data.payload) {

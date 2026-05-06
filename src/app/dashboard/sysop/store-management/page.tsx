@@ -28,7 +28,10 @@ export default function StoreManagementPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/stores"), {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       const data = await res.json();
       if (data.payload) {
@@ -53,7 +56,8 @@ export default function StoreManagementPage() {
         method: "PUT",
         headers: { 
           "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-Device-Type": "web"
         },
         body: JSON.stringify({ isActive: !currentStatus })
       });

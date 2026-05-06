@@ -33,7 +33,10 @@ export default function ShippingManagementPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/shipping"), {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       const data = await res.json();
       if (data.payload) {
@@ -80,7 +83,8 @@ export default function ShippingManagementPage() {
         method,
         headers: { 
           "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-Device-Type": "web"
         },
         body: JSON.stringify(currentCompany)
       });
@@ -102,7 +106,10 @@ export default function ShippingManagementPage() {
       const token = localStorage.getItem("token");
       await fetch(apiUrl(`/admin/shipping/${id}`), {
         method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       fetchCompanies();
     } catch (e) {
@@ -120,7 +127,10 @@ export default function ShippingManagementPage() {
       const token = localStorage.getItem("auth_token");
       const res = await fetch(apiUrl(`/admin/shipping/${companyId}/logo`), {
         method: "POST",
-        headers: { "Authorization": `Bearer ${token}` },
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        },
         body: formData
       });
       const data = await res.json();
