@@ -60,23 +60,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
   const activeNav = isAdmin ? adminNav : normalUserNav;
   const activeMenu = activeNav.find(item => pathname === item.href) || activeNav[0];
-    { id: 'home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/panel' },
-    { id: 'orders', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', href: '/panel/orders' },
-    { id: 'stats', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', href: '/panel/stats' },
-    { id: 'messages', icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z', href: '/panel/messages' },
-  ];
 
-  const workspaceNav = [
-    { label: 'Sipariş Listesi', count: 20, href: '/panel/orders' },
-    { label: 'Sevkiyatlar', count: 8, isNew: true, href: '/panel' },
-    { label: 'İade & Değişim', count: 4, href: '/panel/returns' },
-  ];
-
-  const settingsNav = [
-    { label: 'Takip Sayfası', href: '/panel/tracking' },
-    { label: 'Kargo Entegrasyonu', href: '/panel/carriers' },
-    { label: 'Otomasyonlar', href: '/panel/automation' },
-  ];
 
   return (
     <div className="min-h-screen bg-[#F8F9FB] dark:bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
@@ -123,35 +107,18 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
 
         <nav className="px-3 space-y-1">
-          {workspaceNav.map((item, idx) => (
+          {activeNav.map((item, idx) => (
             <Link 
               key={idx} 
               href={item.href}
-              className={`flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-[13px] transition-all ${pathname === item.href ? 'bg-white dark:bg-surface text-text-primary shadow-sm' : 'text-text-secondary hover:bg-black/5 hover:text-text-primary'}`}
+              className={`flex items-center justify-between px-4 py-3 rounded-xl font-bold text-[13px] transition-all ${pathname === item.href ? 'bg-white dark:bg-surface text-text-primary shadow-sm' : 'text-text-secondary hover:bg-black/5 hover:text-text-primary'}`}
             >
-              <div className="flex items-center gap-2">
-                <span>{item.label}</span>
-                {item.isNew && <span className="bg-primary/10 text-primary text-[9px] px-1.5 py-0.5 rounded-md font-black tracking-tighter">New {item.count}</span>}
-              </div>
-              {!item.isNew && <span className="opacity-40 text-[11px]">{item.count}</span>}
+              <span>{item.label}</span>
             </Link>
           ))}
         </nav>
 
-        <div className="p-6 mt-8">
-           <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-text-secondary/50 mb-4">SETTINGS</h3>
-           <nav className="space-y-1">
-             {settingsNav.map((item, idx) => (
-               <Link 
-                 key={idx} 
-                 href={item.href}
-                 className="block px-4 py-2 text-[13px] font-bold text-text-secondary hover:text-primary transition-colors"
-               >
-                 {item.label}
-               </Link>
-             ))}
-           </nav>
-        </div>
+
 
         <div className="mt-auto p-6 bg-primary/5 mx-3 mb-6 rounded-2xl border border-primary/10">
            <p className="text-[12px] font-bold text-text-primary mb-1">Yardım mı lazım?</p>
@@ -162,11 +129,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[70px]' : 'lg:pl-[310px]'} pl-[70px] min-h-screen relative`}>
         
         {/* Header */}
-        <header className="h-16 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
-          <div className="flex items-center gap-4 text-[13px] font-bold text-text-secondary">
-             <span className="hover:text-text-primary cursor-pointer transition-colors whitespace-nowrap">{user?.userName}'s Store</span>
-             <span className="opacity-30">/</span>
-             <span className="text-text-primary font-black">Shipments</span>
+        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
+          <div className="flex flex-col justify-center">
+             <h1 className="text-xl font-black text-text-primary leading-tight">{activeMenu?.label || "Dashboard"}</h1>
+             <p className="text-[12px] font-bold text-text-secondary">{activeMenu?.desc || "Genel istatistikler ve özetler"}</p>
           </div>
 
           <div className="flex-1"></div>
@@ -226,7 +192,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-text-primary text-background text-[10px] font-black rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap shadow-lg">
-                Build v{packageJson.version}
+                Build v0.1.0
               </div>
             </div>
           </div>
