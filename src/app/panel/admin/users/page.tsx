@@ -15,7 +15,7 @@ export default function AdminUsersPage() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("auth_token");
-      const res = await fetch(`${apiUrl}/v1/admin/users`, {
+      const res = await fetch(apiUrl("/admin/users"), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +39,7 @@ export default function AdminUsersPage() {
     if (!editingUser) return;
     try {
       const token = localStorage.getItem("auth_token");
-      const res = await fetch(`${apiUrl}/v1/admin/users/${editingUser.userID}/balance`, {
+      const res = await fetch(apiUrl(`/admin/users/${editingUser.userID}/balance`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function AdminUsersPage() {
     try {
       const token = localStorage.getItem("auth_token");
       const endpoint = isBlocked ? 'unblock' : 'block';
-      const res = await fetch(`${apiUrl}/v1/admin/users/${userID}/${endpoint}`, {
+      const res = await fetch(apiUrl(`/admin/users/${userID}/${endpoint}`), {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export default function AdminUsersPage() {
     if (!editingRoleUser) return;
     try {
       const token = localStorage.getItem("auth_token");
-      const res = await fetch(`${apiUrl}/v1/admin/users/${editingRoleUser.userID}/role`, {
+      const res = await fetch(apiUrl(`/admin/users/${editingRoleUser.userID}/role`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
