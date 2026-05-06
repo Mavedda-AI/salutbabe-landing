@@ -29,18 +29,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
     >
       <div className="aspect-[4/5] rounded-[2.5rem] bg-white border border-slate-50 overflow-hidden relative mb-6 transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-3">
         {/* Product Image Area */}
-        <div className="absolute inset-0 bg-slate-100/30 flex items-center justify-center p-8">
+        <div className="absolute inset-0 bg-slate-100/30">
           {image ? (
-            <div className="relative w-full h-full">
-              <Image 
-                src={image} 
-                alt={name} 
-                fill 
-                className="object-contain p-4 group-hover:scale-110 transition-transform duration-700" 
-              />
-            </div>
+            <Image 
+              src={image} 
+              alt={name} 
+              fill 
+              className="object-cover group-hover:scale-110 transition-transform duration-700" 
+            />
           ) : (
-            <div className="w-24 h-24 bg-slate-200 rounded-full animate-pulse"></div>
+            <div className="w-full h-full bg-slate-200 animate-pulse flex items-center justify-center">
+               <div className="w-12 h-12 rounded-full bg-slate-300"></div>
+            </div>
           )}
         </div>
 
