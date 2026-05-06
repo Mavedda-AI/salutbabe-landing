@@ -220,10 +220,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                                 <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-[#5FC8C0]' : 'bg-transparent'}`}></div>
                               </div>
                               <div>
-                                <h4 className="text-[13px] font-bold text-text-primary dark:text-white mb-1">{notif.title || 'Bildirim'}</h4>
-                                <p className="text-[12px] text-text-secondary dark:text-gray-300 leading-snug mb-2">{notif.body || notif.message}</p>
+                                <h4 className="text-[13px] font-bold text-text-primary dark:text-white mb-1">{notif.title || notif.notification?.title || 'Bildirim'}</h4>
+                                <p className="text-[12px] text-text-secondary dark:text-gray-300 leading-snug mb-2">{notif.body || notif.message || notif.notification?.body || ''}</p>
                                 <span className="text-[10px] font-bold text-text-secondary/80 dark:text-gray-500">
-                                  {notif.createdAt ? new Date(notif.createdAt).toLocaleString() : ''}
+                                  {(notif.sentDate || notif.createdAt) ? new Date(notif.sentDate || notif.createdAt).toLocaleString() : ''}
                                 </span>
                               </div>
                             </div>
