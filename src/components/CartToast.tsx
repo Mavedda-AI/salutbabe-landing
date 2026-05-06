@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import {useCart} from '../context/CartContext';
+import {usePathname} from 'next/navigation';
 
 const CartToast = () => {
-  const { showToast, toastProduct, setShowToast } = useCart();
+  const pathname = usePathname();
 
-  if (!toastProduct) return null;
+  if (!toastProduct || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')) return null;
 
   return (
     <div 
