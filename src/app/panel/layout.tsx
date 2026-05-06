@@ -39,7 +39,27 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
   if (!isAuthenticated) return null;
 
-  const mainNav = [
+  const userType = user?.userType || [];
+  const isAdmin = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
+
+  const normalUserNav = [
+    { label: 'Dashboard', href: '/panel', desc: 'Mağaza özetiniz ve istatistikler' },
+    { label: 'Müşteri Yönetimi', href: '/panel/customers', desc: 'Müşterileriniz ve iletişim geçmişi' },
+    { label: 'Ürün Yönetimi', href: '/panel/products', desc: 'Ürün ekleme ve stok yönetimi' },
+    { label: 'Sipariş Yönetimi', href: '/panel/orders', desc: 'Siparişler, kargo ve iadeler' },
+  ];
+
+  const adminNav = [
+    { label: 'Kullanıcı Yönetimi', href: '/panel/admin/users', desc: 'Sistem kullanıcıları ve yetkilendirme' },
+    { label: 'Ürün Yönetimi', href: '/panel/admin/products', desc: 'Tüm ürünler ve onay süreçleri' },
+    { label: 'Ürün Şikayetleri', href: '/panel/admin/complaints', desc: 'Şikayet inceleme ve çözümleri' },
+    { label: 'Yorum Yönetimi', href: '/panel/admin/reviews', desc: 'Müşteri yorumları ve moderasyon' },
+    { label: 'Ürün Soruları', href: '/panel/admin/questions', desc: 'Satıcılara sorulan soruların takibi' },
+    { label: 'Sistem Ayarları', href: '/panel/admin/settings', desc: 'Komisyon oranları ve genel ayarlar' },
+  ];
+
+  const activeNav = isAdmin ? adminNav : normalUserNav;
+  const activeMenu = activeNav.find(item => pathname === item.href) || activeNav[0];
     { id: 'home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', href: '/panel' },
     { id: 'orders', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', href: '/panel/orders' },
     { id: 'stats', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', href: '/panel/stats' },
