@@ -163,6 +163,13 @@
     "security_desc": "Manage your password and account security.",
     "btn_change_password": "CHANGE PASSWORD",
     "profile_updated": "Profile updated successfully.",
+    "tab_overview": "Overview",
+    "tab_preferences": "Preferences",
+    "tab_security": "Security",
+    "pref_theme": "Appearance Theme",
+    "pref_language": "Language Choice",
+    "theme_light": "Light Mode",
+    "theme_dark": "Onyx Dark Mode",
     "sysop": {
       "nav_users": "Users",
       "nav_user_mgmt": "User Management",

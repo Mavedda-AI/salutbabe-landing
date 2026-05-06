@@ -163,6 +163,13 @@
     "security_desc": "Gérez votre mot de passe et la sécurité de votre compte.",
     "btn_change_password": "CHANGER LE MOT DE PASSE",
     "profile_updated": "Profil mis à jour avec succès.",
+    "tab_overview": "Général",
+    "tab_preferences": "Préférences",
+    "tab_security": "Sécurité",
+    "pref_theme": "Thème d'Apparence",
+    "pref_language": "Choix de la Langue",
+    "theme_light": "Mode Clair",
+    "theme_dark": "Mode Sombre Onyx",
     "sysop": {
       "nav_users": "Utilisateurs",
       "nav_user_mgmt": "Gestion des Utilisateurs",

@@ -149,7 +149,14 @@
       "security_settings": "GÜVENLIK AYARLARI",
       "security_desc": "Şifrenizi ve hesap güvenliğinizi yönetin.",
       "btn_change_password": "ŞIFREYI DEĞIŞTIR",
-      "profile_updated": "Profil başarıyla güncellendi."
+      "profile_updated": "Profil başarıyla güncellendi.",
+      "tab_overview": "Genel Bakış",
+      "tab_preferences": "Tercihler",
+      "tab_security": "Güvenlik",
+      "pref_theme": "Görünüm Teması",
+      "pref_language": "Dil Seçimi",
+      "theme_light": "Aydınlık Mod",
+      "theme_dark": "Onyx Karanlık Mod"
     },
     "notifications_mark_read": "Tümünü okundu işaretle",
     "notifications_close": "Kapat",
