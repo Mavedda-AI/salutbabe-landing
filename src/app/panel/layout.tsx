@@ -130,11 +130,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB] dark:bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
       {/* Main Sidebar */}
       <aside 
-        className={`bg-[#1A2332] border-r border-white/5 fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}`}
+        className={`bg-[#0F172A] border-r border-white/5 fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">
@@ -195,7 +195,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                   <span className="font-bold text-[13px] whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
                 )}
                 {isSidebarCollapsed && (
-                  <div className="absolute left-full ml-4 px-3 py-2 bg-[#1A2332] text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-[100] border border-white/10 shadow-xl">
+                  <div className="absolute left-full ml-4 px-3 py-2 bg-[#0F172A] text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-[100] border border-white/10 shadow-xl">
                     {item.label}
                   </div>
                 )}
@@ -277,40 +277,40 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               {isNotificationOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationOpen(false)}></div>
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-[#232C41] text-text-primary dark:text-white border border-border-color dark:border-[#3A455C] rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
-                    <div className="p-4 border-b border-border-color dark:border-[#3A455C] flex items-center justify-between bg-gray-50 dark:bg-[#1B2333]">
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-surface text-text-primary dark:text-white border border-border-color rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
+                    <div className="p-4 border-b border-border-color flex items-center justify-between bg-gray-50 dark:bg-background">
                       <div>
                         <h3 className="text-[14px] font-bold text-text-primary dark:text-white">{t('dashboard.notifications_title')}</h3>
-                        <p className="text-[11px] text-text-secondary dark:text-gray-400 mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
+                        <p className="text-[11px] text-text-secondary dark:text-text-secondary mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <button onClick={handleMarkAllAsRead} className="text-[11px] font-bold text-[#5FC8C0] hover:underline">
+                        <button onClick={handleMarkAllAsRead} className="text-[11px] font-bold text-primary hover:underline">
                           {t('dashboard.notifications_mark_read')}
                         </button>
-                        <button onClick={() => setIsNotificationOpen(false)} className="text-text-secondary hover:text-text-primary dark:text-gray-400 dark:hover:text-white">
+                        <button onClick={() => setIsNotificationOpen(false)} className="text-text-secondary hover:text-text-primary">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                       </div>
                     </div>
                     
-                    <div className="flex-1 overflow-y-auto bg-white dark:bg-[#232C41]">
+                    <div className="flex-1 overflow-y-auto bg-surface">
                       {notifications.length === 0 ? (
-                        <div className="p-6 text-center text-[12px] text-text-secondary dark:text-gray-400">{t('dashboard.notifications_empty')}</div>
+                        <div className="p-6 text-center text-[12px] text-text-secondary">{t('dashboard.notifications_empty')}</div>
                       ) : (
                         notifications.map((notif: any) => (
                           <div 
                             key={notif.userNotificationID || notif.id || Math.random()} 
                             onClick={() => !notif.isRead && handleMarkAsRead(notif.userNotificationID || notif.id)}
-                            className="p-4 border-b border-border-color dark:border-[#3A455C] hover:bg-black/5 dark:hover:bg-[#2A354E] transition-colors relative cursor-pointer"
+                            className="p-4 border-b border-border-color hover:bg-black/5 dark:hover:bg-white/5 transition-colors relative cursor-pointer"
                           >
                             <div className="flex gap-3">
                               <div className="mt-1 flex-shrink-0">
-                                <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-[#5FC8C0]' : 'bg-transparent'}`}></div>
+                                <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-primary' : 'bg-transparent'}`}></div>
                               </div>
                               <div>
-                                <h4 className="text-[13px] font-bold text-text-primary dark:text-white mb-1">{notif.title || notif.notification?.title || 'Bildirim'}</h4>
-                                <p className="text-[12px] text-text-secondary dark:text-gray-300 leading-snug mb-2">{notif.body || notif.message || notif.notification?.body || ''}</p>
-                                <span className="text-[10px] font-bold text-text-secondary/80 dark:text-gray-500">
+                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.title || 'Bildirim'}</h4>
+                                <p className="text-[12px] text-text-secondary leading-snug mb-2">{notif.body || notif.message || notif.notification?.body || ''}</p>
+                                <span className="text-[10px] font-bold text-text-secondary/80">
                                   {(notif.sentDate || notif.createdAt) ? new Date(notif.sentDate || notif.createdAt).toLocaleString() : ''}
                                 </span>
                               </div>
@@ -320,8 +320,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                       )}
                     </div>
                     
-                    <div className="p-3 border-t border-border-color dark:border-[#3A455C] bg-gray-50 dark:bg-[#1B2333]">
-                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5 dark:text-white dark:hover:bg-[#2A354E] rounded-lg transition-colors">
+                    <div className="p-3 border-t border-border-color bg-gray-50 dark:bg-background">
+                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors">
                         {t('dashboard.notifications_close')}
                       </button>
                     </div>

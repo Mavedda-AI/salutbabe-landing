@@ -25,14 +25,14 @@
   --primary: #4FBEB7;
   --secondary: #FF85B2;
   --accent: #6ED89A;
-  --background: #121212;
-  --surface: #1E1E1E;
-  --text-primary: #FFFFFF;
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --border-color: #2D2D2D;
+  --background: #0F172A; /* Deeper, more premium dark blue/slate */
+  --surface: #1E293B;    /* Lighter slate for cards/surfaces */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --border-color: #334155;
   
-  --glass-bg: rgba(30, 30, 30, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(30, 41, 59, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 @theme {

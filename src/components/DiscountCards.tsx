@@ -11,30 +11,30 @@ const DiscountCards = () => {
       title: "Summer Sale",
       subtitle: "Up to 50% Off",
       description: "Get ready for sunny days with our summer essentials.",
-      color: "bg-[#FF9EBE]", 
+      color: "bg-secondary", 
       textColor: "text-white",
       buttonText: "SHOP SALE",
-      image: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&q=80&w=800",
+      image: "/images/deals/summer-sale.png",
     },
     {
       id: 2,
       title: "Newborn Essentials",
       subtitle: "Bundle & Save 20%",
       description: "Everything you need for your little one's first days.",
-      color: "bg-[#5FC8C0]", 
+      color: "bg-primary", 
       textColor: "text-white",
       buttonText: "VIEW BUNDLES",
-      image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=800",
+      image: "/images/deals/newborn.png",
     },
     {
       id: 3,
       title: "Eco-Friendly Tech",
       subtitle: "Smart & Green",
       description: "Modern monitors and gadgets with planet-friendly tech.",
-      color: "bg-[#7EDB9E]", 
-      textColor: "text-[#1A1A1A]",
+      color: "bg-accent", 
+      textColor: "text-text-primary",
       buttonText: "EXPLORE",
-      image: "https://images.unsplash.com/photo-1491677589976-429000f2eeba?auto=format&fit=crop&q=80&w=800",
+      image: "/images/deals/eco-tech.png",
     }
   ];
 
@@ -47,15 +47,14 @@ const DiscountCards = () => {
             className={`relative overflow-hidden rounded-[3rem] p-10 min-h-[400px] flex flex-col justify-between group transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 ${deal.color}`}
           >
             {/* Background Image using next/image with performance optimizations */}
-            <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover:scale-110">
+            <div className="absolute inset-0 opacity-60 transition-transform duration-1000 group-hover:scale-110">
                 <Image 
                   src={deal.image} 
                   alt={deal.title} 
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   priority={index === 0}
-                  className="object-cover mix-blend-multiply" 
-                  unoptimized // Bypass some Next.js image processing for these external URLs
+                  className="object-cover" 
                 />
             </div>
 
