@@ -6,7 +6,10 @@ import {ToastProvider} from "../context/ToastContext";
 import CartToast from "../components/CartToast";
 
 export const metadata = {
-  title: "SalutBabe",
+  title: {
+    template: "salutbabe | %s",
+    default: "salutbabe | Anneden Anneye",
+  },
   description: "SalutBabe - Eco-friendly and stylish baby clothes",
   icons: {
     icon: "/logo-favicon.png",
