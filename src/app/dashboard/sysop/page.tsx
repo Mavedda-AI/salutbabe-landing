@@ -16,7 +16,7 @@ export default function SysopDashboard() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      
+
       // Fetch Stats
       const statsRes = await fetch(apiUrl("/admin/dashboard"), {
         headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
@@ -42,24 +42,24 @@ export default function SysopDashboard() {
   };
 
   const statCards = [
-    { 
-      label: "Toplam Satış", 
-      value: `₺${(stats?.totalRevenue || 0).toLocaleString('tr-TR')}`, 
+    {
+      label: "Toplam Satış",
+      value: `₺${(stats?.totalRevenue || 0).toLocaleString('tr-TR')}`,
       textColor: "text-emerald-500"
     },
-    { 
-      label: "Aktif Kullanıcılar", 
-      value: stats?.totalUsers || 0, 
+    {
+      label: "Aktif Kullanıcılar",
+      value: stats?.totalUsers || 0,
       textColor: "text-blue-500"
     },
-    { 
-      label: "Mağaza Sayısı", 
-      value: stats?.totalStores || 0, 
+    {
+      label: "Mağaza Sayısı",
+      value: stats?.totalStores || 0,
       textColor: "text-purple-500"
     },
-    { 
-      label: "Bekleyen Onaylar", 
-      value: stats?.pendingListings || 0, 
+    {
+      label: "Bekleyen Onaylar",
+      value: stats?.pendingListings || 0,
       textColor: "text-orange-500"
     }
   ];
@@ -78,7 +78,7 @@ export default function SysopDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, i) => (
-          <div 
+          <div
             key={i}
             className={`p-6 rounded-[2rem] bg-surface border border-border-color shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20`}
           >
@@ -140,35 +140,28 @@ export default function SysopDashboard() {
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">Hızlı Erişim</h3>
           </div>
           <div className="p-4 space-y-2">
-             <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4" /></svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-[13px] font-black text-text-primary">Yeni Kampanya</p>
-                  <p className="text-[11px] text-text-secondary font-bold">Kampanya oluştur</p>
-                </div>
-             </button>
-             <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-[13px] font-black text-text-primary">Sistem Raporu</p>
-                  <p className="text-[11px] text-text-secondary font-bold">PDF olarak indir</p>
-                </div>
-             </button>
-             <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
-                <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-[13px] font-black text-text-primary">Bildirim Gönder</p>
-                  <p className="text-[11px] text-text-secondary font-bold">Tüm kullanıcılara</p>
-                </div>
-          </div>
+            <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4" /></svg>
+              </div>
+              <div className="text-left">
+                <p className="text-[13px] font-black text-text-primary">Yeni Kampanya</p>
+                <p className="text-[11px] text-text-secondary font-bold">Kampanya oluştur</p>
+              </div>
+            </button>
+            <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+              </div>
+              <div className="text-left">
+                <p className="text-[13px] font-black text-text-primary">Sistem Raporu</p>
+                <p className="text-[11px] text-text-secondary font-bold">PDF olarak indir</p>
+              </div>
+            </button>
+          </button>
         </div>
       </div>
     </div>
+    </div >
   );
 }
