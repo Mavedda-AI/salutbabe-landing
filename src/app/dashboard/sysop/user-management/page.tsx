@@ -5,7 +5,15 @@ import {apiUrl} from "../../../../lib/api";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 
 export default function AdminUsersPage() {
-  const { t, theme } = useThemeLanguage();
+  const { t, theme, language } = useThemeLanguage();
+  
+  const formatBalance = (amount: number) => {
+    return new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : language === 'fr' ? 'fr-FR' : 'en-US', {
+      notation: 'compact',
+      maximumFractionDigits: 1
+    }).format(amount);
+  };
+
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -234,7 +242,7 @@ export default function AdminUsersPage() {
                   </div>
                   <div>
                     <h4 className="text-[17px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
-                    <p className="text-[12px] font-bold text-text-secondary/60 uppercase tracking-widest">@{user.userNickname || t('dashboard.anonymous')}</p>
+                    <p className="text-[12px] font-bold text-text-secondary/60 lowercase tracking-widest">@{user.userNickname || t('dashboard.anonymous')}</p>
                   </div>
                 </div>
 
@@ -346,7 +354,7 @@ export default function AdminUsersPage() {
               {/* User Identity */}
               <div className="mb-6">
                 <h4 className="text-[19px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
-                <p className="text-[12px] font-bold text-text-secondary/60 uppercase tracking-[0.2em] mb-4">@{user.userNickname || t('dashboard.anonymous')}</p>
+                <p className="text-[12px] font-bold text-text-secondary/60 lowercase tracking-[0.2em] mb-4">@{user.userNickname || t('dashboard.anonymous')}</p>
                 <div className="flex gap-2 justify-center flex-wrap">
                    {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
                      <span key={idx} className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border
@@ -365,7 +373,7 @@ export default function AdminUsersPage() {
                  <div className="text-center">
                     <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.table_balance')}</p>
                     <div className="flex items-center gap-1 justify-center">
-                       <span className="text-[20px] font-black text-text-primary">{user.balance?.toLocaleString('tr-TR') || 0}</span>
+                       <span className="text-[20px] font-black text-text-primary">{formatBalance(user.balance || 0)}</span>
                        <span className="text-[12px] font-black text-primary">₺</span>
                     </div>
                  </div>
@@ -373,7 +381,7 @@ export default function AdminUsersPage() {
                  <div className="text-center">
                     <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.label_pending')}</p>
                     <div className="flex items-center gap-1 justify-center text-orange-400">
-                       <span className="text-[20px] font-black">{user.pendingBalance || 0}</span>
+                       <span className="text-[20px] font-black">{formatBalance(user.pendingBalance || 0)}</span>
                        <span className="text-[12px] font-black">₺</span>
                     </div>
                  </div>
