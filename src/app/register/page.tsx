@@ -35,12 +35,31 @@ const RegisterPage = () => {
       body: JSON.stringify(payload),
     });
 
+    const json = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data?.message || "Registration failed.");
+      throw new Error(json?.request?.resultMessage || json?.message || "Registration failed.");
     }
 
-    return res.json();
+    return json;
+  };
+
+  const processAuthResult = (result: any) => {
+    if (result?.payload?.needsRegistration) {
+      window.location.href = `/register/details?provider=${result?.payload?.provider || 'social'}`;
+      return;
+    }
+
+    if (result?.payload?.token) {
+      const { token, user } = result.payload;
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem("token", token);
+      if (user) localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = "/";
+    } else {
+      // For registration page, if no token and no needsRegistration, redirect to details anyway
+      window.location.href = "/register/details";
+    }
   };
 
   // ── Google ──────────────────────────────────────────────────────────────────
@@ -49,15 +68,9 @@ const RegisterPage = () => {
     try {
       const { idToken, user } = await signInWithGoogle();
       const result = await sendToBackend(idToken, "google", user);
-
-      if (result?.data?.needsRegistration) {
-        window.location.href = "/register/details?provider=google";
-      } else {
-        localStorage.setItem("auth_token", result?.data?.token || "");
-        window.location.href = "/";
-      }
+      processAuthResult(result);
     } catch (err: any) {
-      showToast(err.message || "Google registration failed.", "error");
+      showToast(err.message || t("auth.google_failed"), "error");
     } finally {
       setLoading(null);
     }
@@ -69,15 +82,9 @@ const RegisterPage = () => {
     try {
       const { idToken, user } = await signInWithApple();
       const result = await sendToBackend(idToken, "apple", user);
-
-      if (result?.data?.needsRegistration) {
-        window.location.href = "/register/details?provider=apple";
-      } else {
-        localStorage.setItem("auth_token", result?.data?.token || "");
-        window.location.href = "/";
-      }
+      processAuthResult(result);
     } catch (err: any) {
-      showToast(err.message || "Apple registration failed.", "error");
+      showToast(err.message || t("auth.apple_failed"), "error");
     } finally {
       setLoading(null);
     }
@@ -89,7 +96,6 @@ const RegisterPage = () => {
     if (!email) return;
     setLoading("email");
     try {
-      // Redirect to details to complete registration
       window.location.href = `/register/details?email=${encodeURIComponent(email)}`;
     } catch (err: any) {
       showToast(err.message || "Something went wrong.", "error");
@@ -103,8 +109,8 @@ const RegisterPage = () => {
       <div className="max-w-md w-full animate-fade-in-up">
         <div className="bg-surface rounded-[3rem] p-10 md:p-12 border border-border-color shadow-2xl shadow-primary/5 transition-colors duration-300">
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-black text-text-primary mb-3">Join salutbabe.</h1>
-            <p className="text-text-secondary text-sm">Create an account to get started.</p>
+            <h1 className="text-3xl font-black text-text-primary mb-3">{t("auth.join")}</h1>
+            <p className="text-text-secondary text-sm">{t("auth.signup_desc")}</p>
           </div>
 
           <div className="space-y-4">
@@ -119,7 +125,7 @@ const RegisterPage = () => {
                 <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
                 <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
               </svg>
-              Sign up with Google
+              {t("auth.google_signup")}
             </button>
 
             <button
@@ -130,7 +136,7 @@ const RegisterPage = () => {
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="18" height="18" fill="currentColor">
                 <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
               </svg>
-              Sign up with Apple
+              {t("auth.apple_signup")}
             </button>
           </div>
 
@@ -139,14 +145,14 @@ const RegisterPage = () => {
               <div className="w-full border-t border-border-color"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-surface text-text-secondary">Or use email</span>
+              <span className="px-4 bg-surface text-text-secondary">{t("auth.or_email")}</span>
             </div>
           </div>
 
           <form onSubmit={handleEmailStart} className="space-y-4">
             <div>
               <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
-                Email Address
+                {t("auth.email")}
               </label>
               <input
                 type="email"
@@ -163,25 +169,30 @@ const RegisterPage = () => {
               disabled={loading !== null}
               className="w-full py-4 bg-primary text-white rounded-full font-black text-sm hover:opacity-90 transition-all duration-300 shadow-xl shadow-primary/20 active:scale-[0.98] mt-4 disabled:opacity-50"
             >
-              {loading === "email" ? "CONTINUING..." : "CONTINUE"}
+              {loading === "email" ? t("auth.continuing") : t("auth.signup_btn")}
             </button>
           </form>
 
           <div className="mt-8 text-center">
             <p className="text-sm text-text-secondary">
-              Already have an account?{" "}
+              {t("auth.have_account")}{" "}
               <Link href="/login" className="text-primary font-bold hover:underline">
-                Sign in
+                {t("auth.signin_link")}
               </Link>
             </p>
           </div>
 
           <div className="mt-10 pt-8 border-t border-border-color text-center">
             <p className="text-[11px] text-text-secondary leading-relaxed">
-              By joining, you agree to salutbabe&apos;s <br />
-              <Link href="/terms" className="font-black text-text-primary hover:text-primary transition-colors">Terms of Service</Link>
-              {" "}and{" "}
-              <Link href="/privacy" className="font-black text-text-primary hover:text-primary transition-colors">Privacy Policy</Link>.
+              {t("auth.terms_prefix")}{" "}
+              <button 
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { tab: 'terms-of-use' } }))}
+                className="font-black text-text-primary hover:text-primary transition-colors underline decoration-border-color underline-offset-4"
+              >
+                {t("auth.terms_link")}
+              </button>
+              {" "}{t("auth.terms_suffix")}
             </p>
           </div>
         </div>

@@ -45,27 +45,40 @@ const LoginPage = () => {
     return json;
   };
 
+  const processAuthResult = (result: any) => {
+    if (result?.payload?.needsRegistration) {
+      window.location.href = `/register?provider=${result?.payload?.provider || 'social'}`;
+      return;
+    }
+
+    if (result?.payload?.token) {
+      const { token, user } = result.payload;
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem("token", token);
+      if (user) localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = "/";
+    } else {
+      // If we are here, it means res.ok was true but we don't have a token.
+      // This might happen if the backend message is "Social login status processed" but user not found.
+      const msg = result?.request?.resultMessage || t("auth.invalid_response");
+      showToast(msg, "info");
+      
+      // If the backend says it's processed but we have no token, maybe we should force registration redirect?
+      if (msg.toLowerCase().includes('processed') || msg.toLowerCase().includes('not found')) {
+         window.location.href = "/register";
+      }
+    }
+  };
+
   // ── Google ──────────────────────────────────────────────────────────────────
   const handleGoogleLogin = async () => {
     setLoading("google");
     try {
       const { idToken, user: firebaseUser } = await signInWithGoogle();
       const result = await sendToBackend(idToken, "google", firebaseUser);
-
-      if (result?.payload?.needsRegistration) {
-        window.location.href = "/register?provider=google";
-      } else if (result?.payload?.token) {
-        const { token, user } = result.payload;
-        localStorage.setItem("auth_token", token);
-        localStorage.setItem("token", token); // For Admin compatibility
-        if (user) localStorage.setItem("user", JSON.stringify(user));
-        
-        window.location.href = "/";
-      } else {
-        throw new Error(result?.request?.resultMessage || "Login failed.");
-      }
+      processAuthResult(result);
     } catch (err: any) {
-      showToast(err.message || "Google sign-in failed.", "error");
+      showToast(err.message || t("auth.google_failed"), "error");
     } finally {
       setLoading(null);
     }
@@ -77,21 +90,9 @@ const LoginPage = () => {
     try {
       const { idToken, user: firebaseUser } = await signInWithApple();
       const result = await sendToBackend(idToken, "apple", firebaseUser);
-
-      if (result?.payload?.needsRegistration) {
-        window.location.href = "/register?provider=apple";
-      } else if (result?.payload?.token) {
-        const { token, user } = result.payload;
-        localStorage.setItem("auth_token", token);
-        localStorage.setItem("token", token); // For Admin compatibility
-        if (user) localStorage.setItem("user", JSON.stringify(user));
-
-        window.location.href = "/";
-      } else {
-        throw new Error(result?.request?.resultMessage || "Login failed.");
-      }
+      processAuthResult(result);
     } catch (err: any) {
-      showToast(err.message || "Apple sign-in failed.", "error");
+      showToast(err.message || t("auth.apple_failed"), "error");
     } finally {
       setLoading(null);
     }
@@ -124,9 +125,8 @@ const LoginPage = () => {
       if (data?.payload?.token) {
         const { token, user } = data.payload;
         localStorage.setItem("auth_token", token);
-        localStorage.setItem("token", token); // For Admin compatibility
+        localStorage.setItem("token", token);
         if (user) localStorage.setItem("user", JSON.stringify(user));
-        
         window.location.href = "/";
       } else {
         throw new Error(data?.request?.resultMessage || "Invalid response from server.");
@@ -143,8 +143,8 @@ const LoginPage = () => {
       <div className="max-w-md w-full animate-fade-in-up">
         <div className="bg-surface rounded-[3rem] p-10 md:p-12 border border-border-color shadow-2xl shadow-primary/5 transition-colors duration-300">
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-black text-text-primary mb-3">Welcome to salutbabe.</h1>
-            <p className="text-text-secondary text-sm">Sign in to your account.</p>
+            <h1 className="text-3xl font-black text-text-primary mb-3">{t("auth.welcome")}</h1>
+            <p className="text-text-secondary text-sm">{t("auth.signin_desc")}</p>
           </div>
 
           <div className="space-y-4">
@@ -166,7 +166,7 @@ const LoginPage = () => {
                   <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                 </svg>
               )}
-              Continue with Google
+              {t("auth.google_signin")}
             </button>
 
             <button
@@ -184,7 +184,7 @@ const LoginPage = () => {
                   <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
                 </svg>
               )}
-              Continue with Apple
+              {t("auth.apple_signin")}
             </button>
           </div>
 
@@ -193,14 +193,14 @@ const LoginPage = () => {
               <div className="w-full border-t border-border-color"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-surface text-text-secondary">or use email</span>
+              <span className="px-4 bg-surface text-text-secondary">{t("auth.or_email")}</span>
             </div>
           </div>
 
           <form onSubmit={handleEmailLogin} className="space-y-4">
             <div>
               <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
-                Email Address
+                {t("auth.email")}
               </label>
               <input
                 type="email"
@@ -214,7 +214,7 @@ const LoginPage = () => {
 
             <div>
               <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
-                Password
+                {t("auth.password")}
               </label>
               <input
                 type="password"
@@ -231,30 +231,30 @@ const LoginPage = () => {
               disabled={loading !== null}
               className="w-full py-4 bg-primary text-white rounded-full font-black text-sm hover:opacity-90 transition-all duration-300 shadow-xl shadow-primary/20 active:scale-[0.98] mt-4 disabled:opacity-50"
             >
-              {loading === "email" ? "SIGNING IN..." : "SIGN IN"}
+              {loading === "email" ? t("auth.signing_in") : t("auth.signin_btn")}
             </button>
           </form>
 
           <div className="mt-8 text-center">
             <p className="text-sm text-text-secondary">
-              Don&apos;t have an account?{" "}
+              {t("auth.no_account")}{" "}
               <Link href="/register" className="text-primary font-bold hover:underline">
-                Sign up
+                {t("auth.signup_link")}
               </Link>
             </p>
           </div>
 
           <div className="mt-10 pt-8 border-t border-border-color text-center">
             <p className="text-[11px] text-text-secondary leading-relaxed">
-              Devam ederek{" "}
+              {t("auth.terms_prefix")}{" "}
               <button 
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { tab: 'terms-of-use' } }))}
                 className="font-black text-text-primary hover:text-primary transition-colors underline decoration-border-color underline-offset-4"
               >
-                kullanım şartlarımızı
+                {t("auth.terms_link")}
               </button>
-              {" "}kabul etmiş sayılırsınız.
+              {" "}{t("auth.terms_suffix")}
             </p>
           </div>
         </div>
