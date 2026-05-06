@@ -107,6 +107,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("auth_token");
+    window.location.href = "/";
+  };
+
   interface NavItem {
     label: string;
     href?: string;
