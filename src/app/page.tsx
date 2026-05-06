@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import ProductCard from "../components/ProductCard";
 import DiscountCards from "../components/DiscountCards";
+import Leaderboard from "../components/Leaderboard";
 import Link from "next/link";
 import {apiUrl} from "../lib/api";
 import {useThemeLanguage} from "../context/ThemeLanguageContext";
@@ -145,6 +146,9 @@ export default function Home() {
             </div>
          </div>
       </section>
+
+      {/* Leaderboard Section */}
+      <Leaderboard />
 
       {/* CTA Section */}
       <section className="w-full">

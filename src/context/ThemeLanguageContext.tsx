@@ -43,6 +43,20 @@ export const dictionaries = {
       app_store_bottom: "İndirin",
       play_store_top: "Google Play'den",
       play_store_bottom: "Alın"
+    },
+    leaderboard: {
+      title: "En İyiler.",
+      subtitle_main: "salutbabe",
+      subtitle_sub: "Yıldızları.",
+      metric_earnings: "KAZANÇ",
+      metric_sales: "SATIŞ",
+      tf_daily: "GÜNLÜK",
+      tf_weekly: "HAFTALIK",
+      tf_monthly: "AYLIK",
+      sales_unit: "Satış",
+      status_active: "AKTİF",
+      loading: "Yükleniyor...",
+      no_data: "Henüz bu dönemde veri bulunmuyor."
     }
   },
   en: {
@@ -85,6 +99,20 @@ export const dictionaries = {
       app_store_bottom: "App Store",
       play_store_top: "Get it on",
       play_store_bottom: "Google Play"
+    },
+    leaderboard: {
+      title: "The Best.",
+      subtitle_main: "salutbabe",
+      subtitle_sub: "Stars.",
+      metric_earnings: "EARNINGS",
+      metric_sales: "SALES",
+      tf_daily: "DAILY",
+      tf_weekly: "WEEKLY",
+      tf_monthly: "MONTHLY",
+      sales_unit: "Sales",
+      status_active: "ACTIVE",
+      loading: "Loading...",
+      no_data: "No data available for this period."
     }
   }
 };
