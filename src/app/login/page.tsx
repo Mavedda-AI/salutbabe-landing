@@ -73,9 +73,9 @@ const LoginPage = () => {
         : (userType === "SYSOP" || userType === "ADMIN");
       
       if (isAdmin) {
-        window.location.href = "/admin";
+        window.location.href = "/dashboard/sysop";
       } else {
-        window.location.href = "/panel";
+        window.location.href = "/dashboard/sysop";
       }
       return;
     }
@@ -164,9 +164,9 @@ const LoginPage = () => {
         const isAdmin = userType.includes("SYSOP") || userType.includes("ADMIN");
         
         if (isAdmin) {
-          window.location.href = "/admin";
+          window.location.href = "/dashboard/sysop";
         } else {
-          window.location.href = "/panel";
+          window.location.href = "/dashboard/sysop";
         }
       } else {
         throw new Error(data?.request?.resultMessage || "Invalid response from server.");
@@ -211,9 +211,9 @@ const LoginPage = () => {
         : (userType === "SYSOP" || userType === "ADMIN");
         
       if (isAdmin) {
-        window.location.href = "/admin";
+        window.location.href = "/dashboard/sysop";
       } else {
-        window.location.href = "/panel";
+        window.location.href = "/dashboard/sysop";
       }
     } catch (err: any) {
       showToast(err.message || "Something went wrong.", "error");

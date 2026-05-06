@@ -93,7 +93,7 @@ const Footer = () => {
     };
   }, [isContactOpen]);
 
-  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/panel'))) {
+  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/dashboard/sysop'))) {
     return null;
   }
 
