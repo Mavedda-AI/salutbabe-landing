@@ -34,7 +34,7 @@ const DiscountCards = () => {
       color: "bg-[#7EDB9E]", 
       textColor: "text-[#1A1A1A]",
       buttonText: "EXPLORE",
-      image: "https://images.unsplash.com/photo-1555252333-978fead067f3?auto=format&fit=crop&q=80&w=800",
+      image: "https://images.unsplash.com/photo-1544126592-807daa215a05?auto=format&fit=crop&q=80&w=800",
     }
   ];
 
@@ -53,7 +53,7 @@ const DiscountCards = () => {
                   alt={deal.title} 
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  priority={index === 0} // Priority for the first card (above the fold)
+                  priority={index === 0}
                   className="object-cover mix-blend-multiply" 
                 />
             </div>
