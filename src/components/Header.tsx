@@ -14,89 +14,79 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const leftNav = [
-    { label: "SHOP", href: "/shop" },
-    { label: "MEN", href: "/category/men" },
-    { label: "WOMEN", href: "/category/women" },
-    { label: "TRENDING", href: "/category/trending" },
-  ];
-
-  const rightNav = [
-    { label: "SEASONAL", href: "/category/seasonal" },
-    { label: "ACCESSORIES", href: "/category/accessories" },
+  const navLinks = [
+    { label: "Shop", href: "/shop" },
+    { label: "New Arrivals", href: "/category/new" },
+    { label: "Brands", href: "/brands" },
+    { label: "Sell", href: "/sell" },
   ];
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-in-out px-4 py-4 md:px-8 flex justify-center`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm py-4" : "bg-transparent py-6"
+      }`}
     >
-      <div 
-        className={`
-          max-w-7xl w-full bento-item glass-panel flex items-center justify-between px-8 py-3
-          transition-all duration-700 ease-in-out
-          ${scrolled ? "rounded-full py-2 scale-[0.98] mt-2 shadow-2xl" : "rounded-[2.5rem] mt-4"}
-        `}
-      >
-        {/* Left Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {leftNav.map((item) => (
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+        
+        {/* Left Nav */}
+        <nav className="hidden md:flex items-center gap-8 flex-1">
+          {navLinks.map((item) => (
             <Link 
               key={item.label}
               href={item.href}
-              className="text-[11px] tracking-widest font-black text-slate-800 hover:text-primary-blue transition-colors duration-300"
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        {/* Centered Logo */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-          <Link href="/" className="relative group">
-            <div className="absolute -inset-4 bg-primary-blue/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <div className="relative font-black text-2xl tracking-tight text-slate-900 group-hover:scale-105 transition-transform duration-500">
-              SALUTBABE
-            </div>
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <Link href="/" className="text-2xl font-black tracking-tighter text-slate-900">
+            SALUTBABE.
           </Link>
         </div>
 
-        {/* Right Navigation & Auth */}
-        <div className="flex items-center gap-8">
-          <nav className="hidden xl:flex items-center gap-8">
-            {rightNav.map((item) => (
-              <Link 
-                key={item.label}
-                href={item.href}
-                className="text-[11px] tracking-widest font-black text-slate-800 hover:text-primary-blue transition-colors duration-300"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+        {/* Right Actions */}
+        <div className="flex items-center justify-end gap-6 flex-1">
+          <button className="text-slate-600 hover:text-slate-900 transition-colors hidden sm:block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </button>
+          
+          <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors hidden sm:block">
+            Log in
+          </Link>
 
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link 
-              href="/login"
-              className="px-4 md:px-6 py-2 bg-slate-900 text-white rounded-full text-[10px] md:text-[11px] font-black tracking-widest hover:bg-slate-800 transition-all duration-300 active:scale-95"
-            >
-              SIGN IN / UP
-            </Link>
-            <button className="hidden sm:flex w-10 h-10 items-center justify-center rounded-full bg-slate-100/50 hover:bg-white transition-colors duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-900">
-                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-            </button>
-            <button className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-slate-100/50 hover:bg-white transition-colors duration-300">
-               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
-            </button>
-          </div>
+          <Link 
+            href="/cart"
+            className="relative text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            </svg>
+            <span className="absolute -top-1.5 -right-2 bg-slate-900 text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+              0
+            </span>
+          </Link>
+
+          {/* Mobile Menu Toggle */}
+          <button className="md:hidden text-slate-900">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
         </div>
+
       </div>
     </header>
   );

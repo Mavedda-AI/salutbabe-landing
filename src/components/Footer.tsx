@@ -11,70 +11,87 @@ const Footer = () => {
     return null;
   }
 
+  const sections = [
+    {
+      title: "Shop",
+      links: [
+        { label: "New Arrivals", href: "/category/new" },
+        { label: "Bestsellers", href: "/category/bestsellers" },
+        { label: "Clothing", href: "/category/clothing" },
+        { label: "Gear", href: "/category/gear" }
+      ]
+    },
+    {
+      title: "About",
+      links: [
+        { label: "Our Story", href: "/about" },
+        { label: "Sustainability", href: "/sustainability" },
+        { label: "Careers", href: "/careers" },
+        { label: "Press", href: "/press" }
+      ]
+    },
+    {
+      title: "Support",
+      links: [
+        { label: "Help Center", href: "/help" },
+        { label: "Returns", href: "/returns" },
+        { label: "Shipping", href: "/shipping" },
+        { label: "Contact Us", href: "/contact" }
+      ]
+    }
+  ];
+
   return (
-  <footer className="bg-white pt-24 pb-12 border-t border-slate-50">
-    <div className="max-w-7xl mx-auto px-4 md:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-        <div className="col-span-1 md:col-span-1">
-          <div className="font-black text-2xl tracking-tight text-slate-900 mb-6">
-            SALUTBABE
+    <footer className="bg-white border-t border-slate-100 mt-20">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+          
+          {/* Brand Info */}
+          <div className="md:col-span-4">
+            <Link href="/" className="text-xl font-black tracking-tighter text-slate-900 block mb-6">
+              SALUTBABE.
+            </Link>
+            <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
+              A curated marketplace for modern families. Discover premium pre-loved and new essentials for your little ones.
+            </p>
           </div>
-          <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
-            The first secure baby platform in Turkey. We provide a premium second-hand experience for modern families.
+
+          {/* Links Grid */}
+          <div className="md:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8">
+            {sections.map((section) => (
+              <div key={section.title}>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">
+                  {section.title}
+                </h3>
+                <ul className="space-y-4">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      <Link 
+                        href={link.href}
+                        className="text-sm text-slate-500 hover:text-slate-900 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-20 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex gap-6">
+            <Link href="/terms" className="text-xs text-slate-400 hover:text-slate-900 transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="text-xs text-slate-400 hover:text-slate-900 transition-colors">Privacy Policy</Link>
+          </div>
+          <p className="text-xs text-slate-400">
+            © {new Date().getFullYear()} Salutbabe. All rights reserved.
           </p>
         </div>
-        
-        <div>
-          <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Shop</h4>
-          <ul className="space-y-4">
-            {['New Arrivals', 'Trending', 'Travel', 'Nursery'].map(item => (
-              <li key={item}>
-                <Link href="/shop" className="text-sm text-slate-400 hover:text-slate-900 transition-colors font-medium">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Company</h4>
-          <ul className="space-y-4">
-            {['About Us', 'Sustainability', 'Premium', 'Contact'].map(item => (
-              <li key={item}>
-                <Link href={`/${item.toLowerCase().replace(' ', '-')}`} className="text-sm text-slate-400 hover:text-slate-900 transition-colors font-medium">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Legal</h4>
-          <ul className="space-y-4">
-            {['Privacy Policy', 'Terms of Use', 'Return Policy', 'KVKK'].map(item => (
-              <li key={item}>
-                <Link href={`/${item.toLowerCase().replace(' ', '-')}`} className="text-sm text-slate-400 hover:text-slate-900 transition-colors font-medium">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-
-      <div className="pt-12 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-          © 2026 SALUTBABE — A MAVEDDA BRAND. ALL RIGHTS RESERVED.
-        </p>
-        <div className="flex gap-8">
-           <Link href="#" className="text-[10px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-widest">Instagram</Link>
-           <Link href="#" className="text-[10px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-widest">Twitter</Link>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
   );
 };
 
