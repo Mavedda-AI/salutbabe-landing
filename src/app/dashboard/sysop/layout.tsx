@@ -143,8 +143,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/admin/users' },
-        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/admin/stores' }
+        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management' },
+        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management' }
       ] 
     },
     { 
@@ -157,8 +157,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/admin/orders' },
-        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/admin/shipping' }
+        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/order-management' },
+        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management' }
       ] 
     },
     { 
@@ -171,10 +171,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/admin/reviews' },
-        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/admin/complaints' },
-        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/admin/store-complaints' },
-        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/admin/user-reviews' }
+        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/review-management' },
+        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management' },
+        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/store-complaint-management' },
+        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/user-review-management' }
       ] 
     },
     { 
@@ -187,14 +187,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/admin/products' },
-        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/admin/categories' },
-        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/admin/brands' }
+        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/product-management' },
+        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/category-management' },
+        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/brand-management' }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_settings'), 
-      href: '/dashboard/sysop/admin/settings',
+      href: '/dashboard/sysop/system-settings',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
