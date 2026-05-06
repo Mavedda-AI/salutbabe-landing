@@ -9,7 +9,7 @@ import {API_BASE_URL} from "../../lib/api";
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggleTheme } = useThemeLanguage();
+  const { theme, toggleTheme, t } = useThemeLanguage();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -164,17 +164,17 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-8 animate-fade-in relative z-0">
+        <main className="flex-1 p-8 animate-fade-in relative z-0 overflow-y-auto">
           {children}
         </main>
 
         {/* Mini Footer */}
-        <footer className="py-6 px-10 border-t border-border-color bg-white dark:bg-surface/30">
-          <div className="flex items-center justify-between">
-            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider">
+        <footer className="py-3 px-6 border-t border-border-color bg-white dark:bg-surface/30 sticky bottom-0 z-50">
+          <div className="flex items-center justify-center relative">
+            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center">
               {t('dashboard.developed_by')} <span className="text-transparent bg-clip-text font-black text-[12px] bg-[linear-gradient(110deg,#FF007A_0%,#00B2FF_50%,#FF007A_100%)] bg-[length:200%_auto] animate-[brandShift_5.2s_ease-in-out_infinite]" style={{ WebkitTextStroke: "0.05em transparent" }}>salutbabe</span> {t('dashboard.all_rights')}
             </div>
-            <div className="relative group flex items-center">
+            <div className="absolute right-0 group flex items-center">
               <svg className="w-4 h-4 text-text-secondary/40 hover:text-primary transition-colors cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
