@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useState} from "react";
-import Link from "next/link";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
 import {signInWithApple, signInWithGoogle} from "../../lib/firebase";
@@ -13,7 +12,15 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState<"google" | "apple" | "email" | null>(null);
+  const [loading, setLoading] = useState<"google" | "apple" | "email" | "register" | null>(null);
+
+  // Registration states
+  const [showSignupPopup, setShowSignupPopup] = useState(false);
+  const [regFirstName, setRegFirstName] = useState("");
+  const [regLastName, setRegLastName] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+  const [showRegPassword, setShowRegPassword] = useState(false);
 
   // ── Shared: send idToken to backend social-login endpoint ───────────────────
   const sendToBackend = async (idToken: string, provider: "google" | "apple", user: any) => {
@@ -80,7 +87,8 @@ const LoginPage = () => {
         // Auto-fill email if available from social login
         if (payload?.email) setEmail(payload.email);
       } else {
-        window.location.href = `/register?provider=${payload?.provider || 'social'}`;
+        if (payload?.email) setRegEmail(payload.email);
+        setShowSignupPopup(true);
       }
       return;
     }
@@ -163,6 +171,40 @@ const LoginPage = () => {
       } else {
         throw new Error(data?.request?.resultMessage || "Invalid response from server.");
       }
+    } catch (err: any) {
+      showToast(err.message || "Something went wrong.", "error");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleEmailRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!regEmail || !regPassword || !regFirstName || !regLastName) return;
+    setLoading("register");
+    try {
+      const res = await fetch(apiUrl("/auth/register"), {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "X-Device-Type": "web"
+        },
+        body: JSON.stringify({
+          eMail: regEmail,
+          password: regPassword,
+          userName: regFirstName,
+          userSurname: regLastName
+        }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json?.request?.resultMessage || "Registration failed.");
+
+      const { token, user } = json.payload;
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem("token", token);
+      if (user) localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = "/panel";
     } catch (err: any) {
       showToast(err.message || "Something went wrong.", "error");
     } finally {
@@ -288,9 +330,9 @@ const LoginPage = () => {
           <div className="mt-8 text-center">
             <p className="text-sm text-text-secondary">
               {t("auth.no_account")}{" "}
-              <Link href="/register" className="text-primary font-bold hover:underline">
+              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-primary font-bold hover:underline">
                 {t("auth.signup_link")}
-              </Link>
+              </button>
             </p>
           </div>
 
@@ -318,6 +360,112 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      {/* REGISTRATION POPUP MODAL */}
+      {showSignupPopup && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md bg-surface border border-border-color rounded-[3rem] p-10 md:p-12 shadow-2xl relative animate-scale-in">
+            <button
+              onClick={() => setShowSignupPopup(false)}
+              className="absolute right-8 top-8 text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-black text-text-primary mb-3">{t("auth.join")}</h2>
+              <p className="text-text-secondary text-sm">{t("auth.signup_desc")}</p>
+            </div>
+
+            <form onSubmit={handleEmailRegister} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    value={regFirstName}
+                    onChange={e => setRegFirstName(e.target.value)}
+                    required
+                    placeholder="Jane"
+                    className="w-full px-6 py-4 rounded-2xl bg-background border border-border-color focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none text-text-primary font-bold placeholder:text-text-secondary/50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    value={regLastName}
+                    onChange={e => setRegLastName(e.target.value)}
+                    required
+                    placeholder="Doe"
+                    className="w-full px-6 py-4 rounded-2xl bg-background border border-border-color focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none text-text-primary font-bold placeholder:text-text-secondary/50"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
+                  {t("auth.email")}
+                </label>
+                <input
+                  type="email"
+                  value={regEmail}
+                  onChange={e => setRegEmail(e.target.value)}
+                  placeholder="hello@salutbabe.com"
+                  required
+                  className="w-full px-6 py-4 rounded-2xl bg-background border border-border-color focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none text-text-primary font-bold placeholder:text-text-secondary/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2 px-1">
+                  {t("auth.password")}
+                </label>
+                <div className="relative">
+                  <input
+                    type={showRegPassword ? "text" : "password"}
+                    value={regPassword}
+                    onChange={e => setRegPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="w-full px-6 py-4 rounded-2xl bg-background border border-border-color focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none text-text-primary font-bold placeholder:text-text-secondary/50 pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowRegPassword(!showRegPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
+                  >
+                    {showRegPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading === "register"}
+                className="w-full py-4 bg-primary text-white rounded-full font-black text-sm hover:opacity-90 transition-all duration-300 shadow-xl shadow-primary/20 active:scale-[0.98] mt-4 disabled:opacity-50"
+              >
+                {loading === "register" ? t("auth.continuing") : t("auth.signup_btn")}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
