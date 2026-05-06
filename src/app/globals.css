@@ -130,6 +130,14 @@ body {
   background-clip: text;
 }
 
+.sell-gradient-text {
+  background: linear-gradient(110deg, #FF007A 0%, #00B2FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
