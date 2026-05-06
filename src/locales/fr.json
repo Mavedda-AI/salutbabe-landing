@@ -151,6 +151,18 @@
     "notifications_close": "Fermer",
     "notifications_empty": "Vous n'avez pas de nouvelles notifications.",
     "search_placeholder": "Rechercher utilisateur, email ou téléphone...",
+    "profile_title": "Paramètres du Profil",
+    "profile_first_name": "PRÉNOM",
+    "profile_last_name": "NOM",
+    "profile_nickname": "PSEUDONYME",
+    "profile_phone": "TÉLÉPHONE",
+    "profile_email": "E-MAIL",
+    "email_not_editable": "L'adresse e-mail ne peut pas être modifiée.",
+    "btn_save_profile": "ENREGISTRER LE PROFIL",
+    "security_settings": "PARAMÈTRES DE SÉCURITÉ",
+    "security_desc": "Gérez votre mot de passe et la sécurité de votre compte.",
+    "btn_change_password": "CHANGER LE MOT DE PASSE",
+    "profile_updated": "Profil mis à jour avec succès.",
     "sysop": {
       "nav_users": "Utilisateurs",
       "nav_user_mgmt": "Gestion des Utilisateurs",
@@ -184,19 +196,7 @@
       "no_records": "Aucun enregistrement de transaction trouvé.",
       "default_desc": "Statistiques générales et résumés",
       "anonymous": "Anonyme",
-      "notification": "Notification",
-      "profile_title": "Paramètres du Profil",
-      "profile_first_name": "PRÉNOM",
-      "profile_last_name": "NOM",
-      "profile_nickname": "PSEUDONYME",
-      "profile_phone": "TÉLÉPHONE",
-      "profile_email": "E-MAIL",
-      "email_not_editable": "L'adresse e-mail ne peut pas être modifiée.",
-      "btn_save_profile": "ENREGISTRER LE PROFIL",
-      "security_settings": "PARAMÈTRES DE SÉCURITÉ",
-      "security_desc": "Gérez votre mot de passe et la sécurité de votre compte.",
-      "btn_change_password": "CHANGER LE MOT DE PASSE",
-      "profile_updated": "Profil mis à jour avec succès."
+      "notification": "Notification"
     }
   }
 }
