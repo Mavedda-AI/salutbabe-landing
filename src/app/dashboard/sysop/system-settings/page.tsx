@@ -123,14 +123,6 @@ export default function SystemSettingsPage() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-6xl mx-auto flex flex-col gap-10 pb-32 pt-4">
-      {/* Dynamic Page Header */}
-      <div className="flex flex-col gap-2 mb-6 ml-6">
-          <h1 className="text-[32px] font-black text-text-primary tracking-tight uppercase">{t('dashboard.sysop.nav_settings')}</h1>
-          <div className="flex items-center gap-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <p className="text-[13px] font-bold text-text-secondary/60 uppercase tracking-[0.2em]">{t('dashboard.nav_admin_settings_desc')}</p>
-          </div>
-      </div>
 
       {/* Floating Modern Save Button */}
       <button 
