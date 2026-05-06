@@ -164,66 +164,66 @@ export default function SystemSettingsPage() {
       </SettingSection>
 
       {/* Limits & Logic */}
-      <SettingSection title="Limitler ve Otomasyon" icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}>
+      <SettingSection title={t('dashboard.settings_limits_title') || "Limitler ve Otomasyon"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">Minimum Çekim Limiti (₺)</label>
-          <input type="number" name="minWithdrawalLimit" value={settings.minWithdrawalLimit} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_min_withdraw')}</label>
+          <input type="number" name="minWithdrawalLimit" value={settings.minWithdrawalLimit || 0} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
         </div>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">İlan Başına Max Resim</label>
-          <input type="number" name="maxListingImages" value={settings.maxListingImages} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_max_images')}</label>
+          <input type="number" name="maxListingImages" value={settings.maxListingImages || 0} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
         </div>
         <div className="md:col-span-2 flex items-center justify-between p-6 rounded-2xl bg-primary/5 border border-primary/10">
            <div>
-             <h4 className="text-[14px] font-black text-text-primary">İlanları Otomatik Onayla</h4>
-             <p className="text-[11px] font-bold text-text-secondary opacity-60">Aktif edilirse yeni ilanlar kontrol edilmeden yayına alınır.</p>
+             <h4 className="text-[14px] font-black text-text-primary">{t('dashboard.settings_auto_approve')}</h4>
+             <p className="text-[11px] font-bold text-text-secondary opacity-60">{t('dashboard.settings_auto_approve_desc')}</p>
            </div>
            <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" name="autoApproveProducts" checked={settings.autoApproveProducts} onChange={handleInputChange} className="sr-only peer" />
+            <input type="checkbox" name="autoApproveProducts" checked={settings.autoApproveProducts || false} onChange={handleInputChange} className="sr-only peer" />
             <div className="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
           </label>
         </div>
       </SettingSection>
 
       {/* App Versions */}
-      <SettingSection title="Uygulama Versiyon Kontrolü" icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>}>
+      <SettingSection title={t('dashboard.settings_app_versions_title') || "Uygulama Versiyon Kontrolü"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>}>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">Android Versiyon</label>
-          <input type="text" name="appVersionAndroid" value={settings.appVersionAndroid} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_android_ver')}</label>
+          <input type="text" name="appVersionAndroid" value={settings.appVersionAndroid || ""} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
         </div>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">iOS Versiyon</label>
-          <input type="text" name="appVersionIos" value={settings.appVersionIos} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_ios_ver')}</label>
+          <input type="text" name="appVersionIos" value={settings.appVersionIos || ""} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
         </div>
         <div className="md:col-span-2 flex items-center justify-between p-6 rounded-2xl bg-orange-500/5 border border-orange-500/10">
            <div>
-             <h4 className="text-[14px] font-black text-text-primary">Zorunlu Güncelleme (Force Update)</h4>
-             <p className="text-[11px] font-bold text-text-secondary opacity-60">Aktif edilirse kullanıcılar uygulamayı güncellemeden devam edemez.</p>
+             <h4 className="text-[14px] font-black text-text-primary">{t('dashboard.settings_force_update')}</h4>
+             <p className="text-[11px] font-bold text-text-secondary opacity-60">{t('dashboard.settings_force_update_desc')}</p>
            </div>
            <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" name="forceUpdate" checked={settings.forceUpdate} onChange={handleInputChange} className="sr-only peer" />
+            <input type="checkbox" name="forceUpdate" checked={settings.forceUpdate || false} onChange={handleInputChange} className="sr-only peer" />
             <div className="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-orange-500"></div>
           </label>
         </div>
       </SettingSection>
 
       {/* Maintenance & Support */}
-      <SettingSection title="Bakım ve Destek" icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}>
+      <SettingSection title={t('dashboard.settings_support_title') || "Bakım ve Destek"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">Destek E-Posta</label>
-          <input type="email" name="supportEmail" value={settings.supportEmail} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_support_email')}</label>
+          <input type="email" name="supportEmail" value={settings.supportEmail || ""} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
         </div>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">Destek Telefon</label>
-          <input type="text" name="supportPhone" value={settings.supportPhone} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_support_phone')}</label>
+          <input type="text" name="supportPhone" value={settings.supportPhone || ""} onChange={handleInputChange} className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
         </div>
         <div className="md:col-span-2 flex items-center justify-between p-6 rounded-2xl bg-red-500/5 border border-red-500/10">
            <div>
-             <h4 className="text-[14px] font-black text-text-primary">Bakım Modu (Maintenance Mode)</h4>
-             <p className="text-[11px] font-bold text-text-secondary opacity-60">Aktif edilirse tüm uygulama "Bakımdayız" moduna geçer.</p>
+             <h4 className="text-[14px] font-black text-text-primary">{t('dashboard.settings_maintenance')}</h4>
+             <p className="text-[11px] font-bold text-text-secondary opacity-60">{t('dashboard.settings_maintenance_desc')}</p>
            </div>
            <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" name="maintenanceMode" checked={settings.maintenanceMode} onChange={handleInputChange} className="sr-only peer" />
+            <input type="checkbox" name="maintenanceMode" checked={settings.maintenanceMode || false} onChange={handleInputChange} className="sr-only peer" />
             <div className="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-red-500"></div>
           </label>
         </div>
