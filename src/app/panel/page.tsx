@@ -1,32 +1,69 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../lib/api";
 
 export default function PanelDashboard() {
   const [activeTab, setActiveTab] = useState('All Orders');
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const shipments = [
-    { id: 'SHP-5574', event: 2, status: 'In Progress', date: '04 Feb 2024', order: 'Order-12567', carrier: 'FedEx' },
-    { id: 'SHP-5575', event: 3, status: 'Arrived', date: '04 Feb 2024', order: 'Order-12568', carrier: 'DHL' },
-    { id: 'SHP-5576', event: 1, status: 'Canceled', date: '04 Feb 2024', order: 'Order-12569', carrier: 'N/A' },
-    { id: 'SHP-5577', event: 4, status: 'In Progress', date: '04 Feb 2024', order: 'Order-12570', carrier: 'DHL', delay: true },
-    { id: 'SHP-5578', event: 2, status: 'In Progress', date: '04 Feb 2024', order: 'Order-12571', carrier: 'TNT' },
-    { id: 'SHP-5579', event: 3, status: 'Arrived', date: '04 Feb 2024', order: 'Order-12572', carrier: 'N/A' },
-    { id: 'SHP-5580', event: 0, status: 'Draft', date: '04 Feb 2024', order: 'Order-12573', carrier: 'FedEx' },
-    { id: 'SHP-5581', event: 4, status: 'Arrived', date: '04 Feb 2024', order: 'Order-12574', carrier: 'Aramex' },
-  ];
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
-  const getStatusColor = (status: string) => {
-    switch(status) {
-      case 'In Progress': return 'text-blue-500 bg-blue-500/10';
-      case 'Arrived': return 'text-green-500 bg-green-500/10';
-      case 'Canceled': return 'text-red-500 bg-red-500/10';
-      case 'Draft': return 'text-slate-400 bg-slate-400/10';
-      default: return 'text-slate-400 bg-slate-400/10';
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(apiUrl("/order/list?role=seller"), {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
+      });
+      const data = await res.json();
+      if (data?.payload) {
+        setOrders(data.payload);
+      }
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStatusInfo = (status: string) => {
+    switch(status?.toLowerCase()) {
+      case 'processing': 
+      case 'mark-processing':
+        return { label: 'Processing', color: 'text-blue-500 bg-blue-500/10', eventIndex: 1 };
+      case 'shipped':
+      case 'mark-shipped':
+        return { label: 'Shipped', color: 'text-purple-500 bg-purple-500/10', eventIndex: 2 };
+      case 'delivered':
+      case 'mark-delivered':
+        return { label: 'Delivered', color: 'text-indigo-500 bg-indigo-500/10', eventIndex: 3 };
+      case 'completed':
+      case 'confirmed':
+        return { label: 'Completed', color: 'text-green-500 bg-green-500/10', eventIndex: 4 };
+      case 'cancelled':
+      case 'rejected':
+        return { label: 'Cancelled', color: 'text-red-500 bg-red-500/10', eventIndex: 0 };
+      default: 
+        return { label: status || 'Pending', color: 'text-slate-400 bg-slate-400/10', eventIndex: 0 };
     }
   };
 
   const tabs = ['All Orders', 'Pending', 'Arrived', 'View'];
+
+  // Filter orders based on active tab with robust array check
+  const filteredOrders = Array.isArray(orders) ? orders.filter(order => {
+    if (activeTab === 'All Orders') return true;
+    if (activeTab === 'Pending') return order.status === 'processing';
+    if (activeTab === 'Arrived') return order.status === 'delivered' || order.status === 'completed';
+    return true;
+  }) : [];
 
   return (
     <div className="space-y-6">
@@ -82,7 +119,7 @@ export default function PanelDashboard() {
 
           <button className="flex items-center gap-3 bg-text-primary text-background px-4 py-2 rounded-xl text-[12px] font-black shadow-sm">
             <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
-            2 Feb - 14 Apr
+            Seçili Tarih
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
           </button>
 
@@ -91,15 +128,8 @@ export default function PanelDashboard() {
             <svg className="w-3 h-3 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
           </button>
 
-          <button className="flex items-center gap-3 bg-white dark:bg-surface border border-border-color px-4 py-2 rounded-xl text-[12px] font-black text-text-primary">
-            Advanced Filters
-            <svg className="w-3 h-3 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-          </button>
-
           <div className="flex-1" />
 
-          <button className="text-[12px] font-black text-text-secondary hover:text-text-primary transition-colors">Hide</button>
-          
           <button className="flex items-center gap-2 bg-white dark:bg-surface border border-border-color px-4 py-2 rounded-xl text-[12px] font-black text-text-primary shadow-sm hover:border-primary transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
             Manage Table
@@ -108,68 +138,76 @@ export default function PanelDashboard() {
 
         {/* Shipment Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[1000px]">
-            <thead>
-              <tr className="bg-[#FAFBFC] dark:bg-background/30 text-[11px] font-black text-text-secondary/60 uppercase tracking-widest border-b border-border-color">
-                <th className="px-8 py-4 font-black">Shipment ID <span className="ml-1 text-[8px]">⇅</span></th>
-                <th className="px-8 py-4 font-black">Shipment Event <span className="ml-1 text-[8px]">⇅</span></th>
-                <th className="px-8 py-4 font-black">Status</th>
-                <th className="px-8 py-4 font-black">Expected arrived <span className="ml-1 text-[8px]">⇅</span></th>
-                <th className="px-8 py-4 font-black">Order</th>
-                <th className="px-8 py-4 font-black">Carrier</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-color">
-              {shipments.map((shipment, i) => (
-                <tr key={i} className="hover:bg-[#F8F9FB] dark:hover:bg-background/20 transition-colors group">
-                  <td className="px-8 py-5 text-[13px] font-black text-text-primary">{shipment.id}</td>
-                  <td className="px-8 py-5">
-                    {/* Timeline Progress */}
-                    <div className="flex items-center gap-0 w-32 relative">
-                      {[0, 1, 2, 3, 4].map((step) => (
-                        <div key={step} className="flex items-center flex-1 last:flex-none relative">
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${step <= shipment.event ? 'bg-black text-white border-black' : 'bg-white dark:bg-surface border-border-color text-text-secondary/40'}`}>
-                            {step === 0 && <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.44c-.31.17-.69.17-1 0L3.53 17.38c-.32-.17-.53-.5-.53-.88V7.5c0-.38.21-.71.53-.88l7.97-4.44c.31-.17.69-.17 1 0l7.97 4.44c.32.17.53.5.53.88v9z"/></svg>}
-                            {step === 1 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>}
-                            {step === 2 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1zM18 16V9l-4-3v10l4-3z"/></svg>}
-                            {step === 3 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z"/></svg>}
-                            {step === 4 && <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>}
-                          </div>
-                          {step < 4 && <div className={`h-1 flex-1 mx-[-1px] transition-colors ${step < shipment.event ? 'bg-black' : 'bg-border-color'}`} />}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-8 py-5">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black ${getStatusColor(shipment.status)}`}>
-                      <div className="w-1.5 h-1.5 rounded-full bg-current" />
-                      {shipment.status}
-                    </div>
-                  </td>
-                  <td className="px-8 py-5 text-[13px] font-bold text-text-primary">
-                    <div className="flex items-center gap-2">
-                      {shipment.date}
-                      {shipment.delay && <span className="bg-orange-500/10 text-orange-600 text-[9px] px-1.5 py-0.5 rounded-md flex items-center gap-1 font-black"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg> Delay</span>}
-                    </div>
-                  </td>
-                  <td className="px-8 py-5 text-[13px] font-black text-text-primary hover:text-primary cursor-pointer transition-colors underline decoration-transparent hover:decoration-primary">{shipment.order}</td>
-                  <td className="px-8 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-[#F3F5F9] dark:bg-background border border-border-color flex items-center justify-center text-[10px] font-black overflow-hidden group-hover:scale-110 transition-transform">
-                        {shipment.carrier === 'FedEx' && <span className="text-[#4D148C]">F<span className="text-[#FF6200]">E</span></span>}
-                        {shipment.carrier === 'DHL' && <span className="text-[#D40511] font-black italic">DHL</span>}
-                        {shipment.carrier === 'TNT' && <span className="text-[#FF6200] font-black italic">TNT</span>}
-                        {shipment.carrier === 'Aramex' && <span className="text-[#E31E24] font-black italic">A</span>}
-                        {shipment.carrier === 'Regular' && <span className="text-text-secondary opacity-40 italic">REG</span>}
-                        {shipment.carrier === 'N/A' && <span className="text-text-secondary opacity-40">N/A</span>}
-                      </div>
-                      <span className="text-[13px] font-bold text-text-primary">{shipment.carrier !== 'N/A' ? shipment.carrier : ''}</span>
-                    </div>
-                  </td>
+          {loading ? (
+            <div className="p-20 flex flex-col items-center justify-center gap-4 text-text-secondary">
+               <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+               <span className="text-xs font-black uppercase tracking-widest">Veriler Yükleniyor...</span>
+            </div>
+          ) : filteredOrders.length === 0 ? (
+            <div className="p-20 flex flex-col items-center justify-center gap-2 text-text-secondary">
+               <svg className="w-12 h-12 opacity-20 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
+               <span className="text-sm font-bold">Henüz siparişiniz bulunmuyor.</span>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse min-w-[1000px]">
+              <thead>
+                <tr className="bg-[#FAFBFC] dark:bg-background/30 text-[11px] font-black text-text-secondary/60 uppercase tracking-widest border-b border-border-color">
+                  <th className="px-8 py-4 font-black">Shipment ID</th>
+                  <th className="px-8 py-4 font-black">Shipment Event</th>
+                  <th className="px-8 py-4 font-black">Status</th>
+                  <th className="px-8 py-4 font-black">Order Date</th>
+                  <th className="px-8 py-4 font-black">Buyer</th>
+                  <th className="px-8 py-4 font-black">Total</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-border-color">
+                {filteredOrders.map((order, i) => {
+                  const statusInfo = getStatusInfo(order.status);
+                  return (
+                    <tr key={i} className="hover:bg-[#F8F9FB] dark:hover:bg-background/20 transition-colors group">
+                      <td className="px-8 py-5 text-[13px] font-black text-text-primary">
+                        {order.shortID || order._id?.slice(-8).toUpperCase() || `SHP-${1000 + i}`}
+                      </td>
+                      <td className="px-8 py-5">
+                        {/* Timeline Progress */}
+                        <div className="flex items-center gap-0 w-32 relative">
+                          {[0, 1, 2, 3, 4].map((step) => (
+                            <div key={step} className="flex items-center flex-1 last:flex-none relative">
+                              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${step <= statusInfo.eventIndex ? 'bg-black text-white border-black' : 'bg-white dark:bg-surface border-border-color text-text-secondary/40'}`}>
+                                {step === 0 && <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.44c-.31.17-.69.17-1 0L3.53 17.38c-.32-.17-.53-.5-.53-.88V7.5c0-.38.21-.71.53-.88l7.97-4.44c.31-.17.69-.17 1 0l7.97 4.44c.32.17.53.5.53.88v9z"/></svg>}
+                                {step === 1 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>}
+                                {step === 2 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1zM18 16V9l-4-3v10l4-3z"/></svg>}
+                                {step === 3 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z"/></svg>}
+                                {step === 4 && <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>}
+                              </div>
+                              {step < 4 && <div className={`h-1 flex-1 mx-[-1px] transition-colors ${step < statusInfo.eventIndex ? 'bg-black' : 'bg-border-color'}`} />}
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-8 py-5">
+                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black ${statusInfo.color}`}>
+                          <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                          {statusInfo.label}
+                        </div>
+                      </td>
+                      <td className="px-8 py-5 text-[13px] font-bold text-text-primary">
+                        {new Date(order.createdAt).toLocaleDateString('tr-TR')}
+                      </td>
+                      <td className="px-8 py-5 text-[13px] font-black text-text-primary">
+                         {order.buyer?.userName || 'Anonim'}
+                      </td>
+                      <td className="px-8 py-5">
+                        <div className="font-black text-text-primary">
+                          ₺{(order.totalAmount || 0).toLocaleString('tr-TR')}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
