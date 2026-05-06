@@ -67,6 +67,15 @@ body {
   .animate-subtle-zoom {
     animation: subtleZoom 10s ease-in-out infinite alternate;
   }
+
+  .animate-toast-in {
+    animation: toastIn 0.5s cubic-bezier(0.2, 0, 0, 1.2) forwards;
+  }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(100%) scale(0.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 @keyframes fadeInUp {
