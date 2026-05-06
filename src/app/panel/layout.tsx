@@ -98,8 +98,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     window.location.href = "/";
   };
 
-  if (!isAuthenticated) return null;
-
   const userType = user?.userType || [];
   console.log("Logged in User Role:", userType);
   const isAdmin = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
@@ -128,6 +126,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       document.title = `salutbabe | ${activeMenu.label}`;
     }
   }, [activeMenu?.label]);
+
+  if (!isAuthenticated) return null;
+
   return (
     <div className="min-h-screen bg-[#F8F9FB] dark:bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
