@@ -173,36 +173,36 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               {isNotificationOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationOpen(false)}></div>
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-[#232C41] text-white border border-[#3A455C] rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
-                    <div className="p-4 border-b border-[#3A455C] flex items-center justify-between bg-[#1B2333]">
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-[#232C41] text-text-primary dark:text-white border border-border-color dark:border-[#3A455C] rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
+                    <div className="p-4 border-b border-border-color dark:border-[#3A455C] flex items-center justify-between bg-gray-50 dark:bg-[#1B2333]">
                       <div>
-                        <h3 className="text-[14px] font-bold text-white">{t('dashboard.notifications_title')}</h3>
-                        <p className="text-[11px] text-gray-400 mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
+                        <h3 className="text-[14px] font-bold text-text-primary dark:text-white">{t('dashboard.notifications_title')}</h3>
+                        <p className="text-[11px] text-text-secondary dark:text-gray-400 mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <button onClick={handleMarkAllAsRead} className="text-[11px] font-bold text-[#5FC8C0] hover:underline">
                           {t('dashboard.notifications_mark_read')}
                         </button>
-                        <button onClick={() => setIsNotificationOpen(false)} className="text-gray-400 hover:text-white">
+                        <button onClick={() => setIsNotificationOpen(false)} className="text-text-secondary hover:text-text-primary dark:text-gray-400 dark:hover:text-white">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                       </div>
                     </div>
                     
-                    <div className="flex-1 overflow-y-auto bg-[#232C41]">
+                    <div className="flex-1 overflow-y-auto bg-white dark:bg-[#232C41]">
                       {notifications.length === 0 ? (
-                        <div className="p-6 text-center text-[12px] text-gray-400">{t('dashboard.notifications_empty')}</div>
+                        <div className="p-6 text-center text-[12px] text-text-secondary dark:text-gray-400">{t('dashboard.notifications_empty')}</div>
                       ) : (
                         notifications.map((notif: any) => (
-                          <div key={notif.userNotificationID || notif.id || Math.random()} className="p-4 border-b border-[#3A455C] hover:bg-[#2A354E] transition-colors relative cursor-pointer">
+                          <div key={notif.userNotificationID || notif.id || Math.random()} className="p-4 border-b border-border-color dark:border-[#3A455C] hover:bg-black/5 dark:hover:bg-[#2A354E] transition-colors relative cursor-pointer">
                             <div className="flex gap-3">
                               <div className="mt-1 flex-shrink-0">
                                 <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-[#5FC8C0]' : 'bg-transparent'}`}></div>
                               </div>
                               <div>
-                                <h4 className="text-[13px] font-bold text-white mb-1">{notif.title || 'Bildirim'}</h4>
-                                <p className="text-[12px] text-gray-300 leading-snug mb-2">{notif.body || notif.message}</p>
-                                <span className="text-[10px] font-bold text-gray-500">
+                                <h4 className="text-[13px] font-bold text-text-primary dark:text-white mb-1">{notif.title || 'Bildirim'}</h4>
+                                <p className="text-[12px] text-text-secondary dark:text-gray-300 leading-snug mb-2">{notif.body || notif.message}</p>
+                                <span className="text-[10px] font-bold text-text-secondary/80 dark:text-gray-500">
                                   {notif.createdAt ? new Date(notif.createdAt).toLocaleString() : ''}
                                 </span>
                               </div>
@@ -212,8 +212,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                       )}
                     </div>
                     
-                    <div className="p-3 border-t border-[#3A455C] bg-[#1B2333]">
-                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-white hover:bg-[#2A354E] rounded-lg transition-colors">
+                    <div className="p-3 border-t border-border-color dark:border-[#3A455C] bg-gray-50 dark:bg-[#1B2333]">
+                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5 dark:text-white dark:hover:bg-[#2A354E] rounded-lg transition-colors">
                         {t('dashboard.notifications_close')}
                       </button>
                     </div>
