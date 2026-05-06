@@ -5,6 +5,7 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {useThemeLanguage} from "../context/ThemeLanguageContext";
 import {CONTACT_INFO, SOCIAL_LINKS} from "../constants";
+import {apiUrl, MAPBOX_TOKEN} from "../lib/api";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -47,11 +48,10 @@ const Footer = () => {
     function initMap() {
       if (!mapContainerRef.current || mapInstance.current) return;
       
-      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+      const token = MAPBOX_TOKEN;
       
       if (!token) {
-        // Prevent console errors if token is not yet provided
-        mapContainerRef.current.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:gray; font-size:12px; text-align:center; padding:20px;">Map integration pending.<br/>Please add NEXT_PUBLIC_MAPBOX_TOKEN to your .env file.</div>';
+        mapContainerRef.current.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:gray; font-size:12px; text-align:center; padding:20px;">Map integration pending.<br/>Please add NEXT_PUBLIC_MAPBOX_API_KEY to your .env file.</div>';
         return;
       }
       
@@ -469,7 +469,7 @@ const Footer = () => {
               {/* Content Area (Iframe fetches from backend) */}
               <div className="flex-1 bg-surface rounded-2xl border border-border-color overflow-hidden relative shadow-inner">
                 <iframe 
-                  src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api/v1'}/legal/${activeLegalTab}?lang=${language}`} 
+                  src={apiUrl(`/legal/${activeLegalTab}?lang=${language}`)}
                   className="w-full h-full border-none"
                   title="Legal Document"
                 />
