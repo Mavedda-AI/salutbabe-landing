@@ -5,7 +5,7 @@ import {apiUrl} from "../../../../../lib/api";
 import {useThemeLanguage} from "../../../../../context/ThemeLanguageContext";
 
 export default function AdminUsersPage() {
-  const { t } = useThemeLanguage();
+  const { t, theme } = useThemeLanguage();
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState<any>(null);
@@ -128,53 +128,52 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="bg-white dark:bg-surface rounded-3xl border border-border-color shadow-sm overflow-hidden">
-      <div className="p-6 border-b border-border-color flex items-center justify-between">
-        <h2 className="text-lg font-black text-text-primary">{t('dashboard.admin_users_title')}</h2>
-        <div className="text-[12px] font-bold text-text-secondary">{t('dashboard.admin_users_total').replace('{count}', users.length.toString())}</div>
-      </div>
+    <div className={`rounded-[2.5rem] border transition-all duration-300 overflow-hidden
+      ${theme === 'light' 
+        ? 'bg-white border-border-color shadow-sm' 
+        : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-border-color bg-[#F8F9FB] dark:bg-surface/50">
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">{t('dashboard.table_user')}</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">{t('dashboard.table_contact')}</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest">{t('dashboard.table_role')}</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest text-right">{t('dashboard.table_balance')}</th>
-              <th className="py-4 px-6 text-[11px] font-black text-text-secondary uppercase tracking-widest text-center">{t('dashboard.table_actions')}</th>
+            <tr className={`border-b ${theme === 'light' ? 'border-border-color bg-gray-50' : 'border-white/5 bg-white/5'}`}>
+              <th className="py-6 px-8 text-[11px] font-black text-text-secondary uppercase tracking-[0.2em]">{t('dashboard.table_user')}</th>
+              <th className="py-6 px-8 text-[11px] font-black text-text-secondary uppercase tracking-[0.2em]">{t('dashboard.table_contact')}</th>
+              <th className="py-6 px-8 text-[11px] font-black text-text-secondary uppercase tracking-[0.2em]">{t('dashboard.table_role')}</th>
+              <th className="py-6 px-8 text-[11px] font-black text-text-secondary uppercase tracking-[0.2em] text-right">{t('dashboard.table_balance')}</th>
+              <th className="py-6 px-8 text-[11px] font-black text-text-secondary uppercase tracking-[0.2em] text-center">{t('dashboard.table_actions')}</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.userID} className="border-b border-border-color/50 hover:bg-black/5 transition-colors">
-                <td className="py-4 px-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black text-lg">
+              <tr key={user.userID} className={`border-b transition-colors group ${theme === 'light' ? 'border-border-color/50 hover:bg-gray-50' : 'border-white/5 hover:bg-white/[0.02]'}`}>
+                <td className="py-6 px-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-black text-lg border border-primary/20">
                       {user.userName?.[0] || user.eMail[0].toUpperCase()}
                     </div>
                     <div>
-                      <div className="font-bold text-[14px] text-text-primary">{user.userName} {user.userSurname}</div>
-                      <div className="text-[11px] font-bold text-text-secondary">@{user.userNickname || t('dashboard.anonymous')}</div>
+                      <div className="font-black text-[14px] text-text-primary tracking-tight">{user.userName} {user.userSurname}</div>
+                      <div className="text-[11px] font-bold text-text-secondary/60">@{user.userNickname || t('dashboard.anonymous')}</div>
                     </div>
                   </div>
                 </td>
-                <td className="py-4 px-6">
-                  <div className="text-[13px] font-bold text-text-primary">{user.eMail}</div>
-                  <div className="text-[11px] font-bold text-text-secondary">{user.phoneNumber || t('dashboard.no_phone')}</div>
+                <td className="py-6 px-8">
+                  <div className="text-[13px] font-bold text-text-primary tracking-tight">{user.eMail}</div>
+                  <div className="text-[11px] font-bold text-text-secondary/60">{user.phoneNumber || t('dashboard.no_phone')}</div>
                 </td>
-                <td className="py-4 px-6">
-                  <div className="flex gap-1 flex-wrap">
+                <td className="py-6 px-8">
+                  <div className="flex gap-1.5 flex-wrap">
                     {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
-                      <span key={idx} className="bg-primary/10 text-primary px-2 py-0.5 rounded-lg text-[10px] font-black">{role}</span>
+                      <span key={idx} className="bg-primary/5 text-primary border border-primary/10 px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider">{role}</span>
                     ))}
                   </div>
                 </td>
-                <td className="py-4 px-6 text-right">
-                  <div className="text-[14px] font-black text-text-primary">{user.balance || 0} ₺</div>
-                  <div className="text-[11px] font-bold text-orange-500 text-opacity-80">{t('dashboard.pending_balance')}: {user.pendingBalance || 0} ₺</div>
+                <td className="py-6 px-8 text-right">
+                  <div className="text-[15px] font-black text-text-primary">{user.balance?.toLocaleString('tr-TR') || 0} ₺</div>
+                  <div className="text-[10px] font-black text-orange-400 uppercase tracking-tighter mt-1 opacity-80">{t('dashboard.pending_balance')}: {user.pendingBalance || 0} ₺</div>
                 </td>
-                <td className="py-4 px-6 text-center">
+                <td className="py-6 px-8 text-center">
                   <div className="flex items-center justify-center gap-2">
                     <button 
                       onClick={() => {
@@ -182,7 +181,7 @@ export default function AdminUsersPage() {
                         setBalanceInput(user.balance?.toString() || "0");
                         setPendingBalanceInput(user.pendingBalance?.toString() || "0");
                       }}
-                      className="px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-[11px] font-black transition-colors"
+                      className="px-3.5 py-1.5 bg-black/5 dark:bg-white/5 hover:bg-primary hover:text-white rounded-xl text-[11px] font-black transition-all border border-transparent hover:border-primary shadow-sm"
                     >
                       {t('dashboard.btn_balance')}
                     </button>
@@ -191,13 +190,13 @@ export default function AdminUsersPage() {
                         setEditingRoleUser(user);
                         setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
                       }}
-                      className="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500 text-blue-500 hover:text-white rounded-lg text-[11px] font-black transition-colors"
+                      className="px-3.5 py-1.5 bg-black/5 dark:bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[11px] font-black transition-all border border-transparent hover:border-blue-500 shadow-sm"
                     >
                       {t('dashboard.btn_roles')}
                     </button>
                     <button 
                       onClick={() => handleBlockUser(user.userID, !user.isActive)}
-                      className={`px-3 py-1.5 rounded-lg text-[11px] font-black transition-colors ${!user.isActive ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}
+                      className={`px-3.5 py-1.5 rounded-xl text-[11px] font-black transition-all border border-transparent shadow-sm ${!user.isActive ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white hover:border-green-500' : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500'}`}
                     >
                       {!user.isActive ? t('dashboard.btn_unblock') : t('dashboard.btn_block')}
                     </button>
