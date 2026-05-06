@@ -236,7 +236,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       {/* Main Sidebar */}
       <aside 
         className={`fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
-          ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-background border-r border-white/5'}`}
+          ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#09090B] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">

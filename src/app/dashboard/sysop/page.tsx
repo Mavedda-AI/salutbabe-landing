@@ -86,7 +86,7 @@ export default function SysopDashboard() {
             className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1
               ${theme === 'light' 
                 ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
-                : 'bg-surface/50 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-surface/80 hover:border-white/10'}`}
+                : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}
           >
             <div className="flex flex-col h-full">
                <p className={`text-[12px] font-black uppercase tracking-widest mb-3 ${theme === 'light' ? 'text-text-secondary/60' : 'text-text-secondary/80'}`}>{card.label}</p>
@@ -104,7 +104,7 @@ export default function SysopDashboard() {
         <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-hidden transition-all duration-300
           ${theme === 'light' 
             ? 'bg-white border-border-color shadow-sm' 
-            : 'bg-surface/50 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+            : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
           <div className="p-8 border-b border-border-color flex items-center justify-between">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.recent_transactions')}</h3>
             <button className="text-[12px] font-black text-primary hover:underline">{t('dashboard.sysop.view_all')}</button>
@@ -147,7 +147,7 @@ export default function SysopDashboard() {
         <div className={`rounded-[2.5rem] border transition-all duration-300 flex flex-col
           ${theme === 'light' 
             ? 'bg-white border-border-color shadow-sm' 
-            : 'bg-surface/50 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+            : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
           <div className="p-8 border-b border-border-color">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.quick_access')}</h3>
           </div>

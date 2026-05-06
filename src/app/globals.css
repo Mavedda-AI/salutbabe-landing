@@ -25,11 +25,11 @@
   --primary: #4FBEB7;
   --secondary: #FF85B2;
   --accent: #6ED89A;
-  --background: #0A0F1E; /* Deeper, more sophisticated midnight */
-  --surface: #131A2D;    /* Subtle lift for cards */
-  --text-primary: #E2E8F0; /* Softer white for less eye strain */
-  --text-secondary: #94A3B8;
-  --border-color: #1E293B;
+  --background: #09090B; /* Deep Onyx */
+  --surface: #18181B;    /* Graphite surface */
+  --text-primary: #F4F4F5; /* Neutral off-white */
+  --text-secondary: #A1A1AA; /* Muted zinc */
+  --border-color: #27272A;   /* Subtle border */
   
   --glass-bg: rgba(30, 41, 59, 0.6);
   --glass-border: rgba(255, 255, 255, 0.05);
