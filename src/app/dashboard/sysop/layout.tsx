@@ -107,8 +107,13 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("auth_token");
-    window.location.href = "/";
-  };
+  interface NavItem {
+    label: string;
+    href?: string;
+    desc?: string;
+    icon?: React.ReactNode;
+    submenus?: { label: string; href: string }[];
+  }
 
   const userType = user?.userType || [];
   console.log("Logged in User Role:", userType);
@@ -141,14 +146,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     }
   };
 
-  const normalUserNav = [
+  const normalUserNav: NavItem[] = [
     { label: t('dashboard.nav_dashboard'), href: '/dashboard/sysop', desc: t('dashboard.nav_dashboard_desc') },
     { label: t('dashboard.nav_customers'), href: '/dashboard/sysop/customers', desc: t('dashboard.nav_customers_desc') },
     { label: t('dashboard.nav_products'), href: '/dashboard/sysop/products', desc: t('dashboard.nav_products_desc') },
     { label: t('dashboard.nav_orders'), href: '/dashboard/sysop/orders', desc: t('dashboard.nav_orders_desc') },
   ];
 
-  const adminNav = [
+  const adminNav: NavItem[] = [
     { 
       label: t('dashboard.nav_dashboard'), 
       href: '/dashboard/sysop', 
@@ -235,12 +240,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     },
   ];
 
-  const activeNav = isAdmin ? adminNav : normalUserNav;
+  const activeNav: NavItem[] = isAdmin ? adminNav : normalUserNav;
   const dashboardItem = activeNav[0];
   const otherItems = activeNav.slice(1);
   
   // Find active menu for header title
-  const findActiveMenu = (items: any[]): any => {
+  const findActiveMenu = (items: NavItem[]): NavItem => {
     for (const item of items) {
       if (item.href === pathname) return item;
       if (item.submenus) {
