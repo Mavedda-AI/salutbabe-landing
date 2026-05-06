@@ -164,6 +164,8 @@
     "btn_change_password": "CHANGE PASSWORD",
     "profile_updated": "Profile updated successfully.",
     "under_construction": "This feature is under construction.",
+    "toast_warning": "WARNING",
+    "toast_success": "SUCCESS",
     "loading": "LOADING...",
     "delete_account": "Delete Account",
     "delete_account_desc": "This action cannot be undone. All your data will be permanently deleted.",
