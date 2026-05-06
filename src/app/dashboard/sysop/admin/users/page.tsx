@@ -157,62 +157,167 @@ export default function AdminUsersPage() {
         <div className="w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2" />
 
         <div className="flex items-center gap-2">
-           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+           <button 
+             onClick={() => setViewMode('list')}
+             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
+               ${viewMode === 'list' 
+                 ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                 : theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
            </button>
-           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-primary text-white shadow-lg shadow-primary/20'}`}>
+           <button 
+             onClick={() => setViewMode('grid')}
+             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
+               ${viewMode === 'grid' 
+                 ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                 : theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
            </button>
         </div>
       </div>
 
-      {/* Users List Cards */}
-      <div className="flex flex-col gap-4">
+      {/* Users Rendering */}
+      <div className={viewMode === 'list' ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"}>
         {users.map((user) => (
-          <div key={user.userID} className={`p-8 rounded-[2.5rem] border transition-all duration-500 group hover:scale-[1.01]
-            ${theme === 'light' 
-              ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' 
-              : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* User Info Section */}
-              <div className="lg:col-span-3 flex items-center gap-6">
-                <div className="relative">
-                  <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center font-black text-2xl transition-all duration-500 group-hover:rotate-6
-                    ${theme === 'light' ? 'bg-primary/10 text-primary border-2 border-primary/20' : 'bg-primary/20 text-primary border-2 border-primary/20 shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
-                    {user.userName?.[0] || user.eMail[0].toUpperCase()}
+          viewMode === 'list' ? (
+            /* List View Card */
+            <div key={user.userID} className={`p-8 rounded-[2.5rem] border transition-all duration-500 group hover:scale-[1.01]
+              ${theme === 'light' 
+                ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' 
+                : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* User Info Section */}
+                <div className="lg:col-span-3 flex items-center gap-6">
+                  <div className="relative">
+                    <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center font-black text-2xl transition-all duration-500 group-hover:rotate-6
+                      ${theme === 'light' ? 'bg-primary/10 text-primary border-2 border-primary/20' : 'bg-primary/20 text-primary border-2 border-primary/20 shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
+                      {user.userName?.[0] || user.eMail[0].toUpperCase()}
+                    </div>
+                    <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-4 flex items-center justify-center
+                      ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
+                      <div className={`w-2.5 h-2.5 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'}`} />
+                    </div>
                   </div>
-                  <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-4 flex items-center justify-center
-                    ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
-                    <div className={`w-2.5 h-2.5 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'}`} />
+                  <div>
+                    <h4 className="text-[17px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
+                    <p className="text-[12px] font-bold text-text-secondary/60 uppercase tracking-widest">@{user.userNickname || t('dashboard.anonymous')}</p>
                   </div>
                 </div>
-                <div>
-                  <h4 className="text-[17px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
-                  <p className="text-[12px] font-bold text-text-secondary/60 uppercase tracking-widest">@{user.userNickname || t('dashboard.anonymous')}</p>
+
+                {/* Contact Info Section */}
+                <div className="lg:col-span-3">
+                  <div className="flex flex-col gap-2">
+                     <div className="flex items-center gap-3">
+                       <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                       <span className="text-[13px] font-bold text-text-primary tracking-tight">{user.eMail}</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                       <svg className="w-4 h-4 text-text-secondary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                       <span className="text-[12px] font-bold text-text-secondary/60">{user.phoneNumber || t('dashboard.no_phone')}</span>
+                     </div>
+                  </div>
+                </div>
+
+                {/* Roles Section */}
+                <div className="lg:col-span-2">
+                  <div className="flex gap-2 flex-wrap justify-center lg:justify-start">
+                     {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
+                       <span key={idx} className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300
+                         ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_15px_rgba(95,200,192,0.1)]' : 
+                           role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
+                           'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
+                         {role}
+                       </span>
+                     ))}
+                  </div>
+                </div>
+
+                {/* Balance Section */}
+                <div className="lg:col-span-2 text-right lg:text-center">
+                   <div className="inline-block text-left">
+                     <p className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-1">{t('dashboard.table_balance')}</p>
+                     <div className="flex items-baseline gap-1">
+                       <span className="text-[22px] font-black text-text-primary tracking-tight">{user.balance?.toLocaleString('tr-TR') || 0}</span>
+                       <span className="text-[13px] font-black text-primary">₺</span>
+                     </div>
+                     <div className="mt-1 flex items-center gap-1.5">
+                       <div className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
+                       <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{user.pendingBalance || 0} ₺</span>
+                     </div>
+                   </div>
+                </div>
+
+                {/* Actions Section */}
+                <div className="lg:col-span-2">
+                  <div className="flex flex-col gap-2">
+                    <button 
+                      onClick={() => {
+                        setEditingUser(user);
+                        setBalanceInput(user.balance?.toString() || "0");
+                        setPendingBalanceInput(user.pendingBalance?.toString() || "0");
+                      }}
+                      className={`flex items-center justify-between px-5 py-3 rounded-2xl text-[12px] font-black transition-all group/btn
+                        ${theme === 'light' ? 'bg-gray-50 text-text-primary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-primary hover:bg-primary hover:text-white shadow-lg'}`}
+                    >
+                      <span>{t('dashboard.btn_balance')}</span>
+                      <svg className="w-4 h-4 opacity-40 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                    </button>
+                    
+                    <div className="grid grid-cols-2 gap-2">
+                      <button 
+                        onClick={() => {
+                          setEditingRoleUser(user);
+                          setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
+                        }}
+                        className={`flex items-center justify-center p-3 rounded-2xl transition-all
+                          ${theme === 'light' ? 'bg-gray-50 text-blue-500 hover:bg-blue-500 hover:text-white' : 'bg-white/5 text-blue-500 hover:bg-blue-500 hover:text-white'}`}
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                      </button>
+                      <button 
+                        onClick={() => handleBlockUser(user.userID, !user.isActive)}
+                        className={`flex items-center justify-center p-3 rounded-2xl transition-all
+                          ${!user.isActive 
+                            ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' 
+                            : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Grid View Card */
+            <div key={user.userID} className={`p-8 rounded-[3rem] border transition-all duration-500 group hover:scale-[1.02] flex flex-col items-center text-center
+              ${theme === 'light' 
+                ? 'bg-white border-border-color shadow-sm hover:shadow-2xl hover:border-primary/20' 
+                : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+              
+              {/* Profile Header */}
+              <div className="relative mb-6">
+                <div className={`w-28 h-28 rounded-[2.5rem] flex items-center justify-center font-black text-3xl transition-all duration-500 group-hover:rotate-6
+                  ${theme === 'light' ? 'bg-primary/10 text-primary border-4 border-white shadow-xl' : 'bg-primary/20 text-primary border-4 border-[#121214] shadow-2xl shadow-primary/10'}`}>
+                  {user.userName?.[0] || user.eMail[0].toUpperCase()}
+                </div>
+                <div className={`absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-4 flex items-center justify-center
+                  ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
+                  <div className={`w-3 h-3 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]'}`} />
                 </div>
               </div>
 
-              {/* Contact Info Section */}
-              <div className="lg:col-span-3">
-                <div className="flex flex-col gap-2">
-                   <div className="flex items-center gap-3">
-                     <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                     <span className="text-[13px] font-bold text-text-primary tracking-tight">{user.eMail}</span>
-                   </div>
-                   <div className="flex items-center gap-3">
-                     <svg className="w-4 h-4 text-text-secondary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                     <span className="text-[12px] font-bold text-text-secondary/60">{user.phoneNumber || t('dashboard.no_phone')}</span>
-                   </div>
-                </div>
-              </div>
-
-              {/* Roles Section */}
-              <div className="lg:col-span-2">
-                <div className="flex gap-2 flex-wrap justify-center lg:justify-start">
+              {/* User Identity */}
+              <div className="mb-6">
+                <h4 className="text-[19px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
+                <p className="text-[12px] font-bold text-text-secondary/60 uppercase tracking-[0.2em] mb-4">@{user.userNickname || t('dashboard.anonymous')}</p>
+                <div className="flex gap-2 justify-center flex-wrap">
                    {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
-                     <span key={idx} className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300
-                       ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_15px_rgba(95,200,192,0.1)]' : 
+                     <span key={idx} className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border
+                       ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20' : 
                          role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
                          'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
                        {role}
@@ -221,64 +326,61 @@ export default function AdminUsersPage() {
                 </div>
               </div>
 
-              {/* Balance Section */}
-              <div className="lg:col-span-2 text-right lg:text-center">
-                 <div className="inline-block text-left">
-                   <p className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-1">{t('dashboard.table_balance')}</p>
-                   <div className="flex items-baseline gap-1">
-                     <span className="text-[22px] font-black text-text-primary tracking-tight">{user.balance?.toLocaleString('tr-TR') || 0}</span>
-                     <span className="text-[13px] font-black text-primary">₺</span>
-                   </div>
-                   <div className="mt-1 flex items-center gap-1.5">
-                     <div className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-                     <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{user.pendingBalance || 0} ₺</span>
-                   </div>
+              {/* Stats / Balance */}
+              <div className={`w-full p-6 rounded-[2rem] mb-8 flex justify-center items-center gap-6
+                ${theme === 'light' ? 'bg-gray-50' : 'bg-white/5'}`}>
+                 <div className="text-center">
+                    <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.table_balance')}</p>
+                    <div className="flex items-center gap-1 justify-center">
+                       <span className="text-[20px] font-black text-text-primary">{user.balance?.toLocaleString('tr-TR') || 0}</span>
+                       <span className="text-[12px] font-black text-primary">₺</span>
+                    </div>
+                 </div>
+                 <div className="w-[1px] h-8 bg-text-secondary/10" />
+                 <div className="text-center">
+                    <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">PENDING</p>
+                    <div className="flex items-center gap-1 justify-center text-orange-400">
+                       <span className="text-[20px] font-black">{user.pendingBalance || 0}</span>
+                       <span className="text-[12px] font-black">₺</span>
+                    </div>
                  </div>
               </div>
 
-              {/* Actions Section */}
-              <div className="lg:col-span-2">
-                <div className="flex flex-col gap-2">
-                  <button 
-                    onClick={() => {
-                      setEditingUser(user);
-                      setBalanceInput(user.balance?.toString() || "0");
-                      setPendingBalanceInput(user.pendingBalance?.toString() || "0");
-                    }}
-                    className={`flex items-center justify-between px-5 py-3 rounded-2xl text-[12px] font-black transition-all group/btn
-                      ${theme === 'light' ? 'bg-gray-50 text-text-primary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-primary hover:bg-primary hover:text-white shadow-lg'}`}
-                  >
-                    <span>{t('dashboard.btn_balance')}</span>
-                    <svg className="w-4 h-4 opacity-40 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                  </button>
-                  
-                  <div className="grid grid-cols-2 gap-2">
-                    <button 
-                      onClick={() => {
-                        setEditingRoleUser(user);
-                        setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
-                      }}
-                      className={`flex items-center justify-center p-3 rounded-2xl transition-all
-                        ${theme === 'light' ? 'bg-gray-50 text-blue-500 hover:bg-blue-500 hover:text-white' : 'bg-white/5 text-blue-500 hover:bg-blue-500 hover:text-white'}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                    </button>
-                    <button 
-                      onClick={() => handleBlockUser(user.userID, !user.isActive)}
-                      className={`flex items-center justify-center p-3 rounded-2xl transition-all
-                        ${!user.isActive 
-                          ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' 
-                          : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                        {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+              {/* Contact Mini */}
+              <p className="text-[13px] font-bold text-text-primary/80 mb-8 truncate w-full px-2">{user.eMail}</p>
+
+              {/* Actions Grid */}
+              <div className="w-full grid grid-cols-3 gap-2">
+                 <button 
+                   onClick={() => {
+                     setEditingUser(user);
+                     setBalanceInput(user.balance?.toString() || "0");
+                     setPendingBalanceInput(user.pendingBalance?.toString() || "0");
+                   }}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     ${theme === 'light' ? 'bg-primary text-white shadow-lg' : 'bg-primary text-white shadow-lg'}`}>
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" /></svg>
+                 </button>
+                 <button 
+                   onClick={() => {
+                     setEditingRoleUser(user);
+                     setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
+                   }}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     ${theme === 'light' ? 'bg-gray-100 text-blue-500' : 'bg-white/5 text-blue-500'}`}>
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                 </button>
+                 <button 
+                   onClick={() => handleBlockUser(user.userID, !user.isActive)}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     ${!user.isActive ? 'bg-green-500 text-white shadow-lg' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                     {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                   </svg>
+                 </button>
               </div>
             </div>
-          </div>
+          )
         ))}
 
         {users.length === 0 && (
