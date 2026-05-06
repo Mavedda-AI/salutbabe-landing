@@ -198,9 +198,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 2V5M12 19V22M19 12H22M2 12H5M16.95 7.05L19.071 4.929M4.929 19.071L7.05 16.95M16.95 16.95L19.071 19.071M4.929 4.929L7.05 7.05" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           <path d="M19.6224 10.3954L18.4568 8.37738C17.6708 7.01599 17.2778 6.33529 17.5549 5.44781C17.8321 4.56034 18.4727 3.99042 19.7538 2.8506C19.7538 2.8506 19.7538 2.8506 19.7538 2.8506" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M12 2V4M12 20V22M4 12H2M22 12H20M5.636 5.636L7.05 7.05M16.95 16.95L18.364 18.364M18.364 5.636L16.95 7.05M7.05 16.95L5.636 18.364" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
       )
     },
@@ -424,7 +423,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
             <button className="flex items-center gap-3 text-white/60 hover:text-white transition-all group">
                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10">
-                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.802m3.37 6.087a19.245 19.245 0 002.046-3.815m3.046 0a21.43 21.43 0 01-1.048-9.5H3m12.048 9.5c.134.754.216 1.525.24 2.308M12 21l6-6m-6 6l-6-6" /></svg>
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                   <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                   <path d="M3.6001 9H20.4001" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                   <path d="M3.6001 15H20.4001" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                   <path d="M12 3C14.5013 5.51164 15.9228 8.6603 16.0001 12C15.9228 15.3397 14.5013 18.4884 12 21C9.49881 18.4884 8.07727 15.3397 8.0001 12C8.07727 8.6603 9.49881 5.51164 12 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                 </svg>
                </div>
                {!isSidebarCollapsed && <span className="text-[12px] font-bold">Deutsch</span>}
             </button>

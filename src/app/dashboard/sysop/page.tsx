@@ -45,45 +45,21 @@ export default function SysopDashboard() {
     { 
       label: "Toplam Satış", 
       value: `₺${(stats?.totalRevenue || 0).toLocaleString('tr-TR')}`, 
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
-      color: "from-emerald-500/20 to-emerald-500/5",
       textColor: "text-emerald-500"
     },
     { 
       label: "Aktif Kullanıcılar", 
       value: stats?.totalUsers || 0, 
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-          <path d="M17 21V19a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm14 10v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
-      color: "from-blue-500/20 to-blue-500/5",
       textColor: "text-blue-500"
     },
     { 
       label: "Mağaza Sayısı", 
       value: stats?.totalStores || 0, 
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-          <path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21V11h6v10" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
-      color: "from-purple-500/20 to-purple-500/5",
       textColor: "text-purple-500"
     },
     { 
       label: "Bekleyen Onaylar", 
       value: stats?.pendingListings || 0, 
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
-      color: "from-orange-500/20 to-orange-500/5",
       textColor: "text-orange-500"
     }
   ];
@@ -98,39 +74,21 @@ export default function SysopDashboard() {
   }
 
   return (
-    <div className="space-y-10">
-      {/* Welcome Section */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-black text-text-primary tracking-tight">Hoş geldin, Yönetici 👋</h1>
-          <p className="text-text-secondary font-bold text-[14px] mt-1">Platformun genel durumu ve önemli metrikler aşağıdadır.</p>
-        </div>
-        <button 
-          onClick={fetchDashboardData}
-          className="p-3 bg-surface border border-border-color rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all active:scale-95"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
-        </button>
-      </div>
-
+    <div className="space-y-8">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, i) => (
           <div 
             key={i}
-            className={`p-6 rounded-[2.5rem] bg-gradient-to-br ${card.color} border border-white/10 shadow-sm relative overflow-hidden group hover:scale-[1.02] transition-all duration-300`}
+            className={`p-6 rounded-[2rem] bg-surface border border-border-color shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20`}
           >
-            <div className="relative z-10 flex flex-col gap-4">
-              <div className={`w-12 h-12 rounded-2xl bg-white dark:bg-surface flex items-center justify-center ${card.textColor} shadow-lg shadow-black/5`}>
-                {card.icon}
-              </div>
-              <div>
-                <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary/60 mb-1">{card.label}</p>
-                <h3 className="text-2xl font-black text-text-primary">{card.value}</h3>
+            <div className="flex flex-col h-full">
+              <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary/60 mb-3">{card.label}</p>
+              <div className="w-full h-[1px] bg-border-color mb-5" />
+              <div className="mt-auto">
+                <h3 className={`text-2xl font-black ${card.textColor}`}>{card.value}</h3>
               </div>
             </div>
-            {/* Decoration */}
-            <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 dark:bg-black/5 rounded-full blur-2xl group-hover:scale-150 transition-transform" />
           </div>
         ))}
       </div>
@@ -208,19 +166,6 @@ export default function SysopDashboard() {
                   <p className="text-[13px] font-black text-text-primary">Bildirim Gönder</p>
                   <p className="text-[11px] text-text-secondary font-bold">Tüm kullanıcılara</p>
                 </div>
-             </button>
-          </div>
-          <div className="mt-auto p-8 border-t border-border-color">
-            <div className="bg-primary/5 rounded-3xl p-6 border border-primary/10">
-               <p className="text-[11px] font-black text-primary uppercase tracking-widest mb-2">Haftalık Hedef</p>
-               <div className="flex items-end gap-2 mb-4">
-                  <span className="text-3xl font-black text-text-primary">%84</span>
-                  <span className="text-[11px] font-bold text-text-secondary mb-1.5">tamamlandı</span>
-               </div>
-               <div className="w-full h-2 bg-primary/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary rounded-full w-[84%]" />
-               </div>
-            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../../../../lib/api";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -13,8 +14,11 @@ export default function AdminOrders() {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/v1/admin/orders", {
-        headers: { "Authorization": `Bearer ${token}` }
+      const res = await fetch(apiUrl("/admin/orders"), {
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       const data = await res.json();
       if (data.payload?.orders) setOrders(data.payload.orders);

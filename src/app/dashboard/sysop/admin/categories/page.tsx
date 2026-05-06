@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../../../lib/api";
 
 export default function AdminCategories() {
   const [categories, setCategories] = useState<any[]>([]);
@@ -30,11 +31,14 @@ export default function AdminCategories() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
+      const headers = { 
+        Authorization: `Bearer ${token}`,
+        "X-Device-Type": "web"
+      };
 
       const [catRes, attrRes] = await Promise.all([
-        fetch("http://localhost:3000/api/v1/admin/categories", { headers }),
-        fetch("http://localhost:3000/api/v1/admin/attributes", { headers })
+        fetch(apiUrl("/admin/categories"), { headers }),
+        fetch(apiUrl("/admin/attributes"), { headers })
       ]);
 
       const catData = await catRes.json();
@@ -54,8 +58,8 @@ export default function AdminCategories() {
       const token = localStorage.getItem("token");
       const method = editingAttribute ? "PUT" : "POST";
       const url = editingAttribute 
-        ? `http://localhost:3000/api/v1/admin/attributes/${editingAttribute.attributeID}`
-        : "http://localhost:3000/api/v1/admin/attributes";
+        ? apiUrl(`/admin/attributes/${editingAttribute.attributeID}`)
+        : apiUrl("/admin/attributes");
 
       const res = await fetch(url, {
         method,

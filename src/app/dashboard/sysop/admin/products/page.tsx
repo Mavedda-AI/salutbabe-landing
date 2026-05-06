@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../../../../lib/api";
 
 export default function AdminListings() {
   const [listings, setListings] = useState<any[]>([]);
@@ -13,8 +14,11 @@ export default function AdminListings() {
   const fetchListings = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/v1/admin/listings", {
-        headers: { "Authorization": `Bearer ${token}` }
+      const res = await fetch(apiUrl("/admin/listings"), {
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       const data = await res.json();
       if (data.payload?.listings) setListings(data.payload.listings);
@@ -28,11 +32,12 @@ export default function AdminListings() {
   const updateStatus = async (id: string, status: string) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:3000/api/v1/admin/listings/${id}/status`, {
+      const res = await fetch(apiUrl(`/admin/listings/${id}/status`), {
         method: "PUT",
         headers: { 
           "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-Device-Type": "web"
         },
         body: JSON.stringify({ status })
       });
