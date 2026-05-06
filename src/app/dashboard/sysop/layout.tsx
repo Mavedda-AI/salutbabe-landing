@@ -235,15 +235,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       
       {/* Main Sidebar */}
       <aside 
-        className={`bg-[#0F172A] dark:bg-[#0F172A] light:bg-white border-r border-white/5 dark:border-white/5 light:border-border-color fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
-          ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#0F172A] border-white/5'}`}
+        className={`fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
+          ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#0F172A] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">
           {!isSidebarCollapsed ? (
             <>
               <Link href="/dashboard/sysop" className="flex items-center justify-center">
-                 <img src="/logo-salutbabe.png" alt="Logo" className="h-7 w-auto brightness-0 invert" />
+                 <img src="/logo-salutbabe.png" alt="Logo" className={`h-7 w-auto ${theme === 'light' ? '' : 'brightness-0 invert'}`} />
               </Link>
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
@@ -287,7 +287,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               }`}
           >
             <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
-              <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === dashboardItem.href ? 'text-[#1A2332]' : 'text-inherit'}`}>
+              <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === dashboardItem.href ? (theme === 'light' ? 'text-white' : 'text-[#1A2332]') : 'text-inherit'}`}>
                 {dashboardItem.icon || (
                   <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
