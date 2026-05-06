@@ -254,7 +254,16 @@ const LoginPage = () => {
               >
                 {t("auth.terms_link")}
               </button>
-              {" "}{t("auth.terms_suffix")}
+              {" "}{t("auth.terms_suffix")}{" "}
+              {t("auth.regulations_link") && (
+                <button 
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { tab: 'terms-of-use' } }))}
+                  className="font-black text-text-primary hover:text-primary transition-colors underline decoration-border-color underline-offset-4"
+                >
+                  {t("auth.regulations_link")}
+                </button>
+              )}
             </p>
           </div>
         </div>
