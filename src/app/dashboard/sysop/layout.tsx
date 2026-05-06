@@ -636,7 +636,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                )}
              </div>
              <div className="flex-1 pr-4">
-                <p className="text-[13px] font-black leading-tight uppercase tracking-tight">{toast.type === 'warning' ? 'Warning' : 'Success'}</p>
+                <p className="text-[13px] font-black leading-tight uppercase tracking-tight">{toast.type === 'warning' ? t('dashboard.toast_warning') : t('dashboard.toast_success')}</p>
                 <p className="text-[12px] font-bold opacity-80 mt-0.5">{toast.message}</p>
              </div>
              <button onClick={() => setToast(prev => ({ ...prev, visible: false }))} className="text-inherit opacity-40 hover:opacity-100 transition-opacity">

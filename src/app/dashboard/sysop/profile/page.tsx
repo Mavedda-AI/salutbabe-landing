@@ -117,13 +117,13 @@ export default function ProfilePage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-6 h-11 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all duration-300
+              className={`flex items-center gap-2 px-6 h-11 rounded-xl text-[11px] font-black tracking-widest transition-all duration-300
                 ${activeTab === tab.id 
                   ? 'bg-primary text-white shadow-lg shadow-primary/20' 
                   : 'text-text-secondary hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/5'}`}
             >
               {tab.icon}
-              {tab.label}
+              {tab.label.toLocaleUpperCase(language === 'tr' ? 'tr-TR' : 'en-US')}
             </button>
           ))}
         </div>
