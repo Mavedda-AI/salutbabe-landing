@@ -49,17 +49,10 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Center: Logo & Home Icon */}
-          <div className="flex items-center gap-3">
-            <Link href="/" className="text-text-primary hover:text-primary transition-colors hidden md:block" aria-label="Home">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-              </svg>
-            </Link>
-            <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
-              salutbabe
-            </Link>
-          </div>
+          {/* Center: Logo */}
+          <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
+            salutbabe
+          </Link>
 
           {/* Right: Switchers & Mobile Cart */}
           <div className="md:absolute md:right-0 flex items-center gap-4 md:gap-6">
@@ -105,6 +98,11 @@ const Header = () => {
         <div className="hidden md:flex items-center justify-between w-full py-3">
           {/* Left Nav */}
           <nav className="flex items-center gap-10">
+            <Link href="/" className="text-text-secondary hover:text-primary transition-colors" aria-label="Home">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+            </Link>
             {navLinks.map((item) => (
               <Link 
                 key={item.label}

@@ -43,14 +43,14 @@ const DiscountCards = () => {
         {deals.map((deal) => (
           <div 
             key={deal.id}
-            className={`relative overflow-hidden rounded-[2.5rem] p-8 min-h-[320px] flex flex-col justify-between group transition-transform duration-500 hover:-translate-y-2 ${deal.color}`}
+            className={`relative overflow-hidden rounded-[2.5rem] p-8 min-h-[320px] flex flex-col justify-between group ${deal.color}`}
           >
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 opacity-40 mix-blend-overlay">
                 <img 
                   src={deal.image} 
                   alt={deal.title} 
-                  className="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" 
+                  className="w-full h-full object-cover grayscale" 
                 />
             </div>
             
