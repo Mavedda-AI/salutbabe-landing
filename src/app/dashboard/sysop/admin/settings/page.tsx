@@ -67,7 +67,7 @@ export default function SystemSettingsPage() {
     }
   };
 
-  if (loading) return <div className="p-20 text-center font-black opacity-20 animate-pulse tracking-widest text-2xl">LOADING SYSTEM CONFIG...</div>;
+  if (loading || !settings) return <div className="p-20 text-center font-black opacity-20 animate-pulse tracking-widest text-2xl">LOADING SYSTEM CONFIG...</div>;
 
   const SettingSection = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className={`p-10 rounded-[3rem] border transition-all duration-500 flex flex-col gap-8
