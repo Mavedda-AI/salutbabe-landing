@@ -182,7 +182,19 @@
       "no_records": "İşlem kaydı bulunamadı.",
       "default_desc": "Genel istatistikler ve özetler",
       "anonymous": "Anonim",
-      "notification": "Bildirim"
+      "notification": "Bildirim",
+      "profile_title": "Profil Ayarları",
+      "profile_first_name": "AD",
+      "profile_last_name": "SOYAD",
+      "profile_nickname": "KULLANICI ADI",
+      "profile_phone": "TELEFON",
+      "profile_email": "E-POSTA",
+      "email_not_editable": "E-posta adresi değiştirilemez.",
+      "btn_save_profile": "PROFILI KAYDET",
+      "security_settings": "GÜVENLIK AYARLARI",
+      "security_desc": "Şifrenizi ve hesap güvenliğinizi yönetin.",
+      "btn_change_password": "ŞIFREYI DEĞIŞTIR",
+      "profile_updated": "Profil başarıyla güncellendi."
     }
   }
 }
