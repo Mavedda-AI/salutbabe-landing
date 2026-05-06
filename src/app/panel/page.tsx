@@ -1,102 +1,175 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 
 export default function PanelDashboard() {
-  const stats = [
-    { label: "Toplam Kazanç", value: "₺2.450,00", change: "+12%", icon: "M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z M12 18c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z" },
-    { label: "Aktif İlanlar", value: "18", change: "+2", icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" },
-    { label: "Toplam Satış", value: "42", change: "+5", icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" },
-    { label: "Profil İzlenme", value: "1.240", change: "+18%", icon: "M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" },
+  const [activeTab, setActiveTab] = useState('All Orders');
+
+  const shipments = [
+    { id: 'SHP-5574', event: 2, status: 'In Progress', date: '04 Feb 2024', order: 'Order-12567', carrier: 'FedEx' },
+    { id: 'SHP-5575', event: 3, status: 'Arrived', date: '04 Feb 2024', order: 'Order-12568', carrier: 'DHL' },
+    { id: 'SHP-5576', event: 1, status: 'Canceled', date: '04 Feb 2024', order: 'Order-12569', carrier: 'N/A' },
+    { id: 'SHP-5577', event: 4, status: 'In Progress', date: '04 Feb 2024', order: 'Order-12570', carrier: 'DHL', delay: true },
+    { id: 'SHP-5578', event: 2, status: 'In Progress', date: '04 Feb 2024', order: 'Order-12571', carrier: 'TNT' },
+    { id: 'SHP-5579', event: 3, status: 'Arrived', date: '04 Feb 2024', order: 'Order-12572', carrier: 'N/A' },
+    { id: 'SHP-5580', event: 0, status: 'Draft', date: '04 Feb 2024', order: 'Order-12573', carrier: 'FedEx' },
+    { id: 'SHP-5581', event: 4, status: 'Arrived', date: '04 Feb 2024', order: 'Order-12574', carrier: 'Aramex' },
   ];
 
+  const getStatusColor = (status: string) => {
+    switch(status) {
+      case 'In Progress': return 'text-blue-500 bg-blue-500/10';
+      case 'Arrived': return 'text-green-500 bg-green-500/10';
+      case 'Canceled': return 'text-red-500 bg-red-500/10';
+      case 'Draft': return 'text-slate-400 bg-slate-400/10';
+      default: return 'text-slate-400 bg-slate-400/10';
+    }
+  };
+
+  const tabs = ['All Orders', 'Pending', 'Arrived', 'View'];
+
   return (
-    <div className="space-y-10">
-      {/* Welcome Banner */}
-      <div className="bg-primary rounded-[3rem] p-10 md:p-14 text-white relative overflow-hidden shadow-2xl shadow-primary/20">
-        <div className="relative z-10 max-w-2xl">
-          <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-            Merhaba, Mağazanı Büyütmeye Hazır mısın?
-          </h1>
-          <p className="text-white/80 font-bold text-lg mb-8">
-            Bugün harika bir gün! İlanlarını kontrol edebilir veya yeni ürünler ekleyerek satışlarını artırabilirsin.
-          </p>
-          <button className="bg-white text-primary px-10 py-4 rounded-full font-black text-sm hover:scale-105 transition-transform active:scale-95 shadow-xl shadow-black/10">
-            YENİ İLAN OLUŞTUR
-          </button>
+    <div className="space-y-6">
+      {/* Title & Primary Action */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-black text-text-primary">Shipment</h1>
+          <div className="flex items-center gap-2">
+            <button className="p-1 text-text-secondary hover:text-text-primary"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /></svg></button>
+            <button className="p-1 text-text-secondary hover:text-text-primary"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg></button>
+          </div>
         </div>
-        
-        {/* Abstract Background Shapes */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full translate-y-1/2 -translate-x-1/4 blur-2xl"></div>
+        <button className="bg-primary text-white px-6 py-2.5 rounded-xl font-black text-[13px] flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all active:scale-95">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+          Add Shipment
+        </button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, i) => (
-          <div key={i} className="bg-surface border border-border-color p-8 rounded-[2.5rem] hover:border-primary transition-colors group">
-            <div className="w-12 h-12 rounded-2xl bg-background border border-border-color flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d={stat.icon} />
-              </svg>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-black uppercase tracking-widest text-text-secondary">{stat.label}</span>
-              <div className="flex items-end gap-3">
-                <span className="text-3xl font-black text-text-primary">{stat.value}</span>
-                <span className="text-[11px] font-black text-green-500 mb-1">{stat.change}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Recent Activity Placeholder */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-surface border border-border-color rounded-[3rem] p-10">
-          <div className="flex items-center justify-between mb-10">
-            <h3 className="text-2xl font-black text-text-primary">Son Satışlar</h3>
-            <button className="text-xs font-black text-primary hover:underline">TÜMÜNÜ GÖR</button>
-          </div>
-          
-          <div className="space-y-6">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="flex items-center justify-between p-6 rounded-3xl bg-background border border-border-color/50 hover:border-primary transition-all group">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-2xl bg-surface border border-border-color group-hover:scale-105 transition-transform overflow-hidden">
-                    <img 
-                      src={`https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&q=80&w=100&h=100`} 
-                      className="w-full h-full object-cover" 
-                      alt="Product"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-black text-text-primary">Pamuklu Bebek Takımı</h4>
-                    <span className="text-[11px] font-bold text-text-secondary">2 saat önce • #ORD-782{item}</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-black text-text-primary">₺350,00</div>
-                  <span className="text-[10px] font-black text-primary uppercase tracking-widest">HAZIRLANIYOR</span>
-                </div>
-              </div>
+      {/* Tabs & Table Container */}
+      <div className="bg-white dark:bg-surface rounded-3xl border border-border-color overflow-hidden shadow-sm">
+        {/* Tab Bar */}
+        <div className="flex items-center justify-between px-8 border-b border-border-color">
+          <div className="flex gap-8">
+            {tabs.map(tab => (
+              <button 
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-5 font-black text-[13px] relative transition-colors ${activeTab === tab ? 'text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+              >
+                {tab === 'View' ? <span className="flex items-center gap-1"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> View</span> : tab}
+                {activeTab === tab && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />}
+              </button>
             ))}
           </div>
+          <div className="flex items-center gap-4 text-text-secondary text-[12px] font-bold">
+            <button className="flex items-center gap-2 hover:text-text-primary transition-colors">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              View Settings
+            </button>
+          </div>
         </div>
 
-        <div className="bg-surface border border-border-color rounded-[3rem] p-10 flex flex-col items-center text-center justify-center">
-          <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-8 animate-pulse">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
+        {/* Filters Toolbar */}
+        <div className="p-6 flex flex-wrap items-center gap-4 bg-[#FAFBFC] dark:bg-background/50 border-b border-border-color">
+          <div className="relative flex-1 max-w-[280px]">
+            <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-secondary w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <input 
+              type="text" 
+              placeholder="Search" 
+              className="w-full bg-white dark:bg-surface border border-border-color outline-none py-2 pl-10 pr-4 rounded-xl text-[13px] font-bold focus:border-primary transition-colors"
+            />
           </div>
-          <h3 className="text-2xl font-black text-text-primary mb-4">Hızlı İlan Ver</h3>
-          <p className="text-text-secondary font-bold text-sm mb-10 leading-relaxed px-4">
-            Eski bebek kıyafetlerini nakde dönüştürmek sadece birkaç dakikanı alır.
-          </p>
-          <button className="w-full py-5 bg-text-primary text-background rounded-full font-black text-sm hover:scale-[1.02] transition-transform active:scale-95 shadow-xl shadow-black/10">
-            HEMEN BAŞLA
+
+          <button className="flex items-center gap-3 bg-text-primary text-background px-4 py-2 rounded-xl text-[12px] font-black shadow-sm">
+            <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+            2 Feb - 14 Apr
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
           </button>
+
+          <button className="flex items-center gap-3 bg-white dark:bg-surface border border-border-color px-4 py-2 rounded-xl text-[12px] font-black text-text-primary">
+            All Shipment Status
+            <svg className="w-3 h-3 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+          </button>
+
+          <button className="flex items-center gap-3 bg-white dark:bg-surface border border-border-color px-4 py-2 rounded-xl text-[12px] font-black text-text-primary">
+            Advanced Filters
+            <svg className="w-3 h-3 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+          </button>
+
+          <div className="flex-1" />
+
+          <button className="text-[12px] font-black text-text-secondary hover:text-text-primary transition-colors">Hide</button>
+          
+          <button className="flex items-center gap-2 bg-white dark:bg-surface border border-border-color px-4 py-2 rounded-xl text-[12px] font-black text-text-primary shadow-sm hover:border-primary transition-colors">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+            Manage Table
+          </button>
+        </div>
+
+        {/* Shipment Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[1000px]">
+            <thead>
+              <tr className="bg-[#FAFBFC] dark:bg-background/30 text-[11px] font-black text-text-secondary/60 uppercase tracking-widest border-b border-border-color">
+                <th className="px-8 py-4 font-black">Shipment ID <span className="ml-1 text-[8px]">⇅</span></th>
+                <th className="px-8 py-4 font-black">Shipment Event <span className="ml-1 text-[8px]">⇅</span></th>
+                <th className="px-8 py-4 font-black">Status</th>
+                <th className="px-8 py-4 font-black">Expected arrived <span className="ml-1 text-[8px]">⇅</span></th>
+                <th className="px-8 py-4 font-black">Order</th>
+                <th className="px-8 py-4 font-black">Carrier</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border-color">
+              {shipments.map((shipment, i) => (
+                <tr key={i} className="hover:bg-[#F8F9FB] dark:hover:bg-background/20 transition-colors group">
+                  <td className="px-8 py-5 text-[13px] font-black text-text-primary">{shipment.id}</td>
+                  <td className="px-8 py-5">
+                    {/* Timeline Progress */}
+                    <div className="flex items-center gap-0 w-32 relative">
+                      {[0, 1, 2, 3, 4].map((step) => (
+                        <div key={step} className="flex items-center flex-1 last:flex-none relative">
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${step <= shipment.event ? 'bg-black text-white border-black' : 'bg-white dark:bg-surface border-border-color text-text-secondary/40'}`}>
+                            {step === 0 && <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.44c-.31.17-.69.17-1 0L3.53 17.38c-.32-.17-.53-.5-.53-.88V7.5c0-.38.21-.71.53-.88l7.97-4.44c.31-.17.69-.17 1 0l7.97 4.44c.32.17.53.5.53.88v9z"/></svg>}
+                            {step === 1 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>}
+                            {step === 2 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1zM18 16V9l-4-3v10l4-3z"/></svg>}
+                            {step === 3 && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z"/></svg>}
+                            {step === 4 && <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>}
+                          </div>
+                          {step < 4 && <div className={`h-1 flex-1 mx-[-1px] transition-colors ${step < shipment.event ? 'bg-black' : 'bg-border-color'}`} />}
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td className="px-8 py-5">
+                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black ${getStatusColor(shipment.status)}`}>
+                      <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                      {shipment.status}
+                    </div>
+                  </td>
+                  <td className="px-8 py-5 text-[13px] font-bold text-text-primary">
+                    <div className="flex items-center gap-2">
+                      {shipment.date}
+                      {shipment.delay && <span className="bg-orange-500/10 text-orange-600 text-[9px] px-1.5 py-0.5 rounded-md flex items-center gap-1 font-black"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg> Delay</span>}
+                    </div>
+                  </td>
+                  <td className="px-8 py-5 text-[13px] font-black text-text-primary hover:text-primary cursor-pointer transition-colors underline decoration-transparent hover:decoration-primary">{shipment.order}</td>
+                  <td className="px-8 py-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-[#F3F5F9] dark:bg-background border border-border-color flex items-center justify-center text-[10px] font-black overflow-hidden group-hover:scale-110 transition-transform">
+                        {shipment.carrier === 'FedEx' && <span className="text-[#4D148C]">F<span className="text-[#FF6200]">E</span></span>}
+                        {shipment.carrier === 'DHL' && <span className="text-[#D40511] font-black italic">DHL</span>}
+                        {shipment.carrier === 'TNT' && <span className="text-[#FF6200] font-black italic">TNT</span>}
+                        {shipment.carrier === 'Aramex' && <span className="text-[#E31E24] font-black italic">A</span>}
+                        {shipment.carrier === 'Regular' && <span className="text-text-secondary opacity-40 italic">REG</span>}
+                        {shipment.carrier === 'N/A' && <span className="text-text-secondary opacity-40">N/A</span>}
+                      </div>
+                      <span className="text-[13px] font-bold text-text-primary">{shipment.carrier !== 'N/A' ? shipment.carrier : ''}</span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
