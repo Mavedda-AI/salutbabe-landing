@@ -25,10 +25,13 @@ export default function SystemSettingsPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        setSettings(data.payload);
+        setSettings(data.payload || {});
+      } else {
+        setSettings({});
       }
     } catch (err) {
       console.error(err);
+      setSettings({});
     } finally {
       setLoading(false);
     }
@@ -98,7 +101,8 @@ export default function SystemSettingsPage() {
     </div>
   );
 
-  if (loading || !settings) return <LoadingSkeleton />;
+  if (loading) return <LoadingSkeleton />;
+  if (!settings) return null;
 
   const SettingSection = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className={`p-10 rounded-[3rem] border transition-all duration-500 flex flex-col gap-8
@@ -142,18 +146,18 @@ export default function SystemSettingsPage() {
       </div>
 
       {/* Marketplace Fees */}
-      <SettingSection title="Pazaryeri Komisyon ve Ücretler" icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM4.637 7.123A7.959 7.959 0 0112 4c1.868 0 3.593.639 4.977 1.714" /></svg>}>
+      <SettingSection title={t('dashboard.settings_marketplace_title') || "Pazaryeri Komisyon ve Ücretler"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM4.637 7.123A7.959 7.959 0 0112 4c1.868 0 3.593.639 4.977 1.714" /></svg>}>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">Satıcı Komisyon Oranı (%)</label>
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_seller_comm')}</label>
           <div className="relative">
-            <input type="number" name="sellerCommissionRate" value={settings.sellerCommissionRate} onChange={handleInputChange} className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+            <input type="number" name="sellerCommissionRate" value={settings.sellerCommissionRate || 0} onChange={handleInputChange} className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
             <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary">%</span>
           </div>
         </div>
         <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">Alıcı Hizmet Bedeli (Sabit)</label>
+          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_buyer_fee')}</label>
           <div className="relative">
-            <input type="number" name="buyerServiceFee" value={settings.buyerServiceFee} onChange={handleInputChange} className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
+            <input type="number" name="buyerServiceFee" value={settings.buyerServiceFee || 0} onChange={handleInputChange} className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
             <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary">₺</span>
           </div>
         </div>
