@@ -30,6 +30,13 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     }
   }, [router]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("auth_token");
+    window.location.href = "/";
+  };
+
   if (!isAuthenticated) return null;
 
   const mainNav = [
