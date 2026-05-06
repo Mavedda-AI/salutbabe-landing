@@ -208,7 +208,7 @@ export default function AdminUsersPage() {
           </tbody>
         </table>
         {users.length === 0 && (
-          <div className="p-8 text-center text-text-secondary font-bold text-[13px]">Henüz hiç kullanıcı yok.</div>
+          <div className="p-8 text-center text-text-secondary font-bold text-[13px]">{t('dashboard.empty_users')}</div>
         )}
       </div>
 
@@ -216,12 +216,12 @@ export default function AdminUsersPage() {
       {editingUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
           <div className="bg-white dark:bg-surface rounded-3xl p-8 max-w-md w-full shadow-2xl animate-scale-in">
-            <h3 className="text-xl font-black text-text-primary mb-2">Bakiye Güncelle</h3>
-            <p className="text-[12px] font-bold text-text-secondary mb-6">{editingUser.userName} kullanıcısının bakiyesini düzenliyorsunuz.</p>
+            <h3 className="text-xl font-black text-text-primary mb-2">{t('dashboard.modal_update_balance')}</h3>
+            <p className="text-[12px] font-bold text-text-secondary mb-6">{t('dashboard.modal_update_balance_desc').replace('{name}', editingUser.userName)}</p>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2">Aktif Bakiye (₺)</label>
+                <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2">{t('dashboard.active_balance')}</label>
                 <input 
                   type="number" 
                   value={balanceInput} 
@@ -230,7 +230,7 @@ export default function AdminUsersPage() {
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2">Bekleyen Bakiye (₺)</label>
+                <label className="block text-[11px] font-black text-text-secondary uppercase tracking-widest mb-2">{t('dashboard.pending_balance')}</label>
                 <input 
                   type="number" 
                   value={pendingBalanceInput} 
@@ -243,13 +243,13 @@ export default function AdminUsersPage() {
                   onClick={() => setEditingUser(null)}
                   className="flex-1 py-3 bg-black/5 hover:bg-black/10 text-text-primary rounded-xl font-black text-[13px] transition-colors"
                 >
-                  İptal
+                  {t('dashboard.btn_cancel')}
                 </button>
                 <button 
                   onClick={handleUpdateBalance}
                   className="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-[13px] shadow-lg shadow-primary/30 transition-all"
                 >
-                  Kaydet
+                  {t('dashboard.btn_save')}
                 </button>
               </div>
             </div>
@@ -261,8 +261,8 @@ export default function AdminUsersPage() {
       {editingRoleUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
           <div className="bg-white dark:bg-surface rounded-3xl p-8 max-w-md w-full shadow-2xl animate-scale-in">
-            <h3 className="text-xl font-black text-text-primary mb-2">Rol Güncelle</h3>
-            <p className="text-[12px] font-bold text-text-secondary mb-6">{editingRoleUser.userName} kullanıcısının rollerini düzenliyorsunuz.</p>
+            <h3 className="text-xl font-black text-text-primary mb-2">{t('dashboard.modal_update_role')}</h3>
+            <p className="text-[12px] font-bold text-text-secondary mb-6">{t('dashboard.modal_update_role_desc').replace('{name}', editingRoleUser.userName)}</p>
             
             <div className="space-y-3">
               {['USER', 'SELLER', 'ADMIN', 'SYSOP'].map(role => (
@@ -282,13 +282,13 @@ export default function AdminUsersPage() {
                   onClick={() => setEditingRoleUser(null)}
                   className="flex-1 py-3 bg-black/5 hover:bg-black/10 text-text-primary rounded-xl font-black text-[13px] transition-colors"
                 >
-                  İptal
+                  {t('dashboard.btn_cancel')}
                 </button>
                 <button 
                   onClick={handleUpdateRole}
                   className="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-[13px] shadow-lg shadow-primary/30 transition-all"
                 >
-                  Kaydet
+                  {t('dashboard.btn_save')}
                 </button>
               </div>
             </div>
