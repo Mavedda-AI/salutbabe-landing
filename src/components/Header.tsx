@@ -91,14 +91,14 @@ const Header = () => {
               href="/category/new" 
               className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors whitespace-nowrap"
             >
-              {t("new_arrivals") || "YENİ GELENLER"}
+              {t("header.new_arrivals")}
             </Link>
             
             <Link 
               href="/categories" 
               className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors whitespace-nowrap"
             >
-              {t("categories") || "KATEGORİLER"}
+              {t("header.categories")}
             </Link>
           </div>
 
@@ -112,7 +112,7 @@ const Header = () => {
                 href="/login" 
                 className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
               >
-                {t("login") || "GİRİŞ YAP"}
+                {t("header.login")}
               </Link>
             )}
 
@@ -121,7 +121,7 @@ const Header = () => {
                 href="/sell" 
                 className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity"
               >
-                {t("sell") || "SATIŞ YAP"}
+                {t("header.sell")}
               </Link>
             )}
 
