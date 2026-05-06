@@ -139,23 +139,34 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">
           {!isSidebarCollapsed ? (
-            <Link href="/panel" className="flex items-center justify-center">
-               <img src="/logo-salutbabe.png" alt="Logo" className="h-7 w-auto brightness-0 invert" />
-            </Link>
+            <>
+              <Link href="/panel" className="flex items-center justify-center">
+                 <img src="/logo-salutbabe.png" alt="Logo" className="h-7 w-auto brightness-0 invert" />
+              </Link>
+              <button 
+                onClick={() => setIsSidebarCollapsed(true)}
+                className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors lg:flex hidden p-1 hover:bg-white/5 rounded-md"
+              >
+                <img src="/images/icon/collapse.svg" alt="Collapse" className="w-4 h-4 brightness-0 invert opacity-40" />
+              </button>
+            </>
           ) : (
-            <img src="/logo-favicon.png" alt="Logo" className="w-12 h-12 rounded-2xl object-contain shadow-lg shadow-black/20" />
+            <button 
+              onClick={() => setIsSidebarCollapsed(false)}
+              className="relative w-14 h-14 flex items-center justify-center group/expand"
+            >
+              <img 
+                src="/logo-favicon.png" 
+                alt="Logo" 
+                className="w-full h-full rounded-md object-contain transition-all duration-300 group-hover/expand:opacity-0 group-hover/expand:scale-75" 
+              />
+              <img 
+                src="/images/icon/expand.svg" 
+                alt="Expand" 
+                className="absolute w-6 h-6 brightness-0 invert opacity-0 group-hover/expand:opacity-100 transition-all duration-300 transform scale-75 group-hover/expand:scale-110" 
+              />
+            </button>
           )}
-          
-          <button 
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors lg:flex hidden p-1 hover:bg-white/5 rounded-md"
-          >
-            {isSidebarCollapsed ? (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-            ) : (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 19l-7-7 7-7M19 19l-7-7 7-7" /></svg>
-            )}
-          </button>
         </div>
 
         {/* Navigation */}
@@ -251,11 +262,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             <div className="relative">
               <button 
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                className="p-2 text-text-secondary hover:text-primary relative"
+                className="p-2.5 text-text-secondary hover:text-primary relative transition-all hover:scale-110 active:scale-95"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-[#5FC8C0] text-[9px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-surface">{unreadCount}</span>
+                  <span className="absolute top-1 right-1 w-5 h-5 bg-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-surface shadow-md">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
                 )}
               </button>
 
@@ -316,44 +331,42 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             </div>
             
             <div className="relative group">
-              <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black text-[13px] shadow-lg shadow-primary/20 cursor-pointer hover:scale-105 transition-transform overflow-hidden peer">
+              <div className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10">
                  {user?.profilePhotoUrl ? (
                    <img 
                      src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
                      alt="Profile" 
                      className="w-full h-full object-cover" 
                      onError={(e) => {
-                       // Fallback in case image fails to load
                        const target = e.target as HTMLImageElement;
-                       target.style.display = 'none';
-                       target.parentElement!.innerHTML = `<span>${user?.userName?.[0] || 'U'}${user?.userSurname?.[0] || ''}</span>`;
+                       target.src = "/logo-favicon.png";
                      }}
                    />
                  ) : (
-                   <span>{user?.userName?.[0]}{user?.userSurname?.[0]}</span>
+                   <img src="/logo-favicon.png" alt="Profile" className="w-full h-full object-contain" />
                  )}
               </div>
-              
-              {/* Profile Dropdown */}
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110]">
-                 <div className="p-4 border-b border-border-color">
-                    <p className="text-[12px] font-black text-text-primary truncate">{user?.userName} {user?.userSurname}</p>
-                    <p className="text-[10px] font-bold text-text-secondary uppercase tracking-tighter">{t('dashboard.seller_account')}</p>
+                     {/* Profile Dropdown */}
+              <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110] overflow-hidden">
+                 <div className="p-5 bg-gray-50 dark:bg-white/5 border-b border-border-color">
+                    <p className="text-[14px] font-black text-text-primary truncate leading-tight">{user?.userName} {user?.userSurname}</p>
+                    <p className="text-[11px] font-medium text-text-secondary truncate mt-0.5">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>
                  </div>
                  <div className="p-2">
                    <Link href="/panel/settings" className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-text-secondary hover:bg-primary/5 hover:text-primary transition-all">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                       {t('dashboard.profile_settings')}
                    </Link>
                    <button 
                      onClick={handleLogout}
                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-red-500 hover:bg-red-500/5 transition-all text-left"
                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                      <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                       {t('dashboard.logout')}
                    </button>
                  </div>
               </div>
+ </div>
             </div>
           </div>
         </header>
