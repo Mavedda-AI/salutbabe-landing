@@ -169,7 +169,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </main>
 
         {/* Mini Footer */}
-        <footer className="py-3 px-6 border-t border-border-color bg-white dark:bg-surface/30 sticky bottom-0 z-50">
+        <footer className="py-3 px-6 border-t border-border-color bg-white dark:bg-surface sticky bottom-0 z-50">
           <div className="flex items-center justify-center relative">
             <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center">
               {t('dashboard.developed_by')} <span className="text-transparent bg-clip-text font-black text-[12px] bg-[linear-gradient(110deg,#FF007A_0%,#00B2FF_50%,#FF007A_100%)] bg-[length:200%_auto] animate-[brandShift_5.2s_ease-in-out_infinite]" style={{ WebkitTextStroke: "0.05em transparent" }}>salutbabe</span> {t('dashboard.all_rights')}
