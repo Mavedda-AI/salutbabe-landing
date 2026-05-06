@@ -2,13 +2,13 @@ import {getApp, getApps, initializeApp} from "firebase/app";
 import {getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, signOut} from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey:            "AIzaSyAacL6RBs6r9wo-u0kIQnK0a8ppleBsBG8",
-  authDomain:        "salutbabe-4f7fd.firebaseapp.com",
-  projectId:         "salutbabe-4f7fd",
-  storageBucket:     "salutbabe-4f7fd.firebasestorage.app",
-  messagingSenderId: "110228573031",
-  appId:             "1:110228573031:web:ca7035d9f39786763c3dc2",
-  measurementId:     "G-0TGNKDK59J",
+  apiKey:            process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain:        process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId:         process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket:     process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId:             process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId:     process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Prevent duplicate Firebase app initialization (hot-reload safe)
