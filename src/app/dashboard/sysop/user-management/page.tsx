@@ -279,12 +279,12 @@ export default function AdminUsersPage() {
                    <div className="inline-block text-left">
                      <p className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-1">{t('dashboard.table_balance')}</p>
                      <div className="flex items-baseline gap-1">
-                       <span className="text-[22px] font-black text-text-primary tracking-tight">{user.balance?.toLocaleString('tr-TR') || 0}</span>
+                       <span className="text-[22px] font-black text-text-primary tracking-tight">{formatBalance(user.balance || 0)}</span>
                        <span className="text-[13px] font-black text-primary">₺</span>
                      </div>
                      <div className="mt-1 flex items-center gap-1.5">
                        <div className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-                       <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{user.pendingBalance || 0} ₺</span>
+                       <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{formatBalance(user.pendingBalance || 0)} ₺</span>
                      </div>
                    </div>
                 </div>
