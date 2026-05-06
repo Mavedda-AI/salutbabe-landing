@@ -210,13 +210,16 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         {/* Mini Footer */}
         <footer className="py-6 px-10 border-t border-border-color bg-white dark:bg-surface/30">
           <div className="flex items-center justify-between">
-            <div className="text-[11px] font-black text-text-secondary/40 uppercase tracking-widest">
-              &copy; 2026 salutbabe. Cloud Architecture
+            <div className="text-[10px] font-bold text-text-secondary/60 uppercase tracking-wider">
+              developed by <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#7b61ff] font-black lowercase text-[12px]">salutbabe</span> . All rights reserved.
             </div>
-            <div className="flex items-center gap-6 text-[11px] font-bold text-text-secondary/60">
-              <Link href="/terms" className="hover:text-primary transition-colors">Şartlar</Link>
-              <Link href="/privacy" className="hover:text-primary transition-colors">Gizlilik</Link>
-              <Link href="/support" className="hover:text-primary transition-colors">Destek</Link>
+            <div className="relative group flex items-center">
+              <svg className="w-4 h-4 text-text-secondary/40 hover:text-primary transition-colors cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-text-primary text-background text-[10px] font-black rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap shadow-lg">
+                Build v{packageJson.version}
+              </div>
             </div>
           </div>
         </footer>
