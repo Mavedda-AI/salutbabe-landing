@@ -44,7 +44,7 @@ export default function SysopDashboard() {
   const statCards = [
     {
       label: "Toplam Satış",
-      value: `₺${(stats?.totalRevenue || 0).toLocaleString('tr-TR')}`,
+      value: `${(stats?.totalRevenue || 0).toLocaleString('tr-TR')} ₺`,
       textColor: "text-emerald-500"
     },
     {
@@ -120,7 +120,7 @@ export default function SysopDashboard() {
                     <tr key={i} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                       <td className="px-8 py-5 text-[13px] font-black text-text-primary">#{order.shortID || order.id?.slice(-6).toUpperCase()}</td>
                       <td className="px-8 py-5 text-[13px] font-bold text-text-secondary">{order.buyer?.userName || 'Anonim'}</td>
-                      <td className="px-8 py-5 text-[13px] font-black text-text-primary">₺{order.totalAmount?.toLocaleString('tr-TR')}</td>
+                      <td className="px-8 py-5 text-[13px] font-black text-text-primary">{order.totalAmount?.toLocaleString('tr-TR')} ₺</td>
                       <td className="px-8 py-5">
                         <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-tighter">
                           {order.status}
@@ -158,10 +158,18 @@ export default function SysopDashboard() {
                 <p className="text-[11px] text-text-secondary font-bold">PDF olarak indir</p>
               </div>
             </button>
-          </button>
+            <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+              </div>
+              <div className="text-left">
+                <p className="text-[13px] font-black text-text-primary">Bildirim Gönder</p>
+                <p className="text-[11px] text-text-secondary font-bold">Tüm kullanıcılara</p>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    </div >
   );
 }
