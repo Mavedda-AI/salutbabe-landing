@@ -115,12 +115,13 @@ const Header = () => {
             <SearchBar />
 
             <div className="flex items-center gap-6 shrink-0">
+              {/* Crown Icon (Leaderboard) in Gold */}
               <button 
                 onClick={() => setIsLeaderboardOpen(true)}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:text-primary transition-all hover:scale-110 active:scale-95"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-[#FFD700] hover:scale-110 active:scale-95 transition-all drop-shadow-[0_0_8px_rgba(255,215,0,0.3)]"
                 aria-label="Leaderboard"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
                 </svg>
               </button>
@@ -142,7 +143,7 @@ const Header = () => {
                   </Link>
 
                   <Link 
-                    href="/sell" 
+                    href="/register" 
                     className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity"
                   >
                     {t("header.sell")}
@@ -166,14 +167,13 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Leaderboard Modal - Positioned absolutely in viewport center */}
+      {/* Leaderboard Modal */}
       {isLeaderboardOpen && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 md:p-8" onClick={() => setIsLeaderboardOpen(false)}>
           <div 
             className="bg-background border border-border-color rounded-[3.5rem] w-full max-w-5xl max-h-[85vh] overflow-hidden relative shadow-[0_0_100px_-20px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in duration-300"
             onClick={e => e.stopPropagation()}
           >
-            {/* Header / Close Area */}
             <div className="sticky top-0 right-0 p-8 flex justify-end z-[210] pointer-events-none">
               <button 
                 onClick={() => setIsLeaderboardOpen(false)}
@@ -185,7 +185,6 @@ const Header = () => {
               </button>
             </div>
 
-            {/* Scrollable Content */}
             <div className="overflow-y-auto h-full scrollbar-hide -mt-20">
               <Leaderboard />
             </div>
