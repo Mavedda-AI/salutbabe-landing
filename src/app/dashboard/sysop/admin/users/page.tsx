@@ -1,8 +1,8 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {apiUrl} from "../../../../lib/api";
-import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {apiUrl} from "../../../../../lib/api";
+import {useThemeLanguage} from "../../../../../context/ThemeLanguageContext";
 
 export default function AdminUsersPage() {
   const { t } = useThemeLanguage();
