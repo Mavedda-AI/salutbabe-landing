@@ -55,7 +55,7 @@ const Header = () => {
     }
   }, [isLeaderboardOpen]);
 
-  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/panel'))) {
+  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/dashboard/sysop'))) {
     return null;
   }
 
@@ -172,7 +172,7 @@ const Header = () => {
                   </Link>
 
                   <Link 
-                    href={isAdmin ? "/admin" : "/panel"} 
+                    href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} 
                     className="text-[11px] font-black uppercase tracking-widest bg-surface border border-border-color px-5 py-2.5 rounded-xl hover:bg-text-primary hover:text-background transition-all whitespace-nowrap shadow-sm"
                   >
                     {t("header.back_to_panel")}
