@@ -11,6 +11,7 @@ const Leaderboard = () => {
   const [metric, setMetric] = useState<"earnings" | "sales">("earnings");
   const [sellers, setSellers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -40,7 +41,6 @@ const Leaderboard = () => {
     if (url.startsWith('http') || url.startsWith('/') || url.startsWith('blob:') || url.startsWith('data:')) {
       return url;
     }
-    // If it's a relative filename, prefix with the backend media path for users
     return `https://api.salutbabe.com/v1/media/salutbabe-users/${url}`;
   };
 
@@ -64,7 +64,6 @@ const Leaderboard = () => {
         </div>
 
         <div className="flex flex-col gap-4 items-end">
-          {/* Metric Toggle */}
           <div className="flex bg-surface p-1.5 rounded-2xl border border-border-color shadow-sm">
              <button 
                onClick={() => setMetric("earnings")}
@@ -80,7 +79,6 @@ const Leaderboard = () => {
              </button>
           </div>
 
-          {/* Timeframe Select */}
           <div className="flex gap-4">
              {timeframes.map((tf) => (
                <button 
@@ -109,26 +107,28 @@ const Leaderboard = () => {
                 className="group flex items-center justify-between p-6 md:p-8 hover:bg-background/50 transition-colors"
               >
                 <div className="flex items-center gap-6 md:gap-10">
-                  {/* Rank */}
                   <span className={`text-2xl md:text-3xl font-black italic min-w-[40px] ${idx < 3 ? "text-primary" : "text-text-secondary/30"}`}>
                     #{seller.rank}
                   </span>
 
-                  {/* Profile */}
-                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 border-border-color group-hover:border-primary transition-colors">
-                     {seller.seller.photoUrl ? (
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 border-border-color group-hover:border-primary transition-colors bg-background flex items-center justify-center">
+                     {!imageErrors[seller.sellerID] && seller.seller.photoUrl ? (
                        <Image 
                          src={getPhotoUrl(seller.seller.photoUrl) || ""} 
                          alt={seller.seller.name} 
                          fill 
                          sizes="(max-width: 768px) 80px, 100px"
                          className="object-cover"
+                         onError={() => setImageErrors(prev => ({ ...prev, [seller.sellerID]: true }))}
                        />
                      ) : (
-                       <div className="w-full h-full bg-surface flex items-center justify-center text-text-secondary">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                         </svg>
+                       <div className="relative w-12 h-12 opacity-40 dark:invert transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
+                         <Image 
+                           src="/logo-salutbabe.png" 
+                           alt="salutbabe logo" 
+                           fill 
+                           className="object-contain"
+                         />
                        </div>
                      )}
                   </div>
