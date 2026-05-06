@@ -19,13 +19,13 @@
   --primary: #4FBEB7;
   --secondary: #FF85B2;
   --accent: #6ED89A;
-  --background: #0F1719;
-  --surface: #1A2529;
-  --text-primary: #E8F0F2;
-  --text-secondary: #A3B4BC;
-  --border-color: #2A3A40;
+  --background: #121212;
+  --surface: #1E1E1E;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --border-color: #2D2D2D;
   
-  --glass-bg: rgba(26, 37, 41, 0.6);
+  --glass-bg: rgba(30, 30, 30, 0.6);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
