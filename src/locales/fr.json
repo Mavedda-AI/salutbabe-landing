@@ -183,6 +183,7 @@
     "pref_language": "Choix de la Langue",
     "theme_light": "Mode Clair",
     "theme_dark": "Mode Sombre Onyx",
+    "show_label": "AFFICHER",
     "sysop": {
       "nav_users": "Utilisateurs",
       "nav_user_mgmt": "Gestion des Utilisateurs",
