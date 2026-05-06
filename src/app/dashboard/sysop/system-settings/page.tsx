@@ -25,7 +25,7 @@ export default function SystemSettingsPage() {
 
   const fetchSettings = async () => {
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/settings"), {
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -58,7 +58,7 @@ export default function SystemSettingsPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/settings"), {
         method: "PUT",
         headers: {
