@@ -23,11 +23,14 @@ export default function PanelDashboard() {
         }
       });
       const data = await res.json();
-      if (data?.payload) {
+      if (data?.payload && Array.isArray(data.payload)) {
         setOrders(data.payload);
+      } else {
+        setOrders([]);
       }
     } catch (err) {
       console.error("Failed to fetch orders:", err);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -57,11 +60,12 @@ export default function PanelDashboard() {
 
   const tabs = ['All Orders', 'Pending', 'Arrived', 'View'];
 
-  // Filter orders based on active tab with robust array check
-  const filteredOrders = Array.isArray(orders) ? orders.filter(order => {
+  // Extremely defensive filtering to prevent "filter is not a function" errors
+  const filteredOrders = (orders && Array.isArray(orders)) ? orders.filter(order => {
+    if (!order) return false;
     if (activeTab === 'All Orders') return true;
     if (activeTab === 'Pending') return order.status === 'processing';
-    if (activeTab === 'Arrived') return order.status === 'delivered' || order.status === 'completed';
+    if (activeTab === 'Arrived') return (order.status === 'delivered' || order.status === 'completed');
     return true;
   }) : [];
 
@@ -73,7 +77,7 @@ export default function PanelDashboard() {
           <h1 className="text-2xl font-black text-text-primary">Shipment</h1>
           <div className="flex items-center gap-2">
             <button className="p-1 text-text-secondary hover:text-text-primary"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /></svg></button>
-            <button className="p-1 text-text-secondary hover:text-text-primary"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg></button>
+            <button className="p-1 text-text-secondary hover:text-primary transition-colors"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg></button>
           </div>
         </div>
         <button className="bg-primary text-white px-6 py-2.5 rounded-xl font-black text-[13px] flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all active:scale-95">
@@ -166,7 +170,7 @@ export default function PanelDashboard() {
                   return (
                     <tr key={i} className="hover:bg-[#F8F9FB] dark:hover:bg-background/20 transition-colors group">
                       <td className="px-8 py-5 text-[13px] font-black text-text-primary">
-                        {order.shortID || order._id?.slice(-8).toUpperCase() || `SHP-${1000 + i}`}
+                        {order.shortID || (order._id ? order._id.slice(-8).toUpperCase() : `SHP-${1000 + i}`)}
                       </td>
                       <td className="px-8 py-5">
                         {/* Timeline Progress */}
@@ -192,7 +196,7 @@ export default function PanelDashboard() {
                         </div>
                       </td>
                       <td className="px-8 py-5 text-[13px] font-bold text-text-primary">
-                        {new Date(order.createdAt).toLocaleDateString('tr-TR')}
+                        {order.createdAt ? new Date(order.createdAt).toLocaleDateString('tr-TR') : '---'}
                       </td>
                       <td className="px-8 py-5 text-[13px] font-black text-text-primary">
                          {order.buyer?.userName || 'Anonim'}
