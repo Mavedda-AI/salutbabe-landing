@@ -47,8 +47,15 @@ const Footer = () => {
     function initMap() {
       if (!mapContainerRef.current || mapInstance.current) return;
       
-      // Default public demo token - should be replaced in production
-      window.mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+      
+      if (!token) {
+        // Prevent console errors if token is not yet provided
+        mapContainerRef.current.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:gray; font-size:12px; text-align:center; padding:20px;">Map integration pending.<br/>Please add NEXT_PUBLIC_MAPBOX_TOKEN to your .env file.</div>';
+        return;
+      }
+      
+      window.mapboxgl.accessToken = token;
       
       const isDark = document.documentElement.classList.contains('dark');
       const mapStyle = isDark ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/light-v11';
@@ -56,14 +63,14 @@ const Footer = () => {
       mapInstance.current = new window.mapboxgl.Map({
         container: mapContainerRef.current,
         style: mapStyle,
-        center: [28.9784, 41.0082], // Istanbul coordinates
+        center: [-0.1276, 51.5072], // London coordinates
         zoom: 12,
         attributionControl: false
       });
       
-      // Add a marker for salutbabe HQ
+      // Add a marker for salutbabe HQ (London)
       new window.mapboxgl.Marker({ color: '#FF85B2' })
-        .setLngLat([28.9784, 41.0082])
+        .setLngLat([-0.1276, 51.5072])
         .addTo(mapInstance.current);
     }
 
@@ -125,6 +132,8 @@ const Footer = () => {
           background-clip: text;
           animation: brandShift 5.2s ease-in-out infinite;
           font-family: 'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif;
+          padding: 0 0.1em;
+          margin: 0 -0.1em;
         }
 
         [data-underline-link] {
@@ -197,13 +206,20 @@ const Footer = () => {
                 Anneden Anneye Güvenli Alışveriş
               </p>
             </div>
-            <div className="text-[13px] opacity-60 leading-relaxed font-medium space-y-1">
+            <div className="text-[13px] opacity-60 leading-relaxed font-medium space-y-3 mt-4">
               <a href={`mailto:${CONTACT_INFO.email}`} className="flex items-center gap-2 w-fit hover:text-primary transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
                 {CONTACT_INFO.email}
               </a>
+              <div className="flex items-center gap-2 w-fit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+                London / United Kingdom
+              </div>
             </div>
           </div>
 
@@ -352,7 +368,7 @@ const Footer = () => {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-black text-sm text-text-primary tracking-wide">Headquarters</span>
-                    <span className="text-[12px] text-text-secondary">Istanbul, Turkey</span>
+                    <span className="text-[12px] text-text-secondary">London / United Kingdom</span>
                   </div>
                 </div>
               </div>
