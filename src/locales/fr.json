@@ -150,6 +150,7 @@
     "notifications_mark_read": "Tout marquer comme lu",
     "notifications_close": "Fermer",
     "notifications_empty": "Vous n'avez pas de nouvelles notifications.",
+    "search_placeholder": "Rechercher utilisateur, email ou téléphone...",
     "sysop": {
       "nav_users": "Utilisateurs",
       "nav_user_mgmt": "Gestion des Utilisateurs",

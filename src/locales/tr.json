@@ -149,6 +149,7 @@
     "notifications_mark_read": "Tümünü okundu işaretle",
     "notifications_close": "Kapat",
     "notifications_empty": "Yeni bildiriminiz yok.",
+    "search_placeholder": "Kullanıcı, e-posta veya telefon ara...",
     "sysop": {
       "nav_users": "Kullanıcılar",
       "nav_user_mgmt": "Kullanıcı Yönetimi",

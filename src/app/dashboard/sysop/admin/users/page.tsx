@@ -13,6 +13,7 @@ export default function AdminUsersPage() {
   const [pendingBalanceInput, setPendingBalanceInput] = useState("");
   const [editingRoleUser, setEditingRoleUser] = useState<any>(null);
   const [roleInput, setRoleInput] = useState<string[]>([]);
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   const fetchUsers = async () => {
     try {
@@ -230,7 +231,7 @@ export default function AdminUsersPage() {
                    </div>
                    <div className="mt-1 flex items-center gap-1.5">
                      <div className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-                     <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{t('dashboard.pending_balance')}: {user.pendingBalance || 0} ₺</span>
+                     <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{user.pendingBalance || 0} ₺</span>
                    </div>
                  </div>
               </div>

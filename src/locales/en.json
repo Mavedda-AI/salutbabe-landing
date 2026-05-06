@@ -150,6 +150,7 @@
     "notifications_mark_read": "Mark all as read",
     "notifications_close": "Close",
     "notifications_empty": "You have no new notifications.",
+    "search_placeholder": "Search user, email or phone...",
     "sysop": {
       "nav_users": "Users",
       "nav_user_mgmt": "User Management",
