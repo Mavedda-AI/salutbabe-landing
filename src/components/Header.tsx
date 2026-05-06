@@ -2,9 +2,15 @@
 
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
+import {usePathname} from "next/navigation";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname && pathname.startsWith('/admin')) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
