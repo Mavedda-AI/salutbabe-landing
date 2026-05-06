@@ -236,7 +236,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       {/* Main Sidebar */}
       <aside 
         className={`fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
-          ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#0F172A] border-r border-white/5'}`}
+          ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-background border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">
@@ -258,9 +258,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               className="relative w-14 h-14 flex items-center justify-center group/expand"
             >
               <img 
-                src="/logo-favicon.png" 
+                src={theme === 'light' ? "/logo-favicon-dark.png" : "/logo-favicon.png"} 
                 alt="Logo" 
-                className={`w-full h-full rounded-md object-contain transition-all duration-300 group-hover/expand:opacity-0 group-hover/expand:scale-75 ${theme === 'light' ? 'brightness-0' : ''}`} 
+                className="w-full h-full rounded-md object-contain transition-all duration-300 group-hover/expand:opacity-0 group-hover/expand:scale-75" 
               />
               <img 
                 src="/images/icon/expand.svg" 

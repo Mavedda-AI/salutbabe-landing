@@ -83,11 +83,14 @@ export default function SysopDashboard() {
         {statCards.map((card, i) => (
           <div
             key={i}
-            className={`p-6 rounded-[2rem] bg-surface border border-border-color shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20`}
+            className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1
+              ${theme === 'light' 
+                ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
+                : 'bg-surface/50 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-surface/80 hover:border-white/10'}`}
           >
             <div className="flex flex-col h-full">
-              <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary/60 mb-3">{card.label}</p>
-              <div className="w-full h-[1px] bg-border-color mb-5" />
+               <p className={`text-[12px] font-black uppercase tracking-widest mb-3 ${theme === 'light' ? 'text-text-secondary/60' : 'text-text-secondary/80'}`}>{card.label}</p>
+              <div className={`w-full h-[1px] mb-5 ${theme === 'light' ? 'bg-border-color' : 'bg-white/5'}`} />
               <div className="mt-auto">
                 <h3 className={`text-2xl font-black ${card.textColor}`}>{card.value}</h3>
               </div>
@@ -98,7 +101,10 @@ export default function SysopDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Orders */}
-        <div className="lg:col-span-2 bg-white dark:bg-surface rounded-[2.5rem] border border-border-color overflow-hidden shadow-sm">
+        <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-hidden transition-all duration-300
+          ${theme === 'light' 
+            ? 'bg-white border-border-color shadow-sm' 
+            : 'bg-surface/50 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
           <div className="p-8 border-b border-border-color flex items-center justify-between">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.recent_transactions')}</h3>
             <button className="text-[12px] font-black text-primary hover:underline">{t('dashboard.sysop.view_all')}</button>
@@ -138,7 +144,10 @@ export default function SysopDashboard() {
         </div>
 
         {/* System Activity */}
-        <div className="bg-white dark:bg-surface rounded-[2.5rem] border border-border-color shadow-sm flex flex-col">
+        <div className={`rounded-[2.5rem] border transition-all duration-300 flex flex-col
+          ${theme === 'light' 
+            ? 'bg-white border-border-color shadow-sm' 
+            : 'bg-surface/50 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
           <div className="p-8 border-b border-border-color">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.quick_access')}</h3>
           </div>
