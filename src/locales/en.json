@@ -237,6 +237,50 @@
       "default_desc": "General statistics and summaries",
       "anonymous": "Anonymous",
       "notification": "Notification"
+    },
+    "shipping": {
+      "title": "Shipping Management",
+      "subtitle": "Contracted shipping companies and desi rates",
+      "add_company": "Add New Company",
+      "edit_company": "Edit Company",
+      "company_name": "Company Name",
+      "website": "Website",
+      "logo": "Company Logo",
+      "source": "Agreement Type",
+      "source_system": "System Agreement",
+      "source_seller": "Seller's Own Agreement",
+      "status": "Status",
+      "active": "Active",
+      "passive": "Passive",
+      "rates_title": "Desi Pricing",
+      "min_desi": "Min Desi",
+      "max_desi": "Max Desi",
+      "price": "Price (₺)",
+      "add_rate": "Add New Tier",
+      "no_companies": "No shipping companies added yet.",
+      "delete_confirm": "Are you sure you want to delete this shipping company?",
+      "upload_logo": "Upload Logo"
+    },
+    "stores": {
+      "title": "Store Management",
+      "subtitle": "All seller stores on the platform",
+      "table_store": "STORE",
+      "table_owner": "OWNER",
+      "table_status": "STATUS",
+      "table_actions": "ACTIONS",
+      "active": "ACTIVE",
+      "passive": "PASSIVE",
+      "edit_store": "Edit Store"
+    },
+    "orders": {
+      "title": "Order Management",
+      "subtitle": "All sales and order records",
+      "table_order_id": "ORDER ID",
+      "table_buyer": "BUYER",
+      "table_seller": "SELLER",
+      "table_amount": "AMOUNT",
+      "table_status": "STATUS",
+      "order_details": "Order Details"
     }
   }
 }

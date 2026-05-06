@@ -237,6 +237,50 @@
       "default_desc": "Statistiques générales et résumés",
       "anonymous": "Anonyme",
       "notification": "Notification"
+    },
+    "shipping": {
+      "title": "Gestion des Expéditions",
+      "subtitle": "Compagnies maritimes contractées et tarifs desi",
+      "add_company": "Ajouter une Nouvelle Compagnie",
+      "edit_company": "Modifier la Compagnie",
+      "company_name": "Nom de la Compagnie",
+      "website": "Site Web",
+      "logo": "Logo de la Compagnie",
+      "source": "Type d'Accord",
+      "source_system": "Accord Système",
+      "source_seller": "Accord Propre au Vendeur",
+      "status": "Statut",
+      "active": "Actif",
+      "passive": "Passif",
+      "rates_title": "Tarification Desi",
+      "min_desi": "Min Desi",
+      "max_desi": "Max Desi",
+      "price": "Prix (₺)",
+      "add_rate": "Ajouter un Nouveau Niveau",
+      "no_companies": "Aucune compagnie maritime ajoutée pour le moment.",
+      "delete_confirm": "Êtes-vous sûr de vouloir supprimer cette compagnie maritime ?",
+      "upload_logo": "Charger le Logo"
+    },
+    "stores": {
+      "title": "Gestion des Magasins",
+      "subtitle": "Tous les magasins vendeurs sur la plateforme",
+      "table_store": "MAGASIN",
+      "table_owner": "PROPRIÉTAIRE",
+      "table_status": "STATUT",
+      "table_actions": "ACTIONS",
+      "active": "ACTIF",
+      "passive": "PASSIF",
+      "edit_store": "Modifier le Magasin"
+    },
+    "orders": {
+      "title": "Gestion des Commandes",
+      "subtitle": "Tous les enregistrements de ventes et de commandes",
+      "table_order_id": "ID COMMANDE",
+      "table_buyer": "ACHETEUR",
+      "table_seller": "VENDEUR",
+      "table_amount": "MONTANT",
+      "table_status": "STATUT",
+      "order_details": "Détails de la Commande"
     }
   }
 }

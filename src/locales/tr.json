@@ -226,6 +226,50 @@
       "default_desc": "Genel istatistikler ve özetler",
       "anonymous": "Anonim",
       "notification": "Bildirim"
+    },
+    "shipping": {
+      "title": "Kargo Yönetimi",
+      "subtitle": "Anlaşmalı kargo şirketleri ve desi ücretleri",
+      "add_company": "Yeni Şirket Ekle",
+      "edit_company": "Şirket Düzenle",
+      "company_name": "Şirket Adı",
+      "website": "Web Sitesi",
+      "logo": "Şirket Logosu",
+      "source": "Anlaşma Türü",
+      "source_system": "Sistem Anlaşması",
+      "source_seller": "Satıcı Kendi Anlaşması",
+      "status": "Durum",
+      "active": "Aktif",
+      "passive": "Pasif",
+      "rates_title": "Desi Fiyatlandırması",
+      "min_desi": "Min Desi",
+      "max_desi": "Max Desi",
+      "price": "Fiyat (₺)",
+      "add_rate": "Yeni Kademe Ekle",
+      "no_companies": "Henüz hiç kargo şirketi eklenmemiş.",
+      "delete_confirm": "Bu kargo şirketini silmek istediğinize emin misiniz?",
+      "upload_logo": "Logo Yükle"
+    },
+    "stores": {
+      "title": "Mağaza Yönetimi",
+      "subtitle": "Platformdaki tüm satıcı mağazaları",
+      "table_store": "MAĞAZA",
+      "table_owner": "SAHİBİ",
+      "table_status": "DURUM",
+      "table_actions": "İŞLEMLER",
+      "active": "AKTİF",
+      "passive": "PASİF",
+      "edit_store": "Mağaza Düzenle"
+    },
+    "orders": {
+      "title": "Sipariş Yönetimi",
+      "subtitle": "Tüm satış ve sipariş kayıtları",
+      "table_order_id": "SİPARİŞ NO",
+      "table_buyer": "ALICI",
+      "table_seller": "SATICI",
+      "table_amount": "TUTAR",
+      "table_status": "DURUM",
+      "order_details": "Sipariş Detayı"
     }
   }
 }
