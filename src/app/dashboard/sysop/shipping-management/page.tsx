@@ -31,7 +31,7 @@ export default function ShippingManagementPage() {
 
   const fetchCompanies = async () => {
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/shipping"), {
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -70,7 +70,7 @@ export default function ShippingManagementPage() {
     if (!currentCompany?.name) return;
     setSaving(true);
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       const method = currentCompany.companyID ? "PUT" : "POST";
       const url = currentCompany.companyID 
         ? apiUrl(`/admin/shipping/${currentCompany.companyID}`) 
@@ -99,7 +99,7 @@ export default function ShippingManagementPage() {
   const handleDelete = async (id: string) => {
     if (!confirm(t('dashboard.shipping.delete_confirm'))) return;
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       await fetch(apiUrl(`/admin/shipping/${id}`), {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }

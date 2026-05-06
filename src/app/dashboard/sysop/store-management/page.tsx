@@ -26,7 +26,7 @@ export default function StoreManagementPage() {
 
   const fetchStores = async () => {
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/stores"), {
         headers: { "Authorization": `Bearer ${token}` }
       });
