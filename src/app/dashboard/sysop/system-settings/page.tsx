@@ -6,7 +6,16 @@ import {apiUrl} from "../../../../lib/api";
 
 export default function SystemSettingsPage() {
   const { t, theme } = useThemeLanguage();
-  const [settings, setSettings] = useState<any>(null);
+  const [settings, setSettings] = useState<any>({
+    sellerCommissionRate: 0,
+    buyerServiceFee: 0,
+    minWithdrawalLimit: 0,
+    maintenanceMode: false,
+    supportEmail: '',
+    supportPhone: '',
+    systemCommissions: { systemCommissions: [] }
+  });
+  const [showRawJson, setShowRawJson] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
