@@ -13,11 +13,22 @@ const Header = () => {
   const { theme, toggleTheme, language, setLanguage, t } = useThemeLanguage();
   
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
+    const userStr = localStorage.getItem("user");
     setIsLoggedIn(!!token);
+
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        const ut = user.userType;
+        const adminCheck = Array.isArray(ut) ? (ut.includes("ADMIN") || ut.includes("SYSOP")) : (ut === "ADMIN" || ut === "SYSOP");
+        setIsAdmin(adminCheck);
+      } catch(e) {}
+    }
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -161,10 +172,10 @@ const Header = () => {
                   </Link>
 
                   <Link 
-                    href="/panel" 
+                    href={isAdmin ? "/admin" : "/panel"} 
                     className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity whitespace-nowrap"
                   >
-                    {t("header.back_to_panel")}
+                    {isAdmin ? "Admin Paneli" : t("header.back_to_panel")}
                   </Link>
                 </div>
               ) : (

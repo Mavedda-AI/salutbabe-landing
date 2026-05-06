@@ -59,14 +59,14 @@ const LoginPage = () => {
       // REDIRECTION LOGIC:
       // 1- If SYSOP/ADMIN -> Admin Portal
       // 2- If normal USER -> Seller Panel (Currently Home, or /panel if exists)
-      const userType = user?.userType || [];
-      const isAdmin = userType.includes("SYSOP") || userType.includes("ADMIN");
+      const userType = user?.userType;
+      const isAdmin = Array.isArray(userType) 
+        ? (userType.includes("SYSOP") || userType.includes("ADMIN"))
+        : (userType === "SYSOP" || userType === "ADMIN");
       
       if (isAdmin) {
         window.location.href = "/admin";
       } else {
-        // Redirect to seller panel. Since /panel doesn't exist yet, we go to home 
-        // or a dedicated dashboard if provided. For now, home is the fallback.
         window.location.href = "/panel";
       }
       return;
