@@ -30,6 +30,19 @@ export const dictionaries = {
       active_members: "AKTİF ÜYE",
       curated_brands: "ÖZEL MARKA",
       support_line: "DESTEK HATTI"
+    },
+    download: {
+      title_main: "salutbabe'i",
+      title_sub: "İndir",
+      description: "Anneler için tasarlanmış ikinci el giyim platformuna katılın. Bebeğinizin kıyafetlerini satın, yeni ürünler keşfedin ve topluluğumuzun bir parçası olun.",
+      detecting: "Cihazınız tespit ediliyor...",
+      ios_msg: "Uygulamayı App Store'dan indirebilirsiniz",
+      android_msg: "Uygulamayı Google Play'den indirebilirsiniz",
+      desktop_msg: "Uygulamamızı mağazalardan indirebilirsiniz",
+      app_store_top: "App Store'dan",
+      app_store_bottom: "İndirin",
+      play_store_top: "Google Play'den",
+      play_store_bottom: "Alın"
     }
   },
   en: {
@@ -59,6 +72,19 @@ export const dictionaries = {
       active_members: "ACTIVE MEMBERS",
       curated_brands: "CURATED BRANDS",
       support_line: "SUPPORT LINE"
+    },
+    download: {
+      title_main: "Download",
+      title_sub: "salutbabe",
+      description: "Join the pre-loved clothing platform designed for mothers. Sell your baby's clothes, discover new items, and become part of our community.",
+      detecting: "Detecting your device...",
+      ios_msg: "You can download the app from the App Store",
+      android_msg: "You can download the app from Google Play",
+      desktop_msg: "You can download our app from the stores",
+      app_store_top: "Download on the",
+      app_store_bottom: "App Store",
+      play_store_top: "Get it on",
+      play_store_bottom: "Google Play"
     }
   }
 };
