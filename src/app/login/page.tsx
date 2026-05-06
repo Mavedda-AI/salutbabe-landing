@@ -37,6 +37,7 @@ const LoginPage = () => {
     });
 
     const json = await res.json().catch(() => ({}));
+    console.log("[Auth] Backend Response:", json);
 
     if (!res.ok) {
       throw new Error(json?.request?.resultMessage || json?.message || "Authentication failed.");
@@ -46,27 +47,47 @@ const LoginPage = () => {
   };
 
   const processAuthResult = (result: any) => {
-    if (result?.payload?.needsRegistration) {
-      window.location.href = `/register?provider=${result?.payload?.provider || 'social'}`;
-      return;
-    }
-
-    if (result?.payload?.token) {
-      const { token, user } = result.payload;
+    const payload = result?.payload;
+    
+    // Handle Token Presence (Success)
+    if (payload?.token) {
+      const { token, user } = payload;
       localStorage.setItem("auth_token", token);
       localStorage.setItem("token", token);
       if (user) localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "/admin";
-    } else {
-      // If we are here, it means res.ok was true but we don't have a token.
-      // This might happen if the backend message is "Social login status processed" but user not found.
-      const msg = result?.request?.resultMessage || t("auth.invalid_response");
-      showToast(msg, "info");
       
-      // If the backend says it's processed but we have no token, maybe we should force registration redirect?
-      if (msg.toLowerCase().includes('processed') || msg.toLowerCase().includes('not found')) {
-         window.location.href = "/register";
+      // REDIRECTION LOGIC:
+      // 1- If SYSOP/ADMIN -> Admin Portal
+      // 2- If normal USER -> Seller Panel (Currently Home, or /panel if exists)
+      const userType = user?.userType || [];
+      const isAdmin = userType.includes("SYSOP") || userType.includes("ADMIN");
+      
+      if (isAdmin) {
+        window.location.href = "/admin";
+      } else {
+        // Redirect to seller panel. Since /panel doesn't exist yet, we go to home 
+        // or a dedicated dashboard if provided. For now, home is the fallback.
+        window.location.href = "/";
       }
+      return;
+    }
+
+    // Handle Registration / Linking States
+    if (payload?.needsRegistration || payload?.isRegistered === false) {
+      if (payload?.needsLinking) {
+        showToast(t("auth.linking_required") || "Account linking required. Please sign in with your password first.", "info");
+      } else {
+        window.location.href = `/register?provider=${payload?.provider || 'social'}`;
+      }
+      return;
+    }
+
+    // Fallback
+    const msg = result?.request?.resultMessage || t("auth.invalid_response");
+    showToast(msg, "info");
+    
+    if (msg.toLowerCase().includes('processed') || msg.toLowerCase().includes('not found')) {
+       window.location.href = "/register";
     }
   };
 
@@ -127,7 +148,15 @@ const LoginPage = () => {
         localStorage.setItem("auth_token", token);
         localStorage.setItem("token", token);
         if (user) localStorage.setItem("user", JSON.stringify(user));
-        window.location.href = "/admin";
+        
+        const userType = user?.userType || [];
+        const isAdmin = userType.includes("SYSOP") || userType.includes("ADMIN");
+        
+        if (isAdmin) {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/";
+        }
       } else {
         throw new Error(data?.request?.resultMessage || "Invalid response from server.");
       }

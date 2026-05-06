@@ -22,9 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       try {
         const user = JSON.parse(userStr);
         if (!user.userType?.includes("ADMIN") && !user.userType?.includes("SYSOP")) {
-          if (pathname !== "/admin/login") {
-            router.push("/admin/login");
-          }
+          router.push("/");
         } else {
           setIsAuthenticated(true);
         }
