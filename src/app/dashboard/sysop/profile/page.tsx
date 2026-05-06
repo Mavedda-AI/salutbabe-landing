@@ -68,7 +68,7 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading) return <div className="p-20 text-center font-black opacity-20 animate-pulse">LOADING...</div>;
+  if (loading) return <div className="p-20 text-center font-black opacity-20 animate-pulse">{t('dashboard.loading')}</div>;
 
   return (
     <div className="max-w-4xl mx-auto flex flex-col gap-6 pb-20">
@@ -245,9 +245,9 @@ export default function ProfilePage() {
                    {t('dashboard.btn_change_password')}
                 </button>
                 <div className={`p-6 rounded-2xl border ${theme === 'light' ? 'bg-red-500/5 border-red-500/10' : 'bg-red-500/10 border-red-500/10'} mt-4`}>
-                   <h4 className="text-[13px] font-black text-red-500 uppercase tracking-widest mb-1">Hesabı Sil</h4>
-                   <p className="text-[11px] font-bold text-text-secondary opacity-60 uppercase tracking-widest mb-4">Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak silinecektir.</p>
-                   <button className="text-[11px] font-black text-white bg-red-500 px-6 py-2 rounded-lg hover:bg-red-600 transition-all uppercase tracking-widest shadow-lg shadow-red-500/20">Hesabımı Kapat</button>
+                   <h4 className="text-[13px] font-black text-red-500 uppercase tracking-widest mb-1">{t('dashboard.delete_account')}</h4>
+                   <p className="text-[11px] font-bold text-text-secondary opacity-60 uppercase tracking-widest mb-4">{t('dashboard.delete_account_desc')}</p>
+                   <button className="text-[11px] font-black text-white bg-red-500 px-6 py-2 rounded-lg hover:bg-red-600 transition-all uppercase tracking-widest shadow-lg shadow-red-500/20">{t('dashboard.btn_close_account')}</button>
                 </div>
               </div>
             </div>
