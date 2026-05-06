@@ -42,7 +42,7 @@ export default function SysopDashboard() {
     }
   };
 
-  const { t } = useThemeLanguage();
+  const { t, theme, language } = useThemeLanguage();
 
   const statCards = [
     {
