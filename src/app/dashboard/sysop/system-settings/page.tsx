@@ -1,8 +1,8 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {useThemeLanguage} from "../../../../../context/ThemeLanguageContext";
-import {apiUrl} from "../../../../../lib/api";
+import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {apiUrl} from "../../../../lib/api";
 
 export default function SystemSettingsPage() {
   const { t, theme } = useThemeLanguage();
