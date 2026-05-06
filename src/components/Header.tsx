@@ -55,7 +55,7 @@ const Header = () => {
     }
   }, [isLeaderboardOpen]);
 
-  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/dashboard/sysop'))) {
+  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/dashboard'))) {
     return null;
   }
 
