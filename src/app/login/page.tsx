@@ -75,7 +75,9 @@ const LoginPage = () => {
     // Handle Registration / Linking States
     if (payload?.needsRegistration || payload?.isRegistered === false) {
       if (payload?.needsLinking) {
-        showToast(t("auth.linking_required") || "Account linking required. Please sign in with your password first.", "info");
+        showToast(t("auth.linking_required"), "info");
+        // Auto-fill email if available from social login
+        if (payload?.email) setEmail(payload.email);
       } else {
         window.location.href = `/register?provider=${payload?.provider || 'social'}`;
       }

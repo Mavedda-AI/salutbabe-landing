@@ -84,7 +84,11 @@ export const dictionaries = {
       terms_link: "kullanım şartlarımızı",
       terms_suffix: "kabul etmiş sayılırsınız.",
       signing_in: "GİRİŞ YAPILIYOR...",
-      continuing: "DEVAM EDİLİYOR..."
+      continuing: "DEVAM EDİLİYOR...",
+      linking_required: "Bu e-posta zaten kayıtlı. Lütfen önce şifrenizle giriş yaparak hesabınızı bağlayın.",
+      invalid_response: "Sunucudan geçersiz yanıt geldi.",
+      google_failed: "Google ile giriş başarısız oldu.",
+      apple_failed: "Apple ile giriş başarısız oldu."
     }
   },
   en: {
@@ -169,7 +173,11 @@ export const dictionaries = {
       terms_suffix: "and",
       regulations_link: "regulations.",
       signing_in: "SIGNING IN...",
-      continuing: "CONTINUING..."
+      continuing: "CONTINUING...",
+      linking_required: "This email is already registered. Please sign in with your password first to link your account.",
+      invalid_response: "Invalid response from server.",
+      google_failed: "Google login failed.",
+      apple_failed: "Apple login failed."
     }
   }
 };
