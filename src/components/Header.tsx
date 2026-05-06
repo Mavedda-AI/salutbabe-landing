@@ -96,7 +96,11 @@ const Header = () => {
               </button>
 
               <button 
-                onClick={() => setLanguage(language === 'tr' ? 'en' : 'tr')}
+                onClick={() => {
+                  const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
+                  const nextIdx = (langs.indexOf(language) + 1) % langs.length;
+                  setLanguage(langs[nextIdx]);
+                }}
                 className="flex items-center gap-1.5 text-[12px] font-black uppercase tracking-widest text-text-secondary hover:text-primary transition-colors"
                 aria-label="Toggle Language"
               >

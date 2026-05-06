@@ -139,32 +139,16 @@ export default function SysopDashboard() {
           <div className="p-8 border-b border-border-color">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">Hızlı Erişim</h3>
           </div>
-          <div className="p-4 space-y-2">
-            <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4" /></svg>
+          <div className="p-4">
+            <button className="w-full flex items-center gap-4 p-6 rounded-[2rem] bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-primary/20">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
               </div>
               <div className="text-left">
-                <p className="text-[13px] font-black text-text-primary">Yeni Kampanya</p>
-                <p className="text-[11px] text-text-secondary font-bold">Kampanya oluştur</p>
-              </div>
-            </button>
-            <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-              </div>
-              <div className="text-left">
-                <p className="text-[13px] font-black text-text-primary">Sistem Raporu</p>
-                <p className="text-[11px] text-text-secondary font-bold">PDF olarak indir</p>
-              </div>
-            </button>
-            <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-              </div>
-              <div className="text-left">
-                <p className="text-[13px] font-black text-text-primary">Bildirim Gönder</p>
-                <p className="text-[11px] text-text-secondary font-bold">Tüm kullanıcılara</p>
+                <p className="text-[15px] font-black text-text-primary uppercase tracking-wider">Support</p>
+                <p className="text-[12px] text-text-secondary font-bold">Yardım ve Destek</p>
               </div>
             </button>
           </div>

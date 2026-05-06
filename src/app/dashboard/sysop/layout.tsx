@@ -9,7 +9,7 @@ import {API_BASE_URL, apiUrl} from "../../../lib/api";
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggleTheme, t } = useThemeLanguage();
+  const { theme, toggleTheme, t, language, setLanguage } = useThemeLanguage();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -421,7 +421,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               {!isSidebarCollapsed && <span className="text-[12px] font-bold">{theme === 'dark' ? 'Heller' : 'Dunkel'}</span>}
             </button>
 
-            <button className="flex items-center gap-3 text-white/60 hover:text-white transition-all group">
+            <button 
+              onClick={() => {
+                const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
+                const nextIdx = (langs.indexOf(language) + 1) % langs.length;
+                setLanguage(langs[nextIdx]);
+              }}
+              className="flex items-center gap-3 text-white/60 hover:text-white transition-all group"
+            >
                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10">
                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -430,7 +437,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                    <path d="M12 3C14.5013 5.51164 15.9228 8.6603 16.0001 12C15.9228 15.3397 14.5013 18.4884 12 21C9.49881 18.4884 8.07727 15.3397 8.0001 12C8.07727 8.6603 9.49881 5.51164 12 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                  </svg>
                </div>
-               {!isSidebarCollapsed && <span className="text-[12px] font-bold">Deutsch</span>}
+               {!isSidebarCollapsed && (
+                 <span className="text-[12px] font-bold">
+                   {language === 'tr' ? 'Türkçe' : language === 'en' ? 'English' : 'Français'}
+                 </span>
+               )}
             </button>
           </div>
         </div>
