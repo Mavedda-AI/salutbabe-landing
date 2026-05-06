@@ -173,9 +173,9 @@ const Header = () => {
 
                   <Link 
                     href={isAdmin ? "/admin" : "/panel"} 
-                    className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity whitespace-nowrap"
+                    className="text-[11px] font-black uppercase tracking-widest bg-surface border border-border-color px-5 py-2.5 rounded-xl hover:bg-text-primary hover:text-background transition-all whitespace-nowrap shadow-sm"
                   >
-                    {isAdmin ? "Admin Paneli" : t("header.back_to_panel")}
+                    {t("header.back_to_panel")}
                   </Link>
                 </div>
               ) : (
