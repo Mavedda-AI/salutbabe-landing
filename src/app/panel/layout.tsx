@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
-import {API_BASE_URL} from "../../lib/api";
+import {API_BASE_URL, apiUrl} from "../../lib/api";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -45,6 +45,22 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       });
       setNotifications(notifications.map(n => ({ ...n, isRead: true })));
       setUnreadCount(0);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleMarkAsRead = async (notifId: string) => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      await fetch(apiUrl(`/notifications/${notifId}/read`), {
+        method: "PUT",
+        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+      });
+      setNotifications(notifications.map(n => 
+        (n.userNotificationID === notifId || n.id === notifId) ? { ...n, isRead: true } : n
+      ));
+      setUnreadCount(prev => Math.max(0, prev - 1));
     } catch (e) {
       console.error(e);
     }
@@ -194,7 +210,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                         <div className="p-6 text-center text-[12px] text-text-secondary dark:text-gray-400">{t('dashboard.notifications_empty')}</div>
                       ) : (
                         notifications.map((notif: any) => (
-                          <div key={notif.userNotificationID || notif.id || Math.random()} className="p-4 border-b border-border-color dark:border-[#3A455C] hover:bg-black/5 dark:hover:bg-[#2A354E] transition-colors relative cursor-pointer">
+                          <div 
+                            key={notif.userNotificationID || notif.id || Math.random()} 
+                            onClick={() => !notif.isRead && handleMarkAsRead(notif.userNotificationID || notif.id)}
+                            className="p-4 border-b border-border-color dark:border-[#3A455C] hover:bg-black/5 dark:hover:bg-[#2A354E] transition-colors relative cursor-pointer"
+                          >
                             <div className="flex gap-3">
                               <div className="mt-1 flex-shrink-0">
                                 <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-[#5FC8C0]' : 'bg-transparent'}`}></div>
