@@ -150,6 +150,7 @@
       "security_desc": "Şifrenizi ve hesap güvenliğinizi yönetin.",
       "btn_change_password": "ŞIFREYI DEĞIŞTIR",
       "profile_updated": "Profil başarıyla güncellendi.",
+      "under_construction": "Bu özellik yapım aşamasındadır.",
       "tab_overview": "Genel Bakış",
       "tab_preferences": "Tercihler",
       "tab_security": "Güvenlik",
@@ -195,7 +196,7 @@
       "no_records": "İşlem kaydı bulunamadı.",
       "default_desc": "Genel istatistikler ve özetler",
       "anonymous": "Anonim",
-      "notification": "Bildirim",
+      "notification": "Bildirim"
     }
   }
 }
