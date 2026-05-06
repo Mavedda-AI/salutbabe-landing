@@ -157,19 +157,275 @@ export default function SystemSettingsPage() {
 
       {/* Marketplace Fees */}
       <SettingSection title={t('dashboard.settings_marketplace_title') || "Pazaryeri Komisyon ve Ücretler"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM4.637 7.123A7.959 7.959 0 0112 4c1.868 0 3.593.639 4.977 1.714" /></svg>}>
-        <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_seller_comm')}</label>
-          <div className="relative">
-            <input type="number" name="sellerCommissionRate" value={settings.sellerCommissionRate || 0} onChange={handleInputChange} className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
-            <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary">%</span>
+        <div className="flex flex-col gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_seller_comm')}</label>
+              <div className="relative">
+                <input 
+                  type="number" 
+                  name="sellerCommissionRate"
+                  value={settings.sellerCommissionRate || 0} 
+                  onChange={handleInputChange}
+                  className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} 
+                />
+                <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary">%</span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_buyer_fee')}</label>
+              <div className="relative">
+                <input 
+                  type="number" 
+                  name="buyerServiceFee"
+                  value={settings.buyerServiceFee || 0} 
+                  onChange={handleInputChange}
+                  className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} 
+                />
+                <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary">₺</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="space-y-2">
-          <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.settings_buyer_fee')}</label>
-          <div className="relative">
-            <input type="number" name="buyerServiceFee" value={settings.buyerServiceFee || 0} onChange={handleInputChange} className={`w-full h-14 px-6 pr-12 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} />
-            <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary">₺</span>
+
+          <div className="h-px bg-text-secondary/5 mx-2" />
+
+          {/* Detailed Commissions Header */}
+          <div className="flex items-center justify-between px-2">
+            <div>
+              <h3 className="text-sm font-black text-text-primary uppercase tracking-tight">Detaylı Komisyon Yapısı (JSON)</h3>
+              <p className="text-[11px] font-bold text-text-secondary/40 uppercase tracking-widest mt-1">Backend CommissionService ile tam uyumlu yapı</p>
+            </div>
+            <button 
+              type="button"
+              onClick={() => setShowRawJson(!showRawJson)}
+              className="px-4 py-2 rounded-xl bg-text-secondary/5 hover:bg-text-secondary/10 text-[10px] font-black uppercase tracking-widest transition-colors"
+            >
+              {showRawJson ? 'Görsel Düzenleyici' : 'Raw JSON Düzenle'}
+            </button>
           </div>
+
+          {showRawJson ? (
+            <textarea
+              className={`w-full h-96 p-6 rounded-3xl outline-none font-mono text-[13px] leading-relaxed border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`}
+              value={JSON.stringify(settings.systemCommissions || {}, null, 2)}
+              onChange={(e) => {
+                try {
+                  const parsed = JSON.parse(e.target.value);
+                  setSettings({ ...settings, systemCommissions: parsed });
+                } catch (err) {}
+              }}
+            />
+          ) : (
+            <div className="space-y-4">
+              {(settings.systemCommissions?.systemCommissions || []).map((comm: any, idx: number) => (
+                <div key={idx} className={`p-6 rounded-3xl border transition-all space-y-4 ${theme === 'light' ? 'bg-gray-50/50 border-transparent hover:border-primary/20' : 'bg-white/5 border-transparent hover:border-white/10'}`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center font-black text-xs">
+                        {idx + 1}
+                      </div>
+                      <input 
+                        className="bg-transparent border-none font-black text-sm p-0 focus:ring-0 w-48 text-text-primary"
+                        value={comm.code}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].code = e.target.value;
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                        placeholder="Komisyon Kodu"
+                      />
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        const updated = settings.systemCommissions.systemCommissions.filter((_: any, i: number) => i !== idx);
+                        setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                      }}
+                      className="w-8 h-8 rounded-lg hover:bg-red-500/10 text-text-secondary/40 hover:text-red-500 flex items-center justify-center transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Hedef</label>
+                      <select 
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.target}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].target = e.target.value;
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      >
+                        <option value="customer">Alıcı (Customer)</option>
+                        <option value="seller">Satıcı (Seller)</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Tip</label>
+                      <select 
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.type}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].type = e.target.value;
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      >
+                        <option value="percentage">Yüzde (%)</option>
+                        <option value="fixed">Sabit (TL)</option>
+                        <option value="tiered_percentage">Kademeli Yüzde</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Değer / Oran</label>
+                      <input 
+                        type="number"
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.value}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].value = parseFloat(e.target.value);
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Koruma ile Birleştir</label>
+                      <div className="flex items-center h-10 px-3">
+                        <input 
+                          type="checkbox"
+                          checked={comm.mergeWithBuyerProtection}
+                          onChange={(e) => {
+                            const updated = [...settings.systemCommissions.systemCommissions];
+                            updated[idx].mergeWithBuyerProtection = e.target.checked;
+                            setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                          }}
+                          className="w-5 h-5 rounded-md text-primary focus:ring-primary/20 border-text-secondary/10"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Görünen Ad (TR)</label>
+                      <input 
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.displayedName?.tr}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].displayedName = { ...updated[idx].displayedName, tr: e.target.value };
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Görünen Ad (EN)</label>
+                      <input 
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.displayedName?.en}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].displayedName = { ...updated[idx].displayedName, en: e.target.value };
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Görünen Ad (FR)</label>
+                      <input 
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.displayedName?.fr}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].displayedName = { ...updated[idx].displayedName, fr: e.target.value };
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {comm.type === 'tiered_percentage' && (
+                    <div className={`p-4 rounded-2xl space-y-3 ${theme === 'light' ? 'bg-white/40' : 'bg-black/20'}`}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">Kademeler (Tiers)</span>
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            const updated = [...settings.systemCommissions.systemCommissions];
+                            updated[idx].tiers = [...(updated[idx].tiers || []), { min: 0, max: null, value: 0 }];
+                            setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                          }}
+                          className="text-[10px] font-black text-primary uppercase tracking-widest hover:underline"
+                        >
+                          + Kademe Ekle
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        {(comm.tiers || []).map((tier: any, tIdx: number) => (
+                          <div key={tIdx} className="grid grid-cols-4 gap-3 items-end">
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold text-text-secondary/30 uppercase">Min</label>
+                              <input type="number" className={`w-full h-8 px-2 rounded-lg border-none text-[11px] font-bold ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`} value={tier.min} onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].tiers[tIdx].min = parseFloat(e.target.value);
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}/>
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold text-text-secondary/30 uppercase">Max</label>
+                              <input type="number" className={`w-full h-8 px-2 rounded-lg border-none text-[11px] font-bold ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`} value={tier.max || ''} onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].tiers[tIdx].max = e.target.value === '' ? null : parseFloat(e.target.value);
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}/>
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[9px] font-bold text-text-secondary/30 uppercase">Oran (%)</label>
+                              <input type="number" className={`w-full h-8 px-2 rounded-lg border-none text-[11px] font-bold ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`} value={tier.value} onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].tiers[tIdx].value = parseFloat(e.target.value);
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}/>
+                            </div>
+                            <button type="button" onClick={() => {
+                              const updated = [...settings.systemCommissions.systemCommissions];
+                              updated[idx].tiers = updated[idx].tiers.filter((_: any, i: number) => i !== tIdx);
+                              setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                            }} className="h-8 text-red-500 hover:bg-red-500/10 rounded-lg flex items-center justify-center">
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+              <button 
+                type="button"
+                onClick={() => {
+                  const newComm = {
+                    code: 'NEW_COMMISSION',
+                    target: 'customer',
+                    type: 'percentage',
+                    value: 0,
+                    mergeWithBuyerProtection: true,
+                    displayedName: { tr: '', en: '', fr: '' }
+                  };
+                  const updated = [...(settings.systemCommissions?.systemCommissions || []), newComm];
+                  setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                }}
+                className={`w-full py-4 border-2 border-dashed rounded-3xl text-[11px] font-black uppercase tracking-widest transition-all ${theme === 'light' ? 'border-gray-200 text-gray-400 hover:border-primary/20 hover:text-primary' : 'border-white/5 text-white/20 hover:border-white/20 hover:text-white'}`}
+              >
+                + Yeni Komisyon Kuralı Ekle
+              </button>
+            </div>
+          )}
         </div>
       </SettingSection>
 
