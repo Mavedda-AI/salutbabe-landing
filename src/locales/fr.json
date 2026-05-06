@@ -236,7 +236,8 @@
       "no_records": "Aucun enregistrement de transaction trouvé.",
       "default_desc": "Statistiques générales et résumés",
       "anonymous": "Anonyme",
-      "notification": "Notification"
+      "notification": "Notification",
+      "table_actions": "Actions"
     },
     "shipping": {
       "title": "Gestion des Expéditions",
@@ -259,7 +260,8 @@
       "add_rate": "Ajouter un Nouveau Niveau",
       "no_companies": "Aucune compagnie maritime ajoutée pour le moment.",
       "delete_confirm": "Êtes-vous sûr de vouloir supprimer cette compagnie maritime ?",
-      "upload_logo": "Charger le Logo"
+      "upload_logo": "Charger le Logo",
+      "table_actions": "Actions"
     },
     "stores": {
       "title": "Gestion des Magasins",
@@ -280,7 +282,8 @@
       "table_seller": "VENDEUR",
       "table_amount": "MONTANT",
       "table_status": "STATUT",
-      "order_details": "Détails de la Commande"
+      "order_details": "Détails de la Commande",
+      "table_actions": "Actions"
     }
   }
 }

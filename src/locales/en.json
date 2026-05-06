@@ -236,7 +236,8 @@
       "no_records": "No transaction records found.",
       "default_desc": "General statistics and summaries",
       "anonymous": "Anonymous",
-      "notification": "Notification"
+      "notification": "Notification",
+      "table_actions": "Actions"
     },
     "shipping": {
       "title": "Shipping Management",

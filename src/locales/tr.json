@@ -225,7 +225,8 @@
       "no_records": "İşlem kaydı bulunamadı.",
       "default_desc": "Genel istatistikler ve özetler",
       "anonymous": "Anonim",
-      "notification": "Bildirim"
+      "notification": "Bildirim",
+      "table_actions": "İşlemler"
     },
     "shipping": {
       "title": "Kargo Yönetimi",
@@ -248,7 +249,8 @@
       "add_rate": "Yeni Kademe Ekle",
       "no_companies": "Henüz hiç kargo şirketi eklenmemiş.",
       "delete_confirm": "Bu kargo şirketini silmek istediğinize emin misiniz?",
-      "upload_logo": "Logo Yükle"
+      "upload_logo": "Logo Yükle",
+      "table_actions": "İşlemler"
     },
     "stores": {
       "title": "Mağaza Yönetimi",
@@ -269,7 +271,8 @@
       "table_seller": "SATICI",
       "table_amount": "TUTAR",
       "table_status": "DURUM",
-      "order_details": "Sipariş Detayı"
+      "order_details": "Sipariş Detayı",
+      "table_actions": "İşlemler"
     }
   }
 }
