@@ -192,21 +192,39 @@ export const ThemeLanguageProvider = ({ children }: { children: React.ReactNode 
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
+    // 1. Initial Defaults
+    let initialLang: Language = 'tr';
+    let initialTheme: Theme = 'light';
+
+    // 2. Check LocalStorage
     const savedLang = localStorage.getItem('language') as Language;
-    if (savedLang) {
-      setLanguage(savedLang);
-      document.documentElement.lang = savedLang;
+    const savedTheme = localStorage.getItem('theme') as Theme;
+
+    // 3. Check User Preferences (High Priority if logged in)
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        // Backend stores preferences in userPreferences object (mobile parity)
+        if (user.userPreferences?.language) initialLang = user.userPreferences.language.toLowerCase() as Language;
+        if (user.userPreferences?.theme) initialTheme = user.userPreferences.theme.toLowerCase() as Theme;
+      } catch (e) {}
+    } else {
+      // If not logged in, use local storage or browser defaults
+      if (savedLang) initialLang = savedLang;
+      if (savedTheme) initialTheme = savedTheme;
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // initialTheme = 'dark'; // Commented out to strictly follow "default light" request
+      }
     }
 
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
+    setLanguage(initialLang);
+    setTheme(initialTheme);
+    document.documentElement.lang = initialLang;
+    if (initialTheme === 'dark') {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
