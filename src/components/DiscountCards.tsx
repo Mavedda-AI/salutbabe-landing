@@ -34,7 +34,7 @@ const DiscountCards = () => {
       color: "bg-[#7EDB9E]", 
       textColor: "text-[#1A1A1A]",
       buttonText: "EXPLORE",
-      image: "https://images.unsplash.com/photo-1544126592-807daa215a05?auto=format&fit=crop&q=80&w=800",
+      image: "https://images.unsplash.com/photo-1491677589976-429000f2eeba?auto=format&fit=crop&q=80&w=800",
     }
   ];
 
@@ -55,6 +55,7 @@ const DiscountCards = () => {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   priority={index === 0}
                   className="object-cover mix-blend-multiply" 
+                  unoptimized // Bypass some Next.js image processing for these external URLs
                 />
             </div>
 
@@ -69,7 +70,7 @@ const DiscountCards = () => {
                 {deal.title}
               </h3>
               <p className={`text-base font-semibold opacity-90 max-w-[240px] leading-relaxed ${deal.textColor}`}>
-                {deal.description.replace(/\s+/g, ' ').trim()}
+                {deal.description}
               </p>
             </div>
 
