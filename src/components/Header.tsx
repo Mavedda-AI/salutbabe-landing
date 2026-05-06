@@ -23,7 +23,16 @@ const Header = () => {
       setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const handleOpenLeaderboard = () => {
+      setIsLeaderboardOpen(true);
+    };
+    window.addEventListener('open-leaderboard-modal', handleOpenLeaderboard);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('open-leaderboard-modal', handleOpenLeaderboard);
+    };
   }, []);
 
   // Prevent scroll when modal is open
@@ -35,7 +44,7 @@ const Header = () => {
     }
   }, [isLeaderboardOpen]);
 
-  if (pathname && pathname.startsWith('/admin')) {
+  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/panel'))) {
     return null;
   }
 

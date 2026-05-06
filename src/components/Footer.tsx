@@ -93,7 +93,7 @@ const Footer = () => {
     };
   }, [isContactOpen]);
 
-  if (pathname && pathname.startsWith('/admin')) {
+  if (pathname && (pathname.startsWith('/admin') || pathname.startsWith('/panel'))) {
     return null;
   }
 
@@ -242,24 +242,22 @@ const Footer = () => {
               </p>
               <ul className="flex flex-col gap-2 list-none">
                 <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/shop">
-                    {renderAnimatedWord("Shop")}
+                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/category/new">
+                    {renderAnimatedWord("New Arrivals")}
                   </Link>
                 </li>
                 <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/sell">
-                    {renderAnimatedWord("Sell")}
+                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/categories">
+                    {renderAnimatedWord("Categories")}
                   </Link>
                 </li>
                 <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/brands">
-                    {renderAnimatedWord("Brands")}
-                  </Link>
-                </li>
-                <li className="m-0">
-                  <Link className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity" href="/about">
-                    {renderAnimatedWord("About Us")}
-                  </Link>
+                  <button 
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-leaderboard-modal'))}
+                    className="group inline-block font-bold text-[11px] uppercase tracking-[0.2em] py-1 opacity-70 hover:opacity-100 transition-opacity"
+                  >
+                    {renderAnimatedWord("Leaderboard")}
+                  </button>
                 </li>
               </ul>
             </div>
