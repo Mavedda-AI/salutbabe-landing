@@ -19,8 +19,19 @@ const Footer = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
 
-  useEffect(() => {
-    if (isContactOpen && mapContainerRef.current && !mapInstance.current) {
+    useEffect(() => {
+      const handleOpenLegal = (e: any) => {
+        setIsLegalOpen(true);
+        if (e.detail?.tab) {
+          setActiveLegalTab(e.detail.tab);
+        }
+      };
+      window.addEventListener('open-legal-modal', handleOpenLegal);
+      return () => window.removeEventListener('open-legal-modal', handleOpenLegal);
+    }, []);
+
+    useEffect(() => {
+      if (isContactOpen && mapContainerRef.current && !mapInstance.current) {
       // Load Mapbox CSS
       if (!document.getElementById('mapbox-css')) {
         const link = document.createElement('link');

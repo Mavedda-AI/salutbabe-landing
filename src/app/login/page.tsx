@@ -246,10 +246,15 @@ const LoginPage = () => {
 
           <div className="mt-10 pt-8 border-t border-border-color text-center">
             <p className="text-[11px] text-text-secondary leading-relaxed">
-              By continuing, you agree to salutbabe&apos;s <br />
-              <Link href="/terms" className="font-black text-text-primary hover:text-primary transition-colors">Terms of Service</Link>
-              {" "}and{" "}
-              <Link href="/privacy" className="font-black text-text-primary hover:text-primary transition-colors">Privacy Policy</Link>.
+              Devam ederek{" "}
+              <button 
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { tab: 'terms-of-use' } }))}
+                className="font-black text-text-primary hover:text-primary transition-colors underline decoration-border-color underline-offset-4"
+              >
+                kullanım şartlarımızı
+              </button>
+              {" "}kabul etmiş sayılırsınız.
             </p>
           </div>
         </div>
