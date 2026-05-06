@@ -136,6 +136,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       '/dashboard/sysop',
       '/dashboard/sysop/user-management',
       '/dashboard/sysop/order-management',
+      '/dashboard/sysop/shipping-management',
+      '/dashboard/sysop/store-management',
       '/dashboard/sysop/product-management',
       '/dashboard/sysop/category-management',
       '/dashboard/sysop/brand-management',
