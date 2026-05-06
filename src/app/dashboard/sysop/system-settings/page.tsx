@@ -67,7 +67,38 @@ export default function SystemSettingsPage() {
     }
   };
 
-  if (loading || !settings) return <div className="p-20 text-center font-black opacity-20 animate-pulse tracking-widest text-2xl">LOADING SYSTEM CONFIG...</div>;
+  const LoadingSkeleton = () => (
+    <div className="max-w-6xl mx-auto flex flex-col gap-8 pb-20 animate-pulse">
+      {/* Skeleton Bar */}
+      <div className={`p-4 rounded-[2.5rem] border flex items-center justify-between transition-all duration-300
+        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5 shadow-2xl'}`}>
+        <div className="flex items-center gap-4 ml-4">
+           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+           <div className="space-y-2">
+             <div className={`w-32 h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+             <div className={`w-48 h-3 rounded-full ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
+           </div>
+        </div>
+        <div className={`w-32 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+      </div>
+
+      {[1, 2, 3].map((i) => (
+        <div key={i} className={`p-10 rounded-[3rem] border flex flex-col gap-8
+          ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
+          <div className="flex items-center justify-between">
+            <div className={`w-48 h-6 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+            <div className={`w-12 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className={`h-24 rounded-2xl ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
+            <div className={`h-24 rounded-2xl ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  if (loading || !settings) return <LoadingSkeleton />;
 
   const SettingSection = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className={`p-10 rounded-[3rem] border transition-all duration-500 flex flex-col gap-8
