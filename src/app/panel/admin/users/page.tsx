@@ -18,6 +18,7 @@ export default function AdminUsersPage() {
       const res = await fetch(apiUrl("/admin/users"), {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
         },
       });
       const data = await res.json();
@@ -44,6 +45,7 @@ export default function AdminUsersPage() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
         },
         body: JSON.stringify({
           balance: parseFloat(balanceInput),
@@ -72,6 +74,7 @@ export default function AdminUsersPage() {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
         },
       });
       const data = await res.json();
@@ -92,6 +95,7 @@ export default function AdminUsersPage() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
         },
         body: JSON.stringify({ roles: roleInput }),
       });
