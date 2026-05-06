@@ -133,42 +133,110 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-[#F8F9FB] dark:bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
       {/* Main Sidebar */}
-      <aside className={`w-[280px] bg-[#FDFDFF] dark:bg-surface/50 border-r border-border-color fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ${isSidebarCollapsed ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'}`}>
-        <div className="p-6 pt-10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20">s</div>
-            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-text-primary">SALUTBABE</h3>
-          </div>
-          <button onClick={toggleTheme} className="text-text-secondary hover:text-primary transition-colors">
-            {theme === 'dark' ? '☀️' : '🌙'}
+      <aside 
+        className={`bg-[#1A2332] border-r border-white/5 fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}`}
+      >
+        {/* Sidebar Header / Logo */}
+        <div className="relative flex items-center justify-center h-24 p-6">
+          {!isSidebarCollapsed ? (
+            <Link href="/panel" className="flex items-center justify-center">
+               <img src="/logo-salutbabe.png" alt="Logo" className="h-7 w-auto brightness-0 invert" />
+            </Link>
+          ) : (
+            <img src="/logo-favicon.png" alt="Logo" className="w-12 h-12 rounded-2xl object-contain shadow-lg shadow-black/20" />
+          )}
+          
+          <button 
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors lg:flex hidden p-1 hover:bg-white/5 rounded-md"
+          >
+            {isSidebarCollapsed ? (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 19l-7-7 7-7M19 19l-7-7 7-7" /></svg>
+            )}
           </button>
         </div>
 
-        <div className="px-6 mt-4 mb-2">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/50">{t('dashboard.menu')}</h3>
-        </div>
-
-        <nav className="px-3 space-y-1">
-          {activeNav.map((item, idx) => (
-            <Link 
-              key={idx} 
-              href={item.href}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl font-bold text-[13px] transition-all ${pathname === item.href ? 'bg-white dark:bg-surface text-text-primary shadow-sm' : 'text-text-secondary hover:bg-black/5 hover:text-text-primary'}`}
-            >
-              <span>{item.label}</span>
-            </Link>
-          ))}
+        {/* Navigation */}
+        <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto no-scrollbar">
+          {activeNav.map((item, idx) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link 
+                key={idx} 
+                href={item.href}
+                className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group relative
+                  ${isActive 
+                    ? 'bg-white text-[#1A2332] shadow-lg shadow-white/10' 
+                    : 'text-white/60 hover:bg-white/5 hover:text-white'
+                  }`}
+              >
+                <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
+                  {/* Placeholder Icon - Replace with actual icons later */}
+                  <div className={`w-5 h-5 rounded flex items-center justify-center ${isActive ? 'text-[#1A2332]' : 'text-inherit'}`}>
+                    <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                  </div>
+                </div>
+                {!isSidebarCollapsed && (
+                  <span className="font-bold text-[13px] whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
+                )}
+                {isSidebarCollapsed && (
+                  <div className="absolute left-full ml-4 px-3 py-2 bg-[#1A2332] text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-[100] border border-white/10 shadow-xl">
+                    {item.label}
+                  </div>
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
+        {/* Bottom Actions */}
+        <div className="p-4 border-t border-white/5 space-y-3">
+          {!isSidebarCollapsed && (
+            <>
+              <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 hover:text-white text-[12px] font-bold transition-all">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                Fleet Overview
+              </button>
+              <div className="grid grid-cols-2 gap-2">
+                <button className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 hover:text-white text-[9px] font-bold transition-all">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  Statistik
+                </button>
+                <button className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 hover:text-white text-[9px] font-bold transition-all">
+                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                   Support
+                </button>
+              </div>
+            </>
+          )}
 
+          {/* Theme & Language Toggles */}
+          <div className={`flex ${isSidebarCollapsed ? 'flex-col items-center gap-4' : 'items-center justify-between px-2'} pt-2`}>
+            <button 
+              onClick={toggleTheme}
+              className="flex items-center gap-3 text-white/60 hover:text-white transition-all group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10">
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </div>
+              {!isSidebarCollapsed && <span className="text-[12px] font-bold">{theme === 'dark' ? 'Heller' : 'Dunkel'}</span>}
+            </button>
 
-        <div className="mt-auto p-6 bg-primary/5 mx-3 mb-6 rounded-2xl border border-primary/10">
-           <p className="text-[12px] font-bold text-text-primary mb-1">{t('dashboard.need_help')}</p>
-           <button className="text-[11px] font-black text-primary hover:underline">{t('dashboard.contact_us')}</button>
+            <button className="flex items-center gap-3 text-white/60 hover:text-white transition-all group">
+               <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10">
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.802m3.37 6.087a19.245 19.245 0 002.046-3.815m3.046 0a21.43 21.43 0 01-1.048-9.5H3m12.048 9.5c.134.754.216 1.525.24 2.308M12 21l6-6m-6 6l-6-6" /></svg>
+               </div>
+               {!isSidebarCollapsed && <span className="text-[12px] font-bold">Deutsch</span>}
+            </button>
+          </div>
         </div>
       </aside>
 
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-0' : 'lg:pl-[280px]'} pl-0 min-h-screen relative`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative`}>
         
         {/* Header */}
         <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
