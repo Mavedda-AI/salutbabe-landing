@@ -5,7 +5,8 @@ import Link from 'next/link';
 import {useCart} from '../../context/CartContext';
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { cart, removeFromCart, updateQuantity, cartTotal, serviceFee } = useCart();
+  const grandTotal = cartTotal + serviceFee;
 
   if (cart.length === 0) {
     return (
@@ -99,6 +100,10 @@ export default function CartPage() {
                   <span>{cartTotal} TL</span>
                 </div>
                 <div className="flex justify-between text-neutral-600">
+                  <span>Hizmet Bedeli</span>
+                  <span>{serviceFee} TL</span>
+                </div>
+                <div className="flex justify-between text-neutral-600">
                   <span>Kargo Ücreti</span>
                   <span className="text-green-600 font-medium">Bedava</span>
                 </div>
@@ -106,7 +111,7 @@ export default function CartPage() {
                 <div className="flex justify-between items-end">
                   <span className="font-bold text-neutral-800">Toplam</span>
                   <div className="text-right">
-                    <span className="text-2xl font-black text-pink-600">{cartTotal} TL</span>
+                    <span className="text-2xl font-black text-pink-600">{grandTotal} TL</span>
                     <p className="text-[10px] text-neutral-400 mt-1 uppercase font-bold tracking-wider">KDV Dahil</p>
                   </div>
                 </div>

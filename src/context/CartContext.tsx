@@ -25,6 +25,7 @@ interface CartContextType {
   clearCart: () => void;
   cartTotal: number;
   cartCount: number;
+  serviceFee: number;
   showToast: boolean;
   toastProduct: Product | null;
   setShowToast: (show: boolean) => void;
@@ -36,6 +37,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [toastProduct, setToastProduct] = useState<Product | null>(null);
+  const [serviceFee, setServiceFee] = useState(0);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -47,6 +49,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         console.error('Failed to parse cart', e);
       }
     }
+    
+    // Fetch service fee
+    fetch('https://api.salutbabe.com/v1/common/get-system-settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.payload && data.payload.buyerServiceFee) {
+          setServiceFee(parseFloat(data.payload.buyerServiceFee));
+        }
+      })
+      .catch(err => console.error('Failed to fetch settings', err));
   }, []);
 
   // Save cart to localStorage on change
@@ -109,6 +121,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         clearCart,
         cartTotal,
         cartCount,
+        serviceFee,
         showToast,
         toastProduct,
         setShowToast

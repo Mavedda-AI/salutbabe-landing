@@ -41,7 +41,7 @@ export default function SystemSettingsPage() {
     const { name, value, type, checked } = e.target;
     setSettings((prev: any) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : (type === 'number' ? parseFloat(value) : value)
     }));
   };
 
