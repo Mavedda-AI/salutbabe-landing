@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
+import {API_BASE_URL} from "../../lib/api";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -122,7 +123,17 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             <div className="relative">
               <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-black text-[13px] shadow-lg shadow-primary/20 cursor-pointer hover:scale-105 transition-transform overflow-hidden peer">
                  {user?.profilePhotoUrl ? (
-                   <img src={user.profilePhotoUrl} alt="Profile" className="w-full h-full object-cover" />
+                   <img 
+                     src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
+                     alt="Profile" 
+                     className="w-full h-full object-cover" 
+                     onError={(e) => {
+                       // Fallback in case image fails to load
+                       const target = e.target as HTMLImageElement;
+                       target.style.display = 'none';
+                       target.parentElement!.innerHTML = `<span>${user?.userName?.[0] || 'U'}${user?.userSurname?.[0] || ''}</span>`;
+                     }}
+                   />
                  ) : (
                    <span>{user?.userName?.[0]}{user?.userSurname?.[0]}</span>
                  )}

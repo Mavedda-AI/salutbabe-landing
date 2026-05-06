@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.salutbabe.com';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.salutbabe.com';
 const API_VERSION  = process.env.NEXT_PUBLIC_API_BASE_VERSION || 'v1';
 
 /** Root: https://api.salutbabe.com/v1 */
