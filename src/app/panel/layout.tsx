@@ -65,45 +65,20 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-[#F8F9FB] dark:bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
-      {/* 1. Slim Icon Sidebar */}
-      <aside className="w-[70px] bg-white dark:bg-surface border-r border-border-color flex flex-col items-center py-6 fixed inset-y-0 z-[60]">
-        <div className="mb-8 p-2 bg-primary/10 rounded-xl">
-           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-black text-xl">s</div>
-        </div>
-        
-        <nav className="flex-1 flex flex-col gap-4">
-          {mainNav.map((item) => (
-            <Link 
-              key={item.id} 
-              href={item.href}
-              className={`p-3 rounded-xl transition-all duration-300 ${pathname === item.href ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'text-text-secondary hover:bg-primary/5 hover:text-primary'}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-              </svg>
-            </Link>
-          ))}
-        </nav>
-
-        <div className="mt-auto flex flex-col gap-4">
-          <button onClick={toggleTheme} className="p-3 text-text-secondary hover:text-primary transition-colors">
+      {/* Main Sidebar */}
+      <aside className={`w-[280px] bg-[#FDFDFF] dark:bg-surface/50 border-r border-border-color fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ${isSidebarCollapsed ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'}`}>
+        <div className="p-6 pt-10 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20">s</div>
+            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-text-primary">SALUTBABE</h3>
+          </div>
+          <button onClick={toggleTheme} className="text-text-secondary hover:text-primary transition-colors">
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
-          <button className="p-3 text-text-secondary hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            </svg>
-          </button>
         </div>
-      </aside>
 
-      {/* 2. Contextual Sidebar */}
-      <aside className={`w-[240px] bg-[#FDFDFF] dark:bg-surface/50 border-r border-border-color fixed inset-y-0 left-[70px] z-50 hidden lg:flex flex-col transition-all duration-300 ${isSidebarCollapsed ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'}`}>
-        <div className="p-6 pt-10 flex items-center justify-between">
-          <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-text-secondary/50">WORKSPACE</h3>
-          <button className="text-text-secondary hover:text-primary">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-          </button>
+        <div className="px-6 mt-4 mb-2">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/50">MENÜ</h3>
         </div>
 
         <nav className="px-3 space-y-1">
@@ -126,7 +101,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[70px]' : 'lg:pl-[310px]'} pl-[70px] min-h-screen relative`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-0' : 'lg:pl-[280px]'} pl-0 min-h-screen relative`}>
         
         {/* Header */}
         <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
