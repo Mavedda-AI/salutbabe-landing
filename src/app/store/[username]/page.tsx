@@ -8,7 +8,8 @@ type Props = {
 
 async function getStoreData(username: string) {
   try {
-    const res = await fetch(`https://api.salutbabe.com/v1/user-profile/get-public-profile?username=${username}`, { next: { revalidate: 60 } });
+    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.salutbabe.com';
+    const res = await fetch(`${apiUrl}/v1/user-profile/get-public-profile?username=${encodeURIComponent(username)}`, { cache: 'no-store' });
     if (!res.ok) return null;
     const json = await res.json();
     return json.payload;
