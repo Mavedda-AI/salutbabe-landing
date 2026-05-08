@@ -285,5 +285,10 @@
       "order_details": "Détails de la Commande",
       "table_actions": "Actions"
     }
+  },
+  "banner": {
+    "app_title": "Application SalutBabe",
+    "app_subtitle": "Une expérience d'achat plus rapide",
+    "open_btn": "Ouvrir"
   }
 }

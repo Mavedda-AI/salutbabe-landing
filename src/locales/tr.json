@@ -274,5 +274,10 @@
       "order_details": "Sipariş Detayı",
       "table_actions": "İşlemler"
     }
+  },
+  "banner": {
+    "app_title": "SalutBabe Uygulaması",
+    "app_subtitle": "Daha hızlı alışveriş deneyimi",
+    "open_btn": "Aç"
   }
 }

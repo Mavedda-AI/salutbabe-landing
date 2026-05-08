@@ -283,5 +283,10 @@
       "table_status": "STATUS",
       "order_details": "Order Details"
     }
+  },
+  "banner": {
+    "app_title": "SalutBabe App",
+    "app_subtitle": "A faster shopping experience",
+    "open_btn": "Open"
   }
 }
