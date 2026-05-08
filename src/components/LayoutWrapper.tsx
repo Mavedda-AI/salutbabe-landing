@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {usePathname} from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
+import MobileAppBanner from "./MobileAppBanner";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
   return (
     <>
+      {!isDashboard && <MobileAppBanner />}
       {!isDashboard && <Header />}
       <div className={isDashboard ? "" : "relative pt-32"}>
         {children}
