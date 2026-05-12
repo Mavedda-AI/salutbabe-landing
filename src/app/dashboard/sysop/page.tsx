@@ -33,7 +33,13 @@ export default function SysopDashboard() {
       });
       const ordersData = await ordersRes.json();
       if (ordersData.request?.requestResult) {
-        setRecentOrders(ordersData.payload || []);
+        let ordersArray = [];
+        if (Array.isArray(ordersData.payload)) {
+          ordersArray = ordersData.payload;
+        } else if (ordersData.payload && typeof ordersData.payload === 'object') {
+          ordersArray = ordersData.payload.data || ordersData.payload.results || ordersData.payload.orders || [];
+        }
+        setRecentOrders(Array.isArray(ordersArray) ? ordersArray : []);
       }
     } catch (err) {
       console.error("Dashboard fetch failed:", err);
@@ -120,7 +126,7 @@ export default function SysopDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border-color">
-                {recentOrders.length === 0 ? (
+                {!Array.isArray(recentOrders) || recentOrders.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-8 py-10 text-center text-text-secondary text-[12px] font-bold">{t('dashboard.sysop.no_records')}</td>
                   </tr>
