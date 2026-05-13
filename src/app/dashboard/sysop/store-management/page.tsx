@@ -9,12 +9,7 @@ interface Store {
   storeName: string;
   storePhotoUrl: string;
   isActive: boolean;
-  owner: {
-    userID: string;
-    userName: string;
-    userSurname: string;
-    eMail: string;
-  };
+  owner: { userID: string; userName: string; userSurname: string; eMail: string; };
   addressMappings: any[];
 }
 
@@ -28,55 +23,50 @@ export default function StoreManagementPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(apiUrl("/admin/stores"), {
-        headers: { 
-          "Authorization": `Bearer ${token}`,
-          "X-Device-Type": "web"
-        }
+        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
       });
       const data = await res.json();
-      if (data.payload) {
-        setStores(data.payload);
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+      if (data.payload) setStores(data.payload);
+    } catch (e) { console.error(e); }
+    finally { setLoading(false); }
   };
 
-  useEffect(() => {
-    fetchStores();
-  }, []);
+  useEffect(() => { fetchStores(); }, []);
 
   const toggleStatus = async (storeID: string, currentStatus: boolean) => {
     setSaving(storeID);
     try {
-      const token = localStorage.getItem("auth_token");
+      const token = localStorage.getItem("token");
       const res = await fetch(apiUrl(`/admin/stores/${storeID}`), {
         method: "PUT",
-        headers: { 
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "X-Device-Type": "web"
-        },
+        headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json", "X-Device-Type": "web" },
         body: JSON.stringify({ isActive: !currentStatus })
       });
       if (res.ok) {
         setStores(stores.map(s => s.storeID === storeID ? { ...s, isActive: !currentStatus } : s));
       }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setSaving(null);
-    }
+    } catch (e) { console.error(e); }
+    finally { setSaving(null); }
   };
 
-  if (loading) return <div className="p-8 text-center">{t('dashboard.sysop.loading_data')}</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4">
+      <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary">{t('dashboard.sysop.loading_data')}</p>
+    </div>
+  );
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-black text-text-primary uppercase tracking-widest">{t('dashboard.stores.title') || 'Mağaza Yönetimi'}</h2>
+        <span className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest ${theme === 'light' ? 'bg-gray-50 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>
+          {stores.length} {t('dashboard.stores.total') || 'Mağaza'}
+        </span>
+      </div>
 
-      <div className={`rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
+      {/* Desktop Table */}
+      <div className={`hidden md:block rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
@@ -95,7 +85,7 @@ export default function StoreManagementPage() {
                       {store.storePhotoUrl ? (
                         <img src={`${API_BASE_URL}/uploads/stores/${store.storePhotoUrl}`} alt={store.storeName} className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-[10px] font-black opacity-20 uppercase tracking-widest">{store.storeName.charAt(0)}</span>
+                        <span className="text-[14px] font-black opacity-30 uppercase">{store.storeName.charAt(0)}</span>
                       )}
                     </div>
                     <div className="flex flex-col">
@@ -112,27 +102,62 @@ export default function StoreManagementPage() {
                 </td>
                 <td className="px-8 py-5">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${store.isActive ? 'bg-success shadow-[0_0_10px_rgba(52,199,89,0.5)]' : 'bg-gray-300'}`}></div>
+                    <div className={`w-2 h-2 rounded-full ${store.isActive ? 'bg-emerald-500 shadow-[0_0_10px_rgba(52,199,89,0.5)]' : 'bg-gray-300'}`}></div>
                     <span className="text-[11px] font-black uppercase tracking-widest opacity-60">{store.isActive ? t('dashboard.stores.active') : t('dashboard.stores.passive')}</span>
                   </div>
                 </td>
                 <td className="px-8 py-5 text-right">
-                   <button 
-                    onClick={() => toggleStatus(store.storeID, store.isActive)}
-                    disabled={saving === store.storeID}
+                  <button onClick={() => toggleStatus(store.storeID, store.isActive)} disabled={saving === store.storeID}
                     className={`h-10 px-6 rounded-xl font-black text-[11px] uppercase tracking-widest transition-all
-                      ${store.isActive 
-                        ? 'bg-red-500/5 text-red-500 hover:bg-red-500 hover:text-white' 
-                        : 'bg-success/5 text-success hover:bg-success hover:text-white'
-                      } disabled:opacity-50`}
-                   >
-                     {saving === store.storeID ? t('auth.loading') : (store.isActive ? t('dashboard.btn_block') : t('dashboard.btn_unblock'))}
-                   </button>
+                      ${store.isActive ? 'bg-red-500/5 text-red-500 hover:bg-red-500 hover:text-white' : 'bg-emerald-500/5 text-emerald-500 hover:bg-emerald-500 hover:text-white'} 
+                      disabled:opacity-50`}>
+                    {saving === store.storeID ? t('auth.loading') : (store.isActive ? t('dashboard.btn_block') : t('dashboard.btn_unblock'))}
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card List */}
+      <div className="md:hidden flex flex-col gap-4">
+        {stores.length === 0 && (
+          <div className={`p-12 text-center rounded-[2rem] border-2 border-dashed ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+            <p className="text-[13px] font-bold text-text-secondary">{t('dashboard.sysop.no_records')}</p>
+          </div>
+        )}
+        {stores.map((store) => (
+          <div key={store.storeID} className={`p-5 rounded-[2rem] border ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center overflow-hidden border border-border-color shrink-0">
+                {store.storePhotoUrl ? (
+                  <img src={`${API_BASE_URL}/uploads/stores/${store.storePhotoUrl}`} alt={store.storeName} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-xl font-black opacity-30 uppercase">{store.storeName.charAt(0)}</span>
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="font-black text-text-primary">{store.storeName}</p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <div className={`w-1.5 h-1.5 rounded-full ${store.isActive ? 'bg-emerald-500' : 'bg-gray-300'}`}></div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-text-secondary">{store.isActive ? t('dashboard.stores.active') : t('dashboard.stores.passive')}</span>
+                </div>
+              </div>
+            </div>
+            <div className={`space-y-2 mb-4 pb-4 border-b ${theme === 'light' ? 'border-border-color' : 'border-white/5'}`}>
+              <p className="text-[11px] font-black text-text-secondary/50 uppercase tracking-wider">{t('dashboard.stores.table_owner')}</p>
+              <p className="font-bold text-text-primary">{store.owner?.userName} {store.owner?.userSurname}</p>
+              <p className="text-[12px] text-text-secondary">{store.owner?.eMail}</p>
+            </div>
+            <button onClick={() => toggleStatus(store.storeID, store.isActive)} disabled={saving === store.storeID}
+              className={`w-full h-12 rounded-2xl font-black text-[12px] uppercase tracking-widest transition-all
+                ${store.isActive ? 'bg-red-500/10 text-red-500 active:bg-red-500 active:text-white' : 'bg-emerald-500/10 text-emerald-500 active:bg-emerald-500 active:text-white'}
+                disabled:opacity-50`}>
+              {saving === store.storeID ? t('auth.loading') : (store.isActive ? t('dashboard.btn_block') : t('dashboard.btn_unblock'))}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
