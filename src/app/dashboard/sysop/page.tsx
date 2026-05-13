@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../../lib/api";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
+import Link from "next/link";
 
 export default function SysopDashboard() {
   const [stats, setStats] = useState<any>(null);
@@ -54,22 +55,26 @@ export default function SysopDashboard() {
     {
       label: t('dashboard.sysop.stats_total_sales'),
       value: `${(stats?.totalRevenue || 0).toLocaleString('tr-TR')} ₺`,
-      textColor: "text-emerald-500"
+      textColor: "text-emerald-500",
+      href: "/dashboard/sysop/order-management"
     },
     {
       label: t('dashboard.sysop.stats_active_users'),
       value: stats?.totalUsers || 0,
-      textColor: "text-blue-500"
+      textColor: "text-blue-500",
+      href: "/dashboard/sysop/user-management"
     },
     {
       label: t('dashboard.sysop.stats_total_stores'),
       value: stats?.totalStores || 0,
-      textColor: "text-purple-500"
+      textColor: "text-purple-500",
+      href: "/dashboard/sysop/store-management"
     },
     {
       label: t('dashboard.sysop.stats_pending_approvals'),
       value: stats?.pendingListings || 0,
-      textColor: "text-orange-500"
+      textColor: "text-orange-500",
+      href: "/dashboard/sysop/product-management"
     }
   ];
 
@@ -87,9 +92,10 @@ export default function SysopDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, i) => (
-          <div
+          <Link
+            href={card.href}
             key={i}
-            className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1
+            className={`group p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block cursor-pointer
               ${theme === 'light' 
                 ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
                 : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}
@@ -97,11 +103,14 @@ export default function SysopDashboard() {
             <div className="flex flex-col h-full">
                <p className={`text-[12px] font-black uppercase tracking-widest mb-3 ${theme === 'light' ? 'text-text-secondary/60' : 'text-text-secondary/80'}`}>{card.label}</p>
               <div className={`w-full h-[1px] mb-5 ${theme === 'light' ? 'bg-border-color' : 'bg-white/5'}`} />
-              <div className="mt-auto">
+              <div className="mt-auto flex items-center justify-between">
                 <h3 className={`text-2xl font-black ${card.textColor}`}>{card.value}</h3>
+                <div className="w-8 h-8 rounded-full border border-border-color flex items-center justify-center text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
