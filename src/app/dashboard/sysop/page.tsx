@@ -95,7 +95,7 @@ export default function SysopDashboard() {
           <Link
             href={card.href}
             key={i}
-            className={`group p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block cursor-pointer
+            className={`group relative z-10 p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block cursor-pointer
               ${theme === 'light' 
                 ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
                 : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}
