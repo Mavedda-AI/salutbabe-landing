@@ -72,10 +72,11 @@ const Header = () => {
           {/* Top Row: Logo (Center) & Switchers (Right) */}
           <div className="flex items-center justify-between md:justify-center w-full py-2 relative">
             <div className="md:absolute md:left-0 flex items-center relative z-[100]">
-               <button 
-                 type="button"
+               <div 
                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-                 className="md:hidden text-text-primary p-3 -ml-3 cursor-pointer touch-manipulation"
+                 className="md:hidden text-text-primary p-3 -ml-3 cursor-pointer touch-manipulation flex items-center justify-center"
+                 role="button"
+                 tabIndex={0}
                  aria-label="Menu"
                >
                  {isMobileMenuOpen ? (
@@ -87,7 +88,7 @@ const Header = () => {
                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                    </svg>
                  )}
-               </button>
+               </div>
             </div>
 
             <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
@@ -228,13 +229,21 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Backdrop */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border-color shadow-lg p-6 flex flex-col gap-6 z-50">
+          <div 
+            className="md:hidden fixed inset-0 top-[64px] bg-black/60 backdrop-blur-sm z-[40]"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+
+        {/* Mobile Menu Panel */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden fixed top-[64px] left-0 right-0 bg-background/95 backdrop-blur-2xl border-b border-border-color shadow-2xl p-6 flex flex-col gap-6 z-[50] max-h-[calc(100vh-64px)] overflow-y-auto">
             <Link 
               href="/category/new" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+              className="text-[14px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors py-2"
             >
               {t("header.new_arrivals")}
             </Link>
@@ -242,7 +251,7 @@ const Header = () => {
             <Link 
               href="/categories" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+              className="text-[14px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors py-2"
             >
               {t("header.categories")}
             </Link>
@@ -254,9 +263,9 @@ const Header = () => {
                 <Link 
                   href="/favorites" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-[14px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors py-2"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                   </svg>
                   Favorites
@@ -265,7 +274,7 @@ const Header = () => {
                 <Link 
                   href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[13px] font-black uppercase tracking-widest bg-surface border border-border-color px-5 py-3 rounded-xl hover:bg-text-primary hover:text-background transition-all text-center shadow-sm"
+                  className="text-[14px] font-black uppercase tracking-widest bg-primary text-white px-5 py-4 rounded-xl hover:bg-primary-dark transition-all text-center shadow-md w-full"
                 >
                   {t("header.back_to_panel")}
                 </Link>
@@ -275,7 +284,7 @@ const Header = () => {
                 <Link 
                   href="/login" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+                  className="text-[14px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors py-2"
                 >
                   {t("header.login")}
                 </Link>
@@ -283,7 +292,7 @@ const Header = () => {
                 <Link 
                   href="/register" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity"
+                  className="text-[14px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity py-2"
                 >
                   {t("header.sell")}
                 </Link>
