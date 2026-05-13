@@ -96,21 +96,41 @@ const Header = () => {
             </Link>
 
             <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6">
-              {/* Mobile Login / Panel */}
-              <div className="md:hidden flex items-center mr-1">
+              {/* Mobile Icons (Cart & Login/Panel) */}
+              <div className="md:hidden flex items-center gap-4 mr-1">
+                {/* Mobile Cart */}
+                <Link 
+                  href="/cart"
+                  className="relative text-text-primary hover:text-primary transition-colors flex items-center"
+                  aria-label="Cart"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  </svg>
+                  <span className="absolute -top-1.5 -right-2 bg-primary text-white text-[9px] font-black h-4 w-4 rounded-full flex items-center justify-center border-2 border-background">
+                    0
+                  </span>
+                </Link>
+
                 {!isLoggedIn ? (
                   <Link 
                     href="/login" 
-                    className="text-[12px] font-bold uppercase tracking-widest text-text-secondary hover:text-primary transition-colors"
+                    className="text-text-primary hover:text-primary transition-colors flex items-center"
+                    aria-label="Login"
                   >
-                    {t("header.login")}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
                   </Link>
                 ) : (
                   <Link 
                     href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} 
-                    className="text-[12px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded-md"
+                    className="text-primary hover:opacity-80 transition-opacity flex items-center"
+                    aria-label="Panel"
                   >
-                    Panel
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
                   </Link>
                 )}
               </div>
