@@ -95,7 +95,7 @@ const Header = () => {
               salutbabe
             </Link>
 
-            <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6">
+            <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6 relative z-[100]">
               {/* Mobile Icons (Cart & Login/Panel) */}
               <div className="md:hidden flex items-center gap-4 mr-1">
                 {/* Mobile Cart */}
