@@ -171,14 +171,21 @@ const Header = () => {
             <SearchBar />
 
             <div className="flex items-center gap-6 shrink-0">
-              {/* Crown Icon (Leaderboard) in Gold */}
+              {/* Crown Icon (Leaderboard) with Gradient */}
               <button 
                 onClick={() => setIsLeaderboardOpen(true)}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-[#FFD700] hover:scale-110 active:scale-95 transition-all drop-shadow-[0_0_8px_rgba(255,215,0,0.3)]"
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]"
                 aria-label="Leaderboard"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <defs>
+                    <linearGradient id="crownGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FFE55C" />
+                      <stop offset="50%" stopColor="#FFD700" />
+                      <stop offset="100%" stopColor="#D4AF37" />
+                    </linearGradient>
+                  </defs>
+                  <path fill="url(#crownGradient)" stroke="url(#crownGradient)" d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
                 </svg>
               </button>
 
