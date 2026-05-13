@@ -15,6 +15,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
@@ -71,10 +72,20 @@ const Header = () => {
           {/* Top Row: Logo (Center) & Switchers (Right) */}
           <div className="flex items-center justify-between md:justify-center w-full py-2 relative">
             <div className="md:absolute md:left-0 flex items-center">
-               <button className="md:hidden text-text-primary">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                 </svg>
+               <button 
+                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+                 className="md:hidden text-text-primary"
+                 aria-label="Menu"
+               >
+                 {isMobileMenuOpen ? (
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                   </svg>
+                 ) : (
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                   </svg>
+                 )}
                </button>
             </div>
 
@@ -212,8 +223,73 @@ const Header = () => {
                 </>
               )}
             </div>
+            </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border-color shadow-lg p-6 flex flex-col gap-6 z-50">
+            <Link 
+              href="/category/new" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+            >
+              {t("header.new_arrivals")}
+            </Link>
+            
+            <Link 
+              href="/categories" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+            >
+              {t("header.categories")}
+            </Link>
+
+            <div className="h-px bg-border-color/20 w-full my-2"></div>
+
+            {isLoggedIn ? (
+              <div className="flex flex-col gap-6">
+                <Link 
+                  href="/favorites" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                  </svg>
+                  Favorites
+                </Link>
+                
+                <Link 
+                  href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-[13px] font-black uppercase tracking-widest bg-surface border border-border-color px-5 py-3 rounded-xl hover:bg-text-primary hover:text-background transition-all text-center shadow-sm"
+                >
+                  {t("header.back_to_panel")}
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-6">
+                <Link 
+                  href="/login" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors"
+                >
+                  {t("header.login")}
+                </Link>
+
+                <Link 
+                  href="/register" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity"
+                >
+                  {t("header.sell")}
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </header>
 
       {/* Leaderboard Modal */}
