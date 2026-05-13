@@ -13,8 +13,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -276,20 +274,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
-      {/* Mobile Backdrop */}
-      {isMobileSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[45] lg:hidden"
-          onClick={() => setIsMobileSidebarOpen(false)}
-        />
-      )}
-
       {/* Main Sidebar */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-in-out transform 
-          ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} 
-          ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
-          ${theme === 'light' ? 'bg-white border-r border-border-color shadow-2xl lg:shadow-none' : 'bg-[#09090B] border-r border-white/5 shadow-2xl lg:shadow-none'}`}
+        className={`fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
+          ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#09090B] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6">
@@ -498,21 +486,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative`}>
         
         {/* Header */}
-        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[40] px-4 md:px-8 flex items-center justify-between w-full">
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setIsMobileSidebarOpen(true)}
-              className="lg:hidden p-2 -ml-2 text-text-secondary hover:text-text-primary transition-colors relative z-[100]"
-              aria-label="Open Menu"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <div className="flex flex-col justify-center">
-               <h1 className="text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
-               <p className="hidden md:block text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
-            </div>
+        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
+          <div className="flex flex-col justify-center">
+             <h1 className="text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+             <p className="text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
           </div>
 
           <div className="flex-1"></div>
@@ -589,11 +566,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               )}
             </div>
             
-            <div className="relative">
-              <div 
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10"
-              >
+            <div className="relative group">
+              <div className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10">
                  {user?.profilePhotoUrl ? (
                    <img 
                      src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
@@ -609,40 +583,31 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                  )}
               </div>
                      {/* Profile Dropdown */}
-              {isProfileOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsProfileOpen(false)}></div>
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl transition-all duration-300 transform origin-top-right z-[110] overflow-hidden">
-                     <div className="p-5 bg-gray-50 dark:bg-white/5 border-b border-border-color">
-                        <p className="text-[14px] font-black text-text-primary truncate leading-tight">{user?.userName} {user?.userSurname}</p>
-                        <p className="text-[11px] font-medium text-text-secondary truncate mt-0.5">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>
-                     </div>
-                     <div className="p-2">
-                       <Link 
-                         href="/dashboard/common/profile" 
-                         onClick={() => setIsProfileOpen(false)}
-                         className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-text-secondary hover:bg-primary/5 hover:text-primary transition-all"
-                       >
-                          <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                          {t('dashboard.profile_settings')}
-                       </Link>
-                       <button 
-                         onClick={handleLogout}
-                         className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-red-500 hover:bg-red-500/5 transition-all text-left"
-                       >
-                          <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                          {t('dashboard.logout')}
-                       </button>
-                     </div>
-                  </div>
-                </>
-              )}
+              <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110] overflow-hidden">
+                 <div className="p-5 bg-gray-50 dark:bg-white/5 border-b border-border-color">
+                    <p className="text-[14px] font-black text-text-primary truncate leading-tight">{user?.userName} {user?.userSurname}</p>
+                    <p className="text-[11px] font-medium text-text-secondary truncate mt-0.5">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>
+                 </div>
+                 <div className="p-2">
+                   <Link href="/dashboard/common/profile" className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-text-secondary hover:bg-primary/5 hover:text-primary transition-all">
+                      <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      {t('dashboard.profile_settings')}
+                   </Link>
+                   <button 
+                     onClick={handleLogout}
+                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[12px] font-bold text-red-500 hover:bg-red-500/5 transition-all text-left"
+                   >
+                      <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                      {t('dashboard.logout')}
+                   </button>
+                 </div>
+              </div>
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-4 md:p-8 animate-fade-in relative z-0">
+        <main className="flex-1 p-8 animate-fade-in relative z-0 overflow-y-auto">
           {children}
         </main>
 

@@ -172,7 +172,7 @@ export default function AdminUsersPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* Search & Filters Bar */}
-      <div className={`p-4 rounded-[2rem] border flex flex-col md:flex-row items-stretch md:items-center gap-4 transition-all duration-300
+      <div className={`p-4 rounded-[2rem] border flex items-center gap-4 transition-all duration-300
         ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
         <div className="flex-1 relative group">
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -186,18 +186,18 @@ export default function AdminUsersPage() {
           />
         </div>
         
-        <div className="flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
+        <div className="flex items-center gap-2">
           {['ADMIN', 'SELLER', 'USER'].map(filter => (
-            <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider whitespace-nowrap transition-all
+            <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider transition-all
               ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
               {t('dashboard.role_' + filter.toLowerCase())}
             </button>
           ))}
         </div>
 
-        <div className={`hidden md:block w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2`} />
+        <div className="w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2" />
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2">
            <button 
              onClick={() => setViewMode('list')}
              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 

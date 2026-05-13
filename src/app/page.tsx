@@ -120,25 +120,25 @@ export default function Home() {
          <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
                <div className="space-y-3">
-                  <h4 className="text-3xl md:text-5xl font-black text-text-primary tracking-tighter">100%</h4>
+                  <h4 className="text-5xl font-black text-text-primary tracking-tighter">100%</h4>
                   <p className="text-text-secondary font-black uppercase tracking-[0.2em] text-[10px]">
                     {t("stats.secure_payments")}
                   </p>
                </div>
                <div className="space-y-3">
-                  <h4 className="text-3xl md:text-5xl font-black text-text-primary tracking-tighter">48K+</h4>
+                  <h4 className="text-5xl font-black text-text-primary tracking-tighter">48K+</h4>
                   <p className="text-text-secondary font-black uppercase tracking-[0.2em] text-[10px]">
                     {t("stats.active_members")}
                   </p>
                </div>
                <div className="space-y-3">
-                  <h4 className="text-3xl md:text-5xl font-black text-text-primary tracking-tighter">150+</h4>
+                  <h4 className="text-5xl font-black text-text-primary tracking-tighter">150+</h4>
                   <p className="text-text-secondary font-black uppercase tracking-[0.2em] text-[10px]">
                     {t("stats.curated_brands")}
                   </p>
                </div>
                <div className="space-y-3">
-                  <h4 className="text-3xl md:text-5xl font-black text-text-primary tracking-tighter">24/7</h4>
+                  <h4 className="text-5xl font-black text-text-primary tracking-tighter">24/7</h4>
                   <p className="text-text-secondary font-black uppercase tracking-[0.2em] text-[10px]">
                     {t("stats.support_line")}
                   </p>
@@ -152,12 +152,12 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="w-full">
-         <div className="bg-surface py-24 px-6 md:py-40 text-center relative overflow-hidden group">
-           <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 blur-[100px] md:blur-[150px] rounded-full animate-float"></div>
-           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-secondary/10 blur-[100px] md:blur-[150px] rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="bg-surface py-24 px-6 md:py-40 text-center relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full animate-float"></div>
+           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 blur-[150px] rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
            
            <div className="relative z-10 max-w-4xl mx-auto">
-             <h2 className="text-4xl md:text-6xl lg:text-8xl font-black text-text-primary mb-12 leading-[1.1] tracking-tighter">
+             <h2 className="text-5xl md:text-8xl font-black text-text-primary mb-12 leading-[1] tracking-tighter">
                {t("home.ready_to_join")}
              </h2>
              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">

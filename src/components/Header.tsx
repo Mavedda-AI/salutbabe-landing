@@ -91,81 +91,56 @@ const Header = () => {
                </div>
             </div>
 
-            <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary relative z-[90]">
+            <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
               salutbabe
             </Link>
 
-            <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6 relative z-[100]">
-              {/* Mobile Icons (Cart & Login/Panel) */}
-                <div className="md:hidden flex items-center gap-3 mr-1">
-                {/* Mobile Cart */}
-                <Link 
-                  href="/cart"
-                  className="relative text-text-primary hover:text-primary transition-colors flex items-center shrink-0"
-                  aria-label="Cart"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                  </svg>
-                  <span className="absolute -top-1.5 -right-2 bg-primary text-white text-[9px] font-black h-4 w-4 rounded-full flex items-center justify-center border-2 border-background">
-                    0
-                  </span>
-                </Link>
-
+            <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6">
+              {/* Mobile Login / Panel */}
+              <div className="md:hidden flex items-center mr-1">
                 {!isLoggedIn ? (
                   <Link 
                     href="/login" 
-                    className="flex items-center gap-1.5 text-white bg-primary px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity shrink-0 shadow-md shadow-primary/30"
-                    aria-label="Login"
+                    className="text-[12px] font-bold uppercase tracking-widest text-text-secondary hover:text-primary transition-colors"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                    </svg>
-                    <span className="text-[10px] font-black uppercase tracking-wider">{t("header.login") || "GİRİŞ"}</span>
+                    {t("header.login")}
                   </Link>
                 ) : (
                   <Link 
                     href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} 
-                    className="flex items-center gap-1.5 text-white bg-text-primary px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity shrink-0"
-                    aria-label="Panel"
+                    className="text-[12px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded-md"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="text-[10px] font-black uppercase tracking-wider">PANEL</span>
+                    Panel
                   </Link>
                 )}
               </div>
 
-              {/* Theme & Language Switchers (Desktop Only) */}
-              <div className="hidden md:flex items-center gap-3">
-                <button onClick={toggleTheme} className="text-text-secondary hover:text-primary transition-colors shrink-0" aria-label="Toggle Theme">
-                  {theme === 'dark' ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                    </svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-                    </svg>
-                  )}
-                </button>
-
-                <button 
-                  onClick={() => {
-                    const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
-                    const nextIdx = (langs.indexOf(language) + 1) % langs.length;
-                    setLanguage(langs[nextIdx]);
-                  }}
-                  className="flex items-center gap-1.5 text-[12px] font-black uppercase tracking-widest text-text-secondary hover:text-primary transition-colors shrink-0"
-                  aria-label="Toggle Language"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+              <button onClick={toggleTheme} className="text-text-secondary hover:text-primary transition-colors" aria-label="Toggle Theme">
+                {theme === 'dark' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
                   </svg>
-                  <span>{language}</span>
-                </button>
-              </div>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                  </svg>
+                )}
+              </button>
+
+              <button 
+                onClick={() => {
+                  const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
+                  const nextIdx = (langs.indexOf(language) + 1) % langs.length;
+                  setLanguage(langs[nextIdx]);
+                }}
+                className="flex items-center gap-1.5 text-[12px] font-black uppercase tracking-widest text-text-secondary hover:text-primary transition-colors"
+                aria-label="Toggle Language"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                </svg>
+                <span>{language}</span>
+              </button>
             </div>
           </div>
 
@@ -196,21 +171,14 @@ const Header = () => {
             <SearchBar />
 
             <div className="flex items-center gap-6 shrink-0">
-              {/* Crown Icon (Leaderboard) with Gradient */}
+              {/* Crown Icon (Leaderboard) in Gold */}
               <button 
                 onClick={() => setIsLeaderboardOpen(true)}
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-[#FFD700] hover:scale-110 active:scale-95 transition-all drop-shadow-[0_0_8px_rgba(255,215,0,0.3)]"
                 aria-label="Leaderboard"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                  <defs>
-                    <linearGradient id="crownGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#FFE55C" />
-                      <stop offset="50%" stopColor="#FFD700" />
-                      <stop offset="100%" stopColor="#D4AF37" />
-                    </linearGradient>
-                  </defs>
-                  <path fill="url(#crownGradient)" stroke="url(#crownGradient)" d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
                 </svg>
               </button>
 
