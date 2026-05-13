@@ -91,7 +91,7 @@ const Header = () => {
                </div>
             </div>
 
-            <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
+            <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary relative z-[90]">
               salutbabe
             </Link>
 
