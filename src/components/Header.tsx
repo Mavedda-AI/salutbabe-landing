@@ -95,7 +95,26 @@ const Header = () => {
               salutbabe
             </Link>
 
-            <div className="md:absolute md:right-0 flex items-center gap-4 md:gap-6">
+            <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6">
+              {/* Mobile Login / Panel */}
+              <div className="md:hidden flex items-center mr-1">
+                {!isLoggedIn ? (
+                  <Link 
+                    href="/login" 
+                    className="text-[12px] font-bold uppercase tracking-widest text-text-secondary hover:text-primary transition-colors"
+                  >
+                    {t("header.login")}
+                  </Link>
+                ) : (
+                  <Link 
+                    href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} 
+                    className="text-[12px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded-md"
+                  >
+                    Panel
+                  </Link>
+                )}
+              </div>
+
               <button onClick={toggleTheme} className="text-text-secondary hover:text-primary transition-colors" aria-label="Toggle Theme">
                 {theme === 'dark' ? (
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
