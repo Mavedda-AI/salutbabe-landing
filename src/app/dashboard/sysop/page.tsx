@@ -10,6 +10,8 @@ export default function SysopDashboard() {
   const textTitle = `text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
   const textValue = `text-[26px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`;
   const iconRight = `w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-400'}`;
+  const buttonClass = `px-3 py-1.5 rounded-lg border text-[12px] font-bold flex items-center gap-2 transition-all active:scale-95 ${isDark ? 'bg-[#1A1D1F] border-white/5 text-gray-300 hover:bg-white/10' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'}`;
+  const iconButtonClass = `p-1.5 rounded-lg border transition-all active:scale-95 ${isDark ? 'bg-[#1A1D1F] border-white/5 text-gray-300 hover:bg-white/10' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'}`;
 
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in">
@@ -183,16 +185,16 @@ export default function SysopDashboard() {
             </div>
             
             <div className="flex flex-wrap items-center gap-2">
-              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-2 hover:bg-black/5 transition-colors`}>
+              <button className={buttonClass}>
                 Tüm Ürünler <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
-              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-2 hover:bg-black/5 transition-colors`}>
+              <button className={buttonClass}>
                 Tüm Kategoriler <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
-              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-2 hover:bg-black/5 transition-colors`}>
+              <button className={buttonClass}>
                 2025 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
-              <button className={`p-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} hover:bg-black/5 transition-colors`}>
+              <button className={iconButtonClass}>
                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </button>
             </div>
@@ -291,7 +293,7 @@ export default function SysopDashboard() {
               EN İYİ 3 ÜRÜN
             </h3>
             <div className="flex gap-2">
-              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-1 hover:bg-black/5 transition-colors`}>
+              <button className={buttonClass}>
                 Günlük <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
             </div>
@@ -338,7 +340,7 @@ export default function SysopDashboard() {
               TOPLAM ZİYARETÇİ
             </h3>
             <div className="flex gap-2">
-              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-1 hover:bg-black/5 transition-colors`}>
+              <button className={buttonClass}>
                 Günlük <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
             </div>
