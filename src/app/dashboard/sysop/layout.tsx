@@ -13,6 +13,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -148,6 +149,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     if (!implementedRoutes.includes(href)) {
       e.preventDefault();
       showToast(t('dashboard.under_construction') || "Bu özellik yapım aşamasındadır.", 'warning');
+    } else {
+      setIsMobileMenuOpen(false); // Close mobile menu on navigation
     }
   };
 
@@ -274,9 +277,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] lg:hidden animate-fade-in"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Main Sidebar */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
+        className={`fixed inset-y-0 left-0 z-[110] flex flex-col transition-all duration-300 ease-in-out 
+          ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#09090B] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
@@ -286,11 +299,23 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               <Link href="/dashboard/sysop" className="flex items-center justify-center">
                  <img src="/logo-salutbabe.png" alt="Logo" className={`h-7 w-auto ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
               </Link>
+              
+              {/* Desktop Collapse Button */}
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
                 className="absolute top-4 right-4 text-white/20 hover:text-white dark:text-white/20 dark:hover:text-white light:text-text-secondary/20 light:hover:text-text-primary transition-colors lg:flex hidden p-1 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-black/5 rounded-md"
               >
                 <img src="/images/icon/collapse.svg" alt="Collapse" className={`w-4 h-4 opacity-40 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
+              </button>
+
+              {/* Mobile Close Button */}
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="absolute top-4 right-4 lg:hidden p-2 text-text-secondary hover:text-text-primary"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
             </>
           ) : (
@@ -486,10 +511,23 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative`}>
         
         {/* Header */}
-        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
-          <div className="flex flex-col justify-center">
-             <h1 className="text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
-             <p className="text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[90] px-4 md:px-8 flex items-center justify-between w-full gap-4">
+          
+          <div className="flex items-center gap-4">
+            {/* Mobile Hamburger Button */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-2 -ml-2 text-text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+              </svg>
+            </button>
+
+            <div className="flex flex-col justify-center">
+               <h1 className="text-lg md:text-xl font-black text-text-primary leading-tight line-clamp-1">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+               <p className="hidden md:block text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+            </div>
           </div>
 
           <div className="flex-1"></div>
