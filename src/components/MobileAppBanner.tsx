@@ -50,6 +50,8 @@ export default function MobileAppBanner() {
       <style dangerouslySetInnerHTML={{__html: `
         @media (max-width: 767px) {
           header { top: 64px !important; }
+          #mobile-menu-backdrop { top: 128px !important; }
+          #mobile-menu-panel { top: 128px !important; max-height: calc(100vh - 128px) !important; }
           .relative.pt-32 { padding-top: 192px !important; }
         }
       `}} />

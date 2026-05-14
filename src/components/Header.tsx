@@ -249,6 +249,7 @@ const Header = () => {
         {/* Mobile Menu Backdrop */}
         {isMobileMenuOpen && (
           <div 
+            id="mobile-menu-backdrop"
             className="md:hidden fixed inset-0 top-[64px] bg-black/60 backdrop-blur-sm z-[40]"
             onClick={() => setIsMobileMenuOpen(false)}
           />
@@ -256,7 +257,7 @@ const Header = () => {
 
         {/* Mobile Menu Panel */}
         {isMobileMenuOpen && (
-          <div className="md:hidden fixed top-[64px] left-0 right-0 bg-background/95 backdrop-blur-2xl border-b border-border-color shadow-2xl p-6 flex flex-col gap-6 z-[50] max-h-[calc(100vh-64px)] overflow-y-auto">
+          <div id="mobile-menu-panel" className="md:hidden fixed top-[64px] left-0 right-0 bg-background/95 backdrop-blur-2xl border-b border-border-color shadow-2xl p-6 flex flex-col gap-6 z-[50] max-h-[calc(100vh-64px)] overflow-y-auto">
             <Link 
               href="/category/new" 
               onClick={() => setIsMobileMenuOpen(false)}
