@@ -120,10 +120,13 @@ export default function SysopDashboard() {
             <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
           </div>
           
-          {/* Half Donut Mock */}
-          <div className="relative w-full aspect-[2/1] mb-8 flex justify-center items-end overflow-hidden">
-            <div className={`w-[80%] h-[160%] rounded-full border-[28px] ${isDark ? 'border-gray-800 border-t-gray-600' : 'border-gray-200 border-t-[#2E2E3A] border-r-[#2E2E3A]'} border-b-transparent transform -rotate-45`}></div>
-            <div className="absolute bottom-2 left-0 w-full text-center">
+          {/* Half Donut Mock SVG */}
+          <div className="relative w-full flex justify-center items-end mb-8 mt-4">
+             <svg viewBox="0 0 100 60" className="w-[85%] max-w-[250px] h-auto overflow-visible">
+               <path d="M 10 55 A 40 40 0 0 1 90 55" fill="none" stroke={isDark ? '#1F2937' : '#E5E7EB'} strokeWidth="12" strokeLinecap="round" />
+               <path d="M 10 55 A 40 40 0 0 1 90 55" fill="none" stroke={isDark ? '#4B5563' : '#2E2E3A'} strokeWidth="12" strokeLinecap="round" strokeDasharray="125.66" strokeDashoffset="45" />
+             </svg>
+            <div className="absolute bottom-1 left-0 w-full text-center">
               <h2 className={textValue}>16,432</h2>
               <p className={`text-[11px] font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Product Sales</p>
             </div>
