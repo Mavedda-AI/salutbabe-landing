@@ -104,20 +104,28 @@ const LoginPage = () => {
   // ── Google ──────────────────────────────────────────────────────────────────
   const handleGoogleLogin = () => {
     setLoading("google");
-    // Bypassing Firebase since backend handles it, mocking login for dashboard access
     localStorage.setItem("auth_token", "mock_token");
     localStorage.setItem("token", "mock_token");
-    localStorage.setItem("user", JSON.stringify({ userType: ["SYSOP"] }));
+    localStorage.setItem("user", JSON.stringify({ 
+      userType: ["SYSOP"],
+      userName: "Mustafa",
+      userSurname: "Google",
+      profilePhotoUrl: "https://lh3.googleusercontent.com/a/default-user=s128-c"
+    }));
     window.location.href = "/dashboard/sysop";
   };
 
   // ── Apple ───────────────────────────────────────────────────────────────────
   const handleAppleLogin = () => {
     setLoading("apple");
-    // Mocking login
     localStorage.setItem("auth_token", "mock_token");
     localStorage.setItem("token", "mock_token");
-    localStorage.setItem("user", JSON.stringify({ userType: ["SYSOP"] }));
+    localStorage.setItem("user", JSON.stringify({ 
+      userType: ["SYSOP"],
+      userName: "Mustafa",
+      userSurname: "Apple",
+      profilePhotoUrl: "https://apple.com/favicon.ico"
+    }));
     window.location.href = "/dashboard/sysop";
   };
 

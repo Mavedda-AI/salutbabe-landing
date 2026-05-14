@@ -18,7 +18,28 @@ export default function SysopDashboard() {
     try {
       const token = localStorage.getItem("token");
 
-      // Fetch Stats
+      // MOCK VERİLER (Eğer sahte token ile giriş yapıldıysa tasarımı doldurur)
+      if (token === "mock_token" || !token) {
+        setTimeout(() => {
+          setStats({
+            totalRevenue: 284500.50,
+            totalUsers: 12458,
+            totalStores: 342,
+            pendingListings: 18
+          });
+          setRecentOrders([
+            { shortID: "ORD-94A1", buyer: { userName: "Ayşe Yılmaz" }, totalAmount: 1450, status: "Tamamlandı" },
+            { shortID: "ORD-82B3", buyer: { userName: "Mehmet Demir" }, totalAmount: 3200.75, status: "Kargoda" },
+            { shortID: "ORD-71C5", buyer: { userName: "Zeynep Kaya" }, totalAmount: 850, status: "Bekliyor" },
+            { shortID: "ORD-60D7", buyer: { userName: "Canan Öz" }, totalAmount: 5400, status: "Tamamlandı" },
+            { shortID: "ORD-55E8", buyer: { userName: "Ali Veli" }, totalAmount: 120, status: "İptal Edildi" },
+          ]);
+          setLoading(false);
+        }, 500);
+        return;
+      }
+
+      // Fetch Stats from real API
       const statsRes = await fetch(apiUrl("/admin/dashboard"), {
         headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
       });
@@ -27,7 +48,7 @@ export default function SysopDashboard() {
         setStats(statsData.payload);
       }
 
-      // Fetch Recent Orders
+      // Fetch Recent Orders from real API
       const ordersRes = await fetch(apiUrl("/admin/orders?limit=5"), {
         headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
       });
@@ -54,22 +75,26 @@ export default function SysopDashboard() {
     {
       label: t('dashboard.sysop.stats_total_sales'),
       value: `${(stats?.totalRevenue || 0).toLocaleString('tr-TR')} ₺`,
-      textColor: "text-emerald-500"
+      textColor: "text-emerald-500",
+      href: "/dashboard/sysop/order-management"
     },
     {
       label: t('dashboard.sysop.stats_active_users'),
       value: stats?.totalUsers || 0,
-      textColor: "text-blue-500"
+      textColor: "text-blue-500",
+      href: "/dashboard/sysop/user-management"
     },
     {
       label: t('dashboard.sysop.stats_total_stores'),
       value: stats?.totalStores || 0,
-      textColor: "text-purple-500"
+      textColor: "text-purple-500",
+      href: "/dashboard/sysop/store-management"
     },
     {
       label: t('dashboard.sysop.stats_pending_approvals'),
       value: stats?.pendingListings || 0,
-      textColor: "text-orange-500"
+      textColor: "text-orange-500",
+      href: "/dashboard/sysop/product-management"
     }
   ];
 
@@ -87,9 +112,10 @@ export default function SysopDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, i) => (
-          <div
+          <a
             key={i}
-            className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1
+            href={card.href}
+            className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block cursor-pointer
               ${theme === 'light' 
                 ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
                 : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}
@@ -97,11 +123,14 @@ export default function SysopDashboard() {
             <div className="flex flex-col h-full">
                <p className={`text-[12px] font-black uppercase tracking-widest mb-3 ${theme === 'light' ? 'text-text-secondary/60' : 'text-text-secondary/80'}`}>{card.label}</p>
               <div className={`w-full h-[1px] mb-5 ${theme === 'light' ? 'bg-border-color' : 'bg-white/5'}`} />
-              <div className="mt-auto">
+              <div className="mt-auto flex items-center justify-between">
                 <h3 className={`text-2xl font-black ${card.textColor}`}>{card.value}</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 text-text-secondary/30">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
               </div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 
@@ -113,7 +142,7 @@ export default function SysopDashboard() {
             : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
           <div className="p-8 border-b border-border-color flex items-center justify-between">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.recent_transactions')}</h3>
-            <button className="text-[12px] font-black text-primary hover:underline">{t('dashboard.sysop.view_all')}</button>
+            <a href="/dashboard/sysop/order-management" className="text-[12px] font-black text-primary hover:underline">{t('dashboard.sysop.view_all')}</a>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
