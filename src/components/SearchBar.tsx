@@ -7,7 +7,7 @@ const SearchBar = () => {
   const { t } = useThemeLanguage();
   
   return (
-    <div className="flex-1 max-w-2xl px-4 hidden lg:block">
+    <div className="flex-1 w-full max-w-2xl px-2 lg:px-4">
       <div className="relative group">
         <input
           type="text"

@@ -91,7 +91,7 @@ const Header = () => {
                </div>
             </div>
 
-            <Link href="/" className="text-3xl font-black tracking-tighter text-text-primary">
+            <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-3xl font-black tracking-tighter text-text-primary z-10">
               salutbabe
             </Link>
 
@@ -101,9 +101,12 @@ const Header = () => {
                 {!isLoggedIn ? (
                   <Link 
                     href="/login" 
-                    className="text-[12px] font-bold uppercase tracking-widest text-text-secondary hover:text-primary transition-colors"
+                    className="text-text-secondary hover:text-primary transition-colors flex items-center justify-center p-1"
+                    aria-label="Profile"
                   >
-                    {t("header.login")}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
                   </Link>
                 ) : (
                   <Link 
@@ -142,6 +145,11 @@ const Header = () => {
                 <span>{language}</span>
               </button>
             </div>
+          </div>
+
+          {/* Mobile Search Bar */}
+          <div className="md:hidden w-full pb-3 mt-1">
+            <SearchBar />
           </div>
 
           {/* Bottom Row: Navigation & Search Bar */}

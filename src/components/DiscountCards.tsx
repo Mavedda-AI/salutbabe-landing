@@ -39,7 +39,7 @@ const DiscountCards = () => {
   ];
 
   return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-12 py-6 md:py-12 overflow-hidden">
+    <section className="max-w-[1440px] mx-auto px-4 md:px-12 pt-1 pb-4 md:pt-4 md:pb-8 overflow-hidden">
       <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible pb-4 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {deals.map((deal, index) => (
           <div 
