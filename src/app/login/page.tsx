@@ -102,59 +102,15 @@ const LoginPage = () => {
   };
 
   // ── Google ──────────────────────────────────────────────────────────────────
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = () => {
     setLoading("google");
-    try {
-      const res = await fetch(apiUrl("/auth/google"), {
-        headers: { "X-Device-Type": "web" }
-      });
-      
-      if (res.redirected) {
-        window.location.href = res.url;
-        return;
-      }
-      
-      const data = await res.json().catch(() => ({}));
-      const redirectUrl = data?.url || data?.payload?.url || data?.redirectUrl || data?.payload?.redirectUrl;
-      
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      } else {
-        window.location.href = apiUrl("/auth/google?device=web");
-      }
-    } catch (e) {
-      window.location.href = apiUrl("/auth/google?device=web");
-    } finally {
-      setLoading(null);
-    }
+    window.location.href = "/api/auth/google";
   };
 
   // ── Apple ───────────────────────────────────────────────────────────────────
-  const handleAppleLogin = async () => {
+  const handleAppleLogin = () => {
     setLoading("apple");
-    try {
-      const res = await fetch(apiUrl("/auth/apple"), {
-        headers: { "X-Device-Type": "web" }
-      });
-      
-      if (res.redirected) {
-        window.location.href = res.url;
-        return;
-      }
-      
-      const data = await res.json().catch(() => ({}));
-      const redirectUrl = data?.url || data?.payload?.url || data?.redirectUrl || data?.payload?.redirectUrl;
-      
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      } else {
-        window.location.href = apiUrl("/auth/apple?device=web");
-      }
-    } catch (e) {
-      window.location.href = apiUrl("/auth/apple?device=web");
-    } finally {
-      setLoading(null);
-    }
+    window.location.href = "/api/auth/apple";
   };
 
   // ── Email/Password ──────────────────────────────────────────────────────────
