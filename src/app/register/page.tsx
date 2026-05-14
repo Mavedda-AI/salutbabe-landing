@@ -18,7 +18,7 @@ export default function RegisterSellerPage() {
   ];
 
   const handleNext = () => {
-     if(currentStep < 4) setCurrentStep(currentStep + 1);
+     if(currentStep <= 4) setCurrentStep(currentStep + 1);
   };
   
   const renderStepContent = () => {
@@ -188,7 +188,32 @@ export default function RegisterSellerPage() {
 
   return (
     <div className="min-h-screen bg-[#F3F4F6] dark:bg-background flex flex-col md:items-center justify-start md:justify-center p-0 md:p-8 relative">
-      <div className="w-full max-w-6xl bg-white dark:bg-surface md:rounded-3xl shadow-none md:shadow-xl overflow-hidden min-h-screen md:min-h-[85vh] flex flex-col relative transition-colors duration-300">
+      
+      {/* SUCCESS MODAL OVERLAY */}
+      {currentStep === 5 && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-[400px] bg-white dark:bg-surface rounded-3xl shadow-2xl p-8 text-center animate-scale-in flex flex-col items-center">
+            <div className="mb-6 relative">
+              <div className="text-[80px] leading-none">🎉</div>
+              <div className="absolute -top-2 -right-2 text-2xl">✨</div>
+            </div>
+            
+            <h2 className="text-2xl font-black text-text-primary mb-3">Your store is open for business!</h2>
+            <p className="text-sm text-text-secondary mb-8 leading-relaxed">
+              Open link at your email and reset your password and make a new password again.
+            </p>
+            
+            <Link 
+              href="/dashboard/sysop"
+              className="px-8 py-3.5 w-full md:w-auto rounded-full font-bold text-sm transition-all bg-text-primary text-background hover:opacity-90 active:scale-95 shadow-lg shadow-black/10"
+            >
+              Let's Explore
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <div className={`w-full max-w-6xl bg-white dark:bg-surface md:rounded-3xl shadow-none md:shadow-xl overflow-hidden min-h-screen md:min-h-[85vh] flex flex-col relative transition-all duration-500 ${currentStep === 5 ? 'scale-[0.98] blur-[2px]' : ''}`}>
         
         {/* Top Header inside Card */}
         <div className="flex items-center justify-between p-6 md:px-10 py-5 border-b border-border-color/30">
