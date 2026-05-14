@@ -45,7 +45,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         setUnreadCount(data.payload?.unreadCount ?? unreadRows);
       }
     } catch (e) {
-      console.error("Notifications fetch failed:", e);
+      // Use console.warn instead of console.error to prevent Next.js dev overlay for network issues
+      console.warn("Notifications fetch failed due to network unavailability.");
     }
   };
 

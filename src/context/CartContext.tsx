@@ -58,7 +58,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           setServiceFee(parseFloat(data.payload.buyerServiceFee));
         }
       })
-      .catch(err => console.error('Failed to fetch settings', err));
+      .catch(err => {
+         // Use console.warn instead of console.error to prevent Next.js dev overlay for network issues
+         console.warn('Failed to fetch settings, using default values.');
+      });
   }, []);
 
   // Save cart to localStorage on change
