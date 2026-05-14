@@ -244,10 +244,8 @@ const Header = () => {
                 </>
               )}
             </div>
-            </div>
           </div>
         </div>
-
         {/* Mobile Menu Backdrop */}
         {isMobileMenuOpen && (
           <div 

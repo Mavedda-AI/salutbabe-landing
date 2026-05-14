@@ -12,8 +12,20 @@ const firebaseConfig = {
 };
 
 // Prevent duplicate Firebase app initialization (hot-reload safe)
-const app  = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const auth = getAuth(app);
+let app;
+let auth: any;
+
+if (typeof window !== "undefined" && !firebaseConfig.apiKey) {
+  console.warn("Firebase config is missing API key. Please check your .env.local file.");
+}
+
+try {
+  app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  auth = getAuth(app);
+} catch (error) {
+  console.error("Firebase initialization error", error);
+  auth = null as any;
+}
 
 // ── Providers ────────────────────────────────────────────────────────────────
 const googleProvider = new GoogleAuthProvider();
