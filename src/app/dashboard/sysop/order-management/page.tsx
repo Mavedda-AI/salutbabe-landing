@@ -31,6 +31,23 @@ export default function OrderManagementPage() {
   const fetchOrders = async (p = 1) => {
     try {
       const token = localStorage.getItem("token");
+
+      if (token === "mock_token" || !token) {
+        setTimeout(() => {
+          setOrders([
+            { orderID: "ORD-94A1XYZ", buyer: { userName: "Ayşe", userSurname: "Yılmaz", eMail: "ayse@example.com" }, seller: { userName: "Boutique", userSurname: "Kids", eMail: "boutique@example.com" }, totalAmount: 1450, status: "Tamamlandı", createdAt: new Date().toISOString() },
+            { orderID: "ORD-82B3ABC", buyer: { userName: "Mehmet", userSurname: "Demir", eMail: "mehmet@example.com" }, seller: { userName: "Moda", userSurname: "Bebek", eMail: "moda@example.com" }, totalAmount: 3200.75, status: "Kargoda", createdAt: new Date(Date.now() - 86400000).toISOString() },
+            { orderID: "ORD-71C5DEF", buyer: { userName: "Zeynep", userSurname: "Kaya", eMail: "zeynep@example.com" }, seller: { userName: "Şirin", userSurname: "Oyuncak", eMail: "sirin@example.com" }, totalAmount: 850, status: "Bekliyor", createdAt: new Date(Date.now() - 172800000).toISOString() },
+            { orderID: "ORD-60D7GHI", buyer: { userName: "Canan", userSurname: "Öz", eMail: "canan@example.com" }, seller: { userName: "Mini", userSurname: "Aya", eMail: "mini@example.com" }, totalAmount: 5400, status: "Tamamlandı", createdAt: new Date(Date.now() - 259200000).toISOString() },
+            { orderID: "ORD-55E8JKL", buyer: { userName: "Ali", userSurname: "Veli", eMail: "ali@example.com" }, seller: { userName: "Bebek", userSurname: "Dostu", eMail: "dostu@example.com" }, totalAmount: 120, status: "İptal Edildi", createdAt: new Date(Date.now() - 345600000).toISOString() },
+            { orderID: "ORD-44F9MNO", buyer: { userName: "Esra", userSurname: "Gül", eMail: "esra@example.com" }, seller: { userName: "Kids", userSurname: "World", eMail: "world@example.com" }, totalAmount: 2100, status: "Kargoda", createdAt: new Date(Date.now() - 432000000).toISOString() },
+          ]);
+          setTotalPages(1);
+          setLoading(false);
+        }, 400);
+        return;
+      }
+
       const res = await fetch(apiUrl(`/admin/orders?page=${p}&limit=20`), {
         headers: { 
           "Authorization": `Bearer ${token}`,
@@ -55,10 +72,15 @@ export default function OrderManagementPage() {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'paid': return 'bg-success/10 text-success border-success/20';
-      case 'shipped': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+      case 'paid':
+      case 'tamamlandı': return 'bg-success/10 text-success border-success/20';
+      case 'shipped':
+      case 'kargoda': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
       case 'delivered': return 'bg-primary/10 text-primary border-primary/20';
-      case 'cancelled': return 'bg-red-500/10 text-red-500 border-red-500/20';
+      case 'cancelled':
+      case 'i̇ptal edildi':
+      case 'iptal edildi': return 'bg-red-500/10 text-red-500 border-red-500/20';
+      case 'bekliyor': return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
       default: return 'bg-gray-500/10 text-gray-500 border-gray-500/20';
     }
   };
@@ -68,19 +90,20 @@ export default function OrderManagementPage() {
   return (
     <div className="space-y-8 animate-fade-in">
 
-      <div className={`rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
-              <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_order_id')}</th>
-              <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_buyer')}</th>
-              <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_seller')}</th>
-              <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_amount')}</th>
-              <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_status')}</th>
-              <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] text-right">{t('dashboard.sysop.table_actions')}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+      <div className={`rounded-[1.5rem] md:rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
+                <th className="px-6 md:px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] whitespace-nowrap">{t('dashboard.orders.table_order_id')}</th>
+                <th className="px-6 md:px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] whitespace-nowrap">{t('dashboard.orders.table_buyer')}</th>
+                <th className="px-6 md:px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] whitespace-nowrap">{t('dashboard.orders.table_seller')}</th>
+                <th className="px-6 md:px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] whitespace-nowrap">{t('dashboard.orders.table_amount')}</th>
+                <th className="px-6 md:px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] whitespace-nowrap">{t('dashboard.orders.table_status')}</th>
+                <th className="px-6 md:px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] text-right whitespace-nowrap">{t('dashboard.sysop.table_actions')}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {orders.map((order) => (
               <tr key={order.orderID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
                 <td className="px-8 py-5">
@@ -119,7 +142,8 @@ export default function OrderManagementPage() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
 
       {/* Pagination */}
