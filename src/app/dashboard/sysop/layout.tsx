@@ -513,7 +513,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         {/* Header */}
         <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[90] px-4 md:px-8 flex items-center justify-between w-full gap-4">
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
             {/* Mobile Hamburger Button */}
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
@@ -524,8 +524,21 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               </svg>
             </button>
 
-            <div className="flex flex-col justify-center">
-               <h1 className="text-lg md:text-xl font-black text-text-primary leading-tight line-clamp-1">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+            {/* Back Button (Only visible on subpages) */}
+            {pathname !== '/dashboard/sysop' && (
+              <button 
+                onClick={() => router.push('/dashboard/sysop')}
+                className="p-2 -ml-1 text-text-secondary hover:text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors flex items-center justify-center group"
+                title={t('dashboard.sysop.go_back') || 'Geri Dön'}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5 group-hover:-translate-x-1 transition-transform">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+            )}
+
+            <div className="flex flex-col justify-center border-l pl-3 md:pl-4 border-border-color">
+               <h1 className="text-base md:text-xl font-black text-text-primary leading-tight line-clamp-1">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
                <p className="hidden md:block text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
             </div>
           </div>
