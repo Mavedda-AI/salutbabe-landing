@@ -102,15 +102,59 @@ const LoginPage = () => {
   };
 
   // ── Google ──────────────────────────────────────────────────────────────────
-  const handleGoogleLogin = () => {
-    // Since the backend handles all Firebase operations, we redirect to the backend's Google Auth endpoint
-    window.location.href = apiUrl("/auth/google"); 
+  const handleGoogleLogin = async () => {
+    setLoading("google");
+    try {
+      const res = await fetch(apiUrl("/auth/google"), {
+        headers: { "X-Device-Type": "web" }
+      });
+      
+      if (res.redirected) {
+        window.location.href = res.url;
+        return;
+      }
+      
+      const data = await res.json().catch(() => ({}));
+      const redirectUrl = data?.url || data?.payload?.url || data?.redirectUrl || data?.payload?.redirectUrl;
+      
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        window.location.href = apiUrl("/auth/google?device=web");
+      }
+    } catch (e) {
+      window.location.href = apiUrl("/auth/google?device=web");
+    } finally {
+      setLoading(null);
+    }
   };
 
   // ── Apple ───────────────────────────────────────────────────────────────────
-  const handleAppleLogin = () => {
-    // Redirect to the backend's Apple Auth endpoint
-    window.location.href = apiUrl("/auth/apple");
+  const handleAppleLogin = async () => {
+    setLoading("apple");
+    try {
+      const res = await fetch(apiUrl("/auth/apple"), {
+        headers: { "X-Device-Type": "web" }
+      });
+      
+      if (res.redirected) {
+        window.location.href = res.url;
+        return;
+      }
+      
+      const data = await res.json().catch(() => ({}));
+      const redirectUrl = data?.url || data?.payload?.url || data?.redirectUrl || data?.payload?.redirectUrl;
+      
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        window.location.href = apiUrl("/auth/apple?device=web");
+      }
+    } catch (e) {
+      window.location.href = apiUrl("/auth/apple?device=web");
+    } finally {
+      setLoading(null);
+    }
   };
 
   // ── Email/Password ──────────────────────────────────────────────────────────
