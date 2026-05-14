@@ -3,7 +3,6 @@
 import React, {useState} from "react";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
-import {signInWithApple, signInWithGoogle} from "../../lib/firebase";
 import {apiUrl} from "../../lib/api";
 
 const LoginPage = () => {
@@ -103,31 +102,15 @@ const LoginPage = () => {
   };
 
   // ── Google ──────────────────────────────────────────────────────────────────
-  const handleGoogleLogin = async () => {
-    setLoading("google");
-    try {
-      const { idToken, user: firebaseUser } = await signInWithGoogle();
-      const result = await sendToBackend(idToken, "google", firebaseUser);
-      processAuthResult(result);
-    } catch (err: any) {
-      showToast(err.message || t("auth.google_failed"), "error");
-    } finally {
-      setLoading(null);
-    }
+  const handleGoogleLogin = () => {
+    // Since the backend handles all Firebase operations, we redirect to the backend's Google Auth endpoint
+    window.location.href = apiUrl("/auth/google"); 
   };
 
   // ── Apple ───────────────────────────────────────────────────────────────────
-  const handleAppleLogin = async () => {
-    setLoading("apple");
-    try {
-      const { idToken, user: firebaseUser } = await signInWithApple();
-      const result = await sendToBackend(idToken, "apple", firebaseUser);
-      processAuthResult(result);
-    } catch (err: any) {
-      showToast(err.message || t("auth.apple_failed"), "error");
-    } finally {
-      setLoading(null);
-    }
+  const handleAppleLogin = () => {
+    // Redirect to the backend's Apple Auth endpoint
+    window.location.href = apiUrl("/auth/apple");
   };
 
   // ── Email/Password ──────────────────────────────────────────────────────────
