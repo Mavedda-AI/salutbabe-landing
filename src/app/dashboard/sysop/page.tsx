@@ -1,205 +1,395 @@
-"use client";
-
-import React, {useEffect, useState} from "react";
-import {apiUrl} from "../../../lib/api";
+import React from "react";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 
 export default function SysopDashboard() {
-  const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const { theme } = useThemeLanguage();
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-
-      // MOCK VERİLER (Eğer sahte token ile giriş yapıldıysa tasarımı doldurur)
-      if (token === "mock_token" || !token) {
-        setTimeout(() => {
-          setStats({
-            totalRevenue: 284500.50,
-            totalUsers: 12458,
-            totalStores: 342,
-            pendingListings: 18
-          });
-          setRecentOrders([
-            { shortID: "ORD-94A1", buyer: { userName: "Ayşe Yılmaz" }, totalAmount: 1450, status: "Tamamlandı" },
-            { shortID: "ORD-82B3", buyer: { userName: "Mehmet Demir" }, totalAmount: 3200.75, status: "Kargoda" },
-            { shortID: "ORD-71C5", buyer: { userName: "Zeynep Kaya" }, totalAmount: 850, status: "Bekliyor" },
-            { shortID: "ORD-60D7", buyer: { userName: "Canan Öz" }, totalAmount: 5400, status: "Tamamlandı" },
-            { shortID: "ORD-55E8", buyer: { userName: "Ali Veli" }, totalAmount: 120, status: "İptal Edildi" },
-          ]);
-          setLoading(false);
-        }, 500);
-        return;
-      }
-
-      // Fetch Stats from real API
-      const statsRes = await fetch(apiUrl("/admin/dashboard"), {
-        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
-      });
-      const statsData = await statsRes.json();
-      if (statsData.request?.requestResult) {
-        setStats(statsData.payload);
-      }
-
-      // Fetch Recent Orders from real API
-      const ordersRes = await fetch(apiUrl("/admin/orders?limit=5"), {
-        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
-      });
-      const ordersData = await ordersRes.json();
-      if (ordersData.request?.requestResult) {
-        let ordersArray = [];
-        if (Array.isArray(ordersData.payload)) {
-          ordersArray = ordersData.payload;
-        } else if (ordersData.payload && typeof ordersData.payload === 'object') {
-          ordersArray = ordersData.payload.data || ordersData.payload.results || ordersData.payload.orders || [];
-        }
-        setRecentOrders(Array.isArray(ordersArray) ? ordersArray : []);
-      }
-    } catch (err) {
-      console.error("Dashboard fetch failed:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const { t, theme, language } = useThemeLanguage();
-
-  const statCards = [
-    {
-      label: t('dashboard.sysop.stats_total_sales'),
-      value: `${(stats?.totalRevenue || 0).toLocaleString('tr-TR')} ₺`,
-      textColor: "text-emerald-500",
-      href: "/dashboard/sysop/order-management"
-    },
-    {
-      label: t('dashboard.sysop.stats_active_users'),
-      value: stats?.totalUsers || 0,
-      textColor: "text-blue-500",
-      href: "/dashboard/sysop/user-management"
-    },
-    {
-      label: t('dashboard.sysop.stats_total_stores'),
-      value: stats?.totalStores || 0,
-      textColor: "text-purple-500",
-      href: "/dashboard/sysop/store-management"
-    },
-    {
-      label: t('dashboard.sysop.stats_pending_approvals'),
-      value: stats?.pendingListings || 0,
-      textColor: "text-orange-500",
-      href: "/dashboard/sysop/product-management"
-    }
-  ];
-
-  if (loading && !stats) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-        <p className="text-[12px] font-black uppercase tracking-widest text-text-secondary">{t('dashboard.sysop.loading_data')}</p>
-      </div>
-    );
-  }
+  const isDark = theme === 'dark';
+  const cardClass = `rounded-[1.2rem] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-200 shadow-sm'}`;
+  const textTitle = `text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
+  const textValue = `text-[26px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`;
+  const iconRight = `w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-400'}`;
 
   return (
-    <div className="space-y-8">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((card, i) => (
-          <a
-            key={i}
-            href={card.href}
-            className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 block cursor-pointer
-              ${theme === 'light' 
-                ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
-                : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}
-          >
-            <div className="flex flex-col h-full">
-               <p className={`text-[12px] font-black uppercase tracking-widest mb-3 ${theme === 'light' ? 'text-text-secondary/60' : 'text-text-secondary/80'}`}>{card.label}</p>
-              <div className={`w-full h-[1px] mb-5 ${theme === 'light' ? 'bg-border-color' : 'bg-white/5'}`} />
-              <div className="mt-auto flex items-center justify-between">
-                <h3 className={`text-2xl font-black ${card.textColor}`}>{card.value}</h3>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 text-text-secondary/30">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </div>
-            </div>
-          </a>
-        ))}
+    <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in">
+      
+      {/* --- ROW 1: STAT CARDS --- */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        {/* 1. TOTAL SALES */}
+        <div className={`${cardClass} p-5`}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+              TOTAL SALES
+            </h3>
+            <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <h2 className={textValue}>$1,256.940</h2>
+            <span className="text-[13px] font-bold text-green-500">+$456</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 px-2 py-0.5 rounded-md text-[11px] font-bold">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+              12%
+            </span>
+            <span className={`text-[12px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs last month</span>
+          </div>
+        </div>
+
+        {/* 2. TOTAL ORDER */}
+        <div className={`${cardClass} p-5`}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
+              TOTAL ORDER
+            </h3>
+            <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <h2 className={textValue}>6,432</h2>
+            <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Orders</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 bg-red-50 text-red-500 dark:bg-red-500/10 px-2 py-0.5 rounded-md text-[11px] font-bold">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 4.5l-15 15m0 0h11.25m-11.25 0V8.25" /></svg>
+              1.8%
+            </span>
+            <span className={`text-[12px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Product sales</span>
+          </div>
+        </div>
+
+        {/* 3. TOTAL CUSTOMER */}
+        <div className={`${cardClass} p-5`}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              TOTAL CUSTOMER
+            </h3>
+            <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <h2 className={textValue}>173,247</h2>
+            <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>People</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 px-2 py-0.5 rounded-md text-[11px] font-bold">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+              1.8%
+            </span>
+            <span className={`text-[12px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>New customer</span>
+          </div>
+        </div>
+
+        {/* 4. INTERACTION */}
+        <div className={`${cardClass} p-5`}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg>
+              INTERACTION
+            </h3>
+            <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <h2 className={textValue}>3,247</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 bg-red-50 text-red-500 dark:bg-red-500/10 px-2 py-0.5 rounded-md text-[11px] font-bold">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 4.5l-15 15m0 0h11.25m-11.25 0V8.25" /></svg>
+              2.8%
+            </span>
+            <span className={`text-[12px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs last month</span>
+          </div>
+        </div>
+
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Orders */}
-        <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-hidden transition-all duration-300
-          ${theme === 'light' 
-            ? 'bg-white border-border-color shadow-sm' 
-            : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
-          <div className="p-8 border-b border-border-color flex items-center justify-between">
-            <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.recent_transactions')}</h3>
-            <a href="/dashboard/sysop/order-management" className="text-[12px] font-black text-primary hover:underline">{t('dashboard.sysop.view_all')}</a>
+      {/* --- ROW 2: CHARTS --- */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* CHANNEL PERFORMANCE (1 Col) */}
+        <div className={`${cardClass} p-6 flex flex-col`}>
+          <div className="flex items-center justify-between mb-8">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+              CHANNEL PERFORMANCE
+            </h3>
+            <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-gray-50 dark:bg-background/50 text-[10px] font-black text-text-secondary/60 uppercase tracking-widest">
-                  <th className="px-8 py-4">{t('dashboard.sysop.table_id')}</th>
-                  <th className="px-8 py-4">{t('dashboard.sysop.table_customer')}</th>
-                  <th className="px-8 py-4">{t('dashboard.sysop.table_amount')}</th>
-                  <th className="px-8 py-4">{t('dashboard.sysop.table_status')}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border-color">
-                {!Array.isArray(recentOrders) || recentOrders.length === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="px-8 py-10 text-center text-text-secondary text-[12px] font-bold">{t('dashboard.sysop.no_records')}</td>
-                  </tr>
-                ) : (
-                  recentOrders.map((order: any, i: number) => (
-                    <tr key={i} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                      <td className="px-8 py-5 text-[13px] font-black text-text-primary">#{order.shortID || order.id?.slice(-6).toUpperCase()}</td>
-                      <td className="px-8 py-5 text-[13px] font-bold text-text-secondary">{order.buyer?.userName || t('dashboard.sysop.anonymous')}</td>
-                      <td className="px-8 py-5 text-[13px] font-black text-text-primary">{order.totalAmount?.toLocaleString('tr-TR')} ₺</td>
-                      <td className="px-8 py-5">
-                        <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-tighter">
-                          {order.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+          
+          {/* Half Donut Mock */}
+          <div className="relative w-full aspect-[2/1] mb-8 flex justify-center items-end overflow-hidden">
+            <div className={`w-[80%] h-[160%] rounded-full border-[28px] ${isDark ? 'border-gray-800 border-t-gray-600' : 'border-gray-200 border-t-[#2E2E3A] border-r-[#2E2E3A]'} border-b-transparent transform -rotate-45`}></div>
+            <div className="absolute bottom-2 left-0 w-full text-center">
+              <h2 className={textValue}>16,432</h2>
+              <p className={`text-[11px] font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Product Sales</p>
+            </div>
+          </div>
+
+          <div className="space-y-4 mt-auto">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-gray-400' : 'bg-[#2E2E3A]'}`}></div>
+                <div>
+                  <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Website</p>
+                  <p className={`text-[11px] ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>5,762 Product Sold <span className="text-green-500 ml-1">+1.8%</span></p>
+                </div>
+              </div>
+              <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>$1,378.975</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+                <div>
+                  <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Marketplace</p>
+                  <p className={`text-[11px] ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>6,843 Products Sold <span className="text-red-500 ml-1">-2.8%</span></p>
+                </div>
+              </div>
+              <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>$778,975</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-gray-200"></div>
+                <div>
+                  <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Store</p>
+                  <p className={`text-[11px] ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>2,123 Products Sold <span className="text-red-500 ml-1">-2.8%</span></p>
+                </div>
+              </div>
+              <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>$778,975</span>
+            </div>
           </div>
         </div>
 
-        {/* System Activity */}
-        <div className={`rounded-[2.5rem] border transition-all duration-300 flex flex-col
-          ${theme === 'light' 
-            ? 'bg-white border-border-color shadow-sm' 
-            : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
-          <div className="p-8 border-b border-border-color">
-            <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.quick_access')}</h3>
+        {/* AVERAGE SALES (2 Col) */}
+        <div className={`lg:col-span-2 ${cardClass} p-6 flex flex-col`}>
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
+            <div>
+              <h3 className={textTitle}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
+                AVERAGE SALES
+              </h3>
+              <div className="flex items-center gap-3 mt-3">
+                <h2 className={textValue}>$1,389.652</h2>
+                <span className="flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 px-2 py-0.5 rounded-md text-[11px] font-bold">
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                  1.8%
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap items-center gap-2">
+              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-2 hover:bg-black/5 transition-colors`}>
+                All Product <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-2 hover:bg-black/5 transition-colors`}>
+                All Categories <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-2 hover:bg-black/5 transition-colors`}>
+                2025 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <button className={`p-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} hover:bg-black/5 transition-colors`}>
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+              </button>
+            </div>
           </div>
-          <div className="p-4">
-            <button className="w-full flex items-center gap-4 p-6 rounded-[2rem] bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group">
-              <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-primary/20">
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </div>
-              <div className="text-left">
-                <p className="text-[15px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.support_title')}</p>
-                <p className="text-[12px] text-text-secondary font-bold">{t('dashboard.sysop.support_desc')}</p>
-              </div>
-            </button>
+          
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500"></div><span className={`text-[12px] font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Revenue</span></div>
+            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-gray-300"></div><span className={`text-[12px] font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Target</span></div>
+            <div className="ml-auto text-[12px] font-medium text-gray-500 hidden sm:block">Net Sales : <span className="font-bold text-green-500">$800.67 <svg className="w-3 h-3 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></span></div>
+          </div>
+
+          <div className="flex-1 min-h-[200px] w-full relative mt-4">
+             {/* Chart Mock Lines */}
+             <div className={`absolute top-0 w-full border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-start`}><span className={`-mt-2.5 bg-${isDark ? '[#121214]' : 'white'} pr-2 text-[10px] text-gray-400`}>$25k</span></div>
+             <div className={`absolute top-1/4 w-full border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-start`}><span className={`-mt-2.5 bg-${isDark ? '[#121214]' : 'white'} pr-2 text-[10px] text-gray-400`}>$20k</span></div>
+             <div className={`absolute top-2/4 w-full border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-start`}><span className={`-mt-2.5 bg-${isDark ? '[#121214]' : 'white'} pr-2 text-[10px] text-gray-400`}>$15k</span></div>
+             <div className={`absolute top-3/4 w-full border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-start`}><span className={`-mt-2.5 bg-${isDark ? '[#121214]' : 'white'} pr-2 text-[10px] text-gray-400`}>$10k</span></div>
+
+             {/* Chart Mock Data */}
+             <svg className="absolute inset-0 w-full h-[80%] top-[10%] preserve-3d" viewBox="0 0 100 100" preserveAspectRatio="none">
+               <polyline points="0,60 15,80 30,70 50,20 70,60 85,30 100,75" fill="none" stroke="#E5E7EB" strokeWidth="2" strokeDasharray="4 4" />
+               <polyline points="0,50 15,65 30,55 50,40 70,25 85,45 100,80" fill="none" stroke="#3B82F6" strokeWidth="3" />
+               <circle cx="70" cy="25" r="3" fill="#3B82F6" stroke="#fff" strokeWidth="1.5" />
+             </svg>
+             
+             {/* Chart Overlay Popup */}
+             <div className="absolute left-[60%] sm:left-[65%] top-[10%] bg-[#1A1D1F] text-white p-3 rounded-lg text-[11px] shadow-xl z-10 w-32">
+               <p className="font-bold mb-2">Maret 2025</p>
+               <div className="flex justify-between items-center mb-1"><span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>Target</span> <span className="font-bold">$22,000</span></div>
+               <div className="flex justify-between items-center"><span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>Revenue</span> <span className="font-bold">$20,000</span></div>
+             </div>
+
+             {/* X Axis */}
+             <div className={`absolute bottom-0 w-full flex justify-between px-6 text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+               <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+             </div>
           </div>
         </div>
+      </div>
+
+      {/* --- ROW 3: LISTS & SMALL CHARTS --- */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* RECENT ACTIVITY */}
+        <div className={`${cardClass} p-6 flex flex-col`}>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              RECENT ACTIVITY
+            </h3>
+            <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+          </div>
+          
+          <div className="space-y-6">
+            <div>
+              <p className={`text-[13px] font-bold mb-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Outgoing Products</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-xl">🧥</div>
+                  <div>
+                    <h4 className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Red Jacket</h4>
+                    <p className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Qty : 2 <span className="text-red-500 ml-2">5 minutes ago</span></p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>$1,500</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={`h-px w-full ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}></div>
+
+            <div>
+              <p className={`text-[13px] font-bold mb-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Incoming Products</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-xl">🧥</div>
+                  <div>
+                    <h4 className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Black Jacket</h4>
+                    <p className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Qty : 1 <span className="text-gray-400 ml-2">10 minutes ago</span></p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>$800</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* TOP 3 PRODUCT */}
+        <div className={`${cardClass} p-6 flex flex-col`}>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+              TOP 3 PRODUCT
+            </h3>
+            <div className="flex gap-2">
+              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-1 hover:bg-black/5 transition-colors`}>
+                Daily <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between mb-6">
+             <span className={`text-[12px] font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Today's Total Sales :</span>
+             <span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>318 units <svg className="w-3 h-3 text-green-500 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></span>
+          </div>
+
+          <div className="flex-1 flex items-end justify-around pb-6 pt-4 relative min-h-[150px]">
+             {/* Chart Y Axis Mock */}
+             <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-gray-400 font-medium pb-6">
+                <span>200</span><span>160</span><span>120</span><span>80</span><span>40</span><span>0</span>
+             </div>
+             
+             {/* Bars */}
+             <div className="w-[28%] h-full flex flex-col justify-end items-center relative z-10 group">
+                <div className={`w-full h-[90%] ${isDark ? 'bg-gray-600' : 'bg-[#2E2E3A]'} rounded-t-sm flex items-end justify-center pb-2 transition-all group-hover:opacity-90`}>
+                   <span className="text-white text-[11px] font-bold">180</span>
+                </div>
+                <span className={`text-[11px] mt-2 font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Shoes</span>
+             </div>
+             <div className="w-[28%] h-full flex flex-col justify-end items-center relative z-10 group">
+                <div className={`w-full h-[45%] ${isDark ? 'bg-gray-700' : 'bg-gray-300'} rounded-t-sm flex items-end justify-center pb-2 transition-all group-hover:opacity-90`}>
+                   <span className="text-gray-600 text-[11px] font-bold">87</span>
+                </div>
+                <span className={`text-[11px] mt-2 font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Jacket</span>
+             </div>
+             <div className="w-[28%] h-full flex flex-col justify-end items-center relative z-10 group">
+                <div className={`w-full h-[30%] ${isDark ? 'bg-gray-800' : 'bg-gray-200'} rounded-t-sm flex items-end justify-center pb-2 transition-all group-hover:opacity-90`}>
+                   <span className="text-gray-500 text-[11px] font-bold">56</span>
+                </div>
+                <span className={`text-[11px] mt-2 font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>T-shirt</span>
+             </div>
+          </div>
+        </div>
+
+        {/* TOTAL VISITOR */}
+        <div className={`${cardClass} p-6 flex flex-col`}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className={textTitle}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+              TOTAL VISITOR
+            </h3>
+            <div className="flex gap-2">
+              <button className={`px-3 py-1.5 rounded-lg border ${isDark ? 'border-white/10 text-gray-300' : 'border-gray-200 text-gray-600'} text-[12px] font-bold flex items-center gap-1 hover:bg-black/5 transition-colors`}>
+                Daily <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-baseline gap-2 mb-4">
+            <h2 className={textValue}>3,247</h2>
+            <span className="flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 px-2 py-0.5 rounded-md text-[11px] font-bold">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+              1.8%
+            </span>
+            <span className={`text-[12px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Visitor</span>
+          </div>
+
+          <div className="space-y-2 mb-6">
+             <div className="flex justify-between items-center text-[12px]">
+               <span className={`font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Marketplace :</span>
+               <span className={`font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>300 people <div className="w-2 h-2 rounded-full bg-green-500 inline-block ml-1"></div></span>
+             </div>
+             <div className="flex justify-between items-center text-[12px]">
+               <span className={`font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Website :</span>
+               <span className={`font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>250 people <div className="w-2 h-2 rounded-full bg-green-500 inline-block ml-1"></div></span>
+             </div>
+             <div className="flex justify-between items-center text-[12px]">
+               <span className={`font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Store :</span>
+               <span className={`font-bold ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>400 people <div className="w-2 h-2 rounded-full bg-green-500 inline-block ml-1"></div></span>
+             </div>
+          </div>
+
+          {/* Heatmap Mock */}
+          <div className="mt-auto">
+             <div className="flex justify-end gap-2 mb-1 text-[10px] text-gray-400 font-medium w-full pr-2">
+                <span className="w-4 text-center">Mon</span><span className="w-4 text-center">Tue</span><span className="w-4 text-center">Wed</span><span className="w-4 text-center">Thu</span><span className="w-4 text-center">Fri</span>
+             </div>
+             <div className="flex items-center justify-between text-[10px] text-gray-400 font-medium mb-1">
+                <span>09.00 - 12.00</span>
+                <div className="flex gap-1.5">
+                   <div className="w-4 h-4 rounded bg-gray-200"></div><div className="w-4 h-4 rounded bg-[#2E2E3A]"></div><div className="w-4 h-4 rounded bg-gray-200"></div><div className="w-4 h-4 rounded bg-gray-300"></div><div className="w-4 h-4 rounded bg-gray-200"></div>
+                </div>
+             </div>
+             <div className="flex items-center justify-between text-[10px] text-gray-400 font-medium mb-1">
+                <span>12.00 - 15.00</span>
+                <div className="flex gap-1.5">
+                   <div className="w-4 h-4 rounded bg-[#2E2E3A]"></div><div className="w-4 h-4 rounded bg-gray-100"></div><div className="w-4 h-4 rounded bg-gray-300"></div><div className="w-4 h-4 rounded bg-[#2E2E3A]"></div><div className="w-4 h-4 rounded bg-gray-100"></div>
+                </div>
+             </div>
+             <div className="flex items-center justify-between text-[10px] text-gray-400 font-medium">
+                <span>15.00 - 18.00</span>
+                <div className="flex gap-1.5">
+                   <div className="w-4 h-4 rounded bg-gray-100"></div><div className="w-4 h-4 rounded bg-[#2E2E3A]"></div><div className="w-4 h-4 rounded bg-gray-100"></div><div className="w-4 h-4 rounded bg-[#2E2E3A]"></div><div className="w-4 h-4 rounded bg-gray-200"></div>
+                </div>
+             </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
