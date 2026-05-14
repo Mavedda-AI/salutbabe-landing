@@ -14,18 +14,18 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     setMounted(true);
   }, []);
 
-  const isDashboard = pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin");
+  const isStandalone = pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/register");
 
   if (!mounted) return <>{children}</>;
 
   return (
     <>
-      {!isDashboard && <MobileAppBanner />}
-      {!isDashboard && <Header />}
-      <div className={isDashboard ? "" : "relative pt-32"}>
+      {!isStandalone && <MobileAppBanner />}
+      {!isStandalone && <Header />}
+      <div className={isStandalone ? "" : "relative pt-32"}>
         {children}
       </div>
-      {!isDashboard && <Footer />}
+      {!isStandalone && <Footer />}
     </>
   );
 }
