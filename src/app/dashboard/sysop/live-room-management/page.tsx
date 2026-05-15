@@ -30,7 +30,7 @@ export default function LiveRoomManagementPage() {
         ))}
       </div>
 
-      <div className={`${cardClass} overflow-hidden`}>
+      <div className={`${cardClass} overflow-x-auto`}>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>

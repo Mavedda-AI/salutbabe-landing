@@ -92,7 +92,7 @@ export default function ShippingManagementPage() {
       </div>
 
       {/* Table Section */}
-      <div className={`rounded-[20px] border overflow-hidden ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`}>
+      <div className={`rounded-[20px] border overflow-x-auto ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`}>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
