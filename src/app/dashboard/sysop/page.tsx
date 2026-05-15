@@ -260,12 +260,12 @@ export default function SysopDashboard() {
                        <p className={`text-[20px] font-black text-green-500`}>1,245</p>
                      </div>
                      <div>
-                       <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>İnaktif (>7 Gün)</p>
+                       <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>İnaktif (&gt;7 Gün)</p>
                        <p className={`text-[20px] font-black text-orange-500`}>84</p>
                      </div>
                   </div>
                   <div className="text-right">
-                     <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Top Satıcı (>15K ₺)</p>
+                     <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Top Satıcı (&gt;15K ₺)</p>
                      <p className={`text-[20px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>32</p>
                   </div>
                 </div>
@@ -275,7 +275,7 @@ export default function SysopDashboard() {
                     <div className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 shrink-0 animate-ping"></div>
                     <div>
                       <p className="text-[11px] font-bold text-orange-600 dark:text-orange-400">Risk: İnaktif Top Satıcı</p>
-                      <p className="text-[10px] text-orange-600/70 dark:text-orange-400/70 mt-0.5">Aylık GMV'si >15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
+                      <p className="text-[10px] text-orange-600/70 dark:text-orange-400/70 mt-0.5">Aylık GMV'si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
                     </div>
                   </div>
                   <button className="text-[9px] font-black px-2 py-1 bg-orange-500 text-white rounded mt-1 shrink-0">AKSİYON</button>
@@ -720,8 +720,38 @@ export default function SysopDashboard() {
                       <span className="relative z-10 text-[11px] font-black text-[#111827] dark:text-white mb-2 ml-2">56</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Beşiktaş</span>
                    </div>
-                 </div>
-              </div>
+                  </div>
+               </div>
+                </>
+              ) : (
+                <div className="flex-1 flex flex-col gap-4 animate-fade-in">
+                  {/* SUPPLY / DEMAND INSIGHTS */}
+                  <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-gray-50 border-gray-100'}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Deri Ceketler</p>
+                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[9px] font-black">Yüksek Talep / Düşük Arz</span>
+                    </div>
+                    <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500">
+                      <span>Aranma Hacmi: <strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>4,500/hft</strong></span>
+                      <span>Listeleme: <strong className="text-orange-500">Sadece 4 adet</strong></span>
+                    </div>
+                    <p className="text-[9px] mt-2 text-blue-500 font-bold flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Fırsat: Satıcıları deri ceket yüklemeye teşvik et.</p>
+                  </div>
+
+                  {/* PRICING INTELLIGENCE */}
+                  <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-gray-50 border-gray-100'}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Vintage Gözlük #402</p>
+                      <span className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[9px] font-black">Fiyat Şişkinliği (&gt;130%)</span>
+                    </div>
+                    <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500">
+                      <span>Ort. Satılan Fiyat: <strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>₺450</strong></span>
+                      <span>Mevcut Listeleme: <strong className="text-orange-500">₺620</strong></span>
+                    </div>
+                    <p className="text-[9px] mt-2 text-orange-500 font-bold flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg> Uyarı: Likidite düşüşü öngörülüyor.</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* TOTAL VISITOR HEATMAP */}
@@ -843,7 +873,7 @@ export default function SysopDashboard() {
                 </div>
                 <p className="text-[9px] mt-4 text-red-500 font-bold bg-red-500/10 p-2 rounded-lg flex items-center gap-1">
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                  MNG Kargo gecikme oranı >%15 risk seviyesinde. Dispute (Anlaşmazlık) riski yüksek.
+                  MNG Kargo gecikme oranı &gt;%15 risk seviyesinde. Dispute (Anlaşmazlık) riski yüksek.
                 </p>
               </div>
 
@@ -886,7 +916,7 @@ export default function SysopDashboard() {
 
                 <p className="text-[9px] mt-4 text-red-500 font-bold flex items-center gap-1">
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                  Kargo şikayetleri >%40 eşiğini aştı. Sistem alarmı devrede.
+                  Kargo şikayetleri &gt;%40 eşiğini aştı. Sistem alarmı devrede.
                 </p>
               </div>
             </div>
