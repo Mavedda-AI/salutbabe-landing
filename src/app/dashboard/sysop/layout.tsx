@@ -727,7 +727,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-8 animate-fade-in relative z-0 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-8 animate-fade-in relative z-0 overflow-y-auto overflow-x-hidden">
           {children}
         </main>
 
