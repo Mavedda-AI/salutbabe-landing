@@ -34,7 +34,8 @@ export default function SysopDashboard() {
   // Role check simulation for Founder specific views
   const isFounder = true; // In real app, check from user roles
 
-  const alerts = [
+  type AlertDef = { type: string; text: string; action: string; link?: string; customAction?: () => void };
+  const alerts: AlertDef[] = [
     { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', link: '/dashboard/sysop/shipping-management' },
     { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç', link: '/dashboard/sysop/user-management' },
     { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', action: 'Funnel Detay', customAction: () => setShowFunnel(true) }
