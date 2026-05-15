@@ -146,8 +146,8 @@ export default function StoreManagementPage() {
       </div>
 
       {/* Action Bar (Search & Tabs) */}
-      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4`}>
-         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar px-2">
+      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full`}>
+         <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1">
             {[
               { id: 'all', label: 'Tüm Satıcılar' },
               { id: 'mother', label: 'Anne Satıcılar' },
@@ -167,7 +167,7 @@ export default function StoreManagementPage() {
             ))}
          </div>
          
-         <div className="px-2 md:px-4 md:w-80">
+         <div className="px-2 md:px-4 md:w-80 w-full shrink-0">
             <div className={`relative flex items-center w-full h-10 rounded-xl border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 focus-within:border-primary/50' : 'bg-gray-50 border-gray-200 focus-within:border-primary/50 focus-within:bg-white'}`}>
                <svg className={`w-4 h-4 ml-3 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                <input 
@@ -182,8 +182,8 @@ export default function StoreManagementPage() {
       </div>
 
       {/* Table Section */}
-      <div className={`rounded-[20px] border overflow-x-auto ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`}>
-        <div className="overflow-x-auto">
+      <div className={`${cardClass}`}>
+        <div className="overflow-x-auto w-full">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
