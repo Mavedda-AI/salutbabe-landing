@@ -7,7 +7,6 @@ import { useToast } from "../../../context/ToastContext";
 
 export default function SysopDashboard() {
   const router = useRouter();
-  const { theme } = useThemeLanguage();
   const { showToast } = useToast();
   const [userRole, setUserRole] = useState<'founder' | 'partner'>('founder');
 
@@ -15,7 +14,6 @@ export default function SysopDashboard() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [filterProduct, setFilterProduct] = useState("Tüm Ürünler");
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
-  const [filterTop3, setFilterTop3] = useState("Günlük");
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
@@ -79,26 +77,33 @@ export default function SysopDashboard() {
         <div className="space-y-6">
 
           {/* 11. GLOBAL ALERT SYSTEM */}
-          <div className="flex flex-col gap-2 mb-6">
-            {alerts.map((alert, i) => (
-              <div key={i} className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-[16px] border ${
-                alert.type === 'CRITICAL' ? 'bg-[#FF383C]/5 border-[#FF383C]/20 text-[#FF383C]' :
-                alert.type === 'WARNING' ? 'bg-[#FF8D28]/5 border-[#FF8D28]/20 text-[#FF8D28]' :
-                'bg-[#007AFF]/5 border-[#007AFF]/20 text-[#007AFF]'
-              }`}>
-                <div className="flex items-center gap-3 mb-2 sm:mb-0">
-                   <div className={`px-2.5 py-1 rounded-md text-[10px] font-black tracking-wider text-white ${
-                     alert.type === 'CRITICAL' ? 'bg-[#FF383C]' : alert.type === 'WARNING' ? 'bg-[#FF8D28]' : 'bg-[#007AFF]'
-                   }`}>{alert.type}</div>
-                   <span className="text-[13px] font-bold">{alert.text}</span>
-                </div>
-                <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`text-[12px] font-bold px-4 py-2 rounded-[12px] border transition-colors ${
-                  alert.type === 'CRITICAL' ? 'border-[#FF383C]/20 bg-transparent hover:bg-[#FF383C]/10 text-[#FF383C]' :
-                  alert.type === 'WARNING' ? 'border-[#FF8D28]/20 bg-transparent hover:bg-[#FF8D28]/10 text-[#FF8D28]' :
-                  'border-[#007AFF]/20 bg-transparent hover:bg-[#007AFF]/10 text-[#007AFF]'
-                }`}>{alert.action}</button>
-              </div>
-            ))}
+          <div className="flex flex-col gap-3 mb-6">
+            {alerts.map((alert, i) => {
+               const style = alert.type === 'CRITICAL' ? { color: '#FF383C', bg: 'bg-[#FF383C]', text: 'text-[#FF383C]', lightBg: 'bg-[#FF383C]/10', border: 'border-[#FF383C]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(255,56,60,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /> } :
+                             alert.type === 'WARNING' ? { color: '#FF8D28', bg: 'bg-[#FF8D28]', text: 'text-[#FF8D28]', lightBg: 'bg-[#FF8D28]/10', border: 'border-[#FF8D28]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(255,141,40,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 17v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> } :
+                             { color: '#007AFF', bg: 'bg-[#007AFF]', text: 'text-[#007AFF]', lightBg: 'bg-[#007AFF]/10', border: 'border-[#007AFF]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(0,122,255,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> };
+
+               return (
+                 <div key={i} className={`group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-[20px] bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1 shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${style.glow}`}>
+                   {/* Left Accent Bar */}
+                   <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 rounded-r-full ${style.bg} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
+                   
+                   <div className="flex items-start sm:items-center gap-4 mb-4 sm:mb-0 pl-2">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${style.lightBg} ${style.text}`}>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">{style.icon}</svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className={`text-[10px] font-black tracking-widest uppercase mb-0.5 ${style.text}`}>{alert.type}</span>
+                        <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight pr-4">{alert.text}</span>
+                      </div>
+                   </div>
+                   
+                   <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`w-full sm:w-auto text-[11px] font-black px-6 py-2.5 rounded-full ${style.lightBg} ${style.text} hover:bg-[#111827] hover:text-white transition-all duration-300 shadow-sm shrink-0 uppercase tracking-widest`}>
+                     {alert.action}
+                   </button>
+                 </div>
+               );
+            })}
           </div>
           
           {/* ROW 1: 4 STAT CARDS */}
@@ -265,11 +270,11 @@ export default function SysopDashboard() {
                   <div className="flex gap-4">
                      <div>
                        <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Aktif Satıcı</p>
-                       <p className={`text-[20px] font-black text-green-500`}>1,245</p>
+                       <p className={`text-[20px] font-black text-[#34C759]`}>1,245</p>
                      </div>
                      <div>
                        <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>İnaktif (&gt;7 Gün)</p>
-                       <p className={`text-[20px] font-black text-orange-500`}>84</p>
+                       <p className={`text-[20px] font-black text-[#FF8D28]`}>84</p>
                      </div>
                   </div>
                   <div className="text-right">
@@ -278,15 +283,15 @@ export default function SysopDashboard() {
                   </div>
                 </div>
 
-                <div className={`mt-auto p-3 rounded-lg flex items-start justify-between gap-2 ${isDark ? 'bg-orange-500/10' : 'bg-orange-50'} border border-orange-500/20`}>
+                <div className={`mt-auto p-3 rounded-lg flex items-start justify-between gap-2 ${isDark ? 'bg-[#FF8D28]/10' : 'bg-[#FF8D28]/5'} border border-[#FF8D28]/20`}>
                   <div className="flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 shrink-0 animate-ping"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#FF8D28] mt-1.5 shrink-0 animate-ping"></div>
                     <div>
-                      <p className="text-[11px] font-bold text-orange-600 ">Risk: İnaktif Top Satıcı</p>
-                      <p className="text-[10px] text-orange-600/70  mt-0.5">Aylık GMV'si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
+                      <p className="text-[11px] font-bold text-[#FF8D28]">Risk: İnaktif Top Satıcı</p>
+                      <p className="text-[10px] text-[#FF8D28]/80 mt-0.5">Aylık GMV&apos;si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
                     </div>
                   </div>
-                  <button onClick={() => router.push('/dashboard/sysop/user-management?role=seller&status=inactive_7d')} className="text-[9px] font-black px-2 py-1 bg-orange-500 text-white rounded mt-1 shrink-0 hover:bg-orange-600 transition-colors">AKSİYON</button>
+                  <button onClick={() => router.push('/dashboard/sysop/user-management?role=seller&status=inactive_7d')} className="text-[9px] font-black px-2 py-1 bg-[#FF8D28] text-white rounded mt-1 shrink-0 hover:bg-[#FF8D28]/80 transition-colors">AKSİYON</button>
                 </div>
               </div>
 
@@ -878,16 +883,16 @@ export default function SysopDashboard() {
                 
                 <div className="space-y-4 flex-1">
                   {[
-                    { n: 'Yurtiçi Kargo', d: '4%', s: 'bg-green-500' },
-                    { n: 'Aras Kargo', d: '8%', s: 'bg-green-500' },
-                    { n: 'MNG Kargo', d: '16%', s: 'bg-red-500', alert: true },
-                    { n: 'PTT Kargo', d: '12%', s: 'bg-orange-500' }
+                    { n: 'Yurtiçi Kargo', d: '4%', s: 'bg-[#0068B3]' },
+                    { n: 'Aras Kargo', d: '8%', s: 'bg-[#0A3B7E]' },
+                    { n: 'DHL eCommerce', d: '16%', s: 'bg-[#FFCC00]', alert: true },
+                    { n: 'PTT Kargo', d: '12%', s: 'bg-[#00AEEF]' }
                   ].map((c, i) => (
                     <div key={i} className="flex flex-col gap-1.5">
                        <div className="flex items-center justify-between">
                           <span className={`text-[12px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>{c.n}</span>
                           <div className="flex items-center gap-2">
-                            <span className={`text-[10px] font-black ${c.alert ? 'text-red-500' : 'text-gray-500'}`}>Gecikme: {c.d}</span>
+                            <span className={`text-[10px] font-black ${c.alert ? 'text-[#FF383C]' : 'text-gray-500'}`}>Gecikme: {c.d}</span>
                           </div>
                        </div>
                        <div className="w-full h-1.5 bg-gray-100  rounded-full overflow-hidden">
@@ -896,9 +901,9 @@ export default function SysopDashboard() {
                     </div>
                   ))}
                 </div>
-                <p className="text-[9px] mt-4 text-red-500 font-bold bg-red-500/10 p-2 rounded-lg flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                  MNG Kargo gecikme oranı &gt;%15 risk seviyesinde. Dispute (Anlaşmazlık) riski yüksek.
+                <p className="text-[9px] mt-4 text-[#FF383C] font-bold bg-[#FF383C]/10 p-2 rounded-lg flex items-center gap-1">
+                  <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                  <span className="truncate">DHL eCommerce gecikme oranı &gt;%15 risk seviyesinde. Dispute (Anlaşmazlık) riski yüksek.</span>
                 </p>
               </div>
 
@@ -920,9 +925,9 @@ export default function SysopDashboard() {
                 <div className="space-y-3 flex-1">
                    <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Sorun Dağılımı</p>
                    <div className="grid grid-cols-2 gap-3">
-                     <div className={`p-2 rounded border ${isDark ? 'border-red-500/20 bg-red-500/10' : 'border-red-200 bg-red-50'}`}>
-                       <span className="text-[10px] font-bold text-red-600 ">Kargo / Teslimat</span>
-                       <p className="text-[14px] font-black text-red-600 ">%42</p>
+                     <div className={`p-2 rounded border ${isDark ? 'border-[#FF383C]/20 bg-[#FF383C]/10' : 'border-[#FF383C]/20 bg-[#FF383C]/5'}`}>
+                       <span className="text-[10px] font-bold text-[#FF383C]">Kargo / Teslimat</span>
+                       <p className="text-[14px] font-black text-[#FF383C]">%42</p>
                      </div>
                      <div className={`p-2 rounded border ${isDark ? 'border-white/10 bg-white/5' : 'border-gray-200 bg-gray-50'}`}>
                        <span className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Ödeme İşlemleri</span>
@@ -939,9 +944,9 @@ export default function SysopDashboard() {
                    </div>
                 </div>
 
-                <p className="text-[9px] mt-4 text-red-500 font-bold flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                  Kargo şikayetleri &gt;%40 eşiğini aştı. Sistem alarmı devrede.
+                <p className="text-[9px] mt-4 text-[#FF383C] font-bold flex items-center gap-1">
+                  <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                  <span className="truncate">Kargo şikayetleri &gt;%40 eşiğini aştı. Sistem alarmı devrede.</span>
                 </p>
               </div>
             </div>
