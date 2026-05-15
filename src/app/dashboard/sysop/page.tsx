@@ -8,6 +8,12 @@ export default function SysopDashboard() {
   const { theme } = useThemeLanguage();
   const [userRole, setUserRole] = useState<'founder' | 'partner'>('founder');
 
+  // Filter States
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [filterProduct, setFilterProduct] = useState("All Product");
+  const [filterCategory, setFilterCategory] = useState("All Categories");
+  const [filterYear, setFilterYear] = useState("2025");
+
   useEffect(() => {
     try {
       const userStr = localStorage.getItem("user");
@@ -207,10 +213,49 @@ export default function SysopDashboard() {
                   AVERAGE SALES
                 </h3>
                 
-                <div className="flex flex-wrap items-center gap-2">
-                  <button className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>All Product <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
-                  <button className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>All Categories <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
-                  <button className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>2025 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
+                <div className="flex flex-wrap items-center gap-2 relative">
+                  {/* Product Filter */}
+                  <div className="relative">
+                    <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === 'product' ? null : 'product'); }} className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>
+                      {filterProduct} <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    {activeDropdown === 'product' && (
+                      <div className={`absolute top-full mt-1 right-0 w-32 rounded-lg shadow-xl z-50 overflow-hidden border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-white border-gray-100'}`}>
+                        {['All Product', 'Baby Shoes', 'Jackets', 'Toys'].map(opt => (
+                          <div key={opt} onClick={(e) => { e.stopPropagation(); setFilterProduct(opt); setActiveDropdown(null); }} className={`px-3 py-2 text-[11px] font-bold cursor-pointer transition-colors ${isDark ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-[#374151]'}`}>{opt}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Category Filter */}
+                  <div className="relative">
+                    <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === 'category' ? null : 'category'); }} className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>
+                      {filterCategory} <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    {activeDropdown === 'category' && (
+                      <div className={`absolute top-full mt-1 right-0 w-36 rounded-lg shadow-xl z-50 overflow-hidden border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-white border-gray-100'}`}>
+                        {['All Categories', 'Boy Clothing', 'Girl Clothing', 'Accessories'].map(opt => (
+                          <div key={opt} onClick={(e) => { e.stopPropagation(); setFilterCategory(opt); setActiveDropdown(null); }} className={`px-3 py-2 text-[11px] font-bold cursor-pointer transition-colors ${isDark ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-[#374151]'}`}>{opt}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Year Filter */}
+                  <div className="relative">
+                    <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === 'year' ? null : 'year'); }} className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>
+                      {filterYear} <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    {activeDropdown === 'year' && (
+                      <div className={`absolute top-full mt-1 right-0 w-24 rounded-lg shadow-xl z-50 overflow-hidden border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-white border-gray-100'}`}>
+                        {['2026', '2025', '2024'].map(opt => (
+                          <div key={opt} onClick={(e) => { e.stopPropagation(); setFilterYear(opt); setActiveDropdown(null); }} className={`px-3 py-2 text-[11px] font-bold cursor-pointer transition-colors ${isDark ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-[#374151]'}`}>{opt}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/payout-management'); }} className={`p-1.5 rounded-lg border flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
                 </div>
               </div>
@@ -354,9 +399,20 @@ export default function SysopDashboard() {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                   TOP 3 BÖLGE
                 </h3>
-                <div className="flex items-center gap-2">
-                  <button className={`px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}>Günlük <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
-                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg></button>
+                <div className="flex items-center gap-2 relative">
+                  <div className="relative">
+                    <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === 'top3' ? null : 'top3'); }} className={`px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}>
+                      Günlük <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    {activeDropdown === 'top3' && (
+                      <div className={`absolute top-full mt-1 right-0 w-24 rounded-lg shadow-xl z-50 overflow-hidden border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-white border-gray-100'}`}>
+                        {['Günlük', 'Haftalık', 'Aylık'].map(opt => (
+                          <div key={opt} onClick={(e) => { e.stopPropagation(); alert(`${opt} seçildi.`); setActiveDropdown(null); }} className={`px-3 py-2 text-[10px] font-bold cursor-pointer transition-colors ${isDark ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-[#374151]'}`}>{opt}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/shipping-management'); }} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg></button>
                 </div>
               </div>
 
