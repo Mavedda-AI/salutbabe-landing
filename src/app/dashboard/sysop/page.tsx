@@ -459,16 +459,28 @@ export default function SysopDashboard() {
               </div>
               
               {/* Middle: Value & Liquidity Toggle */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-                 <div className="flex items-center gap-3">
-                   <h2 className={`text-[36px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,389.652</h2>
-                   <span className="flex items-center gap-1 bg-green-50 text-green-600 px-2.5 py-1 rounded-lg text-[12px] font-bold">↗ 1.8%</span>
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-4">
+                 <div className="flex flex-col gap-3">
+                   <div className="flex items-center gap-3">
+                     <h2 className={`text-[36px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,389.652</h2>
+                     <span className="flex items-center gap-1 bg-[#F0FDF4] text-[#16A34A] px-2.5 py-1 rounded text-[12px] font-bold">↗ 1.8%</span>
+                   </div>
+                   
+                   {/* Legend (Moved up) */}
+                   <div className="flex items-center gap-4">
+                     <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]"></div><span className={`text-[11px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Revenue</span></div>
+                     <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#D1D5DB]"></div><span className={`text-[11px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Target</span></div>
+                   </div>
                  </div>
-                 {isFounder && (
-                   <button onClick={(e) => { e.stopPropagation(); setShowLiquidity(!showLiquidity); }} className={`px-3 py-1.5 rounded-lg border text-[11px] font-black transition-colors ${showLiquidity ? 'bg-[#111827] dark:bg-white text-white dark:text-black border-transparent' : isDark ? 'border-white/10 text-gray-300 hover:bg-white/5' : 'border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
-                     LİKİDİTE METRİKLERİ {showLiquidity ? 'GİZLE' : 'GÖR'}
-                   </button>
-                 )}
+
+                 <div className="flex flex-col items-end gap-3">
+                   {isFounder && (
+                     <button onClick={(e) => { e.stopPropagation(); setShowLiquidity(!showLiquidity); }} className={`px-3 py-1.5 rounded border text-[10px] font-black transition-colors ${showLiquidity ? 'bg-[#111827] dark:bg-white text-white dark:text-black border-transparent' : isDark ? 'border-white/10 text-gray-300 hover:bg-white/5' : 'border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
+                       LİKİDİTE METRİKLERİ {showLiquidity ? 'GİZLE' : 'GÖR'}
+                     </button>
+                   )}
+                   <div className={`text-[11px] font-bold flex flex-col sm:flex-row items-end sm:items-center sm:gap-1 mt-auto ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Sales : <span className="text-[#16A34A] font-black sm:ml-1 flex items-center gap-1">$800.67 <div className="w-1.5 h-1.5 bg-[#16A34A] rounded-full"></div></span></div>
+                 </div>
               </div>
               
               {isFounder && showLiquidity && (
@@ -479,35 +491,26 @@ export default function SysopDashboard() {
                         <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>İlk Etkileşim Süresi</p>
                         <div className="flex items-end gap-2">
                           <p className={`text-[18px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>14 Saat</p>
-                          <p className="text-[10px] font-bold text-green-500 mb-1">Hedef: {'<'}24s</p>
+                          <p className="text-[10px] font-bold text-[#16A34A] mb-1">Hedef: {'<'}24s</p>
                         </div>
                       </div>
                       <div>
                         <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Satışa Dönüşme Süresi</p>
                         <div className="flex items-end gap-2">
                           <p className={`text-[18px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>4.2 Gün</p>
-                          <p className="text-[10px] font-bold text-green-500 mb-1">Hedef: 3-14g</p>
+                          <p className="text-[10px] font-bold text-[#16A34A] mb-1">Hedef: 3-14g</p>
                         </div>
                       </div>
                       <div>
                         <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Listeleme-Satış Oranı</p>
                         <div className="flex items-end gap-2">
                           <p className={`text-[18px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>%22.4</p>
-                          <p className="text-[10px] font-bold text-green-500 mb-1">Sağlıklı ({'>'}%18)</p>
+                          <p className="text-[10px] font-bold text-[#16A34A] mb-1">Sağlıklı ({'>'}%18)</p>
                         </div>
                       </div>
                    </div>
                 </div>
               )}
-              
-              {/* Bottom Legend */}
-              <div className="flex items-center justify-between mb-4 mt-2">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#3B82F6]"></div><span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Gelir</span></div>
-                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#D1D5DB]"></div><span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Hedef</span></div>
-                </div>
-                <div className={`text-[12px] font-bold flex flex-col sm:flex-row items-end sm:items-center sm:gap-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Satışlar : <span className="text-[#00C48C] font-black sm:ml-1">$800.67</span></div>
-              </div>
 
               {/* Exact Line Chart SVG Implementation (Thin style) */}
               <div className="flex-1 min-h-[220px] w-full relative mt-4">
