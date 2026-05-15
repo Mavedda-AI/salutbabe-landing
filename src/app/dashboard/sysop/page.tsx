@@ -47,22 +47,31 @@ export default function SysopDashboard() {
 
   const isDark = theme === 'dark';
   
-  // Nexadash specific design tokens
-  const cardClass = `rounded-[16px] border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl ${isDark ? 'bg-[#121214] border-white/5 hover:border-white/20 shadow-2xl' : 'bg-white border-gray-100 hover:border-gray-300 shadow-sm'}`;
-  const textTitle = `text-[9px] md:text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
-  const textValue = `text-[20px] md:text-[28px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`;
-  const iconRight = `hidden md:block w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto transition-colors`;
-  const badgeGreen = `flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400 px-2 py-0.5 rounded-md text-[11px] font-bold`;
-  const badgeRed = `flex items-center gap-1 bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 px-2 py-0.5 rounded-md text-[11px] font-bold`;
+  // Moneed specific design tokens
+  const cardClass = `rounded-[24px] border transition-all duration-300 ${isDark ? 'bg-[#1E1E24] border-white/5 hover:border-white/20 shadow-2xl' : 'bg-white border-transparent hover:border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.06)]'}`;
+  const textTitle = `text-[16px] font-bold flex items-center gap-3 ${isDark ? 'text-white' : 'text-[#111827]'}`;
+  const textValue = `text-[32px] md:text-[40px] font-bold tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`;
+  const iconRight = `hidden md:block w-5 h-5 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto transition-colors`;
+  const badgeGreen = `flex items-center gap-1 bg-[#E8F5E9] text-[#2E7D32] dark:bg-green-500/10 dark:text-green-400 px-2.5 py-1 rounded-full text-[12px] font-bold`;
+  const badgeRed = `flex items-center gap-1 bg-[#FFEBEE] text-[#C62828] dark:bg-red-500/10 dark:text-red-400 px-2.5 py-1 rounded-full text-[12px] font-bold`;
 
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
       
-      {/* Role Switcher */}
-      <div className="flex items-center justify-end gap-2 mb-4">
-         <span className={`text-[11px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
-         <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Kurucu</button>
-         <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Operasyon</button>
+      {/* Moneed Header / Role Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 mt-2">
+         <div className="flex items-center gap-2 bg-gray-100/50 dark:bg-[#1A1D1F] p-1.5 rounded-full border border-gray-200/50 dark:border-white/5">
+           {['Dashboard', 'Analytic', 'History', 'Report'].map(tab => (
+             <button key={tab} className={`px-5 py-2 rounded-full text-[13px] font-bold transition-all ${tab === 'Dashboard' ? 'bg-[#111827] text-white shadow-md dark:bg-white dark:text-black' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'}`}>{tab}</button>
+           ))}
+         </div>
+         <div className="flex items-center gap-3">
+           <span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Rol:</span>
+           <div className="flex items-center bg-gray-100/50 dark:bg-[#1A1D1F] p-1 rounded-full border border-gray-200/50 dark:border-white/5">
+             <button onClick={() => setUserRole('founder')} className={`px-4 py-1.5 rounded-full text-[12px] font-bold transition-all ${userRole === 'founder' ? 'bg-white text-black shadow-sm' : 'text-gray-500'}`}>Kurucu</button>
+             <button onClick={() => setUserRole('partner')} className={`px-4 py-1.5 rounded-full text-[12px] font-bold transition-all ${userRole === 'partner' ? 'bg-white text-black shadow-sm' : 'text-gray-500'}`}>Operasyon</button>
+           </div>
+         </div>
       </div>
 
       {userRole === 'founder' ? (
