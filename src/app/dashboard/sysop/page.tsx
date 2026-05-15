@@ -33,11 +33,11 @@ export default function SysopDashboard() {
   // Role check simulation for Founder specific views
   const isFounder = true; // In real app, check from user roles
 
-  type AlertDef = { type: string; text: string; action: string; link?: string; customAction?: () => void };
+  type AlertDef = { type: string; text: string; action?: string; link?: string; customAction?: () => void };
   const alerts: AlertDef[] = [
-    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', customAction: () => setShowShippingModal(true) },
-    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç', link: '/dashboard/sysop/user-management' },
-    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', action: 'Funnel Detay', customAction: () => setShowFunnel(true) }
+    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', customAction: () => setShowShippingModal(true) },
+    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', link: '/dashboard/sysop/user-management' },
+    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', customAction: () => setShowFunnel(true) }
   ];
 
   useEffect(() => {
@@ -85,23 +85,28 @@ export default function SysopDashboard() {
                              { color: '#007AFF', bg: 'bg-[#007AFF]', text: 'text-[#007AFF]', lightBg: 'bg-[#007AFF]/10', border: 'border-[#007AFF]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(0,122,255,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> };
 
                return (
-                 <div key={i} className={`group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-[20px] bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1 shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${style.glow}`}>
+                 <div key={i} onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`cursor-pointer group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-[20px] bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1 shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${style.glow}`}>
                    {/* Left Accent Bar */}
                    <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 rounded-r-full ${style.bg} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
                    
-                   <div className="flex items-start sm:items-center gap-4 pl-2 pr-20 sm:pr-0">
+                   <div className="flex items-start sm:items-center gap-4 pl-2 pr-4 w-full">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${style.lightBg} ${style.text}`}>
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">{style.icon}</svg>
                       </div>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col flex-1">
                         <span className={`text-[10px] font-black tracking-widest uppercase mb-0.5 ${style.text}`}>{alert.type}</span>
                         <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight pr-4">{alert.text}</span>
                       </div>
+                      <div className="shrink-0 text-gray-300 group-hover:text-gray-400 transition-colors hidden sm:block">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                      </div>
                    </div>
                    
-                   <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`absolute top-4 right-4 sm:static w-auto text-[9px] sm:text-[11px] font-black px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-full ${style.lightBg} ${style.text} hover:bg-[#111827] hover:text-white transition-all duration-300 shadow-sm shrink-0 uppercase tracking-widest`}>
-                     {alert.action}
-                   </button>
+                   {alert.action && (
+                     <button className={`absolute top-4 right-4 sm:static w-auto text-[9px] sm:text-[11px] font-black px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-full ${style.lightBg} ${style.text} hover:bg-[#111827] hover:text-white transition-all duration-300 shadow-sm shrink-0 uppercase tracking-widest`}>
+                       {alert.action}
+                     </button>
+                   )}
                  </div>
                );
             })}
