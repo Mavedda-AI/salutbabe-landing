@@ -305,7 +305,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
+    <div className="min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
