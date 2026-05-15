@@ -29,6 +29,8 @@ export default function SysopDashboard() {
     showToast(`${featureName} modülü henüz test aşamasında!`, "info");
   };
 
+  const isFounder = true;
+
   type AlertDef = { type: string; text: string; };
   const alerts: AlertDef[] = [
     { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)' },
