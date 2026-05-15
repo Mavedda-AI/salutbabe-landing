@@ -19,6 +19,36 @@ export default function SysopDashboard() {
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
 
+  // --- SWIPE TO CLOSE LOGIC ---
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchOffset, setTouchOffset] = useState(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const currentTouch = e.targetTouches[0].clientY;
+    const diff = currentTouch - touchStart;
+    if (diff > 0) {
+      setTouchOffset(diff);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchOffset > 100) {
+      setSelectedAlert(null);
+    }
+    setTouchStart(null);
+    setTouchOffset(0);
+  };
+
+  // Reset touch offset when modal closes
+  useEffect(() => {
+    if (!selectedAlert) setTouchOffset(0);
+  }, [selectedAlert]);
+
   // --- INTELLIGENCE LAYER STATES ---
   const [showFunnel, setShowFunnel] = useState(false);
   const [channelTab, setChannelTab] = useState<'sales' | 'attribution'>('sales');
@@ -1369,10 +1399,20 @@ export default function SysopDashboard() {
 
       {/* Dynamic Alert Bottom Sheet */}
       {selectedAlert && (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center p-0 sm:p-6 transition-all">
-          <div className="w-full max-w-md bg-white rounded-t-[32px] sm:rounded-[24px] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+        <div 
+          onClick={() => setSelectedAlert(null)}
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center p-0 sm:p-6 transition-all"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ transform: `translateY(${touchOffset}px)`, transition: touchStart !== null ? 'none' : 'transform 0.3s ease-out' }}
+            className="w-full max-w-md bg-white rounded-t-[32px] sm:rounded-[24px] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-300"
+          >
             <div className="p-6 pb-8">
-              <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 sm:hidden"></div>
+              <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 sm:hidden cursor-grab active:cursor-grabbing"></div>
               
               <div className="flex items-center gap-4 mb-6">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
