@@ -36,8 +36,7 @@ export default function ProductManagementPage() {
     return true;
   });
 
-  return (
-    <div className="space-y-6 animate-fade-in max-w-[1400px] mx-auto pb-12">
+    <div className="space-y-4 md:space-y-6 animate-fade-in w-full max-w-[1400px] mx-auto pb-12 overflow-x-hidden md:overflow-visible px-0">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
          <div>
            <h1 className={`text-2xl font-black tracking-tight ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Ürün Kataloğu Yönetimi</h1>
@@ -101,15 +100,15 @@ export default function ProductManagementPage() {
 
       <div className={`${cardClass} overflow-hidden`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[1000px]">
+          <table className="w-full text-left border-collapse">
             <thead>
             <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Ürün Bilgisi</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satıcı (Mağaza)</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Fiyat & Stok</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Eklenme</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Ürün Bilgisi</th>
+              <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satıcı (Mağaza)</th>
+              <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Fiyat & Stok</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
+              <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Eklenme</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
@@ -119,16 +118,16 @@ export default function ProductManagementPage() {
              ) : (
               filteredProducts.map(p => (
                 <tr key={p.id} className={`transition-colors group ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex flex-col">
-                      <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{p.name}</span>
+                      <span className={`text-[12px] md:text-[13px] font-black max-w-[140px] md:max-w-none truncate block ${isDark ? 'text-white' : 'text-gray-900'}`}>{p.name}</span>
                       <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{p.id}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{p.store}</span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <div className="flex flex-col">
                       <span className={`text-[13px] font-black text-primary`}>{p.price}</span>
                       <span className={`text-[10px] mt-0.5 ${p.stock > 5 ? (isDark ? 'text-gray-500' : 'text-gray-400') : 'text-red-500 font-bold'}`}>
@@ -136,8 +135,8 @@ export default function ProductManagementPage() {
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border 
+                  <td className="px-4 md:px-6 py-4">
+                    <span className={`px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border 
                       ${p.status === 'Yayında' ? (isDark ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-green-50 text-green-600 border-green-100') :
                         p.status === 'Onay Bekliyor' ? (isDark ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-600 border-orange-100') :
                         (isDark ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-red-50 text-red-600 border-red-100')
@@ -146,7 +145,7 @@ export default function ProductManagementPage() {
                       {p.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <span className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{p.date}</span>
                   </td>
                   <td className="px-6 py-4 text-right">
