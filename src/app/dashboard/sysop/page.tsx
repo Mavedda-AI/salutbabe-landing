@@ -371,6 +371,99 @@ export default function SysopDashboard() {
                 </div>
               </div>
 
+              {/* NOTIFICATION ECONOMICS */}
+              <div onClick={() => setExpandedCard(expandedCard === 'notif' ? null : 'notif')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-emerald-500/30 transition-colors md:col-span-2`}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className={textTitle}>
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                    BİLDİRİM EKONOMİSİ
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <div className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
+                    <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'notif' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+                   <div>
+                     <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Gönderilen</p>
+                     <p className={`text-[20px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>48,230</p>
+                     <p className="text-[10px] font-bold text-gray-400 mt-1">Son 30 gün</p>
+                   </div>
+                   <div>
+                     <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Açılma Oranı</p>
+                     <p className={`text-[20px] font-black text-emerald-600`}>%18.4</p>
+                     <p className="text-[10px] font-bold text-green-500 mt-1">↗ Sektör ort. %12</p>
+                   </div>
+                   <div>
+                     <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Tıklanma (CTR)</p>
+                     <p className={`text-[20px] font-black text-[#007AFF]`}>%6.2</p>
+                     <p className="text-[10px] font-bold text-green-500 mt-1">↗ %1.4 artış</p>
+                   </div>
+                   <div>
+                     <p className={`text-[10px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase mb-1`}>Bildirim Başı Gelir</p>
+                     <p className={`text-[20px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>₺3.42</p>
+                     <p className="text-[10px] font-bold text-green-500 mt-1">Hedefin %22 üzerinde</p>
+                   </div>
+                </div>
+
+                {expandedCard === 'notif' && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                    
+                    {/* Notification Funnel */}
+                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Bildirim Hunisi</p>
+                    <div className="space-y-2 mb-4">
+                      {[
+                        { label: 'Gönderildi', value: '48,230', pct: 100, color: 'bg-emerald-500' },
+                        { label: 'Teslim Edildi', value: '46,140', pct: 95.7, color: 'bg-emerald-400' },
+                        { label: 'Açıldı', value: '8,490', pct: 18.4, color: 'bg-[#007AFF]' },
+                        { label: 'Tıklandı', value: '2,990', pct: 6.2, color: 'bg-purple-500' },
+                        { label: 'Satın Alma', value: '342', pct: 0.7, color: 'bg-[#FF383C]' },
+                      ].map((step, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                          <span className="text-[10px] font-bold text-gray-500 w-20 shrink-0">{step.label}</span>
+                          <div className="flex-1 h-5 bg-gray-100 rounded-full overflow-hidden relative">
+                            <div className={`h-full ${step.color} rounded-full transition-all duration-500`} style={{ width: `${step.pct}%` }}></div>
+                          </div>
+                          <span className="text-[11px] font-black text-gray-700 w-14 text-right">{step.value}</span>
+                          <span className="text-[9px] font-bold text-gray-400 w-10 text-right">{step.pct}%</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Cost Breakdown */}
+                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3 mt-4">Maliyet Analizi</p>
+                    <div className="grid grid-cols-3 gap-3 mb-4">
+                      <div className="bg-gray-50 rounded-xl p-3 text-center">
+                        <p className="text-[9px] font-bold text-gray-400 uppercase mb-1">Toplam Harcama</p>
+                        <p className="text-[16px] font-black text-[#111827]">₺4,820</p>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl p-3 text-center">
+                        <p className="text-[9px] font-bold text-gray-400 uppercase mb-1">Getiri (ROI)</p>
+                        <p className="text-[16px] font-black text-green-600">₺164,946</p>
+                      </div>
+                      <div className="bg-emerald-50 rounded-xl p-3 text-center border border-emerald-100">
+                        <p className="text-[9px] font-bold text-emerald-600 uppercase mb-1">ROAS</p>
+                        <p className="text-[16px] font-black text-emerald-600">34.2x</p>
+                      </div>
+                    </div>
+
+                    {/* AI Insight */}
+                    <div className={`p-3 rounded-lg flex items-start gap-2 bg-emerald-50 border border-emerald-100 mb-4`}>
+                      <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                      <div>
+                        <p className="text-[11px] font-bold text-emerald-700">Akşam 19:00-21:00 arası gönderimler %42 daha fazla açılıyor.</p>
+                        <p className="text-[10px] text-emerald-600/70 mt-0.5">Sabah 09:00 gönderimlerini akşam saatlerine kaydırmak aylık ~₺18K ek gelir sağlayabilir.</p>
+                      </div>
+                    </div>
+
+                    <button onClick={() => handleFeatureClick('Bildirim Detayları')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                      DETAYLARI GÖRÜNTÜLE
+                    </button>
+                  </div>
+                )}
+              </div>
+
             </div>
           )}
 
