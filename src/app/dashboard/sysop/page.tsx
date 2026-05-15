@@ -114,12 +114,20 @@ export default function SysopDashboard() {
                              { color: '#007AFF', bg: 'bg-[#007AFF]', text: 'text-[#007AFF]', lightBg: 'bg-[#007AFF]/10', border: 'border-[#007AFF]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(0,122,255,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> };
 
                return (
-                 <div key={i} onClick={() => setSelectedAlert(alert)} className="cursor-pointer group flex flex-col gap-0.5 py-2 border-b border-gray-100/50 last:border-b-0 transition-opacity hover:opacity-70">
-                   <div className="flex items-center gap-1.5">
-                     <svg className={`w-4 h-4 ${style.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">{style.icon}</svg>
-                     <span className={`text-[9px] md:text-[10px] font-black tracking-widest uppercase ${style.text} ${style.lightBg} px-2 py-0.5 rounded-full animate-pulse shadow-sm`}>{alert.type}</span>
+                 <div key={i} onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="cursor-pointer group flex items-center justify-between py-2 border-b border-gray-100/50 last:border-b-0 transition-opacity hover:opacity-70">
+                   <div className="flex flex-col gap-0.5 w-full">
+                     <div className="flex items-center gap-1.5">
+                       <svg className={`w-4 h-4 ${style.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">{style.icon}</svg>
+                       <span className={`text-[9px] md:text-[10px] font-black tracking-widest uppercase ${style.text} ${style.lightBg} px-2 py-0.5 rounded-full animate-pulse shadow-sm`}>{alert.type}</span>
+                     </div>
+                     <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight mt-0.5">{alert.text}</span>
                    </div>
-                   <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight mt-0.5">{alert.text}</span>
+                   
+                   <div className="shrink-0 p-2">
+                     <svg className={`w-4 h-4 text-gray-300 transition-transform duration-300 ${selectedAlert?.type === alert.type ? 'rotate-180 text-gray-900' : 'group-hover:text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                     </svg>
+                   </div>
                  </div>
                );
             })}
