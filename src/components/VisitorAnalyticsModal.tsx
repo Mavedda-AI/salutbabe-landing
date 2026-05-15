@@ -152,8 +152,8 @@ export default function VisitorAnalyticsModal({ isOpen, onClose }: VisitorAnalyt
 
                 {/* City Pins */}
                 {/* Istanbul */}
-                <div className="absolute top-[35%] left-[25%] group cursor-pointer">
-                  <div className="flex items-center gap-1.5 bg-[#111827] text-white px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative animate-bounce-slow">
+                <div className="absolute top-[25%] left-[26%] group cursor-pointer">
+                  <div className="flex items-center gap-1.5 bg-[#111827] text-white px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative animate-bounce-slow z-20">
                     <div className="w-4 h-4 rounded-full bg-red-600 flex items-center justify-center text-[8px]">İST</div>
                     12.4K
                     <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-[#111827] rotate-45"></div>
@@ -161,8 +161,8 @@ export default function VisitorAnalyticsModal({ isOpen, onClose }: VisitorAnalyt
                 </div>
 
                 {/* Ankara */}
-                <div className="absolute top-[48%] left-[45%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 text-[#111827] px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative">
+                <div className="absolute top-[45%] left-[52%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 text-[#111827] px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative z-10">
                     <div className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[8px]">ANK</div>
                     8.2K
                     <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-white border-b border-r border-gray-200 rotate-45"></div>
@@ -170,8 +170,8 @@ export default function VisitorAnalyticsModal({ isOpen, onClose }: VisitorAnalyt
                 </div>
 
                 {/* Izmir */}
-                <div className="absolute top-[55%] left-[18%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 text-[#111827] px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative">
+                <div className="absolute top-[60%] left-[12%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 text-[#111827] px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative z-10">
                     <div className="w-4 h-4 rounded-full bg-green-500 text-white flex items-center justify-center text-[8px]">İZM</div>
                     5.1K
                     <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-white border-b border-r border-gray-200 rotate-45"></div>
@@ -179,15 +179,15 @@ export default function VisitorAnalyticsModal({ isOpen, onClose }: VisitorAnalyt
                 </div>
 
                 {/* Antalya */}
-                <div className="absolute bottom-[20%] left-[35%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-8 h-8 rounded-full bg-orange-500 border-2 border-white shadow-lg flex items-center justify-center relative text-white text-[9px] font-bold">
+                <div className="absolute bottom-[10%] left-[32%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="w-8 h-8 rounded-full bg-orange-500 border-2 border-white shadow-lg flex items-center justify-center relative text-white text-[9px] font-bold z-10">
                      ANT
                   </div>
                 </div>
 
                 {/* Bursa */}
-                <div className="absolute top-[42%] left-[30%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-6 h-6 rounded-full bg-purple-600 border-2 border-white shadow-lg flex items-center justify-center relative text-white text-[8px] font-bold">
+                <div className="absolute top-[42%] left-[28%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="w-6 h-6 rounded-full bg-purple-600 border-2 border-white shadow-lg flex items-center justify-center relative text-white text-[8px] font-bold z-10">
                      BRS
                   </div>
                 </div>

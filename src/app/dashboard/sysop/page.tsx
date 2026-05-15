@@ -3,10 +3,12 @@ import React, {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import VisitorAnalyticsModal from "../../../components/VisitorAnalyticsModal";
+import { useToast } from "../../../context/ToastContext";
 
 export default function SysopDashboard() {
   const router = useRouter();
   const { theme } = useThemeLanguage();
+  const { showToast } = useToast();
   const [userRole, setUserRole] = useState<'founder' | 'partner'>('founder');
 
   // Filter States
@@ -25,12 +27,16 @@ export default function SysopDashboard() {
   const [activityTab, setActivityTab] = useState<'all' | 'realtime'>('all');
   const [showSupplyDemand, setShowSupplyDemand] = useState(false);
 
+  const handleFeatureClick = (featureName: string) => {
+    showToast(`${featureName} modülü henüz test aşamasında!`, "info");
+  };
+
   // Role check simulation for Founder specific views
   const isFounder = true; // In real app, check from user roles
 
   const alerts = [
-    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', link: '/dashboard/sysop/shipping-management?alert=cargo_delay&carrier=mng' },
-    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç', link: '/dashboard/sysop/user-management?role=seller&status=inactive_7d' },
+    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', link: '/dashboard/sysop/shipping-management' },
+    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç', link: '/dashboard/sysop/user-management' },
     { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', action: 'Funnel Detay', customAction: () => setShowFunnel(true) }
   ];
 
@@ -74,21 +80,21 @@ export default function SysopDashboard() {
           {/* 11. GLOBAL ALERT SYSTEM */}
           <div className="flex flex-col gap-2 mb-6">
             {alerts.map((alert, i) => (
-              <div key={i} className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-xl border ${
-                alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-600 ' :
-                alert.type === 'WARNING' ? 'bg-orange-500/10 border-orange-500/20 text-orange-600 ' :
-                'bg-blue-500/10 border-blue-500/20 text-blue-600 '
+              <div key={i} className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-[16px] border ${
+                alert.type === 'CRITICAL' ? 'bg-[#FEF2F2] border-[#FECACA] text-[#DC2626]' :
+                alert.type === 'WARNING' ? 'bg-[#FFF7ED] border-[#FED7AA] text-[#EA580C]' :
+                'bg-[#EFF6FF] border-[#BFDBFE] text-[#2563EB]'
               }`}>
-                <div className="flex items-center gap-2 mb-2 sm:mb-0">
-                   <div className={`px-2 py-0.5 rounded text-[9px] font-black tracking-wider text-white ${
-                     alert.type === 'CRITICAL' ? 'bg-red-500' : alert.type === 'WARNING' ? 'bg-orange-500' : 'bg-blue-500'
+                <div className="flex items-center gap-3 mb-2 sm:mb-0">
+                   <div className={`px-2.5 py-1 rounded-md text-[10px] font-black tracking-wider text-white ${
+                     alert.type === 'CRITICAL' ? 'bg-[#EF4444]' : alert.type === 'WARNING' ? 'bg-[#F97316]' : 'bg-[#3B82F6]'
                    }`}>{alert.type}</div>
-                   <span className="text-[12px] font-bold">{alert.text}</span>
+                   <span className="text-[13px] font-bold">{alert.text}</span>
                 </div>
-                <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`text-[10px] font-black px-3 py-1.5 rounded-lg border transition-colors ${
-                  alert.type === 'CRITICAL' ? 'border-red-500/30 hover:bg-red-500/10' :
-                  alert.type === 'WARNING' ? 'border-orange-500/30 hover:bg-orange-500/10' :
-                  'border-blue-500/30 hover:bg-blue-500/10'
+                <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`text-[12px] font-bold px-4 py-2 rounded-[12px] border transition-colors ${
+                  alert.type === 'CRITICAL' ? 'border-[#FECACA] bg-transparent hover:bg-white/50 text-[#DC2626]' :
+                  alert.type === 'WARNING' ? 'border-[#FED7AA] bg-transparent hover:bg-white/50 text-[#EA580C]' :
+                  'border-[#BFDBFE] bg-transparent hover:bg-white/50 text-[#2563EB]'
                 }`}>{alert.action}</button>
               </div>
             ))}
@@ -128,7 +134,7 @@ export default function SysopDashboard() {
                    <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Sipariş</span>
                  </div>
                  {isFounder && (
-                   <button onClick={(e) => { e.stopPropagation(); setShowFunnel(!showFunnel); }} className={`px-2 py-1 rounded border text-[10px] font-black transition-colors ${showFunnel ? 'bg-primary text-white border-primary' : isDark ? 'bg-white/5 border-white/10 text-gray-300' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
+                   <button onClick={(e) => { e.stopPropagation(); setShowFunnel(!showFunnel); }} className={`px-2 py-1 rounded border text-[10px] font-black transition-colors ${showFunnel ? 'bg-[#111827] text-white border-transparent' : isDark ? 'bg-white/5 border-white/10 text-gray-300' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
                      FUNNEL {showFunnel ? 'GİZLE' : 'GÖR'}
                    </button>
                  )}
@@ -206,7 +212,7 @@ export default function SysopDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               
               {/* UNIT ECONOMICS */}
-              <div className={`${cardClass} p-4 md:p-5 flex flex-col`}>
+              <div onClick={() => handleFeatureClick('Birim Ekonomisi')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-purple-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -245,13 +251,13 @@ export default function SysopDashboard() {
               </div>
 
               {/* SELLER HEALTH */}
-              <div className={`${cardClass} p-4 md:p-5 flex flex-col`}>
+              <div onClick={() => handleFeatureClick('Satıcı Sağlığı')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-orange-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                     SATICI SAĞLIĞI
                   </h3>
-                  <button className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜMÜ</button>
+                  <button onClick={(e) => { e.stopPropagation(); handleFeatureClick('Tüm Satıcılar'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜMÜ</button>
                 </div>
                 
                 <div className="flex items-end justify-between mb-6">
@@ -395,7 +401,7 @@ export default function SysopDashboard() {
                       ))}
                    </div>
                    
-                   <button className="w-full py-2.5 mt-6 rounded-lg bg-gray-50  text-[10px] font-black border border-gray-200  hover:bg-gray-100  transition-colors">
+                   <button onClick={() => handleFeatureClick('Kanal Performansı: Detaylı Rapor')} className="w-full py-2.5 mt-6 rounded-lg bg-gray-50  text-[10px] font-black border border-gray-200  hover:bg-gray-100  transition-colors">
                       DETAYLI RAPOR
                    </button>
                 </div>
@@ -534,34 +540,34 @@ export default function SysopDashboard() {
                  <div className="absolute left-[54.5%] bottom-[15%] w-8 h-[60%] bg-gradient-to-t from-blue-500/0 to-blue-500/20   rounded-t-lg"></div>
 
                  {/* Charts */}
-                 <svg className="absolute inset-0 w-full h-[85%] overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+                 <svg className="absolute inset-0 w-full h-[85%] overflow-visible" viewBox="0 0 1000 300" preserveAspectRatio="none">
                    <defs>
                      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                       <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#3B82F6" floodOpacity="0.2" />
+                       <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#3B82F6" floodOpacity="0.3" />
                      </filter>
                    </defs>
                    {/* Target Line (Gray) */}
-                   <polyline points="5,40 20,35 35,38 50,30 65,35 80,30 95,25" fill="none" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <polyline points="50,120 200,105 350,114 500,90 650,105 800,90 950,75" fill="none" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
                    {/* Revenue Line (Blue) */}
-                   <path d="M 5,60 L 20,80 L 35,70 L 50,40 L 65,45 L 80,50 L 95,85" fill="none" stroke="#3B82F6" strokeWidth="2" filter="url(#glow)" />
+                   <path d="M 50,180 L 200,240 L 350,210 L 500,120 L 650,135 L 800,150 L 950,255" fill="none" stroke="#3B82F6" strokeWidth="4" filter="url(#glow)" vectorEffect="non-scaling-stroke" />
                    
                    {/* Data Points Target */}
-                   <circle cx="5" cy="40" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
-                   <circle cx="20" cy="35" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
-                   <circle cx="35" cy="38" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
-                   <circle cx="50" cy="30" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
-                   <circle cx="65" cy="35" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
-                   <circle cx="80" cy="30" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
-                   <circle cx="95" cy="25" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="50" cy="120" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                   <circle cx="200" cy="105" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                   <circle cx="350" cy="114" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                   <circle cx="500" cy="90" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                   <circle cx="650" cy="105" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                   <circle cx="800" cy="90" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                   <circle cx="950" cy="75" r="6" fill="#FFF" stroke="#D1D5DB" strokeWidth="3" vectorEffect="non-scaling-stroke" />
                    
                    {/* Data Points Revenue */}
-                   <circle cx="5" cy="60" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
-                   <circle cx="20" cy="80" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
-                   <circle cx="35" cy="70" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
-                   <circle cx="50" cy="40" r="2" fill="#3B82F6" stroke="#FFF" strokeWidth="1.5" /> {/* Highlight point */}
-                   <circle cx="65" cy="45" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
-                   <circle cx="80" cy="50" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
-                   <circle cx="95" cy="85" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
+                   <circle cx="50" cy="180" r="6" fill="#FFF" stroke="#3B82F6" strokeWidth="4" vectorEffect="non-scaling-stroke" />
+                   <circle cx="200" cy="240" r="6" fill="#FFF" stroke="#3B82F6" strokeWidth="4" vectorEffect="non-scaling-stroke" />
+                   <circle cx="350" cy="210" r="6" fill="#FFF" stroke="#3B82F6" strokeWidth="4" vectorEffect="non-scaling-stroke" />
+                   <circle cx="500" cy="120" r="8" fill="#3B82F6" stroke="#FFF" strokeWidth="4" vectorEffect="non-scaling-stroke" /> {/* Highlight point */}
+                   <circle cx="650" cy="135" r="6" fill="#FFF" stroke="#3B82F6" strokeWidth="4" vectorEffect="non-scaling-stroke" />
+                   <circle cx="800" cy="150" r="6" fill="#FFF" stroke="#3B82F6" strokeWidth="4" vectorEffect="non-scaling-stroke" />
+                   <circle cx="950" cy="255" r="6" fill="#FFF" stroke="#3B82F6" strokeWidth="4" vectorEffect="non-scaling-stroke" />
                  </svg>
                  
                  {/* Dark Tooltip */}
@@ -608,30 +614,45 @@ export default function SysopDashboard() {
                 {activityTab === 'all' ? (
                   <>
                     <div>
-                       <p className={`text-[12px] font-bold mb-3 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Çıkan Ürünler</p>
-                       <div className={`flex items-center justify-between p-3 rounded-xl border ${isDark ? 'border-white/10 bg-white/5' : 'border-gray-100 bg-gray-50'}`}>
-                          <div className="flex items-center gap-3">
-                             <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-xl">🧥</div>
-                             <div>
-                                <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Kırmızı Ceket</p>
-                                <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Adet: 2 <span className="text-red-500 ml-1">5 dakika önce</span></p>
-                             </div>
-                          </div>
-                          <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,500</span>
+                       <p className={`text-[12px] font-bold mb-3 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Çıkan Ürünler (Satıldı)</p>
+                       <div className="flex flex-col gap-2">
+                         {[
+                           { name: 'Kırmızı Ceket', qty: 2, icon: '🧥', color: 'bg-red-100', price: '$1,500', time: '5 dk önce' },
+                           { name: 'Deri Çanta', qty: 1, icon: '👜', color: 'bg-orange-100', price: '$850', time: '12 dk önce' },
+                           { name: 'Sneaker', qty: 1, icon: '👟', color: 'bg-blue-100', price: '$320', time: '1 saat önce' }
+                         ].map((item, idx) => (
+                           <div key={idx} onClick={() => handleFeatureClick(`Ürün Detay: ${item.name}`)} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
+                              <div className="flex items-center gap-3">
+                                 <div className={`w-10 h-10 rounded-lg ${item.color} flex items-center justify-center text-xl`}>{item.icon}</div>
+                                 <div>
+                                    <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>{item.name}</p>
+                                    <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Adet: {item.qty} <span className="text-red-500 ml-1">{item.time}</span></p>
+                                 </div>
+                              </div>
+                              <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{item.price}</span>
+                           </div>
+                         ))}
                        </div>
                     </div>
 
                     <div>
-                       <p className={`text-[12px] font-bold mb-3 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Giren Ürünler</p>
-                       <div className={`flex items-center justify-between p-3 rounded-xl border ${isDark ? 'border-white/10 bg-white/5' : 'border-gray-100 bg-gray-50'}`}>
-                          <div className="flex items-center gap-3">
-                             <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center text-xl">🧥</div>
-                             <div>
-                                <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Siyah Ceket</p>
-                                <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Adet: 2 <span className="text-red-500 ml-1">5 dakika önce</span></p>
-                             </div>
-                          </div>
-                          <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,500</span>
+                       <p className={`text-[12px] font-bold mb-3 mt-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Giren Ürünler (İade / İptal)</p>
+                       <div className="flex flex-col gap-2">
+                         {[
+                           { name: 'Siyah Ceket', qty: 2, icon: '🧥', color: 'bg-gray-200', price: '$1,500', time: '3 saat önce' },
+                           { name: 'Güneş Gözlüğü', qty: 1, icon: '🕶️', color: 'bg-yellow-100', price: '$150', time: '1 gün önce' }
+                         ].map((item, idx) => (
+                           <div key={idx} onClick={() => handleFeatureClick(`İade Detay: ${item.name}`)} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
+                              <div className="flex items-center gap-3">
+                                 <div className={`w-10 h-10 rounded-lg ${item.color} flex items-center justify-center text-xl`}>{item.icon}</div>
+                                 <div>
+                                    <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>{item.name}</p>
+                                    <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Adet: {item.qty} <span className="text-gray-400 ml-1">{item.time}</span></p>
+                                 </div>
+                              </div>
+                              <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{item.price}</span>
+                           </div>
+                         ))}
                        </div>
                     </div>
                   </>
@@ -845,13 +866,13 @@ export default function SysopDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               
               {/* CARGO PERFORMANCE */}
-              <div className={`${cardClass} p-4 md:p-5 flex flex-col`}>
+              <div onClick={() => handleFeatureClick('Kargo Performansı')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-blue-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
                     KARGO PERFORMANSI
                   </h3>
-                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">DETAY</button>
+                  <button onClick={(e) => { e.stopPropagation(); handleFeatureClick('Tüm Kargolar'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">DETAY</button>
                 </div>
                 
                 <div className="space-y-4 flex-1">
@@ -881,13 +902,13 @@ export default function SysopDashboard() {
               </div>
 
               {/* WHATSAPP SUPPORT INSIGHTS */}
-              <div className={`${cardClass} p-4 md:p-5 flex flex-col`}>
+              <div onClick={() => handleFeatureClick('Müşteri Destek (WhatsApp)')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-green-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                     DESTEK (WHATSAPP)
                   </h3>
-                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜM MESAJLAR</button>
+                  <button onClick={(e) => { e.stopPropagation(); handleFeatureClick('Tüm Mesajlar'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜM MESAJLAR</button>
                 </div>
                 
                 <div className="flex items-center gap-3 mb-6">
