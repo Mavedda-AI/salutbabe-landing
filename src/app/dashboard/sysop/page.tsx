@@ -294,13 +294,16 @@ export default function SysopDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               
               {/* UNIT ECONOMICS */}
-              <div onClick={() => handleFeatureClick('Birim Ekonomisi')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-purple-500/30 transition-colors`}>
+              <div onClick={() => setExpandedCard(expandedCard === 'unit' ? null : 'unit')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-purple-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     BİRİM EKONOMİSİ
                   </h3>
-                  <div className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-600  text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
+                  <div className="flex items-center gap-2">
+                    <div className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-600  text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
+                    <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'unit' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 flex-1">
@@ -322,14 +325,32 @@ export default function SysopDashboard() {
                      <p className={`text-[16px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>₺43.50 <span className="text-[10px] font-bold text-gray-500 font-normal">/ sp.</span></p>
                    </div>
                 </div>
-                
-                <div className={`mt-4 p-3 rounded-lg flex items-start gap-2 ${isDark ? 'bg-purple-500/10' : 'bg-purple-50'}`}>
-                  <svg className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <div>
-                    <p className="text-[11px] font-bold text-purple-600 ">Kargo baremi stratejisi kazandırıyor.</p>
-                    <p className="text-[10px] text-purple-600/70  mt-0.5">Sepet ortalaması yüksek olduğu için kargo maliyeti komisyon gelirini tolere ediyor.</p>
+
+                {expandedCard === 'unit' && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                    {/* Deep metrics */}
+                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Detay Metrikler</p>
+                    <div className="space-y-2 mb-4">
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Brüt Marj</span><span className="text-[12px] font-black text-green-600">%34.6</span></div>
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Operasyon Maliyeti / Sipariş</span><span className="text-[12px] font-black text-[#111827]">₺18.20</span></div>
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">İade Oranı</span><span className="text-[12px] font-black text-[#FF8D28]">%4.2</span></div>
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">LTV / CAC Oranı</span><span className="text-[12px] font-black text-purple-600">3.8x</span></div>
+                    </div>
+
+                    {/* AI Insight */}
+                    <div className={`p-3 rounded-lg flex items-start gap-2 ${isDark ? 'bg-purple-500/10' : 'bg-purple-50'} mb-4`}>
+                      <svg className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <div>
+                        <p className="text-[11px] font-bold text-purple-600">Kargo baremi stratejisi kazandırıyor.</p>
+                        <p className="text-[10px] text-purple-600/70 mt-0.5">Sepet ortalaması yüksek olduğu için kargo maliyeti komisyon gelirini tolere ediyor.</p>
+                      </div>
+                    </div>
+
+                    <button onClick={() => handleFeatureClick('Birim Ekonomisi Detay')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                      DETAYLARI GÖRÜNTÜLE
+                    </button>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* SELLER HEALTH */}
