@@ -759,7 +759,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
         </footer>
-        </footer>
 
         {/* Mobile Bottom Navigation Bar (App-like) */}
         <div className="md:hidden fixed bottom-6 left-4 right-4 z-[100] bg-white/90 dark:bg-[#1A1D1F]/90 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 rounded-[24px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
