@@ -16,38 +16,7 @@ export default function SysopDashboard() {
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
-  const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
-
-  // --- SWIPE TO CLOSE LOGIC ---
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchOffset, setTouchOffset] = useState(0);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientY);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (touchStart === null) return;
-    const currentTouch = e.targetTouches[0].clientY;
-    const diff = currentTouch - touchStart;
-    if (diff > 0) {
-      setTouchOffset(diff);
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (touchOffset > 100) {
-      setSelectedAlert(null);
-    }
-    setTouchStart(null);
-    setTouchOffset(0);
-  };
-
-  // Reset touch offset when modal closes
-  useEffect(() => {
-    if (!selectedAlert) setTouchOffset(0);
-  }, [selectedAlert]);
 
   // --- INTELLIGENCE LAYER STATES ---
   const [showFunnel, setShowFunnel] = useState(false);
@@ -62,9 +31,9 @@ export default function SysopDashboard() {
 
   const isFounder = true;
 
-  type AlertDef = { type: string; text: string; };
+  type AlertDef = { type: string; text: string; badge?: string; };
   const alerts: AlertDef[] = [
-    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)' },
+    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış', badge: '15%' },
     { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif' },
     { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş' }
   ];
@@ -114,20 +83,64 @@ export default function SysopDashboard() {
                              { color: '#007AFF', bg: 'bg-[#007AFF]', text: 'text-[#007AFF]', lightBg: 'bg-[#007AFF]/10', border: 'border-[#007AFF]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(0,122,255,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> };
 
                return (
-                 <div key={i} onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="cursor-pointer group flex items-center justify-between py-2 border-b border-gray-100/50 last:border-b-0 transition-opacity hover:opacity-70">
-                   <div className="flex flex-col gap-0.5 w-full">
-                     <div className="flex items-center gap-1.5">
-                       <svg className={`w-4 h-4 ${style.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">{style.icon}</svg>
-                       <span className={`text-[9px] md:text-[10px] font-black tracking-widest uppercase ${style.text} ${style.lightBg} px-2 py-0.5 rounded-full animate-pulse shadow-sm`}>{alert.type}</span>
+                 <div key={i} className="flex flex-col border-b border-gray-100/50 last:border-b-0">
+                   <div onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="cursor-pointer group flex items-center justify-between py-2 transition-opacity hover:opacity-70">
+                     <div className="flex flex-col gap-0.5 w-full">
+                       <div className="flex items-center gap-1.5">
+                         <svg className={`w-4 h-4 ${style.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">{style.icon}</svg>
+                         <span className={`text-[9px] md:text-[10px] font-black tracking-widest uppercase ${style.text} ${style.lightBg} px-2 py-0.5 rounded-full animate-pulse shadow-sm`}>{alert.type}</span>
+                       </div>
+                       <div className="flex items-center gap-2 mt-0.5">
+                         <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight">{alert.text}</span>
+                         {alert.badge && (
+                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                             {alert.badge}
+                           </span>
+                         )}
+                       </div>
                      </div>
-                     <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight mt-0.5">{alert.text}</span>
+                     
+                     <div className="shrink-0 p-2">
+                       <svg className={`w-4 h-4 text-gray-300 transition-transform duration-300 ${selectedAlert?.type === alert.type ? 'rotate-180 text-gray-900' : 'group-hover:text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                       </svg>
+                     </div>
                    </div>
-                   
-                   <div className="shrink-0 p-2">
-                     <svg className={`w-4 h-4 text-gray-300 transition-transform duration-300 ${selectedAlert?.type === alert.type ? 'rotate-180 text-gray-900' : 'group-hover:text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                     </svg>
-                   </div>
+
+                   {/* INLINE ACCORDION DETAILS */}
+                   {selectedAlert?.type === alert.type && (
+                     <div className="mt-1 mb-3 bg-gray-50/50 rounded-xl p-3 border border-gray-100 animate-fade-in">
+                        {alert.type === 'CRITICAL' && (
+                          <div className="space-y-2 mb-3">
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Geciken Kargo</span><span className="text-[12px] font-black text-gray-900">1,248</span></div>
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Etkilenen Müşteri</span><span className="text-[12px] font-black text-[#FF383C]">1,042</span></div>
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Dispute Riski</span><span className="text-[12px] font-black text-[#FF8D28]">Yüksek</span></div>
+                          </div>
+                        )}
+                        {alert.type === 'WARNING' && (
+                          <div className="space-y-2 mb-3">
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Etkilenen Satıcı</span><span className="text-[12px] font-black text-gray-900">2 Mağaza</span></div>
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kayıp GMV</span><span className="text-[12px] font-black text-[#FF8D28]">~₺30,000</span></div>
+                          </div>
+                        )}
+                        {alert.type === 'INFO' && (
+                          <div className="space-y-2 mb-3">
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sepete Ekleyen</span><span className="text-[12px] font-black text-gray-900">4,520</span></div>
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ödemeye Geçen</span><span className="text-[12px] font-black text-[#FF8D28]">1,840</span></div>
+                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Tamamlayan</span><span className="text-[12px] font-black text-[#FF383C]">1,619</span></div>
+                          </div>
+                        )}
+                        <button onClick={(e) => {
+                          e.stopPropagation();
+                          if(alert.type === 'CRITICAL') router.push('/dashboard/sysop/shipping-management');
+                          if(alert.type === 'WARNING') router.push('/dashboard/sysop/user-management');
+                          if(alert.type === 'INFO') router.push('/dashboard/sysop/analytics');
+                        }} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                          DETAYLARI GÖRÜNTÜLE
+                        </button>
+                     </div>
+                   )}
                  </div>
                );
             })}
@@ -1388,107 +1401,6 @@ export default function SysopDashboard() {
         isOpen={isVisitorModalOpen} 
         onClose={() => setIsVisitorModalOpen(false)} 
       />
-
-      {/* Dynamic Alert Bottom Sheet */}
-      {selectedAlert && (
-        <div 
-          onClick={() => setSelectedAlert(null)}
-          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center p-0 sm:p-6 transition-all"
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            style={{ transform: `translateY(${touchOffset}px)`, transition: touchStart !== null ? 'none' : 'transform 0.3s ease-out' }}
-            className="w-full max-w-md bg-white rounded-t-[32px] sm:rounded-[24px] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-300"
-          >
-            <div className="p-6 pb-8">
-              <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 sm:hidden cursor-grab active:cursor-grabbing"></div>
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
-                  selectedAlert.type === 'CRITICAL' ? 'bg-[#FF383C]/10 text-[#FF383C]' : 
-                  selectedAlert.type === 'WARNING' ? 'bg-[#FF8D28]/10 text-[#FF8D28]' : 
-                  'bg-[#007AFF]/10 text-[#007AFF]'
-                }`}>
-                  {selectedAlert.type === 'CRITICAL' && <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>}
-                  {selectedAlert.type === 'WARNING' && <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 17v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-                  {selectedAlert.type === 'INFO' && <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-                </div>
-                <div>
-                  <h3 className="text-[18px] font-black text-gray-900 leading-tight mb-1">
-                    {selectedAlert.type === 'CRITICAL' ? 'Kargo Gecikmesi' : selectedAlert.type === 'WARNING' ? 'İnaktif Satıcı Riski' : 'Funnel Optimizasyonu'}
-                  </h3>
-                  <p className="text-[13px] font-medium text-gray-500">{selectedAlert.text}</p>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-8">
-                {selectedAlert.type === 'CRITICAL' && (
-                  <>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Geciken Kargo</span>
-                      <span className="text-[14px] font-black text-gray-900">1,248</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Etkilenen Müşteri</span>
-                      <span className="text-[14px] font-black text-[#FF383C]">1,042</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Dispute Riski</span>
-                      <span className="text-[14px] font-black text-[#FF8D28]">Yüksek</span>
-                    </div>
-                  </>
-                )}
-                {selectedAlert.type === 'WARNING' && (
-                  <>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Etkilenen Satıcı</span>
-                      <span className="text-[14px] font-black text-gray-900">2 Mağaza</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Kayıp GMV Hacmi</span>
-                      <span className="text-[14px] font-black text-[#FF8D28]">~₺30,000</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Önerilen Aksiyon</span>
-                      <span className="text-[14px] font-black text-gray-900">Telefonla İletişim</span>
-                    </div>
-                  </>
-                )}
-                {selectedAlert.type === 'INFO' && (
-                  <>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Sepete Ekleyen</span>
-                      <span className="text-[14px] font-black text-gray-900">4,520</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Ödeme Adımına Geçen</span>
-                      <span className="text-[14px] font-black text-[#FF8D28]">1,840</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <span className="text-[12px] font-bold text-gray-600">Siparişi Tamamlayan</span>
-                      <span className="text-[14px] font-black text-[#FF383C]">1,619 (-%12)</span>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <button onClick={() => { 
-                  const type = selectedAlert.type;
-                  setSelectedAlert(null); 
-                  if(type === 'CRITICAL') router.push('/dashboard/sysop/shipping-management');
-                  if(type === 'WARNING') router.push('/dashboard/sysop/user-management');
-                  if(type === 'INFO') router.push('/dashboard/sysop/analytics');
-                }} className="w-full py-3.5 rounded-xl bg-[#111827] text-white text-[13px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
-                <button onClick={() => setSelectedAlert(null)} className="w-full py-3.5 rounded-xl bg-white text-gray-500 text-[13px] font-black tracking-widest border border-gray-200 hover:bg-gray-50 transition-colors">KAPAT</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
