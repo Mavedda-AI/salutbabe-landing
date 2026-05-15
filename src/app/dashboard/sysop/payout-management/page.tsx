@@ -5,6 +5,7 @@ import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 export default function PayoutManagementPage() {
   const { theme } = useThemeLanguage();
   const [loading, setLoading] = useState(true);
+  const [showApproveModal, setShowApproveModal] = useState(false);
   const isDark = theme === 'dark';
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function PayoutManagementPage() {
            <p className={`text-[13px] font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Satıcı komisyonları ve havuzdaki bekleyen ödemeleri yönetin.</p>
          </div>
          <div className="flex gap-4">
-           <button onClick={() => alert('Toplu Hak Ediş işlemi başlatıldı.')} className={`px-5 py-2.5 rounded-[12px] text-[12px] font-bold border transition-colors ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20' : 'bg-[#F2FDF5] text-[#00C48C] border-[#Bbf7D0] hover:bg-green-50'}`}>
+           <button onClick={() => setShowApproveModal(true)} className={`px-5 py-2.5 rounded-[12px] text-[12px] font-bold border transition-colors ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20' : 'bg-[#F2FDF5] text-[#00C48C] border-[#Bbf7D0] hover:bg-green-50'}`}>
               + Toplu Hak Ediş Onayla
            </button>
          </div>
@@ -69,6 +70,24 @@ export default function PayoutManagementPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Mock Confirmation Modal */}
+      {showApproveModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className={`w-full max-w-md p-8 rounded-2xl shadow-2xl text-center relative ${isDark ? 'bg-[#1A1D1F] border border-white/10' : 'bg-white border border-gray-200'}`}>
+            <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 className={`text-xl font-black mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>Toplu Onay İşlemi</h3>
+            <p className={`text-[13px] mb-6 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Havuzda bekleyen <strong>84 adet</strong> acil hak ediş talebini onaylamak ve tutarları satıcı cüzdanlarına aktarmak istediğinize emin misiniz?</p>
+            
+            <div className="flex gap-3">
+              <button onClick={() => setShowApproveModal(false)} className={`flex-1 py-3 rounded-xl font-bold transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>İptal</button>
+              <button onClick={() => { alert('Hak edişler başarıyla onaylandı ve cüzdanlara aktarıldı.'); setShowApproveModal(false); }} className="flex-1 py-3 rounded-xl bg-[#00C48C] hover:bg-[#00A676] text-white font-bold transition-colors">Evet, Onayla</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

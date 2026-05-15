@@ -28,6 +28,7 @@ export default function OrderManagementPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'disputes' | 'pending_shipping' | 'completed' | 'all'>('disputes');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedOrder, setSelectedOrder] = useState<DisputeOrder | null>(null);
 
   const isDark = theme === 'dark';
 
@@ -234,12 +235,12 @@ export default function OrderManagementPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     {order.status === 'Uyuşmazlık' ? (
-                      <button className={`h-8 px-4 rounded-lg font-black text-[10px] uppercase tracking-wider transition-all border
+                      <button onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }} className={`h-8 px-4 rounded-lg font-black text-[10px] uppercase tracking-wider transition-all border
                         ${isDark ? 'bg-red-500 text-white border-red-500 hover:bg-red-600' : 'bg-red-500 text-white border-red-600 hover:bg-red-600'}`}>
                         Müdahale Et
                       </button>
                     ) : (
-                      <button className={`p-2 rounded-lg border transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`} title="Sipariş Detayı">
+                      <button onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }} className={`p-2 rounded-lg border transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`} title="Sipariş Detayı">
                          İncele →
                       </button>
                     )}
@@ -250,6 +251,57 @@ export default function OrderManagementPage() {
           </table>
         </div>
       </div>
+
+      {/* Mock Modal for Order Details / Dispute Intervention */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className={`w-full max-w-xl p-6 rounded-2xl shadow-2xl relative ${isDark ? 'bg-[#1A1D1F] border border-white/10' : 'bg-white border border-gray-200'}`}>
+            <button onClick={() => setSelectedOrder(null)} className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 className={`text-xl font-black mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>Sipariş Detayı</h3>
+            <p className={`text-[12px] font-bold mb-6 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>#{selectedOrder.orderID}</p>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className={`p-4 rounded-xl ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
+                <p className={`text-[10px] font-black tracking-widest mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>ALICI</p>
+                <p className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.buyer.userName} {selectedOrder.buyer.userSurname}</p>
+                <p className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{selectedOrder.buyer.eMail}</p>
+              </div>
+              <div className={`p-4 rounded-xl ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
+                <p className={`text-[10px] font-black tracking-widest mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>SATICI</p>
+                <p className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.seller.userName} {selectedOrder.seller.userSurname}</p>
+                <p className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{selectedOrder.seller.eMail}</p>
+              </div>
+            </div>
+
+            <div className={`p-4 rounded-xl mb-6 flex justify-between items-center ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
+               <div>
+                  <p className={`text-[10px] font-black tracking-widest mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>TUTAR</p>
+                  <p className={`text-lg font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.totalAmount.toLocaleString()} ₺</p>
+               </div>
+               <div className="text-right">
+                  <p className={`text-[10px] font-black tracking-widest mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>DURUM</p>
+                  <span className={`px-3 py-1 rounded-md text-[11px] font-black uppercase border ${getStatusColor(selectedOrder.status)}`}>{selectedOrder.status}</span>
+               </div>
+            </div>
+
+            {selectedOrder.status === 'Uyuşmazlık' && (
+              <div className={`p-4 rounded-xl mb-6 border ${isDark ? 'bg-red-500/5 border-red-500/20' : 'bg-red-50 border-red-200'}`}>
+                <p className="text-[12px] font-black text-red-500 mb-1">DİKKAT: UYUŞMAZLIK BİLDİRİMİ</p>
+                <p className={`text-[13px] font-bold ${isDark ? 'text-red-400' : 'text-red-700'}`}>{selectedOrder.disputeReason}</p>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button onClick={() => setSelectedOrder(null)} className={`flex-1 py-3 rounded-xl font-bold transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>Kapat</button>
+              {selectedOrder.status === 'Uyuşmazlık' && (
+                <button onClick={() => { alert('Para iadesi onaylandı.'); setSelectedOrder(null); }} className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors">Alıcıya İade Et</button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
