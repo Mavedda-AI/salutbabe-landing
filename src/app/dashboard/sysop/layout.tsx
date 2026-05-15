@@ -338,11 +338,17 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#09090B] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
-        <div className="relative flex items-center justify-center h-24 p-6">
+        <div className="relative flex items-center h-24 px-6">
           {!isSidebarCollapsed ? (
             <>
-              <Link href="/dashboard/sysop" className="flex items-center justify-center">
-                 <img src="/logo-salutbabe.png" alt="Logo" className={`h-7 w-auto ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
+              <Link href="/dashboard/sysop" className="flex items-center gap-3">
+                 <div className="w-8 h-8 rounded-lg bg-[#111827] dark:bg-white flex flex-shrink-0 items-center justify-center shadow-md">
+                   <div className="w-4 h-4 bg-gradient-to-tr from-[#3B82F6] to-[#10B981] rounded-[4px] transform rotate-45"></div>
+                 </div>
+                 <div className="flex flex-col justify-center">
+                   <span className="text-[15px] font-black text-[#111827] dark:text-white leading-tight">SalutBabe</span>
+                   <span className="text-[10px] text-gray-500 font-bold tracking-wide">Marketplace & Sales</span>
+                 </div>
               </Link>
               
               {/* Desktop Collapse Button */}
@@ -695,9 +701,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             </div>
 
             {/* Export Button */}
-            <button className={`hidden sm:flex px-4 py-2 rounded-xl items-center gap-2 text-[12px] font-bold transition-all active:scale-95 ${theme === 'light' ? 'bg-[#2E2E3A] text-white hover:bg-black' : 'bg-white text-black hover:bg-gray-200'}`}>
+            <button className={`hidden sm:flex px-4 py-2.5 rounded-full items-center gap-2 text-[12px] font-bold transition-all active:scale-95 ${theme === 'light' ? 'bg-[#111827] text-white hover:bg-black shadow-md' : 'bg-white text-black hover:bg-gray-200'}`}>
                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-               Dışa Aktar
+               Export
             </button>
             
             {/* User Profile */}
@@ -787,10 +793,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
            </Link>
            
            {/* Floating Central Action Button */}
-           <div className="relative -top-8 -mx-2">
-             <button className="w-[52px] h-[52px] rounded-full bg-[#111827] dark:bg-primary flex items-center justify-center text-white shadow-xl shadow-black/30 hover:scale-105 active:scale-95 transition-all">
+           <div className="relative -top-6 -mx-2 flex flex-col items-center">
+             <button className="w-[52px] h-[52px] rounded-full bg-[#111827] dark:bg-primary flex items-center justify-center text-white shadow-2xl shadow-black/40 hover:scale-105 active:scale-95 transition-all mb-1">
                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
              </button>
+             <span className="text-[10px] font-bold text-[#111827] dark:text-white mt-1">Export</span>
            </div>
            
            <Link href="/dashboard/sysop/user-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/user-management' ? 'text-[#111827] dark:text-white' : 'text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}>
