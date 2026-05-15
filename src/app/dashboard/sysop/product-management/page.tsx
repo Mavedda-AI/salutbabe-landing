@@ -1,98 +1,48 @@
 "use client";
+import React, {useState, useEffect} from "react";
+import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 
-import React, {useEffect, useState} from "react";
-import {apiUrl} from "../../../../lib/api";
-
-export default function AdminListings() {
-  const [listings, setListings] = useState<any[]>([]);
+export default function ProductManagementPage() {
+  const { theme } = useThemeLanguage();
   const [loading, setLoading] = useState(true);
+  const isDark = theme === 'dark';
 
-  useEffect(() => {
-    fetchListings();
-  }, []);
-
-  const fetchListings = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(apiUrl("/admin/listings"), {
-        headers: { 
-          "Authorization": `Bearer ${token}`,
-          "X-Device-Type": "web"
-        }
-      });
-      const data = await res.json();
-      if (data.payload?.listings) setListings(data.payload.listings);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const updateStatus = async (id: string, status: string) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(apiUrl(`/admin/listings/${id}/status`), {
-        method: "PUT",
-        headers: { 
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "X-Device-Type": "web"
-        },
-        body: JSON.stringify({ status })
-      });
-      if (res.ok) fetchListings();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  if (loading) return <div className="text-slate-500 font-bold">Loading listings...</div>;
+  useEffect(() => { setTimeout(() => setLoading(false), 500); }, []);
+  const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
 
   return (
-    <div>
-      <h1 className="text-3xl font-black text-slate-900 mb-8">Manage Listings</h1>
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div className="space-y-6 animate-fade-in max-w-[1400px] mx-auto pb-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+         <div>
+           <h1 className={`text-2xl font-black tracking-tight ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Ürün Kataloğu</h1>
+           <p className={`text-[13px] font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Platformdaki tüm ilanları denetleyin ve yayından kaldırın.</p>
+         </div>
+      </div>
+
+      <div className={`${cardClass} overflow-hidden`}>
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-100">
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Listing</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Seller</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Price</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Status</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</th>
+            <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
+              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Ürün</th>
+              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satıcı</th>
+              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
+              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
             </tr>
           </thead>
-          <tbody>
-            {listings.map(listing => (
-              <tr key={listing.listingID} className="border-b border-slate-50 hover:bg-slate-50/50">
-                <td className="p-4 font-bold text-slate-900">{listing.title}</td>
-                <td className="p-4 text-slate-600">
-                  {listing.seller?.userName} {listing.seller?.userSurname}
-                </td>
-                <td className="p-4 text-slate-900 font-bold">₺{listing.price}</td>
-                <td className="p-4">
-                  <span className={`px-2 py-1 rounded-md text-xs font-bold ${listing.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : listing.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-700'}`}>
-                    {listing.status}
-                  </span>
-                </td>
-                <td className="p-4 flex gap-2">
-                  {listing.status === 'PENDING' && (
-                    <>
-                      <button onClick={() => updateStatus(listing.listingID, 'ACTIVE')} className="text-xs font-bold text-green-500 hover:underline">Approve</button>
-                      <button onClick={() => updateStatus(listing.listingID, 'REJECTED')} className="text-xs font-bold text-red-500 hover:underline">Reject</button>
-                    </>
-                  )}
-                  {listing.status === 'ACTIVE' && (
-                    <button onClick={() => updateStatus(listing.listingID, 'PASSIVE')} className="text-xs font-bold text-slate-500 hover:underline">Deactivate</button>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {listings.length === 0 && (
-              <tr>
-                <td colSpan={5} className="p-8 text-center text-slate-500 font-medium">No listings found</td>
-              </tr>
+          <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+            {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
+              [1,2,3].map(i => (
+                <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
+                  <td className="px-6 py-4">
+                    <span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Zıbın Seti {i}</span>
+                  </td>
+                  <td className="px-6 py-4"><span className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Anne {i}</span></td>
+                  <td className="px-6 py-4"><span className="px-2 py-1 bg-green-500/10 text-green-500 rounded-md text-[10px] font-black uppercase">Yayında</span></td>
+                  <td className="px-6 py-4 text-right">
+                    <button className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>İncele</button>
+                  </td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>

@@ -143,6 +143,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       '/dashboard/sysop/product-management',
       '/dashboard/sysop/category-management',
       '/dashboard/sysop/brand-management',
+      '/dashboard/sysop/review-management',
+      '/dashboard/sysop/complaint-management',
+      '/dashboard/sysop/store-complaint-management',
+      '/dashboard/sysop/user-review-management',
+      '/dashboard/sysop/live-room-management',
+      '/dashboard/sysop/payout-management',
       '/dashboard/sysop/system-settings',
       '/dashboard/common/profile'
     ];
@@ -190,6 +196,29 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       submenus: [
         { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management' },
         { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management' }
+      ] 
+    },
+    { 
+      label: 'Finans & Hak Ediş', 
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 6V18M12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10M12 6C13.1046 6 14 5.10457 14 4M12 18C13.1046 18 14 17.1046 14 16C14 14.8954 13.1046 14 12 14M12 18C10.8954 18 10 18.8954 10 20M12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Satıcı Ödemeleri (Payout)', href: '/dashboard/sysop/payout-management' }
+      ] 
+    },
+    { 
+      label: 'Canlı Odalar', 
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 15V21M6 21H18M12 15C13.6569 15 15 13.6569 15 12V6C15 4.34315 13.6569 3 12 3C10.3431 3 9 4.34315 9 6V12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Oda Moderasyonu', href: '/dashboard/sysop/live-room-management' }
       ] 
     },
     { 
