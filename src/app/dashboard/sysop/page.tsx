@@ -346,7 +346,7 @@ export default function SysopDashboard() {
                       </div>
                     </div>
 
-                    <button onClick={() => handleFeatureClick('Birim Ekonomisi Detay')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    <button onClick={() => router.push('/dashboard/sysop/unit-economics')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                       DETAYLARI GÖRÜNTÜLE
                     </button>
                   </div>
