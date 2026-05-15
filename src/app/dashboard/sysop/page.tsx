@@ -48,12 +48,12 @@ export default function SysopDashboard() {
   const isDark = false; // Forced to false for now as requested
   
   // Nexadash specific design tokens
-  const cardClass = `rounded-[24px] border bg-white dark:bg-[#111827] ${isDark ? 'border-white/5 shadow-2xl' : 'border-[#F3F4F6] shadow-[0_4px_24px_rgba(0,0,0,0.04)]'}`;
-  const textTitle = `text-[10px] md:text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-[#6B7280]'}`;
-  const textValue = `text-[24px] md:text-[32px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`;
-  const iconRight = `hidden md:block w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto transition-colors`;
-  const badgeGreen = `flex items-center gap-1 bg-[#F0FDF4] text-[#16A34A] dark:bg-[#16A34A]/10 dark:text-[#4ADE80] px-2 py-0.5 rounded text-[11px] font-bold`;
-  const badgeRed = `flex items-center gap-1 bg-[#FEF2F2] text-[#DC2626] dark:bg-[#DC2626]/10 dark:text-[#F87171] px-2 py-0.5 rounded text-[11px] font-bold`;
+  const cardClass = `rounded-[24px] border bg-white border-[#F3F4F6] shadow-[0_4px_24px_rgba(0,0,0,0.04)]`;
+  const textTitle = `text-[10px] md:text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 text-[#6B7280]`;
+  const textValue = `text-[24px] md:text-[32px] font-black tracking-tight text-[#111827]`;
+  const iconRight = `hidden md:block w-4 h-4 text-gray-300 ml-auto transition-colors`;
+  const badgeGreen = `flex items-center gap-1 bg-[#F0FDF4] text-[#16A34A] px-2 py-0.5 rounded text-[11px] font-bold`;
+  const badgeRed = `flex items-center gap-1 bg-[#FEF2F2] text-[#DC2626] px-2 py-0.5 rounded text-[11px] font-bold`;
 
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
@@ -75,9 +75,9 @@ export default function SysopDashboard() {
           <div className="flex flex-col gap-2 mb-6">
             {alerts.map((alert, i) => (
               <div key={i} className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-xl border ${
-                alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-600 dark:text-red-400' :
-                alert.type === 'WARNING' ? 'bg-orange-500/10 border-orange-500/20 text-orange-600 dark:text-orange-400' :
-                'bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400'
+                alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-600 ' :
+                alert.type === 'WARNING' ? 'bg-orange-500/10 border-orange-500/20 text-orange-600 ' :
+                'bg-blue-500/10 border-blue-500/20 text-blue-600 '
               }`}>
                 <div className="flex items-center gap-2 mb-2 sm:mb-0">
                    <div className={`px-2 py-0.5 rounded text-[9px] font-black tracking-wider text-white ${
@@ -144,14 +144,14 @@ export default function SysopDashboard() {
                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Dönüşüm Hunisi</p>
                    <div className="flex flex-col gap-2 relative">
                       {/* Vertical line connector */}
-                      <div className="absolute left-[11px] top-4 bottom-4 w-0.5 bg-gray-200 dark:bg-gray-700 rounded-full z-0"></div>
+                      <div className="absolute left-[11px] top-4 bottom-4 w-0.5 bg-gray-200  rounded-full z-0"></div>
                       
                       {[{step: 'Görüntüleme', val: '45.2K', drop: null}, {step: 'Sepete Ekleme', val: '12.8K', drop: '-71%'}, {step: 'Ödeme Adımı', val: '8.4K', drop: '-34%'}, {step: 'Satın Alma', val: '6.4K', drop: '-23%'}].map((item, i) => (
                         <div key={i} className="flex items-center gap-3 relative z-10">
                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 ${isDark ? 'bg-[#121214] border-gray-700 text-gray-400' : 'bg-white border-gray-200 text-gray-500'}`}>
                              {i+1}
                            </div>
-                           <div className="flex-1 flex justify-between items-center bg-gray-50 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-transparent dark:border-white/5">
+                           <div className="flex-1 flex justify-between items-center bg-gray-50  px-3 py-1.5 rounded-lg border border-transparent ">
                              <span className="text-[11px] font-bold">{item.step}</span>
                              <div className="flex items-center gap-2">
                                {item.drop && <span className="text-[9px] font-black text-red-500 bg-red-500/10 px-1 rounded">{item.drop}</span>}
@@ -212,7 +212,7 @@ export default function SysopDashboard() {
                     <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     BİRİM EKONOMİSİ
                   </h3>
-                  <div className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
+                  <div className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-600  text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 flex-1">
@@ -238,8 +238,8 @@ export default function SysopDashboard() {
                 <div className={`mt-4 p-3 rounded-lg flex items-start gap-2 ${isDark ? 'bg-purple-500/10' : 'bg-purple-50'}`}>
                   <svg className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   <div>
-                    <p className="text-[11px] font-bold text-purple-600 dark:text-purple-400">Kargo baremi stratejisi kazandırıyor.</p>
-                    <p className="text-[10px] text-purple-600/70 dark:text-purple-400/70 mt-0.5">Sepet ortalaması yüksek olduğu için kargo maliyeti komisyon gelirini tolere ediyor.</p>
+                    <p className="text-[11px] font-bold text-purple-600 ">Kargo baremi stratejisi kazandırıyor.</p>
+                    <p className="text-[10px] text-purple-600/70  mt-0.5">Sepet ortalaması yüksek olduğu için kargo maliyeti komisyon gelirini tolere ediyor.</p>
                   </div>
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default function SysopDashboard() {
                     <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                     SATICI SAĞLIĞI
                   </h3>
-                  <button className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">TÜMÜ</button>
+                  <button className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜMÜ</button>
                 </div>
                 
                 <div className="flex items-end justify-between mb-6">
@@ -275,8 +275,8 @@ export default function SysopDashboard() {
                   <div className="flex gap-2">
                     <div className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 shrink-0 animate-ping"></div>
                     <div>
-                      <p className="text-[11px] font-bold text-orange-600 dark:text-orange-400">Risk: İnaktif Top Satıcı</p>
-                      <p className="text-[10px] text-orange-600/70 dark:text-orange-400/70 mt-0.5">Aylık GMV'si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
+                      <p className="text-[11px] font-bold text-orange-600 ">Risk: İnaktif Top Satıcı</p>
+                      <p className="text-[10px] text-orange-600/70  mt-0.5">Aylık GMV'si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
                     </div>
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/user-management?role=seller&status=inactive_7d')} className="text-[9px] font-black px-2 py-1 bg-orange-500 text-white rounded mt-1 shrink-0 hover:bg-orange-600 transition-colors">AKSİYON</button>
@@ -297,7 +297,7 @@ export default function SysopDashboard() {
                   KANAL PERFORMANSI
                 </h3>
                 <div className="flex items-center gap-2">
-                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('sales'); }} className={`px-2 py-1 rounded text-[10px] font-black transition-colors ${channelTab === 'sales' ? 'bg-[#111827] dark:bg-white text-white dark:text-black' : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}>SATIŞ</button>
+                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('sales'); }} className={`px-2 py-1 rounded text-[10px] font-black transition-colors ${channelTab === 'sales' ? 'bg-[#111827]  text-white ' : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}>SATIŞ</button>
                   <button onClick={(e) => { e.stopPropagation(); setChannelTab('attribution'); }} className={`px-2 py-1 rounded text-[10px] font-black transition-colors ${channelTab === 'attribution' ? 'bg-primary text-white' : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}>ATTRIBUTION</button>
                 </div>
               </div>
@@ -331,7 +331,7 @@ export default function SysopDashboard() {
                        ))}
                      </svg>
                     <div className="absolute bottom-0 left-0 w-full text-center flex flex-col items-center">
-                      <h2 className="text-[22px] font-black leading-tight text-[#111827] dark:text-white">16,432</h2>
+                      <h2 className="text-[22px] font-black leading-tight text-[#111827] ">16,432</h2>
                       <p className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Ürün Satışı</p>
                     </div>
                   </div>
@@ -339,7 +339,7 @@ export default function SysopDashboard() {
                   <div className="space-y-5 mt-auto">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-[#111827] dark:bg-white"></div>
+                        <div className="w-2 h-2 rounded-full bg-[#111827] "></div>
                         <div>
                           <p className={`text-[12px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Pazaryeri (Standart)</p>
                           <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>5.762 Satış <span className="text-green-500 ml-1">+1.8%</span></p>
@@ -359,7 +359,7 @@ export default function SysopDashboard() {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                        <div className="w-2 h-2 rounded-full bg-gray-200 "></div>
                         <div>
                           <p className={`text-[12px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Keşfet</p>
                           <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>2.123 Satış <span className="text-red-500 ml-1">-2.8%</span></p>
@@ -388,14 +388,14 @@ export default function SysopDashboard() {
                                 <span className={`text-[12px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{ch.p}</span>
                               </div>
                            </div>
-                           <div className="w-full h-1.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+                           <div className="w-full h-1.5 bg-gray-100  rounded-full overflow-hidden">
                               <div className={`h-full ${ch.color} rounded-full`} style={{width: ch.p}}></div>
                            </div>
                         </div>
                       ))}
                    </div>
                    
-                   <button className="w-full py-2.5 mt-6 rounded-lg bg-gray-50 dark:bg-white/5 text-[10px] font-black border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                   <button className="w-full py-2.5 mt-6 rounded-lg bg-gray-50  text-[10px] font-black border border-gray-200  hover:bg-gray-100  transition-colors">
                       DETAYLI RAPOR
                    </button>
                 </div>
@@ -475,7 +475,7 @@ export default function SysopDashboard() {
 
                  <div className="flex flex-col items-end gap-3">
                    {isFounder && (
-                     <button onClick={(e) => { e.stopPropagation(); setShowLiquidity(!showLiquidity); }} className={`px-3 py-1.5 rounded border text-[10px] font-black transition-colors ${showLiquidity ? 'bg-[#111827] dark:bg-white text-white dark:text-black border-transparent' : isDark ? 'border-white/10 text-gray-300 hover:bg-white/5' : 'border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
+                     <button onClick={(e) => { e.stopPropagation(); setShowLiquidity(!showLiquidity); }} className={`px-3 py-1.5 rounded border text-[10px] font-black transition-colors ${showLiquidity ? 'bg-[#111827]  text-white  border-transparent' : isDark ? 'border-white/10 text-gray-300 hover:bg-white/5' : 'border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
                        LİKİDİTE METRİKLERİ {showLiquidity ? 'GİZLE' : 'GÖR'}
                      </button>
                    )}
@@ -531,7 +531,7 @@ export default function SysopDashboard() {
                  </div>
 
                  {/* Blue Bar Highlight (April) */}
-                 <div className="absolute left-[54.5%] bottom-[15%] w-8 h-[60%] bg-gradient-to-t from-blue-500/0 to-blue-500/20 dark:from-blue-500/0 dark:to-blue-500/30 rounded-t-lg"></div>
+                 <div className="absolute left-[54.5%] bottom-[15%] w-8 h-[60%] bg-gradient-to-t from-blue-500/0 to-blue-500/20   rounded-t-lg"></div>
 
                  {/* Charts */}
                  <svg className="absolute inset-0 w-full h-[85%] overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -677,7 +677,7 @@ export default function SysopDashboard() {
                 </h3>
                 <div className="flex items-center gap-2 relative">
                   {isFounder && (
-                    <button onClick={(e) => { e.stopPropagation(); setShowSupplyDemand(!showSupplyDemand); }} className={`px-2 py-1 rounded text-[9px] font-black transition-colors ${showSupplyDemand ? 'bg-[#111827] dark:bg-white text-white dark:text-black' : isDark ? 'bg-white/10 text-gray-300' : 'bg-gray-100 text-gray-700'}`}>
+                    <button onClick={(e) => { e.stopPropagation(); setShowSupplyDemand(!showSupplyDemand); }} className={`px-2 py-1 rounded text-[9px] font-black transition-colors ${showSupplyDemand ? 'bg-[#111827]  text-white ' : isDark ? 'bg-white/10 text-gray-300' : 'bg-gray-100 text-gray-700'}`}>
                       {showSupplyDemand ? 'BÖLGELER' : 'ZEKA L1'}
                     </button>
                   )}
@@ -708,20 +708,20 @@ export default function SysopDashboard() {
                  <div className="w-full h-full flex justify-around items-end pl-8 z-10 gap-2">
                    {/* Bar 1: Black striped */}
                    <div className="w-full max-w-[60px] h-[90%] relative flex flex-col justify-end group">
-                      <div className="absolute inset-0 bg-[#2E2E3A] dark:bg-white rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)' }}></div>
-                      <span className="relative z-10 text-[11px] font-black text-white dark:text-black mb-2 ml-2">180</span>
+                      <div className="absolute inset-0 bg-[#2E2E3A]  rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)' }}></div>
+                      <span className="relative z-10 text-[11px] font-black text-white  mb-2 ml-2">180</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kadıköy</span>
                    </div>
                    {/* Bar 2: Gray striped */}
                    <div className="w-full max-w-[60px] h-[50%] relative flex flex-col justify-end">
-                      <div className="absolute inset-0 bg-gray-300 dark:bg-gray-700 rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
-                      <span className="relative z-10 text-[11px] font-black text-[#111827] dark:text-white mb-2 ml-2">87</span>
+                      <div className="absolute inset-0 bg-gray-300  rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
+                      <span className="relative z-10 text-[11px] font-black text-[#111827]  mb-2 ml-2">87</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Şişli</span>
                    </div>
                    {/* Bar 3: Light gray striped */}
                    <div className="w-full max-w-[60px] h-[30%] relative flex flex-col justify-end">
-                      <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
-                      <span className="relative z-10 text-[11px] font-black text-[#111827] dark:text-white mb-2 ml-2">56</span>
+                      <div className="absolute inset-0 bg-gray-200  rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
+                      <span className="relative z-10 text-[11px] font-black text-[#111827]  mb-2 ml-2">56</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Beşiktaş</span>
                    </div>
                   </div>
@@ -733,7 +733,7 @@ export default function SysopDashboard() {
                   <div onClick={() => router.push('/dashboard/sysop/product-management?category=deri-ceket')} className={`p-3 rounded-xl border cursor-pointer hover:scale-[1.02] transition-transform ${isDark ? 'bg-white/5 border-white/10 hover:border-blue-500/50' : 'bg-gray-50 border-gray-100 hover:border-blue-500/50'}`}>
                     <div className="flex items-center justify-between mb-2">
                       <p className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Deri Ceketler</p>
-                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[9px] font-black">Yüksek Talep / Düşük Arz</span>
+                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-600  text-[9px] font-black">Yüksek Talep / Düşük Arz</span>
                     </div>
                     <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500">
                       <span>Aranma Hacmi: <strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>4,500/hft</strong></span>
@@ -746,7 +746,7 @@ export default function SysopDashboard() {
                   <div onClick={() => router.push('/dashboard/sysop/product-management?search=vintage-gozluk')} className={`p-3 rounded-xl border cursor-pointer hover:scale-[1.02] transition-transform ${isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/50' : 'bg-gray-50 border-gray-100 hover:border-orange-500/50'}`}>
                     <div className="flex items-center justify-between mb-2">
                       <p className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Vintage Gözlük #402</p>
-                      <span className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[9px] font-black">Fiyat Şişkinliği (&gt;130%)</span>
+                      <span className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600  text-[9px] font-black">Fiyat Şişkinliği (&gt;130%)</span>
                     </div>
                     <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500">
                       <span>Ort. Satılan Fiyat: <strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>₺450</strong></span>
@@ -810,27 +810,27 @@ export default function SysopDashboard() {
                     </div>
                     {/* Rows */}
                     <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10 relative">
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200  relative">
                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 bg-[#111827] text-white text-[9px] rounded font-bold whitespace-nowrap z-10 flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 82</div>
                        </div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-300 dark:bg-white/20"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] dark:bg-white"></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-300 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
                     </div>
                     <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] dark:bg-white"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] dark:bg-white"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
                     </div>
                     <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] dark:bg-white"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-300 dark:bg-white/20"></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] dark:bg-white"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5 relative">
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-300 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100  relative">
                          <div className="absolute right-0 bottom-0 px-1 py-0.5 bg-white border border-gray-200 text-[#111827] text-[9px] rounded font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
                        </div>
                     </div>
@@ -851,7 +851,7 @@ export default function SysopDashboard() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
                     KARGO PERFORMANSI
                   </h3>
-                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">DETAY</button>
+                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">DETAY</button>
                 </div>
                 
                 <div className="space-y-4 flex-1">
@@ -868,7 +868,7 @@ export default function SysopDashboard() {
                             <span className={`text-[10px] font-black ${c.alert ? 'text-red-500' : 'text-gray-500'}`}>Gecikme: {c.d}</span>
                           </div>
                        </div>
-                       <div className="w-full h-1.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+                       <div className="w-full h-1.5 bg-gray-100  rounded-full overflow-hidden">
                           <div className={`h-full ${c.s} rounded-full`} style={{width: c.d}}></div>
                        </div>
                     </div>
@@ -887,7 +887,7 @@ export default function SysopDashboard() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                     DESTEK (WHATSAPP)
                   </h3>
-                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">TÜM MESAJLAR</button>
+                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜM MESAJLAR</button>
                 </div>
                 
                 <div className="flex items-center gap-3 mb-6">
@@ -899,8 +899,8 @@ export default function SysopDashboard() {
                    <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Sorun Dağılımı</p>
                    <div className="grid grid-cols-2 gap-3">
                      <div className={`p-2 rounded border ${isDark ? 'border-red-500/20 bg-red-500/10' : 'border-red-200 bg-red-50'}`}>
-                       <span className="text-[10px] font-bold text-red-600 dark:text-red-400">Kargo / Teslimat</span>
-                       <p className="text-[14px] font-black text-red-600 dark:text-red-400">%42</p>
+                       <span className="text-[10px] font-bold text-red-600 ">Kargo / Teslimat</span>
+                       <p className="text-[14px] font-black text-red-600 ">%42</p>
                      </div>
                      <div className={`p-2 rounded border ${isDark ? 'border-white/10 bg-white/5' : 'border-gray-200 bg-gray-50'}`}>
                        <span className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Ödeme İşlemleri</span>
@@ -1046,7 +1046,7 @@ export default function SysopDashboard() {
                    ))}
                  </svg>
                 <div className="absolute bottom-0 left-0 w-full text-center flex flex-col items-center">
-                  <h2 className="text-[22px] font-black leading-tight text-[#111827] dark:text-white">124</h2>
+                  <h2 className="text-[22px] font-black leading-tight text-[#111827] ">124</h2>
                   <p className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Toplam İhtilaf</p>
                 </div>
               </div>
@@ -1132,7 +1132,7 @@ export default function SysopDashboard() {
                  </div>
 
                  {/* Blue Bar Highlight (Thursday) */}
-                 <div className="absolute left-[54.5%] bottom-[15%] w-8 h-[60%] bg-gradient-to-t from-blue-500/0 to-blue-500/20 dark:from-blue-500/0 dark:to-blue-500/30 rounded-t-lg"></div>
+                 <div className="absolute left-[54.5%] bottom-[15%] w-8 h-[60%] bg-gradient-to-t from-blue-500/0 to-blue-500/20   rounded-t-lg"></div>
 
                  {/* Charts */}
                  <svg className="absolute inset-0 w-full h-[85%] preserve-3d" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -1243,20 +1243,20 @@ export default function SysopDashboard() {
                  <div className="w-full h-full flex justify-around items-end pl-8 z-10 gap-2">
                    {/* Bar 1: Black striped */}
                    <div className="w-full max-w-[60px] h-[90%] relative flex flex-col justify-end group">
-                      <div className="absolute inset-0 bg-red-500 dark:bg-red-600 rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)' }}></div>
-                      <span className="relative z-10 text-[11px] font-black text-white dark:text-white mb-2 ml-2">82</span>
+                      <div className="absolute inset-0 bg-red-500  rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)' }}></div>
+                      <span className="relative z-10 text-[11px] font-black text-white  mb-2 ml-2">82</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>PTT</span>
                    </div>
                    {/* Bar 2: Gray striped */}
                    <div className="w-full max-w-[60px] h-[40%] relative flex flex-col justify-end">
-                      <div className="absolute inset-0 bg-orange-400 dark:bg-orange-500 rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
-                      <span className="relative z-10 text-[11px] font-black text-white dark:text-white mb-2 ml-2">41</span>
+                      <div className="absolute inset-0 bg-orange-400  rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
+                      <span className="relative z-10 text-[11px] font-black text-white  mb-2 ml-2">41</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>MNG</span>
                    </div>
                    {/* Bar 3: Light gray striped */}
                    <div className="w-full max-w-[60px] h-[15%] relative flex flex-col justify-end">
-                      <div className="absolute inset-0 bg-yellow-400 dark:bg-yellow-500 rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
-                      <span className="relative z-10 text-[11px] font-black text-[#111827] dark:text-black mb-2 ml-2">17</span>
+                      <div className="absolute inset-0 bg-yellow-400  rounded-t-lg overflow-hidden" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px)' }}></div>
+                      <span className="relative z-10 text-[11px] font-black text-[#111827]  mb-2 ml-2">17</span>
                       <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Yurtiçi</span>
                    </div>
                  </div>
@@ -1299,27 +1299,27 @@ export default function SysopDashboard() {
                     </div>
                     {/* Rows */}
                     <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-orange-200 dark:bg-orange-900/50"></div>
-                       <div className="w-full aspect-square rounded-sm bg-red-500 dark:bg-red-600 relative">
+                       <div className="w-full aspect-square rounded-sm bg-orange-200 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-red-500  relative">
                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 bg-[#111827] text-white text-[9px] rounded font-bold whitespace-nowrap z-10 flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 120</div>
                        </div>
-                       <div className="w-full aspect-square rounded-sm bg-orange-300 dark:bg-orange-800"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
+                       <div className="w-full aspect-square rounded-sm bg-orange-300 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
                     </div>
                     <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
-                       <div className="w-full aspect-square rounded-sm bg-orange-400 dark:bg-orange-600"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-orange-400 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
                     </div>
                     <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-300 dark:bg-white/20"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 dark:bg-white/10"></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 dark:bg-white/5"></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-300 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
+                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
                     </div>
                  </div>
               </div>

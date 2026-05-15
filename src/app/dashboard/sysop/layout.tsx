@@ -342,11 +342,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           {!isSidebarCollapsed ? (
             <>
               <Link href="/dashboard/sysop" className="flex items-center gap-3">
-                 <div className="w-8 h-8 rounded-lg bg-[#111827] dark:bg-white flex flex-shrink-0 items-center justify-center shadow-md">
+                 <div className="w-8 h-8 rounded-lg bg-[#111827]  flex flex-shrink-0 items-center justify-center shadow-md">
                    <div className="w-4 h-4 bg-gradient-to-tr from-[#3B82F6] to-[#10B981] rounded-[4px] transform rotate-45"></div>
                  </div>
                  <div className="flex flex-col justify-center">
-                   <span className="text-[15px] font-black text-[#111827] dark:text-white leading-tight">SalutBabe</span>
+                   <span className="text-[15px] font-black text-[#111827]  leading-tight">SalutBabe</span>
                    <span className="text-[10px] text-gray-500 font-bold tracking-wide">Marketplace & Sales</span>
                  </div>
               </Link>
@@ -354,7 +354,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               {/* Desktop Collapse Button */}
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
-                className="absolute top-4 right-4 text-white/20 hover:text-white dark:text-white/20 dark:hover:text-white light:text-text-secondary/20 light:hover:text-text-primary transition-colors lg:flex hidden p-1 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-black/5 rounded-md"
+                className="absolute top-4 right-4 text-white/20 hover:text-white   light:text-text-secondary/20 light:hover:text-text-primary transition-colors lg:flex hidden p-1 hover:bg-white/5  light:hover:bg-black/5 rounded-md"
               >
                 <img src="/images/icon/collapse.svg" alt="Collapse" className={`w-4 h-4 opacity-40 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
               </button>
@@ -562,13 +562,13 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative w-full max-w-[100vw] overflow-x-hidden`}>
         
         {/* Header */}
-        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[90] px-4 md:px-8 flex items-center justify-between w-full gap-4">
+        <header className="h-20 bg-white/95  backdrop-blur-md border-b border-border-color sticky top-0 z-[90] px-4 md:px-8 flex items-center justify-between w-full gap-4">
           
           <div className="flex items-center gap-3 md:gap-4">
             {/* Mobile Hamburger Button */}
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 -ml-2 text-text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors"
+              className="lg:hidden p-2 -ml-2 text-text-primary hover:bg-black/5  rounded-lg transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
@@ -579,7 +579,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             {pathname !== '/dashboard/sysop' && (
               <button 
                 onClick={() => router.push('/dashboard/sysop')}
-                className="p-2 -ml-1 text-text-secondary hover:text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors flex items-center justify-center group"
+                className="p-2 -ml-1 text-text-secondary hover:text-primary hover:bg-black/5  rounded-lg transition-colors flex items-center justify-center group"
                 title={t('dashboard.sysop.go_back') || 'Geri Dön'}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5 group-hover:-translate-x-1 transition-transform">
@@ -609,10 +609,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             
             {/* Team Avatars Mock */}
             <div className="hidden xl:flex items-center -space-x-2 mr-2">
-               <img src="https://i.pravatar.cc/100?img=1" alt="T1" className="w-8 h-8 rounded-full border-2 border-white dark:border-[#121214] object-cover" />
-               <img src="https://i.pravatar.cc/100?img=2" alt="T2" className="w-8 h-8 rounded-full border-2 border-white dark:border-[#121214] object-cover" />
-               <img src="https://i.pravatar.cc/100?img=3" alt="T3" className="w-8 h-8 rounded-full border-2 border-white dark:border-[#121214] object-cover" />
-               <button className="w-8 h-8 rounded-full border-2 border-white dark:border-[#121214] bg-[#2E2E3A] text-white flex items-center justify-center text-[14px] font-bold z-10 hover:bg-black transition-colors">+</button>
+               <img src="https://i.pravatar.cc/100?img=1" alt="T1" className="w-8 h-8 rounded-full border-2 border-white  object-cover" />
+               <img src="https://i.pravatar.cc/100?img=2" alt="T2" className="w-8 h-8 rounded-full border-2 border-white  object-cover" />
+               <img src="https://i.pravatar.cc/100?img=3" alt="T3" className="w-8 h-8 rounded-full border-2 border-white  object-cover" />
+               <button className="w-8 h-8 rounded-full border-2 border-white  bg-[#2E2E3A] text-white flex items-center justify-center text-[14px] font-bold z-10 hover:bg-black transition-colors">+</button>
             </div>
 
             {/* Header Action Buttons */}
@@ -638,7 +638,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                 </svg>
                 {unreadCount > 0 && (
-                  <span className="absolute top-1 right-1 w-5 h-5 bg-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-surface shadow-md">
+                  <span className="absolute top-1 right-1 w-5 h-5 bg-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white  shadow-md">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>
                 )}
@@ -647,11 +647,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               {isNotificationOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationOpen(false)}></div>
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-surface text-text-primary dark:text-white border border-border-color rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
-                    <div className="p-4 border-b border-border-color flex items-center justify-between bg-gray-50 dark:bg-background">
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-surface text-text-primary  border border-border-color rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
+                    <div className="p-4 border-b border-border-color flex items-center justify-between bg-gray-50 ">
                       <div>
-                        <h3 className="text-[14px] font-bold text-text-primary dark:text-white">{t('dashboard.notifications_title')}</h3>
-                        <p className="text-[11px] text-text-secondary dark:text-text-secondary mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
+                        <h3 className="text-[14px] font-bold text-text-primary ">{t('dashboard.notifications_title')}</h3>
+                        <p className="text-[11px] text-text-secondary  mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <button onClick={handleMarkAllAsRead} className="text-[11px] font-bold text-primary hover:underline">
@@ -671,7 +671,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                           <div 
                             key={notif.userNotificationID || notif.id || Math.random()} 
                             onClick={() => !notif.isRead && handleMarkAsRead(notif.userNotificationID || notif.id)}
-                            className="p-4 border-b border-border-color hover:bg-black/5 dark:hover:bg-white/5 transition-colors relative cursor-pointer"
+                            className="p-4 border-b border-border-color hover:bg-black/5  transition-colors relative cursor-pointer"
                           >
                             <div className="flex gap-3">
                               <div className="mt-1 flex-shrink-0">
@@ -690,8 +690,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                       )}
                     </div>
                     
-                    <div className="p-3 border-t border-border-color bg-gray-50 dark:bg-background">
-                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors">
+                    <div className="p-3 border-t border-border-color bg-gray-50 ">
+                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5  rounded-lg transition-colors">
                         {t('dashboard.notifications_close')}
                       </button>
                     </div>
@@ -708,7 +708,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             
             {/* User Profile */}
             <div className="relative group ml-2">
-              <div className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10">
+              <div className="w-11 h-11 rounded-full bg-white  flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10">
                  {user?.profilePhotoUrl ? (
                    <img 
                      src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
@@ -724,8 +724,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                  )}
               </div>
                      {/* Profile Dropdown */}
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110] overflow-hidden">
-                 <div className="p-5 bg-gray-50 dark:bg-white/5 border-b border-border-color">
+              <div className="absolute right-0 top-full mt-2 w-56 bg-white  border border-border-color rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110] overflow-hidden">
+                 <div className="p-5 bg-gray-50  border-b border-border-color">
                     <p className="text-[14px] font-black text-text-primary truncate leading-tight">{user?.userName} {user?.userSurname}</p>
                     <p className="text-[11px] font-medium text-text-secondary truncate mt-0.5">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>
                  </div>
@@ -748,12 +748,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Content */}
-        <main className={`flex-1 p-4 md:p-8 animate-fade-in relative z-0 overflow-y-auto overflow-x-hidden pb-32 md:pb-8 ${theme === 'light' ? 'bg-[#F4F5F7]' : ''}`}>
+        <main className="flex-1 p-4 md:p-8 animate-fade-in relative z-0 overflow-y-auto overflow-x-hidden pb-32 md:pb-8 bg-[#F4F5F7]">
           {children}
         </main>
 
         {/* Mini Footer */}
-        <footer className="hidden md:block py-3 px-6 border-t border-border-color bg-white dark:bg-surface sticky bottom-0 z-50">
+        <footer className="hidden md:block py-3 px-6 border-t border-border-color bg-white  sticky bottom-0 z-50">
           <div className="flex items-center justify-center relative">
             <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center flex items-center justify-center gap-1.5">
               <span>{t('dashboard.developed_by')}</span> 
@@ -782,29 +782,29 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </footer>
 
         {/* Mobile Bottom Navigation Bar (App-like) */}
-        <div className="md:hidden fixed bottom-6 left-4 right-4 z-[100] bg-white/90 dark:bg-[#1A1D1F]/90 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 rounded-[24px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
-           <Link href="/dashboard/sysop" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop' ? 'text-[#111827] dark:text-white' : 'text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}>
+        <div className="md:hidden fixed bottom-6 left-4 right-4 z-[100] bg-white/90  backdrop-blur-xl border border-gray-200/50  rounded-[24px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
+           <Link href="/dashboard/sysop" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop' ? 'text-[#111827] ' : 'text-gray-400 hover:text-gray-900 '}`}>
              <svg className="w-[22px] h-[22px]" fill={pathname === '/dashboard/sysop' ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={pathname === '/dashboard/sysop' ? "0" : "2"}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
              <span className="text-[10px] font-bold">Dashboard</span>
            </Link>
-           <Link href="/dashboard/sysop/product-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/product-management' ? 'text-[#111827] dark:text-white' : 'text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}>
+           <Link href="/dashboard/sysop/product-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/product-management' ? 'text-[#111827] ' : 'text-gray-400 hover:text-gray-900 '}`}>
              <svg className="w-[22px] h-[22px]" fill={pathname === '/dashboard/sysop/product-management' ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={pathname === '/dashboard/sysop/product-management' ? "0" : "2"}><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
              <span className="text-[10px] font-bold">Product</span>
            </Link>
            
            {/* Floating Central Action Button */}
            <div className="relative -top-6 -mx-2 flex flex-col items-center">
-             <button className="w-[52px] h-[52px] rounded-full bg-[#111827] dark:bg-primary flex items-center justify-center text-white shadow-2xl shadow-black/40 hover:scale-105 active:scale-95 transition-all mb-1">
+             <button className="w-[52px] h-[52px] rounded-full bg-[#111827]  flex items-center justify-center text-white shadow-2xl shadow-black/40 hover:scale-105 active:scale-95 transition-all mb-1">
                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
              </button>
-             <span className="text-[10px] font-bold text-[#111827] dark:text-white mt-1">Export</span>
+             <span className="text-[10px] font-bold text-[#111827]  mt-1">Export</span>
            </div>
            
-           <Link href="/dashboard/sysop/user-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/user-management' ? 'text-[#111827] dark:text-white' : 'text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}>
+           <Link href="/dashboard/sysop/user-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/user-management' ? 'text-[#111827] ' : 'text-gray-400 hover:text-gray-900 '}`}>
              <svg className="w-[22px] h-[22px]" fill={pathname === '/dashboard/sysop/user-management' ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={pathname === '/dashboard/sysop/user-management' ? "0" : "2"}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
              <span className="text-[10px] font-bold">Customer</span>
            </Link>
-           <Link href="/dashboard/sysop/order-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/order-management' ? 'text-[#111827] dark:text-white' : 'text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}>
+           <Link href="/dashboard/sysop/order-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/order-management' ? 'text-[#111827] ' : 'text-gray-400 hover:text-gray-900 '}`}>
              <svg className="w-[22px] h-[22px]" fill={pathname === '/dashboard/sysop/order-management' ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={pathname === '/dashboard/sysop/order-management' ? "0" : "2"}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
              <span className="text-[10px] font-bold">Analytics</span>
            </Link>
