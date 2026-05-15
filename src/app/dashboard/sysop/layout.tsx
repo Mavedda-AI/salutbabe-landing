@@ -781,26 +781,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           </div>
         </footer>
 
-        {/* Mobile Bottom Navigation Bar (App-like) */}
-        <div className="md:hidden fixed bottom-6 left-4 right-4 z-[100] flex items-center justify-between px-4 py-2">
-           <Link href="/dashboard/sysop" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop' ? 'text-[#111827]' : 'text-gray-400 hover:text-gray-900'}`}>
-             <span className="text-[12px] font-light">Dashboard</span>
-           </Link>
-           <Link href="/dashboard/sysop/product-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/product-management' ? 'text-[#111827]' : 'text-gray-400 hover:text-gray-900'}`}>
-             <span className="text-[12px] font-light">Product</span>
-           </Link>
-           
-           <div className="flex flex-col items-center">
-             <span className="text-[12px] font-light text-[#111827]">Export</span>
-           </div>
-           
-           <Link href="/dashboard/sysop/user-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/user-management' ? 'text-[#111827]' : 'text-gray-400 hover:text-gray-900'}`}>
-             <span className="text-[12px] font-light">Customer</span>
-           </Link>
-           <Link href="/dashboard/sysop/order-management" className={`flex flex-col items-center gap-1.5 ${pathname === '/dashboard/sysop/order-management' ? 'text-[#111827]' : 'text-gray-400 hover:text-gray-900'}`}>
-             <span className="text-[12px] font-light">Analytics</span>
-           </Link>
-        </div>
+
       </div>
 
       {/* Custom Toast */}
