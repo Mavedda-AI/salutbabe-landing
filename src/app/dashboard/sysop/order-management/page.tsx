@@ -104,7 +104,7 @@ export default function OrderManagementPage() {
   const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
 
   return (
-    <div className="space-y-6 animate-fade-in max-w-[1400px] mx-auto pb-12">
+    <div className="space-y-4 md:space-y-6 animate-fade-in w-full max-w-[1400px] mx-auto pb-12 overflow-x-hidden md:overflow-visible px-0">
       
       {/* Header & Stats */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
@@ -132,8 +132,8 @@ export default function OrderManagementPage() {
       </div>
 
       {/* Action Bar (Search & Tabs) */}
-      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full overflow-hidden`}>
-         <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1 flex-1 min-w-0">
+      <div className={`${cardClass} p-2 md:p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 w-full overflow-hidden`}>
+         <div className="flex items-center gap-1.5 overflow-x-auto w-full no-scrollbar px-2 pb-2 md:pb-0 flex-1 min-w-0">
             {[
               { id: 'disputes', label: '🚨 Uyuşmazlıklar (Dispute)' },
               { id: 'pending_shipping', label: '📦 Kargo & Bekleyen' },

@@ -28,11 +28,11 @@ export default function PayoutManagementPage() {
          </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-6">
         {[{t:'HAVUZDAKİ TOPLAM BAKİYE', v:'1.450.000 ₺', c:'text-[#0066FF]'}, {t:'BU HAFTA ONAYLANAN', v:'345.000 ₺', c:'text-[#00C48C]'}, {t:'ACİL BEKLEYEN ONAY', v:'84 Adet', c:'text-[#FF6B00]'}].map((s, i) => (
-          <div key={i} className={`${cardClass} p-6`}>
-            <p className={`text-[11px] font-bold uppercase tracking-wider mb-3 ${isDark ? 'text-gray-400' : 'text-[#6B7280]'}`}>{s.t}</p>
-            <h2 className={`text-[32px] font-black tracking-tight ${s.c}`}>{s.v}</h2>
+          <div key={i} className={`${cardClass} p-4 md:p-6 ${i === 0 ? 'col-span-2 md:col-span-1' : 'col-span-1'}`}>
+            <p className={`text-[10px] md:text-[11px] font-bold uppercase tracking-wider mb-2 md:mb-3 ${isDark ? 'text-gray-400' : 'text-[#6B7280]'}`}>{s.t}</p>
+            <h2 className={`text-[22px] md:text-[32px] font-black tracking-tight ${s.c}`}>{s.v}</h2>
           </div>
         ))}
       </div>
