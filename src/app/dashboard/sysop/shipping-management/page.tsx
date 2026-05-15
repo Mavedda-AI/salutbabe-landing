@@ -69,8 +69,8 @@ export default function ShippingManagementPage() {
       </div>
 
       {/* Action Bar (Search & Tabs) */}
-      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4`}>
-         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar px-2">
+      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full`}>
+         <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1">
             {[
               { id: 'all', label: 'Tüm Kargolar' },
               { id: 'delayed', label: '⚠️ Gecikenler' },
@@ -92,8 +92,8 @@ export default function ShippingManagementPage() {
       </div>
 
       {/* Table Section */}
-      <div className={`rounded-[20px] border overflow-x-auto ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`}>
-        <div className="overflow-x-auto">
+      <div className={`${cardClass}`}>
+        <div className="overflow-x-auto w-full">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>

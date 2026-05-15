@@ -19,9 +19,10 @@ export default function ProductManagementPage() {
          </div>
       </div>
 
-      <div className={`${cardClass} overflow-x-auto`}>
-        <table className="w-full text-left border-collapse min-w-[800px]">
-          <thead>
+      <div className={`${cardClass}`}>
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
             <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
               <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Ürün</th>
               <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satıcı</th>
@@ -46,6 +47,7 @@ export default function ProductManagementPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
