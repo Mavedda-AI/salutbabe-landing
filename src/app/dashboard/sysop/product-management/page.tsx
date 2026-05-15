@@ -99,8 +99,8 @@ export default function ProductManagementPage() {
          </div>
       </div>
 
-      <div className={`${cardClass}`}>
-        <div className="overflow-x-auto w-full">
+      <div className={`${cardClass} overflow-hidden`}>
+        <div className="overflow-x-auto w-full no-scrollbar">
           <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
             <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
