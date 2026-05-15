@@ -21,7 +21,7 @@ const DiscountCards = () => {
       subtitleClass: "bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20",
       buttonText: "HEMEN AL",
       buttonClass: "bg-[#EF4444] text-white hover:bg-[#DC2626]",
-      image: "/images/deals/summer-sale.png",
+      image: "/images/chair.png",
       floatClass: "animate-[float_4s_ease-in-out_infinite]",
       shadowClass: "shadow-[#EF4444]/20",
       decorations: (
@@ -46,7 +46,7 @@ const DiscountCards = () => {
       subtitleClass: "bg-[#F97316]/10 text-[#F97316] border-[#F97316]/20",
       buttonText: "SETLERİ GÖR",
       buttonClass: "bg-[#F97316] text-white hover:bg-[#EA580C]",
-      image: "/images/deals/newborn.png",
+      image: "/images/stroller.png",
       floatClass: "animate-[float_3.5s_ease-in-out_infinite_0.5s]",
       shadowClass: "shadow-[#F97316]/20",
       decorations: (
@@ -70,7 +70,7 @@ const DiscountCards = () => {
       subtitleClass: "bg-[#3B82F6]/10 text-[#3B82F6] border-[#3B82F6]/20",
       buttonText: "KEŞFET",
       buttonClass: "bg-[#3B82F6] text-white hover:bg-[#2563EB]",
-      image: "/images/deals/eco-tech.png",
+      image: "/images/monitor.png",
       floatClass: "animate-[float_4.5s_ease-in-out_infinite_1s]",
       shadowClass: "shadow-[#3B82F6]/20",
       decorations: (
