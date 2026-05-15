@@ -44,10 +44,10 @@ export default function UserManagementPage() {
                       <span className={`text-[11px] mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>user{i}@example.com</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4"><span className={`text-[12px] font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Normal Üye</span></td>
-                  <td className="px-6 py-4"><span className="px-2 py-1 bg-green-500/10 text-green-500 rounded-md text-[10px] font-black uppercase">Aktif</span></td>
-                  <td className="px-6 py-4 text-right">
-                    <button className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200'}`}>Detay</button>
+                  <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#4B5563]'}`}>Normal Üye</span></td>
+                  <td className="px-6 py-5"><span className={`px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider ${isDark ? 'bg-green-500/10 text-green-500' : 'bg-[#E8F8F0] text-[#00C48C]'}`}>AKTİF</span></td>
+                  <td className="px-6 py-5 text-right">
+                    <button className={`px-5 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>DETAY</button>
                   </td>
                 </tr>
               ))

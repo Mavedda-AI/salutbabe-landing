@@ -21,17 +21,17 @@ export default function PayoutManagementPage() {
            <p className={`text-[13px] font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Satıcı komisyonları ve havuzdaki bekleyen ödemeleri yönetin.</p>
          </div>
          <div className="flex gap-4">
-           <button className={`px-4 py-2 rounded-xl text-[12px] font-bold border ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-green-50 text-green-600 border-green-100'}`}>
+           <button className={`px-5 py-2.5 rounded-[12px] text-[12px] font-bold border transition-colors ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20' : 'bg-[#F2FDF5] text-[#00C48C] border-[#Bbf7D0] hover:bg-green-50'}`}>
               + Toplu Hak Ediş Onayla
            </button>
          </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-        {[{t:'Havuzdaki Toplam Bakiye', v:'1.450.000 ₺', c:'text-blue-500'}, {t:'Bu Hafta Onaylanan', v:'345.000 ₺', c:'text-green-500'}, {t:'Acil Bekleyen Onay', v:'84 Adet', c:'text-orange-500'}].map((s, i) => (
-          <div key={i} className={`${cardClass} p-5`}>
-            <p className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.t}</p>
-            <h2 className={`text-2xl font-black ${s.c}`}>{s.v}</h2>
+        {[{t:'HAVUZDAKİ TOPLAM BAKİYE', v:'1.450.000 ₺', c:'text-[#0066FF]'}, {t:'BU HAFTA ONAYLANAN', v:'345.000 ₺', c:'text-[#00C48C]'}, {t:'ACİL BEKLEYEN ONAY', v:'84 Adet', c:'text-[#FF6B00]'}].map((s, i) => (
+          <div key={i} className={`${cardClass} p-6`}>
+            <p className={`text-[11px] font-bold uppercase tracking-wider mb-3 ${isDark ? 'text-gray-400' : 'text-[#6B7280]'}`}>{s.t}</p>
+            <h2 className={`text-[32px] font-black tracking-tight ${s.c}`}>{s.v}</h2>
           </div>
         ))}
       </div>
@@ -50,12 +50,17 @@ export default function PayoutManagementPage() {
             {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
               [1,2,3].map(i => (
                 <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                  <td className="px-6 py-4"><span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Store {i}</span></td>
-                  <td className="px-6 py-4"><span className="text-[13px] font-black text-primary">{(14500 * i).toLocaleString()} ₺</span></td>
-                  <td className="px-6 py-4"><span className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{i * 4} Teslimat</span></td>
-                  <td className="px-6 py-4 text-right">
-                    <button className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200'}`}>
-                       Onayla
+                  <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Store {i}</span></td>
+                  <td className="px-6 py-5"><span className={`text-[14px] font-black ${isDark ? 'text-green-400' : 'text-[#00C48C]'}`}>{(14500 * i).toLocaleString()} ₺</span></td>
+                  <td className="px-6 py-5">
+                    <div className="flex flex-col">
+                      <span className={`text-[13px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-500'}`}>{i * 4}</span>
+                      <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Teslimat</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-5 text-right">
+                    <button className={`px-5 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-[#F3F4F6] border-gray-200 text-[#374151] hover:bg-gray-200'}`}>
+                       ONAYLA
                     </button>
                   </td>
                 </tr>
