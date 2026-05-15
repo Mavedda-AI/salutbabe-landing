@@ -22,10 +22,10 @@ export default function SysopDashboard() {
   const isDark = theme === 'dark';
   
   // Nexadash specific design tokens
-  const cardClass = `rounded-[16px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
+  const cardClass = `rounded-[16px] border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl ${isDark ? 'bg-[#121214] border-white/5 hover:border-white/20 shadow-2xl' : 'bg-white border-gray-100 hover:border-gray-300 shadow-sm'}`;
   const textTitle = `text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
   const textValue = `text-[28px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`;
-  const iconRight = `w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto cursor-pointer hover:text-gray-400 transition-colors`;
+  const iconRight = `w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto transition-colors`;
   const badgeGreen = `flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400 px-2 py-0.5 rounded-md text-[11px] font-bold`;
   const badgeRed = `flex items-center gap-1 bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 px-2 py-0.5 rounded-md text-[11px] font-bold`;
 
