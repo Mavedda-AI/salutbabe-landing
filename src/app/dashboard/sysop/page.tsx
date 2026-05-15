@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
+import VisitorAnalyticsModal from "../../../components/VisitorAnalyticsModal";
 
 export default function SysopDashboard() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function SysopDashboard() {
   const [filterYear, setFilterYear] = useState("2026");
   const [filterTop3, setFilterTop3] = useState("Günlük");
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
+  const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -460,7 +462,7 @@ export default function SysopDashboard() {
             </div>
 
             {/* TOTAL VISITOR HEATMAP */}
-            <div onClick={() => router.push('/dashboard/sysop/user-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setIsVisitorModalOpen(true)} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
@@ -479,7 +481,7 @@ export default function SysopDashboard() {
                       </div>
                     )}
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/user-management'); }} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
+                  <button onClick={(e) => { e.stopPropagation(); setIsVisitorModalOpen(true); }} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></button>
                 </div>
               </div>
 
@@ -943,6 +945,12 @@ export default function SysopDashboard() {
           </div>
         </div>
       )}
+
+      {/* Visitor Analytics Modal */}
+      <VisitorAnalyticsModal 
+        isOpen={isVisitorModalOpen} 
+        onClose={() => setIsVisitorModalOpen(false)} 
+      />
     </div>
   );
 }

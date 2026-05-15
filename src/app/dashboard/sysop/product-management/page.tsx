@@ -148,12 +148,13 @@ export default function ProductManagementPage() {
                   <td className="hidden md:table-cell px-6 py-4">
                     <span className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{p.date}</span>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-4 md:px-6 py-4 text-right">
                     <button 
                       onClick={() => setShowModal(p.id)}
-                      className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200'}`}
+                      className={`px-3 md:px-4 py-1.5 rounded-lg text-[9px] md:text-[10px] font-black uppercase tracking-wider border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-gray-100 border-gray-200 text-gray-800 hover:bg-gray-200'}`}
                     >
-                      İncele / Düzenle
+                      <span className="md:hidden">İncele</span>
+                      <span className="hidden md:inline">İncele / Düzenle</span>
                     </button>
                   </td>
                 </tr>
