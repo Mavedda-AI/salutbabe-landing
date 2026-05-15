@@ -129,7 +129,7 @@ export default function VisitorAnalyticsModal({ isOpen, onClose }: VisitorAnalyt
           {/* Right Column: World Map */}
           <div className={`flex-1 p-6 rounded-2xl border flex flex-col ${isDark ? 'bg-[#1A1D1F] border-white/5' : 'bg-white border-gray-100 shadow-sm'}`}>
              <div className="flex items-center justify-between mb-4 z-10 relative">
-                <h3 className={`text-xl font-black italic tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>Top Countries</h3>
+                <h3 className={`text-xl font-black italic tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>Top Şehirler</h3>
                 <button className={`p-2 rounded-full transition-colors ${isDark ? 'hover:bg-white/10 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                 </button>
@@ -137,86 +137,58 @@ export default function VisitorAnalyticsModal({ isOpen, onClose }: VisitorAnalyt
              
              {/* Map Container */}
              <div className="flex-1 relative min-h-[300px] w-full bg-[#F8F9FA] dark:bg-[#121214] rounded-xl overflow-hidden flex items-center justify-center">
-                {/* SVG Dotted Map Approximation */}
+                {/* SVG Dotted Map Approximation for Turkey */}
                 <div className="absolute inset-4 opacity-40 dark:opacity-20 flex items-center justify-center">
                   <svg viewBox="0 0 1000 500" fill="currentColor" className="w-full h-full text-gray-400">
-                    <path d="M 100,100 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m -30,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m -50,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 200,150 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,-10 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m -30,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 150,250 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,10 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m -10,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,-10 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 450,80 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 500,120 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 550,200 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,-10 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 700,150 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,-10 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    <path d="M 800,250 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,-10 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0 m 20,20 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
-                    {/* Just a decorative pattern to represent dots */}
-                    <pattern id="dots" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                      <circle cx="2" cy="2" r="2" fill="currentColor"></circle>
+                    <pattern id="dots-turkey" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                      <circle cx="3" cy="3" r="3" fill="currentColor"></circle>
                     </pattern>
-                    <rect x="0" y="0" width="1000" height="500" fill="url(#dots)" mask="url(#world-mask)" />
-                    <mask id="world-mask">
-                       <path fill="white" d="M120,80 Q250,50 300,120 T200,250 T120,80 Z" />
-                       <path fill="white" d="M450,50 Q600,20 700,100 T550,200 T450,50 Z" />
-                       <path fill="white" d="M750,120 Q850,80 950,180 T800,280 T750,120 Z" />
-                       <path fill="white" d="M250,300 Q350,250 350,400 T250,450 T250,300 Z" />
-                       <path fill="white" d="M500,250 Q600,220 650,350 T550,450 T500,250 Z" />
+                    <rect x="0" y="0" width="1000" height="500" fill="url(#dots-turkey)" mask="url(#turkey-mask)" />
+                    <mask id="turkey-mask">
+                       <path fill="white" d="M150,200 Q300,150 500,160 T850,200 Q950,250 850,300 Q700,380 400,380 Q150,400 120,300 Q80,250 150,200 Z" />
                     </mask>
                   </svg>
                 </div>
 
-                {/* Country Pins */}
-                {/* Denmark */}
-                <div className="absolute top-[25%] left-[45%] group cursor-pointer">
+                {/* City Pins */}
+                {/* Istanbul */}
+                <div className="absolute top-[35%] left-[25%] group cursor-pointer">
                   <div className="flex items-center gap-1.5 bg-[#111827] text-white px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative animate-bounce-slow">
-                    <span className="w-4 h-4 rounded-full bg-red-600 border border-white flex items-center justify-center overflow-hidden relative">
-                      <div className="absolute inset-0 bg-white w-1 h-full left-1/2 -translate-x-1/2"></div>
-                      <div className="absolute inset-0 bg-white h-1 w-full top-1/2 -translate-y-1/2"></div>
-                    </span>
-                    3.4K
+                    <div className="w-4 h-4 rounded-full bg-red-600 flex items-center justify-center text-[8px]">İST</div>
+                    12.4K
                     <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-[#111827] rotate-45"></div>
                   </div>
                 </div>
 
-                {/* USA */}
-                <div className="absolute top-[35%] left-[20%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white shadow-lg overflow-hidden flex items-center justify-center relative">
-                     <div className="absolute inset-0 flex flex-col justify-around bg-white">
-                        <div className="w-full h-[20%] bg-red-500"></div>
-                        <div className="w-full h-[20%] bg-red-500"></div>
-                        <div className="w-full h-[20%] bg-red-500"></div>
-                     </div>
-                     <div className="absolute top-0 left-0 w-[40%] h-[50%] bg-blue-800"></div>
+                {/* Ankara */}
+                <div className="absolute top-[48%] left-[45%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 text-[#111827] px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative">
+                    <div className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[8px]">ANK</div>
+                    8.2K
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-white border-b border-r border-gray-200 rotate-45"></div>
                   </div>
                 </div>
 
-                {/* Brazil */}
-                <div className="absolute bottom-[25%] left-[30%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow-lg overflow-hidden flex items-center justify-center relative">
-                     <div className="w-[60%] h-[60%] bg-yellow-400 rotate-45 absolute"></div>
-                     <div className="w-[30%] h-[30%] bg-blue-600 rounded-full absolute"></div>
+                {/* Izmir */}
+                <div className="absolute top-[55%] left-[18%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 text-[#111827] px-3 py-1.5 rounded-full font-black text-[11px] shadow-xl relative">
+                    <div className="w-4 h-4 rounded-full bg-green-500 text-white flex items-center justify-center text-[8px]">İZM</div>
+                    5.1K
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-2 h-2 bg-white border-b border-r border-gray-200 rotate-45"></div>
                   </div>
                 </div>
 
-                {/* Russia */}
-                <div className="absolute top-[30%] right-[30%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-8 h-8 rounded-full bg-white border-2 border-white shadow-lg overflow-hidden flex flex-col relative">
-                     <div className="w-full h-1/3 bg-white"></div>
-                     <div className="w-full h-1/3 bg-blue-600"></div>
-                     <div className="w-full h-1/3 bg-red-600"></div>
+                {/* Antalya */}
+                <div className="absolute bottom-[20%] left-[35%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="w-8 h-8 rounded-full bg-orange-500 border-2 border-white shadow-lg flex items-center justify-center relative text-white text-[9px] font-bold">
+                     ANT
                   </div>
                 </div>
 
-                {/* China */}
-                <div className="absolute top-[45%] right-[20%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-8 h-8 rounded-full bg-red-600 border-2 border-white shadow-lg overflow-hidden flex items-center justify-center relative">
-                     <div className="w-2 h-2 bg-yellow-400 absolute top-2 left-2 rotate-45 star-shape"></div>
-                  </div>
-                </div>
-
-                {/* Australia */}
-                <div className="absolute bottom-[20%] right-[25%] group cursor-pointer hover:scale-110 transition-transform">
-                  <div className="w-8 h-8 rounded-full bg-blue-800 border-2 border-white shadow-lg overflow-hidden flex items-center justify-center relative">
-                     <div className="w-3 h-3 bg-white absolute top-1 left-1"></div>
-                     <div className="w-1 h-1 bg-white rounded-full absolute bottom-2 right-2"></div>
+                {/* Bursa */}
+                <div className="absolute top-[42%] left-[30%] group cursor-pointer hover:scale-110 transition-transform">
+                  <div className="w-6 h-6 rounded-full bg-purple-600 border-2 border-white shadow-lg flex items-center justify-center relative text-white text-[8px] font-bold">
+                     BRS
                   </div>
                 </div>
                 

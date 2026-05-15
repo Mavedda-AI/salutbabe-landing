@@ -35,7 +35,7 @@ export default function ProductManagementPage() {
     }
     return true;
   });
-
+  return (
     <div className="space-y-4 md:space-y-6 animate-fade-in w-full max-w-[1400px] mx-auto pb-12 overflow-x-hidden md:overflow-visible px-0">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
          <div>
