@@ -150,13 +150,13 @@ export default function SysopDashboard() {
           
           {/* ROW 1: 4 STAT CARDS */}
           <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-6">
-            <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`${cardClass} p-4 md:p-5 relative overflow-hidden group`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'payout' ? null : 'payout')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   NET GELİR (TAKE RATE)
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/payout-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>$1,256.940</h2>
@@ -166,26 +166,33 @@ export default function SysopDashboard() {
                 <span className={badgeGreen}>↗ 12%</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
               </div>
+
+              {expandedCard === 'payout' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşen</span><span className="text-[12px] font-black text-green-600">$980,400</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">$276,540</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/payout-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
 
-            <div className={`${cardClass} flex flex-col p-4 md:p-5 relative`}>
-              <div onClick={() => router.push('/dashboard/sysop/order-management')} className="flex items-center mb-4 cursor-pointer">
+            <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+              <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   TOPLAM SİPARİŞ
                 </h3>
-                <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline justify-between mb-3">
                  <div className="flex items-baseline gap-2">
                    <h2 className={textValue}>6,432</h2>
                    <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Sipariş</span>
                  </div>
-                 {isFounder && (
-                   <button onClick={(e) => { e.stopPropagation(); setShowFunnel(!showFunnel); }} className={`px-2 py-1 rounded border text-[10px] font-black transition-colors ${showFunnel ? 'bg-[#111827] text-white border-transparent' : isDark ? 'bg-white/5 border-white/10 text-gray-300' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
-                     FUNNEL {showFunnel ? 'GİZLE' : 'GÖR'}
-                   </button>
-                 )}
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>↘ 1.8%</span>
@@ -193,10 +200,10 @@ export default function SysopDashboard() {
               </div>
               
               {/* CONVERSION FUNNEL (Collapsible Layer) */}
-              {isFounder && showFunnel && (
-                <div className={`mt-4 pt-4 border-t animate-fade-in ${isDark ? 'border-white/10' : 'border-gray-100'}`}>
+              {expandedCard === 'orders' && (
+                <div className={`mt-4 pt-4 border-t animate-fade-in ${isDark ? 'border-white/10' : 'border-gray-100'}`} onClick={(e) => e.stopPropagation()}>
                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Dönüşüm Hunisi</p>
-                   <div className="flex flex-col gap-2 relative">
+                   <div className="flex flex-col gap-2 relative mb-4">
                       {/* Vertical line connector */}
                       <div className="absolute left-[11px] top-4 bottom-4 w-0.5 bg-gray-200  rounded-full z-0"></div>
                       
@@ -215,17 +222,20 @@ export default function SysopDashboard() {
                         </div>
                       ))}
                    </div>
+                   <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                     DETAYLARI GÖRÜNTÜLE
+                   </button>
                 </div>
               )}
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/user-management')} className={`${cardClass} p-4 md:p-5`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'users' ? null : 'users')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   TOPLAM KULLANICI
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/user-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>173,247</h2>
@@ -235,15 +245,27 @@ export default function SysopDashboard() {
                 <span className={badgeGreen}>↗ 1.8%</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Yeni kullanıcı</span>
               </div>
+
+              {expandedCard === 'users' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Aktif Kullanıcı</span><span className="text-[12px] font-black text-green-600">42,105</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Inaktif Kullanıcı</span><span className="text-[12px] font-black text-gray-600">131,142</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/user-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/live-room-management')} className={`${cardClass} p-4 md:p-5`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'rooms' ? null : 'rooms')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
                   SESLİ ODA ETKİLEŞİMİ
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/live-room-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>3,247</h2>
@@ -252,6 +274,18 @@ export default function SysopDashboard() {
                 <span className={badgeRed}>↘ 2.8%</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
               </div>
+
+              {expandedCard === 'rooms' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Aktif Odalar</span><span className="text-[12px] font-black text-[#111827]">142</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Anlık Dinleyici</span><span className="text-[12px] font-black text-purple-600">3,105</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/live-room-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
