@@ -708,7 +708,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             
             {/* User Profile */}
             <div className="relative group ml-2">
-              <div className="w-11 h-11 rounded-full bg-white  flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10">
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border border-border-color shadow-sm relative z-10">
                  {user?.profilePhotoUrl ? (
                    <img 
                      src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
