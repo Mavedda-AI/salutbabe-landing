@@ -31,9 +31,9 @@ export default function SysopDashboard() {
   
   // Nexadash specific design tokens
   const cardClass = `rounded-[16px] border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl ${isDark ? 'bg-[#121214] border-white/5 hover:border-white/20 shadow-2xl' : 'bg-white border-gray-100 hover:border-gray-300 shadow-sm'}`;
-  const textTitle = `text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
-  const textValue = `text-[28px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`;
-  const iconRight = `w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto transition-colors`;
+  const textTitle = `text-[9px] md:text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
+  const textValue = `text-[20px] md:text-[28px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`;
+  const iconRight = `hidden md:block w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-300'} ml-auto transition-colors`;
   const badgeGreen = `flex items-center gap-1 bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400 px-2 py-0.5 rounded-md text-[11px] font-bold`;
   const badgeRed = `flex items-center gap-1 bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 px-2 py-0.5 rounded-md text-[11px] font-bold`;
 
@@ -54,8 +54,8 @@ export default function SysopDashboard() {
         <div className="space-y-6">
           
           {/* ROW 1: 4 STAT CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`${cardClass} p-5 relative overflow-hidden group`}>
+          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-6">
+            <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`${cardClass} p-4 md:p-5 relative overflow-hidden group`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -73,7 +73,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-4 md:p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -91,7 +91,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/user-management')} className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/user-management')} className={`${cardClass} p-4 md:p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -109,7 +109,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/live-room-management')} className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/live-room-management')} className={`${cardClass} p-4 md:p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
