@@ -198,7 +198,6 @@ export default function SysopDashboard() {
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
               </div>
             </div>
-            </div>
           </div>
 
           {/* ROW 1.5: INTELLIGENCE CARDS (FOUNDER ONLY) */}
