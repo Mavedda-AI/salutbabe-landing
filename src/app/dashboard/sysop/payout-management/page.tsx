@@ -37,38 +37,40 @@ export default function PayoutManagementPage() {
         ))}
       </div>
 
-      <div className={`${cardClass} overflow-x-auto`}>
-        <table className="w-full text-left border-collapse min-w-[800px]">
-          <thead>
-            <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Mağaza</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Tutar (Komisyon Kesilmiş)</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş Sayısı</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-white/5">
-            {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
-              [1,2,3].map(i => (
-                <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                  <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Store {i}</span></td>
-                  <td className="px-6 py-5"><span className={`text-[14px] font-black ${isDark ? 'text-green-400' : 'text-[#00C48C]'}`}>{(14500 * i).toLocaleString()} ₺</span></td>
-                  <td className="px-6 py-5">
-                    <div className="flex flex-col">
-                      <span className={`text-[13px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-500'}`}>{i * 4}</span>
-                      <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Teslimat</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-5 text-right">
-                    <button onClick={() => alert(`${i} nolu Mağaza için hak ediş onaylandı.`)} className={`px-5 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-[#F3F4F6] border-gray-200 text-[#374151] hover:bg-gray-200'}`}>
-                       ONAYLA
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className={`${cardClass}`}>
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
+                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Mağaza</th>
+                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Tutar (Komisyon Kesilmiş)</th>
+                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş Sayısı</th>
+                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+              {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
+                [1,2,3].map(i => (
+                  <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
+                    <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Mağaza {i}</span></td>
+                    <td className="px-6 py-5"><span className={`text-[14px] font-black ${isDark ? 'text-green-400' : 'text-[#00C48C]'}`}>{(14500 * i).toLocaleString()} ₺</span></td>
+                    <td className="px-6 py-5">
+                      <div className="flex flex-col">
+                        <span className={`text-[13px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-500'}`}>{i * 4}</span>
+                        <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Teslimat</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-right">
+                      <button onClick={(e) => { e.stopPropagation(); alert(`Mağaza ${i} hak ediş detayları açılıyor...`); }} className={`px-5 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>
+                        Detay
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Mock Confirmation Modal */}
