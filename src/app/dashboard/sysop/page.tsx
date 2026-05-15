@@ -88,7 +88,7 @@ export default function SysopDashboard() {
                    {/* Left Accent Bar */}
                    <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 rounded-r-full ${style.bg} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
                    
-                   <div className="flex items-start sm:items-center gap-4 mb-4 sm:mb-0 pl-2">
+                   <div className="flex items-start sm:items-center gap-4 pl-2 pr-20 sm:pr-0">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${style.lightBg} ${style.text}`}>
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">{style.icon}</svg>
                       </div>
@@ -98,7 +98,7 @@ export default function SysopDashboard() {
                       </div>
                    </div>
                    
-                   <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`w-full sm:w-auto text-[11px] font-black px-6 py-2.5 rounded-full ${style.lightBg} ${style.text} hover:bg-[#111827] hover:text-white transition-all duration-300 shadow-sm shrink-0 uppercase tracking-widest`}>
+                   <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`absolute top-4 right-4 sm:static w-auto text-[9px] sm:text-[11px] font-black px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-full ${style.lightBg} ${style.text} hover:bg-[#111827] hover:text-white transition-all duration-300 shadow-sm shrink-0 uppercase tracking-widest`}>
                      {alert.action}
                    </button>
                  </div>
