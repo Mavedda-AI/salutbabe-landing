@@ -18,6 +18,7 @@ export default function SysopDashboard() {
   const [filterYear, setFilterYear] = useState("2026");
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   // --- INTELLIGENCE LAYER STATES ---
   const [showFunnel, setShowFunnel] = useState(false);
