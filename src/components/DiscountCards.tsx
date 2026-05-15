@@ -16,24 +16,24 @@ const DiscountCards = () => {
       id: 1,
       title: "Yaz İndirimi",
       subtitle: "%50'YE VARAN İNDİRİM",
-      bgClass: "bg-gradient-to-br from-[#FEF2F2] to-[#FEE2E2]", 
-      titleColor: "text-[#DC2626]",
-      subtitleClass: "bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20",
+      bgClass: "bg-gradient-to-br from-[#FF8D28] to-[#FFCC00]", 
+      titleColor: "text-white drop-shadow-lg",
+      subtitleClass: "bg-white/20 text-white border-white/20",
       buttonText: "HEMEN AL",
-      buttonClass: "bg-[#EF4444] text-white hover:bg-[#DC2626]",
+      buttonClass: "bg-white text-[#FF8D28] hover:bg-gray-50",
       image: "/images/chair.png",
       floatClass: "animate-[float_4s_ease-in-out_infinite]",
-      shadowClass: "shadow-[#EF4444]/20",
+      shadowClass: "shadow-[#FF8D28]/40",
       decorations: (
         <>
           {/* Rotating Dotted Circle */}
           <svg className="absolute -top-10 -right-10 w-40 h-40 opacity-20 animate-[spin_20s_linear_infinite]" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#EF4444" strokeWidth="2" strokeDasharray="4 8" />
-            <circle cx="50" cy="50" r="20" fill="none" stroke="#EF4444" strokeWidth="1" strokeDasharray="2 4" />
+            <circle cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="2" strokeDasharray="4 8" />
+            <circle cx="50" cy="50" r="20" fill="none" stroke="white" strokeWidth="1" strokeDasharray="2 4" />
           </svg>
           {/* Floating Dots */}
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#EF4444] rounded-full opacity-30 animate-[ping_3s_ease-in-out_infinite]"></div>
-          <div className="absolute bottom-1/4 right-1/3 w-3 h-3 bg-[#EF4444] rounded-full opacity-20 animate-[pulse_2s_ease-in-out_infinite]"></div>
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white rounded-full opacity-50 animate-[ping_3s_ease-in-out_infinite]"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-3 h-3 bg-white rounded-full opacity-30 animate-[pulse_2s_ease-in-out_infinite]"></div>
         </>
       )
     },
@@ -41,22 +41,22 @@ const DiscountCards = () => {
       id: 2,
       title: "Yenidoğan Seti",
       subtitle: "BUNDLE AL & %20 KAZAN",
-      bgClass: "bg-gradient-to-br from-[#FFF7ED] to-[#FFEDD5]", 
-      titleColor: "text-[#EA580C]",
-      subtitleClass: "bg-[#F97316]/10 text-[#F97316] border-[#F97316]/20",
+      bgClass: "bg-gradient-to-br from-[#32ADE6] to-[#007AFF]", 
+      titleColor: "text-white drop-shadow-lg",
+      subtitleClass: "bg-white/20 text-white border-white/20",
       buttonText: "SETLERİ GÖR",
-      buttonClass: "bg-[#F97316] text-white hover:bg-[#EA580C]",
+      buttonClass: "bg-white text-[#007AFF] hover:bg-gray-50",
       image: "/images/stroller.png",
       floatClass: "animate-[float_3.5s_ease-in-out_infinite_0.5s]",
-      shadowClass: "shadow-[#F97316]/20",
+      shadowClass: "shadow-[#007AFF]/40",
       decorations: (
         <>
           {/* Pulsing Bubbles */}
-          <div className="absolute -left-4 -bottom-4 w-24 h-24 bg-[#F97316]/10 rounded-full animate-[pulse_4s_ease-in-out_infinite]"></div>
-          <div className="absolute top-1/2 right-10 w-12 h-12 bg-[#F97316]/10 rounded-full animate-[pulse_3s_ease-in-out_infinite_1s]"></div>
+          <div className="absolute -left-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full animate-[pulse_4s_ease-in-out_infinite]"></div>
+          <div className="absolute top-1/2 right-10 w-12 h-12 bg-white/10 rounded-full animate-[pulse_3s_ease-in-out_infinite_1s]"></div>
           {/* Wave Graphic */}
-          <svg className="absolute bottom-0 left-0 w-full opacity-10" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#F97316" d="M0,160L48,176C96,192,192,224,288,218.7C384,213,480,171,576,149.3C672,128,768,128,864,149.3C960,171,1056,213,1152,213.3C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          <svg className="absolute bottom-0 left-0 w-full opacity-20" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="white" d="M0,160L48,176C96,192,192,224,288,218.7C384,213,480,171,576,149.3C672,128,768,128,864,149.3C960,171,1056,213,1152,213.3C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
           </svg>
         </>
       )
@@ -65,22 +65,22 @@ const DiscountCards = () => {
       id: 3,
       title: "Eco-Tech Ürünler",
       subtitle: "AKILLI VE DOĞA DOSTU",
-      bgClass: "bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE]", 
-      titleColor: "text-[#2563EB]",
-      subtitleClass: "bg-[#3B82F6]/10 text-[#3B82F6] border-[#3B82F6]/20",
+      bgClass: "bg-gradient-to-br from-[#AF52DE] to-[#FF2D55]", 
+      titleColor: "text-white drop-shadow-lg",
+      subtitleClass: "bg-white/20 text-white border-white/20",
       buttonText: "KEŞFET",
-      buttonClass: "bg-[#3B82F6] text-white hover:bg-[#2563EB]",
+      buttonClass: "bg-white text-[#AF52DE] hover:bg-gray-50",
       image: "/images/monitor.png",
       floatClass: "animate-[float_4.5s_ease-in-out_infinite_1s]",
-      shadowClass: "shadow-[#3B82F6]/20",
+      shadowClass: "shadow-[#AF52DE]/40",
       decorations: (
         <>
           {/* Expanding Sound Rings */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square rounded-full border border-[#3B82F6]/20 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] aspect-square rounded-full border border-[#3B82F6]/10 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite_1s]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square rounded-full border border-white/20 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] aspect-square rounded-full border border-white/10 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite_1s]"></div>
           {/* Plus Signs */}
-          <div className="absolute top-4 right-8 text-[#3B82F6]/30 text-2xl font-black rotate-45 animate-pulse">+</div>
-          <div className="absolute bottom-6 left-12 text-[#3B82F6]/30 text-xl font-black rotate-12 animate-pulse">+</div>
+          <div className="absolute top-4 right-8 text-white/40 text-2xl font-black rotate-45 animate-pulse">+</div>
+          <div className="absolute bottom-6 left-12 text-white/40 text-xl font-black rotate-12 animate-pulse">+</div>
         </>
       )
     }
@@ -133,8 +133,8 @@ const DiscountCards = () => {
 
             {/* Product Image Wrapper with continuous floating */}
             <div className={`absolute right-[-10%] md:right-[-5%] top-[15%] md:top-[10%] w-[55%] md:w-[60%] h-[120%] pointer-events-none z-20 ${deal.floatClass}`}>
-               {/* Soft glow behind the image to make it pop, updated to light theme */}
-               <div className="absolute inset-0 bg-white/50 blur-[30px] rounded-full scale-75 mix-blend-overlay"></div>
+               {/* Soft glow behind the image to make it pop */}
+               <div className="absolute inset-0 bg-white/10 blur-[30px] rounded-full scale-75 mix-blend-overlay"></div>
                
                <div className="relative w-full h-full">
                  <Image 
