@@ -21,22 +21,22 @@ export default function ComplaintManagementPage() {
 
       <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse">
             <thead>
             <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">İhbar Eden</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Konu / İlan</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">İhbar Eden</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Konu / İlan</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {loading ? <tr><td colSpan={3} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
               [1,2].map(i => (
                 <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                  <td className="px-6 py-4"><span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Müşteri {i}</span></td>
-                  <td className="px-6 py-4"><span className={`text-[12px] text-red-500 font-bold`}>Sahte Ürün Şüphesi (Replika)</span></td>
-                  <td className="px-6 py-4 text-right">
-                    <button className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>İncele</button>
+                  <td className="px-4 md:px-6 py-4"><span className={`text-[12px] md:text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Müşteri {i}</span></td>
+                  <td className="px-4 md:px-6 py-4"><span className={`text-[11px] md:text-[12px] text-red-500 font-bold max-w-[120px] md:max-w-none block truncate`}>Sahte Ürün Şüphesi (Replika)</span></td>
+                  <td className="px-4 md:px-6 py-4 text-right">
+                    <button className={`px-2 md:px-4 py-1.5 rounded-lg text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>İncele</button>
                   </td>
                 </tr>
               ))

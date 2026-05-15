@@ -46,13 +46,13 @@ export default function UserManagementPage() {
 
       <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Kullanıcı</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Rol / Katılım</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Kullanıcı</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Rol / Katılım</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-center md:text-left">Durum</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5">
@@ -60,20 +60,20 @@ export default function UserManagementPage() {
                filteredUsers.length === 0 ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Sonuç bulunamadı.</td></tr> : (
                 filteredUsers.map(user => (
                   <tr key={user.id} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4">
                       <div className="flex flex-col">
-                        <span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{user.name}</span>
-                        <span className={`text-[11px] mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{user.email}</span>
+                        <span className={`text-[12px] md:text-[13px] font-bold truncate max-w-[100px] md:max-w-none ${isDark ? 'text-white' : 'text-gray-900'}`}>{user.name}</span>
+                        <span className={`text-[10px] md:text-[11px] mt-0.5 truncate max-w-[100px] md:max-w-none ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{user.email}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#4B5563]'}`}>{user.role}</span></td>
-                    <td className="px-6 py-5">
-                      <span className={`px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider ${user.status === 'AKTİF' ? (isDark ? 'bg-green-500/10 text-green-500' : 'bg-[#E8F8F0] text-[#00C48C]') : (isDark ? 'bg-red-500/10 text-red-500' : 'bg-red-50 text-red-600')}`}>
+                    <td className="hidden md:table-cell px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#4B5563]'}`}>{user.role}</span></td>
+                    <td className="px-4 md:px-6 py-4 text-center md:text-left">
+                      <span className={`px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[9px] md:text-[11px] font-black uppercase tracking-wider ${user.status === 'AKTİF' ? (isDark ? 'bg-green-500/10 text-green-500' : 'bg-[#E8F8F0] text-[#00C48C]') : (isDark ? 'bg-red-500/10 text-red-500' : 'bg-red-50 text-red-600')}`}>
                         {user.status}
                       </span>
                     </td>
-                    <td className="px-6 py-5 text-right">
-                      <button onClick={(e) => { e.stopPropagation(); setSelectedUserId(user.id); }} className={`px-5 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>DETAY</button>
+                    <td className="px-4 md:px-6 py-4 text-right">
+                      <button onClick={(e) => { e.stopPropagation(); setSelectedUserId(user.id); }} className={`px-3 py-1.5 md:px-5 md:py-2 rounded-xl text-[10px] md:text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>DETAY</button>
                     </td>
                   </tr>
                 ))

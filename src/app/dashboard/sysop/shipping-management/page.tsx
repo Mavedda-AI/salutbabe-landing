@@ -91,16 +91,15 @@ export default function ShippingManagementPage() {
          </div>
       </div>
 
-      {/* Table Section */}
       <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[900px]">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Takip Kodu / Firma</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş / Alıcı</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Müdahale</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş & Kargo</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Alıcı Bilgisi</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5">
@@ -110,40 +109,40 @@ export default function ShippingManagementPage() {
                 <tr><td colSpan={4} className="p-12 text-center text-gray-500">Sonuç bulunamadı.</td></tr>
               ) : filteredShipments.map((ship) => (
                 <tr key={ship.id} className={`transition-colors group ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'} ${ship.status === 'Gecikmede' ? (isDark ? 'bg-orange-500/5' : 'bg-orange-50/30') : ''}`}>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex flex-col">
-                      <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                      <span className={`text-[12px] md:text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>
                         {ship.trackingNumber}
                       </span>
-                      <span className={`text-[11px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                      <span className={`text-[10px] md:text-[11px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
                         {ship.provider}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <div className="flex flex-col">
                       <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{ship.orderID}</span>
                       <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{ship.buyerName}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                      {ship.status === 'Gecikmede' ? (
-                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
+                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
                          ⚠️ Gecikme ({ship.delayDays} Gün)
                        </span>
                      ) : (
-                       <span className={`px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border ${isDark ? 'border-white/10 text-gray-400' : 'border-gray-200 text-gray-600'}`}>
+                       <span className={`px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'border-white/10 text-gray-400' : 'border-gray-200 text-gray-600'}`}>
                          {ship.status}
                        </span>
                      )}
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-4 md:px-6 py-4 text-right">
                      {ship.status === 'Gecikmede' ? (
-                      <button className={`h-8 px-4 rounded-lg font-black text-[10px] uppercase tracking-wider transition-all border ${isDark ? 'bg-orange-500 text-white border-orange-500' : 'bg-orange-500 text-white border-orange-600'}`}>
+                      <button className={`h-8 px-2 md:px-4 rounded-lg font-black text-[9px] md:text-[10px] uppercase tracking-wider transition-all border ${isDark ? 'bg-orange-500 text-white border-orange-500' : 'bg-orange-500 text-white border-orange-600'}`}>
                         Firmayı Dürt
                       </button>
                     ) : (
-                      <button className={`p-2 rounded-lg border transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>
+                      <button className={`p-1.5 md:p-2 rounded-lg border text-[10px] md:text-[12px] transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>
                          Detay
                       </button>
                     )}

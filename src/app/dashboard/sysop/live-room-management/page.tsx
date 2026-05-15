@@ -31,30 +31,30 @@ export default function LiveRoomManagementPage() {
 
       <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse">
             <thead>
             <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Oda & Sunucu</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Dinleyici / Süre</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
-              <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Moderasyon</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Oda & Sunucu</th>
+              <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Dinleyici / Süre</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
+              <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Moderasyon</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
               [1,2].map(i => (
                 <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex flex-col">
-                      <span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Bebek Arabası İncelemesi {i}</span>
-                      <span className={`text-[11px] mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Sunucu: Ayşe T.</span>
+                      <span className={`text-[12px] md:text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'} max-w-[120px] md:max-w-none truncate block`}>Bebek Arabası İncelemesi {i}</span>
+                      <span className={`text-[10px] md:text-[11px] mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Sunucu: Ayşe T.</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4"><span className="text-[13px] font-black text-primary">{i * 120} Dinleyici</span><br/><span className="text-[10px] text-gray-500">45dk</span></td>
-                  <td className="px-6 py-4"><span className="px-2 py-1 bg-red-500/10 text-red-500 rounded-md text-[10px] font-black uppercase">Canlı</span></td>
-                  <td className="px-6 py-4 text-right">
-                    <button className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20' : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100'}`}>
-                       Odayı Kapat
+                  <td className="hidden md:table-cell px-6 py-4"><span className="text-[13px] font-black text-primary">{i * 120} Dinleyici</span><br/><span className="text-[10px] text-gray-500">45dk</span></td>
+                  <td className="px-4 md:px-6 py-4"><span className="px-2 py-1 bg-red-500/10 text-red-500 rounded-md text-[9px] md:text-[10px] font-black uppercase">Canlı</span></td>
+                  <td className="px-4 md:px-6 py-4 text-right">
+                    <button className={`px-2 md:px-4 py-1.5 rounded-lg text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20' : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100'}`}>
+                       Kapat
                     </button>
                   </td>
                 </tr>

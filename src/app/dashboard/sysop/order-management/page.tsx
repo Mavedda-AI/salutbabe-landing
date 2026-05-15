@@ -170,15 +170,15 @@ export default function OrderManagementPage() {
       {/* Table Section */}
       <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[900px]">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş / Tarih</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Alıcı Bilgisi</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satıcı Bilgisi</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Tutar</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş / Tarih</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Alıcı Bilgisi</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satıcı Bilgisi</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Tutar</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5">
@@ -194,53 +194,53 @@ export default function OrderManagementPage() {
                 </td></tr>
               ) : filteredOrders.map((order) => (
                 <tr key={order.orderID} className={`transition-colors group ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'} ${order.status === 'Uyuşmazlık' ? (isDark ? 'bg-red-500/5' : 'bg-red-50/30') : ''}`}>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex flex-col">
-                      <span className={`text-[13px] font-black flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                      <span className={`text-[12px] md:text-[13px] font-black flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                         #{order.orderID.split('-')[0].toUpperCase()}
                       </span>
-                      <span className={`text-[11px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                      <span className={`text-[10px] md:text-[11px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
                         {new Date(order.createdAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <div className="flex flex-col">
                       <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{order.buyer.userName} {order.buyer.userSurname}</span>
                       <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{order.buyer.eMail}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <div className="flex flex-col">
                       <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{order.seller.userName} {order.seller.userSurname}</span>
                       <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{order.seller.eMail}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  <td className="px-4 md:px-6 py-4">
+                    <span className={`text-[11px] md:text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>
                       {order.totalAmount.toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')} ₺
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex flex-col gap-1 items-start">
-                      <span className={`px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border ${getStatusColor(order.status)}`}>
+                      <span className={`px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${getStatusColor(order.status)}`}>
                         {order.status}
                       </span>
                       {order.disputeReason && (
-                        <span className="text-[10px] font-bold text-red-500 flex items-center gap-1">
+                        <span className="text-[9px] md:text-[10px] font-bold text-red-500 flex items-center gap-1 max-w-[80px] md:max-w-none truncate">
                           ↳ {order.disputeReason}
                         </span>
                       )}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-4 md:px-6 py-4 text-right">
                     {order.status === 'Uyuşmazlık' ? (
-                      <button onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }} className={`h-8 px-4 rounded-lg font-black text-[10px] uppercase tracking-wider transition-all border
+                      <button onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }} className={`h-8 px-2 md:px-4 rounded-lg font-black text-[9px] md:text-[10px] uppercase tracking-wider transition-all border
                         ${isDark ? 'bg-red-500 text-white border-red-500 hover:bg-red-600' : 'bg-red-500 text-white border-red-600 hover:bg-red-600'}`}>
-                        Müdahale Et
+                        Müdahale
                       </button>
                     ) : (
-                      <button onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }} className={`p-2 rounded-lg border transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`} title="Sipariş Detayı">
+                      <button onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }} className={`p-1.5 md:p-2 rounded-lg border text-[10px] md:text-[12px] transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`} title="Sipariş Detayı">
                          İncele →
                       </button>
                     )}

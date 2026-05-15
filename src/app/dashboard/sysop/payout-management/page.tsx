@@ -15,7 +15,7 @@ export default function PayoutManagementPage() {
   const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
 
   return (
-    <div className="space-y-6 animate-fade-in max-w-[1400px] mx-auto pb-12">
+    <div className="space-y-4 md:space-y-6 animate-fade-in w-full max-w-[1400px] mx-auto pb-12 overflow-x-hidden md:overflow-visible px-0">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
          <div>
            <h1 className={`text-2xl font-black tracking-tight ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Finans & Hak Ediş (Payout)</h1>
@@ -39,29 +39,29 @@ export default function PayoutManagementPage() {
 
       <div className={`${cardClass} overflow-hidden`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Mağaza</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Tutar (Komisyon Kesilmiş)</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş Sayısı</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Mağaza</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Tutar</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Sipariş Sayısı</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">Aksiyon</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5">
               {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : (
                 [1,2,3].map(i => (
                   <tr key={i} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                    <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Mağaza {i}</span></td>
-                    <td className="px-6 py-5"><span className={`text-[14px] font-black ${isDark ? 'text-green-400' : 'text-[#00C48C]'}`}>{(14500 * i).toLocaleString()} ₺</span></td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 md:px-6 py-4 md:py-5"><span className={`text-[12px] md:text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Mağaza {i}</span></td>
+                    <td className="px-4 md:px-6 py-4 md:py-5"><span className={`text-[12px] md:text-[14px] font-black ${isDark ? 'text-green-400' : 'text-[#00C48C]'}`}>{(14500 * i).toLocaleString()} ₺</span></td>
+                    <td className="hidden md:table-cell px-6 py-5">
                       <div className="flex flex-col">
                         <span className={`text-[13px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-500'}`}>{i * 4}</span>
                         <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Teslimat</span>
                       </div>
                     </td>
-                    <td className="px-6 py-5 text-right">
-                      <button onClick={(e) => { e.stopPropagation(); alert(`Mağaza ${i} hak ediş detayları açılıyor...`); }} className={`px-5 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>
+                    <td className="px-4 md:px-6 py-4 md:py-5 text-right">
+                      <button onClick={(e) => { e.stopPropagation(); alert(`Mağaza ${i} hak ediş detayları açılıyor...`); }} className={`px-3 md:px-5 py-1.5 md:py-2 rounded-xl text-[10px] md:text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>
                         Detay
                       </button>
                     </td>

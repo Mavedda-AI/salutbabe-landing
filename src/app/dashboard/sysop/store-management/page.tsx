@@ -184,14 +184,14 @@ export default function StoreManagementPage() {
       {/* Table Section */}
       <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
         <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse min-w-[900px]">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Mağaza Bilgisi</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Segment</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satış / Ürün</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
-                <th className="px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlemler</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Mağaza Bilgisi</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Segment</th>
+                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Satış / Ürün</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Durum</th>
+                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlemler</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5">
@@ -207,24 +207,24 @@ export default function StoreManagementPage() {
                 </td></tr>
               ) : filteredStores.map((store) => (
                 <tr key={store.storeID} className={`transition-colors group ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 border transition-transform group-hover:scale-105 ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100 border-gray-200'}`}>
+                  <td className="px-4 md:px-6 py-4">
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center overflow-hidden shrink-0 border transition-transform group-hover:scale-105 ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100 border-gray-200'}`}>
                         {store.storePhotoUrl ? (
                           <img src={`${API_BASE_URL}/uploads/stores/${store.storePhotoUrl}`} alt={store.storeName} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="text-[12px] font-black opacity-40 uppercase tracking-widest">{store.storeName.charAt(0)}</span>
+                          <span className="text-[10px] md:text-[12px] font-black opacity-40 uppercase tracking-widest">{store.storeName.charAt(0)}</span>
                         )}
                       </div>
-                      <div className="flex flex-col">
-                        <span className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{store.storeName}</span>
-                        <span className={`text-[11px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-                          {store.owner.userName} {store.owner.userSurname} • <span className="opacity-60">{store.storeID.split('-')[0]}</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className={`text-[12px] md:text-[14px] font-bold truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>{store.storeName}</span>
+                        <span className={`text-[9px] md:text-[11px] font-medium mt-0.5 truncate ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+                          {store.owner.userName} {store.owner.userSurname} <span className="hidden md:inline">• <span className="opacity-60">{store.storeID.split('-')[0]}</span></span>
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     {store.segment === 'pro' ? (
                       <div className="flex flex-col">
                         <span className="inline-flex items-center w-max gap-1 px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[10px] font-black uppercase tracking-wider">
@@ -241,40 +241,38 @@ export default function StoreManagementPage() {
                       </div>
                     )}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="hidden md:table-cell px-6 py-4">
                     <div className="flex flex-col">
                       <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{store.totalSales} <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>satış</span></span>
                       <span className={`text-[11px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{store.activeListings} aktif ilan</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="relative flex items-center justify-center">
-                        {store.isActive && <div className="absolute w-3 h-3 bg-green-500/30 rounded-full animate-ping"></div>}
-                        <div className={`w-2 h-2 rounded-full relative z-10 ${store.isActive ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                  <td className="px-4 md:px-6 py-4">
+                    {store.isActive ? (
+                      <div className="flex flex-col gap-1 items-start">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-green-50 text-green-600 border-green-100'}`}>
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> Aktif
+                        </span>
                       </div>
-                      <span className={`text-[11px] font-black uppercase tracking-wider ${store.isActive ? 'text-green-600 dark:text-green-500' : 'text-gray-500'}`}>
-                        {store.isActive ? 'Aktif' : 'Pasif'}
-                      </span>
-                    </div>
+                    ) : (
+                      <div className="flex flex-col gap-1 items-start">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-gray-500/10 text-gray-400 border-gray-500/20' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> Pasif
+                        </span>
+                      </div>
+                    )}
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                       <button className={`p-2 rounded-lg border transition-colors ${isDark ? 'border-white/10 text-gray-400 hover:text-white hover:bg-white/5' : 'border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`} title="Mağaza Detayları">
-                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                       </button>
-                       <button 
-                        onClick={() => toggleStatus(store.storeID, store.isActive)}
-                        disabled={saving === store.storeID}
-                        className={`h-8 px-4 rounded-lg font-black text-[10px] uppercase tracking-wider transition-all border
-                          ${store.isActive 
-                            ? (isDark ? 'bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20' : 'bg-red-50 text-red-600 border-red-100 hover:bg-red-100') 
-                            : (isDark ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20' : 'bg-green-50 text-green-600 border-green-100 hover:bg-green-100')
-                          } disabled:opacity-50`}
-                       >
-                         {saving === store.storeID ? '...' : (store.isActive ? 'Kısıtla' : 'Onayla')}
-                       </button>
-                    </div>
+                  <td className="px-4 md:px-6 py-4 text-right">
+                     <button 
+                       onClick={(e) => { e.stopPropagation(); toggleStoreStatus(store.storeID, store.isActive); }}
+                       disabled={saving === store.storeID}
+                       className={`relative overflow-hidden px-3 md:px-5 py-1.5 md:py-2 rounded-xl text-[10px] md:text-[12px] font-bold uppercase tracking-wider border-2 transition-all group
+                         ${saving === store.storeID ? 'opacity-50 cursor-not-allowed' : ''}
+                         ${!store.isActive ? (isDark ? 'bg-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20' : 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100') : (isDark ? 'bg-red-500/10 text-red-400 border-red-500/30 hover:bg-red-500/20' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100')}
+                       `}
+                     >
+                       {saving === store.storeID ? 'İşleniyor...' : (store.isActive ? 'Askıya Al' : 'Onayla / Aç')}
+                     </button>
                   </td>
                 </tr>
               ))}
