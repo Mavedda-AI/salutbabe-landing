@@ -737,14 +737,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center flex items-center justify-center gap-1.5">
               <span>{t('dashboard.developed_by')}</span> 
               
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="black" stroke="url(#wave-gradient)" strokeWidth="15" className="w-4 h-4 animate-wave origin-[70%_70%]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="black" stroke="url(#wave-gradient)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 animate-wave origin-[70%_70%]">
                 <defs>
                   <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#00B2FF" />
                     <stop offset="100%" stopColor="#FF007A" />
                   </linearGradient>
                 </defs>
-                <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7-14.3 32-32 32s-32-14.3-32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7-14.3 32-32 32s-32-14.3-32-32V96c0-17.7-14.3-32-32-32s-32 14.3-32 32V320c0 44.2 35.8 80 80 80h16v16c0 53 43 96 96 96h64c53 0 96-43 96-96v-16h16c44.2 0 80-35.8 80-80V128c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7-14.3 32-32 32s-32-14.3-32-32V32z"/>
+                <path d="M219.31,98.46A88,88,0,1,1,67.08,186.77h0L26.15,115.88a16,16,0,0,1,27.69-16L72.4,132a8,8,0,0,0,13.86-8L47,56A16,16,0,0,1,74.69,40L114,108a8,8,0,1,0,13.85-8l-30-52a16,16,0,0,1,27.71-16L166,102.12A48.25,48.25,0,0,0,152,136a47.59,47.59,0,0,0,9.6,28.8,8,8,0,1,0,12.79-9.61A32,32,0,0,1,181,110.26a8,8,0,0,0,2.17-10.43L171.71,80a16,16,0,0,1,27.71-16l19.89,34.46Zm-29.37-57A43.74,43.74,0,0,1,216.74,62l.33.57a8,8,0,0,0,13.86-8L230.6,54a59.64,59.64,0,0,0-36.54-28,8,8,0,0,0-4.12,15.46ZM79.58,225.72A103.58,103.58,0,0,1,53.93,196a8,8,0,0,0-13.86,8,119.56,119.56,0,0,0,29.6,34.28,8,8,0,0,0,9.91-12.56Z"/>
               </svg>
 
               <span>{t('dashboard.all_rights')}</span>
