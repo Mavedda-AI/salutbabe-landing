@@ -1,17 +1,81 @@
 "use client";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 
 export default function SysopDashboard() {
   const { theme } = useThemeLanguage();
+  const [userRole, setUserRole] = useState<'founder' | 'partner'>('founder');
+
+  useEffect(() => {
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const u = JSON.parse(userStr);
+        const types = u?.userType || [];
+        setUserRole((Array.isArray(types) ? types : [types]).some((t: string) => t === 'FOUNDER' || t === 'SYSOP') ? 'founder' : 'partner');
+      }
+    } catch {}
+  }, []);
 
   const isDark = theme === 'dark';
   const cardClass = `rounded-[1.2rem] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-200 shadow-sm'}`;
   const textTitle = `text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
   const textValue = `text-[26px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`;
+  const textValueSm = `text-[20px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`;
   const iconRight = `w-4 h-4 ${isDark ? 'text-gray-600' : 'text-gray-400'}`;
   const buttonClass = `px-3 py-1.5 rounded-lg border text-[12px] font-bold flex items-center gap-2 transition-all active:scale-95 ${isDark ? 'bg-[#1A1D1F] border-white/5 text-gray-300 hover:bg-white/10' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'}`;
   const iconButtonClass = `p-1.5 rounded-lg border transition-all active:scale-95 ${isDark ? 'bg-[#1A1D1F] border-white/5 text-gray-300 hover:bg-white/10' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'}`;
+  const labelClass = `text-[12px] font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`;
+  const valueSmClass = `text-[14px] font-black ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`;
+  const dividerClass = `h-px w-full ${isDark ? 'bg-white/5' : 'bg-gray-100'}`;
+  const sectionTitle = `text-[13px] font-black uppercase tracking-wider mb-1 ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`;
+
+  // --- Funnel Data ---
+  const funnelSteps = [
+    { label: 'Ürün Görüntüleme', value: 48520, pct: 100, color: isDark ? 'bg-blue-500' : 'bg-blue-500' },
+    { label: 'Sepete Ekleme', value: 8733, pct: 18, color: isDark ? 'bg-indigo-500' : 'bg-indigo-500' },
+    { label: 'Ödeme Sayfası', value: 4366, pct: 9, color: isDark ? 'bg-purple-500' : 'bg-purple-500' },
+    { label: 'Satın Alma', value: 2183, pct: 4.5, color: isDark ? 'bg-green-500' : 'bg-green-500' },
+  ];
+
+  // --- Risk Data ---
+  const riskItems = [
+    { label: 'Şüpheli İşlem', value: 12, level: 'high' as const, icon: '🚨' },
+    { label: 'Çoklu Hesap (Aynı Cihaz)', value: 7, level: 'medium' as const, icon: '📱' },
+    { label: 'Yeni Satıcı Artışı', value: 23, level: 'low' as const, icon: '📈' },
+    { label: 'Geç Kargo Oranı', value: '8.2%', level: 'high' as const, icon: '🚚' },
+    { label: 'İptal Oranı', value: '3.1%', level: 'medium' as const, icon: '❌' },
+    { label: 'İade Oranı', value: '5.7%', level: 'medium' as const, icon: '🔄' },
+  ];
+
+  // --- Seller Data ---
+  const topSellers = [
+    { name: 'Ayşe Moda', revenue: '45.200 ₺', products: 128, trend: '+12%' },
+    { name: 'Bebek Dünyası', revenue: '38.750 ₺', products: 95, trend: '+8%' },
+    { name: 'Mini Stil', revenue: '32.100 ₺', products: 76, trend: '+15%' },
+    { name: 'Çocuk Köşesi', revenue: '28.900 ₺', products: 64, trend: '-3%' },
+    { name: 'Küçük Adımlar', revenue: '24.600 ₺', products: 51, trend: '+6%' },
+  ];
+
+  // --- Smart Insights ---
+  const insights = [
+    { priority: 'high' as const, title: 'Sepet → Ödeme dönüşümü düşük', desc: 'Son 7 günde %50 drop-off — ödeme UX iyileştirmesi önerilir.', action: 'Analiz Et' },
+    { priority: 'high' as const, title: '\"Bebek Araba\" aramasında sonuç yok', desc: '342 arama / 0 sonuç — tedarik fırsatı.', action: 'Kategori Aç' },
+    { priority: 'medium' as const, title: 'En iyi satıcı 7 gündür inaktif', desc: '\"Ayşe Moda\" son 7 gündür ürün yüklemedi.', action: 'İletişime Geç' },
+    { priority: 'low' as const, title: '30 günlük retention %18\'e düştü', desc: 'Push notification stratejisi güncellenmeli.', action: 'Plan Oluştur' },
+  ];
+
+  const priorityConfig = {
+    high: { bg: 'bg-red-500/10', border: 'border-red-500/20', text: 'text-red-500', label: 'YÜKSEK' },
+    medium: { bg: 'bg-yellow-500/10', border: 'border-yellow-500/20', text: 'text-yellow-600', label: 'ORTA' },
+    low: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-500', label: 'DÜŞÜK' },
+  };
+
+  const riskLevelConfig = {
+    high: { bg: isDark ? 'bg-red-500/10' : 'bg-red-50', text: 'text-red-500', dot: 'bg-red-500' },
+    medium: { bg: isDark ? 'bg-yellow-500/10' : 'bg-yellow-50', text: 'text-yellow-600', dot: 'bg-yellow-500' },
+    low: { bg: isDark ? 'bg-green-500/10' : 'bg-green-50', text: 'text-green-600', dot: 'bg-green-500' },
+  };
 
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in">
