@@ -17,6 +17,7 @@ export default function SysopDashboard() {
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
+  const [showShippingModal, setShowShippingModal] = useState(false);
 
   // --- INTELLIGENCE LAYER STATES ---
   const [showFunnel, setShowFunnel] = useState(false);
@@ -34,7 +35,7 @@ export default function SysopDashboard() {
 
   type AlertDef = { type: string; text: string; action: string; link?: string; customAction?: () => void };
   const alerts: AlertDef[] = [
-    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', link: '/dashboard/sysop/shipping-management' },
+    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', customAction: () => setShowShippingModal(true) },
     { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç', link: '/dashboard/sysop/user-management' },
     { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', action: 'Funnel Detay', customAction: () => setShowFunnel(true) }
   ];
@@ -1361,6 +1362,47 @@ export default function SysopDashboard() {
         isOpen={isVisitorModalOpen} 
         onClose={() => setIsVisitorModalOpen(false)} 
       />
+
+      {/* Shipping Alert Bottom Sheet */}
+      {showShippingModal && (
+        <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center p-0 sm:p-6 transition-all">
+          <div className="w-full max-w-md bg-white rounded-t-[32px] sm:rounded-[24px] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+            <div className="p-6 pb-8">
+              <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 sm:hidden"></div>
+              
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#FF383C]/10 flex items-center justify-center shrink-0">
+                  <svg className="w-6 h-6 text-[#FF383C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                </div>
+                <div>
+                  <h3 className="text-[18px] font-black text-gray-900 leading-tight mb-1">Kargo Gecikmesi</h3>
+                  <p className="text-[13px] font-medium text-gray-500">Marmara bölgesi teslimatlarında ani artış</p>
+                </div>
+              </div>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                  <span className="text-[12px] font-bold text-gray-600">Geciken Kargo</span>
+                  <span className="text-[14px] font-black text-gray-900">1,248</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                  <span className="text-[12px] font-bold text-gray-600">Etkilenen Müşteri</span>
+                  <span className="text-[14px] font-black text-[#FF383C]">1,042</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                  <span className="text-[12px] font-bold text-gray-600">Dispute Riski</span>
+                  <span className="text-[14px] font-black text-[#FF8D28]">Yüksek</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <button onClick={() => { setShowShippingModal(false); router.push('/dashboard/sysop/shipping-management'); }} className="w-full py-3.5 rounded-xl bg-[#111827] text-white text-[13px] font-black tracking-widest hover:bg-black transition-colors">TÜM KARGOLARI GÖR</button>
+                <button onClick={() => setShowShippingModal(false)} className="w-full py-3.5 rounded-xl bg-white text-gray-500 text-[13px] font-black tracking-widest border border-gray-200 hover:bg-gray-50 transition-colors">KAPAT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
