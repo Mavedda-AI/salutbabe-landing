@@ -354,13 +354,13 @@ export default function SysopDashboard() {
               </div>
 
               {/* SELLER HEALTH */}
-              <div onClick={() => handleFeatureClick('Satıcı Sağlığı')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-orange-500/30 transition-colors`}>
+              <div onClick={() => setExpandedCard(expandedCard === 'seller' ? null : 'seller')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-orange-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                     SATICI SAĞLIĞI
                   </h3>
-                  <button onClick={(e) => { e.stopPropagation(); handleFeatureClick('Tüm Satıcılar'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜMÜ</button>
+                  <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'seller' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 
                 <div className="flex items-end justify-between mb-6">
@@ -380,16 +380,29 @@ export default function SysopDashboard() {
                   </div>
                 </div>
 
-                <div className={`mt-auto p-3 rounded-lg flex items-start justify-between gap-2 ${isDark ? 'bg-[#FF8D28]/10' : 'bg-[#FF8D28]/5'} border border-[#FF8D28]/20`}>
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-[#FF8D28] mt-1.5 shrink-0 animate-ping"></div>
-                    <div>
-                      <p className="text-[11px] font-bold text-[#FF8D28]">Risk: İnaktif Top Satıcı</p>
-                      <p className="text-[10px] text-[#FF8D28]/80 mt-0.5">Aylık GMV&apos;si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
+                {expandedCard === 'seller' && (
+                  <div className="animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                    <div className={`p-3 rounded-lg flex items-start justify-between gap-2 ${isDark ? 'bg-[#FF8D28]/10' : 'bg-[#FF8D28]/5'} border border-[#FF8D28]/20 mb-4`}>
+                      <div className="flex gap-2">
+                        <div className="w-2 h-2 rounded-full bg-[#FF8D28] mt-1.5 shrink-0 animate-ping"></div>
+                        <div>
+                          <p className="text-[11px] font-bold text-[#FF8D28]">Risk: İnaktif Top Satıcı</p>
+                          <p className="text-[10px] text-[#FF8D28]/80 mt-0.5">Aylık GMV&apos;si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
+                        </div>
+                      </div>
                     </div>
+
+                    <div className="space-y-2 mb-4">
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yeni Satıcı (30g)</span><span className="text-[12px] font-black text-[#007AFF]">67</span></div>
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Satıcı Puanı</span><span className="text-[12px] font-black text-[#111827]">⭐ 4.6</span></div>
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Churn Riski</span><span className="text-[12px] font-black text-[#FF383C]">3 satıcı</span></div>
+                    </div>
+
+                    <button onClick={() => router.push('/dashboard/sysop/seller-health')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                      DETAYLARI GÖRÜNTÜLE
+                    </button>
                   </div>
-                  <button onClick={() => router.push('/dashboard/sysop/user-management?role=seller&status=inactive_7d')} className="text-[9px] font-black px-2 py-1 bg-[#FF8D28] text-white rounded mt-1 shrink-0 hover:bg-[#FF8D28]/80 transition-colors">AKSİYON</button>
-                </div>
+                )}
               </div>
 
               {/* NOTIFICATION ECONOMICS */}
