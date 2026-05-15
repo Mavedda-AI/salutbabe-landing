@@ -81,20 +81,20 @@ export default function SysopDashboard() {
           <div className="flex flex-col gap-2 mb-6">
             {alerts.map((alert, i) => (
               <div key={i} className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-[16px] border ${
-                alert.type === 'CRITICAL' ? 'bg-[#FEF2F2] border-[#FECACA] text-[#DC2626]' :
-                alert.type === 'WARNING' ? 'bg-[#FFF7ED] border-[#FED7AA] text-[#EA580C]' :
-                'bg-[#EFF6FF] border-[#BFDBFE] text-[#2563EB]'
+                alert.type === 'CRITICAL' ? 'bg-[#FF383C]/5 border-[#FF383C]/20 text-[#FF383C]' :
+                alert.type === 'WARNING' ? 'bg-[#FF8D28]/5 border-[#FF8D28]/20 text-[#FF8D28]' :
+                'bg-[#007AFF]/5 border-[#007AFF]/20 text-[#007AFF]'
               }`}>
                 <div className="flex items-center gap-3 mb-2 sm:mb-0">
                    <div className={`px-2.5 py-1 rounded-md text-[10px] font-black tracking-wider text-white ${
-                     alert.type === 'CRITICAL' ? 'bg-[#EF4444]' : alert.type === 'WARNING' ? 'bg-[#F97316]' : 'bg-[#3B82F6]'
+                     alert.type === 'CRITICAL' ? 'bg-[#FF383C]' : alert.type === 'WARNING' ? 'bg-[#FF8D28]' : 'bg-[#007AFF]'
                    }`}>{alert.type}</div>
                    <span className="text-[13px] font-bold">{alert.text}</span>
                 </div>
                 <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`text-[12px] font-bold px-4 py-2 rounded-[12px] border transition-colors ${
-                  alert.type === 'CRITICAL' ? 'border-[#FECACA] bg-transparent hover:bg-white/50 text-[#DC2626]' :
-                  alert.type === 'WARNING' ? 'border-[#FED7AA] bg-transparent hover:bg-white/50 text-[#EA580C]' :
-                  'border-[#BFDBFE] bg-transparent hover:bg-white/50 text-[#2563EB]'
+                  alert.type === 'CRITICAL' ? 'border-[#FF383C]/20 bg-transparent hover:bg-[#FF383C]/10 text-[#FF383C]' :
+                  alert.type === 'WARNING' ? 'border-[#FF8D28]/20 bg-transparent hover:bg-[#FF8D28]/10 text-[#FF8D28]' :
+                  'border-[#007AFF]/20 bg-transparent hover:bg-[#007AFF]/10 text-[#007AFF]'
                 }`}>{alert.action}</button>
               </div>
             ))}
