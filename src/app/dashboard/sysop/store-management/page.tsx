@@ -118,7 +118,7 @@ export default function StoreManagementPage() {
   const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
 
   return (
-    <div className="space-y-6 animate-fade-in max-w-[1400px] mx-auto pb-12">
+    <div className="space-y-4 md:space-y-6 animate-fade-in w-full max-w-[1400px] mx-auto pb-12 overflow-x-hidden md:overflow-visible px-0">
       
       {/* Header & Stats */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
@@ -127,27 +127,27 @@ export default function StoreManagementPage() {
            <p className={`text-[13px] font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Platformdaki Anne ve Pro satıcı segmentlerini yönetin.</p>
          </div>
 
-         <div className="flex items-center gap-4">
-            <div className={`px-4 py-2 rounded-xl flex items-center gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-blue-50 border-blue-100'}`}>
-               <span className="text-xl">👩‍👧</span>
+         <div className="grid grid-cols-2 gap-3 w-full md:w-auto md:flex md:items-center md:gap-4">
+            <div className={`px-3 md:px-4 py-2 md:py-3 rounded-xl flex flex-col md:flex-row md:items-center gap-2 md:gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-blue-50 border-blue-100'}`}>
+               <span className="text-lg md:text-xl hidden md:block">👩‍👧</span>
                <div>
-                  <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-blue-600/70'}`}>Anne Satıcılar</p>
-                  <p className={`text-[16px] font-black ${isDark ? 'text-white' : 'text-blue-700'}`}>8,432</p>
+                  <p className={`text-[9px] md:text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-blue-600/70'}`}>Anne Satıcılar</p>
+                  <p className={`text-[14px] md:text-[16px] font-black ${isDark ? 'text-white' : 'text-blue-700'}`}>8,432</p>
                </div>
             </div>
-            <div className={`px-4 py-2 rounded-xl flex items-center gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-purple-50 border-purple-100'}`}>
-               <span className="text-xl">🏢</span>
+            <div className={`px-3 md:px-4 py-2 md:py-3 rounded-xl flex flex-col md:flex-row md:items-center gap-2 md:gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-purple-50 border-purple-100'}`}>
+               <span className="text-lg md:text-xl hidden md:block">🏢</span>
                <div>
-                  <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-purple-600/70'}`}>Pro Satıcılar</p>
-                  <p className={`text-[16px] font-black ${isDark ? 'text-white' : 'text-purple-700'}`}>174</p>
+                  <p className={`text-[9px] md:text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-purple-600/70'}`}>Pro Satıcılar</p>
+                  <p className={`text-[14px] md:text-[16px] font-black ${isDark ? 'text-white' : 'text-purple-700'}`}>174</p>
                </div>
             </div>
          </div>
       </div>
 
       {/* Action Bar (Search & Tabs) */}
-      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full overflow-hidden`}>
-         <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1 flex-1 min-w-0">
+      <div className={`${cardClass} p-2 md:p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 w-full overflow-hidden`}>
+         <div className="flex items-center gap-1.5 overflow-x-auto w-full no-scrollbar px-2 pb-2 md:pb-0 flex-1 min-w-0">
             {[
               { id: 'all', label: 'Tüm Satıcılar' },
               { id: 'mother', label: 'Anne Satıcılar' },
