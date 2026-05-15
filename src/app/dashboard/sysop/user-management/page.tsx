@@ -47,7 +47,7 @@ export default function UserManagementPage() {
                   <td className="px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#4B5563]'}`}>Normal Üye</span></td>
                   <td className="px-6 py-5"><span className={`px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-wider ${isDark ? 'bg-green-500/10 text-green-500' : 'bg-[#E8F8F0] text-[#00C48C]'}`}>AKTİF</span></td>
                   <td className="px-6 py-5 text-right">
-                    <button className={`px-5 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>DETAY</button>
+                    <button onClick={() => alert(`Kullanıcı ${i} detayları açılıyor...`)} className={`px-5 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>DETAY</button>
                   </td>
                 </tr>
               ))

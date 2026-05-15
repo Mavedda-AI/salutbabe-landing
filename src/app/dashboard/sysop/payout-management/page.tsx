@@ -21,7 +21,7 @@ export default function PayoutManagementPage() {
            <p className={`text-[13px] font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Satıcı komisyonları ve havuzdaki bekleyen ödemeleri yönetin.</p>
          </div>
          <div className="flex gap-4">
-           <button className={`px-5 py-2.5 rounded-[12px] text-[12px] font-bold border transition-colors ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20' : 'bg-[#F2FDF5] text-[#00C48C] border-[#Bbf7D0] hover:bg-green-50'}`}>
+           <button onClick={() => alert('Toplu Hak Ediş işlemi başlatıldı.')} className={`px-5 py-2.5 rounded-[12px] text-[12px] font-bold border transition-colors ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20' : 'bg-[#F2FDF5] text-[#00C48C] border-[#Bbf7D0] hover:bg-green-50'}`}>
               + Toplu Hak Ediş Onayla
            </button>
          </div>
@@ -59,7 +59,7 @@ export default function PayoutManagementPage() {
                     </div>
                   </td>
                   <td className="px-6 py-5 text-right">
-                    <button className={`px-5 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-[#F3F4F6] border-gray-200 text-[#374151] hover:bg-gray-200'}`}>
+                    <button onClick={() => alert(`${i} nolu Mağaza için hak ediş onaylandı.`)} className={`px-5 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 text-white hover:bg-white/10' : 'bg-[#F3F4F6] border-gray-200 text-[#374151] hover:bg-gray-200'}`}>
                        ONAYLA
                     </button>
                   </td>
