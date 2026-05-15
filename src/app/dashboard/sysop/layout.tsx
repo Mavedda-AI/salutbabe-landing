@@ -81,19 +81,34 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
     const userStr = localStorage.getItem("user");
     
     if (!token || !userStr) {
       router.push("/login");
-    } else {
-      try {
-        const parsedUser = JSON.parse(userStr);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
-      } catch (e) {
-        router.push("/login");
+      return;
+    } 
+    
+    try {
+      const parsedUser = JSON.parse(userStr);
+      // Check if user has required roles for Sysop/Partner dashboard
+      const roles = parsedUser.userType || [];
+      const userRoles = Array.isArray(roles) ? roles : [roles];
+      
+      const hasAccess = userRoles.some((r: string) => 
+        ['FOUNDER', 'SYSOP', 'PARTNER', 'ADMIN'].includes(r)
+      );
+
+      if (!hasAccess) {
+        showToast("Bu alana erişim yetkiniz bulunmuyor.", "error");
+        setTimeout(() => router.push("/"), 1500);
+        return;
       }
+
+      setUser(parsedUser);
+      setIsAuthenticated(true);
+    } catch (e) {
+      router.push("/login");
     }
   }, [router]);
 
