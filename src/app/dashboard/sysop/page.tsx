@@ -200,95 +200,104 @@ export default function SysopDashboard() {
 
             {/* AVERAGE SALES (2/3) */}
             <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`lg:col-span-2 ${cardClass} p-6 flex flex-col`}>
-              <div className="flex flex-col gap-6 mb-8">
-                <div>
-                  <h3 className={textTitle}>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
-                    ORTALAMA SATIŞLAR
-                  </h3>
-                  <div className="flex items-center gap-4 mt-4">
-                    <h2 className={`text-[40px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,389.652</h2>
-                    <span className="flex items-center gap-1 bg-green-50 text-green-600 px-3 py-1.5 rounded-xl text-[14px] font-bold">↗ 1.8%</span>
-                  </div>
-                </div>
+              {/* Top Header: Title (Left) and Filters (Right) */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <h3 className={textTitle}>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
+                  AVERAGE SALES
+                </h3>
                 
-                <div className="flex flex-wrap items-center gap-3">
-                  <button className={`px-4 py-2.5 rounded-2xl border text-[13px] font-bold flex items-center gap-3 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50 shadow-sm'}`}>Tüm Ürünler <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
-                  <button className={`px-4 py-2.5 rounded-2xl border text-[13px] font-bold flex items-center gap-3 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50 shadow-sm'}`}>Tüm Kategoriler <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
-                  <button className={`px-4 py-2.5 rounded-2xl border text-[13px] font-bold flex items-center gap-3 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50 shadow-sm'}`}>2026 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
-                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/payout-management'); }} className={`p-2.5 rounded-2xl border flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50 shadow-sm'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>All Product <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
+                  <button className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>All Categories <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
+                  <button className={`px-3 py-1.5 rounded-lg border text-[11px] font-bold flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>2025 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg></button>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/payout-management'); }} className={`p-1.5 rounded-lg border flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
                 </div>
               </div>
               
-              <div className="flex items-center justify-between mb-8 mt-2">
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2.5"><div className="w-3 h-3 rounded-full bg-[#3B82F6]"></div><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#6B7280]'}`}>Gelir</span></div>
-                  <div className="flex items-center gap-2.5"><div className="w-3 h-3 rounded-full bg-[#D1D5DB]"></div><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#6B7280]'}`}>Hedef</span></div>
+              {/* Middle: Value */}
+              <div className="flex items-center gap-3 mb-6">
+                <h2 className={`text-[36px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,389.652</h2>
+                <span className="flex items-center gap-1 bg-green-50 text-green-600 px-2.5 py-1 rounded-lg text-[12px] font-bold">↗ 1.8%</span>
+              </div>
+              
+              {/* Bottom Legend */}
+              <div className="flex items-center justify-between mb-4 mt-2">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#3B82F6]"></div><span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Revenue</span></div>
+                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#D1D5DB]"></div><span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Target</span></div>
                 </div>
-                <div className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#6B7280]'}`}>Net Satışlar : <span className="text-[#00C48C] font-black ml-1">$800.67</span></div>
+                <div className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Sales : <span className="text-[#00C48C] font-black ml-1">$800.67</span></div>
               </div>
 
-              {/* Exact Line Chart SVG Implementation */}
-              <div className="flex-1 min-h-[260px] w-full relative mt-4">
-                 {/* Background Grid Lines */}
-                 <div className="absolute inset-0 flex flex-col justify-between pointer-events-none pb-8">
+              {/* Exact Line Chart SVG Implementation (Thin style) */}
+              <div className="flex-1 min-h-[220px] w-full relative mt-4">
+                 {/* Background Grid Lines (Horizontal) */}
+                 <div className="absolute inset-0 flex flex-col justify-between pointer-events-none pb-6">
                     {['$25k', '$20k', '$15k', '$10k'].map((label, i) => (
                       <div key={i} className={`w-full border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-start`}>
-                        <span className={`-mt-3 pr-4 text-[12px] font-bold ${isDark ? 'bg-[#121214] text-gray-500' : 'bg-white text-gray-400'}`}>{label}</span>
+                        <span className={`-mt-2.5 pr-2 text-[10px] font-bold ${isDark ? 'bg-[#121214] text-gray-500' : 'bg-white text-gray-400'}`}>{label}</span>
                       </div>
                     ))}
                  </div>
 
+                 {/* Vertical Grid Lines */}
+                 <div className="absolute inset-0 flex justify-between px-10 pointer-events-none pb-6">
+                   {[...Array(7)].map((_, i) => (
+                     <div key={i} className={`h-full border-l border-dashed ${isDark ? 'border-white/5' : 'border-gray-200'} w-px`}></div>
+                   ))}
+                 </div>
+
                  {/* Blue Bar Highlight (April) */}
-                 <div className="absolute left-[48%] bottom-[15%] w-10 h-[50%] bg-gradient-to-t from-blue-500/0 to-blue-500/20 dark:from-blue-500/0 dark:to-blue-500/30 rounded-t-[16px]"></div>
+                 <div className="absolute left-[54.5%] bottom-[15%] w-8 h-[60%] bg-gradient-to-t from-blue-500/0 to-blue-500/20 dark:from-blue-500/0 dark:to-blue-500/30 rounded-t-lg"></div>
 
                  {/* Charts */}
                  <svg className="absolute inset-0 w-full h-[85%] overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
                    <defs>
                      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                       <feDropShadow dx="0" dy="8" stdDeviation="4" floodColor="#3B82F6" floodOpacity="0.3" />
+                       <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#3B82F6" floodOpacity="0.2" />
                      </filter>
                    </defs>
                    {/* Target Line (Gray) */}
-                   <polyline points="10,50 25,45 40,42 55,45 70,42 85,45 100,50" fill="none" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
+                   <polyline points="5,40 20,35 35,38 50,30 65,35 80,30 95,25" fill="none" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
                    {/* Revenue Line (Blue) */}
-                   <path d="M 10,65 L 25,68 L 40,55 L 55,45 L 70,48 L 85,75 L 100,80" fill="none" stroke="#3B82F6" strokeWidth="4" filter="url(#glow)" />
+                   <path d="M 5,60 L 20,80 L 35,70 L 50,40 L 65,45 L 80,50 L 95,85" fill="none" stroke="#3B82F6" strokeWidth="2" filter="url(#glow)" />
                    
                    {/* Data Points Target */}
-                   <circle cx="10" cy="50" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
-                   <circle cx="25" cy="45" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
-                   <circle cx="40" cy="42" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
-                   <circle cx="55" cy="45" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
-                   <circle cx="70" cy="42" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
-                   <circle cx="85" cy="45" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
-                   <circle cx="100" cy="50" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="2" />
+                   <circle cx="5" cy="40" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="20" cy="35" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="35" cy="38" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="50" cy="30" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="65" cy="35" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="80" cy="30" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
+                   <circle cx="95" cy="25" r="1.5" fill="#FFF" stroke={isDark ? "#374151" : "#D1D5DB"} strokeWidth="1.5" />
                    
                    {/* Data Points Revenue */}
-                   <circle cx="10" cy="65" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" />
-                   <circle cx="25" cy="68" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" />
-                   <circle cx="40" cy="55" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" />
-                   <circle cx="55" cy="45" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" /> {/* Highlight point */}
-                   <circle cx="70" cy="48" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" />
-                   <circle cx="85" cy="75" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" />
-                   <circle cx="100" cy="80" r="2.5" fill={isDark ? "#121214" : "#FFF"} stroke="#3B82F6" strokeWidth="3" />
+                   <circle cx="5" cy="60" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
+                   <circle cx="20" cy="80" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
+                   <circle cx="35" cy="70" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
+                   <circle cx="50" cy="40" r="2" fill="#3B82F6" stroke="#FFF" strokeWidth="1.5" /> {/* Highlight point */}
+                   <circle cx="65" cy="45" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
+                   <circle cx="80" cy="50" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
+                   <circle cx="95" cy="85" r="1.5" fill="#FFF" stroke="#3B82F6" strokeWidth="1.5" />
                  </svg>
                  
                  {/* Dark Tooltip */}
-                 <div className="absolute left-[52%] top-[25%] bg-[#111827] text-white p-4 rounded-[16px] shadow-2xl z-10 min-w-[160px]">
-                   <p className="text-[12px] font-bold text-gray-300 mb-3">Nisan 2026</p>
-                   <div className="flex justify-between items-center mb-2 text-[12px]">
-                     <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-gray-400"></div>Hedef</span>
+                 <div className="absolute left-[56%] top-[25%] bg-[#1A1D1F] text-white p-3.5 rounded-[12px] shadow-2xl z-10 min-w-[140px]">
+                   <p className="text-[11px] font-bold text-gray-300 mb-2">Maret 2025</p>
+                   <div className="flex justify-between items-center mb-1 text-[11px]">
+                     <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>Target</span>
                      <span className="font-black">$22,000</span>
                    </div>
-                   <div className="flex justify-between items-center text-[12px]">
-                     <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#3B82F6]"></div>Gelir</span>
-                     <span className="font-black text-[#3B82F6]">$20,000</span>
+                   <div className="flex justify-between items-center text-[11px]">
+                     <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>Revenue</span>
+                     <span className="font-black text-white">$20,000</span>
                    </div>
                  </div>
 
                  {/* X Axis */}
-                 <div className={`absolute bottom-0 w-full flex justify-between px-6 text-[13px] font-bold ${isDark ? 'text-gray-500' : 'text-[#9CA3AF]'}`}>
-                   <span>Oca</span><span>Şub</span><span>Mar</span><span>Nis</span><span>May</span><span>Haz</span><span>Tem</span>
+                 <div className={`absolute bottom-0 w-full flex justify-between px-6 text-[11px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                   <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
                  </div>
               </div>
             </div>
