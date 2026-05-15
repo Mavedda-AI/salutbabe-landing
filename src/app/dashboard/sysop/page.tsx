@@ -832,7 +832,6 @@ export default function SysopDashboard() {
                     </div>
                  </div>
               </div>
-              </div>
             </div>
 
           </div>
