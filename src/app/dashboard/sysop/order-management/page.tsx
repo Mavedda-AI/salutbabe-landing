@@ -132,8 +132,8 @@ export default function OrderManagementPage() {
       </div>
 
       {/* Action Bar (Search & Tabs) */}
-      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full`}>
-         <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1">
+      <div className={`${cardClass} p-2 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full overflow-hidden`}>
+         <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1 flex-1 min-w-0">
             {[
               { id: 'disputes', label: '🚨 Uyuşmazlıklar (Dispute)' },
               { id: 'pending_shipping', label: '📦 Kargo & Bekleyen' },
