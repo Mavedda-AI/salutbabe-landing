@@ -734,10 +734,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         {/* Mini Footer */}
         <footer className="py-3 px-6 border-t border-border-color bg-white dark:bg-surface sticky bottom-0 z-50">
           <div className="flex items-center justify-center relative">
-            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center flex items-center justify-center gap-1">
+            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center flex items-center justify-center gap-1.5">
               <span>{t('dashboard.developed_by')}</span> 
-              <span className="text-transparent bg-clip-text font-black text-[12px] bg-[linear-gradient(110deg,#FF007A_0%,#00B2FF_50%,#FF007A_100%)] bg-[length:200%_auto] animate-[brandShift_5.2s_ease-in-out_infinite]" style={{ WebkitTextStroke: "0.05em transparent" }}>salutbabe</span>
-              <span className="inline-block animate-wave text-[13px] origin-[70%_70%]">👋</span> 
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="black" stroke="url(#wave-gradient)" strokeWidth="15" className="w-4 h-4 animate-wave origin-[70%_70%]">
+                <defs>
+                  <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00B2FF" />
+                    <stop offset="100%" stopColor="#FF007A" />
+                  </linearGradient>
+                </defs>
+                <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7-14.3 32-32 32s-32-14.3-32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7-14.3 32-32 32s-32-14.3-32-32V96c0-17.7-14.3-32-32-32s-32 14.3-32 32V320c0 44.2 35.8 80 80 80h16v16c0 53 43 96 96 96h64c53 0 96-43 96-96v-16h16c44.2 0 80-35.8 80-80V128c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7-14.3 32-32 32s-32-14.3-32-32V32z"/>
+              </svg>
+
               <span>{t('dashboard.all_rights')}</span>
             </div>
             <div className="absolute right-0 group flex items-center">
