@@ -16,6 +16,7 @@ export default function SysopDashboard() {
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
+  const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
 
   // --- INTELLIGENCE LAYER STATES ---
