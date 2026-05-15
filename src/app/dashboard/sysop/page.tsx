@@ -47,7 +47,7 @@ export default function SysopDashboard() {
           
           {/* ROW 1: 4 STAT CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            <div className={`${cardClass} p-5 relative overflow-hidden group`}>
+            <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`${cardClass} p-5 relative overflow-hidden group`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -65,7 +65,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -83,7 +83,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/user-management')} className={`${cardClass} p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -101,7 +101,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/live-room-management')} className={`${cardClass} p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
@@ -123,7 +123,7 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* CHANNEL PERFORMANCE (1/3) */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/store-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
@@ -199,7 +199,7 @@ export default function SysopDashboard() {
             </div>
 
             {/* AVERAGE SALES (2/3) */}
-            <div className={`lg:col-span-2 ${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`lg:col-span-2 ${cardClass} p-6 flex flex-col`}>
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
                 <div>
                   <h3 className={textTitle}>
@@ -295,7 +295,7 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* RECENT ACTIVITY */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/product-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -336,7 +336,7 @@ export default function SysopDashboard() {
             </div>
 
             {/* TOP 3 PRODUCT */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
@@ -390,7 +390,7 @@ export default function SysopDashboard() {
             </div>
 
             {/* TOTAL VISITOR HEATMAP */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/user-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
@@ -468,7 +468,7 @@ export default function SysopDashboard() {
           
           {/* ROW 1: 4 STAT CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            <div className={`${cardClass} p-5 relative overflow-hidden group`}>
+            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-5 relative overflow-hidden group`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -486,7 +486,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`${cardClass} p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
@@ -504,7 +504,7 @@ export default function SysopDashboard() {
               </div>
             </div>
 
-            <div className={`${cardClass} p-5`}>
+            <div onClick={() => router.push('/dashboard/sysop/store-management')} className={`${cardClass} p-5`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
@@ -544,7 +544,7 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* COMPLAINT DISTRIBUTION (1/3) */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/complaint-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
@@ -704,7 +704,7 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* RECENT ACTIVITY */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -745,7 +745,7 @@ export default function SysopDashboard() {
             </div>
 
             {/* TOP 3 PRODUCT */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`${cardClass} p-6 flex flex-col`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
