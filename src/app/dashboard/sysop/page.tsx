@@ -15,6 +15,7 @@ export default function SysopDashboard() {
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
   const [filterTop3, setFilterTop3] = useState("Günlük");
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
+  const [filterYear, setFilterYear] = useState("2026");
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
 
   // --- INTELLIGENCE LAYER STATES ---
@@ -28,9 +29,9 @@ export default function SysopDashboard() {
   const isFounder = true; // In real app, check from user roles
 
   const alerts = [
-    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele' },
-    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç' },
-    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', action: 'Funnel Detay' }
+    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', action: 'Kargoları İncele', link: '/dashboard/sysop/shipping-management?alert=cargo_delay&carrier=mng' },
+    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', action: 'Satıcılarla İletişime Geç', link: '/dashboard/sysop/user-management?role=seller&status=inactive_7d' },
+    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', action: 'Funnel Detay', customAction: () => setShowFunnel(true) }
   ];
 
   useEffect(() => {
@@ -84,7 +85,7 @@ export default function SysopDashboard() {
                    }`}>{alert.type}</div>
                    <span className="text-[12px] font-bold">{alert.text}</span>
                 </div>
-                <button className={`text-[10px] font-black px-3 py-1.5 rounded-lg border transition-colors ${
+                <button onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`text-[10px] font-black px-3 py-1.5 rounded-lg border transition-colors ${
                   alert.type === 'CRITICAL' ? 'border-red-500/30 hover:bg-red-500/10' :
                   alert.type === 'WARNING' ? 'border-orange-500/30 hover:bg-orange-500/10' :
                   'border-blue-500/30 hover:bg-blue-500/10'
@@ -278,7 +279,7 @@ export default function SysopDashboard() {
                       <p className="text-[10px] text-orange-600/70 dark:text-orange-400/70 mt-0.5">Aylık GMV'si &gt;15K ₺ olan 2 satıcı son 7 gündür sisteme girmedi.</p>
                     </div>
                   </div>
-                  <button className="text-[9px] font-black px-2 py-1 bg-orange-500 text-white rounded mt-1 shrink-0">AKSİYON</button>
+                  <button onClick={() => router.push('/dashboard/sysop/user-management?role=seller&status=inactive_7d')} className="text-[9px] font-black px-2 py-1 bg-orange-500 text-white rounded mt-1 shrink-0 hover:bg-orange-600 transition-colors">AKSİYON</button>
                 </div>
               </div>
 
@@ -726,7 +727,7 @@ export default function SysopDashboard() {
               ) : (
                 <div className="flex-1 flex flex-col gap-4 animate-fade-in">
                   {/* SUPPLY / DEMAND INSIGHTS */}
-                  <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-gray-50 border-gray-100'}`}>
+                  <div onClick={() => router.push('/dashboard/sysop/product-management?category=deri-ceket')} className={`p-3 rounded-xl border cursor-pointer hover:scale-[1.02] transition-transform ${isDark ? 'bg-white/5 border-white/10 hover:border-blue-500/50' : 'bg-gray-50 border-gray-100 hover:border-blue-500/50'}`}>
                     <div className="flex items-center justify-between mb-2">
                       <p className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Deri Ceketler</p>
                       <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[9px] font-black">Yüksek Talep / Düşük Arz</span>
@@ -735,11 +736,11 @@ export default function SysopDashboard() {
                       <span>Aranma Hacmi: <strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>4,500/hft</strong></span>
                       <span>Listeleme: <strong className="text-orange-500">Sadece 4 adet</strong></span>
                     </div>
-                    <p className="text-[9px] mt-2 text-blue-500 font-bold flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Fırsat: Satıcıları deri ceket yüklemeye teşvik et.</p>
+                    <p className="text-[9px] mt-2 text-blue-500 font-bold flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Fırsat: Tıkla, satıcılara push bildirimi gönder.</p>
                   </div>
 
                   {/* PRICING INTELLIGENCE */}
-                  <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-gray-50 border-gray-100'}`}>
+                  <div onClick={() => router.push('/dashboard/sysop/product-management?search=vintage-gozluk')} className={`p-3 rounded-xl border cursor-pointer hover:scale-[1.02] transition-transform ${isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/50' : 'bg-gray-50 border-gray-100 hover:border-orange-500/50'}`}>
                     <div className="flex items-center justify-between mb-2">
                       <p className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Vintage Gözlük #402</p>
                       <span className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[9px] font-black">Fiyat Şişkinliği (&gt;130%)</span>
@@ -748,7 +749,7 @@ export default function SysopDashboard() {
                       <span>Ort. Satılan Fiyat: <strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>₺450</strong></span>
                       <span>Mevcut Listeleme: <strong className="text-orange-500">₺620</strong></span>
                     </div>
-                    <p className="text-[9px] mt-2 text-orange-500 font-bold flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg> Uyarı: Likidite düşüşü öngörülüyor.</p>
+                    <p className="text-[9px] mt-2 text-orange-500 font-bold flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg> Uyarı: Likidite düşüşü öngörülüyor. İncelemek için tıkla.</p>
                   </div>
                 </div>
               )}
@@ -847,7 +848,7 @@ export default function SysopDashboard() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
                     KARGO PERFORMANSI
                   </h3>
-                  <button className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">DETAY</button>
+                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">DETAY</button>
                 </div>
                 
                 <div className="space-y-4 flex-1">
@@ -883,7 +884,7 @@ export default function SysopDashboard() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                     DESTEK (WHATSAPP)
                   </h3>
-                  <button className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">TÜM MESAJLAR</button>
+                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">TÜM MESAJLAR</button>
                 </div>
                 
                 <div className="flex items-center gap-3 mb-6">
