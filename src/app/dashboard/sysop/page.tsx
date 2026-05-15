@@ -14,10 +14,9 @@ export default function SysopDashboard() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [filterProduct, setFilterProduct] = useState("Tüm Ürünler");
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
-  const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
   const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
-  const [showShippingModal, setShowShippingModal] = useState(false);
+  const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
 
   // --- INTELLIGENCE LAYER STATES ---
   const [showFunnel, setShowFunnel] = useState(false);
@@ -30,14 +29,11 @@ export default function SysopDashboard() {
     showToast(`${featureName} modülü henüz test aşamasında!`, "info");
   };
 
-  // Role check simulation for Founder specific views
-  const isFounder = true; // In real app, check from user roles
-
-  type AlertDef = { type: string; text: string; action?: string; link?: string; customAction?: () => void };
+  type AlertDef = { type: string; text: string; };
   const alerts: AlertDef[] = [
-    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)', customAction: () => setShowShippingModal(true) },
-    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif', link: '/dashboard/sysop/user-management' },
-    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş', customAction: () => setShowFunnel(true) }
+    { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış (>15%)' },
+    { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif' },
+    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş' }
   ];
 
   useEffect(() => {
@@ -85,7 +81,7 @@ export default function SysopDashboard() {
                              { color: '#007AFF', bg: 'bg-[#007AFF]', text: 'text-[#007AFF]', lightBg: 'bg-[#007AFF]/10', border: 'border-[#007AFF]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(0,122,255,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> };
 
                return (
-                 <div key={i} onClick={() => alert.link ? router.push(alert.link) : alert.customAction?.()} className={`cursor-pointer group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-[20px] bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1 shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${style.glow}`}>
+                 <div key={i} onClick={() => setSelectedAlert(alert)} className={`cursor-pointer group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-[20px] bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1 shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${style.glow}`}>
                    {/* Left Accent Bar */}
                    <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 rounded-r-full ${style.bg} opacity-80 group-hover:opacity-100 transition-opacity`}></div>
                    
@@ -1368,41 +1364,91 @@ export default function SysopDashboard() {
         onClose={() => setIsVisitorModalOpen(false)} 
       />
 
-      {/* Shipping Alert Bottom Sheet */}
-      {showShippingModal && (
+      {/* Dynamic Alert Bottom Sheet */}
+      {selectedAlert && (
         <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center p-0 sm:p-6 transition-all">
           <div className="w-full max-w-md bg-white rounded-t-[32px] sm:rounded-[24px] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
             <div className="p-6 pb-8">
               <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 sm:hidden"></div>
               
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#FF383C]/10 flex items-center justify-center shrink-0">
-                  <svg className="w-6 h-6 text-[#FF383C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                  selectedAlert.type === 'CRITICAL' ? 'bg-[#FF383C]/10 text-[#FF383C]' : 
+                  selectedAlert.type === 'WARNING' ? 'bg-[#FF8D28]/10 text-[#FF8D28]' : 
+                  'bg-[#007AFF]/10 text-[#007AFF]'
+                }`}>
+                  {selectedAlert.type === 'CRITICAL' && <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>}
+                  {selectedAlert.type === 'WARNING' && <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 17v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+                  {selectedAlert.type === 'INFO' && <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
                 </div>
                 <div>
-                  <h3 className="text-[18px] font-black text-gray-900 leading-tight mb-1">Kargo Gecikmesi</h3>
-                  <p className="text-[13px] font-medium text-gray-500">Marmara bölgesi teslimatlarında ani artış</p>
+                  <h3 className="text-[18px] font-black text-gray-900 leading-tight mb-1">
+                    {selectedAlert.type === 'CRITICAL' ? 'Kargo Gecikmesi' : selectedAlert.type === 'WARNING' ? 'İnaktif Satıcı Riski' : 'Funnel Optimizasyonu'}
+                  </h3>
+                  <p className="text-[13px] font-medium text-gray-500">{selectedAlert.text}</p>
                 </div>
               </div>
 
               <div className="space-y-3 mb-8">
-                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                  <span className="text-[12px] font-bold text-gray-600">Geciken Kargo</span>
-                  <span className="text-[14px] font-black text-gray-900">1,248</span>
-                </div>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                  <span className="text-[12px] font-bold text-gray-600">Etkilenen Müşteri</span>
-                  <span className="text-[14px] font-black text-[#FF383C]">1,042</span>
-                </div>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
-                  <span className="text-[12px] font-bold text-gray-600">Dispute Riski</span>
-                  <span className="text-[14px] font-black text-[#FF8D28]">Yüksek</span>
-                </div>
+                {selectedAlert.type === 'CRITICAL' && (
+                  <>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Geciken Kargo</span>
+                      <span className="text-[14px] font-black text-gray-900">1,248</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Etkilenen Müşteri</span>
+                      <span className="text-[14px] font-black text-[#FF383C]">1,042</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Dispute Riski</span>
+                      <span className="text-[14px] font-black text-[#FF8D28]">Yüksek</span>
+                    </div>
+                  </>
+                )}
+                {selectedAlert.type === 'WARNING' && (
+                  <>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Etkilenen Satıcı</span>
+                      <span className="text-[14px] font-black text-gray-900">2 Mağaza</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Kayıp GMV Hacmi</span>
+                      <span className="text-[14px] font-black text-[#FF8D28]">~₺30,000</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Önerilen Aksiyon</span>
+                      <span className="text-[14px] font-black text-gray-900">Telefonla İletişim</span>
+                    </div>
+                  </>
+                )}
+                {selectedAlert.type === 'INFO' && (
+                  <>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Sepete Ekleyen</span>
+                      <span className="text-[14px] font-black text-gray-900">4,520</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Ödeme Adımına Geçen</span>
+                      <span className="text-[14px] font-black text-[#FF8D28]">1,840</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 border border-gray-100">
+                      <span className="text-[12px] font-bold text-gray-600">Siparişi Tamamlayan</span>
+                      <span className="text-[14px] font-black text-[#FF383C]">1,619 (-%12)</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="flex flex-col gap-3">
-                <button onClick={() => { setShowShippingModal(false); router.push('/dashboard/sysop/shipping-management'); }} className="w-full py-3.5 rounded-xl bg-[#111827] text-white text-[13px] font-black tracking-widest hover:bg-black transition-colors">TÜM KARGOLARI GÖR</button>
-                <button onClick={() => setShowShippingModal(false)} className="w-full py-3.5 rounded-xl bg-white text-gray-500 text-[13px] font-black tracking-widest border border-gray-200 hover:bg-gray-50 transition-colors">KAPAT</button>
+                <button onClick={() => { 
+                  const type = selectedAlert.type;
+                  setSelectedAlert(null); 
+                  if(type === 'CRITICAL') router.push('/dashboard/sysop/shipping-management');
+                  if(type === 'WARNING') router.push('/dashboard/sysop/user-management');
+                  if(type === 'INFO') router.push('/dashboard/sysop/analytics');
+                }} className="w-full py-3.5 rounded-xl bg-[#111827] text-white text-[13px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                <button onClick={() => setSelectedAlert(null)} className="w-full py-3.5 rounded-xl bg-white text-gray-500 text-[13px] font-black tracking-widest border border-gray-200 hover:bg-gray-50 transition-colors">KAPAT</button>
               </div>
             </div>
           </div>
