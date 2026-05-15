@@ -45,7 +45,7 @@ export default function SysopDashboard() {
     } catch {}
   }, []);
 
-  const isDark = theme === 'dark';
+  const isDark = false; // Forced to false for now as requested
   
   // Nexadash specific design tokens
   const cardClass = `rounded-[24px] border bg-white dark:bg-[#111827] ${isDark ? 'border-white/5 shadow-2xl' : 'border-[#F3F4F6] shadow-[0_4px_24px_rgba(0,0,0,0.04)]'}`;
