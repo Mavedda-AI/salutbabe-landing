@@ -120,7 +120,7 @@ export function FinanceView() {
           {expandedCard === 'invoices' && (
             <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Riskli (< 7 Gün)</span><span className="text-[12px] font-black text-[#FF383C]">1 Fatura</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Riskli (&lt; 7 Gün)</span><span className="text-[12px] font-black text-[#FF383C]">1 Fatura</span></div>
               </div>
               <button onClick={() => router.push('/dashboard/sysop/finance-management/invoices')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                 DETAYLARI GÖRÜNTÜLE
