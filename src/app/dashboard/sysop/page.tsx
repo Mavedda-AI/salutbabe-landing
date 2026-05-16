@@ -1991,8 +1991,8 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between">
                 <h2 className="text-[18px] font-black text-gray-900">Lojistik ve Kargo Yönetimi</h2>
                 <div className="flex gap-2">
-                  <button className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-gray-600 hover:bg-gray-50 transition-colors">Dışa Aktar (CSV)</button>
-                  <button className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[11px] font-bold hover:bg-blue-700 transition-colors">API Senkronizasyonu</button>
+                  <button className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-gray-600 hover:bg-gray-50 transition-colors" onClick={() => setOpConfirm({ type: "csv", title: "CSV Raporu İndiriliyor", desc: "Lojistik verileri CSV dosyası olarak indirilecek." })}>Dışa Aktar (CSV)</button>
+                  <button className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[11px] font-bold hover:bg-blue-700 transition-colors" onClick={() => setOpConfirm({ type: "sync", title: "API Senkronizasyonu", desc: "Kargo firmaları ile API senkronizasyonu başlatılacak. Devam etmek istiyor musunuz?" })}>API Senkronizasyonu</button>
                 </div>
               </div>
 
@@ -2106,7 +2106,7 @@ export default function SysopDashboard() {
               <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
                   <h3 className="text-[13px] font-black text-gray-900">Desi Uyuşmazlık Raporları (Kargo API vs Beyan)</h3>
-                  <button className="text-[11px] font-bold text-blue-600 hover:underline">Tümünü Gör</button>
+                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="text-[11px] font-bold text-blue-600 hover:underline">Tümünü Gör</button>
                 </div>
                 <div className="divide-y divide-gray-100">
                   {[
@@ -2139,7 +2139,7 @@ export default function SysopDashboard() {
                           {row.diff}
                         </span>
                         {row.status === 'action' ? (
-                          <button className="px-3 py-1.5 bg-[#111827] text-white rounded shadow-sm text-[10px] font-bold hover:bg-black transition-colors">
+                          <button onClick={() => setOpConfirm({ type: 'desi', title: 'Desi Farkı Yansıtılacak', desc: `${row.id} için ${row.diff} farkı satıcıya yansıtılacak. Onaylıyor musunuz?` })} className="px-3 py-1.5 bg-[#111827] text-white rounded shadow-sm text-[10px] font-bold hover:bg-black transition-colors">
                             Yansıt
                           </button>
                         ) : (
@@ -2156,7 +2156,7 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between">
                 <h2 className="text-[18px] font-black text-gray-900">İçerik ve Kullanıcı Moderasyonu</h2>
                 <div className="flex gap-2">
-                  <button className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-gray-600 hover:bg-gray-50 transition-colors">Yapay Zeka Ayarları</button>
+                  <button onClick={() => setOpConfirm({ type: 'ai', title: 'AI Moderasyon Ayarları', desc: 'Yapay zeka moderasyon hassasiyeti, otomatik onay eşiği ve filtre kuralları sistem ayarlarından yapılandırılabilir.' })} className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-gray-600 hover:bg-gray-50 transition-colors">Yapay Zeka Ayarları</button>
                 </div>
               </div>
 
@@ -2272,7 +2272,7 @@ export default function SysopDashboard() {
                       <div className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></div> CANLI
                     </span>
                   </div>
-                  <button className="text-[11px] font-bold text-blue-600 hover:underline">Geçmiş İşlemler</button>
+                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="text-[11px] font-bold text-blue-600 hover:underline">Geçmiş İşlemler</button>
                 </div>
                 <div className="divide-y divide-gray-100">
                   {[
@@ -2299,8 +2299,8 @@ export default function SysopDashboard() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
-                        <button className="px-4 py-2 bg-white border border-gray-200 text-green-600 rounded-lg text-[11px] font-bold hover:bg-green-50 hover:border-green-200 transition-colors">Onayla</button>
-                        <button className="px-4 py-2 bg-red-50 border border-red-100 text-red-600 rounded-lg text-[11px] font-bold hover:bg-red-100 transition-colors">Reddet & İhtar</button>
+                        <button onClick={() => setOpConfirm({ type: 'approve_mod', title: 'İçerik Onaylanacak', desc: `"${row.title}" onaylanacak ve yayına alınacak. Onaylıyor musunuz?` })} className="px-4 py-2 bg-white border border-gray-200 text-green-600 rounded-lg text-[11px] font-bold hover:bg-green-50 hover:border-green-200 transition-colors">Onayla</button>
+                        <button onClick={() => setOpConfirm({ type: 'reject_mod', title: 'İçerik Reddedilecek', desc: `"${row.title}" reddedilecek ve @${row.user} kullanıcısına ihtar verilecek. Onaylıyor musunuz?` })} className="px-4 py-2 bg-red-50 border border-red-100 text-red-600 rounded-lg text-[11px] font-bold hover:bg-red-100 transition-colors">Reddet & İhtar</button>
                       </div>
                     </div>
                   ))}
@@ -2495,17 +2495,17 @@ export default function SysopDashboard() {
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-[11px] font-bold text-gray-500 mb-1">KAMPANYA ADI</label>
-                <input type="text" placeholder="Örn: Yaza Merhaba %20 İndirim" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
+                <input type="text" placeholder="Örn: Yaza Merhaba %20 İndirim" value={campaignForm.name} onChange={e => setCampaignForm(p => ({ ...p, name: e.target.value }))} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[11px] font-bold text-gray-500 mb-1">KUPON KODU</label>
-                  <input type="text" placeholder="YAZ20" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-black text-green-600 uppercase focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
+                  <input type="text" placeholder="YAZ20" value={campaignForm.code} onChange={e => setCampaignForm(p => ({ ...p, code: e.target.value.toUpperCase() }))} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-black text-green-600 uppercase focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold text-gray-500 mb-1">İNDİRİM ORANI (%)</label>
-                  <input type="number" placeholder="20" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
+                  <input type="number" placeholder="20" value={campaignForm.discount} onChange={e => setCampaignForm(p => ({ ...p, discount: e.target.value }))} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
                 </div>
               </div>
 
@@ -2513,7 +2513,7 @@ export default function SysopDashboard() {
                 <label className="block text-[11px] font-bold text-gray-500 mb-1">BÜTÇE LİMİTİ (₺)</label>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₺</span>
-                  <input type="number" placeholder="50000" className="w-full pl-8 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
+                  <input type="number" placeholder="50000" value={campaignForm.budget} onChange={e => setCampaignForm(p => ({ ...p, budget: e.target.value }))} className="w-full pl-8 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all" />
                 </div>
               </div>
 
@@ -2531,7 +2531,26 @@ export default function SysopDashboard() {
             {/* Footer */}
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50/50">
               <button onClick={() => setShowCampaignModal(false)} className="px-5 py-2.5 text-[12px] font-bold text-gray-500 hover:text-gray-700 transition-colors">Vazgeç</button>
-              <button onClick={() => setShowCampaignModal(false)} className="px-5 py-2.5 bg-green-600 text-white rounded-lg text-[12px] font-bold hover:bg-green-700 shadow-sm shadow-green-600/20 transition-all">Kampanyayı Başlat</button>
+              <button onClick={() => { if (!campaignForm.name || !campaignForm.code) return; setShowCampaignModal(false); setOpConfirm({ type: 'campaign_ok', title: 'Kampanya Başlatıldı ✅', desc: `"${campaignForm.name}" kampanyası ${campaignForm.code} kupon koduyla başarıyla oluşturuldu.` }); setCampaignForm({ name: '', code: '', discount: '', budget: '', audience: 'Tüm Kullanıcılar' }); }} disabled={!campaignForm.name || !campaignForm.code} className={`px-5 py-2.5 rounded-lg text-[12px] font-bold shadow-sm transition-all ${!campaignForm.name || !campaignForm.code ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700 shadow-green-600/20'}`}>Kampanyayı Başlat</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OPERATION CONFIRMATION MODAL */}
+      {opConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={() => setOpConfirm(null)}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md p-6 rounded-2xl shadow-2xl bg-white border border-gray-200">
+            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h3 className="text-[18px] font-black text-center mb-2 text-gray-900">{opConfirm.title}</h3>
+            <p className="text-[13px] text-gray-500 text-center mb-6">{opConfirm.desc}</p>
+            <div className="flex gap-3">
+              <button onClick={() => setOpConfirm(null)} className="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[13px] transition-colors">Kapat</button>
+              {opConfirm.type !== 'campaign_ok' && opConfirm.type !== 'ai' && (
+                <button onClick={() => { setOpConfirm({ ...opConfirm, type: 'campaign_ok', title: 'İşlem Başarılı ✅', desc: 'İşleminiz başarıyla gerçekleştirildi.' }); }} className="flex-1 py-3 rounded-xl bg-[#111827] hover:bg-black text-white font-bold text-[13px] transition-colors">Onayla</button>
+              )}
             </div>
           </div>
         </div>
