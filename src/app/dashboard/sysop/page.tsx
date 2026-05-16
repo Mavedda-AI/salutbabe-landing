@@ -446,12 +446,7 @@ export default function SysopDashboard() {
 
               {/* Mini Turkey Map (Healthix Aesthetic) */}
               <div className="flex-1 mb-4 relative flex items-center justify-center p-2 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden">
-                <svg viewBox="0 0 1050 480" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm">
-                  <defs>
-                    <filter id="shadow-mini" x="-20%" y="-20%" width="140%" height="140%">
-                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
-                    </filter>
-                  </defs>
+                <svg width="100%" height="100%" viewBox="0 0 1050 480" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm" style={{ WebkitTransform: 'translate3d(0,0,0)' }}>
                   
                   {/* Real Turkey Map 81 Cities */}
                   <g>

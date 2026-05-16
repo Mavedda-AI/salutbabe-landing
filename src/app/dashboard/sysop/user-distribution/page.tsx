@@ -295,12 +295,7 @@ export default function UserDistributionPage() {
 
           {/* SVG Map */}
           {level === 'region' ? (
-            <svg viewBox="0 0 1050 480" className="w-full h-full object-contain px-12 py-12 z-10 drop-shadow-sm">
-              <defs>
-                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
-                </filter>
-              </defs>
+            <svg width="100%" height="100%" viewBox="0 0 1050 480" className="w-full h-full object-contain px-12 py-12 z-10 drop-shadow-sm" style={{ WebkitTransform: 'translate3d(0,0,0)' }}>
 
               {/* Draw connection lines from active/hovered region to right panel */}
               {hoveredItem && regionData[hoveredItem] && (
