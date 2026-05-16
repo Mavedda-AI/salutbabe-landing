@@ -157,10 +157,10 @@ export default function StoreManagementPage() {
               <button 
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-4 py-2 rounded-lg text-[12px] font-bold transition-all whitespace-nowrap
+                className={`px-4 py-2 text-[12px] transition-all whitespace-nowrap
                   ${activeTab === tab.id 
-                    ? (isDark ? 'bg-[#2E2E3A] text-white' : 'bg-gray-100 text-gray-900') 
-                    : (isDark ? 'text-gray-500 hover:text-white hover:bg-white/5' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50')}`}
+                    ? (isDark ? 'text-white font-black' : 'text-[#111827] font-black') 
+                    : (isDark ? 'text-gray-500 font-bold hover:text-white' : 'text-gray-500 font-bold hover:text-[#111827]')}`}
               >
                 {tab.label}
               </button>
