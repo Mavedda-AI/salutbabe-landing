@@ -78,11 +78,13 @@ export default function SysopDashboard() {
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
       
       {/* Role Switcher */}
-      <div className="flex items-center justify-end gap-1 mb-4">
-         <span className={`text-[12px] font-bold mr-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
-         <button onClick={() => setUserRole('founder')} className={`px-2 py-1.5 text-[12px] transition-all ${userRole === 'founder' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kurucu</button>
-         <button onClick={() => setUserRole('partner')} className={`px-2 py-1.5 text-[12px] transition-all ${userRole === 'partner' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Operasyon</button>
-         <button onClick={() => setUserRole('finance')} className={`px-2 py-1.5 text-[12px] transition-all ${userRole === 'finance' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Finans</button>
+      <div className="flex items-center justify-end gap-2 mb-4">
+         <span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
+         <div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100/80 border-gray-200'}`}>
+           <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'founder' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kurucu</button>
+           <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'partner' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Operasyon</button>
+           <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'finance' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Finans</button>
+         </div>
       </div>
 
       {userRole === 'founder' ? (
@@ -1334,10 +1336,12 @@ export default function SysopDashboard() {
           
           {/* INNER TABS FOR OPERASYON */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide hide-scrollbar w-full snap-x">
-             <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'general' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Genel Durum</button>
-             <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'logistics' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kargo & Desi</button>
-             <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'moderation' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Moderasyon</button>
-             <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'growth' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kampanya</button>
+             <div className={`flex items-center p-0.5 rounded-lg border w-max ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100/80 border-gray-200'}`}>
+               <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'general' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Genel Durum</button>
+               <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'logistics' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kargo & Desi</button>
+               <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'moderation' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Moderasyon</button>
+               <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'growth' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kampanya</button>
+             </div>
           </div>
 
           {opTab === 'general' ? (
