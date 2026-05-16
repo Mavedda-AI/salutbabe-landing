@@ -453,10 +453,27 @@ export default function SysopDashboard() {
                     const data = liveMapData[r.n] || { users: 0, color: '#FDBA74' };
                     const filteredUsers = Math.floor(data.users * mapMultiplier);
                     const val = (filteredUsers / 1000).toFixed(1);
+                    
+                    let bgColor = '#FFFFFF';
+                    let textColor = '#111827';
+                    if (r.top) {
+                      bgColor = '#1A1A1A';
+                      textColor = '#FFFFFF';
+                    } else if (filteredUsers >= 10000) {
+                      bgColor = '#65C050';
+                      textColor = '#FFFFFF';
+                    } else if (filteredUsers >= 1000) {
+                      bgColor = '#FDBA74';
+                      textColor = '#111827';
+                    } else if (filteredUsers >= 100) {
+                      bgColor = '#E5E7EB';
+                      textColor = '#111827';
+                    }
+                    
                     return (
                       <g key={i}>
-                        <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
-                        <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold ${r.top ? 'fill-white' : 'fill-[#111827]'}`}>{val}K</text>
+                        <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={bgColor} filter="url(#shadow-mini)" className="transition-colors duration-300" />
+                        <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold`} fill={textColor}>{val}K</text>
                       </g>
                     );
                   })}
@@ -471,7 +488,7 @@ export default function SysopDashboard() {
                 ].map((s,i) => (
                   <div key={i} className="flex justify-between items-center text-[11px]">
                     <span className="flex items-center gap-2">
-                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: liveMapData[s.n].color }}></div>
+                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.n === 'Marmara' ? '#1A1A1A' : Math.floor(liveMapData[s.n].users * mapMultiplier) >= 10000 ? '#65C050' : Math.floor(liveMapData[s.n].users * mapMultiplier) >= 1000 ? '#FDBA74' : Math.floor(liveMapData[s.n].users * mapMultiplier) >= 100 ? '#E5E7EB' : '#FFFFFF' }}></div>
                        <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.n}</span>
                     </span>
                     <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{Math.floor(liveMapData[s.n].users * mapMultiplier).toLocaleString('tr-TR')} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
