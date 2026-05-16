@@ -126,23 +126,33 @@ export default function UserDistributionPage() {
 
   // Current data based on drill level
   const getCurrentItems = (): { name: string; users: number; color: string; onClick: (n: string) => void }[] => {
+    
+    const getDynamicColor = (users: number, name: string) => {
+      const filteredUsers = Math.floor(users * mapMultiplier);
+      if (name === 'Marmara' && level === 'region') return '#1A1A1A';
+      if (filteredUsers >= 10000) return '#65C050';
+      if (filteredUsers >= 1000) return '#FDBA74';
+      if (filteredUsers >= 100) return '#E5E7EB';
+      return '#FFFFFF';
+    };
+
     if (level === 'region') {
-      return Object.entries(regionData).map(([n, d]) => ({ name: n, users: d.users, color: d.color, onClick: handleRegionClick }));
+      return Object.entries(regionData).map(([n, d]) => ({ name: n, users: d.users, color: getDynamicColor(d.users, n), onClick: handleRegionClick }));
     }
     if (level === 'city' && selectedRegion) {
       const cities = regionData[selectedRegion]?.cities || {};
-      const color = regionData[selectedRegion]?.color || '#111827';
-      return Object.entries(cities).map(([n, d]) => ({ name: n, users: d.users, color, onClick: handleCityClick }));
+      return Object.entries(cities).map(([n, d]) => ({ name: n, users: d.users, color: getDynamicColor(d.users, n), onClick: handleCityClick }));
     }
     if (level === 'district' && selectedRegion && selectedCity) {
       const districts = regionData[selectedRegion]?.cities[selectedCity]?.districts || {};
-      const color = regionData[selectedRegion]?.color || '#111827';
-      return Object.entries(districts).map(([n, d]) => ({ name: n, users: d.users, color, onClick: handleDistrictClick }));
+      return Object.entries(districts).map(([n, d]) => ({ name: n, users: d.users, color: getDynamicColor(d.users, n), onClick: handleDistrictClick }));
     }
     if (level === 'neighborhood' && selectedRegion && selectedCity && selectedDistrict) {
       const neighborhoods = regionData[selectedRegion]?.cities[selectedCity]?.districts[selectedDistrict]?.neighborhoods || [];
-      const color = regionData[selectedRegion]?.color || '#111827';
-      return neighborhoods.map((n, i) => ({ name: n, users: Math.floor((Math.floor(Math.random() * 50) + 10) * mapMultiplier), color, onClick: () => {} }));
+      return neighborhoods.map((n, i) => {
+        const simulatedUsers = Math.floor(Math.random() * 50) + 10;
+        return { name: n, users: simulatedUsers, color: getDynamicColor(simulatedUsers, n), onClick: () => {} };
+      });
     }
     return [];
   };
