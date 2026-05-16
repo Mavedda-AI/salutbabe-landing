@@ -1145,7 +1145,7 @@ export default function SysopDashboard() {
               </div>
 
               <div className="space-y-2 mb-6">
-                {[{t:'Pazaryeri:', v:'300 Kişi', c:'bg-red-500'}, {t:'Web Sitesi:', v:'250 Kişi', c:'bg-green-500'}, {t:'Canlı Odalar:', v:'400 Kişi', c:'bg-green-500'}].map((s,i) => (
+                {[{t:'Marketplace :', v:'300 people', c:'bg-red-500'}, {t:'Website :', v:'250 people', c:'bg-green-500'}, {t:'Store :', v:'400 people', c:'bg-green-500'}].map((s,i) => (
                   <div key={i} className="flex justify-between items-center text-[11px]">
                     <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.t}</span>
                     <span className={`font-black flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#111827]'}`}>{s.v} <div className={`w-1.5 h-1.5 rounded-full ${s.c}`}></div></span>
