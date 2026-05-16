@@ -229,7 +229,7 @@ export default function SysopDashboard() {
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
                   <div className="space-y-2 mb-4">
                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Brüt Komisyon Hacmi</span><span className="text-[12px] font-black text-gray-900">₺1,256,940</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ödeme Geçidi Kesintisi (İyzico)</span><span className="text-[12px] font-black text-red-500">-₺31,423</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sanal POS Kesintisi (İş Bankası)</span><span className="text-[12px] font-black text-red-500">-₺31,423</span></div>
                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kargo & İade Farkları</span><span className="text-[12px] font-black text-red-500">-₺18,500</span></div>
                      <div className="h-px w-full bg-gray-200 my-1"></div>
                      <div className="flex justify-between items-center"><span className="text-[11px] font-black text-gray-900">Gerçekleşen (True Profit)</span><span className="text-[12px] font-black text-green-600">₺1,207,017</span></div>
