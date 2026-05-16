@@ -43,16 +43,6 @@ const initialRegionData: Record<string, { users: number; color: string; cities: 
   }},
 };
 
-// Simplified Turkey SVG regions (viewBox coordinates)
-const regionPaths: Record<string, { d: string; labelX: number; labelY: number }> = {
-  'Marmara': { d: 'M120,80 L200,60 L240,80 L260,110 L240,140 L200,150 L160,140 L120,120 Z', labelX: 185, labelY: 110 },
-  'Ege': { d: 'M80,140 L160,140 L200,150 L200,220 L160,260 L100,280 L60,240 L60,180 Z', labelX: 130, labelY: 210 },
-  'Akdeniz': { d: 'M160,260 L200,220 L300,220 L380,240 L420,260 L380,300 L280,310 L200,290 Z', labelX: 290, labelY: 265 },
-  'İç Anadolu': { d: 'M240,140 L340,120 L420,140 L440,180 L420,220 L380,240 L300,220 L200,220 L200,150 Z', labelX: 320, labelY: 175 },
-  'Karadeniz': { d: 'M260,50 L340,40 L440,50 L540,60 L580,80 L540,100 L440,110 L340,120 L260,110 Z', labelX: 420, labelY: 80 },
-  'Doğu Anadolu': { d: 'M440,110 L540,100 L620,120 L640,170 L620,210 L540,220 L440,180 Z', labelX: 540, labelY: 160 },
-  'Güneydoğu': { d: 'M420,220 L440,180 L540,220 L620,210 L620,260 L560,290 L480,300 L420,260 Z', labelX: 520, labelY: 250 },
-};
 
 type DrillLevel = 'region' | 'city' | 'district' | 'neighborhood';
 
