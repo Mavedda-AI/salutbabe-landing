@@ -1820,31 +1820,339 @@ export default function SysopDashboard() {
           </div>
             </>
           ) : opTab === 'logistics' ? (
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center animate-fade-in">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between">
+                <h2 className="text-[18px] font-black text-gray-900">Lojistik ve Kargo Yönetimi</h2>
+                <div className="flex gap-2">
+                  <button className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-gray-600 hover:bg-gray-50 transition-colors">Dışa Aktar (CSV)</button>
+                  <button className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[11px] font-bold hover:bg-blue-700 transition-colors">API Senkronizasyonu</button>
+                </div>
               </div>
-              <h2 className="text-[20px] font-black text-gray-900 mb-2">Kargo ve Lojistik Yönetimi</h2>
-              <p className="text-gray-500 text-[13px] max-w-md mx-auto mb-6">Satıcı beyanı ile kargo şirketi tartımı arasındaki desi uyuşmazlıkları, kayıp kargo itirazları ve kargo API entegrasyon durumu burada yönetilecek.</p>
-              <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-bold rounded-xl transition-colors">Modülü Aktive Et</button>
+
+              {/* Stat Cards */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-blue-50 flex items-center justify-center text-blue-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Günlük Çıkış</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">1,245</h3>
+                    <span className="text-[10px] font-bold text-green-500 bg-green-50 px-1.5 py-0.5 rounded">+12%</span>
+                  </div>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-orange-50 flex items-center justify-center text-orange-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Geciken Kargo</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">42</h3>
+                    <span className="text-[10px] font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">Riskli</span>
+                  </div>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-green-50 flex items-center justify-center text-green-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Ort. Teslimat</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">1.8 <span className="text-[12px] text-gray-500">Gün</span></h3>
+                  </div>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-red-50 flex items-center justify-center text-red-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Desi İtirazı</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">18</h3>
+                    <span className="text-[10px] font-bold text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded">Bekleyen</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Data Table for Desi Mismatches */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                  <h3 className="text-[13px] font-black text-gray-900">Desi Uyuşmazlık Raporları (Kargo API vs Beyan)</h3>
+                  <button className="text-[11px] font-bold text-blue-600 hover:underline">Tümünü Gör</button>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {[
+                    { id: 'ORD-9823', seller: 'Bebek Butik', declared: '2 Desi', api: '5 Desi', diff: '+3 Desi (Fark: ₺45.50)', status: 'action', date: '10 dk önce' },
+                    { id: 'ORD-9811', seller: 'Kids Fashion', declared: '1 Desi', api: '3 Desi', diff: '+2 Desi (Fark: ₺28.00)', status: 'action', date: '45 dk önce' },
+                    { id: 'ORD-9754', seller: 'Anne Şefkati', declared: '5 Desi', api: '6 Desi', diff: '+1 Desi (Fark: ₺12.00)', status: 'resolved', date: '2 saat önce' },
+                  ].map((row, i) => (
+                    <div key={i} className="px-5 py-3.5 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center gap-4 w-1/3">
+                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-black text-gray-600">
+                          {row.seller.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-[12px] font-bold text-gray-900">{row.id}</p>
+                          <p className="text-[11px] text-gray-500">{row.seller}</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-8 w-1/3 text-[11px]">
+                        <div>
+                          <p className="text-gray-400 font-bold mb-0.5">Satıcı Beyanı</p>
+                          <p className="font-black text-gray-700">{row.declared}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 font-bold mb-0.5">Kargo Ölçümü</p>
+                          <p className="font-black text-gray-900">{row.api}</p>
+                        </div>
+                      </div>
+                      <div className="w-1/3 flex items-center justify-end gap-4">
+                        <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${row.status === 'action' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
+                          {row.diff}
+                        </span>
+                        {row.status === 'action' ? (
+                          <button className="px-3 py-1.5 bg-[#111827] text-white rounded shadow-sm text-[10px] font-bold hover:bg-black transition-colors">
+                            Yansıt
+                          </button>
+                        ) : (
+                          <span className="text-[10px] font-bold text-gray-400 px-3 py-1.5">Yansıtıldı</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : opTab === 'moderation' ? (
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center animate-fade-in">
-              <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between">
+                <h2 className="text-[18px] font-black text-gray-900">İçerik ve Kullanıcı Moderasyonu</h2>
+                <div className="flex gap-2">
+                  <button className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-gray-600 hover:bg-gray-50 transition-colors">Yapay Zeka Ayarları</button>
+                </div>
               </div>
-              <h2 className="text-[20px] font-black text-gray-900 mb-2">İçerik Moderasyonu</h2>
-              <p className="text-gray-500 text-[13px] max-w-md mx-auto mb-6">Yapay zeka tarafından şüpheli işaretlenen sahte (replika) marka ilanları, telefon numarası içeren mesajlar ve kural dışı içerikler burada onaylanacak.</p>
-              <button className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white text-[12px] font-bold rounded-xl transition-colors">Modülü Aktive Et</button>
+
+              {/* Stat Cards */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white p-4 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-purple-50 rounded-bl-full -z-0"></div>
+                  <div className="flex items-center gap-2 mb-2 relative z-10">
+                    <div className="w-6 h-6 rounded bg-purple-100 flex items-center justify-center text-purple-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Bekleyen İşlem</span>
+                  </div>
+                  <div className="flex items-baseline gap-2 relative z-10">
+                    <h3 className="text-[20px] font-black text-gray-900">128</h3>
+                    <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">Sırada</span>
+                  </div>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-red-50 flex items-center justify-center text-red-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Reddedilen İlan</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">34</h3>
+                    <span className="text-[10px] font-bold text-gray-400">Bugün</span>
+                  </div>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-orange-50 flex items-center justify-center text-orange-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Şüpheli Mesaj</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">12</h3>
+                    <span className="text-[10px] font-bold text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded">Tel/Iban</span>
+                  </div>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-green-50 flex items-center justify-center text-green-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Otomatik Onay</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">%94</h3>
+                    <span className="text-[10px] font-bold text-green-500">Yapay Zeka</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Moderation Queue */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-[13px] font-black text-gray-900">Moderasyon Kuyruğu</h3>
+                    <span className="px-2 py-0.5 bg-purple-100 text-purple-600 rounded text-[9px] font-black flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></div> CANLI
+                    </span>
+                  </div>
+                  <button className="text-[11px] font-bold text-blue-600 hover:underline">Geçmiş İşlemler</button>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {[
+                    { user: 'ayse.yilmaz', type: 'product', title: 'Rolex Saat Replika Şüphesi', desc: 'AI Güven Skoru: %12 (Çok Düşük). Marka tescil belgesi eksik.', time: '2 dk önce', risk: 'high' },
+                    { user: 'bebek_dunyasi', type: 'chat', title: 'İletişim Numarası Tespit Edildi', desc: 'Mesaj içeriği: "Whatsapptan yazın 0532 *** ** **"', time: '8 dk önce', risk: 'high' },
+                    { user: 'zeynep1990', type: 'product', title: 'Kategori Uyuşmazlığı', desc: 'Ürün "Bebek Arabası" olarak açılmış ancak görselde "Oyuncak" var.', time: '15 dk önce', risk: 'medium' },
+                  ].map((row, i) => (
+                    <div key={i} className="px-5 py-4 flex flex-col md:flex-row md:items-center justify-between hover:bg-gray-50 transition-colors gap-4">
+                      <div className="flex items-start gap-4 flex-1">
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${row.type === 'product' ? 'bg-orange-50 text-orange-600' : 'bg-blue-50 text-blue-600'}`}>
+                          {row.type === 'product' ? (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                          ) : (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          )}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="text-[13px] font-black text-gray-900">{row.title}</h4>
+                            <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${row.risk === 'high' ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600'}`}>{row.risk === 'high' ? 'Yüksek Risk' : 'Orta Risk'}</span>
+                          </div>
+                          <p className="text-[11px] font-medium text-gray-500 mb-1">{row.desc}</p>
+                          <p className="text-[10px] font-bold text-gray-400">Kullanıcı: <span className="text-gray-700">@{row.user}</span> • {row.time}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button className="px-4 py-2 bg-white border border-gray-200 text-green-600 rounded-lg text-[11px] font-bold hover:bg-green-50 hover:border-green-200 transition-colors">Onayla</button>
+                        <button className="px-4 py-2 bg-red-50 border border-red-100 text-red-600 rounded-lg text-[11px] font-bold hover:bg-red-100 transition-colors">Reddet & İhtar</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : opTab === 'growth' ? (
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center animate-fade-in">
-              <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex items-center justify-between">
+                <h2 className="text-[18px] font-black text-gray-900">Kampanya & Büyüme (Growth)</h2>
+                <button className="px-4 py-2 bg-green-600 text-white rounded-lg text-[11px] font-bold hover:bg-green-700 transition-colors flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+                  Yeni Kampanya Oluştur
+                </button>
               </div>
-              <h2 className="text-[20px] font-black text-gray-900 mb-2">Kampanya & Büyüme (Growth)</h2>
-              <p className="text-gray-500 text-[13px] max-w-md mx-auto mb-6">İndirim kuponlarının maliyet yansıması (CAC), kampanya dönüşüm oranları ve platformun pazarlama (burn) bütçesi buradan takip edilecek.</p>
-              <button className="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-[12px] font-bold rounded-xl transition-colors">Modülü Aktive Et</button>
+
+              {/* Stat Cards */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm relative overflow-hidden">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-green-50 flex items-center justify-center text-green-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Aktif Kampanyalar</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">4</h3>
+                    <span className="text-[10px] font-bold text-gray-400">Yayında</span>
+                  </div>
+                  {/* Background decoration chart */}
+                  <svg className="absolute bottom-0 right-0 w-24 h-12 text-green-50" fill="none" viewBox="0 0 100 50" preserveAspectRatio="none"><path d="M0,50 L20,30 L40,40 L70,10 L100,20 L100,50 Z" fill="currentColor"/></svg>
+                </div>
+                
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-blue-50 flex items-center justify-center text-blue-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Kupon Kullanımı</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">4,520</h3>
+                    <span className="text-[10px] font-bold text-green-500 bg-green-50 px-1.5 py-0.5 rounded">+24%</span>
+                  </div>
+                </div>
+
+                <div className="bg-[#111827] text-white p-4 rounded-xl border border-gray-800 shadow-sm shadow-gray-900/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-white">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-400">Ortalama CAC</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black">₺45.20</h3>
+                    <span className="text-[10px] font-bold text-emerald-400">Hedef: ₺50</span>
+                  </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center text-indigo-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-500">Ortalama ROAS</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-[20px] font-black text-gray-900">4.2x</h3>
+                    <span className="text-[10px] font-bold text-green-500 bg-green-50 px-1.5 py-0.5 rounded">Harika</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Active Campaigns List */}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                  <h3 className="text-[13px] font-black text-gray-900">Aktif Pazarlama Kampanyaları</h3>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {[
+                    { name: 'İlk Siparişe Özel %10 İndirim', code: 'MERHABA10', type: 'Hoşgeldin', budget: '₺50,000', spent: '₺32,400', pct: 64, conv: '%18', roas: '3.8x' },
+                    { name: 'Kargo Bedava (Alt Limit 500₺)', code: 'FREESHIP', type: 'Sepet Artırıcı', budget: '₺100,000', spent: '₺84,000', pct: 84, conv: '%22', roas: '4.5x' },
+                    { name: 'Geri Dönüş Kampanyası', code: 'OZDEDIK', type: 'Retention', budget: '₺20,000', spent: '₺4,200', pct: 21, conv: '%8', roas: '2.1x' },
+                  ].map((camp, i) => (
+                    <div key={i} className="px-5 py-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <h4 className="text-[13px] font-black text-gray-900">{camp.name}</h4>
+                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">{camp.type}</span>
+                            </div>
+                            <p className="text-[11px] font-bold text-gray-500">Kupon Kodu: <span className="text-gray-900 font-black">{camp.code}</span></p>
+                          </div>
+                        </div>
+                        <div className="flex gap-6 text-[11px]">
+                          <div>
+                            <p className="text-gray-400 font-bold mb-0.5">Dönüşüm Oranı</p>
+                            <p className="font-black text-green-600">{camp.conv}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-400 font-bold mb-0.5">ROAS</p>
+                            <p className="font-black text-indigo-600">{camp.roas}</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Budget Progress Bar */}
+                      <div>
+                        <div className="flex justify-between items-center text-[10px] font-bold mb-1">
+                          <span className="text-gray-500">Bütçe Tüketimi: {camp.spent} / {camp.budget}</span>
+                          <span className={camp.pct > 80 ? 'text-orange-500' : 'text-gray-900'}>%{camp.pct}</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${camp.pct > 80 ? 'bg-orange-500' : 'bg-green-500'}`} style={{ width: `${camp.pct}%` }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : null}
 
