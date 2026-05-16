@@ -3,6 +3,16 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
 
+const initialMapData: Record<string, { users: number; color: string }> = {
+  'Marmara': { users: 4820, color: '#1A1A1A' },
+  'Ege': { users: 2140, color: '#FDBA74' },
+  'İç Anadolu': { users: 1860, color: '#FDBA74' },
+  'Akdeniz': { users: 1520, color: '#FDBA74' },
+  'Karadeniz': { users: 980, color: '#FDBA74' },
+  'Doğu Anadolu': { users: 460, color: '#FDBA74' },
+  'Güneydoğu': { users: 720, color: '#FDBA74' },
+};
+
 export default function SysopDashboard() {
   const router = useRouter();
   const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
@@ -43,6 +53,22 @@ export default function SysopDashboard() {
   const [showSupplyDemand, setShowSupplyDemand] = useState(false);
   const [channelTab, setChannelTab] = useState<'sales' | 'attribution'>('sales');
   const [activityTab, setActivityTab] = useState<'all' | 'realtime'>('all');
+
+  // Live Map Data for Mini Card
+  const [liveMapData, setLiveMapData] = useState(initialMapData);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveMapData(prev => {
+        const next = { ...prev };
+        Object.keys(next).forEach(r => {
+          const rChange = Math.floor(Math.random() * 21) - 5;
+          next[r] = { ...next[r], users: Math.max(10, next[r].users + rChange) };
+        });
+        return next;
+      });
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
 
   const isFounder = true;
 
@@ -1225,37 +1251,57 @@ export default function SysopDashboard() {
               </div>
 
               <div className="flex items-baseline gap-2 mb-4">
-                <h2 className={textValue}>12,500</h2>
+                <h2 className={textValue}>{Object.values(liveMapData).reduce((s, r) => s + r.users, 0).toLocaleString('tr-TR')}</h2>
                 <span className={badgeGreen}>↗ 3.2%</span>
                 <span className={`text-[12px] font-bold ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kullanıcı</span>
               </div>
 
-              {/* Mini Turkey Map */}
-              <div className="flex-1 mb-4">
-                <svg viewBox="40 20 620 310" className="w-full h-auto max-h-[140px]">
+              {/* Mini Turkey Map (Healthix Aesthetic) */}
+              <div className="flex-1 mb-4 relative flex items-center justify-center p-2 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden">
+                <svg viewBox="0 0 800 450" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm">
+                  <defs>
+                    <filter id="shadow-mini" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
+                    </filter>
+                  </defs>
                   {[
-                    { d:'M120,80 L200,60 L240,80 L260,110 L240,140 L200,150 L160,140 L120,120 Z', lx:185, ly:110, c:'#111827', v:'4.8K' },
-                    { d:'M80,140 L160,140 L200,150 L200,220 L160,260 L100,280 L60,240 L60,180 Z', lx:130, ly:210, c:'#2563EB', v:'2.1K' },
-                    { d:'M160,260 L200,220 L300,220 L380,240 L420,260 L380,300 L280,310 L200,290 Z', lx:290, ly:265, c:'#059669', v:'1.5K' },
-                    { d:'M240,140 L340,120 L420,140 L440,180 L420,220 L380,240 L300,220 L200,220 L200,150 Z', lx:320, ly:175, c:'#D97706', v:'1.9K' },
-                    { d:'M260,50 L340,40 L440,50 L540,60 L580,80 L540,100 L440,110 L340,120 L260,110 Z', lx:420, ly:80, c:'#7C3AED', v:'1.0K' },
-                    { d:'M440,110 L540,100 L620,120 L640,170 L620,210 L540,220 L440,180 Z', lx:540, ly:160, c:'#EA580C', v:'0.5K' },
-                    { d:'M420,220 L440,180 L540,220 L620,210 L620,260 L560,290 L480,300 L420,260 Z', lx:520, ly:250, c:'#DC2626', v:'0.7K' },
-                  ].map((r, i) => (
-                    <g key={i}>
-                      <path d={r.d} fill="#E5E7EB" stroke="white" strokeWidth="2" opacity="0.8" />
-                      <circle cx={r.lx} cy={r.ly} r={14} fill={r.c} />
-                      <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className="fill-white text-[9px] font-bold">{r.v}</text>
-                    </g>
-                  ))}
+                    { n:'Marmara', d:'M120,80 L200,60 L240,80 L260,110 L240,140 L200,150 L160,140 L120,120 Z', lx:185, ly:110, top: true },
+                    { n:'Ege', d:'M80,140 L160,140 L200,150 L200,220 L160,260 L100,280 L60,240 L60,180 Z', lx:130, ly:210 },
+                    { n:'Akdeniz', d:'M160,260 L200,220 L300,220 L380,240 L420,260 L380,300 L280,310 L200,290 Z', lx:290, ly:265 },
+                    { n:'İç Anadolu', d:'M240,140 L340,120 L420,140 L440,180 L420,220 L380,240 L300,220 L200,220 L200,150 Z', lx:320, ly:175 },
+                    { n:'Karadeniz', d:'M260,50 L340,40 L440,50 L540,60 L580,80 L540,100 L440,110 L340,120 L260,110 Z', lx:420, ly:80 },
+                    { n:'Doğu Anadolu', d:'M440,110 L540,100 L620,120 L640,170 L620,210 L540,220 L440,180 Z', lx:540, ly:160 },
+                    { n:'Güneydoğu', d:'M420,220 L440,180 L540,220 L620,210 L620,260 L560,290 L480,300 L420,260 Z', lx:520, ly:250 },
+                  ].map((r, i) => {
+                    const data = liveMapData[r.n];
+                    const val = (data.users / 1000).toFixed(1);
+                    const scaleX = 1.2, scaleY = 1.2, tx = 30, ty = 50;
+                    const cx = r.lx * scaleX + tx;
+                    const cy = r.ly * scaleY + ty;
+                    
+                    return (
+                      <g key={i}>
+                        <path d={r.d} transform={`translate(${tx}, ${ty}) scale(${scaleX}, ${scaleY})`} fill="#D1D5DB" stroke="#F9FAFB" strokeWidth="2.5" />
+                        <circle cx={cx} cy={cy} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
+                        <text x={cx} y={cy + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold ${r.top ? 'fill-white' : 'fill-[#111827]'}`}>{val}K</text>
+                      </g>
+                    );
+                  })}
                 </svg>
               </div>
 
               <div className="space-y-2">
-                {[{t:'Marmara', v:'4,820', p:'38.6%', c:'bg-[#111827]'}, {t:'Ege', v:'2,140', p:'17.1%', c:'bg-[#2563EB]'}, {t:'İç Anadolu', v:'1,860', p:'14.9%', c:'bg-[#D97706]'}].map((s,i) => (
+                {[
+                  { n: 'Marmara', p: '38.6%' },
+                  { n: 'Ege', p: '17.1%' },
+                  { n: 'İç Anadolu', p: '14.9%' }
+                ].map((s,i) => (
                   <div key={i} className="flex justify-between items-center text-[11px]">
-                    <span className="flex items-center gap-2"><div className={`w-1.5 h-1.5 rounded-full ${s.c}`}></div><span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.t}</span></span>
-                    <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{s.v} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
+                    <span className="flex items-center gap-2">
+                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: liveMapData[s.n].color }}></div>
+                       <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.n}</span>
+                    </span>
+                    <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{liveMapData[s.n].users.toLocaleString('tr-TR')} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
                   </div>
                 ))}
               </div>
