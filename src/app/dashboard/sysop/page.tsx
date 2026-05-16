@@ -93,8 +93,8 @@ export default function SysopDashboard() {
           <div className="flex flex-col gap-1.5 mb-6">
             {alerts.map((alert, i) => {
                return (
-                 <div key={i} className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm transition-all duration-300">
-                   <div className="flex items-center justify-between px-2.5 py-1.5">
+                 <div key={i} className="flex flex-col transition-all duration-300 border-b border-gray-100 last:border-0 pb-1.5">
+                   <div className="flex items-center justify-between py-1">
                      <div className="flex items-center gap-2">
                        <div className="flex items-center justify-center shrink-0">
                          {alert.type === 'CRITICAL' && (
@@ -133,7 +133,7 @@ export default function SysopDashboard() {
 
                    {/* INLINE ACCORDION DETAILS */}
                    {selectedAlert?.type === alert.type && (
-                     <div className="px-3 pb-3 pt-1 animate-fade-in">
+                     <div className="pb-3 pt-1 animate-fade-in">
                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
                           {alert.type === 'CRITICAL' && (
                             <div className="space-y-2 mb-3">
