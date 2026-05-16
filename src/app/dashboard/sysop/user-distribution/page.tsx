@@ -278,7 +278,7 @@ export default function UserDistributionPage() {
 
               {/* Render 81 Cities Background */}
               <g>
-                {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => (
+                {require('../../../../components/TurkeyMapData').default.map((city: any, i: number) => (
                   <path 
                     key={i} 
                     d={city.draw} 
