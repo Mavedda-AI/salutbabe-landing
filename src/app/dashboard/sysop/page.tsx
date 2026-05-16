@@ -49,7 +49,7 @@ export default function SysopDashboard() {
   const alerts: AlertDef[] = [
     { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış', badge: '15%' },
     { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif' },
-    { type: 'INFO', text: 'Dönüşüm hunisinde Checkout aşamasında %12 düşüş' }
+    { type: 'INFO', text: 'Ödeme aşamasında %12 düşüş' }
   ];
 
   useEffect(() => {
