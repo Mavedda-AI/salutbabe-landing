@@ -240,14 +240,18 @@ export default function SysopDashboard() {
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE
-                       <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'orders' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
                   <span className="truncate">TOTAL ORDER</span>
                 </h3>
                 <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-              </div>="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline justify-between mb-3">
                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
