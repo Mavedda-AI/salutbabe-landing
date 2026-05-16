@@ -327,6 +327,9 @@ export default function UserDistributionPage() {
                 const lx = coords[name]?.x || 0;
                 const ly = coords[name]?.y || 0;
 
+                const filteredUsers = Math.floor(data.users * mapMultiplier);
+                const displayVal = (filteredUsers / 1000).toFixed(1);
+
                 return (
                   <g key={name} onClick={() => handleRegionClick(name)} onMouseEnter={() => setHoveredItem(name)} onMouseLeave={() => setHoveredItem(null)} className="cursor-pointer">
                     {/* Bubble background area to make it easily clickable */}
@@ -334,8 +337,8 @@ export default function UserDistributionPage() {
                     
                     {/* Bubble */}
                     <circle cx={lx} cy={ly} r={isTop ? 28 : 22} fill={actualBubbleColor} filter="url(#shadow)" className="transition-transform duration-300" style={{ transform: isHovered ? 'scale(1.1)' : 'scale(1)', transformOrigin: `${lx}px ${ly}px` }} />
-                    <text x={lx} y={ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[14px] font-bold pointer-events-none select-none ${isTop ? 'fill-white' : 'fill-[#111827]'}`}>
-                      {Math.round(data.users / 1000) > 0 ? Math.round(data.users / 1000) : (data.users / 1000).toFixed(1)}
+                    <text x={lx} y={ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold pointer-events-none select-none ${isTop ? 'fill-white' : 'fill-[#111827]'}`}>
+                      {displayVal}K
                     </text>
 
                     {/* Tooltips on Hover/Top */}
