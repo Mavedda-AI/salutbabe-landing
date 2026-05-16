@@ -234,15 +234,80 @@ export default function UserDistributionPage() {
               {/* CITY LIST */}
               <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-5">
                 <h3 className="text-sm font-bold text-slate-900 mb-5">Şehir Dağılımı</h3>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {cities.slice(0, 4).map((city, i) => (
-                    <div key={i}>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-bold text-slate-700">{city.name}</span>
-                        <span className="text-xs font-bold text-slate-400">{city.count.toLocaleString('tr-TR')}</span>
+                    <div key={i} className={`rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCityListIdx === i ? 'bg-slate-50 border-slate-200' : 'bg-white border-transparent hover:border-slate-100'}`}>
+                      <div onClick={() => setExpandedCityListIdx(expandedCityListIdx === i ? null : i)} className="p-3 cursor-pointer flex flex-col gap-2">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold transition-colors ${expandedCityListIdx === i ? 'bg-emerald-500 text-white shadow-md' : 'bg-slate-100 text-slate-700'}`}>{i + 1}</div>
+                            <div className="flex flex-col">
+                              <span className="text-sm font-bold text-slate-900 leading-tight">{city.name}</span>
+                              <span className="text-[10px] font-semibold text-slate-500">{city.count.toLocaleString('tr-TR')} kullanıcı</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs font-bold text-slate-400">{((city.count / 9600) * 100).toFixed(0)}%</span>
+                            <svg className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${expandedCityListIdx === i ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </div>
+                        </div>
+                        <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden mt-1">
+                          <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000" style={{width: `${(city.count / 4820) * 100}%`}}></div>
+                        </div>
                       </div>
-                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000" style={{width: `${(city.count / 4820) * 100}%`}}></div>
+
+                      {/* EXPANDED METRICS */}
+                      <div className={`transition-all duration-500 ease-in-out ${expandedCityListIdx === i ? 'max-h-[500px] opacity-100 p-4 pt-1 border-t border-slate-200/60' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-5 pt-3">
+                          {/* Yaş Dağılımı */}
+                          <div>
+                            <p className="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wide">Yaş Dağılımı</p>
+                            <div className="space-y-1.5">
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-semibold text-slate-600">18-24</span><span className="text-[11px] font-bold text-slate-900">35%</span></div>
+                              <div className="h-1 w-full bg-slate-200 rounded-full"><div className="h-full bg-purple-500 rounded-full" style={{width: '35%'}}></div></div>
+                              
+                              <div className="flex justify-between items-center mt-2"><span className="text-[11px] font-semibold text-slate-600">25-34</span><span className="text-[11px] font-bold text-slate-900">45%</span></div>
+                              <div className="h-1 w-full bg-slate-200 rounded-full"><div className="h-full bg-purple-500 rounded-full" style={{width: '45%'}}></div></div>
+                              
+                              <div className="flex justify-between items-center mt-2"><span className="text-[11px] font-semibold text-slate-600">35+</span><span className="text-[11px] font-bold text-slate-900">20%</span></div>
+                              <div className="h-1 w-full bg-slate-200 rounded-full"><div className="h-full bg-purple-500 rounded-full" style={{width: '20%'}}></div></div>
+                            </div>
+                          </div>
+
+                          {/* Rol Dağılımı */}
+                          <div>
+                            <p className="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wide">Rol Dağılımı</p>
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500"></span><span className="text-[11px] font-semibold text-slate-600">Satıcı</span></div>
+                                <span className="text-[11px] font-bold text-emerald-600">60%</span>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500"></span><span className="text-[11px] font-semibold text-slate-600">Alıcı</span></div>
+                                <span className="text-[11px] font-bold text-blue-600">30%</span>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-orange-500"></span><span className="text-[11px] font-semibold text-slate-600">Premium</span></div>
+                                <span className="text-[11px] font-bold text-orange-600">10%</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Cihaz Dağılımı */}
+                          <div className="col-span-2 bg-white rounded-xl p-3 border border-slate-100 shadow-sm">
+                            <p className="text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wide">Cihaz Kullanımı</p>
+                            <div className="flex h-1.5 w-full rounded-full overflow-hidden mb-2">
+                              <div className="bg-slate-900 w-[60%] hover:opacity-80 transition-opacity"></div>
+                              <div className="bg-emerald-500 w-[30%] hover:opacity-80 transition-opacity"></div>
+                              <div className="bg-slate-300 w-[10%] hover:opacity-80 transition-opacity"></div>
+                            </div>
+                            <div className="flex justify-between text-[10px] font-bold">
+                              <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-slate-900"></span><span className="text-slate-600">iOS (%60)</span></div>
+                              <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span className="text-slate-600">Android (%30)</span></div>
+                              <div className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span><span className="text-slate-600">Web (%10)</span></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   ))}
