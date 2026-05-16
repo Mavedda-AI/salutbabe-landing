@@ -57,60 +57,62 @@ export default function AdvancedAnalyticsPage() {
       <div className="max-w-[800px] mx-auto p-4 md:p-6 space-y-6">
         
         {/* FUNNEL CARD */}
-        <div className="bg-white rounded-[24px] p-5 md:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100/50">
-          <div className="flex items-start justify-between mb-8">
-            <div className="flex items-start gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#007AFF] mt-1.5 shrink-0"></div>
-              <h2 className="text-[16px] md:text-[18px] font-black text-[#111827] max-w-[200px] leading-tight">
+        <div className="bg-white rounded-[24px] p-5 md:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)] border border-gray-100/50">
+          <div className="flex items-start justify-between mb-10">
+            <div className="flex items-start gap-3">
+              <div className="w-3 h-3 rounded-full bg-[#007AFF] mt-1.5 shrink-0"></div>
+              <h2 className="text-[18px] md:text-[20px] font-black text-[#111827] max-w-[240px] leading-tight">
                 Checkout Hunisi (Checkout Funnel)
               </h2>
             </div>
-            <div className="bg-[#FFF0F0] text-[#FF3B30] px-3 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shrink-0">
+            <div className="bg-[#FFF0F0] text-[#FF3B30] px-4 py-2 rounded-full text-[10px] md:text-[11px] font-black tracking-widest uppercase shrink-0">
               Kritik Düşüş:<br/>%12
             </div>
           </div>
 
-          <div className="space-y-3 flex flex-col items-start w-full">
+          <div className="flex flex-col items-center w-full gap-3">
             
             {/* Step 1 */}
-            <div className="w-full relative rounded-2xl bg-[#E8F0FE] overflow-hidden flex items-center justify-between p-4 pl-5">
-              <div className="flex flex-col relative z-10">
-                <span className="text-[10px] font-black text-[#007AFF] uppercase tracking-widest mb-0.5">ADIM 1</span>
-                <span className="text-[14px] font-black text-[#111827]">Ürün Ziyareti</span>
+            <div className="w-full rounded-[20px] bg-[#E5EFFF] flex items-center justify-between p-4 md:p-5 px-6">
+              <div className="flex flex-col">
+                <span className="text-[10px] md:text-[11px] font-black text-[#007AFF] uppercase tracking-widest mb-1">ADIM 1</span>
+                <span className="text-[15px] md:text-[16px] font-bold text-[#111827]">Ürün Ziyareti</span>
               </div>
-              <span className="text-[20px] font-black text-[#111827] relative z-10">12,450</span>
+              <span className="text-[22px] md:text-[26px] font-black text-[#111827]">12,450</span>
             </div>
 
             {/* Step 2 */}
-            <div className="w-[85%] ml-[7.5%] relative rounded-2xl bg-[#F0F5FF] overflow-hidden flex items-center justify-between p-4 pl-5">
-              <div className="absolute left-0 top-0 bottom-0 w-[80%] bg-[#E8F0FE]/50 rounded-r-3xl"></div>
+            <div className="w-[90%] md:w-[85%] rounded-[20px] bg-[#F8FAFC] border border-gray-100/80 overflow-hidden flex items-center justify-between p-4 md:p-5 px-6 relative">
+              <div className="absolute left-0 top-0 bottom-0 w-[65%] bg-[#E5EFFF] rounded-r-[20px]"></div>
               <div className="flex flex-col relative z-10">
-                <span className="text-[10px] font-black text-[#007AFF] uppercase tracking-widest mb-0.5">ADIM 2</span>
-                <span className="text-[14px] font-black text-[#111827]">Sepete Ekleme</span>
+                <span className="text-[10px] md:text-[11px] font-black text-[#007AFF] uppercase tracking-widest mb-1">ADIM 2</span>
+                <span className="text-[15px] md:text-[16px] font-bold text-[#111827]">Sepete Ekleme</span>
               </div>
-              <span className="text-[20px] font-black text-[#111827] relative z-10">4,520</span>
+              <span className="text-[22px] md:text-[26px] font-black text-[#111827] relative z-10">4,520</span>
             </div>
 
             {/* Step 3 */}
-            <div className="w-[70%] ml-[15%] relative rounded-2xl bg-[#FFF5E6] overflow-hidden flex items-center justify-between p-4 pl-5">
+            <div className="w-[80%] md:w-[70%] rounded-[20px] bg-[#FCFDFE] border border-[#FF9500]/10 overflow-hidden flex items-center justify-between p-4 md:p-5 px-6 relative">
+              <div className="absolute left-0 top-0 bottom-0 w-[55%] bg-[#FFF3E0] rounded-r-[20px]"></div>
               <div className="flex flex-col relative z-10">
-                <span className="text-[10px] font-black text-[#FF9500] uppercase tracking-widest mb-0.5">ADIM 3</span>
-                <span className="text-[14px] font-black text-[#111827]">Ödeme Adımı</span>
+                <span className="text-[10px] md:text-[11px] font-black text-[#FF9500] uppercase tracking-widest mb-1">ADIM 3</span>
+                <span className="text-[15px] md:text-[16px] font-bold text-[#111827]">Ödeme Adımı</span>
               </div>
-              <span className="text-[20px] font-black text-[#111827] relative z-10">1,840</span>
+              <span className="text-[22px] md:text-[26px] font-black text-[#111827] relative z-10">1,840</span>
             </div>
 
             {/* Step 4 */}
-            <div className="w-[55%] ml-[22.5%] relative rounded-2xl bg-[#FFE5E5] overflow-hidden flex items-center justify-between p-4 pl-5">
+            <div className="w-[70%] md:w-[55%] rounded-[20px] bg-[#FCFDFE] border border-[#FF3B30]/10 overflow-hidden flex items-center justify-between p-4 md:p-5 px-6 relative">
+              <div className="absolute left-0 top-0 bottom-0 w-[45%] bg-[#FFEBEB] rounded-r-[20px]"></div>
               <div className="flex flex-col relative z-10">
-                <span className="text-[10px] font-black text-[#FF3B30] uppercase tracking-widest mb-0.5">ADIM 4</span>
-                <span className="text-[14px] font-black text-[#111827]">Sipariş<br/>Tamamlama</span>
+                <span className="text-[10px] md:text-[11px] font-black text-[#FF3B30] uppercase tracking-widest mb-1">ADIM 4</span>
+                <span className="text-[15px] md:text-[16px] font-bold text-[#111827]">Sipariş<br className="md:hidden"/> Tamamlama</span>
               </div>
-              <div className="flex flex-col items-end relative z-10">
-                <span className="text-[20px] font-black text-[#111827]">1,619</span>
-                <div className="bg-white rounded-lg px-2 py-1 flex flex-col items-center shadow-sm mt-1 border border-white/50">
-                  <span className="text-[10px] font-black text-[#FF3B30] leading-none">-%12</span>
-                  <span className="text-[9px] font-black text-[#FF3B30] leading-none mt-0.5">DÜŞÜŞ</span>
+              <div className="flex flex-col items-center relative z-10">
+                <span className="text-[22px] md:text-[26px] font-black text-[#111827] leading-none mb-1">1,619</span>
+                <div className="bg-white rounded-lg px-2.5 py-1.5 flex flex-col items-center shadow-sm border border-gray-100 absolute top-full mt-2 right-0 md:static md:mt-1">
+                  <span className="text-[11px] font-black text-[#FF3B30] leading-none">-%12</span>
+                  <span className="text-[9px] font-black text-[#FF3B30] leading-none mt-1">DÜŞÜŞ</span>
                 </div>
               </div>
             </div>
