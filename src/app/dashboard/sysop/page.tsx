@@ -9,6 +9,7 @@ export default function SysopDashboard() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [filterProduct, setFilterProduct] = useState("Tüm Ürünler");
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
+  const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
 
   const [showCampaignModal, setShowCampaignModal] = useState(false);
