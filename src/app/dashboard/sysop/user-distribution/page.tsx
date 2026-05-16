@@ -181,64 +181,67 @@ export default function UserDistributionPage() {
             </div>
           </div>
 
-          {/* Zoom Controls */}
-          <div className="absolute bottom-8 left-8 flex flex-col gap-2 z-20">
-            <button onClick={goBack} disabled={level === 'region'} className={`w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg transition-all ${level === 'region' ? 'bg-white/50 text-gray-300' : 'bg-white text-gray-700 hover:scale-105'}`}>
-               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" /></svg>
+          {/* App Actions (Left Side) */}
+          <div className="absolute bottom-8 left-8 flex flex-col gap-4 z-20">
+            <button className="w-14 h-14 bg-white rounded-[20px] flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:scale-105 transition-transform text-gray-400">
+               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </button>
-            <button className="w-11 h-11 bg-white rounded-2xl text-gray-700 flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
-               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
+            <button className="w-14 h-14 bg-white rounded-[20px] flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:scale-105 transition-transform text-[#111827]">
+               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h8" /></svg>
+            </button>
+            <div className="mt-2"></div>
+            <button className="w-14 h-14 bg-[#2A2D32] rounded-full flex items-center justify-center shadow-xl hover:scale-105 transition-transform border-4 border-white/10 relative overflow-hidden">
+               <span className="text-white text-[24px] font-black tracking-tighter" style={{fontFamily: 'serif'}}>N</span>
+               <div className="absolute inset-0 border border-white/20 rounded-full"></div>
             </button>
           </div>
 
           {/* Floating Notification */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-[#2D2D2D] rounded-[20px] pl-4 pr-3 py-3 flex items-center gap-4 shadow-2xl z-20 animate-fade-in">
-            <div className="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center text-white font-black text-[14px]">!</div>
-            <div className="flex flex-col pr-2">
-              <span className="text-white text-[13px] font-bold">Yeni veri mevcut</span>
-              <span className="text-gray-400 text-[11px] font-medium">Bölge durumları güncellendi</span>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-[#2D2D2D] rounded-[32px] pl-6 pr-4 py-4 flex items-center gap-5 shadow-[0_24px_48px_rgba(0,0,0,0.4)] z-20 animate-fade-in border border-white/5">
+            <div className="w-7 h-10 rounded-full bg-[#FF7900] flex items-center justify-center text-white font-black text-[18px] shadow-lg">!</div>
+            <div className="flex flex-col pr-6">
+              <span className="text-white text-[16px] font-bold tracking-wide">Yeni veri</span>
+              <span className="text-white text-[16px] font-bold tracking-wide leading-tight">mevcut</span>
+              <span className="text-gray-400 text-[13px] font-medium mt-1">Bölge durumları</span>
+              <span className="text-gray-400 text-[13px] font-medium leading-tight">güncellendi</span>
             </div>
-            <button className="w-10 h-10 rounded-xl bg-[#1D9954] flex items-center justify-center text-white hover:bg-[#168244] transition-colors ml-2">
-               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            <button className="w-12 h-12 rounded-full bg-[#10B981] flex items-center justify-center text-white hover:bg-[#059669] transition-colors shadow-lg group">
+               <svg className="w-6 h-6 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
             </button>
           </div>
 
           {/* Right Floating Card */}
-          <div className="absolute right-6 top-1/2 -translate-y-1/2 w-[280px] bg-[#222222] rounded-[24px] shadow-[0_20px_40px_rgba(0,0,0,0.2)] p-5 z-20 border border-white/5">
-             <div className="flex items-center justify-between mb-4">
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 w-[320px] bg-[#1E1E1E] rounded-[32px] shadow-[0_24px_48px_rgba(0,0,0,0.3)] p-6 z-20">
+             <div className="flex items-center justify-between mb-8">
                <div>
-                 <h3 className="text-white text-[15px] font-bold">Top {levelLabel}lar</h3>
-                 <div className="flex items-center gap-1.5 mt-1">
-                   <div className="w-4 h-4 rounded bg-[#2D45B0] flex items-center justify-center">
+                 <h3 className="text-white text-[18px] font-bold mb-1">Top Bölgelar</h3>
+                 <div className="flex items-center gap-2">
+                   <div className="w-4 h-4 rounded bg-[#3B82F6] flex items-center justify-center">
                      <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
                    </div>
-                   <span className="text-gray-400 text-[11px] font-bold">En yüksek eşleşme</span>
+                   <span className="text-gray-400 text-[13px] font-medium tracking-wide">En yüksek eşleşme</span>
                  </div>
                </div>
-               <button className="w-8 h-8 rounded-full bg-[#1D9954] flex items-center justify-center text-white hover:scale-105 transition-transform">
-                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+               <button className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center text-white hover:scale-105 transition-transform shadow-lg">
+                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
                </button>
              </div>
 
-             <div className="space-y-1">
+             <div className="space-y-4">
                 {[...items].sort((a, b) => b.users - a.users).slice(0, 4).map((item, idx) => (
                   <div key={item.name} onClick={() => item.onClick(item.name)} onMouseEnter={() => setHoveredItem(item.name)} onMouseLeave={() => setHoveredItem(null)}
-                    className={`flex items-center gap-3 p-2 rounded-[14px] cursor-pointer transition-colors ${hoveredItem === item.name ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                    className="flex items-center gap-4 cursor-pointer transition-colors group">
                     <div className="relative">
-                      <div className="w-9 h-9 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center border-2 border-[#222222]">
-                         <img src={`https://i.pravatar.cc/150?u=${item.name}`} alt="" className="w-full h-full object-cover opacity-80" />
+                      <div className="w-12 h-12 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center border border-[#1E1E1E]">
+                         <img src={`https://i.pravatar.cc/150?u=${item.name}1`} alt="" className="w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform" />
                       </div>
-                      <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#222222] ${idx === 0 ? 'bg-red-500' : 'bg-green-500'}`}></div>
+                      <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#1E1E1E] ${idx === 0 ? 'bg-red-500' : 'bg-[#10B981]'}`}></div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-[12px] font-bold truncate">{item.name}</p>
-                      <p className="text-gray-400 text-[10px]">{item.users.toLocaleString('tr-TR')} kul.</p>
+                      <p className="text-white text-[15px] font-bold truncate tracking-wide">{item.name}</p>
+                      <p className="text-gray-400 text-[12px]">{item.users.toLocaleString('tr-TR')} kul.</p>
                     </div>
-                    {hoveredItem === item.name && idx === 1 ? (
-                      <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#222222]"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
-                    ) : (
-                      <span className="text-white text-[14px] font-black">{Math.round((item.users / totalUsers) * 100)}%</span>
-                    )}
+                    <span className="text-white text-[17px] font-bold tracking-wide">{Math.round((item.users / totalUsers) * 100)}%</span>
                   </div>
                 ))}
              </div>
