@@ -573,9 +573,9 @@ export default function SysopDashboard() {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
                   CHANNEL PERFORMANCE
                 </h3>
-                <div className="flex items-center gap-2">
-                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('sales'); }} className={`px-2 py-1 rounded text-[10px] font-black transition-colors ${channelTab === 'sales' ? 'bg-[#111827]  text-white ' : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}>SATIŞ</button>
-                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('attribution'); }} className={`px-2 py-1 rounded text-[10px] font-black transition-colors ${channelTab === 'attribution' ? 'bg-primary text-white' : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}>ATTRIBUTION</button>
+                <div className="flex items-center gap-4">
+                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('sales'); }} className={`text-[10px] transition-colors ${channelTab === 'sales' ? 'font-black text-black' : isDark ? 'font-bold text-gray-400 hover:text-white' : 'font-bold text-gray-500 hover:text-black'}`}>SATIŞ</button>
+                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('attribution'); }} className={`text-[10px] transition-colors ${channelTab === 'attribution' ? 'font-black text-black' : isDark ? 'font-bold text-gray-400 hover:text-white' : 'font-bold text-gray-500 hover:text-black'}`}>ATTRIBUTION</button>
                 </div>
               </div>
               
@@ -910,11 +910,9 @@ export default function SysopDashboard() {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   RECENT ACTIVITY
                 </h3>
-                <div className="flex items-center gap-2">
-                  <div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100 border-gray-200'}`}>
-                    <button onClick={(e) => { e.stopPropagation(); setActivityTab('all'); }} className={`px-3 py-1 rounded-md text-[10px] font-bold transition-all ${activityTab === 'all' ? (isDark ? 'bg-white/10 text-white' : 'bg-white text-gray-800 shadow-sm') : 'text-gray-500'}`}>Tümü</button>
-                    <button onClick={(e) => { e.stopPropagation(); setActivityTab('realtime'); }} className={`px-3 py-1 rounded-md text-[10px] font-bold transition-all flex items-center gap-1 ${activityTab === 'realtime' ? 'bg-red-500 text-white shadow-sm' : 'text-gray-500'}`}><div className={`w-1.5 h-1.5 rounded-full ${activityTab === 'realtime' ? 'bg-white' : 'bg-red-500'} animate-pulse`}></div> Canlı</button>
-                  </div>
+                <div className="flex items-center gap-4">
+                  <button onClick={(e) => { e.stopPropagation(); setActivityTab('all'); }} className={`text-[10px] transition-all ${activityTab === 'all' ? 'font-black text-black' : 'font-bold text-gray-500 hover:text-black'}`}>Tümü</button>
+                  <button onClick={(e) => { e.stopPropagation(); setActivityTab('realtime'); }} className={`text-[10px] transition-all flex items-center gap-1.5 ${activityTab === 'realtime' ? 'font-black text-black' : 'font-bold text-gray-500 hover:text-black'}`}><div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div> Canlı</button>
                   <button onClick={() => router.push('/dashboard/sysop/product-management')} className={`p-1.5 rounded-lg border flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
                 </div>
               </div>
