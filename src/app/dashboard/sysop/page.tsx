@@ -231,7 +231,7 @@ export default function SysopDashboard() {
                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşen</span><span className="text-[12px] font-black text-green-600">₺980,400</span></div>
                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">₺276,540</span></div>
                   </div>
-                  <button onClick={() => router.push('/dashboard/sysop/payout-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                  <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE
                   </button>
                 </div>
@@ -742,7 +742,7 @@ export default function SysopDashboard() {
                     )}
                   </div>
 
-                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/payout-management'); }} className={`p-2 sm:p-1.5 rounded-lg border flex items-center justify-center transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/finance-management'); }} className={`p-2 sm:p-1.5 rounded-lg border flex items-center justify-center transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/5' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
                 </div>
               </div>
               
@@ -878,7 +878,7 @@ export default function SysopDashboard() {
                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hedef</span><span className="text-[12px] font-black text-green-600">$22,000</span></div>
                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşme</span><span className="text-[12px] font-black text-orange-500">%90.9</span></div>
                   </div>
-                  <button onClick={() => router.push('/dashboard/sysop/payout-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                  <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE
                   </button>
                 </div>
