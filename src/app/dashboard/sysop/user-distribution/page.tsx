@@ -1,9 +1,9 @@
 'use client';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 
-// --- DATA ---
-const regionData: Record<string, { users: number; color: string; cities: Record<string, { users: number; districts: Record<string, { users: number; neighborhoods: string[] }> }> }> = {
+// --- INITIAL DATA ---
+const initialRegionData: Record<string, { users: number; color: string; cities: Record<string, { users: number; districts: Record<string, { users: number; neighborhoods: string[] }> }> }> = {
   'Marmara': { users: 4820, color: '#111827', cities: {
     'İstanbul': { users: 3200, districts: { 'Kadıköy': { users: 820, neighborhoods: ['Caferağa','Moda','Fenerbahçe','Koşuyolu','Acıbadem'] }, 'Beşiktaş': { users: 610, neighborhoods: ['Levent','Etiler','Bebek','Ortaköy','Sinanpaşa'] }, 'Üsküdar': { users: 480, neighborhoods: ['Çengelköy','Kuzguncuk','Beylerbeyi','Altunizade','Ünalan'] }, 'Bakırköy': { users: 390, neighborhoods: ['Ataköy','Yeşilköy','Florya','Zuhuratbaba','Osmaniye'] }, 'Şişli': { users: 350, neighborhoods: ['Mecidiyeköy','Nişantaşı','Teşvikiye','Bomonti','Halaskargazi'] }, 'Fatih': { users: 280, neighborhoods: ['Sultanahmet','Aksaray','Laleli','Beyazıt','Vefa'] }, 'Diğer': { users: 270, neighborhoods: ['Sarıyer','Kartal','Pendik','Maltepe','Ataşehir'] } }},
     'Bursa': { users: 620, districts: { 'Osmangazi': { users: 240, neighborhoods: ['Çekirge','Heykel','Kükürtlü'] }, 'Nilüfer': { users: 210, neighborhoods: ['Görükle','Beşevler','Özlüce'] }, 'Yıldırım': { users: 170, neighborhoods: ['Esenevler','Millet','Yiğitler'] } }},
@@ -43,8 +43,6 @@ const regionData: Record<string, { users: number; color: string; cities: Record<
   }},
 };
 
-const totalUsers = Object.values(regionData).reduce((s, r) => s + r.users, 0);
-
 // Simplified Turkey SVG regions (viewBox coordinates)
 const regionPaths: Record<string, { d: string; labelX: number; labelY: number }> = {
   'Marmara': { d: 'M120,80 L200,60 L240,80 L260,110 L240,140 L200,150 L160,140 L120,120 Z', labelX: 185, labelY: 110 },
@@ -65,6 +63,38 @@ export default function UserDistributionPage() {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  
+  // LIVE DATA STATE
+  const [regionData, setRegionData] = useState(initialRegionData);
+
+  useEffect(() => {
+    // Simulate real-time active users coming in/out
+    const interval = setInterval(() => {
+      setRegionData(prev => {
+        const next = JSON.parse(JSON.stringify(prev));
+        Object.keys(next).forEach(r => {
+          // Add or remove random amount
+          const rChange = Math.floor(Math.random() * 21) - 5; // -5 to +15 (growing trend)
+          next[r].users = Math.max(10, next[r].users + rChange);
+          
+          Object.keys(next[r].cities).forEach(c => {
+             const cChange = Math.floor(Math.random() * 9) - 2;
+             next[r].cities[c].users = Math.max(5, next[r].cities[c].users + cChange);
+             
+             Object.keys(next[r].cities[c].districts).forEach(d => {
+                const dChange = Math.floor(Math.random() * 5) - 1;
+                next[r].cities[c].districts[d].users = Math.max(1, next[r].cities[c].districts[d].users + dChange);
+             });
+          });
+        });
+        return next;
+      });
+    }, 2500); // update every 2.5s
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const totalUsers = Object.values(regionData).reduce((s, r) => s + r.users, 0);
 
   const handleRegionClick = (name: string) => {
     setSelectedRegion(name); setSelectedCity(null); setSelectedDistrict(null); setLevel('city');
