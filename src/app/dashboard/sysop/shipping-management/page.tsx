@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, {useState} from 'react';
+import {useRouter} from 'next/navigation';
 
 export default function ShippingManagementPage() {
   const router = useRouter();
@@ -82,7 +82,7 @@ export default function ShippingManagementPage() {
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
           {[{id:'overview',label:'📊 Genel Bakış'},{id:'delayed',label:'⚠️ Gecikenler'},{id:'providers',label:'🚚 Firmalar'}].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
+            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 text-[11px] transition-all ${activeTab === tab.id ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>
               {tab.label}
             </button>
           ))}

@@ -1,6 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, {useState} from 'react';
+import {useRouter} from 'next/navigation';
 
 export default function ReviewManagementPage() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function ReviewManagementPage() {
           {kpis.map((k, i) => (<div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}><span className="text-[22px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className={`text-[24px] font-black ${k.color}`}>{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'pending',label:'⏳ Bekleyen'},{id:'approved',label:'✅ Onaylanan'},{id:'flagged',label:'🚩 Bayraklı'}].map(t=>(<button key={t.id} onClick={()=>setActiveTab(t.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab===t.id?'bg-[#111827] text-white':'text-gray-500 hover:bg-gray-50'}`}>{t.label}</button>))}
+          {[{id:'pending',label:'⏳ Bekleyen'},{id:'approved',label:'✅ Onaylanan'},{id:'flagged',label:'🚩 Bayraklı'}].map(t=>(<button key={t.id} onClick={()=>setActiveTab(t.id as any)} className={`flex-1 px-3 py-2 text-[11px] transition-all ${activeTab===t.id?'text-[#111827] font-black':'text-gray-500 font-bold hover:text-[#111827]'}`}>{t.label}</button>))}
         </div>
         <div className="space-y-3">
           {filtered.length === 0 ? <div className={`${cardClass} p-8 text-center text-gray-400 text-[13px]`}>Bu kategoride yorum yok.</div> : filtered.map((r, i) => (
