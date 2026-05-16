@@ -98,9 +98,9 @@ export default function SysopDashboard() {
                    onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)}
                    className="flex flex-col transition-all duration-300 cursor-pointer border-b border-gray-100/60 last:border-0 py-1.5 group"
                  >
-                   <div className="flex items-start md:items-center justify-between px-1 rounded-md hover:bg-gray-50/30">
-                     <div className="flex items-start md:items-center gap-2">
-                       <div className="flex items-center justify-center shrink-0 mt-0.5 md:mt-0">
+                   <div className="flex items-center justify-between px-1 rounded-md hover:bg-gray-50/30">
+                     <div className="flex items-center gap-2.5">
+                       <div className="flex items-center justify-center shrink-0">
                          {alert.type === 'CRITICAL' && (
                             <svg className="w-[14px] h-[14px] text-[#EF4444]" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
@@ -120,9 +120,9 @@ export default function SysopDashboard() {
                          )}
                        </div>
                        <div className="flex flex-wrap items-center gap-2">
-                         <span className="text-[12px] md:text-[13px] font-bold text-[#111827] tracking-tight leading-none">{alert.text}</span>
+                         <span className="text-[12px] md:text-[13px] font-bold text-[#111827] tracking-tight">{alert.text}</span>
                          {alert.badge && (
-                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1 py-0.5 rounded text-[9px] font-black leading-none">
+                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1 py-0.5 rounded text-[9px] font-black">
                              <svg className="w-2 h-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
                              {alert.badge}
                            </span>
