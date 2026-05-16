@@ -1343,12 +1343,12 @@ export default function SysopDashboard() {
               {/* ROW 1: 4 STAT CARDS */}
               <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-6">
                 <div onClick={() => setExpandedCard(expandedCard === 'op_dispute' ? null : 'op_dispute')} className={`${cardClass} p-4 md:p-5 relative overflow-hidden group cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                  AÇIK İHTİLAFLAR
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                  <span className="truncate">AÇIK İHTİLAFLAR</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_dispute' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'op_dispute' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>14</h2>
@@ -1371,12 +1371,12 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'op_delay' ? null : 'op_delay')} className={`${cardClass} p-4 md:p-5 cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
-                  GECİKEN KARGOLAR
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                  <span className="truncate">GECİKEN KARGOLAR</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_delay' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'op_delay' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>28</h2>
@@ -1399,12 +1399,12 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'op_store' ? null : 'op_store')} className={`${cardClass} p-4 md:p-5 cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                  MAĞAZA ONAY
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                  <span className="truncate">MAĞAZA ONAY</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_store' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'op_store' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>8</h2>
@@ -1427,12 +1427,12 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'op_task' ? null : 'op_task')} className={`${cardClass} p-4 md:p-5 cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-                  GÜNLÜK GÖREV
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                  <span className="truncate">GÜNLÜK GÖREV</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_task' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'op_task' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>84%</h2>
