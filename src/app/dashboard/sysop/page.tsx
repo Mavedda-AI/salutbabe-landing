@@ -78,11 +78,11 @@ export default function SysopDashboard() {
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
       
       {/* Role Switcher */}
-      <div className="flex items-center justify-end gap-3 mb-4">
-         <span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
-         <button onClick={() => setUserRole('founder')} className={`text-[12px] transition-all ${userRole === 'founder' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kurucu</button>
-         <button onClick={() => setUserRole('partner')} className={`text-[12px] transition-all ${userRole === 'partner' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Operasyon</button>
-         <button onClick={() => setUserRole('finance')} className={`text-[12px] transition-all ${userRole === 'finance' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Finans</button>
+      <div className="flex items-center justify-end gap-1 mb-4">
+         <span className={`text-[12px] font-bold mr-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
+         <button onClick={() => setUserRole('founder')} className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kurucu</button>
+         <button onClick={() => setUserRole('partner')} className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Operasyon</button>
+         <button onClick={() => setUserRole('finance')} className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${userRole === 'finance' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Finans</button>
       </div>
 
       {userRole === 'founder' ? (
@@ -1323,11 +1323,11 @@ export default function SysopDashboard() {
         <div className="space-y-6">
           
           {/* INNER TABS FOR OPERASYON */}
-          <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide hide-scrollbar w-full snap-x">
-             <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start text-[13px] transition-all ${opTab === 'general' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Genel Durum</button>
-             <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start text-[13px] transition-all ${opTab === 'logistics' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kargo & Desi</button>
-             <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start text-[13px] transition-all ${opTab === 'moderation' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Moderasyon</button>
-             <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start text-[13px] transition-all ${opTab === 'growth' ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kampanya</button>
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide hide-scrollbar w-full snap-x">
+             <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'general' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Genel Durum</button>
+             <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'logistics' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kargo & Desi</button>
+             <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'moderation' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Moderasyon</button>
+             <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'growth' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kampanya</button>
           </div>
 
           {opTab === 'general' ? (
