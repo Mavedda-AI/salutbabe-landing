@@ -17,76 +17,72 @@ export default function UserDistributionPage() {
           {/* LEFT SIDEBAR (Filter) */}
           <div className="w-[260px] shrink-0 bg-[#F5F6F6] flex flex-col h-full pl-8 pr-4 py-2 relative z-20">
              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-[18px] font-bold text-[#1A1A1A]">Filter</h2>
+                <h2 className="text-[18px] font-bold text-[#1A1A1A]">Filtreler</h2>
                 <button className="w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 text-gray-400">
                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </button>
              </div>
              
              <div className="flex-1 overflow-y-auto space-y-6 no-scrollbar pr-2 pb-4">
-                {/* Organ type */}
+                {/* Kullanıcı Rolü */}
                 <div>
-                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Organ type</h3>
+                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Kullanıcı Rolü</h3>
                    <div className="grid grid-cols-4 gap-2 relative">
-                      <div className="absolute -top-7 left-[38%] bg-[#2A2A2A] text-white text-[10px] font-semibold px-2 py-1 rounded shadow-lg z-10 whitespace-nowrap">Liver</div>
+                      <div className="absolute -top-7 left-[38%] bg-[#2A2A2A] text-white text-[10px] font-semibold px-2 py-1 rounded shadow-lg z-10 whitespace-nowrap">Satıcı</div>
                       {[
-                        {bg: '#EBEBEB', text: '#9CA3AF'}, {bg: '#1A1A1A', text: '#FFFFFF'}, {bg: '#EBEBEB', text: '#9CA3AF'}, {bg: '#EBEBEB', text: '#9CA3AF'},
-                        {bg: '#EBEBEB', text: '#9CA3AF'}, {bg: '#EBEBEB', text: '#9CA3AF'}, {bg: '#EBEBEB', text: '#9CA3AF'}
-                      ].map((style, i) => (
-                         <div key={i} className="w-[42px] h-[42px] rounded-xl flex items-center justify-center" style={{backgroundColor: style.bg, color: style.text}}>
-                            <svg className="w-4 h-4 opacity-60" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                        {bg: '#EBEBEB', text: '#9CA3AF', icon: <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>},
+                        {bg: '#1A1A1A', text: '#FFFFFF', icon: <svg className="w-4 h-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>},
+                        {bg: '#EBEBEB', text: '#9CA3AF', icon: <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>},
+                        {bg: '#EBEBEB', text: '#9CA3AF', icon: <svg className="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
+                      ].map((item, i) => (
+                         <div key={i} className="w-[42px] h-[42px] rounded-xl flex items-center justify-center" style={{backgroundColor: item.bg, color: item.text}}>
+                            {item.icon}
                          </div>
                       ))}
                       <div className="w-[42px] h-[42px] rounded-xl bg-[#10B981] flex items-center justify-center text-white font-bold text-[18px] shadow-sm cursor-pointer hover:bg-[#059669] transition-colors">+</div>
                    </div>
                 </div>
 
-                {/* Urgency stage */}
+                {/* Aktivite Seviyesi */}
                 <div>
-                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Urgency stage</h3>
+                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Aktivite Seviyesi</h3>
                    <div className="relative pt-2 pb-5 px-1">
                       <div className="h-1 bg-gray-200 rounded-full w-full absolute top-2.5"></div>
                       <div className="h-1 bg-[#10B981] rounded-full absolute top-2.5" style={{width: '75%'}}></div>
                       <div className="absolute top-1.5 w-full flex justify-between px-1">
                          {[...Array(5)].map((_, i) => <div key={i} className="w-[3px] h-[10px] bg-gray-300 rounded-full"></div>)}
                       </div>
-                      <div className="flex justify-between relative z-10 text-[10px] font-semibold text-gray-400 mt-4">
-                         <span>1st</span><span>2nd</span><span>3rd</span><span className="text-[#1A1A1A]">4th</span><span>5th</span>
+                      <div className="flex justify-between relative z-10 text-[9px] font-semibold text-gray-400 mt-4">
+                         <span>Pasif</span><span>Düşük</span><span>Orta</span><span className="text-[#1A1A1A]">Yüksek</span><span>Çok Y.</span>
                       </div>
                       <div className="w-3.5 h-3.5 bg-[#10B981] rounded-full border-2 border-white absolute top-1 right-[25%] shadow-sm translate-x-2"></div>
                    </div>
                 </div>
 
-                {/* Blood type */}
+                {/* Cihaz Tipi */}
                 <div>
-                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Blood type</h3>
+                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Cihaz Tipi</h3>
                    <div className="flex items-center justify-between">
                       <div className="flex gap-1.5">
-                         <button className="w-7 h-7 rounded-full bg-[#10B981] text-white text-[11px] font-bold shadow-sm">A</button>
-                         <button className="w-7 h-7 flex items-center justify-center text-gray-400 text-[11px] font-bold">B</button>
-                         <button className="w-7 h-7 flex items-center justify-center text-gray-400 text-[11px] font-bold">AB</button>
-                         <button className="w-7 h-7 flex items-center justify-center text-gray-400 text-[11px] font-bold">O</button>
-                      </div>
-                      <span className="text-gray-300 mx-1">|</span>
-                      <div className="flex gap-1.5">
-                         <button className="w-7 h-7 rounded-full bg-white text-gray-500 text-[12px] font-bold shadow-sm border border-gray-100">-</button>
-                         <button className="w-7 h-7 rounded-full bg-[#1A1A1A] text-white text-[12px] font-bold shadow-sm">+</button>
+                         <button className="w-7 h-7 rounded-full bg-[#10B981] text-white text-[11px] font-bold shadow-sm">İ</button>
+                         <button className="w-7 h-7 flex items-center justify-center text-gray-400 text-[11px] font-bold">A</button>
+                         <button className="w-7 h-7 flex items-center justify-center text-gray-400 text-[11px] font-bold">W</button>
                       </div>
                    </div>
                 </div>
 
-                {/* HLA alleles */}
+                {/* Kayıt Tarihi */}
                 <div>
-                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">HLA alleles</h3>
+                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Kayıt Tarihi</h3>
                    <div className="w-full bg-white border border-gray-100 rounded-[12px] px-4 py-2.5 flex items-center justify-between shadow-sm cursor-pointer">
-                      <span className="text-[12.5px] font-semibold text-gray-500">HLA-A1, HLA-A2</span>
+                      <span className="text-[12.5px] font-semibold text-gray-500">Son 30 Gün</span>
                       <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
                    </div>
                 </div>
 
-                {/* Age range */}
+                {/* Kullanıcı Yaşı */}
                 <div className="pb-2">
-                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Age range</h3>
+                   <h3 className="text-[12.5px] font-semibold text-[#1A1A1A] mb-3">Kullanıcı Yaşı</h3>
                    <div className="h-8 flex items-end gap-[2px] mb-2 px-1">
                       {[15,20,25,30,40,50,60,80,95,100,90,75,60,45,35,25,20,15,10].map((h, i) => (
                          <div key={i} className={`flex-1 rounded-t-[2px] transition-colors ${i >= 4 && i <= 12 ? 'bg-[#10B981]' : 'bg-[#D1D5DB]'}`} style={{height: `${h}%`}}></div>
@@ -96,14 +92,14 @@ export default function UserDistributionPage() {
                       <div className="h-1 bg-gray-200 rounded-full w-full absolute top-1"></div>
                       <div className="h-1 bg-[#10B981] rounded-full absolute top-1" style={{left: '20%', right: '35%'}}></div>
                       <div className="flex justify-between relative z-10 text-[10px] font-semibold text-gray-400 mt-3 px-1">
-                         <span>10</span><span className="text-[#1A1A1A]">30</span><span>40</span><span className="text-[#1A1A1A]">50</span><span>100</span>
+                         <span>18</span><span className="text-[#1A1A1A]">24</span><span>30</span><span className="text-[#1A1A1A]">45</span><span>60</span>
                       </div>
                       <div className="w-3.5 h-3.5 bg-white rounded-full border border-gray-200 absolute -top-0.5 left-[20%] shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
                       <div className="w-3.5 h-3.5 bg-white rounded-full border border-gray-200 absolute -top-0.5 right-[35%] shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
                    </div>
                    <div className="flex gap-3 text-[12px] font-semibold text-gray-400 mt-1 px-1">
-                      <div className="bg-white border border-gray-100 rounded-[8px] px-2.5 py-1 shadow-sm"><span className="text-gray-400 mr-1">Min:</span><span className="text-[#1A1A1A]">30</span></div>
-                      <div className="bg-white border border-gray-100 rounded-[8px] px-2.5 py-1 shadow-sm"><span className="text-gray-400 mr-1">Max:</span><span className="text-[#1A1A1A]">50</span></div>
+                      <div className="bg-white border border-gray-100 rounded-[8px] px-2.5 py-1 shadow-sm"><span className="text-gray-400 mr-1">Min:</span><span className="text-[#1A1A1A]">24</span></div>
+                      <div className="bg-white border border-gray-100 rounded-[8px] px-2.5 py-1 shadow-sm"><span className="text-gray-400 mr-1">Max:</span><span className="text-[#1A1A1A]">45</span></div>
                    </div>
                 </div>
              </div>
@@ -114,11 +110,11 @@ export default function UserDistributionPage() {
                    <div className="w-4 h-4 bg-[#10B981] rounded-[4px] flex items-center justify-center text-white shadow-sm shrink-0">
                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                    </div>
-                   <span className="text-[12px] font-semibold text-[#1A1A1A]">Require consent verification</span>
+                   <span className="text-[12px] font-semibold text-[#1A1A1A]">KVKK Onaylı Kullanıcılar</span>
                 </div>
                 <div className="flex gap-2.5">
-                   <button className="w-1/3 py-2.5 bg-white rounded-[12px] text-[12.5px] font-semibold text-[#1A1A1A] shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">Clear</button>
-                   <button className="w-2/3 py-2.5 bg-[#10B981] rounded-[12px] text-[12.5px] font-semibold text-white shadow-md hover:bg-[#059669] transition-colors">Apply filters</button>
+                   <button className="w-1/3 py-2.5 bg-white rounded-[12px] text-[12.5px] font-semibold text-[#1A1A1A] shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">Temizle</button>
+                   <button className="w-2/3 py-2.5 bg-[#10B981] rounded-[12px] text-[12.5px] font-semibold text-white shadow-md hover:bg-[#059669] transition-colors">Filtrele</button>
                 </div>
              </div>
           </div>
@@ -128,12 +124,12 @@ export default function UserDistributionPage() {
              
              {/* TOP CARDS ROW */}
              <div className="grid grid-cols-3 gap-5 mb-6 z-10">
-                {/* Average Wait Time */}
+                {/* Ortalama Oturum */}
                 <div className="bg-white rounded-[24px] p-5 shadow-sm h-[130px] flex flex-col justify-between border border-gray-100/50 relative overflow-hidden">
-                   <h3 className="text-[13px] font-semibold text-[#1A1A1A]">Average wait time</h3>
+                   <h3 className="text-[13px] font-semibold text-[#1A1A1A]">Ortalama Oturum</h3>
                    <div className="flex items-end gap-1 relative z-10 mb-1">
-                      <span className="text-[42px] font-bold text-[#1A1A1A] leading-none tracking-tight">36</span>
-                      <span className="text-[16px] font-semibold text-gray-400 mb-1">h</span>
+                      <span className="text-[42px] font-bold text-[#1A1A1A] leading-none tracking-tight">14</span>
+                      <span className="text-[16px] font-semibold text-gray-400 mb-1">dk</span>
                    </div>
                    {/* Decorative SVG Dial */}
                    <div className="absolute -right-6 -bottom-6 w-36 h-36">
@@ -151,36 +147,36 @@ export default function UserDistributionPage() {
                    </div>
                 </div>
 
-                {/* Transplants Performed */}
+                {/* Aktiflik Oranı */}
                 <div className="bg-white rounded-[24px] p-5 shadow-sm h-[130px] flex flex-col justify-between border border-gray-100/50 relative overflow-hidden">
                    <div className="flex justify-between items-start">
-                      <h3 className="text-[13px] font-semibold text-[#1A1A1A] leading-tight">Transplants<br/>performed</h3>
+                      <h3 className="text-[13px] font-semibold text-[#1A1A1A] leading-tight">Aktiflik<br/>Oranı</h3>
                       <div className="text-right">
-                         <p className="text-[10px] font-semibold text-gray-500 flex items-center justify-end gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span> 42 successful</p>
-                         <p className="text-[10px] font-semibold text-gray-500 flex items-center justify-end gap-1 mt-0.5"><span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> 18 failed</p>
+                         <p className="text-[10px] font-semibold text-gray-500 flex items-center justify-end gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span> 4.2B Satıcı</p>
+                         <p className="text-[10px] font-semibold text-gray-500 flex items-center justify-end gap-1 mt-0.5"><span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> 1.8B Alıcı</p>
                       </div>
                    </div>
                    <div className="flex items-end gap-1">
-                      <span className="text-[42px] font-bold text-[#1A1A1A] leading-none tracking-tight">70</span>
+                      <span className="text-[42px] font-bold text-[#1A1A1A] leading-none tracking-tight">85</span>
                       <span className="text-[16px] font-semibold text-gray-400 mb-1">%</span>
                    </div>
                    <div className="flex items-center justify-between text-[10px] font-semibold text-gray-400 mt-1 mb-1">
-                      <span>60</span><span>86</span>
+                      <span>40</span><span>100</span>
                    </div>
                    <div className="flex gap-[1px] w-full">
                       {[...Array(50)].map((_, i) => (
-                         <div key={i} className={`h-3 flex-1 rounded-[1px] ${i < 35 ? 'bg-[#FDBA74]' : 'bg-gray-100'}`}></div>
+                         <div key={i} className={`h-3 flex-1 rounded-[1px] ${i < 42 ? 'bg-[#FDBA74]' : 'bg-gray-100'}`}></div>
                       ))}
                    </div>
                 </div>
 
-                {/* Transplant trends */}
+                {/* Kayıt Trendleri */}
                 <div className="bg-white rounded-[24px] p-5 shadow-sm h-[130px] flex flex-col justify-between border border-gray-100/50">
                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-[13px] font-semibold text-[#1A1A1A] leading-tight">Transplant<br/>trends</h3>
+                      <h3 className="text-[13px] font-semibold text-[#1A1A1A] leading-tight">Kayıt<br/>Trendleri</h3>
                       <div className="flex gap-2">
-                         <span className="text-[10px] font-semibold text-gray-400 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#FDBA74]"></span> Completed</span>
-                         <span className="text-[10px] font-semibold text-gray-400 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span> Expected</span>
+                         <span className="text-[10px] font-semibold text-gray-400 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#FDBA74]"></span> Yeni Kayıt</span>
+                         <span className="text-[10px] font-semibold text-gray-400 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span> İptal</span>
                       </div>
                    </div>
                    <div className="flex-1 relative mt-1 w-full h-full">
@@ -190,12 +186,12 @@ export default function UserDistributionPage() {
                          <circle cx="105" cy="12" r="3.5" fill="#10B981" />
                       </svg>
                       <div className="absolute top-[-8px] left-[85px] bg-[#2A2A2A] rounded px-1.5 py-1 flex flex-col items-center shadow-md">
-                         <span className="text-[9px] text-white font-semibold leading-tight flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#FDBA74]"></span> 16</span>
-                         <span className="text-[9px] text-white font-semibold leading-tight flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span> 14</span>
+                         <span className="text-[9px] text-white font-semibold leading-tight flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#FDBA74]"></span> 124</span>
+                         <span className="text-[9px] text-white font-semibold leading-tight flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span> 12</span>
                       </div>
                    </div>
                    <div className="flex justify-between text-[9px] font-semibold text-gray-400 mt-2">
-                      <span>18 Jun</span><span>19 Jun</span><span>20 Jun</span><span>21 Jun</span><span>22 Jun</span><span>23 Jun</span><span>24 Jun</span>
+                      <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
                    </div>
                 </div>
              </div>
@@ -205,12 +201,12 @@ export default function UserDistributionPage() {
                 {/* Map Controls */}
                 <div className="absolute top-2 left-2 flex items-center gap-5 z-20">
                    <div className="bg-white rounded-full p-1 flex shadow-sm border border-gray-100">
-                      <button className="px-5 py-1.5 bg-[#1A1A1A] text-white text-[12.5px] font-semibold rounded-full shadow-sm">Donors</button>
-                      <button className="px-5 py-1.5 text-gray-500 hover:text-gray-900 text-[12.5px] font-semibold rounded-full transition-colors">Recipients</button>
+                      <button className="px-5 py-1.5 bg-[#1A1A1A] text-white text-[12.5px] font-semibold rounded-full shadow-sm">Satıcılar</button>
+                      <button className="px-5 py-1.5 text-gray-500 hover:text-gray-900 text-[12.5px] font-semibold rounded-full transition-colors">Alıcılar</button>
                    </div>
                    <div className="flex items-center gap-2 text-[11px] font-semibold text-gray-400">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                      Last synced: 2 min ago
+                      Son güncellenme: 2 dk önce
                    </div>
                 </div>
 
@@ -245,17 +241,17 @@ export default function UserDistributionPage() {
                       {/* Map Markers */}
                       {/* Dark Marker EU */}
                       <g transform="translate(520, 200)">
-                         <circle r="28" fill="#1A1A1A" />
-                         <text y="6" textAnchor="middle" fill="white" className="text-[20px] font-bold">5</text>
+                         <circle r="28" fill="#1A1A1A" shadow="0 4px 10px rgba(0,0,0,0.5)" />
+                         <text y="6" textAnchor="middle" fill="white" className="text-[20px] font-bold">12</text>
                       </g>
 
                       {/* Orange Markers */}
                       <g transform="translate(250, 220)">
                          <circle r="24" fill="#FDBA74" />
-                         <text y="5" textAnchor="middle" fill="#1A1A1A" className="text-[16px] font-bold">18</text>
+                         <text y="5" textAnchor="middle" fill="#1A1A1A" className="text-[16px] font-bold">48</text>
                          {/* Mini tooltip for Best Matches */}
                          <rect x="-35" y="-45" width="70" height="20" rx="4" fill="#2A2A2A" />
-                         <text y="-31" textAnchor="middle" fill="white" className="text-[9px] font-semibold">Best matches</text>
+                         <text y="-31" textAnchor="middle" fill="white" className="text-[9px] font-semibold">En Yüksek</text>
                          <image href="https://i.pravatar.cc/150?u=a1" x="-45" y="-25" width="18" height="18" clipPath="circle()" className="rounded-full border-2 border-white"/>
                          <image href="https://i.pravatar.cc/150?u=b2" x="-20" y="-65" width="18" height="18" clipPath="circle()" className="rounded-full border-2 border-white"/>
                       </g>
@@ -279,18 +275,18 @@ export default function UserDistributionPage() {
 
                 {/* Popups & Elements Overlay */}
 
-                {/* MATCHED DONORS POPUP */}
+                {/* MATCHED DONORS POPUP -> Popüler Kullanıcılar */}
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[310px] bg-[#222222] rounded-[24px] shadow-[0_16px_40px_rgba(0,0,0,0.2)] pt-5 pb-3 px-3 z-30 font-sans">
                    <div className="flex items-start justify-between mb-4 px-3">
                      <div>
-                       <h3 className="text-white text-[15px] font-semibold tracking-wide mb-1">Matched donors</h3>
+                       <h3 className="text-white text-[15px] font-semibold tracking-wide mb-1">Popüler Kullanıcılar</h3>
                        <div className="flex items-center gap-2">
-                         <div className="w-[16px] h-[12px] bg-blue-700 rounded-[2px] flex items-center justify-center relative overflow-hidden">
+                         <div className="w-[16px] h-[12px] bg-red-600 rounded-[2px] flex items-center justify-center relative overflow-hidden">
                            <div className="absolute inset-0 flex items-center justify-center">
-                              <svg className="w-2.5 h-2.5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.8-6.3 4.8 2.3-7.4-6-4.6h7.6z"/></svg>
+                              <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                            </div>
                          </div>
-                         <span className="text-[#9CA3AF] text-[12px] font-medium">European Union</span>
+                         <span className="text-[#9CA3AF] text-[12px] font-medium">Türkiye Geneli</span>
                        </div>
                      </div>
                      <button className="w-8 h-8 rounded-full bg-[#10B981] flex items-center justify-center text-white hover:bg-[#059669] transition-colors shadow-lg group">
@@ -300,11 +296,11 @@ export default function UserDistributionPage() {
 
                    <div className="space-y-0.5">
                       {[
-                        {name: 'Liam Thompson', desc: 'Male, 32 years', score: '94%', active: false, img: 'https://i.pravatar.cc/150?u=liam'},
-                        {name: 'Mai Johnson', desc: 'Female, 41 years', score: '88%', active: true, img: 'https://i.pravatar.cc/150?u=mai'},
-                        {name: 'Mia Hariz', desc: 'Female, 38 years', score: '79%', active: false, img: 'https://i.pravatar.cc/150?u=mia'},
-                        {name: 'Lily Al Mamoos', desc: 'Female, 36 years', score: '74%', active: false, img: 'https://i.pravatar.cc/150?u=lily'},
-                        {name: 'Noah Anderson', desc: 'Male, 32 years', score: '72%', active: false, img: 'https://i.pravatar.cc/150?u=noah'}
+                        {name: 'Ayşe Yılmaz', desc: 'Satıcı, İstanbul', score: '98%', active: false, img: 'https://i.pravatar.cc/150?u=ayse'},
+                        {name: 'Merve Demir', desc: 'Alıcı, İzmir', score: '92%', active: true, img: 'https://i.pravatar.cc/150?u=merve'},
+                        {name: 'Zeynep Kaya', desc: 'Premium, Ankara', score: '85%', active: false, img: 'https://i.pravatar.cc/150?u=zeynep'},
+                        {name: 'Elif Şahin', desc: 'Satıcı, Bursa', score: '81%', active: false, img: 'https://i.pravatar.cc/150?u=elif'},
+                        {name: 'Fatma Çelik', desc: 'Alıcı, Antalya', score: '76%', active: false, img: 'https://i.pravatar.cc/150?u=fatma'}
                       ].map((item, idx) => (
                         <div key={idx} className={`flex items-center justify-between p-2.5 rounded-[14px] cursor-pointer transition-colors group ${item.active ? 'bg-[#3A3A3A]' : 'hover:bg-[#3A3A3A]'}`}>
                           <div className="flex items-center gap-3">
@@ -336,8 +332,8 @@ export default function UserDistributionPage() {
                       <div className="w-4 h-4 rounded-full bg-[#FDBA74] flex items-center justify-center text-[#2A2A2A] font-black text-[10px]">!</div>
                    </div>
                    <div className="flex flex-col pr-6">
-                      <span className="text-white text-[13px] font-bold tracking-wide mb-0.5">New data available</span>
-                      <span className="text-[#9CA3AF] text-[11px] font-medium">Donor statuses have changed</span>
+                      <span className="text-white text-[13px] font-bold tracking-wide mb-0.5">Yeni veri mevcut</span>
+                      <span className="text-[#9CA3AF] text-[11px] font-medium">Kullanıcı dağılımı güncellendi</span>
                    </div>
                    <button className="w-9 h-9 rounded-full bg-[#10B981] flex items-center justify-center text-white hover:bg-[#059669] transition-colors shadow-sm shrink-0 group">
                       <svg className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
