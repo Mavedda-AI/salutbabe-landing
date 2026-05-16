@@ -264,7 +264,7 @@ export default function StoreManagementPage() {
                   </td>
                   <td className="px-4 md:px-6 py-4 text-right">
                      <button 
-                       onClick={(e) => { e.stopPropagation(); toggleStoreStatus(store.storeID, store.isActive); }}
+                       onClick={(e) => { e.stopPropagation(); toggleStatus(store.storeID, store.isActive); }}
                        disabled={saving === store.storeID}
                        className={`relative overflow-hidden px-3 md:px-5 py-1.5 md:py-2 rounded-xl text-[10px] md:text-[12px] font-bold uppercase tracking-wider border-2 transition-all group
                          ${saving === store.storeID ? 'opacity-50 cursor-not-allowed' : ''}
