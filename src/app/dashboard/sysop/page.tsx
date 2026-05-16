@@ -568,10 +568,10 @@ export default function SysopDashboard() {
             
             {/* CHANNEL PERFORMANCE (1/3) */}
             <div onClick={() => setExpandedCard(expandedCard === 'channel' ? null : 'channel')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center mb-6">
+              <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
-                  KANAL PERFORMANSI
+                  CHANNEL PERFORMANCE
                 </h3>
                 <div className="flex items-center gap-2">
                   <button onClick={(e) => { e.stopPropagation(); setChannelTab('sales'); }} className={`px-2 py-1 rounded text-[10px] font-black transition-colors ${channelTab === 'sales' ? 'bg-[#111827]  text-white ' : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`}>SATIŞ</button>
@@ -609,40 +609,51 @@ export default function SysopDashboard() {
                      </svg>
                     <div className="absolute bottom-0 left-0 w-full text-center flex flex-col items-center">
                       <h2 className="text-[22px] font-black leading-tight text-[#111827] ">16,432</h2>
-                      <p className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Ürün Satışı</p>
+                      <p className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Product Sales</p>
                     </div>
                   </div>
 
-                  <div className="space-y-5 mt-auto">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-[#111827] "></div>
-                        <div>
-                          <p className={`text-[12px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Pazaryeri (Standart)</p>
-                          <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>5.762 Satış <span className="text-green-500 ml-1">+1.8%</span></p>
-                        </div>
+                  <div className="space-y-4 mt-auto">
+                    <div className="flex flex-col gap-1 w-full">
+                      <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-2">
+                            <span className="text-[16px] leading-none text-[#111827]">•</span>
+                            <span className="text-[12px] font-bold text-gray-500">Website</span>
+                         </div>
+                         <span className="text-[13px] font-black text-[#111827]">$1,378.975</span>
                       </div>
-                      <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,378.975</span>
+                      <div className="flex items-center gap-4 pl-4">
+                         <span className="text-[10px] font-medium text-gray-400">5.762 Product Sold</span>
+                         <span className="text-[10px] font-bold text-green-500">+1.8%</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-                        <div>
-                          <p className={`text-[12px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Sesli Odalar</p>
-                          <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>6.843 Satış <span className="text-red-500 ml-1">-2.8%</span></p>
-                        </div>
+                    
+                    <div className="flex flex-col gap-1 w-full">
+                      <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-2">
+                            <span className="text-[16px] leading-none text-gray-400">•</span>
+                            <span className="text-[12px] font-bold text-gray-500">Marketplace</span>
+                         </div>
+                         <span className="text-[13px] font-black text-[#111827]">$778,975</span>
                       </div>
-                      <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>$778,975</span>
+                      <div className="flex items-center gap-4 pl-4">
+                         <span className="text-[10px] font-medium text-gray-400">6.843 Products Sold</span>
+                         <span className="text-[10px] font-bold text-red-500">-2.8%</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-gray-200 "></div>
-                        <div>
-                          <p className={`text-[12px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>Keşfet</p>
-                          <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>2.123 Satış <span className="text-red-500 ml-1">-2.8%</span></p>
-                        </div>
+
+                    <div className="flex flex-col gap-1 w-full">
+                      <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-2">
+                            <span className="text-[16px] leading-none text-gray-300">•</span>
+                            <span className="text-[12px] font-bold text-gray-500">Store</span>
+                         </div>
+                         <span className="text-[13px] font-black text-[#111827]">$778,975</span>
                       </div>
-                      <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>$778,975</span>
+                      <div className="flex items-center gap-4 pl-4">
+                         <span className="text-[10px] font-medium text-gray-400">2.123 Products Sold</span>
+                         <span className="text-[10px] font-bold text-red-500">-2.8%</span>
+                      </div>
                     </div>
                   </div>
                 </>
@@ -894,12 +905,6 @@ export default function SysopDashboard() {
             
             {/* RECENT ACTIVITY */}
             <div onClick={() => setExpandedCard(expandedCard === 'activity' ? null : 'activity')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
-                  CHANNEL PERFORMANCE
-                </h3>
-              </div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
