@@ -51,6 +51,8 @@ export default function SysopDashboard() {
   const [filterYear, setFilterYear] = useState("2026");
 
   const [showCampaignModal, setShowCampaignModal] = useState(false);
+  const [campaignForm, setCampaignForm] = useState({ name: '', code: '', discount: '', budget: '', audience: 'Tüm Kullanıcılar' });
+  const [opConfirm, setOpConfirm] = useState<{ type: string; title: string; desc: string } | null>(null);
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -506,7 +508,7 @@ export default function SysopDashboard() {
             </div>
           </div>
 
-          {/* ROW 1.5: INTELLIGENCE CARDS (FOUNDER ONLY) */}
+          {/* ROW 1.5: INTELLIGENCE CARDS (SADECE KURUCU) */}
           {isFounder && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               
@@ -518,7 +520,7 @@ export default function SysopDashboard() {
                     BİRİM EKONOMİSİ
                   </h3>
                   <div className="flex items-center gap-2">
-                    <div className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-600  text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
+                    <div className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-600  text-[9px] font-black tracking-wider">SADECE KURUCU</div>
                     <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'unit' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </div>
                 </div>
@@ -630,7 +632,7 @@ export default function SysopDashboard() {
                     BİLDİRİM EKONOMİSİ
                   </h3>
                   <div className="flex items-center gap-2">
-                    <div className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 text-[9px] font-black tracking-wider">FOUNDER ONLY</div>
+                    <div className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 text-[9px] font-black tracking-wider">SADECE KURUCU</div>
                     <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'notif' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </div>
                 </div>
@@ -1364,7 +1366,7 @@ export default function SysopDashboard() {
 
 
 
-          {/* ROW 4: OPERATIONS & SUPPORT (FOUNDER ONLY) */}
+          {/* ROW 4: OPERATIONS & SUPPORT (SADECE KURUCU) */}
           {isFounder && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               
@@ -1449,7 +1451,7 @@ export default function SysopDashboard() {
                        <p className={`text-[14px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>%18</p>
                      </div>
                      <div className={`p-2 rounded border ${isDark ? 'border-white/10 bg-white/5' : 'border-gray-200 bg-gray-50'}`}>
-                       <span className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Dispute (İade)</span>
+                       <span className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Uyuşmazlık (İade)</span>
                        <p className={`text-[14px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>%12</p>
                      </div>
                    </div>
@@ -1815,7 +1817,7 @@ export default function SysopDashboard() {
                             <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>İade bekleniyor <span className="text-red-500 ml-1">2 saat geçti</span></p>
                          </div>
                       </div>
-                      <button className="bg-red-500 hover:bg-red-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors shadow-sm">Müdahale Et</button>
+                      <button onClick={(e) => { e.stopPropagation(); router.push("/dashboard/sysop/order-management"); }} className="bg-red-500 hover:bg-red-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors shadow-sm">Müdahale Et</button>
                    </div>
                 </div>
 

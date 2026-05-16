@@ -164,10 +164,16 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       '/dashboard/sysop/user-review-management',
       '/dashboard/sysop/live-room-management',
       '/dashboard/sysop/payout-management',
+      '/dashboard/sysop/finance-management',
+      '/dashboard/sysop/finance-management/escrow',
+      '/dashboard/sysop/finance-management/payouts',
+      '/dashboard/sysop/finance-management/failed-payouts',
+      '/dashboard/sysop/finance-management/invoices',
       '/dashboard/sysop/system-settings',
       '/dashboard/sysop/analytics',
       '/dashboard/sysop/unit-economics',
       '/dashboard/sysop/seller-health',
+      '/dashboard/sysop/user-distribution',
       '/dashboard/common/profile'
     ];
 
@@ -240,7 +246,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </svg>
       ),
       submenus: [
-        { label: 'Satıcı Ödemeleri (Payout)', href: '/dashboard/sysop/payout-management' }
+        { label: 'Finans Paneli', href: '/dashboard/sysop/finance-management' },
+        { label: 'Havuz (Emanet)', href: '/dashboard/sysop/finance-management/escrow' },
+        { label: 'Bekleyen Hakedişler', href: '/dashboard/sysop/finance-management/payouts' },
+        { label: 'Başarısız Ödemeler', href: '/dashboard/sysop/finance-management/failed-payouts' },
+        { label: 'GİB Fatura Kuyruğu', href: '/dashboard/sysop/finance-management/invoices' },
+        { label: 'Satıcı Ödemeleri', href: '/dashboard/sysop/payout-management' }
       ] 
     },
     { 
@@ -366,7 +377,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                  </div>
                  <div className="flex flex-col justify-center">
                    <span className="text-[15px] font-black text-[#111827]  leading-tight">SalutBabe</span>
-                   <span className="text-[10px] text-gray-500 font-bold tracking-wide">Marketplace & Sales</span>
+                   <span className="text-[10px] text-gray-500 font-bold tracking-wide">Pazar Yeri & Satış</span>
                  </div>
               </Link>
               
@@ -722,7 +733,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             {/* Export Button */}
             <button className={`hidden sm:flex px-4 py-2.5 rounded-full items-center gap-2 text-[12px] font-bold transition-all active:scale-95 ${theme === 'light' ? 'bg-[#111827] text-white hover:bg-black shadow-md' : 'bg-white text-black hover:bg-gray-200'}`}>
                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-               Export
+               Dışa Aktar
             </button>
             
             {/* User Profile */}
