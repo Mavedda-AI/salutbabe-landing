@@ -17,6 +17,25 @@ export function FinanceView() {
 
   return (
     <div className="space-y-6">
+      
+      {/* ALERTS & RISKS */}
+      <div className="bg-orange-50 border border-orange-200 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-2">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shrink-0">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+          </div>
+          <div>
+            <h3 className="text-[14px] font-black text-orange-900">Mali Eşik Uyarısı: 350.000 TL Limitine Yaklaşan Satıcılar</h3>
+            <p className="text-[12px] font-medium text-orange-800 mt-0.5">
+              <span className="font-bold">3 satıcının</span> yıllık satış hacmi "Esnaf Muaflığı" sınırını (%85 oranında) aşmak üzere. Olası vergi cezalarını önlemek için satıcıları uyarın.
+            </p>
+          </div>
+        </div>
+        <button className="whitespace-nowrap px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-[12px] font-bold rounded-xl transition-colors shadow-sm">
+          Listeyi Gör & Uyar
+        </button>
+      </div>
+
       {/* METRICS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm relative overflow-hidden">
