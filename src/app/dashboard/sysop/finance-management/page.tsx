@@ -131,6 +131,30 @@ export function FinanceView() {
           )}
         </div>
       </div>
+
+      {/* Toast */}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+
+      {/* Warn Modal */}
+      {warnModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setWarnModal(false)}>
+          <div onClick={e => e.stopPropagation()} className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 bg-red-50"><h3 className="text-[16px] font-black text-red-700">⚠️ Mali Eşik Uyarısı — 350.000 TL</h3></div>
+            <div className="p-6 space-y-3">
+              {[{name: 'Elif Boutique', total: '₺312,400', pct: '%89'}, {name: 'Urban Style TR', total: '₺298,000', pct: '%85'}, {name: 'Bella Moda', total: '₺295,500', pct: '%84'}].map((s, i) => (
+                <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div><p className="text-[13px] font-bold text-gray-900">{s.name}</p><p className="text-[10px] text-gray-500">Yıllık Satış: {s.total}</p></div>
+                  <span className="text-[12px] font-black text-red-600">{s.pct}</span>
+                </div>
+              ))}
+            </div>
+            <div className="px-6 py-4 border-t border-gray-100 flex gap-3">
+              <button onClick={() => setWarnModal(false)} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-gray-800 font-bold text-[12px]">Kapat</button>
+              <button onClick={() => { setWarnModal(false); setActionDone('Satıcılara uyarı bildirimi gönderildi.'); setTimeout(() => setActionDone(null), 2500); }} className="flex-1 py-2.5 rounded-xl bg-red-500 text-white font-bold text-[12px]">Toplu Uyarı Gönder</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
