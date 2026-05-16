@@ -283,7 +283,7 @@ export default function UserDistributionPage() {
                     key={i} 
                     d={city.draw} 
                     fill="#D1D5DB" 
-                    stroke="#F9FAFB" 
+                    stroke="#0F1115" 
                     strokeWidth="1.5" 
                     className="transition-colors duration-300"
                   />
