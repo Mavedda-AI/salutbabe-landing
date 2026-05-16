@@ -80,22 +80,33 @@ export default function SysopDashboard() {
           {/* 11. GLOBAL ALERT SYSTEM */}
           <div className="flex flex-col gap-3 mb-6">
             {alerts.map((alert, i) => {
-               const style = alert.type === 'CRITICAL' ? { color: '#FF383C', bg: 'bg-[#FF383C]', text: 'text-[#FF383C]', lightBg: 'bg-[#FF383C]/10', border: 'border-[#FF383C]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(255,56,60,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /> } :
-                             alert.type === 'WARNING' ? { color: '#FF8D28', bg: 'bg-[#FF8D28]', text: 'text-[#FF8D28]', lightBg: 'bg-[#FF8D28]/10', border: 'border-[#FF8D28]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(255,141,40,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 17v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> } :
-                             { color: '#007AFF', bg: 'bg-[#007AFF]', text: 'text-[#007AFF]', lightBg: 'bg-[#007AFF]/10', border: 'border-[#007AFF]/20', glow: 'hover:shadow-[0_8px_24px_-6px_rgba(0,122,255,0.25)]', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> };
-
                return (
-                 <div key={i} className="flex flex-col border-b border-gray-100/50 last:border-b-0">
-                   <div onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="cursor-pointer group flex items-center justify-between py-2 transition-opacity hover:opacity-70">
-                     <div className="flex flex-col gap-0.5 w-full">
-                       <div className="flex items-center gap-1.5">
-                         <svg className={`w-4 h-4 ${style.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">{style.icon}</svg>
-                         <span className={`text-[9px] md:text-[10px] font-black tracking-widest uppercase ${style.text} ${style.lightBg} px-2 py-0.5 rounded-full animate-pulse shadow-sm`}>{alert.type}</span>
+                 <div key={i} className="flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-300">
+                   <div className="flex items-center justify-between p-3">
+                     <div className="flex items-center gap-3">
+                       <div className="flex items-center justify-center shrink-0">
+                         {alert.type === 'CRITICAL' && (
+                            <svg className="w-[22px] h-[22px] text-[#EF4444]" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                            </svg>
+                         )}
+                         {alert.type === 'WARNING' && (
+                            <svg className="w-[22px] h-[22px] text-[#F97316]" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                            </svg>
+                         )}
+                         {alert.type === 'INFO' && (
+                            <div className="w-[22px] h-[22px] rounded-full bg-[#10B981] flex items-center justify-center">
+                              <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                         )}
                        </div>
-                       <div className="flex items-center gap-2 mt-0.5">
-                         <span className="text-[13px] md:text-[14px] font-bold text-[#111827] leading-tight">{alert.text}</span>
+                       <div className="flex items-center gap-2">
+                         <span className="text-[14px] md:text-[15px] font-medium text-[#111827] tracking-tight">{alert.text}</span>
                          {alert.badge && (
-                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1.5 py-0.5 rounded-md text-[11px] font-bold">
                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
                              {alert.badge}
                            </span>
@@ -103,44 +114,44 @@ export default function SysopDashboard() {
                        </div>
                      </div>
                      
-                     <div className="shrink-0 p-2">
-                       <svg className={`w-4 h-4 text-gray-300 transition-transform duration-300 ${selectedAlert?.type === alert.type ? 'rotate-180 text-gray-900' : 'group-hover:text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                       </svg>
-                     </div>
+                     <button onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="px-3.5 py-1.5 bg-white border border-gray-200 rounded-lg text-[13px] font-medium text-gray-800 hover:bg-gray-50 transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] shrink-0 ml-4">
+                       {selectedAlert?.type === alert.type ? 'Kapat' : 'Detay'}
+                     </button>
                    </div>
 
                    {/* INLINE ACCORDION DETAILS */}
                    {selectedAlert?.type === alert.type && (
-                     <div className="mt-1 mb-3 bg-gray-50/50 rounded-xl p-3 border border-gray-100 animate-fade-in">
-                        {alert.type === 'CRITICAL' && (
-                          <div className="space-y-2 mb-3">
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Geciken Kargo</span><span className="text-[12px] font-black text-gray-900">1,248</span></div>
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Etkilenen Müşteri</span><span className="text-[12px] font-black text-[#FF383C]">1,042</span></div>
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Dispute Riski</span><span className="text-[12px] font-black text-[#FF8D28]">Yüksek</span></div>
-                          </div>
-                        )}
-                        {alert.type === 'WARNING' && (
-                          <div className="space-y-2 mb-3">
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Etkilenen Satıcı</span><span className="text-[12px] font-black text-gray-900">2 Mağaza</span></div>
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kayıp GMV</span><span className="text-[12px] font-black text-[#FF8D28]">~₺30,000</span></div>
-                          </div>
-                        )}
-                        {alert.type === 'INFO' && (
-                          <div className="space-y-2 mb-3">
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sepete Ekleyen</span><span className="text-[12px] font-black text-gray-900">4,520</span></div>
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ödemeye Geçen</span><span className="text-[12px] font-black text-[#FF8D28]">1,840</span></div>
-                            <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Tamamlayan</span><span className="text-[12px] font-black text-[#FF383C]">1,619</span></div>
-                          </div>
-                        )}
-                        <button onClick={(e) => {
-                          e.stopPropagation();
-                          if(alert.type === 'CRITICAL') router.push('/dashboard/sysop/shipping-management');
-                          if(alert.type === 'WARNING') router.push('/dashboard/sysop/user-management');
-                          if(alert.type === 'INFO') router.push('/dashboard/sysop/analytics');
-                        }} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                          DETAYLARI GÖRÜNTÜLE
-                        </button>
+                     <div className="px-3 pb-3 pt-1 animate-fade-in">
+                       <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                          {alert.type === 'CRITICAL' && (
+                            <div className="space-y-2 mb-3">
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Geciken Kargo</span><span className="text-[12px] font-black text-gray-900">1,248</span></div>
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Etkilenen Müşteri</span><span className="text-[12px] font-black text-[#FF383C]">1,042</span></div>
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Dispute Riski</span><span className="text-[12px] font-black text-[#FF8D28]">Yüksek</span></div>
+                            </div>
+                          )}
+                          {alert.type === 'WARNING' && (
+                            <div className="space-y-2 mb-3">
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Etkilenen Satıcı</span><span className="text-[12px] font-black text-gray-900">2 Mağaza</span></div>
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kayıp GMV</span><span className="text-[12px] font-black text-[#FF8D28]">~₺30,000</span></div>
+                            </div>
+                          )}
+                          {alert.type === 'INFO' && (
+                            <div className="space-y-2 mb-3">
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sepete Ekleyen</span><span className="text-[12px] font-black text-gray-900">4,520</span></div>
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ödemeye Geçen</span><span className="text-[12px] font-black text-[#FF8D28]">1,840</span></div>
+                              <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Tamamlayan</span><span className="text-[12px] font-black text-[#FF383C]">1,619</span></div>
+                            </div>
+                          )}
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            if(alert.type === 'CRITICAL') router.push('/dashboard/sysop/shipping-management');
+                            if(alert.type === 'WARNING') router.push('/dashboard/sysop/user-management');
+                            if(alert.type === 'INFO') router.push('/dashboard/sysop/analytics');
+                          }} className="w-full py-2.5 rounded-[10px] bg-white border border-gray-200 text-gray-900 text-[11px] font-bold tracking-wide hover:bg-gray-50 shadow-sm transition-colors">
+                            Hemen İncele
+                          </button>
+                       </div>
                      </div>
                    )}
                  </div>
