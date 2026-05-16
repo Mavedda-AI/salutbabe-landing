@@ -209,16 +209,16 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'payout' ? null : 'payout')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'payout' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-start md:items-center mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  NET GELİR (TAKE RATE)
+                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span className="truncate">NET GELİR</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
-              <div className="flex items-baseline gap-2 mb-3">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
                 <h2 className={textValue}>${mounted ? mockData.net : '1,256,940'}</h2>
-                <span className="text-[12px] font-bold text-green-500">+$456</span>
+                <span className="text-[12px] font-bold text-green-500 whitespace-nowrap">+$456</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 12%</span>
@@ -241,13 +241,13 @@ export default function SysopDashboard() {
             <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'orders' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                  TOPLAM SİPARİŞ
+                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  <span className="truncate">TOPLAM SİPARİŞ</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline justify-between mb-3">
-                 <div className="flex items-baseline gap-2">
+                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                    <h2 className={textValue}>{mounted ? mockData.orders : '6,432'}</h2>
                    <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Sipariş</span>
                  </div>
@@ -289,14 +289,14 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'users' ? null : 'users')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'users' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-start md:items-center mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                  TOPLAM KULLANICI
+                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                  <span className="truncate">TOPLAM KULLANICI</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
-              <div className="flex items-baseline gap-2 mb-3">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
                 <h2 className={textValue}>{mounted ? mockData.users : '173,247'}</h2>
                 <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kişi</span>
               </div>
@@ -319,14 +319,14 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'rooms' ? null : 'rooms')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'rooms' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-start md:items-center mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
-                  SESLİ ODA ETKİLEŞİMİ
+                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                  <span className="truncate">SESLİ ODA ETKİLEŞİMİ</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
-              <div className="flex items-baseline gap-2 mb-3">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
                 <h2 className={textValue}>{mounted ? mockData.rooms : '3,247'}</h2>
               </div>
               <div className="flex items-center gap-2">
