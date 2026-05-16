@@ -90,13 +90,17 @@ export default function SysopDashboard() {
         <div className="space-y-6">
 
           {/* 11. GLOBAL ALERT SYSTEM */}
-          <div className="flex flex-col gap-0 mb-6 border border-gray-100 rounded-lg overflow-hidden bg-white shadow-sm">
+          <div className="flex flex-col gap-2 mb-6">
             {alerts.map((alert, i) => {
                return (
-                 <div key={i} className="flex flex-col transition-all duration-300 border-b border-gray-100 last:border-0 bg-white">
-                   <div className="flex items-center justify-between px-3 py-1">
-                     <div className="flex items-center gap-2">
-                       <div className="flex items-center justify-center shrink-0">
+                 <div 
+                   key={i} 
+                   onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)}
+                   className="flex flex-col transition-all duration-300 cursor-pointer border-b border-gray-100/50 last:border-0 pb-2 group"
+                 >
+                   <div className="flex items-start md:items-center justify-between py-1 px-1 rounded-md group-hover:bg-gray-50/50">
+                     <div className="flex items-start md:items-center gap-2.5">
+                       <div className="flex items-center justify-center shrink-0 mt-0.5 md:mt-0">
                          {alert.type === 'CRITICAL' && (
                             <svg className="w-[16px] h-[16px] text-[#EF4444]" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
@@ -115,8 +119,8 @@ export default function SysopDashboard() {
                             </div>
                          )}
                        </div>
-                       <div className="flex items-center gap-2">
-                         <span className="text-[12px] md:text-[13px] font-medium text-[#111827] tracking-tight">{alert.text}</span>
+                       <div className="flex flex-wrap items-center gap-2">
+                         <span className="text-[13px] md:text-[14px] font-bold text-[#111827] tracking-tight">{alert.text}</span>
                          {alert.badge && (
                            <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1 py-0.5 rounded text-[9px] font-black">
                              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
@@ -126,9 +130,14 @@ export default function SysopDashboard() {
                        </div>
                      </div>
                      
-                     <button onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="px-2 py-0.5 bg-white border border-gray-200 rounded-md text-[11px] font-bold text-gray-800 hover:bg-gray-50 transition-colors shadow-sm shrink-0 ml-3">
-                       {selectedAlert?.type === alert.type ? 'Kapat' : 'Detay'}
-                     </button>
+                     <div className="flex items-center shrink-0 ml-3 opacity-50 group-hover:opacity-100 transition-opacity">
+                       <span className="text-[10px] font-bold text-gray-400 mr-1 hidden md:block">
+                         {selectedAlert?.type === alert.type ? 'KAPAT' : 'DETAY'}
+                       </span>
+                       <svg className={`w-4 h-4 text-gray-400 transition-transform ${selectedAlert?.type === alert.type ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                       </svg>
+                     </div>
                    </div>
 
                    {/* INLINE ACCORDION DETAILS */}
