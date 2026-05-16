@@ -228,8 +228,12 @@ export default function SysopDashboard() {
               {expandedCard === 'payout' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
                   <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşen</span><span className="text-[12px] font-black text-green-600">₺980,400</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">₺276,540</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Brüt Komisyon Hacmi</span><span className="text-[12px] font-black text-gray-900">₺1,256,940</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ödeme Geçidi Kesintisi (İyzico)</span><span className="text-[12px] font-black text-red-500">-₺31,423</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kargo & İade Farkları</span><span className="text-[12px] font-black text-red-500">-₺18,500</span></div>
+                     <div className="h-px w-full bg-gray-200 my-1"></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-black text-gray-900">Gerçekleşen (True Profit)</span><span className="text-[12px] font-black text-green-600">₺1,207,017</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">₺49,923</span></div>
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE

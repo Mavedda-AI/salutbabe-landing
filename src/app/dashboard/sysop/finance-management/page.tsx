@@ -121,51 +121,105 @@ export default function FinanceManagement() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
-                    {[1, 2, 3].map((i) => (
-                      <tr key={i} className="hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="text-[13px] font-bold text-gray-900">Zeynep Yılmaz</div>
-                          <div className="text-[11px] font-medium text-gray-500 mt-0.5">TR12 0006 2000 0001 2345 6789 01</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="text-[14px] font-black text-gray-900">₺1,450.00</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="text-[12px] font-bold text-gray-700">ORD-10492</div>
-                          <div className="text-[11px] font-medium text-green-600 mt-0.5">Komisyon: ₺150.00 (Fatura Kesildi)</div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-orange-100 text-orange-700">
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                            BEKLİYOR
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                           <button className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-[11px] font-bold rounded-lg transition-colors">
-                             Öde
-                           </button>
-                        </td>
-                      </tr>
-                    ))}
+                    <tr className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="text-[13px] font-bold text-gray-900">Zeynep Yılmaz</div>
+                        <div className="text-[11px] font-medium text-gray-500 mt-0.5">TR12 0006 2000 0001 2345 6789 01</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[14px] font-black text-gray-900">₺1,450.00</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[12px] font-bold text-gray-700">ORD-10492</div>
+                        <div className="text-[11px] font-medium text-green-600 mt-0.5">Komisyon: ₺150.00 (Fatura Kesildi)</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-orange-100 text-orange-700">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                          BEKLİYOR
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                         <button className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-[11px] font-bold rounded-lg transition-colors">
+                           Öde
+                         </button>
+                      </td>
+                    </tr>
+                    
+                    <tr className="hover:bg-gray-50/50 transition-colors opacity-75">
+                      <td className="px-6 py-4">
+                        <div className="text-[13px] font-bold text-gray-900">Elif Şahin</div>
+                        <div className="text-[11px] font-medium text-gray-500 mt-0.5">TR99 0006 2000 0001 2345 6789 01</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[14px] font-black text-gray-900">₺850.00</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[12px] font-bold text-gray-700">ORD-10493</div>
+                        <div className="text-[11px] font-medium text-red-500 mt-0.5">Kısmi İade Uygulandı</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-red-50 text-red-700 border border-red-200">
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                          KİLİTLİ (DISPUTE)
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                         <button disabled className="px-3 py-1.5 bg-gray-50 text-gray-400 text-[11px] font-bold rounded-lg cursor-not-allowed">
+                           Öde
+                         </button>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
             )}
 
-            {activeTab === 'failed' && (
-              <div className="p-12 text-center">
-                 <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                 </div>
-                 <h3 className="text-[16px] font-black text-gray-900 mb-2">14 Adet Hatalı Ödeme Tespit Edildi</h3>
-                 <p className="text-[13px] font-medium text-gray-500 max-w-md mx-auto mb-6">
-                   Satıcıların sistemde kayıtlı TCKN'si ile girdikleri IBAN sahibi uyuşmadığı için banka tarafından iade edilmiştir. Bakiyeler tekrar havuz hesaba aktarılmıştır.
-                 </p>
-                 <button className="px-5 py-2.5 bg-gray-900 hover:bg-black text-white text-[12px] font-bold rounded-xl transition-colors">
-                   Satıcılara IBAN Güncelleme Maili Gönder
-                 </button>
+              <div className="overflow-x-auto">
+                <div className="px-6 py-4 bg-red-50 border-b border-red-100 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-white text-red-500 rounded-full flex items-center justify-center shadow-sm">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div>
+                      <h3 className="text-[13px] font-black text-red-900">14 Adet Hatalı Ödeme Tespit Edildi</h3>
+                      <p className="text-[11px] font-medium text-red-700">Bankadan dönen bakiyeler havuz hesaba aktarıldı. Satıcı TCKN ve IBAN uyuşmazlığı.</p>
+                    </div>
+                  </div>
+                  <button className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+                    Toplu Uyarı Maili Gönder
+                  </button>
+                </div>
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                      <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase tracking-wider">Satıcı / IBAN Adı</th>
+                      <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase tracking-wider">Tutar</th>
+                      <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase tracking-wider">Banka Yanıtı</th>
+                      <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase tracking-wider text-right">Aksiyon</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    <tr className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="text-[13px] font-bold text-gray-900">Fatma Öztürk</div>
+                        <div className="text-[11px] font-medium text-gray-500 mt-0.5">TR44 0006 2000 0001 2345 6789 01</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[14px] font-black text-gray-900">₺2,100.00</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[12px] font-bold text-red-600">İsim Uyuşmazlığı (İade)</div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                         <button className="px-3 py-1.5 bg-gray-900 hover:bg-black text-white text-[11px] font-bold rounded-lg transition-colors">
+                           Yeniden Dene (Retry)
+                         </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            )}
 
             {activeTab === 'invoices' && (
               <div className="overflow-x-auto">
@@ -180,10 +234,10 @@ export default function FinanceManagement() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
-                    <tr className="hover:bg-gray-50/50 transition-colors">
+                    <tr className="hover:bg-gray-50/50 transition-colors bg-red-50/30">
                       <td className="px-6 py-4">
                         <div className="text-[13px] font-bold text-gray-900">SLT202400000142</div>
-                        <div className="text-[11px] font-medium text-gray-500 mt-0.5">Bugün, 14:30</div>
+                        <div className="text-[11px] font-black text-red-500 mt-0.5">GÜN 6 (KRİTİK RİSK)</div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-[13px] font-bold text-gray-900">Ayşe Demir</div>
@@ -194,14 +248,43 @@ export default function FinanceManagement() {
                         <div className="text-[13px] font-black text-gray-900 mt-0.5">₺240.00 <span className="text-[10px] text-gray-400 font-medium">+ %20 KDV</span></div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-red-100 text-red-700">
-                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                          HATA: TCKN GEÇERSİZ
+                        <div className="flex flex-col gap-1">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-red-100 text-red-700 w-fit">
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            HATA: TCKN GEÇERSİZ
+                          </span>
+                          <span className="text-[10px] font-bold text-gray-500 ml-1">Otomatik Retry: 2/3</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                         <button className="px-3 py-1.5 bg-gray-900 hover:bg-black text-white text-[11px] font-bold rounded-lg transition-colors">
+                           Zorla Yeniden Dene
+                         </button>
+                      </td>
+                    </tr>
+                    
+                    <tr className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="text-[13px] font-bold text-gray-900">SLT202400000143</div>
+                        <div className="text-[11px] font-medium text-gray-500 mt-0.5">Bugün, 15:45</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[13px] font-bold text-gray-900">Merve Can</div>
+                        <div className="text-[11px] font-medium text-gray-500 mt-0.5">22233344455</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-[12px] font-bold text-gray-700">Komisyon Bedeli</div>
+                        <div className="text-[13px] font-black text-gray-900 mt-0.5">₺180.00 <span className="text-[10px] text-gray-400 font-medium">+ %20 KDV</span></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-blue-50 text-blue-700 border border-blue-100">
+                          <svg className="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                          GİB'E İLETİLİYOR
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
-                         <button className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-[11px] font-bold rounded-lg transition-colors">
-                           Yeniden Dene
+                         <button disabled className="px-3 py-1.5 bg-gray-50 text-gray-400 text-[11px] font-bold rounded-lg cursor-not-allowed">
+                           Bekleniyor
                          </button>
                       </td>
                     </tr>
