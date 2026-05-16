@@ -1,5 +1,5 @@
 "use client";
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 
 export default function SysopDashboard() {
@@ -90,11 +90,11 @@ export default function SysopDashboard() {
         <div className="space-y-6">
 
           {/* 11. GLOBAL ALERT SYSTEM */}
-          <div className="flex flex-col gap-1.5 mb-6">
+          <div className="flex flex-col gap-0 mb-6 border border-gray-100 rounded-lg overflow-hidden bg-white shadow-sm">
             {alerts.map((alert, i) => {
                return (
-                 <div key={i} className="flex flex-col transition-all duration-300 border-b border-gray-100 last:border-0 pb-1.5">
-                   <div className="flex items-center justify-between py-1">
+                 <div key={i} className="flex flex-col transition-all duration-300 border-b border-gray-100 last:border-0 bg-white">
+                   <div className="flex items-center justify-between px-3 py-1">
                      <div className="flex items-center gap-2">
                        <div className="flex items-center justify-center shrink-0">
                          {alert.type === 'CRITICAL' && (
