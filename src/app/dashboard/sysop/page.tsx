@@ -383,6 +383,100 @@ export default function SysopDashboard() {
             </div>
           </div>
 
+          {/* ROW: USER DISTRIBUTION MAP */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+            <div onClick={() => setExpandedCard(expandedCard === 'userdist' ? null : 'userdist')} className={`${cardClass} p-4 md:p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={textTitle}>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  <span className="truncate">KULLANICI DAĞILIMI</span>
+                </h3>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'userdist' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </div>
+
+              <div className="flex items-baseline gap-2 mb-4">
+                <h2 className={textValue}>{Object.values(liveMapData).reduce((s, r) => s + r.users, 0).toLocaleString('tr-TR')}</h2>
+                <span className={badgeGreen}>↗ 3.2%</span>
+                <span className={`text-[12px] font-bold ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kullanıcı</span>
+              </div>
+
+              {/* Mini Turkey Map (Healthix Aesthetic) */}
+              <div className="flex-1 mb-4 relative flex items-center justify-center p-2 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden">
+                <svg viewBox="0 0 1050 480" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm">
+                  <defs>
+                    <filter id="shadow-mini" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
+                    </filter>
+                  </defs>
+                  
+                  {/* Real Turkey Map 81 Cities */}
+                  <g>
+                    {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => (
+                      <path 
+                        key={i} 
+                        d={city.draw} 
+                        fill={isDark ? '#374151' : '#D1D5DB'} 
+                        stroke={isDark ? '#1F2937' : '#F9FAFB'} 
+                        strokeWidth="1.5" 
+                        className="transition-colors duration-300"
+                      />
+                    ))}
+                  </g>
+
+                  {/* Bubbles */}
+                  {[
+                    { n:'Marmara', lx:140, ly:80, top: true },
+                    { n:'Ege', lx:80, ly:230 },
+                    { n:'Akdeniz', lx:320, ly:330 },
+                    { n:'İç Anadolu', lx:450, ly:180 },
+                    { n:'Karadeniz', lx:620, ly:80 },
+                    { n:'Doğu Anadolu', lx:850, ly:180 },
+                    { n:'Güneydoğu', lx:720, ly:290 },
+                  ].map((r, i) => {
+                    const data = liveMapData[r.n] || { users: 0, color: '#FDBA74' };
+                    const val = (data.users / 1000).toFixed(1);
+                    return (
+                      <g key={i}>
+                        <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
+                        <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold ${r.top ? 'fill-white' : 'fill-[#111827]'}`}>{val}K</text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+
+              <div className="space-y-2">
+                {[
+                  { n: 'Marmara', p: '38.6%' },
+                  { n: 'Ege', p: '17.1%' },
+                  { n: 'İç Anadolu', p: '14.9%' }
+                ].map((s,i) => (
+                  <div key={i} className="flex justify-between items-center text-[11px]">
+                    <span className="flex items-center gap-2">
+                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: liveMapData[s.n].color }}></div>
+                       <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.n}</span>
+                    </span>
+                    <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{liveMapData[s.n].users.toLocaleString('tr-TR')} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
+                  </div>
+                ))}
+              </div>
+
+              {expandedCard === 'userdist' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Top Şehir</span><span className="text-[12px] font-black text-[#111827]">İstanbul (3,200)</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Top İlçe</span><span className="text-[12px] font-black text-[#111827]">Kadıköy (820)</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Büyüme Bölgesi</span><span className="text-[12px] font-black text-green-600">Antalya (+%12)</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yeni Şehir</span><span className="text-[12px] font-black text-[#007AFF]">Rize (+180)</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/user-distribution')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    HARİTAYI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* ROW 1.5: INTELLIGENCE CARDS (FOUNDER ONLY) */}
           {isFounder && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
@@ -1239,99 +1333,7 @@ export default function SysopDashboard() {
 
           </div>
 
-          {/* ROW: USER DISTRIBUTION MAP */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
-            <div onClick={() => setExpandedCard(expandedCard === 'userdist' ? null : 'userdist')} className={`${cardClass} p-4 md:p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                  <span className="truncate">KULLANICI DAĞILIMI</span>
-                </h3>
-                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'userdist' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-              </div>
 
-              <div className="flex items-baseline gap-2 mb-4">
-                <h2 className={textValue}>{Object.values(liveMapData).reduce((s, r) => s + r.users, 0).toLocaleString('tr-TR')}</h2>
-                <span className={badgeGreen}>↗ 3.2%</span>
-                <span className={`text-[12px] font-bold ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kullanıcı</span>
-              </div>
-
-              {/* Mini Turkey Map (Healthix Aesthetic) */}
-              <div className="flex-1 mb-4 relative flex items-center justify-center p-2 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden">
-                <svg viewBox="0 0 1050 480" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm">
-                  <defs>
-                    <filter id="shadow-mini" x="-20%" y="-20%" width="140%" height="140%">
-                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
-                    </filter>
-                  </defs>
-                  
-                  {/* Real Turkey Map 81 Cities */}
-                  <g>
-                    {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => (
-                      <path 
-                        key={i} 
-                        d={city.draw} 
-                        fill={isDark ? '#374151' : '#D1D5DB'} 
-                        stroke={isDark ? '#1F2937' : '#F9FAFB'} 
-                        strokeWidth="1.5" 
-                        className="transition-colors duration-300"
-                      />
-                    ))}
-                  </g>
-
-                  {/* Bubbles */}
-                  {[
-                    { n:'Marmara', lx:140, ly:80, top: true },
-                    { n:'Ege', lx:80, ly:230 },
-                    { n:'Akdeniz', lx:320, ly:330 },
-                    { n:'İç Anadolu', lx:450, ly:180 },
-                    { n:'Karadeniz', lx:620, ly:80 },
-                    { n:'Doğu Anadolu', lx:850, ly:180 },
-                    { n:'Güneydoğu', lx:720, ly:290 },
-                  ].map((r, i) => {
-                    const data = liveMapData[r.n] || { users: 0, color: '#FDBA74' };
-                    const val = (data.users / 1000).toFixed(1);
-                    return (
-                      <g key={i}>
-                        <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
-                        <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold ${r.top ? 'fill-white' : 'fill-[#111827]'}`}>{val}K</text>
-                      </g>
-                    );
-                  })}
-                </svg>
-              </div>
-
-              <div className="space-y-2">
-                {[
-                  { n: 'Marmara', p: '38.6%' },
-                  { n: 'Ege', p: '17.1%' },
-                  { n: 'İç Anadolu', p: '14.9%' }
-                ].map((s,i) => (
-                  <div key={i} className="flex justify-between items-center text-[11px]">
-                    <span className="flex items-center gap-2">
-                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: liveMapData[s.n].color }}></div>
-                       <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.n}</span>
-                    </span>
-                    <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{liveMapData[s.n].users.toLocaleString('tr-TR')} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
-                  </div>
-                ))}
-              </div>
-
-              {expandedCard === 'userdist' && (
-                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Top Şehir</span><span className="text-[12px] font-black text-[#111827]">İstanbul (3,200)</span></div>
-                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Top İlçe</span><span className="text-[12px] font-black text-[#111827]">Kadıköy (820)</span></div>
-                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Büyüme Bölgesi</span><span className="text-[12px] font-black text-green-600">Antalya (+%12)</span></div>
-                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yeni Şehir</span><span className="text-[12px] font-black text-[#007AFF]">Rize (+180)</span></div>
-                  </div>
-                  <button onClick={() => router.push('/dashboard/sysop/user-distribution')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                    HARİTAYI GÖRÜNTÜLE
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* ROW 4: OPERATIONS & SUPPORT (FOUNDER ONLY) */}
           {isFounder && (
