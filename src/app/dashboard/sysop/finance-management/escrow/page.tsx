@@ -22,6 +22,8 @@ export default function EscrowManagement() {
   const [selected, setSelected] = useState<string[]>([]);
   const [modal, setModal] = useState<ModalType>(null);
   const [actionNote, setActionNote] = useState('');
+  const [bulkConfirm, setBulkConfirm] = useState<'release' | 'refund' | null>(null);
+  const [actionDone, setActionDone] = useState<string | null>(null);
 
   const filtered = escrowData.filter(e => {
     if (filter === 'blocked') return e.status === 'Blokeli';
@@ -55,8 +57,8 @@ export default function EscrowManagement() {
               {selected.length > 0 && (
                 <>
                   <span className="text-[11px] font-bold text-gray-500">{selected.length} seçili</span>
-                  <button onClick={() => alert('Seçili emanetler toplu serbest bırakılıyor...')} className="px-4 py-2.5 bg-green-600 text-white rounded-xl text-[12px] font-bold hover:bg-green-700 transition-colors">Toplu Serbest Bırak</button>
-                  <button onClick={() => alert('Seçili emanetler toplu iade ediliyor...')} className="px-4 py-2.5 bg-red-500 text-white rounded-xl text-[12px] font-bold hover:bg-red-600 transition-colors">Toplu İade Et</button>
+                  <button onClick={() => setBulkConfirm('release')} className="px-4 py-2.5 bg-green-600 text-white rounded-xl text-[12px] font-bold hover:bg-green-700 transition-colors">Toplu Serbest Bırak</button>
+                  <button onClick={() => setBulkConfirm('refund')} className="px-4 py-2.5 bg-red-500 text-white rounded-xl text-[12px] font-bold hover:bg-red-600 transition-colors">Toplu İade Et</button>
                 </>
               )}
             </div>
@@ -192,6 +194,22 @@ export default function EscrowManagement() {
           </div>
         </div>
       )}
+      {/* Bulk Confirm Modal */}
+      {bulkConfirm && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setBulkConfirm(null)}>
+          <div className="w-full max-w-md bg-white rounded-[24px] p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
+            <h3 className="text-[18px] font-black text-[#111827] mb-2">{bulkConfirm === 'release' ? '💰 Toplu Serbest Bırakma' : '↩️ Toplu İade'}</h3>
+            <p className="text-[13px] text-gray-500 mb-5">{selected.length} emanet {bulkConfirm === 'release' ? 'serbest bırakılacak ve satıcı cüzdanlarına aktarılacak' : 'alıcılara iade edilecek'}. Onaylıyor musunuz?</p>
+            <div className="flex gap-3">
+              <button onClick={() => setBulkConfirm(null)} className="flex-1 py-3 rounded-xl bg-gray-100 text-gray-800 font-bold text-[13px]">İptal</button>
+              <button onClick={() => { setBulkConfirm(null); setSelected([]); setActionDone(`${selected.length} emanet ${bulkConfirm === 'release' ? 'serbest bırakıldı' : 'iade edildi'}.`); setTimeout(() => setActionDone(null), 2500); }} className={`flex-1 py-3 rounded-xl text-white font-bold text-[13px] ${bulkConfirm === 'release' ? 'bg-green-600' : 'bg-red-500'}`}>Onayla</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast */}
+      {actionDone && <div className="fixed top-4 right-4 z-[1000] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
     </LayoutWrapper>
   );
 }
