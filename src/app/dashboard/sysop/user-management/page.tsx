@@ -1,107 +1,179 @@
-"use client";
-import React, {useState, useEffect} from "react";
-import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+'use client';
+import React, {useState} from 'react';
+import {useRouter} from 'next/navigation';
+
+type User = { id: number; name: string; email: string; phone: string; role: 'Normal' | 'Satıcı' | 'Kurumsal' | 'Kurucu'; status: 'AKTİF' | 'PASİF' | 'ASKIDA'; joinDate: string; lastLogin: string; orders: number; reviews: number; complaints: number };
+
+const generateUsers = (): User[] => [
+  { id: 1, name: 'Mustafa Şahin', email: 'mustafa@salutbabe.com', phone: '532 *** 01', role: 'Kurucu', status: 'AKTİF', joinDate: '01 Oca 2026', lastLogin: 'Bugün 14:30', orders: 0, reviews: 0, complaints: 0 },
+  { id: 2, name: 'Büşra Kaya', email: 'busra@example.com', phone: '545 *** 32', role: 'Satıcı', status: 'AKTİF', joinDate: '15 Oca 2026', lastLogin: 'Bugün 11:45', orders: 42, reviews: 18, complaints: 1 },
+  { id: 3, name: 'Ahmet Yılmaz', email: 'ahmet.y@example.com', phone: '555 *** 18', role: 'Normal', status: 'AKTİF', joinDate: '22 Şub 2026', lastLogin: 'Dün 19:20', orders: 12, reviews: 5, complaints: 0 },
+  { id: 4, name: 'Cansu Demir', email: 'cansu.d@example.com', phone: '542 *** 44', role: 'Normal', status: 'PASİF', joinDate: '10 Mar 2026', lastLogin: '5 gün önce', orders: 3, reviews: 1, complaints: 0 },
+  { id: 5, name: 'Elif Arslan', email: 'elif.a@example.com', phone: '533 *** 77', role: 'Satıcı', status: 'ASKIDA', joinDate: '28 Mar 2026', lastLogin: '12 Mayıs', orders: 8, reviews: 3, complaints: 4 },
+  { id: 6, name: 'Zeynep Çelik', email: 'zeynep.c@example.com', phone: '541 *** 90', role: 'Satıcı', status: 'AKTİF', joinDate: '05 Nis 2026', lastLogin: 'Bugün 08:12', orders: 156, reviews: 42, complaints: 0 },
+  { id: 7, name: 'Ali Öztürk', email: 'ali.o@example.com', phone: '537 *** 55', role: 'Normal', status: 'AKTİF', joinDate: '12 Nis 2026', lastLogin: 'Dün 22:10', orders: 7, reviews: 2, complaints: 0 },
+  { id: 8, name: 'Fatma Yıldız', email: 'fatma.y@example.com', phone: '546 *** 88', role: 'Normal', status: 'AKTİF', joinDate: '20 Nis 2026', lastLogin: 'Bugün 16:55', orders: 25, reviews: 11, complaints: 1 },
+  { id: 9, name: 'Mehmet Kara', email: 'mehmet.k@example.com', phone: '544 *** 66', role: 'Kurumsal', status: 'AKTİF', joinDate: '01 May 2026', lastLogin: 'Bugün 09:00', orders: 310, reviews: 0, complaints: 0 },
+  { id: 10, name: 'Selin Taş', email: 'selin.t@example.com', phone: '539 *** 21', role: 'Normal', status: 'PASİF', joinDate: '08 May 2026', lastLogin: '2 gün önce', orders: 1, reviews: 0, complaints: 0 },
+];
 
 export default function UserManagementPage() {
-  const { theme } = useThemeLanguage();
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-  const isDark = theme === 'dark';
+  const router = useRouter();
+  const [users, setUsers] = useState<User[]>(generateUsers);
+  const [filter, setFilter] = useState<'all' | 'AKTİF' | 'PASİF' | 'ASKIDA' | 'Satıcı'>('all');
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState<number[]>([]);
+  const [modal, setModal] = useState<User | null>(null);
+  const [kvkkModal, setKvkkModal] = useState(false);
+  const [actionDone, setActionDone] = useState<string | null>(null);
 
-  useEffect(() => { setTimeout(() => setLoading(false), 500); }, []);
-  const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
+  const filtered = users
+    .filter(u => {
+      if (filter === 'AKTİF') return u.status === 'AKTİF';
+      if (filter === 'PASİF') return u.status === 'PASİF';
+      if (filter === 'ASKIDA') return u.status === 'ASKIDA';
+      if (filter === 'Satıcı') return u.role === 'Satıcı' || u.role === 'Kurumsal';
+      return true;
+    })
+    .filter(u => u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase()));
 
-  const mockUsers = [1, 2, 3, 4, 5].map(i => ({
-    id: i,
-    name: `Kullanıcı ${i}`,
-    email: `user${i}@example.com`,
-    role: i === 1 ? 'Kurucu' : 'Normal Üye',
-    status: i === 3 ? 'PASİF' : 'AKTİF'
-  }));
+  const toggleSelect = (id: number) => setSelected(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
+  const toggleAll = () => setSelected(selected.length === filtered.length ? [] : filtered.map(u => u.id));
 
-  const filteredUsers = mockUsers.filter(u => 
-    u.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    u.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const updateStatus = (id: number, status: User['status'], msg: string) => {
+    setUsers(p => p.map(u => u.id === id ? { ...u, status } : u));
+    setActionDone(msg);
+    setTimeout(() => setActionDone(null), 2500);
+    setModal(null);
+  };
+
+  const updateRole = (id: number, role: User['role']) => {
+    setUsers(p => p.map(u => u.id === id ? { ...u, role } : u));
+    setActionDone(`Kullanıcı rolü "${role}" olarak güncellendi.`);
+    setTimeout(() => setActionDone(null), 2500);
+  };
+
+  const bulkSuspend = () => {
+    setUsers(p => p.map(u => selected.includes(u.id) ? { ...u, status: 'ASKIDA' as const } : u));
+    setActionDone(`${selected.length} kullanıcı askıya alındı.`);
+    setSelected([]);
+    setTimeout(() => setActionDone(null), 2500);
+  };
+
+  const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
+  const kpis = [
+    { label: 'Aktif', value: users.filter(u => u.status === 'AKTİF').length, icon: '✅', color: 'text-green-600' },
+    { label: 'Askıda', value: users.filter(u => u.status === 'ASKIDA').length, icon: '⏸️', color: 'text-orange-500' },
+    { label: 'Satıcı', value: users.filter(u => u.role === 'Satıcı' || u.role === 'Kurumsal').length, icon: '🏪', color: 'text-blue-600' },
+    { label: 'Pasif', value: users.filter(u => u.status === 'PASİF').length, icon: '💤', color: 'text-gray-500' },
+  ];
+
   return (
-    <div className="space-y-4 md:space-y-6 animate-fade-in w-full max-w-[1400px] mx-auto pb-12 overflow-x-hidden md:overflow-visible px-0 relative">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-         <div>
-           <h1 className={`text-2xl font-black tracking-tight ${isDark ? 'text-white' : 'text-[#1A1D1F]'}`}>Kullanıcı Yönetimi</h1>
-           <p className={`text-[13px] font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Platform üyelerini, askıya alma ve KVKK silme taleplerini yönetin.</p>
-         </div>
-         <div className="flex gap-2">
-             <div className={`relative flex items-center w-full md:w-64 h-10 rounded-xl border focus-within:border-primary/50 transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
-                <input 
-                  type="text" 
-                  placeholder="E-posta veya isim ara..." 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-full bg-transparent border-none outline-none px-4 text-[12px] text-inherit placeholder:text-gray-400" 
-                />
-             </div>
-         </div>
+    <div className="min-h-screen bg-[#F8F9FA] font-sans">
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
+        <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
+          <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"><svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
+          <div className="flex-1"><h1 className="text-[18px] font-black text-[#111827]">Kullanıcı Yönetimi</h1><p className="text-[11px] font-medium text-gray-400">Platform üyeleri, roller & KVKK yönetimi</p></div>
+          <button onClick={() => setKvkkModal(true)} className="px-3 py-2 rounded-xl bg-red-50 text-red-600 text-[10px] font-bold border border-red-100 hover:bg-red-100 transition-colors">🗑️ KVKK Silme</button>
+        </div>
       </div>
-
-      <div className={`${cardClass} overflow-hidden w-full max-w-full`}>
-        <div className="overflow-x-auto w-full no-scrollbar">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className={isDark ? 'bg-[#1A1D1F]' : 'bg-gray-50/80'}>
-                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Kullanıcı</th>
-                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest">Rol / Katılım</th>
-                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-center md:text-left">Durum</th>
-                <th className="px-4 md:px-6 py-4 md:py-5 text-[10px] font-black text-gray-500 uppercase tracking-widest text-right">İşlem</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-white/5">
-              {loading ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Yükleniyor...</td></tr> : 
-               filteredUsers.length === 0 ? <tr><td colSpan={4} className="p-8 text-center text-[12px] text-gray-500">Sonuç bulunamadı.</td></tr> : (
-                filteredUsers.map(user => (
-                  <tr key={user.id} className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-gray-50/50'}`}>
-                    <td className="px-4 md:px-6 py-4">
-                      <div className="flex flex-col">
-                        <span className={`text-[12px] md:text-[13px] font-bold truncate max-w-[100px] md:max-w-none ${isDark ? 'text-white' : 'text-gray-900'}`}>{user.name}</span>
-                        <span className={`text-[10px] md:text-[11px] mt-0.5 truncate max-w-[100px] md:max-w-none ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{user.email}</span>
-                      </div>
-                    </td>
-                    <td className="hidden md:table-cell px-6 py-5"><span className={`text-[14px] font-bold ${isDark ? 'text-gray-300' : 'text-[#4B5563]'}`}>{user.role}</span></td>
-                    <td className="px-4 md:px-6 py-4 text-center md:text-left">
-                      <span className={`px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[9px] md:text-[11px] font-black uppercase tracking-wider ${user.status === 'AKTİF' ? (isDark ? 'bg-green-500/10 text-green-500' : 'bg-[#E8F8F0] text-[#00C48C]') : (isDark ? 'bg-red-500/10 text-red-500' : 'bg-red-50 text-red-600')}`}>
-                        {user.status}
-                      </span>
-                    </td>
-                    <td className="px-4 md:px-6 py-4 text-right">
-                      <button onClick={(e) => { e.stopPropagation(); setSelectedUserId(user.id); }} className={`px-3 py-1.5 md:px-5 md:py-2 rounded-xl text-[10px] md:text-[12px] font-bold uppercase tracking-wider border-2 transition-colors ${isDark ? 'bg-[#1A1D1F] border-blue-500 text-white hover:bg-blue-500/10' : 'bg-[#F3F4F6] border-[#0066FF] text-[#111827] hover:bg-gray-200'}`}>DETAY</button>
-                    </td>
+      <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
+        {/* KPIs */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><span className="text-[20px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className={`text-[22px] font-black ${k.color}`}>{k.value}</p></div>))}
+        </div>
+        {/* Search */}
+        <div className={`${cardClass} p-3 flex items-center gap-3`}>
+          <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="İsim veya e-posta ara..." className="flex-1 bg-transparent outline-none text-[13px] font-medium text-gray-900 placeholder:text-gray-400" />
+        </div>
+        {/* Filters */}
+        <div className={`${cardClass} p-2 flex gap-1 overflow-x-auto no-scrollbar`}>
+          {([['all', 'Tümü'], ['AKTİF', '✅ Aktif'], ['ASKIDA', '⏸️ Askıda'], ['PASİF', '💤 Pasif'], ['Satıcı', '🏪 Satıcılar']] as const).map(([id, label]) => (
+            <button key={id} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-none px-3 py-2 rounded-lg text-[11px] font-bold transition-all whitespace-nowrap ${filter === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
+          ))}
+        </div>
+        {/* Bulk */}
+        {selected.length > 0 && (
+          <div className="flex items-center gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
+            <span className="text-[12px] font-bold text-blue-700">{selected.length} kullanıcı seçili</span>
+            <div className="flex gap-2 ml-auto">
+              <button onClick={bulkSuspend} className="px-3 py-1.5 bg-orange-500 text-white rounded-lg text-[10px] font-bold">Toplu Askıya Al</button>
+            </div>
+          </div>
+        )}
+        <div className="flex items-center gap-3 px-4">
+          <input type="checkbox" checked={selected.length === filtered.length && filtered.length > 0} onChange={toggleAll} className="w-4 h-4 rounded border-gray-300 accent-[#111827]" />
+          <span className="text-[11px] font-bold text-gray-400">Tümünü Seç ({filtered.length})</span>
+        </div>
+        {/* Table */}
+        <div className={`${cardClass} overflow-hidden`}>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead><tr className="border-b border-gray-100 bg-gray-50/80">
+                <th className="pl-4 py-4 w-10"><input type="checkbox" checked={selected.length === filtered.length && filtered.length > 0} onChange={toggleAll} className="w-4 h-4 rounded border-gray-300 accent-[#111827]" /></th>
+                {['Kullanıcı', 'Rol', 'Durum', 'Siparişler', 'Son Giriş', 'İşlem'].map(h => (<th key={h} className="px-4 py-4 text-[10px] font-black text-gray-500 uppercase tracking-wider">{h}</th>))}
+              </tr></thead>
+              <tbody className="divide-y divide-gray-50">
+                {filtered.map(u => (
+                  <tr key={u.id} className={`transition-colors ${selected.includes(u.id) ? 'bg-blue-50/50' : 'hover:bg-gray-50/50'}`}>
+                    <td className="pl-4 py-3"><input type="checkbox" checked={selected.includes(u.id)} onChange={() => toggleSelect(u.id)} className="w-4 h-4 rounded border-gray-300 accent-[#111827]" /></td>
+                    <td className="px-4 py-3"><p className="text-[12px] font-bold text-gray-900">{u.name}</p><p className="text-[10px] text-gray-400">{u.email}</p></td>
+                    <td className="px-4 py-3"><span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${u.role === 'Kurucu' ? 'bg-purple-50 text-purple-600' : u.role === 'Satıcı' ? 'bg-blue-50 text-blue-600' : u.role === 'Kurumsal' ? 'bg-indigo-50 text-indigo-600' : 'bg-gray-50 text-gray-600'}`}>{u.role}</span></td>
+                    <td className="px-4 py-3"><span className={`text-[10px] font-black px-2 py-1 rounded-lg uppercase ${u.status === 'AKTİF' ? 'bg-green-50 text-green-600' : u.status === 'ASKIDA' ? 'bg-orange-50 text-orange-600' : 'bg-gray-100 text-gray-500'}`}>{u.status}</span></td>
+                    <td className="px-4 py-3 text-[11px] font-bold text-gray-600">{u.orders}</td>
+                    <td className="px-4 py-3 text-[11px] font-medium text-gray-500">{u.lastLogin}</td>
+                    <td className="px-4 py-3"><button onClick={() => setModal(u)} className="text-[10px] font-black px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">DETAY</button></td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      {/* Mock Modal for User Details */}
-      {selectedUserId !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className={`w-full max-w-lg p-6 rounded-2xl shadow-2xl relative ${isDark ? 'bg-[#1A1D1F] border border-white/10' : 'bg-white border border-gray-200'}`}>
-            <button onClick={() => setSelectedUserId(null)} className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-            <h3 className={`text-xl font-black mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Kullanıcı {selectedUserId} Detayları</h3>
-            <div className={`p-4 rounded-xl mb-4 ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
-              <p className={`text-[12px] font-bold mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>KULLANICI BİLGİLERİ</p>
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between"><span className={isDark ? 'text-gray-300' : 'text-gray-600'}>E-posta:</span><span className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>user{selectedUserId}@example.com</span></div>
-                <div className="flex justify-between"><span className={isDark ? 'text-gray-300' : 'text-gray-600'}>Kayıt Tarihi:</span><span className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>12 Mayıs 2026</span></div>
-                <div className="flex justify-between"><span className={isDark ? 'text-gray-300' : 'text-gray-600'}>Son Giriş:</span><span className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>Bugün 14:30</span></div>
+      {/* User Detail Modal */}
+      {modal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setModal(null)}>
+          <div onClick={e => e.stopPropagation()} className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+              <h3 className="text-[16px] font-black text-gray-900">{modal.name}</h3>
+              <button onClick={() => setModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            </div>
+            <div className="p-6 space-y-3">
+              {[['E-posta', modal.email], ['Telefon', modal.phone], ['Kayıt Tarihi', modal.joinDate], ['Son Giriş', modal.lastLogin], ['Siparişler', String(modal.orders)], ['Yorumlar', String(modal.reviews)], ['Şikayetler', String(modal.complaints)]].map(([l, v], i) => (
+                <div key={i} className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">{l}</span><span className="text-[12px] font-black text-gray-900">{v}</span></div>
+              ))}
+              <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+                <span className="text-[11px] font-bold text-gray-500">Rol</span>
+                <select value={modal.role} onChange={e => { updateRole(modal.id, e.target.value as User['role']); setModal({ ...modal, role: e.target.value as User['role'] }); }} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[12px] font-bold text-[#111827] focus:outline-none">
+                  <option>Normal</option><option>Satıcı</option><option>Kurumsal</option><option>Kurucu</option>
+                </select>
               </div>
             </div>
-            <div className="flex gap-3 mt-6">
-              <button onClick={() => setSelectedUserId(null)} className={`flex-1 py-3 rounded-xl font-bold transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>Kapat</button>
-              <button onClick={() => { alert('Askıya alma işlemi backend\'e iletilecek.'); setSelectedUserId(null); }} className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors">Hesabı Askıya Al</button>
+            <div className="px-6 py-4 border-t border-gray-100 flex flex-wrap gap-2">
+              <button onClick={() => setModal(null)} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-gray-800 font-bold text-[12px]">Kapat</button>
+              {modal.status !== 'ASKIDA' && <button onClick={() => updateStatus(modal.id, 'ASKIDA', `${modal.name} askıya alındı.`)} className="flex-1 py-2.5 rounded-xl bg-orange-500 text-white font-bold text-[12px]">Askıya Al</button>}
+              {modal.status === 'ASKIDA' && <button onClick={() => updateStatus(modal.id, 'AKTİF', `${modal.name} aktifleştirildi.`)} className="flex-1 py-2.5 rounded-xl bg-green-600 text-white font-bold text-[12px]">Aktifleştir</button>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* KVKK Modal */}
+      {kvkkModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setKvkkModal(false)}>
+          <div onClick={e => e.stopPropagation()} className="w-full max-w-md p-6 rounded-2xl shadow-2xl bg-white text-center">
+            <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            </div>
+            <h3 className="text-[18px] font-black text-gray-900 mb-2">KVKK Veri Silme Talebi</h3>
+            <p className="text-[13px] text-gray-500 mb-4">6698 sayılı KVKK kapsamında kullanıcı verilerini kalıcı olarak silmek için ilgili kullanıcının e-posta adresini girin.</p>
+            <input type="email" placeholder="kullanici@email.com" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] font-bold text-gray-900 focus:outline-none focus:border-red-500 mb-4" />
+            <div className="flex gap-3">
+              <button onClick={() => setKvkkModal(false)} className="flex-1 py-3 rounded-xl bg-gray-100 text-gray-800 font-bold text-[13px]">İptal</button>
+              <button onClick={() => { setKvkkModal(false); setActionDone('KVKK silme talebi işleme alındı.'); setTimeout(() => setActionDone(null), 2500); }} className="flex-1 py-3 rounded-xl bg-red-500 text-white font-bold text-[13px]">Kalıcı Sil</button>
             </div>
           </div>
         </div>
