@@ -1,11 +1,11 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import { FinanceView } from './finance-management/page';
+import {FinanceView} from './finance-management/page';
 
 export default function SysopDashboard() {
   const router = useRouter();
-  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance' | 'ibrahim'>('founder');
+  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
 
   // Filter States
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -83,7 +83,6 @@ export default function SysopDashboard() {
          <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Kurucu</button>
          <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Operasyon</button>
          <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'finance' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>Finans</button>
-         <button onClick={() => setUserRole('ibrahim')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'ibrahim' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>İbrahim</button>
       </div>
 
       {userRole === 'founder' ? (
@@ -1814,92 +1813,6 @@ export default function SysopDashboard() {
         </div>
       ) : userRole === 'finance' ? (
         <FinanceView />
-      ) : userRole === 'ibrahim' ? (
-        // ==========================================
-        // İBRAHİM DASHBOARD - BÜYÜME & KAMPANYA YÖNETİMİ
-        // ==========================================
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm relative overflow-hidden">
-              <h3 className="text-[11px] font-bold text-gray-500 mb-1">AKTİF KAMPANYALAR</h3>
-              <h2 className="text-[24px] font-black text-[#111827] tracking-tight">4</h2>
-              <p className="text-[10px] font-bold text-green-600 mt-1">Bütçe Tüketimi: %42</p>
-            </div>
-            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm relative overflow-hidden">
-              <h3 className="text-[11px] font-bold text-gray-500 mb-1">KUPON MÜALİYETİ (BU AY)</h3>
-              <h2 className="text-[24px] font-black text-red-500 tracking-tight">₺12,450</h2>
-              <p className="text-[10px] font-bold text-gray-400 mt-1">Platform komisyonundan eksilen</p>
-            </div>
-            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm relative overflow-hidden">
-              <h3 className="text-[11px] font-bold text-gray-500 mb-1">YENİ KULLANICI (CAC)</h3>
-              <h2 className="text-[24px] font-black text-[#111827] tracking-tight">₺45.20</h2>
-              <p className="text-[10px] font-bold text-gray-400 mt-1">Müşteri edinme maliyeti</p>
-            </div>
-            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm relative overflow-hidden">
-              <h3 className="text-[11px] font-bold text-gray-500 mb-1">DÖNÜŞÜM ORANI (CVR)</h3>
-              <h2 className="text-[24px] font-black text-green-600 tracking-tight">%4.8</h2>
-              <p className="text-[10px] font-bold text-gray-400 mt-1">Önceki aya göre <span className="text-green-500">+0.4%</span></p>
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-[13px] font-black text-gray-900">Aktif Promosyon ve Kuponlar</h3>
-              <button className="px-3 py-1.5 bg-[#111827] text-white text-[11px] font-bold rounded-lg hover:bg-black transition-colors">
-                Yeni Kupon Oluştur
-              </button>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-gray-100">
-                    <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase">Kupon Kodu</th>
-                    <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase">İndirim Oranı</th>
-                    <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase">Kullanım</th>
-                    <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase">Yaratılan Hacim (GMV)</th>
-                    <th className="px-6 py-4 text-[11px] font-black text-gray-500 uppercase text-right">Durum</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  <tr className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="text-[13px] font-black text-gray-900">ILKBAHAR20</div>
-                      <div className="text-[10px] font-bold text-gray-400 mt-0.5">Sadece yeni üyeler</div>
-                    </td>
-                    <td className="px-6 py-4 text-[13px] font-bold text-gray-700">%20 (Max 150 TL)</td>
-                    <td className="px-6 py-4">
-                      <div className="text-[13px] font-black text-gray-900">1,245 / 5,000</div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                        <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '25%' }}></div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-[13px] font-black text-green-600">₺248,500</td>
-                    <td className="px-6 py-4 text-right">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-black bg-green-100 text-green-700">AKTİF</span>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="text-[13px] font-black text-gray-900">KARGO50</div>
-                      <div className="text-[10px] font-bold text-gray-400 mt-0.5">500 TL üzeri alışveriş</div>
-                    </td>
-                    <td className="px-6 py-4 text-[13px] font-bold text-gray-700">50 TL Sabit İndirim</td>
-                    <td className="px-6 py-4">
-                      <div className="text-[13px] font-black text-gray-900">842 / 1,000</div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                        <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: '84%' }}></div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-[13px] font-black text-green-600">₺542,100</td>
-                    <td className="px-6 py-4 text-right">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-black bg-orange-100 text-orange-700">BİTMEK ÜZERE</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       ) : null}
 
 
