@@ -699,7 +699,7 @@ export default function SysopDashboard() {
               <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
-                  ORTALAMA SATIŞLAR
+                  AVERAGE SALES
                 </h3>
                 
                 <div className="flex flex-wrap items-center gap-2 relative">
@@ -897,7 +897,7 @@ export default function SysopDashboard() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  SON AKTİVİTELER
+                  RECENT ACTIVITY
                 </h3>
                 <div className="flex items-center gap-2">
                   <div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100 border-gray-200'}`}>
@@ -1005,7 +1005,7 @@ export default function SysopDashboard() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                  TOP ÜRÜNLER & BÖLGE
+                  TOP 3 PRODUCT
                 </h3>
                 <div className="flex items-center gap-2 relative">
                   {isFounder && (
@@ -1108,7 +1108,7 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                  TOPLAM ZİYARETÇİ
+                  TOTAL VISITOR
                 </h3>
                 <div className="flex items-center gap-2 relative">
                   <div className="relative">
