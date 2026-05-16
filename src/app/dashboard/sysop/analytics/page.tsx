@@ -22,7 +22,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="flex gap-2">
             {['Bugün', '7 Gün', '30 Gün'].map(t => (
-               <button key={t} onClick={() => setTimeRange(t)} className={`px-3 py-1.5 text-[10px] transition-all ${timeRange === t ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>
+               <button key={t} onClick={() => setTimeRange(t)} className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${timeRange === t ? 'bg-[#111827] text-white shadow-sm' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}>
                  {t}
                </button>
             ))}

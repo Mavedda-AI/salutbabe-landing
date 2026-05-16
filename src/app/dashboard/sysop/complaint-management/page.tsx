@@ -72,7 +72,7 @@ export default function ComplaintManagementPage() {
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
           {[{id:'open',label:'🔴 Açık Talepler'},{id:'resolved',label:'✅ Çözülenler'},{id:'stats',label:'📊 İstatistik'}].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 text-[11px] transition-all ${activeTab === tab.id ? 'text-[#111827] font-black' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>
+            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
               {tab.label}
             </button>
           ))}
