@@ -1,10 +1,11 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
+import { FinanceView } from './finance-management/page';
 
 export default function SysopDashboard() {
   const router = useRouter();
-  const [userRole, setUserRole] = useState<'founder' | 'partner'>('founder');
+  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
 
   // Filter States
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -81,6 +82,7 @@ export default function SysopDashboard() {
          <span className={`text-[11px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
          <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Kurucu</button>
          <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Operasyon</button>
+         <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'finance' ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>Finans</button>
       </div>
 
       {userRole === 'founder' ? (
@@ -1314,7 +1316,7 @@ export default function SysopDashboard() {
           )}
 
         </div>
-      ) : (
+      ) : userRole === 'partner' ? (
         // ==========================================
         // PARTNER L0 DASHBOARD (AYŞE) - NEXADASH CLONE
         // ==========================================
@@ -1809,7 +1811,9 @@ export default function SysopDashboard() {
 
           </div>
         </div>
-      )}
+      ) : userRole === 'finance' ? (
+        <FinanceView />
+      ) : null}
 
 
     </div>
