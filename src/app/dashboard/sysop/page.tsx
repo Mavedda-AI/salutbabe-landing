@@ -1831,7 +1831,7 @@ export default function SysopDashboard() {
                             <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Küfürlü iletişim <span className="text-red-500 ml-1">3 ihbar</span></p>
                          </div>
                       </div>
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors shadow-sm">Askıya Al</button>
+                      <button onClick={(e) => { e.stopPropagation(); setOpConfirm({ type: "suspend", title: "Mağaza Askıya Alınacak", desc: "Çocuk Mağazası küfürlü iletişim nedeniyle askıya alınacak. Onaylıyor musunuz?" }); }} className="bg-orange-500 hover:bg-orange-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors shadow-sm">Askıya Al</button>
                    </div>
                 </div>
               </div>
