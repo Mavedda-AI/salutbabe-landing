@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 
 export function FinanceView() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'payouts' | 'invoices' | 'failed'>('payouts');
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [warnModal, setWarnModal] = useState(false);
+  const [actionDone, setActionDone] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -32,7 +34,7 @@ export function FinanceView() {
             </p>
           </div>
         </div>
-        <button className="whitespace-nowrap px-4 py-2 bg-[#111827] hover:bg-black text-white text-[11px] font-bold tracking-wide rounded-xl transition-colors">
+        <button onClick={() => setWarnModal(true)} className="whitespace-nowrap px-4 py-2 bg-[#111827] hover:bg-black text-white text-[11px] font-bold tracking-wide rounded-xl transition-colors">
           LİSTEYİ GÖR & UYAR
         </button>
       </div>
@@ -160,11 +162,11 @@ export default function FinanceManagement() {
             </div>
             
             <div className="flex items-center gap-3">
-               <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
+               <button onClick={() => { setActionDone('EFT dosyası hazırlanıyor...'); setTimeout(() => setActionDone(null), 2500); }} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                  EFT Dosyası İndir
                </button>
-               <button className="flex items-center gap-2 px-4 py-2 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-colors shadow-lg shadow-gray-900/20">
+               <button onClick={() => router.push('/dashboard/sysop/finance-management/payouts')} className="flex items-center gap-2 px-4 py-2 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-colors shadow-lg shadow-gray-900/20">
                  Toplu Ödeme Yap
                </button>
             </div>
