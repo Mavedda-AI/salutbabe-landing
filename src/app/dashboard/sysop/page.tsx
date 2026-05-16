@@ -2,7 +2,8 @@
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
-
+export default function SysopDashboard() {
+  const router = useRouter();
   const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
   const [opTab, setOpTab] = useState<'general' | 'logistics' | 'moderation' | 'growth'>('general');
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
