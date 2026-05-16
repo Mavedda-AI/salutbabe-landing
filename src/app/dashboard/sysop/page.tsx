@@ -90,43 +90,43 @@ export default function SysopDashboard() {
         <div className="space-y-6">
 
           {/* 11. GLOBAL ALERT SYSTEM */}
-          <div className="flex flex-col gap-3 mb-6">
+          <div className="flex flex-col gap-2 mb-6">
             {alerts.map((alert, i) => {
                return (
                  <div key={i} className="flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-300">
-                   <div className="flex items-center justify-between p-3">
+                   <div className="flex items-center justify-between px-3 py-2">
                      <div className="flex items-center gap-3">
                        <div className="flex items-center justify-center shrink-0">
                          {alert.type === 'CRITICAL' && (
-                            <svg className="w-[22px] h-[22px] text-[#EF4444]" viewBox="0 0 24 24" fill="currentColor">
+                            <svg className="w-[18px] h-[18px] text-[#EF4444]" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
                             </svg>
                          )}
                          {alert.type === 'WARNING' && (
-                            <svg className="w-[22px] h-[22px] text-[#F97316]" viewBox="0 0 24 24" fill="currentColor">
+                            <svg className="w-[18px] h-[18px] text-[#F97316]" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
                             </svg>
                          )}
                          {alert.type === 'INFO' && (
-                            <div className="w-[22px] h-[22px] rounded-full bg-[#10B981] flex items-center justify-center">
-                              <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3.5">
+                            <div className="w-[18px] h-[18px] rounded-full bg-[#10B981] flex items-center justify-center">
+                              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3.5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
                          )}
                        </div>
                        <div className="flex items-center gap-2">
-                         <span className="text-[14px] md:text-[15px] font-medium text-[#111827] tracking-tight">{alert.text}</span>
+                         <span className="text-[13px] md:text-[14px] font-medium text-[#111827] tracking-tight">{alert.text}</span>
                          {alert.badge && (
-                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1.5 py-0.5 rounded-md text-[11px] font-bold">
-                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                           <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1.5 py-0.5 rounded-md text-[10px] font-bold">
+                             <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
                              {alert.badge}
                            </span>
                          )}
                        </div>
                      </div>
                      
-                     <button onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="px-3.5 py-1.5 bg-white border border-gray-200 rounded-lg text-[13px] font-medium text-gray-800 hover:bg-gray-50 transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] shrink-0 ml-4">
+                     <button onClick={() => setSelectedAlert(selectedAlert?.type === alert.type ? null : alert)} className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[12px] font-medium text-gray-800 hover:bg-gray-50 transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] shrink-0 ml-4">
                        {selectedAlert?.type === alert.type ? 'Kapat' : 'Detay'}
                      </button>
                    </div>
