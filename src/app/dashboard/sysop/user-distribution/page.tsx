@@ -246,38 +246,49 @@ export default function UserDistributionPage() {
             </button>
           </div>
 
-          {/* Right Floating Card */}
-          <div className="absolute right-6 top-1/2 -translate-y-1/2 w-[320px] bg-[#1E1E1E] rounded-[32px] shadow-[0_24px_48px_rgba(0,0,0,0.3)] p-6 z-20">
-             <div className="flex items-center justify-between mb-8">
+          {/* Right Floating Card (Matched donors style) */}
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 w-[340px] bg-[#2A2A2A] rounded-[24px] shadow-[0_24px_48px_rgba(0,0,0,0.4)] pt-5 pb-3 px-3 z-20 font-sans border border-white/5">
+             <div className="flex items-start justify-between mb-4 px-3">
                <div>
-                 <h3 className="text-white text-[18px] font-bold mb-1">Top Bölgelar</h3>
+                 <h3 className="text-white text-[16px] font-semibold tracking-wide mb-1">Top Bölgeler</h3>
                  <div className="flex items-center gap-2">
-                   <div className="w-4 h-4 rounded bg-[#3B82F6] flex items-center justify-center">
-                     <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                   {/* Placeholder for EU flag, using a blue square as in the screenshot */}
+                   <div className="w-4 h-3 bg-blue-700 rounded-[2px] flex items-center justify-center relative overflow-hidden">
+                     <div className="absolute inset-0 flex items-center justify-center">
+                        <svg className="w-2.5 h-2.5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.8-6.3 4.8 2.3-7.4-6-4.6h7.6z"/></svg>
+                     </div>
                    </div>
-                   <span className="text-gray-400 text-[13px] font-medium tracking-wide">En yüksek eşleşme</span>
+                   <span className="text-[#9CA3AF] text-[13px] font-medium">Türkiye Geneli</span>
                  </div>
                </div>
-               <button className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center text-white hover:scale-105 transition-transform shadow-lg">
-                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+               <button className="w-8 h-8 rounded-full bg-[#10B981] flex items-center justify-center text-white hover:bg-[#059669] transition-colors shadow-lg group">
+                 <svg className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
                </button>
              </div>
 
-             <div className="space-y-4">
-                {[...items].sort((a, b) => b.users - a.users).slice(0, 4).map((item, idx) => (
+             <div className="space-y-1">
+                {[...items].sort((a, b) => b.users - a.users).slice(0, 5).map((item, idx) => (
                   <div key={item.name} onClick={() => item.onClick(item.name)} onMouseEnter={() => setHoveredItem(item.name)} onMouseLeave={() => setHoveredItem(null)}
-                    className="flex items-center gap-4 cursor-pointer transition-colors group">
-                    <div className="relative">
-                      <div className="w-12 h-12 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center border border-[#1E1E1E]">
-                         <img src={`https://i.pravatar.cc/150?u=${item.name}1`} alt="" className="w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform" />
+                    className="flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors group hover:bg-[#3A3A3A]">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="w-10 h-10 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center">
+                           <img src={`https://i.pravatar.cc/150?u=${item.name.replace(/\s+/g, '')}1`} alt="" className="w-full h-full object-cover" />
+                        </div>
+                        {/* Status dot with border matching parent bg */}
+                        <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#2A2A2A] group-hover:border-[#3A3A3A] transition-colors ${idx % 3 === 0 ? 'bg-red-500' : 'bg-[#10B981]'}`}></div>
                       </div>
-                      <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#1E1E1E] ${idx === 0 ? 'bg-red-500' : 'bg-[#10B981]'}`}></div>
+                      <div className="flex flex-col">
+                        <span className="text-white text-[14px] font-medium tracking-wide">{item.name}</span>
+                        <span className="text-[#9CA3AF] text-[12px]">{item.users.toLocaleString('tr-TR')} kullanıcı</span>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white text-[15px] font-bold truncate tracking-wide">{item.name}</p>
-                      <p className="text-gray-400 text-[12px]">{item.users.toLocaleString('tr-TR')} kul.</p>
+                    <div className="flex items-center justify-end w-12">
+                       <span className="text-white text-[14px] font-medium group-hover:hidden">{Math.round((item.users / totalUsers) * 100)}%</span>
+                       <button className="w-8 h-8 rounded-full bg-white text-[#222222] items-center justify-center hidden group-hover:flex shadow-sm hover:scale-105 transition-transform">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                       </button>
                     </div>
-                    <span className="text-white text-[17px] font-bold tracking-wide">{Math.round((item.users / totalUsers) * 100)}%</span>
                   </div>
                 ))}
              </div>
