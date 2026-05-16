@@ -38,6 +38,7 @@ export default function SysopDashboard() {
   }, []);
 
   // --- INTELLIGENCE LAYER STATES ---
+  const [showLiquidity, setShowLiquidity] = useState(false);
   const [channelTab, setChannelTab] = useState<'sales' | 'attribution'>('sales');
   const [activityTab, setActivityTab] = useState<'all' | 'realtime'>('all');
 
