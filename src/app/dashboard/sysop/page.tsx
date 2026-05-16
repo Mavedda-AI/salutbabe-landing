@@ -67,12 +67,12 @@ export default function SysopDashboard() {
   const isDark = false; // Forced to false for now as requested
   
   // Nexadash specific design tokens
-  const cardClass = `rounded-[24px] border bg-white border-[#F3F4F6] shadow-[0_4px_24px_rgba(0,0,0,0.04)]`;
-  const textTitle = `text-[10px] md:text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 text-[#6B7280]`;
-  const textValue = `text-[24px] md:text-[32px] font-black tracking-tight text-[#111827]`;
+  const cardClass = `rounded-[16px] border bg-white border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]`;
+  const textTitle = `text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-gray-500`;
+  const textValue = `text-[24px] md:text-[28px] font-black tracking-tight text-[#111827]`;
   const iconRight = `hidden md:block w-4 h-4 text-gray-300 ml-auto transition-colors`;
-  const badgeGreen = `flex items-center gap-1 bg-[#F0FDF4] text-[#16A34A] px-2 py-0.5 rounded text-[11px] font-bold`;
-  const badgeRed = `flex items-center gap-1 bg-[#FEF2F2] text-[#DC2626] px-2 py-0.5 rounded text-[11px] font-bold`;
+  const badgeGreen = `flex items-center gap-1 bg-[#E6F8ED] text-[#16A34A] px-2 py-0.5 rounded text-[10px] font-bold`;
+  const badgeRed = `flex items-center gap-1 bg-[#FEF2F2] text-[#DC2626] px-2 py-0.5 rounded text-[10px] font-bold`;
 
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
@@ -179,22 +179,23 @@ export default function SysopDashboard() {
             })}
           </div>
           
-          {/* ROW 1: 5 STAT CARDS */}
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-6">
+          {/* ROW 1: 4 STAT CARDS */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <div onClick={() => setExpandedCard(expandedCard === 'gmv' ? null : 'gmv')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'gmv' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  TOPLAM GMV
+                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                  TOTAL SALES
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'gmv' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'gmv' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>₺{mounted ? mockData.gmv : '4,240,500'}</h2>
+                <h2 className={textValue}>${mounted ? '1,256.940' : '1,256.940'}</h2>
+                <span className="text-[11px] font-bold text-green-500 whitespace-nowrap">+$456</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className={badgeGreen}>↗ 18%</span>
-                <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
+                <span className={badgeGreen}>↗ 12%</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>vs last month</span>
               </div>
 
               {expandedCard === 'gmv' && (
@@ -239,28 +240,24 @@ export default function SysopDashboard() {
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'orders' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center mb-4">
+                       <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'orders' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                  <span className="truncate">TOPLAM SİPARİŞ</span>
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                  <span className="truncate">TOTAL ORDER</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+              </div>="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline justify-between mb-3">
                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                   <h2 className={textValue}>{mounted ? mockData.orders : '6,432'}</h2>
-                   <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Sipariş</span>
+                   <h2 className={textValue}>{mounted ? '6,432' : '6,432'}</h2>
+                   <span className={`text-[12px] font-bold text-gray-500`}>Orders</span>
                  </div>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>↘ 1.8%</span>
-                <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Ürün satışı</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>Product sales</span>
               </div>
               
               {/* CONVERSION FUNNEL (Collapsible Layer) */}
@@ -295,20 +292,20 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'users' ? null : 'users')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'users' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-start md:items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                  <span className="truncate">TOPLAM KULLANICI</span>
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                  <span className="truncate">TOTAL CUSTOMER</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{mounted ? mockData.users : '173,247'}</h2>
-                <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kişi</span>
+                <h2 className={textValue}>{mounted ? '173,247' : '173,247'}</h2>
+                <span className={`text-[12px] font-bold text-gray-500`}>People</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 1.8%</span>
-                <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Yeni kullanıcı</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>New customer</span>
               </div>
 
               {expandedCard === 'users' && (
@@ -325,19 +322,19 @@ export default function SysopDashboard() {
             </div>
 
             <div onClick={() => setExpandedCard(expandedCard === 'rooms' ? null : 'rooms')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'rooms' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-start md:items-center mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
-                  <span className="truncate">SESLİ ODA ETKİLEŞİMİ</span>
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                  <span className="truncate">INTERACTION</span>
                 </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{mounted ? mockData.rooms : '3,247'}</h2>
+                <h2 className={textValue}>{mounted ? '3,247' : '3,247'}</h2>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>↘ 2.8%</span>
-                <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>vs last month</span>
               </div>
 
               {expandedCard === 'rooms' && (
