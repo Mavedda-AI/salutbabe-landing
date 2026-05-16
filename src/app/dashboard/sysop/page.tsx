@@ -5,7 +5,7 @@ import {FinanceView} from './finance-management/page';
 
 export default function SysopDashboard() {
   const router = useRouter();
-  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
+  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance' | 'logistics' | 'moderation' | 'growth'>('founder');
 
   // Filter States
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -78,11 +78,15 @@ export default function SysopDashboard() {
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
       
       {/* Role Switcher */}
-      <div className="flex items-center justify-end gap-2 mb-4">
-         <span className={`text-[11px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
-         <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Kurucu</button>
-         <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500'}`}>Operasyon</button>
-         <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${userRole === 'finance' ? 'bg-[#111827] text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>Finans</button>
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide hide-scrollbar w-full snap-x">
+         <span className={`text-[11px] font-bold shrink-0 sticky left-0 z-10 pr-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Modüller:</span>
+         <button onClick={() => setUserRole('founder')} className={`shrink-0 snap-start px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>Kurucu</button>
+         <button onClick={() => setUserRole('partner')} className={`shrink-0 snap-start px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>Operasyon</button>
+         <button onClick={() => setUserRole('finance')} className={`shrink-0 snap-start px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${userRole === 'finance' ? 'bg-[#111827] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>Finans</button>
+         <div className="w-px h-4 bg-gray-200 shrink-0 mx-1"></div>
+         <button onClick={() => setUserRole('logistics')} className={`shrink-0 snap-start px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${userRole === 'logistics' ? 'bg-[#111827] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>Kargo & Desi</button>
+         <button onClick={() => setUserRole('moderation')} className={`shrink-0 snap-start px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${userRole === 'moderation' ? 'bg-[#111827] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>Moderasyon</button>
+         <button onClick={() => setUserRole('growth')} className={`shrink-0 snap-start px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${userRole === 'growth' ? 'bg-[#111827] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>Kampanya</button>
       </div>
 
       {userRole === 'founder' ? (
@@ -1813,6 +1817,30 @@ export default function SysopDashboard() {
         </div>
       ) : userRole === 'finance' ? (
         <FinanceView />
+      ) : userRole === 'logistics' ? (
+        <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center animate-fade-in">
+          <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+          </div>
+          <h2 className="text-[20px] font-black text-gray-900 mb-2">Kargo ve Lojistik Yönetimi</h2>
+          <p className="text-gray-500 text-[13px] max-w-md mx-auto">Satıcı beyanı ile kargo şirketi tartımı arasındaki desi uyuşmazlıkları, kayıp kargo itirazları ve Yurtiçi Kargo API durumu burada yönetilir.</p>
+        </div>
+      ) : userRole === 'moderation' ? (
+        <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center animate-fade-in">
+          <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+          </div>
+          <h2 className="text-[20px] font-black text-gray-900 mb-2">İçerik Moderasyonu</h2>
+          <p className="text-gray-500 text-[13px] max-w-md mx-auto">Sahte (replika) marka şikayetleri, iletişim numarası paylaşımı, küfürlü mesaj raporları ve yapay zeka tarafından şüpheli işaretlenen ilanlar burada onaylanır veya reddedilir.</p>
+        </div>
+      ) : userRole === 'growth' ? (
+        <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center animate-fade-in">
+          <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+          </div>
+          <h2 className="text-[20px] font-black text-gray-900 mb-2">Kampanya & Büyüme (Growth)</h2>
+          <p className="text-gray-500 text-[13px] max-w-md mx-auto">Uygulanan indirim kuponlarının maliyeti (CAC), kampanya dönüşüm oranları (ROAS) ve platformun pazarlama (burn) bütçesi buradan takip edilir.</p>
+        </div>
       ) : null}
 
 
