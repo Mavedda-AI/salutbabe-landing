@@ -55,7 +55,16 @@ export default function SysopDashboard() {
   const [activityTab, setActivityTab] = useState<'all' | 'realtime'>('all');
 
   // Live Map Data for Mini Card
+  const [mapFilter, setMapFilter] = useState<'all' | 'individual' | 'corporate'>('all');
   const [liveMapData, setLiveMapData] = useState(initialMapData);
+  
+  const getFilterMultiplier = () => {
+    if (mapFilter === 'individual') return 0.85;
+    if (mapFilter === 'corporate') return 0.15;
+    return 1;
+  };
+  const mapMultiplier = getFilterMultiplier();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setLiveMapData(prev => {
@@ -394,18 +403,18 @@ export default function SysopDashboard() {
                 
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1 bg-gray-50 p-1 rounded-lg border border-gray-100">
-                    <button className="px-3 py-1 bg-white shadow-sm rounded-md text-[10px] font-bold text-gray-900 transition-all">Tümü</button>
-                    <button className="px-3 py-1 rounded-md text-[10px] font-bold text-gray-500 hover:text-gray-900 transition-colors">Bireysel</button>
-                    <button className="px-3 py-1 rounded-md text-[10px] font-bold text-gray-500 hover:text-gray-900 transition-colors">Kurumsal</button>
+                    <button onClick={(e) => { e.stopPropagation(); setMapFilter('all'); }} className={`px-3 py-1 shadow-sm rounded-md text-[10px] font-bold transition-all ${mapFilter === 'all' ? 'bg-white text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Tümü</button>
+                    <button onClick={(e) => { e.stopPropagation(); setMapFilter('individual'); }} className={`px-3 py-1 rounded-md text-[10px] font-bold transition-colors ${mapFilter === 'individual' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}>Bireysel</button>
+                    <button onClick={(e) => { e.stopPropagation(); setMapFilter('corporate'); }} className={`px-3 py-1 rounded-md text-[10px] font-bold transition-colors ${mapFilter === 'corporate' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}>Kurumsal</button>
                   </div>
                   <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'userdist' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
               </div>
 
               <div className="flex items-baseline gap-2 mb-4">
-                <h2 className={textValue}>{Object.values(liveMapData).reduce((s, r) => s + r.users, 0).toLocaleString('tr-TR')}</h2>
+                <h2 className={textValue}>{Object.values(liveMapData).reduce((s, r) => s + Math.floor(r.users * mapMultiplier), 0).toLocaleString('tr-TR')}</h2>
                 <span className={badgeGreen}>↗ 3.2%</span>
-                <span className={`text-[12px] font-bold ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kullanıcı</span>
+                <span className={`text-[12px] font-bold ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{mapFilter === 'corporate' ? 'Kurumsal' : mapFilter === 'individual' ? 'Bireysel' : 'Kullanıcı'}</span>
               </div>
 
               {/* Mini Turkey Map (Healthix Aesthetic) */}
@@ -442,7 +451,8 @@ export default function SysopDashboard() {
                     { n:'Güneydoğu', lx:720, ly:290 },
                   ].map((r, i) => {
                     const data = liveMapData[r.n] || { users: 0, color: '#FDBA74' };
-                    const val = (data.users / 1000).toFixed(1);
+                    const filteredUsers = Math.floor(data.users * mapMultiplier);
+                    const val = (filteredUsers / 1000).toFixed(1);
                     return (
                       <g key={i}>
                         <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
@@ -464,7 +474,7 @@ export default function SysopDashboard() {
                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: liveMapData[s.n].color }}></div>
                        <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.n}</span>
                     </span>
-                    <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{liveMapData[s.n].users.toLocaleString('tr-TR')} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
+                    <span className={`font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>{Math.floor(liveMapData[s.n].users * mapMultiplier).toLocaleString('tr-TR')} <span className="text-gray-400 font-bold text-[10px]">({s.p})</span></span>
                   </div>
                 ))}
               </div>
