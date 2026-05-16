@@ -26,6 +26,7 @@ export default function UserDistributionPage() {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [toastVisible, setToastVisible] = useState(true);
+  const [expandedCityListIdx, setExpandedCityListIdx] = useState<number | null>(null);
 
   // Filters State
   const [filters, setFilters] = useState({
