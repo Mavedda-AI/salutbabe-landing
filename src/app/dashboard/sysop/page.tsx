@@ -1195,7 +1195,6 @@ export default function SysopDashboard() {
                    <div className="absolute right-1 bottom-1 px-1.5 py-0.5 bg-white border border-gray-200 text-[#111827] text-[10px] rounded-md font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
                  </div>
                </div>
-            </div>
 
               {expandedCard === 'visitor' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
