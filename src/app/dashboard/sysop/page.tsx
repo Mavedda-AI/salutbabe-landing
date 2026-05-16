@@ -80,9 +80,9 @@ export default function SysopDashboard() {
       {/* Role Switcher */}
       <div className="flex items-center justify-end gap-1 mb-4">
          <span className={`text-[12px] font-bold mr-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
-         <button onClick={() => setUserRole('founder')} className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${userRole === 'founder' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kurucu</button>
-         <button onClick={() => setUserRole('partner')} className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${userRole === 'partner' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Operasyon</button>
-         <button onClick={() => setUserRole('finance')} className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${userRole === 'finance' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Finans</button>
+         <button onClick={() => setUserRole('founder')} className={`px-2 py-1.5 text-[12px] transition-all ${userRole === 'founder' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kurucu</button>
+         <button onClick={() => setUserRole('partner')} className={`px-2 py-1.5 text-[12px] transition-all ${userRole === 'partner' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Operasyon</button>
+         <button onClick={() => setUserRole('finance')} className={`px-2 py-1.5 text-[12px] transition-all ${userRole === 'finance' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Finans</button>
       </div>
 
       {userRole === 'founder' ? (
@@ -1324,10 +1324,10 @@ export default function SysopDashboard() {
           
           {/* INNER TABS FOR OPERASYON */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide hide-scrollbar w-full snap-x">
-             <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'general' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Genel Durum</button>
-             <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'logistics' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kargo & Desi</button>
-             <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'moderation' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Moderasyon</button>
-             <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start px-4 py-1.5 rounded-full text-[13px] transition-all ${opTab === 'growth' ? 'bg-[#111827] text-white font-bold shadow-sm' : 'text-gray-500 font-bold hover:text-[#111827]'}`}>Kampanya</button>
+             <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'general' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Genel Durum</button>
+             <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'logistics' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kargo & Desi</button>
+             <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'moderation' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Moderasyon</button>
+             <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start px-2 py-1.5 text-[13px] transition-all ${opTab === 'growth' ? 'text-gray-900 font-black' : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kampanya</button>
           </div>
 
           {opTab === 'general' ? (
@@ -1832,53 +1832,108 @@ export default function SysopDashboard() {
               </div>
 
               {/* Stat Cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-blue-50 flex items-center justify-center text-blue-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+                <div onClick={() => setExpandedCard(expandedCard === 'log_1' ? null : 'log_1')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                      GÜNLÜK ÇIKIŞ
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'log_1' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>1,245</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeGreen}>+12%</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs dünkü çıkış</span>
+                  </div>
+                  {expandedCard === 'log_1' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">PTT Kargo</span><span className="text-[12px] font-black text-blue-600">624</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">MNG Kargo</span><span className="text-[12px] font-black text-orange-500">410</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yurtiçi Kargo</span><span className="text-[12px] font-black text-gray-900">211</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Günlük Çıkış</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">1,245</h3>
-                    <span className="text-[10px] font-bold text-green-500 bg-green-50 px-1.5 py-0.5 rounded">+12%</span>
-                  </div>
+                  )}
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-orange-50 flex items-center justify-center text-orange-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'log_2' ? null : 'log_2')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      GECİKEN KARGO
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'log_2' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>42</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeRed}>Riskli</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Tüm Türkiye</span>
+                  </div>
+                  {expandedCard === 'log_2' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Marmara Bölgesi</span><span className="text-[12px] font-black text-red-500">24</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ege Bölgesi</span><span className="text-[12px] font-black text-orange-500">12</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Diğer</span><span className="text-[12px] font-black text-gray-900">6</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Geciken Kargo</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">42</h3>
-                    <span className="text-[10px] font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">Riskli</span>
-                  </div>
+                  )}
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-green-50 flex items-center justify-center text-green-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'log_3' ? null : 'log_3')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                      ORT. TESLİMAT
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'log_3' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>1.8 Gün</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeGreen}>Harika</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Türkiye ortalaması</span>
+                  </div>
+                  {expandedCard === 'log_3' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Aynı Gün Teslimat</span><span className="text-[12px] font-black text-green-600">%42</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ertesi Gün</span><span className="text-[12px] font-black text-gray-900">%38</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">2+ Gün</span><span className="text-[12px] font-black text-orange-500">%20</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Ort. Teslimat</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">1.8 <span className="text-[12px] text-gray-500">Gün</span></h3>
-                  </div>
+                  )}
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-red-50 flex items-center justify-center text-red-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'log_4' ? null : 'log_4')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                      DESİ İTİRAZI
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'log_4' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>18</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeRed}>Bekleyen</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>İncelenecek itiraz</span>
+                  </div>
+                  {expandedCard === 'log_4' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Satıcı Haklı</span><span className="text-[12px] font-black text-green-600">%65</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kargo Haklı</span><span className="text-[12px] font-black text-gray-900">%35</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Desi İtirazı</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">18</h3>
-                    <span className="text-[10px] font-bold text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded">Bekleyen</span>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -1941,55 +1996,105 @@ export default function SysopDashboard() {
               </div>
 
               {/* Stat Cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white p-4 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-purple-50 rounded-bl-full -z-0"></div>
-                  <div className="flex items-center gap-2 mb-2 relative z-10">
-                    <div className="w-6 h-6 rounded bg-purple-100 flex items-center justify-center text-purple-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+                <div onClick={() => setExpandedCard(expandedCard === 'mod_1' ? null : 'mod_1')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                      BEKLEYEN İŞLEM
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'mod_1' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>128</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-[6px] text-[10px] font-bold bg-purple-500/10 text-purple-600">Sırada</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Bugün biriken</span>
+                  </div>
+                  {expandedCard === 'mod_1' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kullanıcı Şikayeti</span><span className="text-[12px] font-black text-purple-600">82</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün Şikayeti</span><span className="text-[12px] font-black text-gray-900">46</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Bekleyen İşlem</span>
-                  </div>
-                  <div className="flex items-baseline gap-2 relative z-10">
-                    <h3 className="text-[20px] font-black text-gray-900">128</h3>
-                    <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">Sırada</span>
-                  </div>
+                  )}
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-red-50 flex items-center justify-center text-red-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'mod_2' ? null : 'mod_2')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                      REDDEDİLEN İLAN
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'mod_2' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>34</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeRed}>Bugün</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Tespiti yapılan</span>
+                  </div>
+                  {expandedCard === 'mod_2' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sahte Görsel</span><span className="text-[12px] font-black text-red-500">21</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hatalı Kategori</span><span className="text-[12px] font-black text-gray-900">13</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Reddedilen İlan</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">34</h3>
-                    <span className="text-[10px] font-bold text-gray-400">Bugün</span>
-                  </div>
+                  )}
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-orange-50 flex items-center justify-center text-orange-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'mod_3' ? null : 'mod_3')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      ŞÜPHELİ MESAJ
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'mod_3' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>12</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-[6px] text-[10px] font-bold bg-orange-500/10 text-orange-600">Tel/Iban</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Tespit edildi</span>
+                  </div>
+                  {expandedCard === 'mod_3' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">IBAN İsteği</span><span className="text-[12px] font-black text-orange-500">8</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Telefon No</span><span className="text-[12px] font-black text-gray-900">4</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Şüpheli Mesaj</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">12</h3>
-                    <span className="text-[10px] font-bold text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded">Tel/Iban</span>
-                  </div>
+                  )}
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-green-50 flex items-center justify-center text-green-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'mod_4' ? null : 'mod_4')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      OTOMATİK ONAY
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'mod_4' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>%94</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeGreen}>Yapay Zeka</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Tarafından</span>
+                  </div>
+                  {expandedCard === 'mod_4' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Oto-Onay Başarısı</span><span className="text-[12px] font-black text-green-600">%94.2</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">İnsan Onayı</span><span className="text-[12px] font-black text-gray-900">%5.8</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Otomatik Onay</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">%94</h3>
-                    <span className="text-[10px] font-bold text-green-500">Yapay Zeka</span>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -2048,59 +2153,105 @@ export default function SysopDashboard() {
               </div>
 
               {/* Stat Cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm relative overflow-hidden">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-green-50 flex items-center justify-center text-green-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+                <div onClick={() => setExpandedCard(expandedCard === 'gr_1' ? null : 'gr_1')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                      AKTİF KAMPANYALAR
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'gr_1' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>4</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeGreen}>Yayında</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Tüm Türkiye</span>
+                  </div>
+                  {expandedCard === 'gr_1' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">İndirim Kuponu</span><span className="text-[12px] font-black text-green-600">2</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bedava Kargo</span><span className="text-[12px] font-black text-gray-900">2</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Aktif Kampanyalar</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">4</h3>
-                    <span className="text-[10px] font-bold text-gray-400">Yayında</span>
-                  </div>
-                  {/* Background decoration chart */}
-                  <svg className="absolute bottom-0 right-0 w-24 h-12 text-green-50" fill="none" viewBox="0 0 100 50" preserveAspectRatio="none"><path d="M0,50 L20,30 L40,40 L70,10 L100,20 L100,50 Z" fill="currentColor"/></svg>
-                </div>
-                
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-blue-50 flex items-center justify-center text-blue-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
-                    </div>
-                    <span className="text-[11px] font-bold text-gray-500">Kupon Kullanımı</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">4,520</h3>
-                    <span className="text-[10px] font-bold text-green-500 bg-green-50 px-1.5 py-0.5 rounded">+24%</span>
-                  </div>
+                  )}
                 </div>
 
-                <div className="bg-[#111827] text-white p-4 rounded-xl border border-gray-800 shadow-sm shadow-gray-900/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-white">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div onClick={() => setExpandedCard(expandedCard === 'gr_2' ? null : 'gr_2')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
+                      KUPON KULLANIMI
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'gr_2' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>4,520</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeGreen}>+24%</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Geçen haftaya göre</span>
+                  </div>
+                  {expandedCard === 'gr_2' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hoşgeldin Kuponu</span><span className="text-[12px] font-black text-blue-600">2,140</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sadakat Kuponu</span><span className="text-[12px] font-black text-gray-900">2,380</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-400">Ortalama CAC</span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black">₺45.20</h3>
-                    <span className="text-[10px] font-bold text-emerald-400">Hedef: ₺50</span>
-                  </div>
+                  )}
                 </div>
 
-                <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center text-indigo-600">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                <div onClick={() => setExpandedCard(expandedCard === 'gr_3' ? null : 'gr_3')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${isDark ? 'bg-[#1A1D1F] border-white/5' : 'bg-[#111827] text-white border-gray-800 shadow-sm shadow-gray-900/20'}`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={`text-[10px] font-black tracking-widest ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>
+                      <svg className="w-4 h-4 inline-block mr-1 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      ORTALAMA CAC
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-500 ml-auto transition-transform ${expandedCard === 'gr_3' ? 'rotate-180 text-white' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={`text-[20px] md:text-[24px] font-black tracking-tight ${isDark ? 'text-white' : 'text-white'}`}>₺45.20</h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-[6px] text-[10px] font-bold bg-emerald-500/20 text-emerald-400">Hedef: ₺50</span>
+                    <span className="text-[11px] font-medium text-gray-400">Optimum</span>
+                  </div>
+                  {expandedCard === 'gr_3' && (
+                    <div className="mt-4 pt-4 border-t border-gray-800 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-400">Meta Ads</span><span className="text-[12px] font-black text-white">₺42.10</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-400">Google Ads</span><span className="text-[12px] font-black text-white">₺48.30</span></div>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-gray-500">Ortalama ROAS</span>
+                  )}
+                </div>
+
+                <div onClick={() => setExpandedCard(expandedCard === 'gr_4' ? null : 'gr_4')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+                  <div className="flex items-center mb-4">
+                    <h3 className={textTitle}>
+                      <svg className="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                      ORTALAMA ROAS
+                    </h3>
+                    <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'gr_4' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </div>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[20px] font-black text-gray-900">4.2x</h3>
-                    <span className="text-[10px] font-bold text-green-500 bg-green-50 px-1.5 py-0.5 rounded">Harika</span>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <h2 className={textValue}>4.2x</h2>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <span className={badgeGreen}>Harika</span>
+                    <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Tüm kanallar</span>
+                  </div>
+                  {expandedCard === 'gr_4' && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                      <div className="space-y-2 mb-4">
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Meta ROAS</span><span className="text-[12px] font-black text-indigo-600">4.8x</span></div>
+                         <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Google ROAS</span><span className="text-[12px] font-black text-gray-900">3.6x</span></div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
