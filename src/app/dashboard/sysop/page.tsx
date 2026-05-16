@@ -516,7 +516,7 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* CHANNEL PERFORMANCE (1/3) */}
-            <div onClick={() => router.push('/dashboard/sysop/store-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'channel' ? null : 'channel')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
@@ -621,15 +621,29 @@ export default function SysopDashboard() {
                       ))}
                    </div>
                    
-                   <button onClick={() => handleFeatureClick('Kanal Performansı: Detaylı Rapor')} className="w-full py-2.5 mt-6 rounded-lg bg-gray-50  text-[10px] font-black border border-gray-200  hover:bg-gray-100  transition-colors">
+                   <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/store-management'); }} className="w-full py-2.5 mt-6 rounded-lg bg-gray-50  text-[10px] font-black border border-gray-200  hover:bg-gray-100  transition-colors">
                       DETAYLI RAPOR
                    </button>
+                </div>
+              )}
+
+              {expandedCard === 'channel' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Toplam Satış</span><span className="text-[12px] font-black text-gray-900">16,432 adet</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Pazaryeri Payı</span><span className="text-[12px] font-black text-green-600">%35.1</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sesli Oda Payı</span><span className="text-[12px] font-black text-[#007AFF]">%41.6</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Keşfet Payı</span><span className="text-[12px] font-black text-gray-700">%23.3</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/store-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
                 </div>
               )}
             </div>
 
             {/* AVERAGE SALES (2/3) */}
-            <div onClick={() => router.push('/dashboard/sysop/payout-management')} className={`lg:col-span-2 ${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'avgsales' ? null : 'avgsales')} className={`lg:col-span-2 ${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               {/* Top Header: Title (Left) and Filters (Right) */}
               <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-4">
                 <h3 className={textTitle}>
@@ -808,6 +822,19 @@ export default function SysopDashboard() {
                    <span>Oca</span><span>Şub</span><span>Mar</span><span>Nis</span><span>May</span><span>Haz</span><span>Tem</span>
                  </div>
               </div>
+
+              {expandedCard === 'avgsales' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Nisan Gelir</span><span className="text-[12px] font-black text-gray-900">$20,000</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hedef</span><span className="text-[12px] font-black text-green-600">$22,000</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşme</span><span className="text-[12px] font-black text-orange-500">%90.9</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/payout-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -815,7 +842,7 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* RECENT ACTIVITY */}
-            <div onClick={() => router.push('/dashboard/sysop/product-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'activity' ? null : 'activity')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -907,10 +934,23 @@ export default function SysopDashboard() {
                   </div>
                 )}
               </div>
+
+              {expandedCard === 'activity' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bugün Satış</span><span className="text-[12px] font-black text-green-600">5 adet</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bugün İade</span><span className="text-[12px] font-black text-red-500">2 adet</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Net Hareket</span><span className="text-[12px] font-black text-gray-900">+3 adet</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/product-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* TOP PRODUCTS & SUPPLY/DEMAND */}
-            <div onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'topproducts' ? null : 'topproducts')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
@@ -997,10 +1037,23 @@ export default function SysopDashboard() {
                   </div>
                 </div>
               )}
+
+              {expandedCard === 'topproducts' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bugün Satış</span><span className="text-[12px] font-black text-gray-900">318 adet</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Top Bölge</span><span className="text-[12px] font-black text-[#111827]">Kadıköy (180)</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Arz/Talep Uyarı</span><span className="text-[12px] font-black text-orange-500">2 kategori</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* TOTAL VISITOR HEATMAP */}
-            <div onClick={() => setIsVisitorModalOpen(true)} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'visitor' ? null : 'visitor')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
@@ -1075,8 +1128,22 @@ export default function SysopDashboard() {
                          <div className="absolute right-0 bottom-0 px-1 py-0.5 bg-white border border-gray-200 text-[#111827] text-[9px] rounded font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
                        </div>
                     </div>
-                 </div>
               </div>
+            </div>
+
+              {expandedCard === 'visitor' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Toplam Ziyaretçi</span><span className="text-[12px] font-black text-gray-900">3,247</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yeni Kullanıcı</span><span className="text-[12px] font-black text-green-600">842</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bounce Rate</span><span className="text-[12px] font-black text-orange-500">%34.2</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Pik Saat</span><span className="text-[12px] font-black text-[#007AFF]">14:00-16:00</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/analytics')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
             </div>
 
           </div>
@@ -1086,13 +1153,13 @@ export default function SysopDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               
               {/* CARGO PERFORMANCE */}
-              <div onClick={() => handleFeatureClick('Kargo Performansı')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-blue-500/30 transition-colors`}>
+              <div onClick={() => setExpandedCard(expandedCard === 'cargo' ? null : 'cargo')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-blue-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
                     KARGO PERFORMANSI
                   </h3>
-                  <button onClick={(e) => { e.stopPropagation(); handleFeatureClick('Tüm Kargolar'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">DETAY</button>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/shipping-management'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">DETAY</button>
                 </div>
                 
                 <div className="space-y-4 flex-1">
@@ -1119,16 +1186,30 @@ export default function SysopDashboard() {
                   <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                   <span className="truncate">DHL eCommerce gecikme oranı &gt;%15 risk seviyesinde. Dispute (Anlaşmazlık) riski yüksek.</span>
                 </p>
+
+                {expandedCard === 'cargo' && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Toplam Kargo</span><span className="text-[12px] font-black text-gray-900">12,480</span></div>
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Zamanında Teslim</span><span className="text-[12px] font-black text-green-600">%91.2</span></div>
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Geciken</span><span className="text-[12px] font-black text-[#FF383C]">1,098</span></div>
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Teslim Süresi</span><span className="text-[12px] font-black text-[#007AFF]">2.4 gün</span></div>
+                    </div>
+                    <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                      DETAYLARI GÖRÜNTÜLE
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* WHATSAPP SUPPORT INSIGHTS */}
-              <div onClick={() => handleFeatureClick('Müşteri Destek (WhatsApp)')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-green-500/30 transition-colors`}>
+              <div onClick={() => setExpandedCard(expandedCard === 'support' ? null : 'support')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-green-500/30 transition-colors`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                     DESTEK (WHATSAPP)
                   </h3>
-                  <button onClick={(e) => { e.stopPropagation(); handleFeatureClick('Tüm Mesajlar'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜM MESAJLAR</button>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/complaint-management'); }} className="text-[10px] font-black px-2 py-1 border rounded hover:bg-gray-50  transition-colors">TÜM MESAJLAR</button>
                 </div>
                 
                 <div className="flex items-center gap-3 mb-6">
@@ -1162,6 +1243,20 @@ export default function SysopDashboard() {
                   <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                   <span className="truncate">Kargo şikayetleri &gt;%40 eşiğini aştı. Sistem alarmı devrede.</span>
                 </p>
+
+                {expandedCard === 'support' && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Açık Talep</span><span className="text-[12px] font-black text-[#FF383C]">142</span></div>
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Çözülme Oranı</span><span className="text-[12px] font-black text-green-600">%94.8</span></div>
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Çözüm Süresi</span><span className="text-[12px] font-black text-[#007AFF]">4.2 saat</span></div>
+                      <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">CSAT Skoru</span><span className="text-[12px] font-black text-purple-600">4.6/5</span></div>
+                    </div>
+                    <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                      DETAYLARI GÖRÜNTÜLE
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
