@@ -15,6 +15,27 @@ export default function SysopDashboard() {
 
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [mockData, setMockData] = useState({
+    gmv: "4,240,500",
+    net: "1,256,940",
+    orders: "6,432",
+    users: "173,247",
+    rooms: "3,247",
+    paymentSuccess: "%92.4"
+  });
+
+  useEffect(() => {
+    setMounted(true);
+    setMockData({
+      gmv: (Math.random() * (4500000 - 4000000) + 4000000).toLocaleString('en-US', {maximumFractionDigits: 0}),
+      net: (Math.random() * (1300000 - 1200000) + 1200000).toLocaleString('en-US', {maximumFractionDigits: 0}),
+      orders: (Math.random() * (6800 - 6000) + 6000).toLocaleString('en-US', {maximumFractionDigits: 0}),
+      users: (Math.random() * (180000 - 170000) + 170000).toLocaleString('en-US', {maximumFractionDigits: 0}),
+      rooms: (Math.random() * (3500 - 3000) + 3000).toLocaleString('en-US', {maximumFractionDigits: 0}),
+      paymentSuccess: "%" + (Math.random() * (95 - 88) + 88).toFixed(1)
+    });
+  }, []);
 
   // --- INTELLIGENCE LAYER STATES ---
   const [channelTab, setChannelTab] = useState<'sales' | 'attribution'>('sales');
@@ -148,9 +169,38 @@ export default function SysopDashboard() {
             })}
           </div>
           
-          {/* ROW 1: 4 STAT CARDS */}
-          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-6">
-            <div onClick={() => setExpandedCard(expandedCard === 'payout' ? null : 'payout')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all hover:border-gray-300`}>
+          {/* ROW 1: 5 STAT CARDS */}
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-6">
+            <div onClick={() => setExpandedCard(expandedCard === 'gmv' ? null : 'gmv')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'gmv' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
+              <div className="flex items-center mb-4">
+                <h3 className={textTitle}>
+                  <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  TOPLAM GMV
+                </h3>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'gmv' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </div>
+              <div className="flex items-baseline gap-2 mb-3">
+                <h2 className={textValue}>${mounted ? mockData.gmv : '4,240,500'}</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={badgeGreen}>↗ 18%</span>
+                <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
+              </div>
+
+              {expandedCard === 'gmv' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün GMV</span><span className="text-[12px] font-black text-[#111827]">${mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.85).toLocaleString('en-US', {maximumFractionDigits:0}) : '3,604,425'}</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hizmet/Diğer</span><span className="text-[12px] font-black text-[#111827]">${mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.15).toLocaleString('en-US', {maximumFractionDigits:0}) : '636,075'}</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/analytics')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    DETAYLARI GÖRÜNTÜLE
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div onClick={() => setExpandedCard(expandedCard === 'payout' ? null : 'payout')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'payout' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -159,7 +209,7 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
-                <h2 className={textValue}>$1,256.940</h2>
+                <h2 className={textValue}>${mounted ? mockData.net : '1,256,940'}</h2>
                 <span className="text-[12px] font-bold text-green-500">+$456</span>
               </div>
               <div className="flex items-center gap-2">
@@ -180,7 +230,7 @@ export default function SysopDashboard() {
               )}
             </div>
 
-            <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'orders' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -190,7 +240,7 @@ export default function SysopDashboard() {
               </div>
               <div className="flex items-baseline justify-between mb-3">
                  <div className="flex items-baseline gap-2">
-                   <h2 className={textValue}>6,432</h2>
+                   <h2 className={textValue}>{mounted ? mockData.orders : '6,432'}</h2>
                    <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Sipariş</span>
                  </div>
               </div>
@@ -222,6 +272,7 @@ export default function SysopDashboard() {
                         </div>
                       ))}
                    </div>
+                   <div className="flex justify-between items-center mb-4 mt-2 px-1"><span className="text-[11px] font-bold text-gray-500">Ödeme Başarı Oranı</span><span className="text-[12px] font-black text-green-600">{mounted ? mockData.paymentSuccess : '%92.4'}</span></div>
                    <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                      DETAYLARI GÖRÜNTÜLE
                    </button>
@@ -229,7 +280,7 @@ export default function SysopDashboard() {
               )}
             </div>
 
-            <div onClick={() => setExpandedCard(expandedCard === 'users' ? null : 'users')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'users' ? null : 'users')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'users' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -238,7 +289,7 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
-                <h2 className={textValue}>173,247</h2>
+                <h2 className={textValue}>{mounted ? mockData.users : '173,247'}</h2>
                 <span className={`text-[13px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kişi</span>
               </div>
               <div className="flex items-center gap-2">
@@ -259,7 +310,7 @@ export default function SysopDashboard() {
               )}
             </div>
 
-            <div onClick={() => setExpandedCard(expandedCard === 'rooms' ? null : 'rooms')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'rooms' ? null : 'rooms')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'rooms' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
@@ -268,7 +319,7 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
-                <h2 className={textValue}>3,247</h2>
+                <h2 className={textValue}>{mounted ? mockData.rooms : '3,247'}</h2>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>↘ 2.8%</span>
@@ -354,7 +405,7 @@ export default function SysopDashboard() {
               </div>
 
               {/* SELLER HEALTH */}
-              <div onClick={() => setExpandedCard(expandedCard === 'seller' ? null : 'seller')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer hover:border-orange-500/30 transition-colors`}>
+              <div onClick={() => setExpandedCard(expandedCard === 'seller' ? null : 'seller')} className={`${cardClass} p-4 md:p-5 flex flex-col cursor-pointer transition-colors ${expandedCard === 'seller' ? 'ring-2 ring-orange-500 shadow-xl shadow-orange-500/10' : 'hover:border-orange-500/30'}`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={textTitle}>
                     <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
