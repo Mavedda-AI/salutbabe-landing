@@ -307,11 +307,24 @@ export default function UserDistributionPage() {
                 const data = regionData[name];
                 const isHovered = hoveredItem === name;
                 
-                const mapColor = isHovered ? '#4A4A4A' : '#D1D5DB';
-                
-                // Bubble logic: highest uses dark bubble (#1A1A1A), others use orange (#FBBF24)
                 const isTop = name === 'Marmara';
-                const actualBubbleColor = isTop ? '#1A1A1A' : '#FDBA74';
+                const filteredUsers = Math.floor(data.users * mapMultiplier);
+                
+                let actualBubbleColor = '#FFFFFF';
+                let textColor = '#111827';
+                if (isTop) {
+                  actualBubbleColor = '#1A1A1A';
+                  textColor = '#FFFFFF';
+                } else if (filteredUsers >= 10000) {
+                  actualBubbleColor = '#65C050';
+                  textColor = '#FFFFFF';
+                } else if (filteredUsers >= 1000) {
+                  actualBubbleColor = '#FDBA74';
+                  textColor = '#111827';
+                } else if (filteredUsers >= 100) {
+                  actualBubbleColor = '#E5E7EB';
+                  textColor = '#111827';
+                }
 
                 // New Coordinates for 1050x480 ViewBox
                 const coords: Record<string, {x: number, y: number}> = {
@@ -327,7 +340,6 @@ export default function UserDistributionPage() {
                 const lx = coords[name]?.x || 0;
                 const ly = coords[name]?.y || 0;
 
-                const filteredUsers = Math.floor(data.users * mapMultiplier);
                 const displayVal = (filteredUsers / 1000).toFixed(1);
 
                 return (
@@ -337,7 +349,7 @@ export default function UserDistributionPage() {
                     
                     {/* Bubble */}
                     <circle cx={lx} cy={ly} r={isTop ? 28 : 22} fill={actualBubbleColor} filter="url(#shadow)" className="transition-transform duration-300" style={{ transform: isHovered ? 'scale(1.1)' : 'scale(1)', transformOrigin: `${lx}px ${ly}px` }} />
-                    <text x={lx} y={ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold pointer-events-none select-none ${isTop ? 'fill-white' : 'fill-[#111827]'}`}>
+                    <text x={lx} y={ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold pointer-events-none select-none`} fill={textColor}>
                       {displayVal}K
                     </text>
 
