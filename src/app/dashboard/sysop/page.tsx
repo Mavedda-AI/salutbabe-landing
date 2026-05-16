@@ -120,7 +120,7 @@ export default function SysopDashboard() {
                          )}
                        </div>
                        <div className="flex flex-wrap items-center gap-2">
-                         <span className="text-[12px] md:text-[13px] font-bold text-[#111827] tracking-tight">{alert.text}</span>
+                         <span className="text-[12px] md:text-[13px] font-semibold text-gray-800 tracking-tight">{alert.text}</span>
                          {alert.badge && (
                            <span className="flex items-center gap-0.5 bg-red-50 text-red-600 px-1 py-0.5 rounded text-[9px] font-black">
                              <svg className="w-2 h-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
@@ -187,8 +187,8 @@ export default function SysopDashboard() {
                 </h3>
                 <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'gmv' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
-              <div className="flex items-baseline gap-2 mb-3">
-                <h2 className={textValue}>${mounted ? mockData.gmv : '4,240,500'}</h2>
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
+                <h2 className={textValue}>₺{mounted ? mockData.gmv : '4,240,500'}</h2>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 18%</span>
@@ -198,8 +198,8 @@ export default function SysopDashboard() {
               {expandedCard === 'gmv' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
                   <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün GMV</span><span className="text-[12px] font-black text-[#111827]">${mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.85).toLocaleString('en-US', {maximumFractionDigits:0}) : '3,604,425'}</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hizmet/Diğer</span><span className="text-[12px] font-black text-[#111827]">${mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.15).toLocaleString('en-US', {maximumFractionDigits:0}) : '636,075'}</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün GMV</span><span className="text-[12px] font-black text-[#111827]">₺{mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.85).toLocaleString('en-US', {maximumFractionDigits:0}) : '3,604,425'}</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hizmet/Diğer</span><span className="text-[12px] font-black text-[#111827]">₺{mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.15).toLocaleString('en-US', {maximumFractionDigits:0}) : '636,075'}</span></div>
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/analytics')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE
@@ -217,8 +217,8 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>${mounted ? mockData.net : '1,256,940'}</h2>
-                <span className="text-[12px] font-bold text-green-500 whitespace-nowrap">+$456</span>
+                <h2 className={textValue}>₺{mounted ? mockData.net : '1,256,940'}</h2>
+                <span className="text-[12px] font-bold text-green-500 whitespace-nowrap">+₺456</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 12%</span>
@@ -228,8 +228,8 @@ export default function SysopDashboard() {
               {expandedCard === 'payout' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
                   <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşen</span><span className="text-[12px] font-black text-green-600">$980,400</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">$276,540</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşen</span><span className="text-[12px] font-black text-green-600">₺980,400</span></div>
+                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">₺276,540</span></div>
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/payout-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                     DETAYLARI GÖRÜNTÜLE
