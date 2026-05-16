@@ -255,7 +255,7 @@ export default function SysopDashboard() {
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
                 <h2 className={textValue}>${mounted ? '1,256.940' : '1,256.940'}</h2>
-                <span className="text-[11px] font-bold text-green-500 whitespace-nowrap">+$456</span>
+                <span className="text-[11px] font-bold text-green-500 whitespace-nowrap">+₺456</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 12%</span>
@@ -775,7 +775,7 @@ export default function SysopDashboard() {
                             <span className="text-[16px] leading-none text-[#111827]">•</span>
                             <span className="text-[12px] font-bold text-gray-500">Website</span>
                          </div>
-                         <span className="text-[13px] font-black text-[#111827]">$1,378.975</span>
+                         <span className="text-[13px] font-black text-[#111827]">₺1,378.975</span>
                       </div>
                       <div className="flex items-center gap-4 pl-4">
                          <span className="text-[10px] font-medium text-gray-400">5.762 Product Sold</span>
@@ -789,7 +789,7 @@ export default function SysopDashboard() {
                             <span className="text-[16px] leading-none text-gray-400">•</span>
                             <span className="text-[12px] font-bold text-gray-500">Marketplace</span>
                          </div>
-                         <span className="text-[13px] font-black text-[#111827]">$778,975</span>
+                         <span className="text-[13px] font-black text-[#111827]">₺778,975</span>
                       </div>
                       <div className="flex items-center gap-4 pl-4">
                          <span className="text-[10px] font-medium text-gray-400">6.843 Products Sold</span>
@@ -803,7 +803,7 @@ export default function SysopDashboard() {
                             <span className="text-[16px] leading-none text-gray-300">•</span>
                             <span className="text-[12px] font-bold text-gray-500">Store</span>
                          </div>
-                         <span className="text-[13px] font-black text-[#111827]">$778,975</span>
+                         <span className="text-[13px] font-black text-[#111827]">₺778,975</span>
                       </div>
                       <div className="flex items-center gap-4 pl-4">
                          <span className="text-[10px] font-medium text-gray-400">2.123 Products Sold</span>
@@ -919,7 +919,7 @@ export default function SysopDashboard() {
               <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-4">
                  <div className="flex flex-col gap-3">
                    <div className="flex items-center gap-3">
-                     <h2 className={`text-[36px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>$1,389.652</h2>
+                     <h2 className={`text-[36px] font-black tracking-tight ${isDark ? 'text-white' : 'text-[#111827]'}`}>₺1,389.652</h2>
                      <span className="flex items-center gap-1 bg-[#F0FDF4] text-[#16A34A] px-2.5 py-1 rounded text-[12px] font-bold">↗ 1.8%</span>
                    </div>
                    
@@ -936,7 +936,7 @@ export default function SysopDashboard() {
                        LİKİDİTE METRİKLERİ {showLiquidity ? 'GİZLE' : 'GÖR'}
                      </button>
                    )}
-                   <div className={`text-[11px] font-bold flex flex-col sm:flex-row items-end sm:items-center sm:gap-1 mt-auto ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Sales : <span className="text-[#16A34A] font-black sm:ml-1 flex items-center gap-1">$800.67 <div className="w-1.5 h-1.5 bg-[#16A34A] rounded-full"></div></span></div>
+                   <div className={`text-[11px] font-bold flex flex-col sm:flex-row items-end sm:items-center sm:gap-1 mt-auto ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Sales : <span className="text-[#16A34A] font-black sm:ml-1 flex items-center gap-1">₺800.67 <div className="w-1.5 h-1.5 bg-[#16A34A] rounded-full"></div></span></div>
                  </div>
               </div>
               
@@ -973,7 +973,7 @@ export default function SysopDashboard() {
               <div className="flex-1 min-h-[220px] w-full relative mt-4">
                  {/* Background Grid Lines (Horizontal) */}
                  <div className="absolute inset-0 flex flex-col justify-between pointer-events-none pb-6">
-                    {['$25k', '$20k', '$15k', '$10k'].map((label, i) => (
+                    {['₺25k', '₺20k', '₺15k', '₺10k'].map((label, i) => (
                       <div key={i} className={`w-full border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-start`}>
                         <span className={`-mt-2.5 pr-2 text-[10px] font-bold ${isDark ? 'bg-[#121214] text-gray-500' : 'bg-white text-gray-400'}`}>{label}</span>
                       </div>
@@ -1026,11 +1026,11 @@ export default function SysopDashboard() {
                    <p className="text-[11px] font-bold text-gray-300 mb-2">Nisan 2026</p>
                    <div className="flex justify-between items-center mb-1 text-[11px]">
                      <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>Hedef</span>
-                     <span className="font-black">$22,000</span>
+                     <span className="font-black">₺22,000</span>
                    </div>
                    <div className="flex justify-between items-center text-[11px]">
                      <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>Gelir</span>
-                     <span className="font-black text-white">$20,000</span>
+                     <span className="font-black text-white">₺20,000</span>
                    </div>
                  </div>
 
@@ -1043,8 +1043,8 @@ export default function SysopDashboard() {
               {expandedCard === 'avgsales' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
                   <div className="space-y-2 mb-4">
-                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Nisan Gelir</span><span className="text-[12px] font-black text-gray-900">$20,000</span></div>
-                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hedef</span><span className="text-[12px] font-black text-green-600">$22,000</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Nisan Gelir</span><span className="text-[12px] font-black text-gray-900">₺20,000</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hedef</span><span className="text-[12px] font-black text-green-600">₺22,000</span></div>
                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Gerçekleşme</span><span className="text-[12px] font-black text-orange-500">%90.9</span></div>
                   </div>
                   <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
@@ -1079,9 +1079,9 @@ export default function SysopDashboard() {
                        <p className={`text-[12px] font-bold mb-3 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Çıkan Ürünler (Satıldı)</p>
                        <div className="flex flex-col gap-2">
                          {[
-                           { name: 'Kırmızı Ceket', qty: 2, icon: '🧥', color: 'bg-red-100', price: '$1,500', time: '5 dk önce' },
-                           { name: 'Deri Çanta', qty: 1, icon: '👜', color: 'bg-orange-100', price: '$850', time: '12 dk önce' },
-                           { name: 'Sneaker', qty: 1, icon: '👟', color: 'bg-blue-100', price: '$320', time: '1 saat önce' }
+                           { name: 'Kırmızı Ceket', qty: 2, icon: '🧥', color: 'bg-red-100', price: '₺1,500', time: '5 dk önce' },
+                           { name: 'Deri Çanta', qty: 1, icon: '👜', color: 'bg-orange-100', price: '₺850', time: '12 dk önce' },
+                           { name: 'Sneaker', qty: 1, icon: '👟', color: 'bg-blue-100', price: '₺320', time: '1 saat önce' }
                          ].map((item, idx) => (
                            <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/product-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
                               <div className="flex items-center gap-3">
@@ -1101,8 +1101,8 @@ export default function SysopDashboard() {
                        <p className={`text-[12px] font-bold mb-3 mt-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Giren Ürünler (İade / İptal)</p>
                        <div className="flex flex-col gap-2">
                          {[
-                           { name: 'Siyah Ceket', qty: 2, icon: '🧥', color: 'bg-gray-200', price: '$1,500', time: '3 saat önce' },
-                           { name: 'Güneş Gözlüğü', qty: 1, icon: '🕶️', color: 'bg-yellow-100', price: '$150', time: '1 gün önce' }
+                           { name: 'Siyah Ceket', qty: 2, icon: '🧥', color: 'bg-gray-200', price: '₺1,500', time: '3 saat önce' },
+                           { name: 'Güneş Gözlüğü', qty: 1, icon: '🕶️', color: 'bg-yellow-100', price: '₺150', time: '1 gün önce' }
                          ].map((item, idx) => (
                            <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/order-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
                               <div className="flex items-center gap-3">
