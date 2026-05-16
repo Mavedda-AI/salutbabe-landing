@@ -1127,18 +1127,18 @@ export default function SysopDashboard() {
                 </h3>
                 <div className="flex items-center gap-2 relative">
                   <div className="relative">
-                    <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === 'visitor' ? null : 'visitor'); }} className={`px-2 py-1 rounded-full border text-[10px] font-bold flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>
-                      {filterVisitor} <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                    <button onClick={(e) => { e.stopPropagation(); setActiveDropdown(activeDropdown === 'visitor' ? null : 'visitor'); }} className={`px-3 py-1.5 rounded-full border text-[11px] font-bold flex items-center gap-1.5 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-[#374151] bg-white hover:bg-gray-50'}`}>
+                      {filterVisitor} <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     {activeDropdown === 'visitor' && (
                       <div className={`absolute top-full mt-1 right-0 w-24 rounded-lg shadow-xl z-50 overflow-hidden border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-white border-gray-100'}`}>
                         {['Günlük', 'Haftalık', 'Aylık'].map(opt => (
-                          <div key={opt} onClick={(e) => { e.stopPropagation(); setFilterVisitor(opt); setActiveDropdown(null); }} className={`px-3 py-2 text-[10px] font-bold cursor-pointer transition-colors ${isDark ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-[#374151]'}`}>{opt}</div>
+                          <div key={opt} onClick={(e) => { e.stopPropagation(); setFilterVisitor(opt); setActiveDropdown(null); }} className={`px-3 py-2 text-[11px] font-bold cursor-pointer transition-colors ${isDark ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-[#374151]'}`}>{opt}</div>
                         ))}
                       </div>
                     )}
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/analytics'); }} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></button>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/analytics'); }} className={`p-2 rounded-xl border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-50'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></button>
                 </div>
               </div>
 
@@ -1148,9 +1148,9 @@ export default function SysopDashboard() {
                 <span className={`text-[12px] font-bold ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Ziyaretçi</span>
               </div>
 
-              <div className="space-y-2 mb-6">
+              <div className="space-y-3 mb-6">
                 {[{t:'Marketplace :', v:'300 people', c:'bg-red-500'}, {t:'Website :', v:'250 people', c:'bg-green-500'}, {t:'Store :', v:'400 people', c:'bg-green-500'}].map((s,i) => (
-                  <div key={i} className="flex justify-between items-center text-[11px]">
+                  <div key={i} className="flex justify-between items-center text-[12px]">
                     <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.t}</span>
                     <span className={`font-black flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#111827]'}`}>{s.v} <div className={`w-1.5 h-1.5 rounded-full ${s.c}`}></div></span>
                   </div>
@@ -1158,43 +1158,43 @@ export default function SysopDashboard() {
               </div>
 
               {/* Heatmap Layout Exact Replica */}
-              <div className="flex mt-auto">
-                 <div className="flex flex-col gap-2 justify-end pr-4 text-[9px] font-bold text-gray-400 pb-1">
-                    <span>09.00 - 12.00</span>
-                    <span>12.00 - 15.00</span>
-                    <span>15.00 - 18.00</span>
+               <div className="w-full grid grid-cols-[auto_repeat(5,1fr)] gap-1.5 md:gap-2 items-center mt-auto pt-4 text-center">
+                 {/* Header Row */}
+                 <div></div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Pzt</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Sal</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Çar</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Per</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Cum</div>
+
+                 {/* Row 1 */}
+                 <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">09.00 - 12.00</div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md relative ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}>
+                   <div className="absolute bottom-[110%] left-1/2 -translate-x-1/2 px-2 py-1 bg-[#111827] text-white text-[10px] rounded-md font-bold whitespace-nowrap z-10 flex items-center gap-1.5 shadow-lg"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 82</div>
                  </div>
-                 <div className="flex-1 flex flex-col gap-2 relative">
-                    <div className="flex justify-between text-[10px] font-bold text-gray-400 px-1">
-                      <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span>
-                    </div>
-                    {/* Rows */}
-                    <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200  relative">
-                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 bg-[#111827] text-white text-[9px] rounded font-bold whitespace-nowrap z-10 flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 82</div>
-                       </div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-300 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
-                    </div>
-                    <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                    </div>
-                    <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-300 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-[#111827] "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100  relative">
-                         <div className="absolute right-0 bottom-0 px-1 py-0.5 bg-white border border-gray-200 text-[#111827] text-[9px] rounded font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
-                       </div>
-                    </div>
-              </div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/10' : 'bg-gray-300'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/20' : 'bg-[#111827]'}`}></div>
+
+                 {/* Row 2 */}
+                 <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">12.00 - 15.00</div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/20' : 'bg-[#111827]'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/20' : 'bg-[#111827]'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+
+                 {/* Row 3 */}
+                 <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">15.00 - 18.00</div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/20' : 'bg-[#111827]'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/10' : 'bg-gray-300'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/20' : 'bg-[#111827]'}`}></div>
+                 <div className={`w-full aspect-square rounded-md relative ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}>
+                   <div className="absolute right-1 bottom-1 px-1.5 py-0.5 bg-white border border-gray-200 text-[#111827] text-[10px] rounded-md font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
+                 </div>
+               </div>
             </div>
 
               {expandedCard === 'visitor' && (
@@ -1784,42 +1784,41 @@ export default function SysopDashboard() {
               </div>
 
               {/* Heatmap Layout Exact Replica (Colored for Ops) */}
-              <div className="flex mt-auto">
-                 <div className="flex flex-col gap-2 justify-end pr-4 text-[9px] font-bold text-gray-400 pb-1">
-                    <span>09.00 - 12.00</span>
-                    <span>12.00 - 15.00</span>
-                    <span>15.00 - 18.00</span>
+               <div className="w-full grid grid-cols-[auto_repeat(5,1fr)] gap-1.5 md:gap-2 items-center mt-auto pt-4 text-center">
+                 {/* Header Row */}
+                 <div></div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Pzt</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Sal</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Çar</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Per</div>
+                 <div className={`text-[11px] font-bold pb-2 ${isDark ? 'text-gray-400' : 'text-gray-400'}`}>Cum</div>
+
+                 {/* Row 1 */}
+                 <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">09.00 - 12.00</div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-orange-900/50' : 'bg-orange-200'}`}></div>
+                 <div className={`w-full aspect-square rounded-md relative ${isDark ? 'bg-red-500' : 'bg-red-500'}`}>
+                   <div className="absolute bottom-[110%] left-1/2 -translate-x-1/2 px-2 py-1 bg-[#111827] text-white text-[10px] rounded-md font-bold whitespace-nowrap z-10 flex items-center gap-1.5 shadow-lg"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 120</div>
                  </div>
-                 <div className="flex-1 flex flex-col gap-2 relative">
-                    <div className="flex justify-between text-[10px] font-bold text-gray-400 px-1">
-                      <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span>
-                    </div>
-                    {/* Rows */}
-                    <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-orange-200 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-red-500  relative">
-                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 bg-[#111827] text-white text-[9px] rounded font-bold whitespace-nowrap z-10 flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 120</div>
-                       </div>
-                       <div className="w-full aspect-square rounded-sm bg-orange-300 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                    </div>
-                    <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-orange-400 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                    </div>
-                    <div className="flex justify-between gap-1">
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-300 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-200 "></div>
-                       <div className="w-full aspect-square rounded-sm bg-gray-100 "></div>
-                    </div>
-                 </div>
-              </div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-orange-800/50' : 'bg-orange-300'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+
+                 {/* Row 2 */}
+                 <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">12.00 - 15.00</div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-orange-500' : 'bg-orange-400'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+
+                 {/* Row 3 */}
+                 <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">15.00 - 18.00</div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/10' : 'bg-gray-300'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}></div>
+                 <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
+               </div>
 
               {expandedCard === 'op_density' && (
                 <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
