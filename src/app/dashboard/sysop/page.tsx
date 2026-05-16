@@ -13,6 +13,33 @@ const initialMapData: Record<string, { users: number; color: string }> = {
   'Güneydoğu': { users: 720, color: '#FDBA74' },
 };
 
+const getCityUserCount = (cityName: string) => {
+  const topCities: Record<string, number> = {
+    'İstanbul': 12500,
+    'Ankara': 6500,
+    'İzmir': 4200,
+    'Bursa': 1500,
+    'Antalya': 1200,
+    'Adana': 1100,
+    'Gaziantep': 1050,
+    'Konya': 900,
+    'Kocaeli': 850,
+    'Mersin': 700,
+    'Kayseri': 600,
+    'Eskişehir': 550,
+    'Diyarbakır': 500,
+    'Samsun': 450,
+    'Tekirdağ': 400,
+    'Denizli': 350,
+    'Sakarya': 300,
+    'Muğla': 250,
+  };
+  if (topCities[cityName]) return topCities[cityName];
+  let hash = 0;
+  for (let i = 0; i < cityName.length; i++) hash = cityName.charCodeAt(i) + ((hash << 5) - hash);
+  return Math.abs(hash % 150); 
+};
+
 export default function SysopDashboard() {
   const router = useRouter();
   const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
@@ -428,55 +455,27 @@ export default function SysopDashboard() {
                   
                   {/* Real Turkey Map 81 Cities */}
                   <g>
-                    {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => (
-                      <path 
-                        key={i} 
-                        d={city.draw} 
-                        fill={isDark ? '#374151' : '#D1D5DB'} 
-                        stroke={isDark ? '#1F2937' : '#F9FAFB'} 
-                        strokeWidth="1.5" 
-                        className="transition-colors duration-300"
-                      />
-                    ))}
-                  </g>
+                    {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => {
+                      const baseUsers = getCityUserCount(city.city || city.name);
+                      const filteredUsers = Math.floor(baseUsers * mapMultiplier);
+                      
+                      let cityColor = '#FFFFFF';
+                      if (filteredUsers >= 10000) cityColor = '#65C050';
+                      else if (filteredUsers >= 1000) cityColor = '#FDBA74';
+                      else if (filteredUsers >= 100) cityColor = '#E5E7EB';
 
-                  {/* Bubbles */}
-                  {[
-                    { n:'Marmara', lx:140, ly:80, top: true },
-                    { n:'Ege', lx:80, ly:230 },
-                    { n:'Akdeniz', lx:320, ly:330 },
-                    { n:'İç Anadolu', lx:450, ly:180 },
-                    { n:'Karadeniz', lx:620, ly:80 },
-                    { n:'Doğu Anadolu', lx:850, ly:180 },
-                    { n:'Güneydoğu', lx:720, ly:290 },
-                  ].map((r, i) => {
-                    const data = liveMapData[r.n] || { users: 0, color: '#FDBA74' };
-                    const filteredUsers = Math.floor(data.users * mapMultiplier);
-                    const val = (filteredUsers / 1000).toFixed(1);
-                    
-                    let bgColor = '#FFFFFF';
-                    let textColor = '#111827';
-                    if (r.top) {
-                      bgColor = '#1A1A1A';
-                      textColor = '#FFFFFF';
-                    } else if (filteredUsers >= 10000) {
-                      bgColor = '#65C050';
-                      textColor = '#FFFFFF';
-                    } else if (filteredUsers >= 1000) {
-                      bgColor = '#FDBA74';
-                      textColor = '#111827';
-                    } else if (filteredUsers >= 100) {
-                      bgColor = '#E5E7EB';
-                      textColor = '#111827';
-                    }
-                    
-                    return (
-                      <g key={i}>
-                        <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={bgColor} filter="url(#shadow-mini)" className="transition-colors duration-300" />
-                        <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold`} fill={textColor}>{val}K</text>
-                      </g>
-                    );
-                  })}
+                      return (
+                        <path 
+                          key={i} 
+                          d={city.draw} 
+                          fill={cityColor} 
+                          stroke={isDark ? '#1F2937' : '#F9FAFB'} 
+                          strokeWidth="1.5" 
+                          className="transition-colors duration-300"
+                        />
+                      );
+                    })}
+                  </g>
                 </svg>
               </div>
 

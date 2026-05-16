@@ -56,6 +56,33 @@ const regionPaths: Record<string, { d: string; labelX: number; labelY: number }>
 
 type DrillLevel = 'region' | 'city' | 'district' | 'neighborhood';
 
+const getCityUserCount = (cityName: string) => {
+  const topCities: Record<string, number> = {
+    'İstanbul': 12500,
+    'Ankara': 6500,
+    'İzmir': 4200,
+    'Bursa': 1500,
+    'Antalya': 1200,
+    'Adana': 1100,
+    'Gaziantep': 1050,
+    'Konya': 900,
+    'Kocaeli': 850,
+    'Mersin': 700,
+    'Kayseri': 600,
+    'Eskişehir': 550,
+    'Diyarbakır': 500,
+    'Samsun': 450,
+    'Tekirdağ': 400,
+    'Denizli': 350,
+    'Sakarya': 300,
+    'Muğla': 250,
+  };
+  if (topCities[cityName]) return topCities[cityName];
+  let hash = 0;
+  for (let i = 0; i < cityName.length; i++) hash = cityName.charCodeAt(i) + ((hash << 5) - hash);
+  return Math.abs(hash % 150); 
+};
+
 export default function UserDistributionPage() {
   const router = useRouter();
   const [level, setLevel] = useState<DrillLevel>('region');
