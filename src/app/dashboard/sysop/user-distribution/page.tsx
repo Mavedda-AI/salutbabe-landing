@@ -172,10 +172,11 @@ export default function UserDistributionPage() {
           {/* Top Controls */}
           <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-6 z-20">
             <div className="bg-white rounded-full p-1.5 flex items-center shadow-md border border-gray-100">
-              <button className="px-6 py-2 rounded-full bg-[#111827] text-white text-[13px] font-bold shadow-sm">Kullanıcılar</button>
-              <button className="px-6 py-2 rounded-full text-gray-500 text-[13px] font-bold hover:text-gray-900 transition-colors">Tedarikçiler</button>
+              <button className="px-6 py-2 rounded-full bg-[#111827] text-white text-[13px] font-bold shadow-sm">Tümü</button>
+              <button className="px-6 py-2 rounded-full text-gray-500 text-[13px] font-bold hover:text-gray-900 transition-colors">Bireysel</button>
+              <button className="px-6 py-2 rounded-full text-gray-500 text-[13px] font-bold hover:text-gray-900 transition-colors">Kurumsal</button>
             </div>
-            <div className="hidden md:flex items-center gap-2 text-[12px] font-bold text-gray-400">
+            <div className="hidden md:flex items-center gap-2 text-[12px] font-bold text-gray-400 bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
               Son güncellenme: 2 dk önce
             </div>
