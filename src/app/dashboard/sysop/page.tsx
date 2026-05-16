@@ -394,6 +394,13 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'userdist' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
 
+              {/* TABS */}
+              <div className="flex items-center gap-1 bg-gray-100/50 p-1 rounded-lg w-max mb-4">
+                <button className="px-3 py-1 bg-white shadow-sm rounded-md text-[10px] font-bold text-gray-900">Tümü</button>
+                <button className="px-3 py-1 rounded-md text-[10px] font-bold text-gray-500 hover:text-gray-900 transition-colors">Bireysel</button>
+                <button className="px-3 py-1 rounded-md text-[10px] font-bold text-gray-500 hover:text-gray-900 transition-colors">Kurumsal</button>
+              </div>
+
               <div className="flex items-baseline gap-2 mb-4">
                 <h2 className={textValue}>{Object.values(liveMapData).reduce((s, r) => s + r.users, 0).toLocaleString('tr-TR')}</h2>
                 <span className={badgeGreen}>↗ 3.2%</span>
