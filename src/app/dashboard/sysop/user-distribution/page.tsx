@@ -116,136 +116,191 @@ export default function UserDistributionPage() {
   const levelLabel = level === 'region' ? 'Bölge' : level === 'city' ? 'Şehir' : level === 'district' ? 'İlçe' : 'Mahalle';
 
   return (
-    <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.push('/dashboard/sysop')} className="p-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors">
-            <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 font-sans animate-fade-in relative">
+      <div className="max-w-[1400px] mx-auto">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <button onClick={() => router.push('/dashboard/sysop')} className="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors shadow-sm">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           </button>
           <div>
-            <h1 className="text-[20px] md:text-[24px] font-black text-[#111827] tracking-tight">Kullanıcı Dağılımı</h1>
-            <p className="text-[11px] font-bold text-gray-400 tracking-wider uppercase">Coğrafi Analiz • {totalUsers.toLocaleString('tr-TR')} Kullanıcı</p>
+            <h1 className="text-[22px] font-black text-[#111827] tracking-tight">İnteraktif Kullanıcı Haritası</h1>
+            <p className="text-[12px] font-bold text-gray-400">
+              {breadcrumb.map((b, i) => (
+                <span key={i}>
+                  <button onClick={b.onClick} className="hover:text-gray-900 transition-colors">{b.label}</button>
+                  {i < breadcrumb.length - 1 && <span className="mx-1.5 opacity-50">/</span>}
+                </span>
+              ))}
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-1.5 text-[11px] font-bold">
-        {breadcrumb.map((b, i) => (
-          <div key={i} className="flex items-center gap-1.5">
-            {i > 0 && <svg className="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>}
-            <button onClick={b.onClick} className={`transition-colors ${i === breadcrumb.length - 1 ? 'text-[#111827] font-black' : 'text-gray-400 hover:text-gray-600'}`}>{b.label}</button>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-        {/* MAP AREA */}
-        <div className="lg:col-span-2 rounded-[16px] border border-gray-100 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.02)] p-4 md:p-6 min-h-[400px] flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              {level === 'region' ? 'TÜRKİYE HARİTASI' : `${breadcrumb[breadcrumb.length - 1]?.label?.toUpperCase()} • ${levelLabel}`}
-            </h3>
-            {level !== 'region' && (
-              <button onClick={goBack} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[10px] font-black text-gray-600 hover:bg-gray-50 transition-colors flex items-center gap-1">
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                GERİ
-              </button>
-            )}
-          </div>
-
-          {/* SVG Map for Region level */}
-          {level === 'region' ? (
-            <div className="flex-1 flex items-center justify-center">
-              <svg viewBox="40 20 620 310" className="w-full max-w-[600px] h-auto">
-                {Object.entries(regionPaths).map(([name, path]) => {
-                  const data = regionData[name];
-                  const isHovered = hoveredItem === name;
-                  return (
-                    <g key={name} onClick={() => handleRegionClick(name)} onMouseEnter={() => setHoveredItem(name)} onMouseLeave={() => setHoveredItem(null)} className="cursor-pointer">
-                      <path d={path.d} fill={isHovered ? data.color : '#E5E7EB'} stroke="white" strokeWidth="2" className="transition-all duration-300" style={{ opacity: isHovered ? 1 : 0.8 }} />
-                      {/* Bubble */}
-                      <circle cx={path.labelX} cy={path.labelY} r={Math.max(16, Math.min(28, data.users / 200))} fill={data.color} className="transition-all duration-300" style={{ transform: isHovered ? 'scale(1.15)' : 'scale(1)', transformOrigin: `${path.labelX}px ${path.labelY}px` }} />
-                      <text x={path.labelX} y={path.labelY + 1} textAnchor="middle" dominantBaseline="middle" className="fill-white text-[10px] font-bold pointer-events-none select-none">{(data.users / 1000).toFixed(1)}K</text>
-                      {isHovered && (
-                        <text x={path.labelX} y={path.labelY - 28} textAnchor="middle" className="fill-[#111827] text-[9px] font-bold pointer-events-none">{name}</text>
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>
+        {/* MAP CONTAINER */}
+        <div className="relative w-full h-[650px] bg-[#F4F5F5] rounded-[24px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex items-center justify-center">
+          
+          {/* Top Controls */}
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-6 z-20">
+            <div className="bg-white rounded-full p-1.5 flex items-center shadow-md border border-gray-100">
+              <button className="px-6 py-2 rounded-full bg-[#111827] text-white text-[13px] font-bold shadow-sm">Kullanıcılar</button>
+              <button className="px-6 py-2 rounded-full text-gray-500 text-[13px] font-bold hover:text-gray-900 transition-colors">Tedarikçiler</button>
             </div>
-          ) : (
-            /* Grid/Bubble view for deeper levels */
-            <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 content-start py-4">
-              {items.map((item) => {
-                const sizeRatio = item.users / maxUsers;
-                const bubbleSize = Math.max(40, Math.min(80, sizeRatio * 80));
-                return (
+            <div className="hidden md:flex items-center gap-2 text-[12px] font-bold text-gray-400">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              Son güncellenme: 2 dk önce
+            </div>
+          </div>
+
+          {/* Zoom Controls */}
+          <div className="absolute bottom-8 left-8 flex flex-col gap-2 z-20">
+            <button onClick={goBack} disabled={level === 'region'} className={`w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg transition-all ${level === 'region' ? 'bg-white/50 text-gray-300' : 'bg-white text-gray-700 hover:scale-105'}`}>
+               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" /></svg>
+            </button>
+            <button className="w-11 h-11 bg-white rounded-2xl text-gray-700 flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
+               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
+            </button>
+          </div>
+
+          {/* Floating Notification */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-[#2D2D2D] rounded-[20px] pl-4 pr-3 py-3 flex items-center gap-4 shadow-2xl z-20 animate-fade-in">
+            <div className="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center text-white font-black text-[14px]">!</div>
+            <div className="flex flex-col pr-2">
+              <span className="text-white text-[13px] font-bold">Yeni veri mevcut</span>
+              <span className="text-gray-400 text-[11px] font-medium">Bölge durumları güncellendi</span>
+            </div>
+            <button className="w-10 h-10 rounded-xl bg-[#1D9954] flex items-center justify-center text-white hover:bg-[#168244] transition-colors ml-2">
+               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            </button>
+          </div>
+
+          {/* Right Floating Card */}
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 w-[280px] bg-[#222222] rounded-[24px] shadow-[0_20px_40px_rgba(0,0,0,0.2)] p-5 z-20 border border-white/5">
+             <div className="flex items-center justify-between mb-4">
+               <div>
+                 <h3 className="text-white text-[15px] font-bold">Top {levelLabel}lar</h3>
+                 <div className="flex items-center gap-1.5 mt-1">
+                   <div className="w-4 h-4 rounded bg-[#2D45B0] flex items-center justify-center">
+                     <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                   </div>
+                   <span className="text-gray-400 text-[11px] font-bold">En yüksek eşleşme</span>
+                 </div>
+               </div>
+               <button className="w-8 h-8 rounded-full bg-[#1D9954] flex items-center justify-center text-white hover:scale-105 transition-transform">
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+               </button>
+             </div>
+
+             <div className="space-y-1">
+                {[...items].sort((a, b) => b.users - a.users).slice(0, 4).map((item, idx) => (
                   <div key={item.name} onClick={() => item.onClick(item.name)} onMouseEnter={() => setHoveredItem(item.name)} onMouseLeave={() => setHoveredItem(null)}
-                    className={`flex flex-col items-center justify-center p-4 rounded-xl border cursor-pointer transition-all duration-200 ${hoveredItem === item.name ? 'border-gray-300 bg-gray-50 scale-[1.02]' : 'border-gray-100 bg-white hover:border-gray-200'}`}>
-                    <div className="relative flex items-center justify-center mb-2 transition-transform duration-300" style={{ width: bubbleSize, height: bubbleSize, transform: hoveredItem === item.name ? 'scale(1.1)' : 'scale(1)' }}>
-                      <div className="absolute inset-0 rounded-full opacity-15" style={{ backgroundColor: item.color }} />
-                      <div className="w-[70%] h-[70%] rounded-full flex items-center justify-center" style={{ backgroundColor: item.color }}>
-                        <span className="text-white text-[11px] font-black">{item.users >= 1000 ? `${(item.users/1000).toFixed(1)}K` : item.users}</span>
+                    className={`flex items-center gap-3 p-2 rounded-[14px] cursor-pointer transition-colors ${hoveredItem === item.name ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                    <div className="relative">
+                      <div className="w-9 h-9 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center border-2 border-[#222222]">
+                         <img src={`https://i.pravatar.cc/150?u=${item.name}`} alt="" className="w-full h-full object-cover opacity-80" />
                       </div>
+                      <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#222222] ${idx === 0 ? 'bg-red-500' : 'bg-green-500'}`}></div>
                     </div>
-                    <span className="text-[11px] font-black text-[#111827] text-center">{item.name}</span>
-                    <span className="text-[9px] font-bold text-gray-400">{item.users.toLocaleString('tr-TR')} kullanıcı</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-[12px] font-bold truncate">{item.name}</p>
+                      <p className="text-gray-400 text-[10px]">{item.users.toLocaleString('tr-TR')} kul.</p>
+                    </div>
+                    {hoveredItem === item.name && idx === 1 ? (
+                      <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#222222]"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
+                    ) : (
+                      <span className="text-white text-[14px] font-black">{Math.round((item.users / totalUsers) * 100)}%</span>
+                    )}
                   </div>
+                ))}
+             </div>
+          </div>
+
+          {/* SVG Map */}
+          {level === 'region' ? (
+            <svg viewBox="0 0 800 450" className="w-full h-full object-contain px-12 py-12 z-10 drop-shadow-sm">
+              <defs>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
+                </filter>
+              </defs>
+
+              {/* Draw connection lines from active/hovered region to right panel */}
+              {hoveredItem && regionData[hoveredItem] && (
+                <g opacity="0.8">
+                  {[120, 180, 240, 300].map((y, i) => (
+                    <path key={i} d={`M${regionPaths[hoveredItem].labelX},${regionPaths[hoveredItem].labelY} Q${(regionPaths[hoveredItem].labelX + 800) / 2},${(regionPaths[hoveredItem].labelY + y) / 2} 800,${y}`} 
+                          fill="none" stroke="white" strokeWidth="1.5" opacity="0.6" />
+                  ))}
+                </g>
+              )}
+
+              {/* Render Regions */}
+              {Object.entries(regionPaths).map(([name, path]) => {
+                const data = regionData[name];
+                const isHovered = hoveredItem === name;
+                
+                // Color logic matching design: Base is #D5D6D8, highlighted is #484848 or #333
+                const mapColor = isHovered ? '#4A4A4A' : '#D1D5DB';
+                
+                // Bubble logic: highest uses dark bubble (#1A1A1A), others use orange (#FBBF24)
+                const isTop = name === 'Marmara';
+                const bubbleColor = isTop ? '#1A1A1A' : '#FCA5A5';
+                const actualBubbleColor = isTop ? '#1A1A1A' : '#FDBA74';
+
+                // We'll scale up the map slightly to fit 800x450
+                const scaleX = 1.2; const scaleY = 1.2;
+                const tx = 30; const ty = 50;
+
+                const lx = path.labelX * scaleX + tx;
+                const ly = path.labelY * scaleY + ty;
+
+                return (
+                  <g key={name} onClick={() => handleRegionClick(name)} onMouseEnter={() => setHoveredItem(name)} onMouseLeave={() => setHoveredItem(null)} className="cursor-pointer">
+                    <path d={path.d} transform={`translate(${tx}, ${ty}) scale(${scaleX}, ${scaleY})`} fill={mapColor} stroke="#F4F5F5" strokeWidth="2.5" className="transition-colors duration-300" />
+                    
+                    {/* Bubble */}
+                    <circle cx={lx} cy={ly} r={isTop ? 28 : 22} fill={actualBubbleColor} filter="url(#shadow)" className="transition-transform duration-300" style={{ transform: isHovered ? 'scale(1.1)' : 'scale(1)', transformOrigin: `${lx}px ${ly}px` }} />
+                    <text x={lx} y={ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[14px] font-bold pointer-events-none select-none ${isTop ? 'fill-white' : 'fill-[#111827]'}`}>
+                      {Math.round(data.users / 1000) > 0 ? Math.round(data.users / 1000) : (data.users / 1000).toFixed(1)}
+                    </text>
+
+                    {/* Tooltips on Hover/Top */}
+                    {isTop && (
+                      <g>
+                        <rect x={lx - 35} y={ly - 50} width="70" height="22" rx="4" fill="#222222" filter="url(#shadow)" />
+                        <text x={lx} y={ly - 38} textAnchor="middle" fill="white" className="text-[9px] font-bold">Top bölge</text>
+                        {/* Mini Avatars */}
+                        <circle cx={lx - 25} cy={ly - 15} r={8} fill="#4A4A4A" stroke="#F4F5F5" strokeWidth="1.5" />
+                        <circle cx={lx - 12} cy={ly - 25} r={8} fill="#6B7280" stroke="#F4F5F5" strokeWidth="1.5" />
+                      </g>
+                    )}
+                  </g>
                 );
               })}
+            </svg>
+          ) : (
+            /* Deep Drill View */
+            <div className="w-full h-full p-12 overflow-y-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {items.map((item) => {
+                  const sizeRatio = item.users / maxUsers;
+                  const bubbleSize = Math.max(50, Math.min(100, sizeRatio * 100));
+                  return (
+                    <div key={item.name} onClick={() => item.onClick(item.name)}
+                      className="flex flex-col items-center justify-center p-6 bg-white rounded-[20px] shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:border-[#FDBA74]">
+                      <div className="relative flex items-center justify-center mb-3" style={{ width: bubbleSize, height: bubbleSize }}>
+                        <div className="absolute inset-0 rounded-full bg-[#FDBA74]/20"></div>
+                        <div className="w-[70%] h-[70%] rounded-full bg-[#FDBA74] flex items-center justify-center shadow-md">
+                           <span className="text-[#111827] text-[13px] font-black">{item.users >= 1000 ? `${(item.users/1000).toFixed(1)}K` : item.users}</span>
+                        </div>
+                      </div>
+                      <span className="text-[14px] font-black text-[#111827]">{item.name}</span>
+                      <span className="text-[11px] font-bold text-gray-400">{item.users}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
-        </div>
-
-        {/* SIDEBAR - Top List */}
-        <div className="rounded-[16px] border border-gray-100 bg-[#111827] shadow-[0_2px_12px_rgba(0,0,0,0.1)] p-4 md:p-5 flex flex-col max-h-[600px]">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              {levelLabel} SIRALAMASI
-            </h3>
-            <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto space-y-1 custom-scrollbar">
-            {[...items].sort((a, b) => b.users - a.users).map((item, i) => (
-              <div key={item.name} onClick={() => item.onClick(item.name)}
-                className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-all ${hoveredItem === item.name ? 'bg-white/10' : 'hover:bg-white/5'}`}
-                onMouseEnter={() => setHoveredItem(item.name)} onMouseLeave={() => setHoveredItem(null)}>
-                <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black" style={{ backgroundColor: item.color + '33', color: item.color === '#111827' ? '#fff' : item.color }}>
-                  {i + 1}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[12px] font-black text-white truncate">{item.name}</p>
-                  <p className="text-[10px] font-bold text-gray-500">{item.users.toLocaleString('tr-TR')} kullanıcı</p>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-16 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                    <div className="h-full rounded-full transition-all duration-500" style={{ width: `${(item.users / maxUsers) * 100}%`, backgroundColor: item.color }} />
-                  </div>
-                  <span className="text-[10px] font-black text-gray-400 w-8 text-right">{Math.round((item.users / totalUsers) * 100)}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Summary Stats */}
-          <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] font-bold text-gray-500">Toplam</span>
-              <span className="text-[12px] font-black text-white">{items.reduce((s, i) => s + i.users, 0).toLocaleString('tr-TR')}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] font-bold text-gray-500">En Yoğun</span>
-              <span className="text-[12px] font-black text-green-400">{[...items].sort((a, b) => b.users - a.users)[0]?.name || '-'}</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
