@@ -130,10 +130,10 @@ export default function SysopDashboard() {
                        </div>
                      </div>
                      
-                     <div className="flex items-center shrink-0 ml-2">
-                       <span className="px-1.5 py-0.5 rounded border border-gray-200 text-[9px] font-bold text-gray-500 bg-white group-hover:border-gray-300 group-hover:text-gray-700 transition-colors">
-                         {selectedAlert?.type === alert.type ? 'KAPAT' : 'GÖR'}
-                       </span>
+                     <div className="flex items-center shrink-0 ml-2 text-gray-400">
+                       <svg className={`w-3.5 h-3.5 transition-transform ${selectedAlert?.type === alert.type ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                       </svg>
                      </div>
                    </div>
 
