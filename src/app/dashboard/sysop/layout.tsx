@@ -165,6 +165,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       '/dashboard/sysop/live-room-management',
       '/dashboard/sysop/payout-management',
       '/dashboard/sysop/system-settings',
+      '/dashboard/sysop/analytics',
+      '/dashboard/sysop/unit-economics',
+      '/dashboard/sysop/seller-health',
       '/dashboard/common/profile'
     ];
 
@@ -211,6 +214,22 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       submenus: [
         { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management' },
         { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management' }
+      ] 
+    },
+    { 
+      label: 'Analitik',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M7 17L7 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 17L12 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M17 17L17 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      submenus: [
+        { label: 'Genel Analitik', href: '/dashboard/sysop/analytics' },
+        { label: 'Birim Ekonomisi', href: '/dashboard/sysop/unit-economics' },
+        { label: 'Satıcı Sağlığı', href: '/dashboard/sysop/seller-health' }
       ] 
     },
     { 

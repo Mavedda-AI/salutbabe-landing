@@ -1,13 +1,9 @@
 "use client";
 import React, {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
-import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
-import VisitorAnalyticsModal from "../../../components/VisitorAnalyticsModal";
-import { useToast } from "../../../context/ToastContext";
 
 export default function SysopDashboard() {
   const router = useRouter();
-  const { showToast } = useToast();
   const [userRole, setUserRole] = useState<'founder' | 'partner'>('founder');
 
   // Filter States
@@ -16,20 +12,13 @@ export default function SysopDashboard() {
   const [filterCategory, setFilterCategory] = useState("Tüm Kategoriler");
   const [filterVisitor, setFilterVisitor] = useState("Günlük");
   const [filterYear, setFilterYear] = useState("2026");
-  const [isVisitorModalOpen, setIsVisitorModalOpen] = useState(false);
+
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   // --- INTELLIGENCE LAYER STATES ---
-  const [showFunnel, setShowFunnel] = useState(false);
   const [channelTab, setChannelTab] = useState<'sales' | 'attribution'>('sales');
-  const [showLiquidity, setShowLiquidity] = useState(false);
   const [activityTab, setActivityTab] = useState<'all' | 'realtime'>('all');
-  const [showSupplyDemand, setShowSupplyDemand] = useState(false);
-
-  const handleFeatureClick = (featureName: string) => {
-    showToast(`${featureName} modülü henüz test aşamasında!`, "info");
-  };
 
   const isFounder = true;
 
@@ -502,7 +491,7 @@ export default function SysopDashboard() {
                       </div>
                     </div>
 
-                    <button onClick={() => handleFeatureClick('Bildirim Detayları')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    <button onClick={() => router.push('/dashboard/sysop/analytics')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                       DETAYLARI GÖRÜNTÜLE
                     </button>
                   </div>
@@ -868,7 +857,7 @@ export default function SysopDashboard() {
                            { name: 'Deri Çanta', qty: 1, icon: '👜', color: 'bg-orange-100', price: '$850', time: '12 dk önce' },
                            { name: 'Sneaker', qty: 1, icon: '👟', color: 'bg-blue-100', price: '$320', time: '1 saat önce' }
                          ].map((item, idx) => (
-                           <div key={idx} onClick={() => handleFeatureClick(`Ürün Detay: ${item.name}`)} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
+                           <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/product-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
                               <div className="flex items-center gap-3">
                                  <div className={`w-10 h-10 rounded-lg ${item.color} flex items-center justify-center text-xl`}>{item.icon}</div>
                                  <div>
@@ -889,7 +878,7 @@ export default function SysopDashboard() {
                            { name: 'Siyah Ceket', qty: 2, icon: '🧥', color: 'bg-gray-200', price: '$1,500', time: '3 saat önce' },
                            { name: 'Güneş Gözlüğü', qty: 1, icon: '🕶️', color: 'bg-yellow-100', price: '$150', time: '1 gün önce' }
                          ].map((item, idx) => (
-                           <div key={idx} onClick={() => handleFeatureClick(`İade Detay: ${item.name}`)} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
+                           <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/order-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
                               <div className="flex items-center gap-3">
                                  <div className={`w-10 h-10 rounded-lg ${item.color} flex items-center justify-center text-xl`}>{item.icon}</div>
                                  <div>
@@ -1759,11 +1748,7 @@ export default function SysopDashboard() {
         </div>
       )}
 
-      {/* Visitor Analytics Modal */}
-      <VisitorAnalyticsModal 
-        isOpen={isVisitorModalOpen} 
-        onClose={() => setIsVisitorModalOpen(false)} 
-      />
+
     </div>
   );
 }
