@@ -1258,32 +1258,43 @@ export default function SysopDashboard() {
 
               {/* Mini Turkey Map (Healthix Aesthetic) */}
               <div className="flex-1 mb-4 relative flex items-center justify-center p-2 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden">
-                <svg viewBox="0 0 800 450" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm">
+                <svg viewBox="0 0 1050 480" className="w-full h-auto max-h-[160px] object-contain drop-shadow-sm">
                   <defs>
                     <filter id="shadow-mini" x="-20%" y="-20%" width="140%" height="140%">
                       <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
                     </filter>
                   </defs>
+                  
+                  {/* Real Turkey Map 81 Cities */}
+                  <g>
+                    {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => (
+                      <path 
+                        key={i} 
+                        d={city.draw} 
+                        fill={isDark ? '#374151' : '#D1D5DB'} 
+                        stroke={isDark ? '#1F2937' : '#F9FAFB'} 
+                        strokeWidth="1.5" 
+                        className="transition-colors duration-300"
+                      />
+                    ))}
+                  </g>
+
+                  {/* Bubbles */}
                   {[
-                    { n:'Marmara', d:'M120,80 L200,60 L240,80 L260,110 L240,140 L200,150 L160,140 L120,120 Z', lx:185, ly:110, top: true },
-                    { n:'Ege', d:'M80,140 L160,140 L200,150 L200,220 L160,260 L100,280 L60,240 L60,180 Z', lx:130, ly:210 },
-                    { n:'Akdeniz', d:'M160,260 L200,220 L300,220 L380,240 L420,260 L380,300 L280,310 L200,290 Z', lx:290, ly:265 },
-                    { n:'İç Anadolu', d:'M240,140 L340,120 L420,140 L440,180 L420,220 L380,240 L300,220 L200,220 L200,150 Z', lx:320, ly:175 },
-                    { n:'Karadeniz', d:'M260,50 L340,40 L440,50 L540,60 L580,80 L540,100 L440,110 L340,120 L260,110 Z', lx:420, ly:80 },
-                    { n:'Doğu Anadolu', d:'M440,110 L540,100 L620,120 L640,170 L620,210 L540,220 L440,180 Z', lx:540, ly:160 },
-                    { n:'Güneydoğu', d:'M420,220 L440,180 L540,220 L620,210 L620,260 L560,290 L480,300 L420,260 Z', lx:520, ly:250 },
+                    { n:'Marmara', lx:140, ly:80, top: true },
+                    { n:'Ege', lx:80, ly:230 },
+                    { n:'Akdeniz', lx:320, ly:330 },
+                    { n:'İç Anadolu', lx:450, ly:180 },
+                    { n:'Karadeniz', lx:620, ly:80 },
+                    { n:'Doğu Anadolu', lx:850, ly:180 },
+                    { n:'Güneydoğu', lx:720, ly:290 },
                   ].map((r, i) => {
-                    const data = liveMapData[r.n];
+                    const data = liveMapData[r.n] || { users: 0, color: '#FDBA74' };
                     const val = (data.users / 1000).toFixed(1);
-                    const scaleX = 1.2, scaleY = 1.2, tx = 30, ty = 50;
-                    const cx = r.lx * scaleX + tx;
-                    const cy = r.ly * scaleY + ty;
-                    
                     return (
                       <g key={i}>
-                        <path d={r.d} transform={`translate(${tx}, ${ty}) scale(${scaleX}, ${scaleY})`} fill="#D1D5DB" stroke="#F9FAFB" strokeWidth="2.5" />
-                        <circle cx={cx} cy={cy} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
-                        <text x={cx} y={cy + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold ${r.top ? 'fill-white' : 'fill-[#111827]'}`}>{val}K</text>
+                        <circle cx={r.lx} cy={r.ly} r={r.top ? 28 : 22} fill={data.color} filter="url(#shadow-mini)" className="transition-all duration-300" />
+                        <text x={r.lx} y={r.ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold ${r.top ? 'fill-white' : 'fill-[#111827]'}`}>{val}K</text>
                       </g>
                     );
                   })}

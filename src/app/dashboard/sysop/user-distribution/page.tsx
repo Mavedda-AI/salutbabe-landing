@@ -246,7 +246,7 @@ export default function UserDistributionPage() {
 
           {/* SVG Map */}
           {level === 'region' ? (
-            <svg viewBox="0 0 800 450" className="w-full h-full object-contain px-12 py-12 z-10 drop-shadow-sm">
+            <svg viewBox="0 0 1050 480" className="w-full h-full object-contain px-12 py-12 z-10 drop-shadow-sm">
               <defs>
                 <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
                   <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000" floodOpacity="0.15" />
@@ -256,36 +256,69 @@ export default function UserDistributionPage() {
               {/* Draw connection lines from active/hovered region to right panel */}
               {hoveredItem && regionData[hoveredItem] && (
                 <g opacity="0.8">
-                  {[120, 180, 240, 300].map((y, i) => (
-                    <path key={i} d={`M${regionPaths[hoveredItem].labelX},${regionPaths[hoveredItem].labelY} Q${(regionPaths[hoveredItem].labelX + 800) / 2},${(regionPaths[hoveredItem].labelY + y) / 2} 800,${y}`} 
-                          fill="none" stroke="white" strokeWidth="1.5" opacity="0.6" />
-                  ))}
+                  {[120, 180, 240, 300].map((y, i) => {
+                    const coords: Record<string, {x: number, y: number}> = {
+                      'Marmara': { x: 140, y: 80 },
+                      'Ege': { x: 80, y: 230 },
+                      'Akdeniz': { x: 320, y: 330 },
+                      'İç Anadolu': { x: 450, y: 180 },
+                      'Karadeniz': { x: 620, y: 80 },
+                      'Doğu Anadolu': { x: 850, y: 180 },
+                      'Güneydoğu': { x: 720, y: 290 },
+                    };
+                    const hx = coords[hoveredItem]?.x || 0;
+                    const hy = coords[hoveredItem]?.y || 0;
+                    return (
+                      <path key={i} d={`M${hx},${hy} Q${(hx + 1050) / 2},${(hy + y) / 2} 1050,${y}`} 
+                            fill="none" stroke="white" strokeWidth="1.5" opacity="0.6" />
+                    );
+                  })}
                 </g>
               )}
 
-              {/* Render Regions */}
+              {/* Render 81 Cities Background */}
+              <g>
+                {require('../../../components/TurkeyMapData').default.map((city: any, i: number) => (
+                  <path 
+                    key={i} 
+                    d={city.draw} 
+                    fill="#D1D5DB" 
+                    stroke="#F9FAFB" 
+                    strokeWidth="1.5" 
+                    className="transition-colors duration-300"
+                  />
+                ))}
+              </g>
+
+              {/* Render Regions Bubbles */}
               {Object.entries(regionPaths).map(([name, path]) => {
                 const data = regionData[name];
                 const isHovered = hoveredItem === name;
                 
-                // Color logic matching design: Base is #D5D6D8, highlighted is #484848 or #333
                 const mapColor = isHovered ? '#4A4A4A' : '#D1D5DB';
                 
                 // Bubble logic: highest uses dark bubble (#1A1A1A), others use orange (#FBBF24)
                 const isTop = name === 'Marmara';
-                const bubbleColor = isTop ? '#1A1A1A' : '#FCA5A5';
                 const actualBubbleColor = isTop ? '#1A1A1A' : '#FDBA74';
 
-                // We'll scale up the map slightly to fit 800x450
-                const scaleX = 1.2; const scaleY = 1.2;
-                const tx = 30; const ty = 50;
+                // New Coordinates for 1050x480 ViewBox
+                const coords: Record<string, {x: number, y: number}> = {
+                  'Marmara': { x: 140, y: 80 },
+                  'Ege': { x: 80, y: 230 },
+                  'Akdeniz': { x: 320, y: 330 },
+                  'İç Anadolu': { x: 450, y: 180 },
+                  'Karadeniz': { x: 620, y: 80 },
+                  'Doğu Anadolu': { x: 850, y: 180 },
+                  'Güneydoğu': { x: 720, y: 290 },
+                };
 
-                const lx = path.labelX * scaleX + tx;
-                const ly = path.labelY * scaleY + ty;
+                const lx = coords[name]?.x || 0;
+                const ly = coords[name]?.y || 0;
 
                 return (
                   <g key={name} onClick={() => handleRegionClick(name)} onMouseEnter={() => setHoveredItem(name)} onMouseLeave={() => setHoveredItem(null)} className="cursor-pointer">
-                    <path d={path.d} transform={`translate(${tx}, ${ty}) scale(${scaleX}, ${scaleY})`} fill={mapColor} stroke="#F4F5F5" strokeWidth="2.5" className="transition-colors duration-300" />
+                    {/* Bubble background area to make it easily clickable */}
+                    <circle cx={lx} cy={ly} r={40} fill="transparent" />
                     
                     {/* Bubble */}
                     <circle cx={lx} cy={ly} r={isTop ? 28 : 22} fill={actualBubbleColor} filter="url(#shadow)" className="transition-transform duration-300" style={{ transform: isHovered ? 'scale(1.1)' : 'scale(1)', transformOrigin: `${lx}px ${ly}px` }} />
