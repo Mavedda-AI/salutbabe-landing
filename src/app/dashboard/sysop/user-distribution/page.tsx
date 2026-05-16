@@ -160,12 +160,12 @@ export default function UserDistributionPage() {
                 </div>
               </div>
 
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] bg-slate-50 rounded-2xl overflow-hidden border border-slate-100">
+              <div className="relative w-full aspect-[1024/500] bg-slate-900 rounded-2xl overflow-hidden border border-slate-100">
                 {/* Map Background */}
-                <div className="absolute inset-0 m-2 sm:m-6 opacity-60 bg-center bg-no-repeat bg-contain" style={{backgroundImage: "url('https://upload.wikimedia.org/wikipedia/commons/7/77/Turkey_adm_location_map.svg')"}}></div>
+                <div className="absolute inset-0 m-2 sm:m-6 opacity-80 bg-center bg-no-repeat bg-contain mix-blend-screen" style={{backgroundImage: "url('/turkey-map.png')"}}></div>
                 
                 {/* Map Markers */}
-                <div className="absolute inset-0">
+                <div className="absolute inset-0 m-2 sm:m-6">
                   {cities.map((city) => (
                     <div key={city.name} onClick={() => setSelectedCity(selectedCity === city.name ? null : city.name)} className="absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2" style={{left: city.x, top: city.y, zIndex: selectedCity === city.name ? 20 : 10}}>
                       <div className={`relative flex items-center justify-center rounded-full transition-all duration-300 ${selectedCity === city.name ? 'bg-slate-900 scale-125 z-20 shadow-xl' : 'bg-emerald-500 hover:scale-110 hover:bg-emerald-400 shadow-md'}`} style={{width: city.size, height: city.size}}>
