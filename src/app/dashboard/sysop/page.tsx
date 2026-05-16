@@ -1171,7 +1171,7 @@ export default function SysopDashboard() {
                  <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">09.00 - 12.00</div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
                  <div className={`w-full aspect-square rounded-md relative ${isDark ? 'bg-white/5' : 'bg-gray-200'}`}>
-                   <div className="absolute bottom-[110%] left-1/2 -translate-x-1/2 px-2 py-1 bg-[#111827] text-white text-[10px] rounded-md font-bold whitespace-nowrap z-10 flex items-center gap-1.5 shadow-lg"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 82</div>
+                   <div className="absolute top-1 right-1 w-max h-max px-1.5 py-0.5 bg-[#111827] text-white text-[9px] rounded font-bold whitespace-nowrap z-10 flex items-center gap-1 shadow-md scale-90 md:scale-100"><div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-white"></div> 82</div>
                  </div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/10' : 'bg-gray-300'}`}></div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
@@ -1192,7 +1192,7 @@ export default function SysopDashboard() {
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/10' : 'bg-gray-300'}`}></div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-white/20' : 'bg-[#111827]'}`}></div>
                  <div className={`w-full aspect-square rounded-md relative ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}>
-                   <div className="absolute right-1 bottom-1 px-1.5 py-0.5 bg-white border border-gray-200 text-[#111827] text-[10px] rounded-md font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
+                   <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-white border border-gray-200 text-[#111827] text-[10px] rounded-md font-bold whitespace-nowrap z-10 shadow-sm flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div> 10</div>
                  </div>
                </div>
 
@@ -1796,7 +1796,7 @@ export default function SysopDashboard() {
                  <div className="text-[10px] font-bold text-gray-400 pr-2 md:pr-4 text-right">09.00 - 12.00</div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-orange-900/50' : 'bg-orange-200'}`}></div>
                  <div className={`w-full aspect-square rounded-md relative ${isDark ? 'bg-red-500' : 'bg-red-500'}`}>
-                   <div className="absolute bottom-[110%] left-1/2 -translate-x-1/2 px-2 py-1 bg-[#111827] text-white text-[10px] rounded-md font-bold whitespace-nowrap z-10 flex items-center gap-1.5 shadow-lg"><div className="w-1.5 h-1.5 rounded-full bg-white"></div> 120</div>
+                   <div className="absolute top-1 right-1 w-max h-max px-1.5 py-0.5 bg-[#111827] text-white text-[9px] rounded font-bold whitespace-nowrap z-10 flex items-center gap-1 shadow-md scale-90 md:scale-100"><div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-white"></div> 120</div>
                  </div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-orange-800/50' : 'bg-orange-300'}`}></div>
                  <div className={`w-full aspect-square rounded-md ${isDark ? 'bg-[#1A1D1F]' : 'bg-gray-100'}`}></div>
