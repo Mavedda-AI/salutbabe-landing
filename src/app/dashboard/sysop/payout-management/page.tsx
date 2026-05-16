@@ -7,6 +7,8 @@ export default function PayoutManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'pending' | 'completed' | 'overview'>('overview');
   const [showApproveModal, setShowApproveModal] = useState(false);
+  const [selectedPayouts, setSelectedPayouts] = useState<number[]>([]);
+  const [actionDone, setActionDone] = useState<string | null>(null);
 
   const kpis = [
     { label: 'Havuzdaki Bakiye', value: '₺1,450,000', sub: '84 bekleyen onay', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '🏦' },
@@ -117,9 +119,18 @@ export default function PayoutManagementPage() {
 
         {activeTab === 'pending' && (
           <div className="space-y-3">
+            {/* Select All + Bulk */}
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-3">
+                <input type="checkbox" checked={selectedPayouts.length === pendingPayouts.length} onChange={() => setSelectedPayouts(selectedPayouts.length === pendingPayouts.length ? [] : pendingPayouts.map((_,i) => i))} className="w-4 h-4 rounded border-gray-300 accent-[#111827]" />
+                <span className="text-[11px] font-bold text-gray-400">Tümünü Seç ({pendingPayouts.length})</span>
+              </div>
+              {selectedPayouts.length > 0 && <button onClick={() => { setActionDone(`${selectedPayouts.length} ödeme onaylandı.`); setSelectedPayouts([]); setTimeout(() => setActionDone(null), 2500); }} className="px-3 py-1.5 bg-green-500 text-white rounded-lg text-[10px] font-bold">{selectedPayouts.length} Seçili — Toplu Onayla</button>}
+            </div>
             {pendingPayouts.map((p, i) => (
-              <div key={i} className={`${cardClass} p-4`}>
+              <div key={i} className={`${cardClass} p-4 ${selectedPayouts.includes(i) ? 'ring-1 ring-green-400 bg-green-50/30' : ''}`}>
                 <div className="flex items-center justify-between gap-3">
+                  <input type="checkbox" checked={selectedPayouts.includes(i)} onChange={() => setSelectedPayouts(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i])} className="w-4 h-4 rounded border-gray-300 accent-[#111827] shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[12px] font-bold text-[#111827]">{p.store}</span>
@@ -130,7 +141,7 @@ export default function PayoutManagementPage() {
                   <div className="text-right shrink-0">
                     <p className="text-[14px] font-black text-green-600">{p.amount}</p>
                   </div>
-                  <button className="text-[9px] font-black px-3 py-2 bg-green-500 text-white rounded-lg shrink-0 hover:bg-green-600 transition-colors">ONAYLA</button>
+                  <button onClick={() => { setActionDone(`${p.store} ödemesi onaylandı.`); setTimeout(() => setActionDone(null), 2500); }} className="text-[9px] font-black px-3 py-2 bg-green-500 text-white rounded-lg shrink-0 hover:bg-green-600 transition-colors">ONAYLA</button>
                 </div>
               </div>
             ))}
@@ -190,6 +201,8 @@ export default function PayoutManagementPage() {
           </div>
         </div>
       )}
+      {/* Toast */}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
     </div>
   );
 }
