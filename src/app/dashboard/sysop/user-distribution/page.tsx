@@ -325,84 +325,38 @@ export default function UserDistributionPage() {
                 </g>
               )}
 
-              {/* Render 81 Cities Background */}
+              {/* Real Turkey Map 81 Cities */}
               <g>
-                {require('../../../../components/TurkeyMapData').default.map((city: any, i: number) => (
-                  <path 
-                    key={i} 
-                    d={city.draw} 
-                    fill="#D1D5DB" 
-                    stroke="#0F1115" 
-                    strokeWidth="1.5" 
-                    className="transition-colors duration-300"
-                  />
-                ))}
+                {require('../../../../components/TurkeyMapData').default.map((city: any, i: number) => {
+                  const baseUsers = getCityUserCount(city.city || city.name);
+                  const filteredUsers = Math.floor(baseUsers * mapMultiplier);
+                  
+                  let cityColor = '#FFFFFF';
+                  if (filteredUsers >= 10000) cityColor = '#65C050';
+                  else if (filteredUsers >= 1000) cityColor = '#FDBA74';
+                  else if (filteredUsers >= 100) cityColor = '#E5E7EB';
+
+                  return (
+                    <path 
+                      key={i} 
+                      d={city.draw} 
+                      fill={cityColor} 
+                      stroke="#0F1115" 
+                      strokeWidth="1.5" 
+                      className="transition-colors duration-300 hover:opacity-80 cursor-pointer"
+                      onMouseEnter={() => setHoveredItem(city.city || city.name)}
+                      onMouseLeave={() => setHoveredItem(null)}
+                    />
+                  );
+                })}
               </g>
 
-              {/* Render Regions Bubbles */}
-              {Object.entries(regionPaths).map(([name, path]) => {
-                const data = regionData[name];
-                const isHovered = hoveredItem === name;
-                
-                const isTop = name === 'Marmara';
-                const filteredUsers = Math.floor(data.users * mapMultiplier);
-                
-                let actualBubbleColor = '#FFFFFF';
-                let textColor = '#111827';
-                if (isTop) {
-                  actualBubbleColor = '#1A1A1A';
-                  textColor = '#FFFFFF';
-                } else if (filteredUsers >= 10000) {
-                  actualBubbleColor = '#65C050';
-                  textColor = '#FFFFFF';
-                } else if (filteredUsers >= 1000) {
-                  actualBubbleColor = '#FDBA74';
-                  textColor = '#111827';
-                } else if (filteredUsers >= 100) {
-                  actualBubbleColor = '#E5E7EB';
-                  textColor = '#111827';
-                }
-
-                // New Coordinates for 1050x480 ViewBox
-                const coords: Record<string, {x: number, y: number}> = {
-                  'Marmara': { x: 140, y: 80 },
-                  'Ege': { x: 80, y: 230 },
-                  'Akdeniz': { x: 320, y: 330 },
-                  'İç Anadolu': { x: 450, y: 180 },
-                  'Karadeniz': { x: 620, y: 80 },
-                  'Doğu Anadolu': { x: 850, y: 180 },
-                  'Güneydoğu': { x: 720, y: 290 },
-                };
-
-                const lx = coords[name]?.x || 0;
-                const ly = coords[name]?.y || 0;
-
-                const displayVal = (filteredUsers / 1000).toFixed(1);
-
-                return (
-                  <g key={name} onClick={() => handleRegionClick(name)} onMouseEnter={() => setHoveredItem(name)} onMouseLeave={() => setHoveredItem(null)} className="cursor-pointer">
-                    {/* Bubble background area to make it easily clickable */}
-                    <circle cx={lx} cy={ly} r={40} fill="transparent" />
-                    
-                    {/* Bubble */}
-                    <circle cx={lx} cy={ly} r={isTop ? 28 : 22} fill={actualBubbleColor} filter="url(#shadow)" className="transition-transform duration-300" style={{ transform: isHovered ? 'scale(1.1)' : 'scale(1)', transformOrigin: `${lx}px ${ly}px` }} />
-                    <text x={lx} y={ly + 1} textAnchor="middle" dominantBaseline="middle" className={`text-[12px] font-bold pointer-events-none select-none`} fill={textColor}>
-                      {displayVal}K
-                    </text>
-
-                    {/* Tooltips on Hover/Top */}
-                    {isTop && (
-                      <g>
-                        <rect x={lx - 35} y={ly - 50} width="70" height="22" rx="4" fill="#222222" filter="url(#shadow)" />
-                        <text x={lx} y={ly - 38} textAnchor="middle" fill="white" className="text-[9px] font-bold">Top bölge</text>
-                        {/* Mini Avatars */}
-                        <circle cx={lx - 25} cy={ly - 15} r={8} fill="#4A4A4A" stroke="#F4F5F5" strokeWidth="1.5" />
-                        <circle cx={lx - 12} cy={ly - 25} r={8} fill="#6B7280" stroke="#F4F5F5" strokeWidth="1.5" />
-                      </g>
-                    )}
-                  </g>
-                );
-              })}
+              {hoveredItem && (
+                <g pointerEvents="none">
+                  <rect x="50%" y="20" width="120" height="30" rx="4" fill="#222" transform="translate(-60, 0)" />
+                  <text x="50%" y="40" textAnchor="middle" fill="white" className="text-[12px] font-bold">{hoveredItem}</text>
+                </g>
+              )}
             </svg>
           ) : (
             /* Deep Drill View */
