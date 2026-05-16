@@ -249,17 +249,17 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-                  TOTAL SALES
+                  TOPLAM SATIŞ
                 </h3>
                 <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'gmv' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>${mounted ? '1,256.940' : '1,256.940'}</h2>
+                <h2 className={textValue}>₺{mounted ? '1,256.940' : '1,256.940'}</h2>
                 <span className="text-[11px] font-bold text-green-500 whitespace-nowrap">+₺456</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 12%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>vs last month</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>vs geçen ay</span>
               </div>
 
               {expandedCard === 'gmv' && (
@@ -313,19 +313,19 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
-                  <span className="truncate">TOTAL ORDER</span>
+                  <span className="truncate">TOPLAM SİPARİŞ</span>
                 </h3>
                 <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex items-baseline justify-between mb-3">
                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                    <h2 className={textValue}>{mounted ? '6,432' : '6,432'}</h2>
-                   <span className={`text-[12px] font-bold text-gray-500`}>Orders</span>
+                   <span className={`text-[12px] font-bold text-gray-500`}>Sipariş</span>
                  </div>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>↘ 1.8%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>Product sales</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>Ürün satışı</span>
               </div>
               
               {/* CONVERSION FUNNEL (Collapsible Layer) */}
@@ -363,17 +363,17 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                  <span className="truncate">TOTAL CUSTOMER</span>
+                  <span className="truncate">TOPLAM MÜŞTERİ</span>
                 </h3>
                 <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
                 <h2 className={textValue}>{mounted ? '173,247' : '173,247'}</h2>
-                <span className={`text-[12px] font-bold text-gray-500`}>People</span>
+                <span className={`text-[12px] font-bold text-gray-500`}>Kişi</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>↗ 1.8%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>New customer</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>Yeni müşteri</span>
               </div>
 
               {expandedCard === 'users' && (
@@ -393,7 +393,7 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
-                  <span className="truncate">INTERACTION</span>
+                  <span className="truncate">ETKİLEŞİM</span>
                 </h3>
                 <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
@@ -402,7 +402,7 @@ export default function SysopDashboard() {
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>↘ 2.8%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>vs last month</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>vs geçen ay</span>
               </div>
 
               {expandedCard === 'rooms' && (
@@ -726,11 +726,11 @@ export default function SysopDashboard() {
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
-                  CHANNEL PERFORMANCE
+                  KANAL PERFORMANSI
                 </h3>
                 <div className="flex items-center gap-4">
                   <button onClick={(e) => { e.stopPropagation(); setChannelTab('sales'); }} className={`text-[10px] transition-colors ${channelTab === 'sales' ? 'font-black text-black' : isDark ? 'font-bold text-gray-400 hover:text-white' : 'font-bold text-gray-500 hover:text-black'}`}>SATIŞ</button>
-                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('attribution'); }} className={`text-[10px] transition-colors ${channelTab === 'attribution' ? 'font-black text-black' : isDark ? 'font-bold text-gray-400 hover:text-white' : 'font-bold text-gray-500 hover:text-black'}`}>ATTRIBUTION</button>
+                  <button onClick={(e) => { e.stopPropagation(); setChannelTab('attribution'); }} className={`text-[10px] transition-colors ${channelTab === 'attribution' ? 'font-black text-black' : isDark ? 'font-bold text-gray-400 hover:text-white' : 'font-bold text-gray-500 hover:text-black'}`}>KAYNAK ANALİZİ</button>
                 </div>
               </div>
               
@@ -764,7 +764,7 @@ export default function SysopDashboard() {
                      </svg>
                     <div className="absolute bottom-0 left-0 w-full text-center flex flex-col items-center">
                       <h2 className="text-[22px] font-black leading-tight text-[#111827] ">16,432</h2>
-                      <p className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Product Sales</p>
+                      <p className={`text-[10px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Ürün Satışı</p>
                     </div>
                   </div>
 
@@ -773,12 +773,12 @@ export default function SysopDashboard() {
                       <div className="flex items-center justify-between">
                          <div className="flex items-center gap-2">
                             <span className="text-[16px] leading-none text-[#111827]">•</span>
-                            <span className="text-[12px] font-bold text-gray-500">Website</span>
+                            <span className="text-[12px] font-bold text-gray-500">Web Sitesi</span>
                          </div>
                          <span className="text-[13px] font-black text-[#111827]">₺1,378.975</span>
                       </div>
                       <div className="flex items-center gap-4 pl-4">
-                         <span className="text-[10px] font-medium text-gray-400">5.762 Product Sold</span>
+                         <span className="text-[10px] font-medium text-gray-400">5.762 Ürün Satıldı</span>
                          <span className="text-[10px] font-bold text-green-500">+1.8%</span>
                       </div>
                     </div>
@@ -787,12 +787,12 @@ export default function SysopDashboard() {
                       <div className="flex items-center justify-between">
                          <div className="flex items-center gap-2">
                             <span className="text-[16px] leading-none text-gray-400">•</span>
-                            <span className="text-[12px] font-bold text-gray-500">Marketplace</span>
+                            <span className="text-[12px] font-bold text-gray-500">Pazaryeri</span>
                          </div>
                          <span className="text-[13px] font-black text-[#111827]">₺778,975</span>
                       </div>
                       <div className="flex items-center gap-4 pl-4">
-                         <span className="text-[10px] font-medium text-gray-400">6.843 Products Sold</span>
+                         <span className="text-[10px] font-medium text-gray-400">6.843 Ürün Satıldı</span>
                          <span className="text-[10px] font-bold text-red-500">-2.8%</span>
                       </div>
                     </div>
@@ -801,12 +801,12 @@ export default function SysopDashboard() {
                       <div className="flex items-center justify-between">
                          <div className="flex items-center gap-2">
                             <span className="text-[16px] leading-none text-gray-300">•</span>
-                            <span className="text-[12px] font-bold text-gray-500">Store</span>
+                            <span className="text-[12px] font-bold text-gray-500">Mağaza</span>
                          </div>
                          <span className="text-[13px] font-black text-[#111827]">₺778,975</span>
                       </div>
                       <div className="flex items-center gap-4 pl-4">
-                         <span className="text-[10px] font-medium text-gray-400">2.123 Products Sold</span>
+                         <span className="text-[10px] font-medium text-gray-400">2.123 Ürün Satıldı</span>
                          <span className="text-[10px] font-bold text-red-500">-2.8%</span>
                       </div>
                     </div>
@@ -936,7 +936,7 @@ export default function SysopDashboard() {
                        LİKİDİTE METRİKLERİ {showLiquidity ? 'GİZLE' : 'GÖR'}
                      </button>
                    )}
-                   <div className={`text-[11px] font-bold flex flex-col sm:flex-row items-end sm:items-center sm:gap-1 mt-auto ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Sales : <span className="text-[#16A34A] font-black sm:ml-1 flex items-center gap-1">₺800.67 <div className="w-1.5 h-1.5 bg-[#16A34A] rounded-full"></div></span></div>
+                   <div className={`text-[11px] font-bold flex flex-col sm:flex-row items-end sm:items-center sm:gap-1 mt-auto ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Net Satış : <span className="text-[#16A34A] font-black sm:ml-1 flex items-center gap-1">₺800.67 <div className="w-1.5 h-1.5 bg-[#16A34A] rounded-full"></div></span></div>
                  </div>
               </div>
               
@@ -1298,7 +1298,7 @@ export default function SysopDashboard() {
               </div>
 
               <div className="space-y-3 mb-6">
-                {[{t:'Marketplace :', v:'300 people', c:'bg-red-500'}, {t:'Website :', v:'250 people', c:'bg-green-500'}, {t:'Store :', v:'400 people', c:'bg-green-500'}].map((s,i) => (
+                {[{t:'Pazaryeri :', v:'300 kişi', c:'bg-red-500'}, {t:'Web Sitesi :', v:'250 kişi', c:'bg-green-500'}, {t:'Mağaza :', v:'400 kişi', c:'bg-green-500'}].map((s,i) => (
                   <div key={i} className="flex justify-between items-center text-[12px]">
                     <span className={`font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{s.t}</span>
                     <span className={`font-black flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#111827]'}`}>{s.v} <div className={`w-1.5 h-1.5 rounded-full ${s.c}`}></div></span>
