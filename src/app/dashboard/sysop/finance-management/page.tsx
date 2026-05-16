@@ -161,9 +161,11 @@ export function FinanceView() {
 
 export default function FinanceManagement() {
   const router = useRouter();
+  const [eftDone, setEftDone] = useState<string | null>(null);
 
   return (
     <LayoutWrapper>
+      {eftDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {eftDone}</div>}
       <div className="min-h-screen bg-[#F9FAFB] pt-24 pb-20 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           
@@ -186,7 +188,7 @@ export default function FinanceManagement() {
             </div>
             
             <div className="flex items-center gap-3">
-               <button onClick={() => { setActionDone('EFT dosyası hazırlanıyor...'); setTimeout(() => setActionDone(null), 2500); }} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
+               <button onClick={() => { setEftDone('EFT dosyası hazırlanıyor...'); setTimeout(() => setEftDone(null), 2500); }} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                  EFT Dosyası İndir
                </button>
