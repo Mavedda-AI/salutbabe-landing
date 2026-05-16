@@ -1270,13 +1270,13 @@ export default function SysopDashboard() {
           
           {/* ROW 1: 4 STAT CARDS */}
           <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-6">
-            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-4 md:p-5 relative overflow-hidden group`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_dispute' ? null : 'op_dispute')} className={`${cardClass} p-4 md:p-5 relative overflow-hidden group cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                   AÇIK İHTİLAFLAR
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/order-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_dispute' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>14</h2>
@@ -1286,15 +1286,25 @@ export default function SysopDashboard() {
                 <span className={badgeRed}>↗ 4 Kayıt</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Bugün eklenen</span>
               </div>
+              {expandedCard === 'op_dispute' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün Kusuru</span><span className="text-[12px] font-black text-[#FF383C]">6</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sahte Ürün</span><span className="text-[12px] font-black text-orange-500">4</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Teslimat</span><span className="text-[12px] font-black text-gray-900">4</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`${cardClass} p-4 md:p-5`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_delay' ? null : 'op_delay')} className={`${cardClass} p-4 md:p-5 cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
                   GECİKEN KARGOLAR
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/shipping-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_delay' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>28</h2>
@@ -1304,15 +1314,25 @@ export default function SysopDashboard() {
                 <span className={badgeRed}>↘ 2.1%</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Teslimat sorunu</span>
               </div>
+              {expandedCard === 'op_delay' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">PTT Kargo</span><span className="text-[12px] font-black text-[#FF383C]">12</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">MNG Kargo</span><span className="text-[12px] font-black text-orange-500">9</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yurtiçi Kargo</span><span className="text-[12px] font-black text-gray-900">7</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
 
-            <div onClick={() => router.push('/dashboard/sysop/store-management')} className={`${cardClass} p-4 md:p-5`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_store' ? null : 'op_store')} className={`${cardClass} p-4 md:p-5 cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                   MAĞAZA ONAY
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/store-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_store' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>8</h2>
@@ -1322,15 +1342,25 @@ export default function SysopDashboard() {
                 <span className={badgeGreen}>↗ Bekleyen</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Pro başvuru</span>
               </div>
+              {expandedCard === 'op_store' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Pro Başvuru</span><span className="text-[12px] font-black text-green-600">5</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Standart</span><span className="text-[12px] font-black text-gray-900">3</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Bekleme</span><span className="text-[12px] font-black text-orange-500">2.1 gün</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/store-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
 
-            <div className={`${cardClass} p-4 md:p-5`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_task' ? null : 'op_task')} className={`${cardClass} p-4 md:p-5 cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-4">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                   GÜNLÜK GÖREV
                 </h3>
-                <svg className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_task' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="flex items-baseline gap-2 mb-3">
                 <h2 className={textValue}>84%</h2>
@@ -1339,6 +1369,16 @@ export default function SysopDashboard() {
                 <span className={badgeGreen}>Tamamlandı</span>
                 <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Bugün</span>
               </div>
+              {expandedCard === 'op_task' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Toplam Görev</span><span className="text-[12px] font-black text-gray-900">25</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Tamamlanan</span><span className="text-[12px] font-black text-green-600">21</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kalan</span><span className="text-[12px] font-black text-orange-500">4</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1346,13 +1386,13 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* COMPLAINT DISTRIBUTION (1/3) */}
-            <div onClick={() => router.push('/dashboard/sysop/complaint-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_complaint' ? null : 'op_complaint')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
                   ŞİKAYET DAĞILIMI
                 </h3>
-                <svg onClick={() => router.push('/dashboard/sysop/complaint-management')} className={iconRight} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                <svg className={`w-4 h-4 text-gray-300 ml-auto transition-transform ${expandedCard === 'op_complaint' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               
               {/* Half Donut SVG Exact Replica */}
@@ -1419,10 +1459,20 @@ export default function SysopDashboard() {
                   <span className={`text-[13px] font-black ${isDark ? 'text-white' : 'text-[#111827]'}`}>14 Adet</span>
                 </div>
               </div>
+              {expandedCard === 'op_complaint' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün Kusuru</span><span className="text-[12px] font-black text-[#FF383C]">84</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sahte/Kopya</span><span className="text-[12px] font-black text-orange-500">26</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Diğer</span><span className="text-[12px] font-black text-gray-900">14</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Çözüm Oranı</span><span className="text-[12px] font-black text-green-600">%78</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
-
             {/* TASK COMPLETION (2/3) */}
-            <div className={`lg:col-span-2 ${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_weekly' ? null : 'op_weekly')} className={`lg:col-span-2 ${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
                 <div>
                   <h3 className={textTitle}>
@@ -1499,6 +1549,17 @@ export default function SysopDashboard() {
                    <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
                  </div>
               </div>
+
+              {expandedCard === 'op_weekly' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Haftalık Çözülen</span><span className="text-[12px] font-black text-green-600">384 adet</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Haftalık Gelen</span><span className="text-[12px] font-black text-gray-900">468 adet</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Net Başarı</span><span className="text-[12px] font-black text-[#007AFF]">%82</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1506,13 +1567,13 @@ export default function SysopDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* RECENT ACTIVITY */}
-            <div onClick={() => router.push('/dashboard/sysop/order-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_urgent' ? null : 'op_urgent')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   ACİL İŞLER
                 </h3>
-                <button onClick={() => router.push('/dashboard/sysop/order-management')} className={`p-1.5 ml-auto rounded-lg border flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
+                <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/order-management'); }} className={`p-1.5 ml-auto rounded-lg border flex items-center gap-2 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg></button>
               </div>
               
               <div className="space-y-6">
@@ -1544,17 +1605,28 @@ export default function SysopDashboard() {
                    </div>
                 </div>
               </div>
+
+              {expandedCard === 'op_urgent' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Acil İptal</span><span className="text-[12px] font-black text-[#FF383C]">3</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Mağaza Şikayet</span><span className="text-[12px] font-black text-orange-500">5</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Müdahale Süresi</span><span className="text-[12px] font-black text-[#007AFF]">1.8 saat</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
 
             {/* TOP 3 PRODUCT */}
-            <div onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_cargo_err' ? null : 'op_cargo_err')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                   KARGO FİRMASI HATALARI
                 </h3>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg></button>
+                  <button onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/shipping-management'); }} className={`p-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDark ? 'border-white/10 text-gray-300 bg-[#1A1D1F] hover:bg-white/10' : 'border-gray-200 text-gray-700 bg-white hover:bg-gray-100'}`}><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg></button>
                 </div>
               </div>
 
@@ -1597,15 +1669,26 @@ export default function SysopDashboard() {
                    </div>
                  </div>
               </div>
+              {expandedCard === 'op_cargo_err' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">PTT Gecikme</span><span className="text-[12px] font-black text-[#FF383C]">82</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">MNG Gecikme</span><span className="text-[12px] font-black text-orange-500">41</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yurtiçi Gecikme</span><span className="text-[12px] font-black text-gray-900">17</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/shipping-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
 
             {/* TOTAL VISITOR HEATMAP */}
-            <div className={`${cardClass} p-6 flex flex-col`}>
+            <div onClick={() => setExpandedCard(expandedCard === 'op_density' ? null : 'op_density')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   OPERASYON YOĞUNLUĞU
                 </h3>
+                <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'op_density' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
 
               <div className="flex items-baseline gap-2 mb-4">
@@ -1659,6 +1742,17 @@ export default function SysopDashboard() {
                     </div>
                  </div>
               </div>
+
+              {expandedCard === 'op_density' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">En Yoğun Gün</span><span className="text-[12px] font-black text-[#FF383C]">Salı</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Toplam İşlem</span><span className="text-[12px] font-black text-gray-900">247</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Pik Saat</span><span className="text-[12px] font-black text-[#007AFF]">09:00-12:00</span></div>
+                  </div>
+                  <button onClick={() => router.push('/dashboard/sysop/complaint-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">DETAYLARI GÖRÜNTÜLE</button>
+                </div>
+              )}
             </div>
 
           </div>
