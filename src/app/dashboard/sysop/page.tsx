@@ -896,6 +896,12 @@ export default function SysopDashboard() {
             <div onClick={() => setExpandedCard(expandedCard === 'activity' ? null : 'activity')} className={`${cardClass} p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <h3 className={textTitle}>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
+                  CHANNEL PERFORMANCE
+                </h3>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
+                <h3 className={textTitle}>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   RECENT ACTIVITY
                 </h3>
