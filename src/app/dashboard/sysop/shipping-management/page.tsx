@@ -9,10 +9,10 @@ export default function ShippingManagementPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'delayed' | 'providers'>('overview');
 
   const kpis = [
-    { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={Package01Icon} size={32} className="text-[#111827] drop-shadow-sm" /> },
-    { label: 'Zamanında Teslim', value: '%91.2', sub: '↗ %2.4 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={32} className="text-green-600 drop-shadow-sm" /> },
-    { label: 'Geciken Kargo', value: '1,098', sub: '%8.8 gecikme oranı', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: <HugeiconsIcon icon={Alert02Icon} size={32} className="text-[#FF8D28] drop-shadow-sm" /> },
-    { label: 'Ort. Teslim Süresi', value: '2.4 gün', sub: '↘ 0.3 gün düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={Timer02Icon} size={32} className="text-[#007AFF] drop-shadow-sm" /> },
+    { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-white', icon: <HugeiconsIcon icon={Package01Icon} size={32} className="text-[#111827] drop-shadow-sm" /> },
+    { label: 'Zamanında Teslim', value: '%91.2', sub: '↗ %2.4 iyileşme', color: 'text-green-600', bg: 'bg-[#F4FFF8]', icon: <HugeiconsIcon icon={Tick01Icon} size={32} className="text-green-600 drop-shadow-sm" /> },
+    { label: 'Geciken Kargo', value: '1,098', sub: '%8.8 gecikme oranı', color: 'text-[#FF8D28]', bg: 'bg-[#FFF9F2]', icon: <HugeiconsIcon icon={Alert02Icon} size={32} className="text-[#FF8D28] drop-shadow-sm" /> },
+    { label: 'Ort. Teslim Süresi', value: '2.4 gün', sub: '↘ 0.3 gün düşüş', color: 'text-[#007AFF]', bg: 'bg-[#F4F9FF]', icon: <HugeiconsIcon icon={Timer02Icon} size={32} className="text-[#007AFF] drop-shadow-sm" /> },
   ];
 
   const providers = [
