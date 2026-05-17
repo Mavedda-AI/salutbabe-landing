@@ -110,7 +110,7 @@ export default function BrandManagementPage() {
 
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['all', 'Tümü'], ['pending', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyen</div>], ['blocked', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Cancel01Icon} size={16} /> Engelli</div>]] ).map(([id, label]) => (
+          {([['all', 'Tümü'], ['pending', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyen</div>], ['blocked', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Cancel01Icon} size={16} /> Engelli</div>]] ).map(([id, label]: [string, React.ReactNode]) => (
             <button key={id} onClick={() => { setActiveTab(id); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>
@@ -177,7 +177,7 @@ export default function BrandManagementPage() {
                   <button onClick={() => setModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
                 </div>
                 <div className="p-6 space-y-3">
-                  {[['Durum', modal.brand.status], ['Kategori', modal.brand.category], ['Ürün Sayısı', String(modal.brand.products)], ['Satıcı Sayısı', String(modal.brand.sellers)], ['GMV', modal.brand.gmv], ['Kayıt Tarihi', modal.brand.registeredAt]].map(([l, v], i) => (
+                  {[['Durum', modal.brand.status], ['Kategori', modal.brand.category], ['Ürün Sayısı', String(modal.brand.products)], ['Satıcı Sayısı', String(modal.brand.sellers)], ['GMV', modal.brand.gmv], ['Kayıt Tarihi', modal.brand.registeredAt]].map(([l, v]: [string, React.ReactNode], i: number) => (
                     <div key={i} className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">{l}</span><span className="text-[12px] font-black text-gray-900">{v}</span></div>
                   ))}
                   <div className="pt-4 border-t border-gray-100">
