@@ -11,6 +11,7 @@ export default function ShippingManagementPage() {
   const [selectedDelayed, setSelectedDelayed] = useState<string[]>([]);
   const [providerComplaint, setProviderComplaint] = useState<string | null>(null);
   const [nudgeMessage, setNudgeMessage] = useState<string | null>(null);
+  const [hoveredDay, setHoveredDay] = useState<number | null>(null);
 
   const kpis = [
     { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-white', icon: <HugeiconsIcon icon={Package01Icon} size={32} className="text-[#111827] drop-shadow-sm" /> },
@@ -104,24 +105,79 @@ export default function ShippingManagementPage() {
         {activeTab === 'overview' && (
           <>
             {/* Daily Trend */}
-            <div className={`${cardClass} p-5`}>
-              <h2 className="text-[13px] font-black text-[#111827] mb-1">Günlük Kargo Trendi</h2>
-              <p className="text-[10px] font-medium text-gray-400 mb-5">Toplam vs geciken kargolar</p>
-              <div className="flex items-end justify-between gap-2 h-32">
-                {dailyTrend.map((d, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                    <span className="text-[8px] font-black text-gray-600">{d.total}</span>
-                    <div className="w-full flex flex-col items-center gap-0.5">
-                      <div className="w-full rounded-t-md bg-blue-400" style={{ height: `${(d.total / maxTotal) * 90}px` }} />
-                      <div className="w-full rounded-b-md bg-orange-400" style={{ height: `${(d.delayed / maxTotal) * 90}px` }} />
-                    </div>
-                    <span className="text-[9px] font-bold text-gray-400">{d.day}</span>
-                  </div>
-                ))}
+            <div className={`${cardClass} p-6`}>
+              <h2 className="text-[15px] font-black text-[#111827] mb-1">Günlük Kargo Trendi</h2>
+              <p className="text-[11px] font-medium text-gray-400 mb-8">Toplam vs geciken kargolar (Son 7 gün)</p>
+              
+              <div className="relative h-48 mt-8 mb-2">
+                {/* Average Line */}
+                <div className="absolute top-[30%] left-0 w-full border-t border-dashed border-gray-200 z-0 flex items-center">
+                  <span className="absolute -top-5 left-0 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Ort. Hacim</span>
+                </div>
+                
+                <div className="absolute inset-0 flex items-end justify-between gap-3 z-10">
+                  {dailyTrend.map((d, i) => {
+                    const isActive = hoveredDay === i;
+                    // For inactive bars, use a repeating linear gradient pattern to match the screenshot
+                    const inactivePattern = { backgroundImage: 'repeating-linear-gradient(45deg, #f9fafb, #f9fafb 4px, #f3f4f6 4px, #f3f4f6 8px)' };
+                    
+                    return (
+                      <div 
+                        key={i} 
+                        className="flex-1 flex flex-col items-center gap-3 relative group cursor-pointer h-full justify-end"
+                        onMouseEnter={() => setHoveredDay(i)}
+                        onMouseLeave={() => setHoveredDay(null)}
+                      >
+                        {/* Tooltip */}
+                        {isActive && (
+                          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-44 bg-[#1E1E1E] text-white rounded-[20px] p-4 shadow-2xl z-30 pointer-events-none transform transition-all duration-200 animate-fade-in-up">
+                            <div className="bg-white text-[#1E1E1E] text-[10px] font-black px-3 py-1 rounded-full inline-block mb-3">
+                              {d.day} Günü
+                            </div>
+                            <div className="space-y-2.5">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                                  <span className="text-[11px] text-gray-400 font-bold">Toplam</span>
+                                </div>
+                                <span className="text-[12px] font-black">{d.total}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-2.5 h-2.5 rounded-full bg-[#C6F432]" />
+                                  <span className="text-[11px] text-gray-400 font-bold">Geciken</span>
+                                </div>
+                                <span className="text-[12px] font-black">{d.delayed}</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Bar Container */}
+                        <div className="w-full relative flex flex-col items-center justify-end h-full">
+                          {isActive && (
+                            <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3.5 h-3.5 bg-white border-4 border-blue-500 rounded-full z-20 shadow-sm" />
+                          )}
+                          <div className="w-full flex flex-col items-center justify-end">
+                            <div 
+                              className={`w-full rounded-t-xl transition-all duration-300 ${isActive ? 'bg-blue-500' : ''}`} 
+                              style={isActive ? { height: `${(d.total / maxTotal) * 120}px` } : { height: `${(d.total / maxTotal) * 120}px`, ...inactivePattern }} 
+                            />
+                            <div 
+                              className={`w-full rounded-b-xl transition-all duration-300 ${isActive ? 'bg-[#C6F432]' : 'bg-gray-100'}`} 
+                              style={{ height: `${(d.delayed / maxTotal) * 120}px` }} 
+                            />
+                          </div>
+                        </div>
+                        <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${isActive ? 'text-[#111827]' : 'text-gray-400'}`}>{d.day}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex items-center gap-4 mt-3 justify-center">
-                <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-400" /><span className="text-[9px] font-bold text-gray-500">Toplam</span></div>
-                <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-orange-400" /><span className="text-[9px] font-bold text-gray-500">Geciken</span></div>
+              <div className="flex items-center gap-5 mt-6 justify-center">
+                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-blue-500" /><span className="text-[10px] font-bold text-gray-500">Toplam</span></div>
+                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-[#C6F432]" /><span className="text-[10px] font-bold text-gray-500">Geciken</span></div>
               </div>
             </div>
 
