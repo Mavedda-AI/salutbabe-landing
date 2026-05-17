@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {
   Activity01Icon,
   Alert01Icon,
@@ -32,7 +33,6 @@ import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import {API_BASE_URL, apiUrl} from "../../../lib/api";
-import {HugeiconsIcon} from "@hugeicons/react";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

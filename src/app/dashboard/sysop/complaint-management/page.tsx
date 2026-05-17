@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {
   Alert01Icon,
   BarChartIcon,

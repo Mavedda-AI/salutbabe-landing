@@ -1,14 +1,14 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-import {HugeiconsIcon} from '@hugeicons/react';
 import {
-    Delete01Icon,
-    Moon01Icon,
-    PauseCircleIcon,
-    Search01Icon,
-    Store01Icon,
-    Tick01Icon
+  Delete01Icon,
+  Moon01Icon,
+  PauseCircleIcon,
+  Search01Icon,
+  Store01Icon,
+  Tick01Icon
 } from '@hugeicons/core-free-icons';
 
 type User = { id: number; name: string; email: string; phone: string; role: 'Normal' | 'Satıcı' | 'Kurumsal' | 'Kurucu'; status: 'AKTİF' | 'PASİF' | 'ASKIDA'; joinDate: string; lastLogin: string; orders: number; reviews: number; complaints: number };

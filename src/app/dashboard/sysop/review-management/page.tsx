@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {Flag01Icon, StarIcon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';

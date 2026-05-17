@@ -1,7 +1,7 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-import {HugeiconsIcon} from '@hugeicons/react';
 import {
   BarChartIcon,
   Calendar01Icon,

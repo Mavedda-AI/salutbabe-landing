@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {Building01Icon, Search01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";

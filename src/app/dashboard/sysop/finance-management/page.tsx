@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';

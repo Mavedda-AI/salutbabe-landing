@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {BarChartIcon, Target01Icon} from '@hugeicons/core-free-icons';
 import {useRouter} from 'next/navigation';
 

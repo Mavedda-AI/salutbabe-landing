@@ -1,4 +1,5 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {RunningShoesIcon, Shirt01Icon, ShoppingBag01Icon, StarIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
