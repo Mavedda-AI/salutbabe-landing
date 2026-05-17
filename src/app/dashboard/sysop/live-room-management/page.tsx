@@ -2,16 +2,28 @@
 
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+import {HugeiconsIcon} from '@hugeicons/react';
+import {
+  BarChartIcon,
+  Calendar01Icon,
+  CameraMicrophoneIcon,
+  CrownIcon,
+  MoneyBag01Icon,
+  RecordIcon,
+  Refresh01Icon,
+  Timer02Icon,
+  UserMultipleIcon
+} from '@hugeicons/core-free-icons';
 
 export default function LiveRoomManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'live' | 'scheduled' | 'stats'>('live');
 
   const kpis = [
-    { label: 'AKTİF ODA', value: '142', sub: '3,105 anlık dinleyici', color: 'text-[#FF383C]', bg: 'bg-[#FFF5F5]', icon: '🔴', subColor: 'text-green-500' },
-    { label: 'BUGÜN TOPLAM', value: '384', sub: '↗ %8 vs dün', color: 'text-[#111827]', bg: 'bg-white', icon: '🎙️', subColor: 'text-green-500' },
-    { label: 'ORT. SÜRE', value: '42 dk', sub: '↗ %5.2 artış', color: 'text-[#9747FF]', bg: 'bg-[#FCF9FF]', icon: '⏱️', subColor: 'text-green-500' },
-    { label: 'ODA BAŞI SATIŞ', value: '₺2,840', sub: 'Son 7 gün ort.', color: 'text-[#00B050]', bg: 'bg-[#F2FFF7]', icon: '💰', subColor: 'text-[#00B050]' },
+    { label: 'AKTİF ODA', value: '142', sub: '3,105 anlık dinleyici', color: 'text-[#FF383C]', bg: 'bg-[#FFF5F5]', icon: <HugeiconsIcon icon={RecordIcon} size={32} className="text-[#FF383C]" />, subColor: 'text-green-500' },
+    { label: 'BUGÜN TOPLAM', value: '384', sub: '↗ %8 vs dün', color: 'text-[#111827]', bg: 'bg-white', icon: <HugeiconsIcon icon={CameraMicrophoneIcon} size={32} className="text-gray-600" />, subColor: 'text-green-500' },
+    { label: 'ORT. SÜRE', value: '42 dk', sub: '↗ %5.2 artış', color: 'text-[#9747FF]', bg: 'bg-[#FCF9FF]', icon: <HugeiconsIcon icon={Timer02Icon} size={32} className="text-[#9747FF]" />, subColor: 'text-green-500' },
+    { label: 'ODA BAŞI SATIŞ', value: '₺2,840', sub: 'Son 7 gün ort.', color: 'text-[#00B050]', bg: 'bg-[#F2FFF7]', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={32} className="text-[#00B050]" />, subColor: 'text-[#00B050]' },
   ];
 
   const liveRooms = [
@@ -59,9 +71,13 @@ export default function LiveRoomManagementPage() {
         </div>
 
         <div className="bg-white rounded-full border border-gray-100 shadow-sm p-2 flex items-center justify-between">
-          {[{id:'live',label:'🔴 Canlı Odalar'},{id:'scheduled',label:'📅 Planlanan'},{id:'stats',label:'📊 İstatistik'}].map(tab => (
+          {[
+            {id: 'live', text: 'Canlı Odalar', icon: <HugeiconsIcon icon={RecordIcon} size={20} className={activeTab === 'live' ? "text-red-500" : ""} />},
+            {id: 'scheduled', text: 'Planlanan', icon: <HugeiconsIcon icon={Calendar01Icon} size={20} />},
+            {id: 'stats', text: 'İstatistik', icon: <HugeiconsIcon icon={BarChartIcon} size={20} />}
+          ].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-6 py-3.5 rounded-full text-[14px] font-bold transition-all flex items-center justify-center gap-2 ${activeTab === tab.id ? 'bg-[#0B1221] text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}>
-              {tab.label}
+              {tab.icon} {tab.text}
             </button>
           ))}
         </div>
@@ -78,10 +94,10 @@ export default function LiveRoomManagementPage() {
                       <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-purple-50 text-purple-600">{r.category}</span>
                     </div>
                     <p className="text-[12px] font-medium text-gray-600 mt-1">{r.title}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] font-bold text-gray-500">👥 {r.listeners}</span>
-                      <span className="text-[10px] font-bold text-gray-500">⏱ {r.duration}</span>
-                      <span className="text-[10px] font-black text-green-600">💰 {r.sales}</span>
+                    <div className="flex items-center gap-4 mt-2">
+                      <span className="text-[11px] font-bold text-gray-500 flex items-center gap-1.5"><HugeiconsIcon icon={UserMultipleIcon} size={14} /> {r.listeners}</span>
+                      <span className="text-[11px] font-bold text-gray-500 flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={14} /> {r.duration}</span>
+                      <span className="text-[11px] font-black text-green-600 flex items-center gap-1.5"><HugeiconsIcon icon={MoneyBag01Icon} size={14} /> {r.sales}</span>
                     </div>
                   </div>
                   <button className="text-[9px] font-black px-3 py-2 bg-[#111827] text-white rounded-lg shrink-0">İZLE</button>
@@ -99,9 +115,9 @@ export default function LiveRoomManagementPage() {
                   <div>
                     <span className="text-[12px] font-bold text-[#111827]">{s.host}</span>
                     <p className="text-[11px] text-gray-600 mt-0.5">{s.title}</p>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[10px] font-bold text-[#007AFF]">📅 {s.time}</span>
-                      <span className="text-[10px] font-bold text-gray-400">Beklenen: {s.expected}</span>
+                    <div className="flex items-center gap-4 mt-2">
+                      <span className="text-[11px] font-bold text-[#007AFF] flex items-center gap-1.5"><HugeiconsIcon icon={Calendar01Icon} size={14} /> {s.time}</span>
+                      <span className="text-[11px] font-bold text-gray-400">Beklenen: {s.expected}</span>
                     </div>
                   </div>
                   <button className="text-[9px] font-black px-3 py-2 bg-gray-100 text-gray-700 rounded-lg shrink-0">HATIRLATICI</button>
@@ -114,16 +130,16 @@ export default function LiveRoomManagementPage() {
         {activeTab === 'stats' && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
-              { label: 'Toplam Yayın (30g)', value: '2,840', icon: '🎙️' },
-              { label: 'Toplam Satış', value: '₺4.2M', icon: '💰' },
-              { label: 'Ort. Dinleyici', value: '218', icon: '👥' },
-              { label: 'Tekrar İzleme', value: '%34', icon: '🔁' },
-              { label: 'En Uzun Yayın', value: '3s 42dk', icon: '⏱️' },
-              { label: 'Top Host', value: 'Elif Boutique', icon: '👑' },
+              { label: 'Toplam Yayın (30g)', value: '2,840', icon: <HugeiconsIcon icon={CameraMicrophoneIcon} size={24} className="text-gray-600" /> },
+              { label: 'Toplam Satış', value: '₺4.2M', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={24} className="text-green-500" /> },
+              { label: 'Ort. Dinleyici', value: '218', icon: <HugeiconsIcon icon={UserMultipleIcon} size={24} className="text-blue-500" /> },
+              { label: 'Tekrar İzleme', value: '%34', icon: <HugeiconsIcon icon={Refresh01Icon} size={24} className="text-orange-500" /> },
+              { label: 'En Uzun Yayın', value: '3s 42dk', icon: <HugeiconsIcon icon={Timer02Icon} size={24} className="text-purple-500" /> },
+              { label: 'Top Host', value: 'Elif Boutique', icon: <HugeiconsIcon icon={CrownIcon} size={24} className="text-yellow-500" /> },
             ].map((s, i) => (
-              <div key={i} className={`${cardClass} p-4 text-center`}>
-                <span className="text-[20px]">{s.icon}</span>
-                <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{s.label}</p>
+              <div key={i} className={`${cardClass} p-4 text-center flex flex-col items-center justify-center`}>
+                <span className="mb-2">{s.icon}</span>
+                <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">{s.label}</p>
                 <p className="text-[18px] font-black text-[#111827]">{s.value}</p>
               </div>
             ))}
