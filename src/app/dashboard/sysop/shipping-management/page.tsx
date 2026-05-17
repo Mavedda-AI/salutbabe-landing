@@ -13,6 +13,9 @@ export default function ShippingManagementPage() {
   const [nudgeMessage, setNudgeMessage] = useState<string | null>(null);
   const [hoveredDay, setHoveredDay] = useState<number | null>(null);
   const [trendFilter, setTrendFilter] = useState<'Günlük' | 'Haftalık' | 'Aylık' | 'Yıllık'>('Günlük');
+  const [expandedProvider, setExpandedProvider] = useState<string | null>(null);
+  const [providerShipmentFilter, setProviderShipmentFilter] = useState('Tümü');
+  const [selectedProviderShipments, setSelectedProviderShipments] = useState<string[]>([]);
 
   const kpis = [
     { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-white', icon: <HugeiconsIcon icon={Package01Icon} size={32} className="text-[#111827] drop-shadow-sm" /> },
@@ -27,6 +30,38 @@ export default function ShippingManagementPage() {
     { name: 'MNG Kargo', shipments: 2180, onTime: 89.5, avgDays: 2.6, cost: '₺24.20', trend: '↘' },
     { name: 'PTT Kargo', shipments: 1840, onTime: 82.4, avgDays: 3.8, cost: '₺18.50', trend: '↘' },
   ];
+
+  // Per-provider shipment details
+  const providerShipmentDetails: Record<string, {id: string; buyer: string; city: string; amount: string; status: 'teslim' | 'yolda' | 'gecikme' | 'hasar'; date: string; days: number}[]> = {
+    'Yurtici Kargo': [
+      { id: 'SHP-5001', buyer: 'Ayşe Yıldız', city: 'İstanbul', amount: '₺540', status: 'teslim', date: '15 May', days: 1 },
+      { id: 'SHP-5002', buyer: 'Mehmet Öz', city: 'Ankara', amount: '₺320', status: 'yolda', date: '16 May', days: 2 },
+      { id: 'SHP-5003', buyer: 'Fatma Kara', city: 'İzmir', amount: '₺890', status: 'gecikme', date: '12 May', days: 5 },
+      { id: 'SHP-5004', buyer: 'Ali Demir', city: 'Bursa', amount: '₺215', status: 'teslim', date: '14 May', days: 2 },
+      { id: 'SHP-5005', buyer: 'Zehra Aksoy', city: 'Antalya', amount: '₺675', status: 'hasar', date: '13 May', days: 3 },
+      { id: 'SHP-5006', buyer: 'Can Yılmaz', city: 'İstanbul', amount: '₺430', status: 'yolda', date: '16 May', days: 1 },
+    ],
+    'Aras Kargo': [
+      { id: 'SHP-5101', buyer: 'Selin Taş', city: 'Ankara', amount: '₺780', status: 'teslim', date: '15 May', days: 2 },
+      { id: 'SHP-5102', buyer: 'Emre Koç', city: 'İstanbul', amount: '₺460', status: 'gecikme', date: '11 May', days: 6 },
+      { id: 'SHP-5103', buyer: 'Nilüfer Ay', city: 'Konya', amount: '₺290', status: 'yolda', date: '16 May', days: 1 },
+      { id: 'SHP-5104', buyer: 'Burak Şen', city: 'İzmir', amount: '₺560', status: 'teslim', date: '14 May', days: 2 },
+      { id: 'SHP-5105', buyer: 'Deniz Kurt', city: 'Trabzon', amount: '₺345', status: 'gecikme', date: '10 May', days: 7 },
+    ],
+    'MNG Kargo': [
+      { id: 'SHP-5201', buyer: 'Gül Öztürk', city: 'İstanbul', amount: '₺920', status: 'gecikme', date: '12 May', days: 5 },
+      { id: 'SHP-5202', buyer: 'Murat Polat', city: 'Ankara', amount: '₺180', status: 'teslim', date: '15 May', days: 2 },
+      { id: 'SHP-5203', buyer: 'Ece Duran', city: 'Bursa', amount: '₺475', status: 'hasar', date: '13 May', days: 4 },
+      { id: 'SHP-5204', buyer: 'Hasan Avcı', city: 'Antalya', amount: '₺630', status: 'yolda', date: '16 May', days: 1 },
+    ],
+    'PTT Kargo': [
+      { id: 'SHP-5301', buyer: 'Büşra Kaya', city: 'İstanbul', amount: '₺680', status: 'gecikme', date: '11 May', days: 6 },
+      { id: 'SHP-5302', buyer: 'Kemal Akın', city: 'Samsun', amount: '₺310', status: 'gecikme', date: '10 May', days: 7 },
+      { id: 'SHP-5303', buyer: 'Ayça Yıldırım', city: 'Diyarbakır', amount: '₺520', status: 'yolda', date: '15 May', days: 2 },
+      { id: 'SHP-5304', buyer: 'Okan Erdem', city: 'Erzurum', amount: '₺190', status: 'teslim', date: '14 May', days: 3 },
+      { id: 'SHP-5305', buyer: 'Pelin Arslan', city: 'Mersin', amount: '₺720', status: 'hasar', date: '12 May', days: 5 },
+    ],
+  };
 
   const delayedShipments = [
     { id: 'SHP-4821', buyer: 'Büşra Kaya', provider: 'PTT', days: 4, city: 'İstanbul', amount: '₺680' },
@@ -319,31 +354,174 @@ export default function ShippingManagementPage() {
 
         {activeTab === 'providers' && (
           <div className="space-y-3">
-            {providers.map((p, i) => (
-              <div key={i} className={`${cardClass} p-5`}>
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[14px] font-black text-[#111827]">{p.name}</h3>
-                  <span className={`text-[14px] font-black ${p.trend === '↗' ? 'text-green-500' : p.trend === '↘' ? 'text-red-500' : 'text-gray-400'}`}>{p.trend}</span>
-                </div>
-                <div className="grid grid-cols-4 gap-3">
-                  <div><p className="text-[9px] font-bold text-gray-400 uppercase">Kargo</p><p className="text-[16px] font-black text-[#111827]">{p.shipments.toLocaleString()}</p></div>
-                  <div><p className="text-[9px] font-bold text-gray-400 uppercase">Zamanında</p><p className={`text-[16px] font-black ${p.onTime > 90 ? 'text-green-600' : 'text-orange-500'}`}>%{p.onTime}</p></div>
-                  <div><p className="text-[9px] font-bold text-gray-400 uppercase">Ort. Süre</p><p className="text-[16px] font-black text-[#007AFF]">{p.avgDays} gün</p></div>
-                  <div><p className="text-[9px] font-bold text-gray-400 uppercase">Birim Maliyet</p><p className="text-[16px] font-black text-[#111827]">{p.cost}</p></div>
-                </div>
-                <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
-                  <div className={`h-full rounded-full ${p.onTime > 92 ? 'bg-green-500' : p.onTime > 88 ? 'bg-orange-400' : 'bg-red-400'}`} style={{ width: `${p.onTime}%` }} />
-                </div>
-                <div className="flex justify-end border-t border-gray-100 pt-3">
-                  <button 
-                    onClick={() => setProviderComplaint(p.name)}
-                    className="text-[11px] font-bold text-red-500 hover:text-red-600 flex items-center gap-1 transition-colors"
+            {providers.map((p, i) => {
+              const isExpanded = expandedProvider === p.name;
+              const providerKey = p.name.replace('ı', 'i'); // normalize for lookup
+              const allShipments = providerShipmentDetails[providerKey] || [];
+              const filteredShipments = allShipments.filter(s => {
+                if (providerShipmentFilter === 'Tümü') return true;
+                return s.status === providerShipmentFilter;
+              });
+              const statusBadge = (status: string) => {
+                switch(status) {
+                  case 'teslim': return 'bg-green-50 text-green-600';
+                  case 'yolda': return 'bg-blue-50 text-blue-600';
+                  case 'gecikme': return 'bg-red-50 text-red-600';
+                  case 'hasar': return 'bg-purple-50 text-purple-600';
+                  default: return 'bg-gray-50 text-gray-600';
+                }
+              };
+              const statusLabel = (status: string) => {
+                switch(status) {
+                  case 'teslim': return 'Teslim Edildi';
+                  case 'yolda': return 'Yolda';
+                  case 'gecikme': return 'Gecikme';
+                  case 'hasar': return 'Hasarlı';
+                  default: return status;
+                }
+              };
+
+              return (
+                <div key={i} className={`${cardClass} overflow-hidden transition-all duration-300`}>
+                  {/* Provider Header - Clickable Accordion */}
+                  <button
+                    onClick={() => {
+                      setExpandedProvider(isExpanded ? null : p.name);
+                      setProviderShipmentFilter('Tümü');
+                      setSelectedProviderShipments([]);
+                    }}
+                    className="w-full p-5 text-left"
                   >
-                    <HugeiconsIcon icon={Alert02Icon} size={14} /> Firmaya Şikayet Oluştur
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-[14px] font-black text-[#111827]">{p.name}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[14px] font-black ${p.trend === '↗' ? 'text-green-500' : p.trend === '↘' ? 'text-red-500' : 'text-gray-400'}`}>{p.trend}</span>
+                        <svg className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-4 gap-3">
+                      <div><p className="text-[9px] font-bold text-gray-400 uppercase">Kargo</p><p className="text-[16px] font-black text-[#111827]">{p.shipments.toLocaleString()}</p></div>
+                      <div><p className="text-[9px] font-bold text-gray-400 uppercase">Zamanında</p><p className={`text-[16px] font-black ${p.onTime > 90 ? 'text-green-600' : 'text-orange-500'}`}>%{p.onTime}</p></div>
+                      <div><p className="text-[9px] font-bold text-gray-400 uppercase">Ort. Süre</p><p className="text-[16px] font-black text-[#007AFF]">{p.avgDays} gün</p></div>
+                      <div><p className="text-[9px] font-bold text-gray-400 uppercase">Birim Maliyet</p><p className="text-[16px] font-black text-[#111827]">{p.cost}</p></div>
+                    </div>
+                    <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full ${p.onTime > 92 ? 'bg-green-500' : p.onTime > 88 ? 'bg-orange-400' : 'bg-red-400'}`} style={{ width: `${p.onTime}%` }} />
+                    </div>
                   </button>
+
+                  {/* Expanded Detail Panel */}
+                  {isExpanded && (
+                    <div className="border-t border-gray-100 bg-[#FAFBFC]">
+                      {/* Filter & Actions Bar */}
+                      <div className="p-4 border-b border-gray-100">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                          <div className="w-full md:w-auto overflow-x-auto no-scrollbar pb-1 -mb-1">
+                            <div className="flex items-center bg-white rounded-[16px] p-1.5 min-w-max border border-gray-100">
+                              {[
+                                { id: 'Tümü', label: 'Tümü' },
+                                { id: 'teslim', label: 'Teslim' },
+                                { id: 'yolda', label: 'Yolda' },
+                                { id: 'gecikme', label: 'Gecikme' },
+                                { id: 'hasar', label: 'Hasarlı' },
+                              ].map(f => (
+                                <button
+                                  key={f.id}
+                                  onClick={() => { setProviderShipmentFilter(f.id); setSelectedProviderShipments([]); }}
+                                  className={`px-4 py-1.5 text-[12px] font-bold rounded-[12px] transition-all whitespace-nowrap ${providerShipmentFilter === f.id ? 'bg-[#111827] text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                >
+                                  {f.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {selectedProviderShipments.length > 0 && (
+                              <button
+                                onClick={() => {
+                                  setProviderComplaint(p.name);
+                                }}
+                                className="text-[11px] font-black px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors shadow-sm"
+                              >
+                                Seçilenleri Şikayet Et ({selectedProviderShipments.length})
+                              </button>
+                            )}
+                            <button
+                              onClick={() => setProviderComplaint(p.name)}
+                              className="text-[11px] font-bold text-red-500 hover:text-red-600 flex items-center gap-1 transition-colors px-3 py-2 rounded-xl border border-red-200 hover:border-red-300 bg-white"
+                            >
+                              <HugeiconsIcon icon={Alert02Icon} size={14} /> Firma Şikayeti
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Select All */}
+                      <div className="flex items-center gap-2 px-5 py-2 border-b border-gray-100">
+                        <input
+                          type="checkbox"
+                          checked={selectedProviderShipments.length === filteredShipments.length && filteredShipments.length > 0}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedProviderShipments(filteredShipments.map(s => s.id));
+                            else setSelectedProviderShipments([]);
+                          }}
+                          className="w-3.5 h-3.5 rounded border-gray-300 text-[#111827] focus:ring-[#111827]"
+                        />
+                        <span className="text-[11px] font-bold text-gray-500">Tümünü Seç ({filteredShipments.length} kargo)</span>
+                      </div>
+
+                      {/* Shipment List */}
+                      <div className="divide-y divide-gray-100">
+                        {filteredShipments.map((s, si) => (
+                          <div key={si} className={`flex items-center gap-3 px-5 py-3 transition-all ${selectedProviderShipments.includes(s.id) ? 'bg-blue-50/50' : 'hover:bg-white'}`}>
+                            <input
+                              type="checkbox"
+                              checked={selectedProviderShipments.includes(s.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) setSelectedProviderShipments([...selectedProviderShipments, s.id]);
+                                else setSelectedProviderShipments(selectedProviderShipments.filter(id => id !== s.id));
+                              }}
+                              className="w-3.5 h-3.5 rounded border-gray-300 text-[#111827] focus:ring-[#111827]"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[12px] font-bold text-[#111827]">{s.buyer}</span>
+                                <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${statusBadge(s.status)}`}>{statusLabel(s.status)}</span>
+                                {s.status === 'gecikme' && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-red-100 text-red-600">{s.days} gün</span>}
+                              </div>
+                              <p className="text-[10px] text-gray-500 mt-0.5">{s.id} · {s.city} · {s.date}</p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <p className="text-[12px] font-black text-[#111827]">{s.amount}</p>
+                              <p className="text-[9px] text-gray-400 mt-0.5">{s.days} gün</p>
+                            </div>
+                          </div>
+                        ))}
+                        {filteredShipments.length === 0 && (
+                          <div className="text-center py-8 text-[12px] font-bold text-gray-400">Bu filtreye uygun kargo bulunamadı.</div>
+                        )}
+                      </div>
+
+                      {/* Provider Summary Footer */}
+                      <div className="p-4 bg-white border-t border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div className="flex items-center gap-4 text-[10px]">
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500" /> Teslim: {allShipments.filter(s => s.status === 'teslim').length}</span>
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" /> Yolda: {allShipments.filter(s => s.status === 'yolda').length}</span>
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Gecikme: {allShipments.filter(s => s.status === 'gecikme').length}</span>
+                          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-500" /> Hasar: {allShipments.filter(s => s.status === 'hasar').length}</span>
+                        </div>
+                        <button
+                          onClick={() => setNudgeMessage(`${p.name} detay sayfasına yönlendiriliyorsunuz...`)}
+                          className="text-[11px] font-bold text-[#007AFF] hover:underline"
+                        >
+                          Tüm {p.shipments.toLocaleString()} kargoyu görüntüle →
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
