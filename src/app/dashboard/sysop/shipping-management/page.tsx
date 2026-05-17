@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {BarChartIcon, Package01Icon, Tick01Icon, TruckIcon} from '@hugeicons/core-free-icons';
+import {Alert02Icon, BarChartIcon, Package01Icon, Tick01Icon, Timer02Icon, TruckIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -71,11 +71,11 @@ export default function ShippingManagementPage() {
         {/* KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpis.map((k, i) => (
-            <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
+            <div key={i} className={`${k.bg} border border-gray-100 rounded-[32px] py-8 px-4 flex flex-col items-center justify-center text-center shadow-sm`}>
               <div className="flex justify-center text-[28px] mb-2">{}</div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
-              <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
-              <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>
+              <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest mt-2 mb-1">{k.label}</p>
+              <p className={`text-[36px] tracking-tight font-black ${k.color}`}>{k.value}</p>
+              <p className="text-[13px] font-bold text-green-500 mt-1">{k.sub}</p>
             </div>
           ))}
         </div>
