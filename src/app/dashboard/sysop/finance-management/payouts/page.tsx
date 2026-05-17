@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, {useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
 import {useRouter} from 'next/navigation';

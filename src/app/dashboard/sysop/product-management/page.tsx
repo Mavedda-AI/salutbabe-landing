@@ -1,8 +1,7 @@
+'use client';
 import {ArrowUpRight01Icon, CancelCircleIcon, Package01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
-
-"use client";
 
 export default function ProductManagementPage() {
   const { theme } = useThemeLanguage();

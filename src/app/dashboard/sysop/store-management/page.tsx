@@ -1,9 +1,8 @@
+'use client';
 import {Building01Icon, Search01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {API_BASE_URL, apiUrl} from "../../../../lib/api";
-
-"use client";
 
 interface Store {
   storeID: string;

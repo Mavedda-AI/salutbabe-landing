@@ -1,3 +1,4 @@
+'use client';
 import {
   Activity01Icon,
   Alert01Icon,
@@ -5,7 +6,6 @@ import {
   BarChartIcon,
   CameraVideoIcon,
   CardExchange01Icon,
-  ChartPie01Icon,
   Coins01Icon,
   Home01Icon,
   Invoice01Icon,
@@ -14,6 +14,7 @@ import {
   Money01Icon,
   Moon01Icon,
   Package01Icon,
+  PieChart01Icon,
   Settings01Icon,
   ShoppingBag01Icon,
   StarIcon,
@@ -32,8 +33,6 @@ import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import {API_BASE_URL, apiUrl} from "../../../lib/api";
 import {HugeiconsIcon} from "@hugeicons/react";
-
-"use client";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -240,7 +239,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       label: 'Analitik',
       icon: <HugeiconsIcon icon={BarChartIcon} size={24} />,
       submenus: [
-        { label: 'Genel Analitik', href: '/dashboard/sysop/analytics', icon: <HugeiconsIcon icon={ChartPie01Icon} size={18} /> },
+        { label: 'Genel Analitik', href: '/dashboard/sysop/analytics', icon: <HugeiconsIcon icon={PieChart01Icon} size={18} /> },
         { label: 'Birim Ekonomisi', href: '/dashboard/sysop/unit-economics', icon: <HugeiconsIcon icon={Activity01Icon} size={18} /> },
         { label: 'Satıcı Sağlığı', href: '/dashboard/sysop/seller-health', icon: <HugeiconsIcon icon={Alert01Icon} size={18} /> }
       ] 

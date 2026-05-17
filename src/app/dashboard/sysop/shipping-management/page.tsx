@@ -1,8 +1,7 @@
+'use client';
 import {BarChartIcon, Package01Icon, Tick01Icon, TruckIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 export default function ShippingManagementPage() {
   const router = useRouter();

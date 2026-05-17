@@ -1,9 +1,8 @@
+'use client';
 import {Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
 import {useRouter} from 'next/navigation';
-
-"use client";
 
 export function FinanceView() {
   const router = useRouter();

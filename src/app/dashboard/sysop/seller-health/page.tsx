@@ -1,7 +1,6 @@
+'use client';
 import {CrownIcon, NewJobIcon, StarIcon, Tick01Icon} from '@hugeicons/core-free-icons';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 export default function SellerHealthPage() {
   const router = useRouter();

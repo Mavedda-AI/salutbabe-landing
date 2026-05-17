@@ -1,16 +1,15 @@
+'use client';
 import {
-    Alert01Icon,
-    BarChartIcon,
-    FlashIcon,
-    Mail01Icon,
-    RecordIcon,
-    StarIcon,
-    Tick01Icon
+  Alert01Icon,
+  BarChartIcon,
+  FlashIcon,
+  Mail01Icon,
+  RecordIcon,
+  StarIcon,
+  Tick01Icon
 } from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 export default function ComplaintManagementPage() {
   const router = useRouter();

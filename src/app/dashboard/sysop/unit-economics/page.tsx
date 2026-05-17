@@ -1,7 +1,6 @@
+'use client';
 import {BarChartIcon, Target01Icon} from '@hugeicons/core-free-icons';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 export default function UnitEconomicsPage() {
   const router = useRouter();

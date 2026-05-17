@@ -1,8 +1,7 @@
+'use client';
 import {Message01Icon, StarIcon, Store01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 type UserReview = { id: number; reviewer: string; target: string; rating: number; text: string; date: string; type: 'Satıcı' | 'Mağaza'; status: 'pending' | 'approved' | 'removed' };
 

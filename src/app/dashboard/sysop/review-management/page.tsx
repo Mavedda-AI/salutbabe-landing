@@ -1,8 +1,7 @@
+'use client';
 import {Flag01Icon, StarIcon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 type Review = { id: number; user: string; product: string; rating: number; text: string; date: string; status: 'pending' | 'approved' | 'flagged'; images: number };
 

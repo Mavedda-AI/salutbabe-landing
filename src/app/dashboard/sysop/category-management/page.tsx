@@ -1,5 +1,5 @@
-"use client";
-import React, {useState, useEffect} from "react";
+'use client';
+import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 
 export default function CategoryManagementPage() {

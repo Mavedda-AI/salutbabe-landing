@@ -1,8 +1,7 @@
+'use client';
 import {Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 type SettingItem = { key: string; label: string; value: string; type: 'input' | 'select' | 'toggle' };
 type SettingsSection = { section: string; items: SettingItem[] };

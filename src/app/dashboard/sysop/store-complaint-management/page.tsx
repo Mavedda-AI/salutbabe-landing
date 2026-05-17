@@ -1,8 +1,7 @@
+'use client';
 import {RecordIcon, Search01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 type Complaint = { id: number; store: string; subject: string; reporter: string; date: string; priority: 'Acil' | 'Yüksek' | 'Normal'; count: number; status: 'Açık' | 'İnceleniyor' | 'Çözüldü'; detail: string };
 

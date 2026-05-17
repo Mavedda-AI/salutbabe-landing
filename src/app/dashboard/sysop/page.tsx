@@ -1,9 +1,8 @@
+'use client';
 import {RunningShoesIcon, Shirt01Icon, ShoppingBag01Icon, StarIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
-
-"use client";
 
 const initialMapData: Record<string, { users: number; color: string }> = {
   'Marmara': { users: 4820, color: '#1A1A1A' },

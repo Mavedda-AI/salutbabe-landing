@@ -1,8 +1,7 @@
+'use client';
 import {BankIcon, BarChartIcon, MoneyBag01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 export default function PayoutManagementPage() {
   const router = useRouter();

@@ -1,8 +1,7 @@
+'use client';
 import {Cancel01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
-
-'use client';
 
 type Brand = { id: number; name: string; products: number; sellers: number; status: 'Onaylı' | 'Beklemede' | 'Engelli'; gmv: string; registeredAt: string; category: string };
 
