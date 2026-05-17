@@ -1,15 +1,16 @@
-'use client';
+import {CrownIcon, NewJobIcon, StarIcon, Tick01Icon} from '@hugeicons/core-free-icons';
+import {useRouter} from 'next/navigation';
 
-import { useRouter } from 'next/navigation';
+'use client';
 
 export default function SellerHealthPage() {
   const router = useRouter();
 
   const healthScores = [
-    { label: 'Aktif Satıcı', value: '1,245', color: 'text-[#34C759]', bg: 'bg-green-50', icon: '✅' },
+    { label: 'Aktif Satıcı', value: '1,245', color: 'text-[#34C759]', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
     { label: 'İnaktif (>7 Gün)', value: '84', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: '⚠️' },
-    { label: 'Top Satıcı (>15K ₺)', value: '32', color: 'text-[#111827]', bg: 'bg-gray-50', icon: '👑' },
-    { label: 'Yeni Satıcı (30g)', value: '67', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '🆕' },
+    { label: 'Top Satıcı (>15K ₺)', value: '32', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
+    { label: 'Yeni Satıcı (30g)', value: '67', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
   ];
 
   const topSellers = [
@@ -120,7 +121,7 @@ export default function SellerHealthPage() {
                 <div className="mt-3 space-y-1">
                   <div className="flex justify-between"><span className="text-[10px] opacity-80">Satıcı</span><span className="text-[12px] font-black">{t.count}</span></div>
                   <div className="flex justify-between"><span className="text-[10px] opacity-80">GMV Pay</span><span className="text-[12px] font-black">{t.gmvShare}</span></div>
-                  <div className="flex justify-between"><span className="text-[10px] opacity-80">Ort. Puan</span><span className="text-[12px] font-black">⭐ {t.avgRating}</span></div>
+                  <div className="flex justify-between"><span className="text-[10px] opacity-80">Ort. Puan</span><span className="text-[12px] font-black"><HugeiconsIcon icon={StarIcon} size={16} className="inline-block mr-1" /> {t.avgRating}</span></div>
                 </div>
               </div>
             ))}
@@ -140,7 +141,7 @@ export default function SellerHealthPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[12px] font-bold text-[#111827] truncate">{s.name}</p>
-                  <p className="text-[10px] text-gray-400">{s.orders} sipariş · ⭐ {s.rating}</p>
+                  <p className="text-[10px] text-gray-400">{s.orders} sipariş · <HugeiconsIcon icon={StarIcon} size={16} className="inline-block mr-1" /> {s.rating}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-[13px] font-black text-[#111827]">{s.gmv}</p>

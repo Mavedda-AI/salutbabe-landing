@@ -1,8 +1,9 @@
-"use client";
-
+import {Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
 import {useRouter} from 'next/navigation';
+
+"use client";
 
 export function FinanceView() {
   const router = useRouter();
@@ -133,7 +134,7 @@ export function FinanceView() {
       </div>
 
       {/* Toast */}
-      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {actionDone}</div>}
 
       {/* Warn Modal */}
       {warnModal && (
@@ -165,7 +166,7 @@ export default function FinanceManagement() {
 
   return (
     <LayoutWrapper>
-      {eftDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {eftDone}</div>}
+      {eftDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {eftDone}</div>}
       <div className="min-h-screen bg-[#F9FAFB] pt-24 pb-20 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           

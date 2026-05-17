@@ -1,15 +1,16 @@
-'use client';
-
+import {BarChartIcon, Package01Icon, Tick01Icon, TruckIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 export default function ShippingManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'delayed' | 'providers'>('overview');
 
   const kpis = [
-    { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-gray-50', icon: '📦' },
-    { label: 'Zamanında Teslim', value: '%91.2', sub: '↗ %2.4 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: '✅' },
+    { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={Package01Icon} size={18} /> },
+    { label: 'Zamanında Teslim', value: '%91.2', sub: '↗ %2.4 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
     { label: 'Geciken Kargo', value: '1,098', sub: '%8.8 gecikme oranı', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: '⚠️' },
     { label: 'Ort. Teslim Süresi', value: '2.4 gün', sub: '↘ 0.3 gün düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '⏱️' },
   ];
@@ -81,7 +82,7 @@ export default function ShippingManagementPage() {
 
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'overview',label:'📊 Genel Bakış'},{id:'delayed',label:'⚠️ Gecikenler'},{id:'providers',label:'🚚 Firmalar'}].map(tab => (
+          {[{id:'overview',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> Genel Bakış</div>},{id:'delayed',label:'⚠️ Gecikenler'},{id:'providers',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={TruckIcon} size={16} /> Firmalar</div>}].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
               {tab.label}
             </button>

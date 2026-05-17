@@ -1,11 +1,3 @@
-"use client";
-
-import React, {useEffect, useState} from "react";
-import Link from "next/link";
-import {usePathname, useRouter} from "next/navigation";
-import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
-import {API_BASE_URL, apiUrl} from "../../../lib/api";
-import {HugeiconsIcon} from "@hugeicons/react";
 import {
   Activity01Icon,
   Alert01Icon,
@@ -20,18 +12,28 @@ import {
   Message01Icon,
   MessageQuestionIcon,
   Money01Icon,
+  Moon01Icon,
   Package01Icon,
   Settings01Icon,
   ShoppingBag01Icon,
   StarIcon,
   Store01Icon,
   StoreLocation01Icon,
+  Sun01Icon,
   Tag01Icon,
   TruckIcon,
   UserIcon,
   UserMultipleIcon,
   Wallet01Icon
-} from "@hugeicons/core-free-icons";
+} from '@hugeicons/core-free-icons';
+import React, {useEffect, useState} from "react";
+import Link from "next/link";
+import {usePathname, useRouter} from "next/navigation";
+import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
+import {API_BASE_URL, apiUrl} from "../../../lib/api";
+import {HugeiconsIcon} from "@hugeicons/react";
+
+"use client";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -538,7 +540,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               className={`flex items-center gap-3 transition-all group ${theme === 'light' ? 'text-text-secondary hover:text-text-primary' : 'text-white/60 hover:text-white'}`}
             >
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${theme === 'light' ? 'bg-black/5 group-hover:bg-black/10' : 'bg-white/5 group-hover:bg-white/10'}`}>
-                {theme === 'dark' ? '☀️' : '🌙'}
+                {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={16} /> : <HugeiconsIcon icon={Moon01Icon} size={16} />}
               </div>
               {!isSidebarCollapsed && <span className="text-[12px] font-bold">{theme === 'dark' ? (language === 'tr' ? 'Aydınlık' : language === 'fr' ? 'Clair' : 'Light') : (language === 'tr' ? 'Karanlık' : language === 'fr' ? 'Sombre' : 'Dark')}</span>}
             </button>

@@ -1,6 +1,8 @@
-"use client";
+import {ArrowUpRight01Icon, CancelCircleIcon, Package01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+
+"use client";
 
 export default function ProductManagementPage() {
   const { theme } = useThemeLanguage();
@@ -47,10 +49,10 @@ export default function ProductManagementPage() {
       {/* Stats Widgets */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {[
-          { title: "Toplam Ürün", value: "24,892", icon: "📦", color: isDark ? "text-blue-400" : "text-blue-600" },
-          { title: "Onay Bekleyen", value: "156", icon: "⏳", color: isDark ? "text-orange-400" : "text-orange-600" },
-          { title: "Bu Ay Eklenen", value: "+3,240", icon: "📈", color: isDark ? "text-green-400" : "text-green-600" },
-          { title: "Reddedilen", value: "84", icon: "🛑", color: isDark ? "text-red-400" : "text-red-600" }
+          { title: "Toplam Ürün", value: "24,892", icon: <HugeiconsIcon icon={Package01Icon} size={18} />, color: isDark ? "text-blue-400" : "text-blue-600" },
+          { title: "Onay Bekleyen", value: "156", icon: <HugeiconsIcon icon={Timer02Icon} size={18} />, color: isDark ? "text-orange-400" : "text-orange-600" },
+          { title: "Bu Ay Eklenen", value: "+3,240", icon: <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />, color: isDark ? "text-green-400" : "text-green-600" },
+          { title: "Reddedilen", value: "84", icon: <HugeiconsIcon icon={CancelCircleIcon} size={18} />, color: isDark ? "text-red-400" : "text-red-600" }
         ].map((stat, idx) => (
           <div key={idx} className={`${cardClass} p-6 flex flex-col`}>
             <div className="flex items-center justify-between mb-4">
@@ -67,9 +69,9 @@ export default function ProductManagementPage() {
          <div className="flex items-center gap-1 overflow-x-auto w-full no-scrollbar px-2 pb-1 flex-1 min-w-0">
             {[
               { id: 'all', label: 'Tüm İlanlar' },
-              { id: 'active', label: '✅ Yayındakiler' },
-              { id: 'pending', label: '⏳ Onay Bekleyenler' },
-              { id: 'rejected', label: '🛑 Reddedilenler' }
+              { id: 'active', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Yayındakiler</div> },
+              { id: 'pending', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Onay Bekleyenler</div> },
+              { id: 'rejected', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={CancelCircleIcon} size={16} /> Reddedilenler</div> }
             ].map(tab => (
               <button 
                 key={tab.id}

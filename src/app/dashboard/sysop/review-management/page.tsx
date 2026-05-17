@@ -1,6 +1,8 @@
-'use client';
+import {Flag01Icon, StarIcon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 type Review = { id: number; user: string; product: string; rating: number; text: string; date: string; status: 'pending' | 'approved' | 'flagged'; images: number };
 
@@ -35,10 +37,10 @@ export default function ReviewManagementPage() {
   };
 
   const kpis = [
-    { label: 'Bekleyen İnceleme', value: reviews.filter(r => r.status === 'pending').length, color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: '⏳' },
-    { label: 'Onaylanan (Toplam)', value: reviews.filter(r => r.status === 'approved').length, color: 'text-green-600', bg: 'bg-green-50', icon: '✅' },
-    { label: 'Ort. Puan', value: (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1), color: 'text-yellow-500', bg: 'bg-yellow-50', icon: '⭐' },
-    { label: 'Bayrak Atılan', value: reviews.filter(r => r.status === 'flagged').length, color: 'text-red-500', bg: 'bg-red-50', icon: '🚩' },
+    { label: 'Bekleyen İnceleme', value: reviews.filter(r => r.status === 'pending').length, color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: <HugeiconsIcon icon={Timer02Icon} size={18} /> },
+    { label: 'Onaylanan (Toplam)', value: reviews.filter(r => r.status === 'approved').length, color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+    { label: 'Ort. Puan', value: (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1), color: 'text-yellow-500', bg: 'bg-yellow-50', icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
+    { label: 'Bayrak Atılan', value: reviews.filter(r => r.status === 'flagged').length, color: 'text-red-500', bg: 'bg-red-50', icon: <HugeiconsIcon icon={Flag01Icon} size={18} /> },
   ];
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
 
@@ -58,7 +60,7 @@ export default function ReviewManagementPage() {
           {kpis.map((k, i) => (<div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}><span className="text-[22px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className={`text-[24px] font-black ${k.color}`}>{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['pending', '⏳ Bekleyen'], ['approved', '✅ Onaylanan'], ['flagged', '🚩 Bayraklı']] as const).map(([id, label]) => (
+          {([['pending', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyen</div>], ['approved', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Onaylanan</div>], ['flagged', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Flag01Icon} size={16} /> Bayraklı</div>]] ).map(([id, label]) => (
             <button key={id} onClick={() => { setActiveTab(id); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>
@@ -82,7 +84,7 @@ export default function ReviewManagementPage() {
               <div className="flex items-start gap-3">
                 <input type="checkbox" checked={selected.includes(r.id)} onChange={() => toggleSelect(r.id)} className="w-4 h-4 rounded border-gray-300 accent-[#111827] mt-1 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2"><span className="text-[12px] font-bold text-[#111827]">{r.user}</span><span className="text-yellow-400 text-[12px]">{'⭐'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span>{r.images > 0 && <span className="text-[9px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded">📷 {r.images}</span>}</div>
+                  <div className="flex items-center gap-2"><span className="text-[12px] font-bold text-[#111827]">{r.user}</span><span className="text-yellow-400 text-[12px]">{Array.from({length: r.rating}).map((_, i) => <HugeiconsIcon key={'star-'+i} icon={StarIcon} size={14} className="text-yellow-400 inline-block" />)}{Array.from({length: 5 - r.rating}).map((_, i) => <HugeiconsIcon key={'empty-'+i} icon={StarIcon} size={14} className="text-gray-300 inline-block" />)}</span>{r.images > 0 && <span className="text-[9px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded">📷 {r.images}</span>}</div>
                   <p className="text-[10px] font-bold text-gray-400 mt-0.5">{r.product}</p>
                   <p className="text-[12px] text-gray-700 mt-1">{r.text}</p>
                   <span className="text-[10px] text-gray-400 mt-1 block">{r.date}</span>
@@ -108,7 +110,7 @@ export default function ReviewManagementPage() {
               <button onClick={() => setModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
             <div className="p-6 space-y-3">
-              {[['Kullanıcı', modal.user], ['Ürün', modal.product], ['Puan', '⭐'.repeat(modal.rating) + '☆'.repeat(5 - modal.rating)], ['Görsel', modal.images > 0 ? `${modal.images} adet` : 'Yok'], ['Tarih', modal.date], ['Durum', modal.status === 'pending' ? 'Beklemede' : modal.status === 'approved' ? 'Onaylı' : 'Bayraklı']].map(([l, v], i) => (
+              {[['Kullanıcı', modal.user], ['Ürün', modal.product], ['Puan', <div className="flex gap-0.5">{Array.from({length: modal.rating}).map((_, i) => <HugeiconsIcon key={'s-'+i} icon={StarIcon} size={14} className="text-yellow-400" />)}{Array.from({length: 5 - modal.rating}).map((_, i) => <HugeiconsIcon key={'e-'+i} icon={StarIcon} size={14} className="text-gray-300" />)}</div>], ['Görsel', modal.images > 0 ? `${modal.images} adet` : 'Yok'], ['Tarih', modal.date], ['Durum', modal.status === 'pending' ? 'Beklemede' : modal.status === 'approved' ? 'Onaylı' : 'Bayraklı']].map(([l, v], i) => (
                 <div key={i} className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">{l}</span><span className="text-[12px] font-black text-gray-900">{v}</span></div>
               ))}
               <div className="pt-3 border-t border-gray-100">

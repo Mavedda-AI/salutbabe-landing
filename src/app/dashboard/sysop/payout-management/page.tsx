@@ -1,7 +1,8 @@
-'use client';
-
+import {BankIcon, BarChartIcon, MoneyBag01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 export default function PayoutManagementPage() {
   const router = useRouter();
@@ -11,9 +12,9 @@ export default function PayoutManagementPage() {
   const [actionDone, setActionDone] = useState<string | null>(null);
 
   const kpis = [
-    { label: 'Havuzdaki Bakiye', value: '₺1,450,000', sub: '84 bekleyen onay', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '🏦' },
-    { label: 'Bu Hafta Onaylanan', value: '₺345,000', sub: '↗ %12.4 artış', color: 'text-green-600', bg: 'bg-green-50', icon: '✅' },
-    { label: 'Toplam Komisyon', value: '₺1,080,960', sub: 'Son 30 gün', color: 'text-purple-600', bg: 'bg-purple-50', icon: '💰' },
+    { label: 'Havuzdaki Bakiye', value: '₺1,450,000', sub: '84 bekleyen onay', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={BankIcon} size={18} /> },
+    { label: 'Bu Hafta Onaylanan', value: '₺345,000', sub: '↗ %12.4 artış', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+    { label: 'Toplam Komisyon', value: '₺1,080,960', sub: 'Son 30 gün', color: 'text-purple-600', bg: 'bg-purple-50', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={18} /> },
     { label: 'Ort. Ödeme Süresi', value: '3.2 gün', sub: '↘ 0.5 gün iyileşme', color: 'text-[#111827]', bg: 'bg-gray-50', icon: '⏱️' },
   ];
 
@@ -72,7 +73,7 @@ export default function PayoutManagementPage() {
         </div>
 
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'overview',label:'📊 Genel Bakış'},{id:'pending',label:'⏳ Bekleyenler'},{id:'completed',label:'✅ Tamamlanan'}].map(tab => (
+          {[{id:'overview',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> Genel Bakış</div>},{id:'pending',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyenler</div>},{id:'completed',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Tamamlanan</div>}].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
               {tab.label}
             </button>
@@ -158,7 +159,7 @@ export default function PayoutManagementPage() {
                     <p className="text-[10px] text-gray-500 mt-0.5">{p.date} · {p.method}</p>
                   </div>
                   <p className="text-[13px] font-black text-[#111827]">{p.amount}</p>
-                  <span className="text-[9px] font-black px-2 py-1 rounded-full bg-green-50 text-green-600">✅ {p.status}</span>
+                  <span className="text-[9px] font-black px-2 py-1 rounded-full bg-green-50 text-green-600"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {p.status}</span>
                 </div>
               </div>
             ))}
@@ -202,7 +203,7 @@ export default function PayoutManagementPage() {
         </div>
       )}
       {/* Toast */}
-      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {actionDone}</div>}
     </div>
   );
 }

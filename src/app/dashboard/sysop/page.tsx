@@ -1,7 +1,9 @@
-"use client";
+import {RunningShoesIcon, Shirt01Icon, ShoppingBag01Icon, StarIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
+
+"use client";
 
 const initialMapData: Record<string, { users: number; color: string }> = {
   'Marmara': { users: 4820, color: '#1A1A1A' },
@@ -613,7 +615,7 @@ export default function SysopDashboard() {
 
                     <div className="space-y-2 mb-4">
                        <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Yeni Satıcı (30g)</span><span className="text-[12px] font-black text-[#007AFF]">67</span></div>
-                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Satıcı Puanı</span><span className="text-[12px] font-black text-[#111827]">⭐ 4.6</span></div>
+                       <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Satıcı Puanı</span><span className="text-[12px] font-black text-[#111827]"><HugeiconsIcon icon={StarIcon} size={16} className="inline-block mr-1" /> 4.6</span></div>
                        <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Churn Riski</span><span className="text-[12px] font-black text-[#FF383C]">3 satıcı</span></div>
                     </div>
 
@@ -1081,9 +1083,9 @@ export default function SysopDashboard() {
                        <p className={`text-[12px] font-bold mb-3 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Çıkan Ürünler (Satıldı)</p>
                        <div className="flex flex-col gap-2">
                          {[
-                           { name: 'Kırmızı Ceket', qty: 2, icon: '🧥', color: 'bg-red-100', price: '₺1,500', time: '5 dk önce' },
-                           { name: 'Deri Çanta', qty: 1, icon: '👜', color: 'bg-orange-100', price: '₺850', time: '12 dk önce' },
-                           { name: 'Sneaker', qty: 1, icon: '👟', color: 'bg-blue-100', price: '₺320', time: '1 saat önce' }
+                           { name: 'Kırmızı Ceket', qty: 2, icon: <HugeiconsIcon icon={Shirt01Icon} size={18} />, color: 'bg-red-100', price: '₺1,500', time: '5 dk önce' },
+                           { name: 'Deri Çanta', qty: 1, icon: <HugeiconsIcon icon={ShoppingBag01Icon} size={18} />, color: 'bg-orange-100', price: '₺850', time: '12 dk önce' },
+                           { name: 'Sneaker', qty: 1, icon: <HugeiconsIcon icon={RunningShoesIcon} size={18} />, color: 'bg-blue-100', price: '₺320', time: '1 saat önce' }
                          ].map((item, idx) => (
                            <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/product-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
                               <div className="flex items-center gap-3">
@@ -1103,7 +1105,7 @@ export default function SysopDashboard() {
                        <p className={`text-[12px] font-bold mb-3 mt-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Giren Ürünler (İade / İptal)</p>
                        <div className="flex flex-col gap-2">
                          {[
-                           { name: 'Siyah Ceket', qty: 2, icon: '🧥', color: 'bg-gray-200', price: '₺1,500', time: '3 saat önce' },
+                           { name: 'Siyah Ceket', qty: 2, icon: <HugeiconsIcon icon={Shirt01Icon} size={18} />, color: 'bg-gray-200', price: '₺1,500', time: '3 saat önce' },
                            { name: 'Güneş Gözlüğü', qty: 1, icon: '🕶️', color: 'bg-yellow-100', price: '₺150', time: '1 gün önce' }
                          ].map((item, idx) => (
                            <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/order-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
@@ -2531,7 +2533,7 @@ export default function SysopDashboard() {
             {/* Footer */}
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50/50">
               <button onClick={() => setShowCampaignModal(false)} className="px-5 py-2.5 text-[12px] font-bold text-gray-500 hover:text-gray-700 transition-colors">Vazgeç</button>
-              <button onClick={() => { if (!campaignForm.name || !campaignForm.code) return; setShowCampaignModal(false); setOpConfirm({ type: 'campaign_ok', title: 'Kampanya Başlatıldı ✅', desc: `"${campaignForm.name}" kampanyası ${campaignForm.code} kupon koduyla başarıyla oluşturuldu.` }); setCampaignForm({ name: '', code: '', discount: '', budget: '', audience: 'Tüm Kullanıcılar' }); }} disabled={!campaignForm.name || !campaignForm.code} className={`px-5 py-2.5 rounded-lg text-[12px] font-bold shadow-sm transition-all ${!campaignForm.name || !campaignForm.code ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700 shadow-green-600/20'}`}>Kampanyayı Başlat</button>
+              <button onClick={() => { if (!campaignForm.name || !campaignForm.code) return; setShowCampaignModal(false); setOpConfirm({ type: 'campaign_ok', title: 'Kampanya Başlatıldı <HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" />', desc: `"${campaignForm.name}" kampanyası ${campaignForm.code} kupon koduyla başarıyla oluşturuldu.` }); setCampaignForm({ name: '', code: '', discount: '', budget: '', audience: 'Tüm Kullanıcılar' }); }} disabled={!campaignForm.name || !campaignForm.code} className={`px-5 py-2.5 rounded-lg text-[12px] font-bold shadow-sm transition-all ${!campaignForm.name || !campaignForm.code ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700 shadow-green-600/20'}`}>Kampanyayı Başlat</button>
             </div>
           </div>
         </div>
@@ -2549,7 +2551,7 @@ export default function SysopDashboard() {
             <div className="flex gap-3">
               <button onClick={() => setOpConfirm(null)} className="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[13px] transition-colors">Kapat</button>
               {opConfirm.type !== 'campaign_ok' && opConfirm.type !== 'ai' && (
-                <button onClick={() => { setOpConfirm({ ...opConfirm, type: 'campaign_ok', title: 'İşlem Başarılı ✅', desc: 'İşleminiz başarıyla gerçekleştirildi.' }); }} className="flex-1 py-3 rounded-xl bg-[#111827] hover:bg-black text-white font-bold text-[13px] transition-colors">Onayla</button>
+                <button onClick={() => { setOpConfirm({ ...opConfirm, type: 'campaign_ok', title: 'İşlem Başarılı <HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" />', desc: 'İşleminiz başarıyla gerçekleştirildi.' }); }} className="flex-1 py-3 rounded-xl bg-[#111827] hover:bg-black text-white font-bold text-[13px] transition-colors">Onayla</button>
               )}
             </div>
           </div>

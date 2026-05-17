@@ -1,6 +1,8 @@
-'use client';
+import {Cancel01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 type Brand = { id: number; name: string; products: number; sellers: number; status: 'Onaylı' | 'Beklemede' | 'Engelli'; gmv: string; registeredAt: string; category: string };
 
@@ -58,9 +60,9 @@ export default function BrandManagementPage() {
 
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
   const kpis = [
-    { label: 'Onaylı Marka', value: brands.filter(b => b.status === 'Onaylı').length, icon: '✅' },
-    { label: 'Beklemede', value: brands.filter(b => b.status === 'Beklemede').length, icon: '⏳' },
-    { label: 'Engelli', value: brands.filter(b => b.status === 'Engelli').length, icon: '🚫' },
+    { label: 'Onaylı Marka', value: brands.filter(b => b.status === 'Onaylı').length, icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+    { label: 'Beklemede', value: brands.filter(b => b.status === 'Beklemede').length, icon: <HugeiconsIcon icon={Timer02Icon} size={18} /> },
+    { label: 'Engelli', value: brands.filter(b => b.status === 'Engelli').length, icon: <HugeiconsIcon icon={Cancel01Icon} size={18} /> },
   ];
 
   return (
@@ -108,7 +110,7 @@ export default function BrandManagementPage() {
 
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['all', 'Tümü'], ['pending', '⏳ Bekleyen'], ['blocked', '🚫 Engelli']] as const).map(([id, label]) => (
+          {([['all', 'Tümü'], ['pending', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyen</div>], ['blocked', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Cancel01Icon} size={16} /> Engelli</div>]] ).map(([id, label]) => (
             <button key={id} onClick={() => { setActiveTab(id); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>

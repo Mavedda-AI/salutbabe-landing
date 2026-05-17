@@ -1,17 +1,26 @@
-'use client';
-
+import {
+    Alert01Icon,
+    BarChartIcon,
+    FlashIcon,
+    Mail01Icon,
+    RecordIcon,
+    StarIcon,
+    Tick01Icon
+} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 export default function ComplaintManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'open' | 'resolved' | 'stats'>('open');
 
   const kpis = [
-    { label: 'Açık Destek', value: '142', sub: '32 acil öncelikli', color: 'text-[#FF383C]', bg: 'bg-red-50', icon: '🔴' },
-    { label: 'Çözülme Oranı', value: '%94.8', sub: '↗ %1.2 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: '✅' },
+    { label: 'Açık Destek', value: '142', sub: '32 acil öncelikli', color: 'text-[#FF383C]', bg: 'bg-red-50', icon: <HugeiconsIcon icon={RecordIcon} size={18} /> },
+    { label: 'Çözülme Oranı', value: '%94.8', sub: '↗ %1.2 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
     { label: 'Ort. Çözüm Süresi', value: '4.2 saat', sub: '↘ 1.1 saat düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '⏱️' },
-    { label: 'CSAT Skoru', value: '4.6/5', sub: 'Son 30 gün ort.', color: 'text-purple-600', bg: 'bg-purple-50', icon: '⭐' },
+    { label: 'CSAT Skoru', value: '4.6/5', sub: 'Son 30 gün ort.', color: 'text-purple-600', bg: 'bg-purple-50', icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
   ];
 
   const openTickets = [
@@ -71,7 +80,7 @@ export default function ComplaintManagementPage() {
 
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'open',label:'🔴 Açık Talepler'},{id:'resolved',label:'✅ Çözülenler'},{id:'stats',label:'📊 İstatistik'}].map(tab => (
+          {[{id:'open',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={RecordIcon} size={16} /> Açık Talepler</div>},{id:'resolved',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Çözülenler</div>},{id:'stats',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> İstatistik</div>}].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
               {tab.label}
             </button>
@@ -115,12 +124,12 @@ export default function ComplaintManagementPage() {
                     </div>
                     <p className="text-[11px] text-gray-600 mt-1">{t.subject}</p>
                     <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] font-bold text-green-600">✅ {t.resolution}</span>
+                      <span className="text-[10px] font-bold text-green-600"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {t.resolution}</span>
                       <span className="text-[10px] text-gray-400">⏱ {t.time}</span>
                     </div>
                   </div>
                   <div className="text-center shrink-0">
-                    <p className="text-[18px] font-black text-yellow-500">{'⭐'.repeat(t.satisfaction)}</p>
+                    <p className="text-[18px] font-black text-yellow-500">{Array.from({length: t.satisfaction}).map((_, i) => <HugeiconsIcon key={'star-'+i} icon={StarIcon} size={14} className="text-yellow-400 inline-block" />)}</p>
                     <p className="text-[9px] font-bold text-gray-400">{t.satisfaction}/5</p>
                   </div>
                 </div>
@@ -150,10 +159,10 @@ export default function ComplaintManagementPage() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
-                { label: 'Bugün Açılan', value: '18', icon: '📩' },
-                { label: 'Bugün Çözülen', value: '24', icon: '✅' },
-                { label: 'Eskalasyon', value: '3', icon: '🚨' },
-                { label: 'İlk Yanıt Süresi', value: '12 dk', icon: '⚡' },
+                { label: 'Bugün Açılan', value: '18', icon: <HugeiconsIcon icon={Mail01Icon} size={18} /> },
+                { label: 'Bugün Çözülen', value: '24', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+                { label: 'Eskalasyon', value: '3', icon: <HugeiconsIcon icon={Alert01Icon} size={18} /> },
+                { label: 'İlk Yanıt Süresi', value: '12 dk', icon: <HugeiconsIcon icon={FlashIcon} size={18} /> },
               ].map((s, i) => (
                 <div key={i} className={`${cardClass} p-4 text-center`}>
                   <span className="text-[20px]">{s.icon}</span>

@@ -1,6 +1,8 @@
-'use client';
+import {Message01Icon, StarIcon, Store01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 type UserReview = { id: number; reviewer: string; target: string; rating: number; text: string; date: string; type: 'Satıcı' | 'Mağaza'; status: 'pending' | 'approved' | 'removed' };
 
@@ -33,15 +35,15 @@ export default function UserReviewManagementPage() {
 
   const doAction = (ids: number[], action: 'approve' | 'remove', msg: string) => {
     if (action === 'remove') setReviews(p => p.filter(r => !ids.includes(r.id)));
-    else setReviews(p => p.map(r => ids.includes(r.id) ? { ...r, status: 'approved' as const } : r));
+    else setReviews(p => p.map(r => ids.includes(r.id) ? { ...r, status: 'approved'  } : r));
     setSelected([]); setModal(null);
     setActionDone(msg); setTimeout(() => setActionDone(null), 2500);
   };
 
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
   const kpis = [
-    { label: 'Toplam', value: reviews.length, icon: '💬' },
-    { label: 'Ort. Puan', value: (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1), icon: '⭐' },
+    { label: 'Toplam', value: reviews.length, icon: <HugeiconsIcon icon={Message01Icon} size={18} /> },
+    { label: 'Ort. Puan', value: (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1), icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
     { label: 'Düşük Puan (<3)', value: reviews.filter(r => r.rating < 3).length, icon: '⚠️' },
   ];
 
@@ -59,7 +61,7 @@ export default function UserReviewManagementPage() {
           {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><span className="text-[20px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['all', 'Tümü'], ['Satıcı', '👤 Satıcıya'], ['Mağaza', '🏪 Mağazaya'], ['low', '⚠️ Düşük Puan']] as const).map(([id, label]) => (
+          {([['all', 'Tümü'], ['Satıcı', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={UserIcon} size={16} /> Satıcıya</div>], ['Mağaza', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Mağazaya</div>], ['low', '⚠️ Düşük Puan']] ).map(([id, label]) => (
             <button key={id} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${filter === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>
@@ -89,7 +91,7 @@ export default function UserReviewManagementPage() {
                     <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600">{r.type}</span>
                     {r.status === 'approved' && <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-green-50 text-green-600">Onaylı</span>}
                   </div>
-                  <p className="text-yellow-400 text-[12px] mt-1">{'⭐'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
+                  <p className="text-yellow-400 text-[12px] mt-1">{Array.from({length: r.rating}).map((_, i) => <HugeiconsIcon key={'star-'+i} icon={StarIcon} size={14} className="text-yellow-400 inline-block" />)}{Array.from({length: 5 - r.rating}).map((_, i) => <HugeiconsIcon key={'empty-'+i} icon={StarIcon} size={14} className="text-gray-300 inline-block" />)}</p>
                   <p className="text-[12px] text-gray-700 mt-1">{r.text}</p>
                   <span className="text-[10px] text-gray-400 mt-1 block">{r.date}</span>
                 </div>
@@ -111,7 +113,7 @@ export default function UserReviewManagementPage() {
               <button onClick={() => setModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
             <div className="p-6 space-y-3">
-              {[['Yazan', modal.reviewer], ['Hedef', modal.target], ['Tür', modal.type], ['Puan', '⭐'.repeat(modal.rating) + '☆'.repeat(5 - modal.rating)], ['Tarih', modal.date]].map(([l, v], i) => (
+              {[['Yazan', modal.reviewer], ['Hedef', modal.target], ['Tür', modal.type], ['Puan', <div className="flex gap-0.5">{Array.from({length: modal.rating}).map((_, i) => <HugeiconsIcon key={'s-'+i} icon={StarIcon} size={14} className="text-yellow-400" />)}{Array.from({length: 5 - modal.rating}).map((_, i) => <HugeiconsIcon key={'e-'+i} icon={StarIcon} size={14} className="text-gray-300" />)}</div>], ['Tarih', modal.date]].map(([l, v], i) => (
                 <div key={i} className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">{l}</span><span className="text-[12px] font-black text-gray-900">{v}</span></div>
               ))}
               <div className="pt-3 border-t border-gray-100"><p className="text-[10px] font-bold text-gray-400 mb-1">YORUM</p><p className="text-[13px] text-gray-800 bg-gray-50 rounded-xl p-3">{modal.text}</p></div>

@@ -1,8 +1,9 @@
-"use client";
-
+import {Alert01Icon, Package01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {apiUrl} from "../../../../lib/api";
+
+"use client";
 
 interface DisputeOrder {
   orderID: string;
@@ -122,7 +123,7 @@ export default function OrderManagementPage() {
 
          <div className="flex items-center gap-4">
             <div className={`px-4 py-2 rounded-xl flex items-center gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-red-50 border-red-100'}`}>
-               <span className="text-xl">🚨</span>
+               <span className="text-xl"><HugeiconsIcon icon={Alert01Icon} size={16} className="inline-block mr-1" /></span>
                <div>
                   <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-red-600/70'}`}>Açık Dispute</p>
                   <p className={`text-[16px] font-black ${isDark ? 'text-white' : 'text-red-700'}`}>3 Adet</p>
@@ -135,9 +136,9 @@ export default function OrderManagementPage() {
       <div className={`${cardClass} p-2 md:p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 w-full overflow-hidden`}>
          <div className="flex items-center gap-1.5 overflow-x-auto w-full no-scrollbar px-2 pb-2 md:pb-0 flex-1 min-w-0">
             {[
-              { id: 'disputes', label: '🚨 Uyuşmazlıklar (Dispute)' },
-              { id: 'pending_shipping', label: '📦 Kargo & Bekleyen' },
-              { id: 'completed', label: '✅ Tamamlanan / İptal' },
+              { id: 'disputes', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Alert01Icon} size={16} /> Uyuşmazlıklar (Dispute)</div> },
+              { id: 'pending_shipping', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Package01Icon} size={16} /> Kargo & Bekleyen</div> },
+              { id: 'completed', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Tamamlanan / İptal</div> },
               { id: 'all', label: 'Tüm Siparişler' }
             ].map(tab => (
               <button 
@@ -187,7 +188,7 @@ export default function OrderManagementPage() {
               ) : filteredOrders.length === 0 ? (
                 <tr><td colSpan={6} className="p-12 text-center">
                   <div className="flex flex-col items-center justify-center">
-                    <span className="text-4xl mb-3">✅</span>
+                    <span className="text-4xl mb-3"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /></span>
                     <h3 className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Açık Görev Yok</h3>
                     <p className={`text-[12px] mt-1 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Bu sekmede listelenecek bir sipariş bulunmuyor.</p>
                   </div>

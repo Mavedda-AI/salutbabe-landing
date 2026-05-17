@@ -1,8 +1,9 @@
-"use client";
-
+import {Building01Icon, Search01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {API_BASE_URL, apiUrl} from "../../../../lib/api";
+
+"use client";
 
 interface Store {
   storeID: string;
@@ -129,14 +130,14 @@ export default function StoreManagementPage() {
 
          <div className="grid grid-cols-2 gap-3 w-full md:w-auto md:flex md:items-center md:gap-4">
             <div className={`px-3 md:px-4 py-2 md:py-3 rounded-xl flex flex-col md:flex-row md:items-center gap-2 md:gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-blue-50 border-blue-100'}`}>
-               <span className="text-lg md:text-xl hidden md:block">👩‍👧</span>
+               <span className="text-lg md:text-xl hidden md:block"><HugeiconsIcon icon={UserIcon} size={16} className="inline-block mr-1" />‍<HugeiconsIcon icon={UserIcon} size={16} className="inline-block mr-1" /></span>
                <div>
                   <p className={`text-[9px] md:text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-blue-600/70'}`}>Anne Satıcılar</p>
                   <p className={`text-[14px] md:text-[16px] font-black ${isDark ? 'text-white' : 'text-blue-700'}`}>8,432</p>
                </div>
             </div>
             <div className={`px-3 md:px-4 py-2 md:py-3 rounded-xl flex flex-col md:flex-row md:items-center gap-2 md:gap-3 border ${isDark ? 'bg-white/5 border-white/10' : 'bg-purple-50 border-purple-100'}`}>
-               <span className="text-lg md:text-xl hidden md:block">🏢</span>
+               <span className="text-lg md:text-xl hidden md:block"><HugeiconsIcon icon={Building01Icon} size={16} className="inline-block mr-1" /></span>
                <div>
                   <p className={`text-[9px] md:text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-purple-600/70'}`}>Pro Satıcılar</p>
                   <p className={`text-[14px] md:text-[16px] font-black ${isDark ? 'text-white' : 'text-purple-700'}`}>174</p>
@@ -200,7 +201,7 @@ export default function StoreManagementPage() {
               ) : filteredStores.length === 0 ? (
                 <tr><td colSpan={5} className="p-12 text-center">
                   <div className="flex flex-col items-center justify-center">
-                    <span className="text-4xl mb-3">🔍</span>
+                    <span className="text-4xl mb-3"><HugeiconsIcon icon={Search01Icon} size={16} className="inline-block mr-1" /></span>
                     <h3 className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Sonuç Bulunamadı</h3>
                     <p className={`text-[12px] mt-1 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Arama kriterlerinize uyan satıcı bulunmuyor.</p>
                   </div>
@@ -228,14 +229,14 @@ export default function StoreManagementPage() {
                     {store.segment === 'pro' ? (
                       <div className="flex flex-col">
                         <span className="inline-flex items-center w-max gap-1 px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[10px] font-black uppercase tracking-wider">
-                          🏢 Pro Satıcı
+                          <HugeiconsIcon icon={Building01Icon} size={16} className="inline-block mr-1" /> Pro Satıcı
                         </span>
                         <span className={`text-[10px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Kurumsal Fatura</span>
                       </div>
                     ) : (
                       <div className="flex flex-col">
                         <span className="inline-flex items-center w-max gap-1 px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-wider">
-                          👩‍👧 Anne
+                          <HugeiconsIcon icon={UserIcon} size={16} className="inline-block mr-1" />‍<HugeiconsIcon icon={UserIcon} size={16} className="inline-block mr-1" /> Anne
                         </span>
                         <span className={`text-[10px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Bireysel Satıcı</span>
                       </div>

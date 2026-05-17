@@ -1,6 +1,8 @@
-'use client';
+import {RecordIcon, Search01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+'use client';
 
 type Complaint = { id: number; store: string; subject: string; reporter: string; date: string; priority: 'Acil' | 'Yüksek' | 'Normal'; count: number; status: 'Açık' | 'İnceleniyor' | 'Çözüldü'; detail: string };
 
@@ -41,9 +43,9 @@ export default function StoreComplaintManagementPage() {
 
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
   const kpis = [
-    { label: 'Açık', value: complaints.filter(c => c.status === 'Açık').length, icon: '🔴' },
-    { label: 'İncelenen', value: complaints.filter(c => c.status === 'İnceleniyor').length, icon: '🔍' },
-    { label: 'Çözülen', value: complaints.filter(c => c.status === 'Çözüldü').length, icon: '✅' },
+    { label: 'Açık', value: complaints.filter(c => c.status === 'Açık').length, icon: <HugeiconsIcon icon={RecordIcon} size={18} /> },
+    { label: 'İncelenen', value: complaints.filter(c => c.status === 'İnceleniyor').length, icon: <HugeiconsIcon icon={Search01Icon} size={18} /> },
+    { label: 'Çözülen', value: complaints.filter(c => c.status === 'Çözüldü').length, icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
   ];
 
   return (
@@ -60,7 +62,7 @@ export default function StoreComplaintManagementPage() {
           {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><span className="text-[20px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['all', 'Tümü'], ['Açık', '🔴 Açık'], ['İnceleniyor', '🔍 İnceleniyor'], ['Çözüldü', '✅ Çözüldü']] as const).map(([id, label]) => (
+          {([['all', 'Tümü'], ['Açık', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={RecordIcon} size={16} /> Açık</div>], ['İnceleniyor', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Search01Icon} size={16} /> İnceleniyor</div>], ['Çözüldü', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Çözüldü</div>]] ).map(([id, label]) => (
             <button key={id} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${filter === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>
