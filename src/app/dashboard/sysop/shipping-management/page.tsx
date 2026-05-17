@@ -12,6 +12,7 @@ export default function ShippingManagementPage() {
   const [providerComplaint, setProviderComplaint] = useState<string | null>(null);
   const [nudgeMessage, setNudgeMessage] = useState<string | null>(null);
   const [hoveredDay, setHoveredDay] = useState<number | null>(null);
+  const [trendFilter, setTrendFilter] = useState<'Günlük' | 'Haftalık' | 'Aylık' | 'Yıllık'>('Günlük');
 
   const kpis = [
     { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-white', icon: <HugeiconsIcon icon={Package01Icon} size={32} className="text-[#111827] drop-shadow-sm" /> },
@@ -106,10 +107,27 @@ export default function ShippingManagementPage() {
           <>
             {/* Daily Trend */}
             <div className={`${cardClass} p-6`}>
-              <h2 className="text-[15px] font-black text-[#111827] mb-1">Günlük Kargo Trendi</h2>
-              <p className="text-[11px] font-medium text-gray-400 mb-8">Toplam vs geciken kargolar (Son 7 gün)</p>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-[15px] font-black text-[#111827] mb-1">Kargo Trendi</h2>
+                  <p className="text-[11px] font-medium text-gray-400">Toplam vs geciken kargolar ({trendFilter === 'Günlük' ? 'Son 7 gün' : trendFilter === 'Haftalık' ? 'Son 4 hafta' : trendFilter === 'Aylık' ? 'Son 6 ay' : 'Son 3 yıl'})</p>
+                </div>
+                <div className="w-full md:w-auto overflow-x-auto no-scrollbar pb-1 -mb-1">
+                  <div className="flex items-center bg-[#F8F9FA] rounded-[16px] p-1.5 min-w-max border border-gray-100">
+                    {['Günlük', 'Haftalık', 'Aylık', 'Yıllık'].map(filter => (
+                      <button
+                        key={filter}
+                        onClick={() => setTrendFilter(filter as any)}
+                        className={`px-5 py-2 text-[13px] font-bold rounded-[12px] transition-all whitespace-nowrap ${trendFilter === filter ? 'bg-white text-[#111827] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                      >
+                        {filter}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
               
-              <div className="relative h-48 mt-8 mb-2">
+              <div className="relative h-48 mb-2">
                 {/* Average Line */}
                 <div className="absolute top-[30%] left-0 w-full border-t border-dashed border-gray-200 z-0 flex items-center">
                   <span className="absolute -top-5 left-0 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Ort. Hacim</span>
