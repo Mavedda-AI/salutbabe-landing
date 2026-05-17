@@ -511,7 +511,7 @@ export default function ShippingManagementPage() {
                           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-500" /> Hasar: {allShipments.filter(s => s.status === 'hasar').length}</span>
                         </div>
                         <button
-                          onClick={() => setNudgeMessage(`${p.name} detay sayfasına yönlendiriliyorsunuz...`)}
+                          onClick={() => router.push(`/dashboard/sysop/shipping-management/${encodeURIComponent(p.name)}`)}
                           className="text-[11px] font-bold text-[#007AFF] hover:underline"
                         >
                           Tüm {p.shipments.toLocaleString()} kargoyu görüntüle →
