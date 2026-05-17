@@ -7,6 +7,10 @@ import {useRouter} from 'next/navigation';
 export default function ShippingManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'delayed' | 'providers'>('overview');
+  const [delayFilter, setDelayFilter] = useState('Tümü');
+  const [selectedDelayed, setSelectedDelayed] = useState<string[]>([]);
+  const [providerComplaint, setProviderComplaint] = useState<string | null>(null);
+  const [nudgeMessage, setNudgeMessage] = useState<string | null>(null);
 
   const kpis = [
     { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-white', icon: <HugeiconsIcon icon={Package01Icon} size={32} className="text-[#111827] drop-shadow-sm" /> },
@@ -51,6 +55,14 @@ export default function ShippingManagementPage() {
   ];
 
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
+
+  const filteredDelayed = delayedShipments.filter(s => {
+    if (delayFilter === 'Tümü') return true;
+    if (delayFilter === '1-2') return s.days <= 2;
+    if (delayFilter === '3-4') return s.days >= 3 && s.days <= 4;
+    if (delayFilter === '5+') return s.days >= 5;
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
@@ -140,26 +152,85 @@ export default function ShippingManagementPage() {
 
         {activeTab === 'delayed' && (
           <div className={`${cardClass} p-5`}>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 rounded-full bg-[#FF8D28] animate-ping" />
-              <h2 className="text-[13px] font-black text-[#FF8D28]">Geciken Kargolar ({delayedShipments.length})</h2>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#FF8D28] animate-ping" />
+                <h2 className="text-[13px] font-black text-[#FF8D28]">Geciken Kargolar ({filteredDelayed.length})</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <select 
+                  value={delayFilter}
+                  onChange={(e) => { setDelayFilter(e.target.value); setSelectedDelayed([]); }}
+                  className="text-[11px] font-bold border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none"
+                >
+                  <option value="Tümü">Tümü</option>
+                  <option value="1-2">1-2 Gün Gecikme</option>
+                  <option value="3-4">3-4 Gün Gecikme</option>
+                  <option value="5+">5+ Gün Gecikme</option>
+                </select>
+                {selectedDelayed.length > 0 && (
+                  <button 
+                    onClick={() => {
+                      setNudgeMessage(`${selectedDelayed.length} sipariş için toplu dürtme gönderildi!`);
+                      setTimeout(() => { setNudgeMessage(null); setSelectedDelayed([]); }, 3000);
+                    }}
+                    className="text-[10px] font-black px-3 py-1.5 bg-[#FF8D28] text-white rounded-lg hover:bg-orange-600 transition-colors"
+                  >
+                    TOPLU DÜRT ({selectedDelayed.length})
+                  </button>
+                )}
+              </div>
             </div>
+            
+            <div className="flex items-center gap-2 mb-3 px-3">
+              <input 
+                type="checkbox" 
+                checked={selectedDelayed.length === filteredDelayed.length && filteredDelayed.length > 0}
+                onChange={(e) => {
+                  if (e.target.checked) setSelectedDelayed(filteredDelayed.map(s => s.id));
+                  else setSelectedDelayed([]);
+                }}
+                className="w-3 h-3 rounded border-gray-300 text-[#FF8D28] focus:ring-[#FF8D28]"
+              />
+              <span className="text-[10px] font-bold text-gray-500">Tümünü Seç</span>
+            </div>
+
             <div className="space-y-3">
-              {delayedShipments.map((s, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-orange-50/50 border border-orange-100">
+              {filteredDelayed.map((s, i) => (
+                <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${selectedDelayed.includes(s.id) ? 'bg-orange-50 border-orange-200' : 'bg-white border-gray-100 hover:border-orange-100'}`}>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedDelayed.includes(s.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) setSelectedDelayed([...selectedDelayed, s.id]);
+                      else setSelectedDelayed(selectedDelayed.filter(id => id !== s.id));
+                    }}
+                    className="w-3 h-3 rounded border-gray-300 text-[#FF8D28] focus:ring-[#FF8D28]"
+                  />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[12px] font-bold text-[#111827]">{s.buyer}</span>
-                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${s.days >= 4 ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600'}`}>{s.days} gün</span>
+                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${s.days >= 4 ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600'}`}>{s.days} gün gecikme</span>
                     </div>
                     <p className="text-[10px] text-gray-500 mt-0.5">{s.id} · {s.provider} · {s.city}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-[12px] font-black text-[#111827]">{s.amount}</p>
                   </div>
-                  <button className="text-[9px] font-black px-3 py-2 bg-[#FF8D28] text-white rounded-lg shrink-0">DÜRT</button>
+                  <button 
+                    onClick={() => {
+                      setNudgeMessage(`${s.id} için dürtme gönderildi!`);
+                      setTimeout(() => setNudgeMessage(null), 3000);
+                    }}
+                    className="text-[9px] font-black px-3 py-2 bg-[#FF8D28] text-white rounded-lg shrink-0 hover:bg-orange-600 transition-colors"
+                  >
+                    DÜRT
+                  </button>
                 </div>
               ))}
+              {filteredDelayed.length === 0 && (
+                <div className="text-center py-8 text-[12px] font-bold text-gray-400">Bu kritere uygun geciken kargo bulunamadı.</div>
+              )}
             </div>
           </div>
         )}
@@ -178,8 +249,16 @@ export default function ShippingManagementPage() {
                   <div><p className="text-[9px] font-bold text-gray-400 uppercase">Ort. Süre</p><p className="text-[16px] font-black text-[#007AFF]">{p.avgDays} gün</p></div>
                   <div><p className="text-[9px] font-bold text-gray-400 uppercase">Birim Maliyet</p><p className="text-[16px] font-black text-[#111827]">{p.cost}</p></div>
                 </div>
-                <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
                   <div className={`h-full rounded-full ${p.onTime > 92 ? 'bg-green-500' : p.onTime > 88 ? 'bg-orange-400' : 'bg-red-400'}`} style={{ width: `${p.onTime}%` }} />
+                </div>
+                <div className="flex justify-end border-t border-gray-100 pt-3">
+                  <button 
+                    onClick={() => setProviderComplaint(p.name)}
+                    className="text-[11px] font-bold text-red-500 hover:text-red-600 flex items-center gap-1 transition-colors"
+                  >
+                    <HugeiconsIcon icon={Alert02Icon} size={14} /> Firmaya Şikayet Oluştur
+                  </button>
                 </div>
               </div>
             ))}
@@ -208,6 +287,63 @@ export default function ShippingManagementPage() {
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {nudgeMessage && (
+        <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">
+          <div className="flex items-center gap-2">
+            <HugeiconsIcon icon={Tick01Icon} size={18} className="text-green-400" />
+            {nudgeMessage}
+          </div>
+        </div>
+      )}
+
+      {/* Provider Complaint Modal */}
+      {providerComplaint && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={() => setProviderComplaint(null)}>
+          <div className="bg-white rounded-[24px] shadow-2xl w-full max-w-md overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-[18px] font-black text-[#111827]">Firma Şikayeti</h2>
+                <button onClick={() => setProviderComplaint(null)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">
+                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <p className="text-[12px] text-gray-500 font-medium"><strong className="text-[#111827]">{providerComplaint}</strong> için resmi uyarı / şikayet kaydı oluşturulacaktır.</p>
+            </div>
+            
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-[11px] font-bold text-gray-400 uppercase mb-1.5">Şikayet Tipi</label>
+                <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[13px] font-medium focus:ring-2 focus:ring-red-500 outline-none">
+                  <option>Gecikmeli Teslimat Raporu</option>
+                  <option>Kayıp/Hasarlı Ürün</option>
+                  <option>Müşteri Memnuniyetsizliği</option>
+                  <option>SLA (Hizmet Seviyesi) İhlali</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-gray-400 uppercase mb-1.5">Detaylı Açıklama</label>
+                <textarea rows={4} className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[13px] font-medium focus:ring-2 focus:ring-red-500 outline-none resize-none" placeholder="Şikayet detaylarını buraya girin..." />
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 flex gap-2">
+              <button onClick={() => setProviderComplaint(null)} className="flex-1 py-3 rounded-xl bg-white border border-gray-200 text-[#111827] font-bold text-[13px] hover:bg-gray-50 transition-colors">İptal</button>
+              <button 
+                onClick={() => {
+                  setNudgeMessage(`${providerComplaint} için şikayet kaydı başarıyla oluşturuldu.`);
+                  setProviderComplaint(null);
+                  setTimeout(() => setNudgeMessage(null), 3000);
+                }}
+                className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-[13px] transition-colors shadow-lg shadow-red-500/20"
+              >
+                Şikayet Oluştur
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
