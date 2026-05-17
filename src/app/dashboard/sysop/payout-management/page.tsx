@@ -64,7 +64,7 @@ export default function PayoutManagementPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpis.map((k, i) => (
             <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <div className="flex justify-center text-[28px] mb-2">{}</div>
+              <div className="flex justify-center text-[28px] mb-2">{k.icon}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
               <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
               <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>

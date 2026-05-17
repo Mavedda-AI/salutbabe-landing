@@ -72,7 +72,7 @@ export default function ShippingManagementPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpis.map((k, i) => (
             <div key={i} className={`${k.bg} border border-gray-100 rounded-[32px] py-8 px-4 flex flex-col items-center justify-center text-center shadow-sm`}>
-              <div className="flex justify-center text-[28px] mb-2">{}</div>
+              <div className="flex justify-center text-[28px] mb-2">{k.icon}</div>
               <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest mt-2 mb-1">{k.label}</p>
               <p className={`text-[36px] tracking-tight font-black ${k.color}`}>{k.value}</p>
               <p className="text-[13px] font-bold text-green-500 mt-1">{k.sub}</p>
@@ -82,7 +82,7 @@ export default function ShippingManagementPage() {
 
         {/* Tabs */}
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'overview',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> Genel Bakış</div>},{id:'delayed',label:'⚠️ Gecikenler'},{id:'providers',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={TruckIcon} size={16} /> Firmalar</div>}].map(tab => (
+          {[{id:'overview',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> Genel Bakış</div>},{id:'delayed',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Alert02Icon} size={16} /> Gecikenler</div>},{id:'providers',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={TruckIcon} size={16} /> Firmalar</div>}].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
               {tab.label}
             </button>

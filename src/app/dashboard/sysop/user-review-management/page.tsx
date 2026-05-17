@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {Message01Icon, StarIcon, Store01Icon, UserIcon} from '@hugeicons/core-free-icons';
+import {Alert02Icon, Message01Icon, StarIcon, Store01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -58,7 +58,7 @@ export default function UserReviewManagementPage() {
       </div>
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
         <div className="grid grid-cols-3 gap-3">
-          {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><div className="flex justify-center text-[28px] mb-2">{}</div><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
+          {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><div className="flex justify-center text-[28px] mb-2">{k.icon}</div><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
           {([['all', 'Tümü'], ['Satıcı', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={UserIcon} size={16} /> Satıcıya</div>], ['Mağaza', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Mağazaya</div>], ['low', '⚠️ Düşük Puan']] ).map(([id, label]: any) => (

@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {CrownIcon, NewJobIcon, StarIcon, Tick01Icon} from '@hugeicons/core-free-icons';
+import {Alert02Icon, CrownIcon, NewJobIcon, StarIcon, Tick01Icon} from '@hugeicons/core-free-icons';
 import {useRouter} from 'next/navigation';
 
 export default function SellerHealthPage() {
@@ -66,7 +66,7 @@ export default function SellerHealthPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {healthScores.map((h, i) => (
             <div key={i} className={`${h.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <div className="flex justify-center text-[28px] mb-2">{}</div>
+              <div className="flex justify-center text-[28px] mb-2">{h.icon}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{h.label}</p>
               <p className={`text-[26px] font-black ${h.color}`}>{h.value}</p>
             </div>
