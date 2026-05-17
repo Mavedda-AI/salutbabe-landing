@@ -62,7 +62,7 @@ export default function StoreComplaintManagementPage() {
           {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><span className="text-[20px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['all', 'Tümü'], ['Açık', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={RecordIcon} size={16} /> Açık</div>], ['İnceleniyor', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Search01Icon} size={16} /> İnceleniyor</div>], ['Çözüldü', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Çözüldü</div>]] ).map(([id, label]: [string, React.ReactNode]) => (
+          {([['all', 'Tümü'], ['Açık', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={RecordIcon} size={16} /> Açık</div>], ['İnceleniyor', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Search01Icon} size={16} /> İnceleniyor</div>], ['Çözüldü', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Çözüldü</div>]] ).map(([id, label]: any) => (
             <button key={id} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${filter === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>
@@ -113,7 +113,7 @@ export default function StoreComplaintManagementPage() {
               <button onClick={() => { setModal(null); setNote(''); }} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
             <div className="p-6 space-y-3">
-              {[['Mağaza', modal.store], ['Konu', modal.subject], ['Öncelik', modal.priority], ['Durum', modal.status], ['İhbarcı', modal.reporter], ['Tarih', modal.date], ['Şikayet Sayısı', String(modal.count)]].map(([l, v]: [string, React.ReactNode], i: number) => (
+              {[['Mağaza', modal.store], ['Konu', modal.subject], ['Öncelik', modal.priority], ['Durum', modal.status], ['İhbarcı', modal.reporter], ['Tarih', modal.date], ['Şikayet Sayısı', String(modal.count)]].map(([l, v]: any, i: number) => (
                 <div key={i} className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">{l}</span><span className="text-[12px] font-black text-gray-900">{v}</span></div>
               ))}
               <div className="pt-3 border-t border-gray-100">

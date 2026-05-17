@@ -151,7 +151,7 @@ export default function UserManagementPage() {
               <button onClick={() => setModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
             </div>
             <div className="p-6 space-y-3">
-              {[['E-posta', modal.email], ['Telefon', modal.phone], ['Kayıt Tarihi', modal.joinDate], ['Son Giriş', modal.lastLogin], ['Siparişler', String(modal.orders)], ['Yorumlar', String(modal.reviews)], ['Şikayetler', String(modal.complaints)]].map(([l, v]: [string, React.ReactNode], i: number) => (
+              {[['E-posta', modal.email], ['Telefon', modal.phone], ['Kayıt Tarihi', modal.joinDate], ['Son Giriş', modal.lastLogin], ['Siparişler', String(modal.orders)], ['Yorumlar', String(modal.reviews)], ['Şikayetler', String(modal.complaints)]].map(([l, v]: any, i: number) => (
                 <div key={i} className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">{l}</span><span className="text-[12px] font-black text-gray-900">{v}</span></div>
               ))}
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
