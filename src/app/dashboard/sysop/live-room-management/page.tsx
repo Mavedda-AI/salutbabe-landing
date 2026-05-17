@@ -8,10 +8,10 @@ export default function LiveRoomManagementPage() {
   const [activeTab, setActiveTab] = useState<'live' | 'scheduled' | 'stats'>('live');
 
   const kpis = [
-    { label: 'Aktif Oda', value: '142', sub: '3,105 anlık dinleyici', color: 'text-[#FF383C]', bg: 'bg-red-50', icon: '🔴' },
-    { label: 'Bugün Toplam', value: '384', sub: '↗ %8 vs dün', color: 'text-[#111827]', bg: 'bg-gray-50', icon: '🎙️' },
-    { label: 'Ort. Süre', value: '42 dk', sub: '↗ %5.2 artış', color: 'text-purple-600', bg: 'bg-purple-50', icon: '⏱️' },
-    { label: 'Oda Başı Satış', value: '₺2,840', sub: 'Son 7 gün ort.', color: 'text-green-600', bg: 'bg-green-50', icon: '💰' },
+    { label: 'AKTİF ODA', value: '142', sub: '3,105 anlık dinleyici', color: 'text-[#FF383C]', bg: 'bg-[#FFF5F5]', icon: '🔴', subColor: 'text-green-500' },
+    { label: 'BUGÜN TOPLAM', value: '384', sub: '↗ %8 vs dün', color: 'text-[#111827]', bg: 'bg-white', icon: '🎙️', subColor: 'text-green-500' },
+    { label: 'ORT. SÜRE', value: '42 dk', sub: '↗ %5.2 artış', color: 'text-[#9747FF]', bg: 'bg-[#FCF9FF]', icon: '⏱️', subColor: 'text-green-500' },
+    { label: 'ODA BAŞI SATIŞ', value: '₺2,840', sub: 'Son 7 gün ort.', color: 'text-[#00B050]', bg: 'bg-[#F2FFF7]', icon: '💰', subColor: 'text-[#00B050]' },
   ];
 
   const liveRooms = [
@@ -27,40 +27,40 @@ export default function LiveRoomManagementPage() {
     { host: 'Elif Boutique', title: 'Yeni Sezon Preview', time: 'Yarın 11:00', expected: '800+' },
   ];
 
-  const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
+  const cardClass = 'bg-white rounded-[32px] border border-gray-100 shadow-sm';
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
-          <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        <div className="max-w-[1400px] mx-auto px-4 py-5 flex items-center gap-4">
+          <button onClick={() => router.back()} className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors shrink-0">
+            <svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <div>
-            <h1 className="text-[18px] font-black text-[#111827]">Sesli Oda Yönetimi</h1>
-            <p className="text-[11px] font-medium text-gray-400">Canlı Yayınlar & İstatistikler</p>
+          <div className="flex-1">
+            <h1 className="text-[20px] font-black text-[#111827]">Sesli Oda Yönetimi</h1>
+            <p className="text-[13px] font-medium text-gray-400 mt-0.5">Canlı Yayınlar & İstatistikler</p>
           </div>
-          <div className="ml-auto flex items-center gap-1 bg-red-50 text-red-600 px-3 py-1 rounded-full text-[10px] font-black animate-pulse">
-            <div className="w-2 h-2 rounded-full bg-red-500" /> 142 CANLI
+          <div className="flex items-center gap-1.5 bg-[#FFF0F0] text-[#FF4444] px-4 py-2 rounded-full text-[12px] font-bold">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FF4444] animate-pulse" /> 142 CANLI
           </div>
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-5 pb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {kpis.map((k, i) => (
-            <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <span className="text-[22px]">{k.icon}</span>
-              <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
-              <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
-              <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>
+            <div key={i} className={`${k.bg} border border-gray-100 rounded-[32px] py-8 px-4 flex flex-col items-center justify-center text-center shadow-sm`}>
+              <span className="text-[28px] drop-shadow-sm mb-3">{k.icon}</span>
+              <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest mb-1.5">{k.label}</p>
+              <p className={`text-[36px] tracking-tight font-black ${k.color}`}>{k.value}</p>
+              <p className={`text-[13px] font-bold ${k.subColor} mt-2`}>{k.sub}</p>
             </div>
           ))}
         </div>
 
-        <div className={`${cardClass} p-2 flex gap-1`}>
+        <div className="bg-white rounded-full border border-gray-100 shadow-sm p-2 flex items-center justify-between">
           {[{id:'live',label:'🔴 Canlı Odalar'},{id:'scheduled',label:'📅 Planlanan'},{id:'stats',label:'📊 İstatistik'}].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
+            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-6 py-3.5 rounded-full text-[14px] font-bold transition-all flex items-center justify-center gap-2 ${activeTab === tab.id ? 'bg-[#0B1221] text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}>
               {tab.label}
             </button>
           ))}
