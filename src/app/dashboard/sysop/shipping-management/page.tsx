@@ -15,6 +15,7 @@ export default function ShippingManagementPage() {
   const [trendFilter, setTrendFilter] = useState<'Günlük' | 'Haftalık' | 'Aylık' | 'Yıllık'>('Günlük');
   const [expandedProvider, setExpandedProvider] = useState<string | null>(null);
   const [providerShipmentFilter, setProviderShipmentFilter] = useState('Tümü');
+  const [providerDateFilter, setProviderDateFilter] = useState('Son 1 Ay');
   const [selectedProviderShipments, setSelectedProviderShipments] = useState<string[]>([]);
 
   const kpis = [
@@ -354,6 +355,20 @@ export default function ShippingManagementPage() {
 
         {activeTab === 'providers' && (
           <div className="space-y-3">
+            {/* Date Filter */}
+            <div className="w-full overflow-x-auto no-scrollbar">
+              <div className="flex items-center bg-[#F8F9FA] rounded-[16px] p-1.5 min-w-max border border-gray-100">
+                {['Bugün', 'Son 3 Gün', 'Son 1 Hafta', 'Son 1 Ay', 'Son 3 Ay'].map(f => (
+                  <button
+                    key={f}
+                    onClick={() => setProviderDateFilter(f)}
+                    className={`px-5 py-2 text-[13px] font-bold rounded-[12px] transition-all whitespace-nowrap ${providerDateFilter === f ? 'bg-white text-[#111827] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+            </div>
             {providers.map((p, i) => {
               const isExpanded = expandedProvider === p.name;
               const providerKey = p.name.replace('ı', 'i'); // normalize for lookup
