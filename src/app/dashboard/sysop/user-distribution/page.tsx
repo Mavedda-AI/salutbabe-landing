@@ -36,7 +36,7 @@ export default function UserDistributionPage() {
   });
 
   const updateFilter = (key: string, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: prev[key] === value ? 'Tümü' : value }));
+    setFilters(prev => ({ ...prev, [key]: prev[key as keyof typeof prev] === value ? 'Tümü' : value }));
   };
 
   // Nexadash design tokens
