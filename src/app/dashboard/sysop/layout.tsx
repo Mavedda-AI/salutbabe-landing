@@ -10,14 +10,15 @@ import {
   Activity01Icon,
   Alert01Icon,
   BankIcon,
+  BarChartIcon,
+  CameraVideoIcon,
   CardExchange01Icon,
-  ChartBar01Icon,
   ChartPie01Icon,
   Coins01Icon,
   Home01Icon,
   Invoice01Icon,
   Message01Icon,
-  MessageQuestion01Icon,
+  MessageQuestionIcon,
   Money01Icon,
   Package01Icon,
   Settings01Icon,
@@ -26,10 +27,9 @@ import {
   Store01Icon,
   StoreLocation01Icon,
   Tag01Icon,
-  Truck01Icon,
+  TruckIcon,
   UserIcon,
-  UserMultiple01Icon,
-  VideoCamera01Icon,
+  UserMultipleIcon,
   Wallet01Icon
 } from "@hugeicons/core-free-icons";
 
@@ -214,7 +214,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
   const normalUserNav: NavItem[] = [
     { label: t('dashboard.nav_dashboard'), href: '/dashboard/sysop', desc: t('dashboard.nav_dashboard_desc'), icon: <HugeiconsIcon icon={Home01Icon} size={24} /> },
-    { label: t('dashboard.nav_customers'), href: '/dashboard/sysop/customers', desc: t('dashboard.nav_customers_desc'), icon: <HugeiconsIcon icon={UserMultiple01Icon} size={24} /> },
+    { label: t('dashboard.nav_customers'), href: '/dashboard/sysop/customers', desc: t('dashboard.nav_customers_desc'), icon: <HugeiconsIcon icon={UserMultipleIcon} size={24} /> },
     { label: t('dashboard.nav_products'), href: '/dashboard/sysop/products', desc: t('dashboard.nav_products_desc'), icon: <HugeiconsIcon icon={ShoppingBag01Icon} size={24} /> },
     { label: t('dashboard.nav_orders'), href: '/dashboard/sysop/orders', desc: t('dashboard.nav_orders_desc'), icon: <HugeiconsIcon icon={Package01Icon} size={24} /> },
   ];
@@ -228,7 +228,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     },
     { 
       label: t('dashboard.sysop.nav_users'), 
-      icon: <HugeiconsIcon icon={UserMultiple01Icon} size={24} />,
+      icon: <HugeiconsIcon icon={UserMultipleIcon} size={24} />,
       submenus: [
         { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management', icon: <HugeiconsIcon icon={UserIcon} size={18} /> },
         { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management', icon: <HugeiconsIcon icon={Store01Icon} size={18} /> }
@@ -236,7 +236,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     },
     { 
       label: 'Analitik',
-      icon: <HugeiconsIcon icon={ChartBar01Icon} size={24} />,
+      icon: <HugeiconsIcon icon={BarChartIcon} size={24} />,
       submenus: [
         { label: 'Genel Analitik', href: '/dashboard/sysop/analytics', icon: <HugeiconsIcon icon={ChartPie01Icon} size={18} /> },
         { label: 'Birim Ekonomisi', href: '/dashboard/sysop/unit-economics', icon: <HugeiconsIcon icon={Activity01Icon} size={18} /> },
@@ -257,7 +257,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     },
     { 
       label: 'Canlı Odalar', 
-      icon: <HugeiconsIcon icon={VideoCamera01Icon} size={24} />,
+      icon: <HugeiconsIcon icon={CameraVideoIcon} size={24} />,
       submenus: [
         { label: 'Oda Moderasyonu', href: '/dashboard/sysop/live-room-management', icon: <HugeiconsIcon icon={Message01Icon} size={18} /> }
       ] 
@@ -267,7 +267,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       icon: <HugeiconsIcon icon={Package01Icon} size={24} />,
       submenus: [
         { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/order-management', icon: <HugeiconsIcon icon={Package01Icon} size={18} /> },
-        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management', icon: <HugeiconsIcon icon={Truck01Icon} size={18} /> }
+        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management', icon: <HugeiconsIcon icon={TruckIcon} size={18} /> }
       ] 
     },
     { 
@@ -275,7 +275,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       icon: <HugeiconsIcon icon={StarIcon} size={24} />,
       submenus: [
         { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/review-management', icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
-        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management', icon: <HugeiconsIcon icon={MessageQuestion01Icon} size={18} /> },
+        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management', icon: <HugeiconsIcon icon={MessageQuestionIcon} size={18} /> },
         { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/store-complaint-management', icon: <HugeiconsIcon icon={StoreLocation01Icon} size={18} /> },
         { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/user-review-management', icon: <HugeiconsIcon icon={UserIcon} size={18} /> }
       ] 
