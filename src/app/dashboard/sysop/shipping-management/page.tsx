@@ -232,16 +232,24 @@ export default function ShippingManagementPage() {
                 <h2 className="text-[13px] font-black text-[#FF8D28]">Geciken Kargolar ({filteredDelayed.length})</h2>
               </div>
               <div className="flex items-center gap-2">
-                <select 
-                  value={delayFilter}
-                  onChange={(e) => { setDelayFilter(e.target.value); setSelectedDelayed([]); }}
-                  className="text-[11px] font-bold border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none"
-                >
-                  <option value="Tümü">Tümü</option>
-                  <option value="1-2">1-2 Gün Gecikme</option>
-                  <option value="3-4">3-4 Gün Gecikme</option>
-                  <option value="5+">5+ Gün Gecikme</option>
-                </select>
+                <div className="w-full md:w-auto overflow-x-auto no-scrollbar pb-1 -mb-1">
+                  <div className="flex items-center bg-[#F8F9FA] rounded-[16px] p-1.5 min-w-max border border-gray-100">
+                    {[
+                      { id: 'Tümü', label: 'Tümü' },
+                      { id: '1-2', label: '1-2 Gün' },
+                      { id: '3-4', label: '3-4 Gün' },
+                      { id: '5+', label: '5+ Gün' }
+                    ].map(filter => (
+                      <button
+                        key={filter.id}
+                        onClick={() => { setDelayFilter(filter.id); setSelectedDelayed([]); }}
+                        className={`px-5 py-2 text-[13px] font-bold rounded-[12px] transition-all whitespace-nowrap ${delayFilter === filter.id ? 'bg-white text-[#111827] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                      >
+                        {filter.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 {selectedDelayed.length > 0 && (
                   <button 
                     onClick={() => {
