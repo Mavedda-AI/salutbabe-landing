@@ -5,6 +5,32 @@ import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import {API_BASE_URL, apiUrl} from "../../../lib/api";
+import {
+    Activity01Icon,
+    Alert01Icon,
+    BankIcon,
+    CardExchange01Icon,
+    ChartBar01Icon,
+    ChartPie01Icon,
+    Coins01Icon,
+    Home01Icon,
+    Invoice01Icon,
+    Message01Icon,
+    MessageQuestion01Icon,
+    Money01Icon,
+    Package01Icon,
+    Settings01Icon,
+    ShoppingBag01Icon,
+    StarIcon,
+    Store01Icon,
+    StoreLocation01Icon,
+    Tag01Icon,
+    Truck01Icon,
+    UserIcon,
+    UserMultiple01Icon,
+    VideoCamera01Icon,
+    Wallet01Icon
+} from "hugeicons-react";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -132,7 +158,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     href?: string;
     desc?: string;
     icon?: React.ReactNode;
-    submenus?: { label: string; href: string }[];
+    submenus?: { label: string; href: string; icon?: React.ReactNode }[];
   }
 
   const userType = user?.userType || [];
@@ -197,129 +223,75 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       label: t('dashboard.nav_dashboard'), 
       href: '/dashboard/sysop', 
       desc: t('dashboard.nav_dashboard_desc'),
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M10 3H3V10H10V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 3H14V10H21V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 14H14V21H21V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M10 14H3V21H10V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      )
+      icon: <Home01Icon size={24} variant="stroke" />
     },
     { 
       label: t('dashboard.sysop.nav_users'), 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M17 16V18C17 19.1046 16.1046 20 15 20H5C3.89543 20 3 19.1046 3 18V16C3 13.7909 4.79086 12 7 12H13C15.2091 12 17 13.7909 17 16Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M10 12C12.2091 12 14 10.2091 14 8C14 5.79086 12.2091 4 10 4C7.79086 4 6 5.79086 6 8C6 10.2091 7.79086 12 10 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 16V18C21 18.5523 20.5523 19 20 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M18 12C19.6569 12 21 13.3431 21 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M15 4.5C16.3807 4.5 17.5 5.61929 17.5 7C17.5 8.38071 16.3807 9.5 15 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <UserMultiple01Icon size={24} variant="stroke" />,
       submenus: [
-        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management' },
-        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management' }
+        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management', icon: <UserIcon size={18} /> },
+        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management', icon: <Store01Icon size={18} /> }
       ] 
     },
     { 
       label: 'Analitik',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M7 17L7 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 17L12 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M17 17L17 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <ChartBar01Icon size={24} variant="stroke" />,
       submenus: [
-        { label: 'Genel Analitik', href: '/dashboard/sysop/analytics' },
-        { label: 'Birim Ekonomisi', href: '/dashboard/sysop/unit-economics' },
-        { label: 'Satıcı Sağlığı', href: '/dashboard/sysop/seller-health' }
+        { label: 'Genel Analitik', href: '/dashboard/sysop/analytics', icon: <ChartPie01Icon size={18} /> },
+        { label: 'Birim Ekonomisi', href: '/dashboard/sysop/unit-economics', icon: <Activity01Icon size={18} /> },
+        { label: 'Satıcı Sağlığı', href: '/dashboard/sysop/seller-health', icon: <Alert01Icon size={18} /> }
       ] 
     },
     { 
       label: 'Finans & Hak Ediş', 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 6V18M12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10M12 6C13.1046 6 14 5.10457 14 4M12 18C13.1046 18 14 17.1046 14 16C14 14.8954 13.1046 14 12 14M12 18C10.8954 18 10 18.8954 10 20M12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <Wallet01Icon size={24} variant="stroke" />,
       submenus: [
-        { label: 'Finans Paneli', href: '/dashboard/sysop/finance-management' },
-        { label: 'Havuz (Emanet)', href: '/dashboard/sysop/finance-management/escrow' },
-        { label: 'Bekleyen Hakedişler', href: '/dashboard/sysop/finance-management/payouts' },
-        { label: 'Başarısız Ödemeler', href: '/dashboard/sysop/finance-management/failed-payouts' },
-        { label: 'GİB Fatura Kuyruğu', href: '/dashboard/sysop/finance-management/invoices' },
-        { label: 'Satıcı Ödemeleri', href: '/dashboard/sysop/payout-management' }
+        { label: 'Finans Paneli', href: '/dashboard/sysop/finance-management', icon: <BankIcon size={18} /> },
+        { label: 'Havuz (Emanet)', href: '/dashboard/sysop/finance-management/escrow', icon: <CardExchange01Icon size={18} /> },
+        { label: 'Bekleyen Hakedişler', href: '/dashboard/sysop/finance-management/payouts', icon: <Money01Icon size={18} /> },
+        { label: 'Başarısız Ödemeler', href: '/dashboard/sysop/finance-management/failed-payouts', icon: <Coins01Icon size={18} /> },
+        { label: 'GİB Fatura Kuyruğu', href: '/dashboard/sysop/finance-management/invoices', icon: <Invoice01Icon size={18} /> },
+        { label: 'Satıcı Ödemeleri', href: '/dashboard/sysop/payout-management', icon: <Wallet01Icon size={18} /> }
       ] 
     },
     { 
       label: 'Canlı Odalar', 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 15V21M6 21H18M12 15C13.6569 15 15 13.6569 15 12V6C15 4.34315 13.6569 3 12 3C10.3431 3 9 4.34315 9 6V12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <VideoCamera01Icon size={24} variant="stroke" />,
       submenus: [
-        { label: 'Oda Moderasyonu', href: '/dashboard/sysop/live-room-management' }
+        { label: 'Oda Moderasyonu', href: '/dashboard/sysop/live-room-management', icon: <Message01Icon size={18} /> }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_orders'), 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 8.5C3 7.11929 4.11929 6 5.5 6H18.5C19.8807 6 21 7.11929 21 8.5V17.5C21 19.9853 18.9853 22 16.5 22H7.5C5.01472 22 3 19.9853 3 17.5V8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M8 6V4.5C8 3.11929 9.11929 2 10.5 2H13.5C14.8807 2 16 3.11929 16 4.5V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3 10H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <Package01Icon size={24} variant="stroke" />,
       submenus: [
-        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/order-management' },
-        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management' }
+        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/order-management', icon: <Package01Icon size={18} /> },
+        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management', icon: <Truck01Icon size={18} /> }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_reviews'), 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M8 10H16M8 14H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M7 22H11C13.8284 22 15.2426 22 16.1213 21.1213C17 20.2426 17 18.8284 17 16V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 14V6C21 3.17157 21 1.75736 20.1213 0.87868C19.2426 0 17.8284 0 15 0H7C4.17157 0 2.75736 0 1.87868 0.87868C1 1.75736 1 3.17157 1 6V16C1 18.8284 1 20.2426 1.87868 21.1213C2.75736 22 4.17157 22 7 22Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <StarIcon size={24} variant="stroke" />,
       submenus: [
-        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/review-management' },
-        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management' },
-        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/store-complaint-management' },
-        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/user-review-management' }
+        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/review-management', icon: <StarIcon size={18} /> },
+        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management', icon: <MessageQuestion01Icon size={18} /> },
+        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/store-complaint-management', icon: <StoreLocation01Icon size={18} /> },
+        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/user-review-management', icon: <UserIcon size={18} /> }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_products'), 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 22V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 7L12 12L3 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
+      icon: <ShoppingBag01Icon size={24} variant="stroke" />,
       submenus: [
-        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/product-management' },
-        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/category-management' },
-        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/brand-management' }
+        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/product-management', icon: <ShoppingBag01Icon size={18} /> },
+        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/category-management', icon: <Tag01Icon size={18} /> },
+        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/brand-management', icon: <StarIcon size={18} /> }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_settings'), 
       href: '/dashboard/sysop/system-settings',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M19.6224 10.3954L18.4568 8.37738C17.6708 7.01599 17.2778 6.33529 17.5549 5.44781C17.8321 4.56034 18.4727 3.99042 19.7538 2.8506M4.37756 13.6046L5.54316 15.6226C6.3292 16.984 6.72222 17.6647 6.44505 18.5522C6.16789 19.4397 5.52731 20.0096 4.24615 21.1494M13.6046 4.37756L15.6226 5.54316C16.984 6.3292 17.6647 6.72222 18.5522 6.44505C19.4397 6.16789 20.0096 5.52731 21.1494 4.24615M10.3954 19.6224L8.37738 18.4568C7.01599 17.6708 6.33529 17.2778 5.44781 17.5549C4.56034 17.8321 3.99042 18.4727 2.8506 19.7538M10.3954 4.37756L8.37738 5.54316C7.01599 6.3292 6.33529 6.72222 5.44781 6.44505C4.56034 6.16789 3.99042 5.52731 2.8506 4.24615M13.6046 19.6224L15.6226 18.4568C16.984 17.6708 17.6647 17.2778 18.5522 17.5549C19.4397 17.8321 20.0096 18.4727 21.1494 19.7538M4.37756 10.3954L5.54316 8.37738C6.3292 7.01599 6.72222 6.33529 6.44505 5.44781C6.16789 4.56034 5.52731 3.99042 4.24615 2.8506M19.6224 13.6046L18.4568 15.6226C17.6708 16.984 17.2778 17.6647 17.5549 18.5522C17.8321 19.4397 18.4727 20.0096 19.7538 21.1494" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      )
+      icon: <Settings01Icon size={24} variant="stroke" />
     },
   ];
 
@@ -502,12 +474,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                             key={sIdx}
                             href={sub.href}
                             onClick={(e) => handleNavClick(e, sub.href || '#')}
-                            className={`block py-2 text-[12px] font-bold transition-all
+                            className={`flex items-center gap-2 py-2 px-3 rounded-lg text-[12px] font-bold transition-all
                               ${pathname === sub.href 
-                                ? (theme === 'light' ? 'text-text-primary' : 'text-white') 
-                                : (theme === 'light' ? 'text-text-secondary/40 hover:text-text-primary' : 'text-white/40 hover:text-white')}`}
+                                ? (theme === 'light' ? 'bg-primary/10 text-primary' : 'bg-primary/20 text-white') 
+                                : (theme === 'light' ? 'text-text-secondary/60 hover:bg-black/5 hover:text-text-primary' : 'text-white/40 hover:bg-white/5 hover:text-white')}`}
                           >
-                            • {sub.label}
+                            {sub.icon ? (
+                              <div className="w-4 h-4 flex items-center justify-center opacity-80">
+                                {sub.icon}
+                              </div>
+                            ) : (
+                              <span className="w-4 text-center">•</span>
+                            )}
+                            <span>{sub.label}</span>
                           </Link>
                         ))}
                       </div>
