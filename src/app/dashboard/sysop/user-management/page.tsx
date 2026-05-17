@@ -1,6 +1,15 @@
 'use client';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
+import {HugeiconsIcon} from '@hugeicons/react';
+import {
+    Delete01Icon,
+    Moon01Icon,
+    PauseCircleIcon,
+    Search01Icon,
+    Store01Icon,
+    Tick01Icon
+} from '@hugeicons/core-free-icons';
 
 type User = { id: number; name: string; email: string; phone: string; role: 'Normal' | 'Satıcı' | 'Kurumsal' | 'Kurucu'; status: 'AKTİF' | 'PASİF' | 'ASKIDA'; joinDate: string; lastLogin: string; orders: number; reviews: number; complaints: number };
 
@@ -62,10 +71,10 @@ export default function UserManagementPage() {
 
   const cardClass = 'bg-white rounded-[24px] border border-gray-100 shadow-sm';
   const kpis = [
-    { label: 'AKTİF', value: users.filter(u => u.status === 'AKTİF').length, icon: '✅', color: 'text-green-500' },
-    { label: 'ASKIDA', value: users.filter(u => u.status === 'ASKIDA').length, icon: '⏸️', color: 'text-orange-500' },
-    { label: 'SATICI', value: users.filter(u => u.role === 'Satıcı' || u.role === 'Kurumsal').length, icon: '🏪', color: 'text-blue-600' },
-    { label: 'PASİF', value: users.filter(u => u.status === 'PASİF').length, icon: '💤', color: 'text-slate-600' },
+    { label: 'AKTİF', value: users.filter(u => u.status === 'AKTİF').length, icon: <HugeiconsIcon icon={Tick01Icon} size={32} className="text-green-500" />, color: 'text-green-500' },
+    { label: 'ASKIDA', value: users.filter(u => u.status === 'ASKIDA').length, icon: <HugeiconsIcon icon={PauseCircleIcon} size={32} className="text-orange-500" />, color: 'text-orange-500' },
+    { label: 'SATICI', value: users.filter(u => u.role === 'Satıcı' || u.role === 'Kurumsal').length, icon: <HugeiconsIcon icon={Store01Icon} size={32} className="text-blue-600" />, color: 'text-blue-600' },
+    { label: 'PASİF', value: users.filter(u => u.status === 'PASİF').length, icon: <HugeiconsIcon icon={Moon01Icon} size={32} className="text-slate-600" />, color: 'text-slate-600' },
   ];
 
   return (
@@ -75,23 +84,23 @@ export default function UserManagementPage() {
         <div className="max-w-[1400px] mx-auto px-4 py-5 flex items-center gap-4">
           <button onClick={() => router.back()} className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors shrink-0"><svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
           <div className="flex-1"><h1 className="text-[20px] font-black text-[#111827]">Kullanıcı Yönetimi</h1><p className="text-[13px] font-medium text-gray-400 mt-0.5">Platform üyeleri, roller & KVKK yönetimi</p></div>
-          <button onClick={() => setKvkkModal(true)} className="px-4 py-2.5 rounded-2xl bg-red-50 text-red-600 text-[13px] font-bold border border-red-100 hover:bg-red-100 transition-colors flex items-center gap-2"><span className="text-[16px]">🗑️</span> KVKK Silme</button>
+          <button onClick={() => setKvkkModal(true)} className="px-4 py-2.5 rounded-2xl bg-red-50 text-red-600 text-[13px] font-bold border border-red-100 hover:bg-red-100 transition-colors flex items-center gap-2"><HugeiconsIcon icon={Delete01Icon} size={18} /> KVKK Silme</button>
         </div>
       </div>
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-5 pb-20">
         {/* KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {kpis.map((k, i) => (<div key={i} className={`${cardClass} py-8 px-4 flex flex-col items-center justify-center text-center`}><span className="text-[28px] mb-3">{k.icon}</span><p className="text-[12px] font-black text-gray-400 uppercase tracking-widest mb-1.5">{k.label}</p><p className={`text-[32px] font-black ${k.color}`}>{k.value}</p></div>))}
+          {kpis.map((k, i) => (<div key={i} className={`${cardClass} py-8 px-4 flex flex-col items-center justify-center text-center`}><span className="mb-3">{k.icon}</span><p className="text-[12px] font-black text-gray-400 uppercase tracking-widest mb-1.5">{k.label}</p><p className={`text-[32px] font-black ${k.color}`}>{k.value}</p></div>))}
         </div>
         {/* Search */}
         <div className={`${cardClass} p-4 flex items-center gap-3`}>
-          <svg className="w-5 h-5 text-gray-400 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <HugeiconsIcon icon={Search01Icon} size={20} className="text-gray-400 shrink-0 ml-2" />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="İsim veya e-posta ara..." className="flex-1 bg-transparent outline-none text-[15px] font-medium text-gray-500 placeholder:text-gray-400" />
         </div>
         {/* Filters */}
         <div className={`${cardClass} p-2 flex items-center gap-1 overflow-x-auto no-scrollbar`}>
-          {([['all', 'Tümü'], ['AKTİF', '✅ Aktif'], ['ASKIDA', '⏸️ Askıda'], ['PASİF', '💤 Pasif'], ['Satıcı', '🏪 Satıcılar']] as const).map(([id, label]) => (
-            <button key={id} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-none px-5 py-3 rounded-2xl text-[14px] font-bold transition-all whitespace-nowrap ${filter === id ? 'bg-[#0B1221] text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
+          {([['all', 'Tümü'], ['AKTİF', <span className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Aktif</span>], ['ASKIDA', <span className="flex items-center gap-1.5"><HugeiconsIcon icon={PauseCircleIcon} size={16} /> Askıda</span>], ['PASİF', <span className="flex items-center gap-1.5"><HugeiconsIcon icon={Moon01Icon} size={16} /> Pasif</span>], ['Satıcı', <span className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Satıcılar</span>]] as const).map(([id, label], index) => (
+            <button key={id as string} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-none px-5 py-3 rounded-2xl text-[14px] font-bold transition-all whitespace-nowrap ${filter === id ? 'bg-[#0B1221] text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>
         {/* Bulk */}
