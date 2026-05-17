@@ -57,7 +57,7 @@ export default function ReviewManagementPage() {
       </div>
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {kpis.map((k, i) => (<div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}><span className="text-[22px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className={`text-[24px] font-black ${k.color}`}>{k.value}</p></div>))}
+          {kpis.map((k, i) => (<div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}><div className="flex justify-center text-[28px] mb-2">{}</div><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className={`text-[24px] font-black ${k.color}`}>{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
           {([['pending', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyen</div>], ['approved', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Onaylanan</div>], ['flagged', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Flag01Icon} size={16} /> Bayraklı</div>]] ).map(([id, label]: any) => (

@@ -15,7 +15,7 @@ export default function PayoutManagementPage() {
     { label: 'Havuzdaki Bakiye', value: '₺1,450,000', sub: '84 bekleyen onay', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={BankIcon} size={18} /> },
     { label: 'Bu Hafta Onaylanan', value: '₺345,000', sub: '↗ %12.4 artış', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
     { label: 'Toplam Komisyon', value: '₺1,080,960', sub: 'Son 30 gün', color: 'text-purple-600', bg: 'bg-purple-50', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={18} /> },
-    { label: 'Ort. Ödeme Süresi', value: '3.2 gün', sub: '↘ 0.5 gün iyileşme', color: 'text-[#111827]', bg: 'bg-gray-50', icon: '⏱️' },
+    { label: 'Ort. Ödeme Süresi', value: '3.2 gün', sub: '↘ 0.5 gün iyileşme', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
   ];
 
   const pendingPayouts = [
@@ -64,7 +64,7 @@ export default function PayoutManagementPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpis.map((k, i) => (
             <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <span className="text-[22px]">{k.icon}</span>
+              <div className="flex justify-center text-[28px] mb-2">{}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
               <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
               <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>

@@ -95,7 +95,7 @@ export default function BrandManagementPage() {
         <div className="grid grid-cols-3 gap-3">
           {kpis.map((k, i) => (
             <div key={i} className={`${cardClass} p-4 text-center`}>
-              <span className="text-[20px]">{k.icon}</span>
+              <div className="flex justify-center text-[28px] mb-2">{}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
               <p className="text-[22px] font-black text-[#111827]">{k.value}</p>
             </div>

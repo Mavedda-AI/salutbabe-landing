@@ -11,8 +11,8 @@ export default function ShippingManagementPage() {
   const kpis = [
     { label: 'Toplam Kargo', value: '12,480', sub: 'Son 30 gün', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={Package01Icon} size={18} /> },
     { label: 'Zamanında Teslim', value: '%91.2', sub: '↗ %2.4 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'Geciken Kargo', value: '1,098', sub: '%8.8 gecikme oranı', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: '⚠️' },
-    { label: 'Ort. Teslim Süresi', value: '2.4 gün', sub: '↘ 0.3 gün düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '⏱️' },
+    { label: 'Geciken Kargo', value: '1,098', sub: '%8.8 gecikme oranı', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
+    { label: 'Ort. Teslim Süresi', value: '2.4 gün', sub: '↘ 0.3 gün düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
   ];
 
   const providers = [
@@ -72,7 +72,7 @@ export default function ShippingManagementPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpis.map((k, i) => (
             <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <span className="text-[22px]">{k.icon}</span>
+              <div className="flex justify-center text-[28px] mb-2">{}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
               <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
               <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>

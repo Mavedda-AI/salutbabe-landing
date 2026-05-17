@@ -174,7 +174,7 @@ export default function UnitEconomicsPage() {
             { label: 'LTV / CAC', value: '3.8x', color: 'text-purple-600', icon: <HugeiconsIcon icon={Target01Icon} size={18} /> },
           ].map((r, i) => (
             <div key={i} className="bg-white rounded-[20px] border border-gray-100 p-4 shadow-sm text-center">
-              <span className="text-[20px]">{r.icon}</span>
+              <div className="flex justify-center text-[28px] mb-2">{}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{r.label}</p>
               <p className={`text-[22px] font-black ${r.color}`}>{r.value}</p>
             </div>

@@ -44,7 +44,7 @@ export default function UserReviewManagementPage() {
   const kpis = [
     { label: 'Toplam', value: reviews.length, icon: <HugeiconsIcon icon={Message01Icon} size={18} /> },
     { label: 'Ort. Puan', value: (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1), icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
-    { label: 'Düşük Puan (<3)', value: reviews.filter(r => r.rating < 3).length, icon: '⚠️' },
+    { label: 'Düşük Puan (<3)', value: reviews.filter(r => r.rating < 3).length, icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
   ];
 
   return (
@@ -58,7 +58,7 @@ export default function UserReviewManagementPage() {
       </div>
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
         <div className="grid grid-cols-3 gap-3">
-          {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><span className="text-[20px]">{k.icon}</span><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
+          {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><div className="flex justify-center text-[28px] mb-2">{}</div><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
           {([['all', 'Tümü'], ['Satıcı', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={UserIcon} size={16} /> Satıcıya</div>], ['Mağaza', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Mağazaya</div>], ['low', '⚠️ Düşük Puan']] ).map(([id, label]: any) => (

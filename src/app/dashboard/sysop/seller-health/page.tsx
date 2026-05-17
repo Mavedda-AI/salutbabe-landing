@@ -8,7 +8,7 @@ export default function SellerHealthPage() {
 
   const healthScores = [
     { label: 'Aktif Satıcı', value: '1,245', color: 'text-[#34C759]', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'İnaktif (>7 Gün)', value: '84', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: '⚠️' },
+    { label: 'İnaktif (>7 Gün)', value: '84', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
     { label: 'Top Satıcı (>15K ₺)', value: '32', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
     { label: 'Yeni Satıcı (30g)', value: '67', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
   ];
@@ -66,7 +66,7 @@ export default function SellerHealthPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {healthScores.map((h, i) => (
             <div key={i} className={`${h.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <span className="text-[22px]">{h.icon}</span>
+              <div className="flex justify-center text-[28px] mb-2">{}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{h.label}</p>
               <p className={`text-[26px] font-black ${h.color}`}>{h.value}</p>
             </div>

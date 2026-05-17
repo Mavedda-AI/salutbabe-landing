@@ -61,7 +61,7 @@ export default function LiveRoomManagementPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {kpis.map((k, i) => (
             <div key={i} className={`${k.bg} border border-gray-100 rounded-[32px] py-8 px-4 flex flex-col items-center justify-center text-center shadow-sm`}>
-              <span className="text-[28px] drop-shadow-sm mb-3">{k.icon}</span>
+              <div className="flex justify-center text-[28px] drop-shadow-sm mb-3">{}</div>
               <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest mb-1.5">{k.label}</p>
               <p className={`text-[36px] tracking-tight font-black ${k.color}`}>{k.value}</p>
               <p className={`text-[13px] font-bold ${k.subColor} mt-2`}>{k.sub}</p>

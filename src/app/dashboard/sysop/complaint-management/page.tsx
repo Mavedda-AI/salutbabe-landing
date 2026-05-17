@@ -19,7 +19,7 @@ export default function ComplaintManagementPage() {
   const kpis = [
     { label: 'Açık Destek', value: '142', sub: '32 acil öncelikli', color: 'text-[#FF383C]', bg: 'bg-red-50', icon: <HugeiconsIcon icon={RecordIcon} size={18} /> },
     { label: 'Çözülme Oranı', value: '%94.8', sub: '↗ %1.2 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'Ort. Çözüm Süresi', value: '4.2 saat', sub: '↘ 1.1 saat düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: '⏱️' },
+    { label: 'Ort. Çözüm Süresi', value: '4.2 saat', sub: '↘ 1.1 saat düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
     { label: 'CSAT Skoru', value: '4.6/5', sub: 'Son 30 gün ort.', color: 'text-purple-600', bg: 'bg-purple-50', icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
   ];
 
@@ -70,7 +70,7 @@ export default function ComplaintManagementPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {kpis.map((k, i) => (
             <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <span className="text-[22px]">{k.icon}</span>
+              <div className="flex justify-center text-[28px] mb-2">{}</div>
               <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
               <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
               <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>
@@ -165,7 +165,7 @@ export default function ComplaintManagementPage() {
                 { label: 'İlk Yanıt Süresi', value: '12 dk', icon: <HugeiconsIcon icon={FlashIcon} size={18} /> },
               ].map((s, i) => (
                 <div key={i} className={`${cardClass} p-4 text-center`}>
-                  <span className="text-[20px]">{s.icon}</span>
+                  <div className="flex justify-center text-[28px] mb-2">{}</div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{s.label}</p>
                   <p className="text-[20px] font-black text-[#111827]">{s.value}</p>
                 </div>
