@@ -7,6 +7,7 @@ export default function CategoryManagementPage() {
   const [loading, setLoading] = useState(true);
   const [expandedCats, setExpandedCats] = useState<string[]>(['CAT-1']);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState<'all' | 'bebek' | 'cocuk' | 'organik'>('all');
   const [showModal, setShowModal] = useState<any>(null);
 
   const isDark = theme === 'dark';
@@ -404,6 +405,12 @@ export default function CategoryManagementPage() {
   };
 
   const filteredCategories = categories.filter(c => {
+    // 1. Tip Filtresi (Bebek/Çocuk/Organik)
+    if (activeFilter === 'bebek' && !c.name.toLowerCase().includes('bebek')) return false;
+    if (activeFilter === 'cocuk' && !c.name.toLowerCase().includes('çocuk')) return false;
+    if (activeFilter === 'organik' && !c.name.toLowerCase().includes('organik') && !c.subcategories.some(sub => sub.name.toLowerCase().includes('organik'))) return false;
+
+    // 2. Arama Filtresi
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     const matchCat = c.name.toLowerCase().includes(q);
@@ -426,8 +433,20 @@ export default function CategoryManagementPage() {
       </div>
 
       <div className={`${cardClass} p-2 mb-6 w-full overflow-hidden`}>
-         <div className="px-2 md:px-4 w-full">
-            <div className={`relative flex items-center w-full h-12 rounded-xl border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 focus-within:border-primary/50' : 'bg-gray-50 border-gray-200 focus-within:border-primary/50 focus-within:bg-white'}`}>
+         <div className="px-2 md:px-4 w-full flex flex-col md:flex-row gap-4 items-center py-2">
+            <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+              {['all', 'bebek', 'cocuk', 'organik'].map(filter => (
+                 <button
+                   key={filter}
+                   onClick={() => setActiveFilter(filter as any)}
+                   className={`px-5 py-2.5 rounded-xl text-[12px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${activeFilter === filter ? 'bg-primary text-white shadow-lg shadow-primary/20' : isDark ? 'bg-white/5 text-gray-400 hover:bg-white/10' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                 >
+                   {filter === 'all' ? 'Tümü' : filter === 'bebek' ? 'Bebek' : filter === 'cocuk' ? 'Çocuk' : 'Organik'}
+                 </button>
+              ))}
+            </div>
+
+            <div className={`relative flex items-center w-full md:flex-1 h-12 rounded-xl border transition-colors ${isDark ? 'bg-[#1A1D1F] border-white/10 focus-within:border-primary/50' : 'bg-gray-50 border-gray-200 focus-within:border-primary/50 focus-within:bg-white'}`}>
                <svg className={`w-5 h-5 ml-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                <input 
                  type="text" 
