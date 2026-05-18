@@ -1,32 +1,32 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-  Activity01Icon,
-  Alert01Icon,
-  BankIcon,
-  BarChartIcon,
-  CameraVideoIcon,
-  CardExchange01Icon,
-  Coins01Icon,
-  Home01Icon,
-  Invoice01Icon,
-  Message01Icon,
-  MessageQuestionIcon,
-  Money01Icon,
-  Moon01Icon,
-  Package01Icon,
-  PieChart01Icon,
-  Settings01Icon,
-  ShoppingBag01Icon,
-  StarIcon,
-  Store01Icon,
-  StoreLocation01Icon,
-  Sun01Icon,
-  Tag01Icon,
-  TruckIcon,
-  UserIcon,
-  UserMultipleIcon,
-  Wallet01Icon
+    Activity01Icon,
+    Alert01Icon,
+    BankIcon,
+    BarChartIcon,
+    CameraVideoIcon,
+    CardExchange01Icon,
+    Coins01Icon,
+    Home01Icon,
+    Invoice01Icon,
+    Message01Icon,
+    MessageQuestionIcon,
+    Money01Icon,
+    Moon01Icon,
+    Package01Icon,
+    PieChart01Icon,
+    Settings01Icon,
+    ShoppingBag01Icon,
+    StarIcon,
+    Store01Icon,
+    StoreLocation01Icon,
+    Sun01Icon,
+    Tag01Icon,
+    TruckIcon,
+    UserIcon,
+    UserMultipleIcon,
+    Wallet01Icon
 } from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
@@ -346,8 +346,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           {!isSidebarCollapsed ? (
             <>
               <Link href="/dashboard/sysop" className="flex items-center gap-3">
-                 <div className="w-8 h-8 rounded-lg bg-[#111827]  flex flex-shrink-0 items-center justify-center shadow-md">
-                   <div className="w-4 h-4 bg-gradient-to-tr from-[#3B82F6] to-[#10B981] rounded-[4px] transform rotate-45"></div>
+                 <div className="w-10 h-10 rounded-xl overflow-hidden bg-white border border-gray-100 flex flex-shrink-0 items-center justify-center shadow-sm">
+                   <img src="/logo-icon.png" alt="SalutBabe" className="w-full h-full object-contain p-1" />
                  </div>
                  <div className="flex flex-col justify-center">
                    <span className="text-[15px] font-black text-[#111827]  leading-tight">SalutBabe</span>

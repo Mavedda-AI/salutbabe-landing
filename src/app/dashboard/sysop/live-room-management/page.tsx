@@ -3,20 +3,22 @@ import {HugeiconsIcon} from '@hugeicons/react';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {
-  BarChartIcon,
-  Calendar01Icon,
-  CameraMicrophoneIcon,
-  CrownIcon,
-  MoneyBag01Icon,
-  RecordIcon,
-  Refresh01Icon,
-  Timer02Icon,
-  UserMultipleIcon
+    BarChartIcon,
+    Calendar01Icon,
+    CameraMicrophoneIcon,
+    CrownIcon,
+    MoneyBag01Icon,
+    RecordIcon,
+    Refresh01Icon,
+    Timer02Icon,
+    UserMultipleIcon
 } from '@hugeicons/core-free-icons';
 
 export default function LiveRoomManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'live' | 'scheduled' | 'stats'>('live');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('Tümü');
 
   const kpis = [
     { label: 'AKTİF ODA', value: '142', sub: '3,105 anlık dinleyici', color: 'text-[#FF383C]', bg: 'bg-[#FFF5F5]', icon: <HugeiconsIcon icon={RecordIcon} size={32} className="text-[#FF383C]" />, subColor: 'text-green-500' },
@@ -82,8 +84,23 @@ export default function LiveRoomManagementPage() {
         </div>
 
         {activeTab === 'live' && (
-          <div className="space-y-3">
-            {liveRooms.map((r, i) => (
+          <div className="space-y-4">
+            <div className={`${cardClass} p-4 space-y-3`}>
+              <div className="flex flex-col md:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                  <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Satıcı adı veya oda başlığı ile ara..." className="w-full pl-11 pr-5 py-3.5 rounded-[20px] bg-gray-50/50 border border-gray-100 text-[14px] font-bold focus:bg-white focus:ring-2 focus:ring-[#111827] focus:border-transparent outline-none transition-all placeholder:text-gray-400" />
+                </div>
+              </div>
+              <div className="w-full overflow-x-auto no-scrollbar pb-1">
+                <div className="flex items-center gap-1.5 min-w-max">
+                  {['Tümü', 'Kadın Giyim', 'Erkek Giyim', 'Aksesuar', 'Çocuk'].map(f => (
+                    <button key={f} onClick={() => setCategoryFilter(f)} className={`px-5 py-2.5 text-[13px] font-bold rounded-full transition-all whitespace-nowrap ${categoryFilter === f ? 'bg-[#111827] text-white shadow-md' : 'bg-white border border-gray-100 text-gray-500 hover:border-gray-200 hover:text-gray-900'}`}>{f}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {liveRooms.filter(r => (categoryFilter === 'Tümü' || r.category === categoryFilter) && (r.host.toLowerCase().includes(searchQuery.toLowerCase()) || r.title.toLowerCase().includes(searchQuery.toLowerCase()))).map((r, i) => (
               <div key={i} className={`${cardClass} p-4 border-l-4 border-l-red-400`}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">

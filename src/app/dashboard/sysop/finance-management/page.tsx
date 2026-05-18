@@ -163,6 +163,7 @@ export function FinanceView() {
 export default function FinanceManagement() {
   const router = useRouter();
   const [eftDone, setEftDone] = useState<string | null>(null);
+  const [dateFilter, setDateFilter] = useState('Son 1 Ay');
 
   return (
     <LayoutWrapper>
@@ -196,6 +197,20 @@ export default function FinanceManagement() {
                <button onClick={() => router.push('/dashboard/sysop/finance-management/payouts')} className="flex items-center gap-2 px-4 py-2 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-colors shadow-lg shadow-gray-900/20">
                  Toplu Ödeme Yap
                </button>
+            </div>
+          </div>
+
+          <div className="w-full overflow-x-auto no-scrollbar mb-6">
+            <div className="flex items-center gap-1.5 min-w-max">
+              {['Bugün', 'Son 3 Gün', 'Son 1 Hafta', 'Son 1 Ay', 'Son 3 Ay', 'Bu Yıl'].map(f => (
+                <button
+                  key={f}
+                  onClick={() => setDateFilter(f)}
+                  className={`px-5 py-2.5 text-[13px] font-bold rounded-full transition-all whitespace-nowrap ${dateFilter === f ? 'bg-[#111827] text-white shadow-md' : 'bg-white border border-gray-100 text-gray-500 hover:border-gray-200 hover:text-gray-900'}`}
+                >
+                  {f}
+                </button>
+              ))}
             </div>
           </div>
 

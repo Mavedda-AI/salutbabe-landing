@@ -1,14 +1,14 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-    Alert01Icon,
-    BarChartIcon,
-    FlashIcon,
-    Mail01Icon,
-    RecordIcon,
-    StarIcon,
-    Tick01Icon,
-    Timer02Icon
+  Alert01Icon,
+  BarChartIcon,
+  FlashIcon,
+  Mail01Icon,
+  RecordIcon,
+  StarIcon,
+  Tick01Icon,
+  Timer02Icon
 } from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
@@ -16,6 +16,8 @@ import {useRouter} from 'next/navigation';
 export default function ComplaintManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'open' | 'resolved' | 'stats'>('open');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState('Tümü');
 
   const kpis = [
     { label: 'Açık Destek', value: '142', sub: '32 acil öncelikli', color: 'text-[#FF383C]', bg: 'bg-red-50', icon: <HugeiconsIcon icon={RecordIcon} size={18} /> },
@@ -90,7 +92,22 @@ export default function ComplaintManagementPage() {
 
         {activeTab === 'open' && (
           <div className="space-y-3">
-            {openTickets.map((t, i) => (
+            <div className={`${cardClass} p-4 space-y-3`}>
+              <div className="flex flex-col md:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                  <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Kullanıcı adı, konu veya TKT kodu ile ara..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-[13px] font-medium focus:ring-2 focus:ring-[#111827] outline-none" />
+                </div>
+              </div>
+              <div className="w-full overflow-x-auto no-scrollbar">
+                <div className="flex items-center bg-[#F8F9FA] rounded-[16px] p-1.5 min-w-max border border-gray-100">
+                  {['Tümü', 'Acil', 'Yüksek', 'Normal'].map(f => (
+                    <button key={f} onClick={() => setPriorityFilter(f)} className={`px-5 py-2 text-[13px] font-bold rounded-[12px] transition-all whitespace-nowrap ${priorityFilter === f ? 'bg-white text-[#111827] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>{f}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {openTickets.filter(t => (priorityFilter === 'Tümü' || t.priority === priorityFilter) && (t.user.toLowerCase().includes(searchQuery.toLowerCase()) || t.subject.toLowerCase().includes(searchQuery.toLowerCase()) || t.id.toLowerCase().includes(searchQuery.toLowerCase()))).map((t, i) => (
               <div key={i} className={`${cardClass} p-4`}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -115,7 +132,13 @@ export default function ComplaintManagementPage() {
 
         {activeTab === 'resolved' && (
           <div className="space-y-3">
-            {resolvedRecent.map((t, i) => (
+            <div className={`${cardClass} p-4`}>
+              <div className="relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Kullanıcı adı, konu veya TKT kodu ile ara..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-[13px] font-medium focus:ring-2 focus:ring-[#111827] outline-none" />
+              </div>
+            </div>
+            {resolvedRecent.filter(t => t.user.toLowerCase().includes(searchQuery.toLowerCase()) || t.subject.toLowerCase().includes(searchQuery.toLowerCase()) || t.id.toLowerCase().includes(searchQuery.toLowerCase())).map((t, i) => (
               <div key={i} className={`${cardClass} p-4`}>
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex-1 min-w-0">

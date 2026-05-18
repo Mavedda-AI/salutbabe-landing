@@ -91,8 +91,14 @@ const Header = () => {
                </div>
             </div>
 
-            <Link href="/" className="text-2xl md:text-3xl font-black tracking-tighter text-text-primary z-10 mx-auto">
-              salutbabe
+            <Link href="/" className="flex items-center gap-2.5 z-10 mx-auto md:ml-0 md:mr-auto">
+               <div className="w-[36px] h-[36px] rounded-xl overflow-hidden flex flex-shrink-0 items-center justify-center shadow-sm bg-white border border-gray-100">
+                 <img src="/logo-icon.png" alt="SalutBabe" className="w-full h-full object-contain p-0.5" />
+               </div>
+               <div className="flex flex-col justify-center text-left">
+                 <span className="text-[18px] md:text-[20px] font-black text-text-primary leading-none tracking-tight">SalutBabe</span>
+                 <span className="text-[10px] md:text-[11px] text-text-secondary font-bold tracking-wide mt-0.5">Pazar Yeri & Satış</span>
+               </div>
             </Link>
 
             <div className="md:absolute md:right-0 flex items-center gap-3 md:gap-6">
