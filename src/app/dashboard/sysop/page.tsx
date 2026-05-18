@@ -123,6 +123,7 @@ export default function SysopDashboard() {
   type AlertDef = { type: string; text: string; badge?: string; };
   const alerts: AlertDef[] = [
     { type: 'CRITICAL', text: 'Kargo gecikme oranlarında ani artış', badge: '15%' },
+    { type: 'WARNING', text: '24 ilan onay bekliyor', badge: '24' },
     { type: 'WARNING', text: 'Top satıcılardan 2 kişi 7 gündür inaktif' },
     { type: 'INFO', text: 'Ödeme aşamasında %12 düşüş' }
   ];
@@ -517,6 +518,53 @@ export default function SysopDashboard() {
                 </div>
               )}
             </div>
+
+            {/* İLAN ONAYLARI TRACKING CARD */}
+            <div onClick={() => setExpandedCard(expandedCard === 'moderation' ? null : 'moderation')} className={`${cardClass} p-4 md:p-6 flex flex-col cursor-pointer transition-all hover:border-gray-300`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={textTitle}>
+                  <svg className="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  İLAN ONAYLARI
+                </h3>
+                <div className="flex items-center gap-2">
+                  <div className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600 text-[9px] font-black tracking-wider animate-pulse">24 BEKLİYOR</div>
+                  <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'moderation' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4 flex-1">
+                <div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Onay Bekleyen</p>
+                  <p className="text-[22px] font-black text-orange-500">24</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Bugün Onaylanan</p>
+                  <p className="text-[22px] font-black text-green-600">38</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Bildirim Gönderilen</p>
+                  <p className="text-[22px] font-black text-blue-600">7</p>
+                </div>
+              </div>
+
+              {expandedCard === 'moderation' && (
+                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Organik & Gıda (Bekleyen)</span><span className="text-[12px] font-black text-orange-500">12</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">El Emeği & Tasarım (Bekleyen)</span><span className="text-[12px] font-black text-orange-500">8</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Diğer Kategoriler (Bekleyen)</span><span className="text-[12px] font-black text-orange-500">4</span></div>
+                    <div className="h-px bg-gray-100 my-1"></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Onay Süresi</span><span className="text-[12px] font-black text-[#111827]">~18 dk</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Haftalık Toplam Onay</span><span className="text-[12px] font-black text-green-600">284</span></div>
+                    <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Haftalık Bildirim</span><span className="text-[12px] font-black text-blue-600">41</span></div>
+                  </div>
+                  <button onClick={() => setUserRole('moderator' as any)} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
+                    İLAN ONAY PANELİNE GİT
+                  </button>
+                </div>
+              )}
+            </div>
+
           </div>
 
           {/* ROW 1.5: INTELLIGENCE CARDS (SADECE KURUCU) */}
