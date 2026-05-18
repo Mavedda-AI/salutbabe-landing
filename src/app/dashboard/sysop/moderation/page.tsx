@@ -3,6 +3,8 @@ import React, {useState} from "react";
 
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
   ArrowTurnBackwardIcon,
   Camera01Icon,
   Cancel01Icon,
@@ -53,6 +55,9 @@ export function ModerationView() {
   const [toast, setToast] = useState<{ msg: string; type: 'green' | 'blue' | 'orange' | 'red' } | null>(null);
   const [viewMode, setViewMode] = useState<'swipe' | 'list' | 'grid2' | 'grid4'>('list');
   const [selectedNotifs, setSelectedNotifs] = useState<{ [productId: string]: string[] }>({});
+  const [swipeIndex, setSwipeIndex] = useState(0);
+
+  React.useEffect(() => { setSwipeIndex(0); }, [tab, viewMode]);
 
   const show = (msg: string, type: 'green' | 'blue' | 'orange' | 'red') => { setToast({ msg, type }); setTimeout(() => setToast(null), 2000); };
 
@@ -132,8 +137,8 @@ export function ModerationView() {
               <div className="flex gap-2 mt-4">
                 {detail.status === 'pending' && (
                   <>
-                    <button onClick={() => { handleApprove(detail); setDetail(null); }} className="flex-1 py-3 flex items-center justify-center gap-2 rounded-2xl bg-green-500 text-white font-black text-[13px] active:scale-95 transition-all"><HugeiconsIcon icon={Tick01Icon} size={16} /> Onayla</button>
-                    <button onClick={() => { handleReject(detail); setDetail(null); }} className="flex-1 py-3 flex items-center justify-center gap-2 rounded-2xl bg-red-500 text-white font-black text-[13px] active:scale-95 transition-all"><HugeiconsIcon icon={Cancel01Icon} size={16} /> Reddet</button>
+                    <button onClick={() => { handleReject(detail); setDetail(null); }} className="flex-1 py-3 flex items-center justify-center gap-2 rounded-2xl bg-[#FF3B30] text-white font-black text-[13px] active:scale-95 transition-all"><HugeiconsIcon icon={Cancel01Icon} size={16} /> Reddet</button>
+                    <button onClick={() => { handleApprove(detail); setDetail(null); }} className="flex-1 py-3 flex items-center justify-center gap-2 rounded-2xl bg-[#00D65B] text-white font-black text-[13px] active:scale-95 transition-all"><HugeiconsIcon icon={Tick01Icon} size={16} /> Onayla</button>
                   </>
                 )}
                 {detail.status !== 'pending' && <button onClick={() => { handleUndo(detail); setDetail(null); }} className="flex-1 py-3 flex items-center justify-center gap-2 rounded-2xl bg-orange-500 text-white font-black text-[13px] active:scale-95 transition-all"><HugeiconsIcon icon={ArrowTurnBackwardIcon} size={16} /> Geri Al</button>}
@@ -177,7 +182,7 @@ export function ModerationView() {
         </div>
 
         {tab === 'pending' && pending.length > 1 && (
-          <button onClick={handleApproveAll} className="w-full py-3 rounded-2xl bg-green-500 text-white text-[12px] flex items-center justify-center gap-2 font-black shadow-lg shadow-green-500/20 hover:bg-green-600 active:scale-[0.98] transition-all">
+          <button onClick={handleApproveAll} className="w-full py-3 rounded-[20px] bg-[#00D65B] text-white text-[12px] flex items-center justify-center gap-2 font-black shadow-lg shadow-[#00D65B]/20 hover:bg-[#00B54C] active:scale-[0.98] transition-all">
             <HugeiconsIcon icon={Tick01Icon} size={16} /> Tümünü Onayla ({pending.length})
           </button>
         )}
@@ -194,25 +199,30 @@ export function ModerationView() {
           </div>
           <p className="text-[13px] font-bold text-gray-400">{tab === 'pending' ? 'Bekleyen ilan yok!' : tab === 'approved' ? 'Henüz onaylanan ilan yok.' : tab === 'notified' ? 'Bildirim gönderilen ilan yok.' : 'Reddedilen ilan yok.'}</p>
         </div>
-      ) : viewMode === 'swipe' ? (
+      ) : viewMode === 'swipe' ? (() => {
+        const activeIndex = Math.min(swipeIndex, Math.max(0, currentList.length - 1));
+        const currentItem = currentList[activeIndex];
+        if (!currentItem) return null;
+
+        return (
         <div className="flex flex-col items-center mt-2">
-          <div className="w-full max-w-[400px] bg-white rounded-[32px] border border-gray-100 shadow-2xl overflow-hidden relative animate-fade-in" key={currentList[0].id}>
-            <div onClick={() => setDetail(currentList[0])} className="relative cursor-pointer active:scale-[0.98] transition-transform">
-              <img src={currentList[0].image} alt={currentList[0].name} className="w-full aspect-[4/3] object-cover" />
-              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full"><span className="text-[14px] font-black text-white">{currentList[0].price}</span></div>
+          <div className="w-full max-w-[400px] bg-white rounded-[32px] border border-gray-100 shadow-2xl overflow-hidden relative animate-fade-in" key={currentItem.id}>
+            <div onClick={() => setDetail(currentItem)} className="relative cursor-pointer active:scale-[0.98] transition-transform">
+              <img src={currentItem.image} alt={currentItem.name} className="w-full aspect-[4/3] object-cover" />
+              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full"><span className="text-[14px] font-black text-white">{currentItem.price}</span></div>
             </div>
             
             <div className="p-4">
-              <h3 className="text-[20px] font-black text-[#111827] mb-1 leading-tight">{currentList[0].name}</h3>
-              <p className="text-[13px] font-bold text-gray-400 mb-2">{currentList[0].seller} • <span className="text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">{currentList[0].category}</span></p>
-              <p className="text-[13px] text-gray-600 line-clamp-2 leading-relaxed mb-3">{currentList[0].desc}</p>
+              <h3 className="text-[20px] font-black text-[#111827] mb-1 leading-tight">{currentItem.name}</h3>
+              <p className="text-[13px] font-bold text-gray-400 mb-2">{currentItem.seller} • <span className="text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">{currentItem.category}</span></p>
+              <p className="text-[13px] text-gray-600 line-clamp-2 leading-relaxed mb-3">{currentItem.desc}</p>
               
               {tab === 'pending' && (
                 <div className="grid grid-cols-3 gap-1.5 mb-4">
                   {quickReplies.map(r => {
-                    const isSelected = (selectedNotifs[currentList[0].id] || []).includes(r.label);
+                    const isSelected = (selectedNotifs[currentItem.id] || []).includes(r.label);
                     return (
-                      <button key={r.id} onClick={() => toggleNotif(currentList[0].id, r.label)} className={`flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold border active:scale-95 transition-all text-center leading-tight ${isSelected ? 'bg-blue-100 text-blue-700 border-blue-300 shadow-inner' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'}`}>
+                      <button key={r.id} onClick={() => toggleNotif(currentItem.id, r.label)} className={`flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold border active:scale-95 transition-all text-center leading-tight ${isSelected ? 'bg-blue-100 text-blue-700 border-blue-300 shadow-inner' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'}`}>
                         <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
                         <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
                       </button>
@@ -224,56 +234,97 @@ export function ModerationView() {
               <div className="flex justify-center gap-16 items-center mt-2">
                 {tab === 'pending' ? (
                   <>
-                    <button onClick={() => handleReject(currentList[0])} className="w-[72px] h-[72px] flex items-center justify-center rounded-full bg-red-50 text-red-500 shadow-sm border border-red-100 active:scale-90 transition-all hover:bg-red-500 hover:text-white" title="Reddet">
+                    <button onClick={() => handleReject(currentItem)} className="w-[72px] h-[72px] flex items-center justify-center rounded-full bg-red-50 text-red-500 shadow-sm border border-red-100 active:scale-90 transition-all hover:bg-red-500 hover:text-white" title="Reddet">
                       <HugeiconsIcon icon={Cancel01Icon} size={36} />
                     </button>
-                    <button onClick={() => handleApprove(currentList[0])} className="w-[72px] h-[72px] flex items-center justify-center rounded-full bg-green-50 text-green-500 shadow-sm border border-green-100 active:scale-90 transition-all hover:bg-green-500 hover:text-white" title="Onayla">
+                    <button onClick={() => handleApprove(currentItem)} className="w-[72px] h-[72px] flex items-center justify-center rounded-full bg-[#00D65B] text-white shadow-sm border border-[#00D65B]/20 active:scale-90 transition-all hover:bg-[#00C853]" title="Onayla">
                       <HugeiconsIcon icon={Tick01Icon} size={36} />
                     </button>
                   </>
                 ) : (
-                  <button onClick={() => handleUndo(currentList[0])} className="w-[240px] h-[64px] flex items-center justify-center gap-2 rounded-full bg-orange-50 text-orange-600 font-black shadow-sm border border-orange-100 active:scale-90 transition-all hover:bg-orange-500 hover:text-white" title="Geri Al">
+                  <button onClick={() => handleUndo(currentItem)} className="w-[240px] h-[64px] flex items-center justify-center gap-2 rounded-full bg-orange-50 text-orange-600 font-black shadow-sm border border-orange-100 active:scale-90 transition-all hover:bg-orange-500 hover:text-white" title="Geri Al">
                     <HugeiconsIcon icon={ArrowTurnBackwardIcon} size={28} /> Geri Al
                   </button>
                 )}
               </div>
             </div>
           </div>
-          <p className="mt-5 text-[13px] font-black text-gray-400">Kalan İlan: <span className="text-gray-700">{currentList.length}</span></p>
+          
+          <div className="flex items-center gap-6 mt-6">
+            <button 
+              disabled={activeIndex === 0} 
+              onClick={() => setSwipeIndex(s => Math.max(0, s - 1))}
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all text-[#111827]"
+            >
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={20} />
+            </button>
+            <p className="text-[13px] font-black text-gray-400 w-24 text-center">İlan: <span className="text-[#111827]">{activeIndex + 1}</span> / {currentList.length}</p>
+            <button 
+              disabled={activeIndex >= currentList.length - 1} 
+              onClick={() => setSwipeIndex(s => Math.min(currentList.length - 1, s + 1))}
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all text-[#111827]"
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
+            </button>
+          </div>
         </div>
-      ) : (
+        );
+      })() : (
         <div className={`mt-3 ${viewMode === 'list' ? 'space-y-3' : viewMode === 'grid2' ? 'grid grid-cols-2 gap-3' : 'grid grid-cols-4 gap-3'}`}>
           {currentList.map(product => {
             const isOpen = openReply === product.id;
 
             {/* GRID VIEW (grid2 / grid4) */}
             if (viewMode !== 'list') return (
-              <div key={product.id} className="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
+              <div key={product.id} className="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden flex flex-col">
                 <div onClick={() => setDetail(product)} className="relative cursor-pointer active:scale-[0.98] transition-transform">
                   <img src={product.image} alt={product.name} className={`w-full object-cover ${viewMode === 'grid4' ? 'aspect-square' : 'aspect-[4/3]'}`} />
                   <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-full"><span className="text-[10px] font-black text-white">{product.price}</span></div>
                 </div>
-                <div className="p-3">
+                <div className="p-3 flex-1 flex flex-col">
                   <h4 className={`font-black text-[#111827] leading-tight truncate ${viewMode === 'grid4' ? 'text-[11px]' : 'text-[12px]'}`}>{product.name}</h4>
                   <p className="text-[9px] font-bold text-gray-400 mt-0.5 truncate">{product.seller} • {product.category}</p>
-                  <div className={`flex gap-1.5 mt-2 ${viewMode === 'grid4' ? 'flex-col' : ''}`}>
+                  
+                  {product.notifications && product.notifications.length > 0 && tab !== 'pending' && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {product.notifications.map((n, i) => <span key={i} className="text-[8px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded flex items-center gap-0.5"><HugeiconsIcon icon={Message01Icon} size={8} /> {n}</span>)}
+                    </div>
+                  )}
+
+                  <div className={`flex gap-1.5 mt-auto pt-2 ${viewMode === 'grid4' ? 'flex-col' : ''}`}>
                     {tab === 'pending' ? (<>
-                      <button onClick={() => handleApprove(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-green-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
-                        <HugeiconsIcon icon={Tick01Icon} size={14} />{viewMode !== 'grid4' && "Onayla"}
-                      </button>
-                      <button onClick={() => { setOpenReply(isOpen ? null : product.id); setDetail(product); }} className={`flex-1 flex items-center justify-center gap-1 rounded-xl border border-gray-200 text-gray-500 bg-gray-50 font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
-                        <HugeiconsIcon icon={Message01Icon} size={14} />{viewMode !== 'grid4' && "Bildirim"}
-                      </button>
-                      <button onClick={() => handleReject(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-red-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
+                      <button onClick={() => handleReject(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-full bg-[#FF3B30] text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-1.5 text-[11px]'}`}>
                         <HugeiconsIcon icon={Cancel01Icon} size={14} />{viewMode !== 'grid4' && "Reddet"}
                       </button>
+                      <button onClick={() => setOpenReply(isOpen ? null : product.id)} className={`flex-1 flex items-center justify-center gap-1 rounded-full border active:scale-90 transition-all ${isOpen ? 'bg-blue-500 text-white border-blue-500' : 'border-gray-200 text-gray-500 bg-white hover:bg-gray-50'} ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-1.5 text-[11px]'}`}>
+                        <HugeiconsIcon icon={Message01Icon} size={14} />{viewMode !== 'grid4' && "Bildirim"}
+                      </button>
+                      <button onClick={() => handleApprove(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-full bg-[#00D65B] text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-1.5 text-[11px]'}`}>
+                        <HugeiconsIcon icon={Tick01Icon} size={14} />{viewMode !== 'grid4' && "Onayla"}
+                      </button>
                     </>) : (
-                      <button onClick={() => handleUndo(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-orange-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
+                      <button onClick={() => handleUndo(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-full bg-orange-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-1.5 text-[11px]'}`}>
                         <HugeiconsIcon icon={ArrowTurnBackwardIcon} size={14} />Geri Al
                       </button>
                     )}
                   </div>
                 </div>
+                
+                {isOpen && tab === 'pending' && (
+                  <div className="px-3 pb-3 animate-fade-in border-t border-gray-100 pt-2 bg-gray-50">
+                    <div className={`grid gap-1.5 ${viewMode === 'grid4' ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                      {quickReplies.map(r => {
+                        const isSelected = (selectedNotifs[product.id] || []).includes(r.label);
+                        return (
+                          <button key={r.id} onClick={() => toggleNotif(product.id, r.label)} className={`flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold border active:scale-95 transition-all text-center leading-tight ${isSelected ? 'bg-blue-100 text-blue-700 border-blue-300 shadow-inner' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600'}`}>
+                            <HugeiconsIcon icon={r.icon} size={12} className="text-current shrink-0" />
+                            <span className="w-full truncate sm:whitespace-normal text-left">{r.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             );
 
@@ -294,19 +345,19 @@ export function ModerationView() {
                       <span className="text-[12px] font-black text-[#111827]">{product.price}</span>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1 shrink-0 justify-center">
+                  <div className="flex flex-col gap-1.5 shrink-0 justify-center">
                     {tab === 'pending' ? (<>
-                      <button onClick={() => handleApprove(product)} className="w-[36px] h-[36px] flex items-center justify-center rounded-xl bg-green-500 text-white shadow-sm shadow-green-500/30 active:scale-90 transition-all">
-                        <HugeiconsIcon icon={Tick01Icon} size={18} />
-                      </button>
-                      <button onClick={() => setOpenReply(isOpen ? null : product.id)} className={`w-[36px] h-[36px] flex items-center justify-center rounded-xl border-2 active:scale-90 transition-all ${isOpen ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-400 border-gray-200'}`}>
-                        <HugeiconsIcon icon={Message01Icon} size={18} />
-                      </button>
-                      <button onClick={() => handleReject(product)} className="w-[36px] h-[36px] flex items-center justify-center rounded-xl bg-red-500 text-white shadow-sm shadow-red-500/30 active:scale-90 transition-all">
+                      <button onClick={() => handleReject(product)} className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#FF3B30] text-white shadow-sm shadow-[#FF3B30]/20 active:scale-90 transition-all">
                         <HugeiconsIcon icon={Cancel01Icon} size={18} />
                       </button>
+                      <button onClick={() => setOpenReply(isOpen ? null : product.id)} className={`w-[40px] h-[40px] flex items-center justify-center rounded-full border active:scale-90 transition-all ${isOpen ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-400 border-gray-200'}`}>
+                        <HugeiconsIcon icon={Message01Icon} size={18} />
+                      </button>
+                      <button onClick={() => handleApprove(product)} className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#00D65B] text-white shadow-sm shadow-[#00D65B]/20 active:scale-90 transition-all">
+                        <HugeiconsIcon icon={Tick01Icon} size={18} />
+                      </button>
                     </>) : (
-                      <button onClick={() => handleUndo(product)} className="w-[42px] h-[42px] flex items-center justify-center rounded-xl bg-orange-500 text-white shadow-md shadow-orange-500/30 active:scale-90 transition-all" title="Geri Al">
+                      <button onClick={() => handleUndo(product)} className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-orange-500 text-white shadow-md shadow-orange-500/20 active:scale-90 transition-all" title="Geri Al">
                         <HugeiconsIcon icon={ArrowTurnBackwardIcon} size={20} />
                       </button>
                     )}
