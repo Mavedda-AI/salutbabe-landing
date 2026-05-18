@@ -124,7 +124,7 @@ const Leaderboard = () => {
                      ) : (
                        <div className="relative w-12 h-12 opacity-40 dark:invert transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
                          <Image 
-                           src="/logo-salutbabe.png" 
+                           src="/logo-icon.png" 
                            alt="salutbabe logo" 
                            fill 
                            className="object-contain"

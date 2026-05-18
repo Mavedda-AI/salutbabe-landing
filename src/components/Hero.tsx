@@ -42,7 +42,7 @@ const Hero = () => (
         <div className="relative bg-white p-4 rounded-[2.5rem] shadow-2xl border border-neutral-100 overflow-hidden">
           <div className="aspect-[21/9] bg-neutral-50 rounded-[2rem] flex items-center justify-center relative overflow-hidden group">
              <Image 
-                src="/logo-salutbabe.png" 
+                src="/logo-text.png" 
                 alt="Salutbabe Hero" 
                 width={300} 
                 height={100}
