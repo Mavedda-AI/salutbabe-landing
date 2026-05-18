@@ -11,6 +11,7 @@ import {
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
+import {ModerationView} from './moderation/page';
 
 const initialMapData: Record<string, { users: number; color: string }> = {
   'Marmara': { users: 4820, color: '#1A1A1A' },
@@ -51,7 +52,7 @@ const getCityUserCount = (cityName: string) => {
 
 export default function SysopDashboard() {
   const router = useRouter();
-  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'finance'>('founder');
+  const [userRole, setUserRole] = useState<'founder' | 'partner' | 'moderator' | 'finance'>('founder');
   const [opTab, setOpTab] = useState<'general' | 'logistics' | 'moderation' | 'growth'>('general');
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [filterProduct, setFilterProduct] = useState("Tüm Ürünler");
@@ -155,6 +156,7 @@ export default function SysopDashboard() {
          <span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
          <div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100/80 border-gray-200'}`}>
            <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'founder' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kurucu</button>
+           <button onClick={() => setUserRole('moderator')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'moderator' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>İlan Onay</button>
            <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'partner' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Operasyon</button>
            <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'finance' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Finans</button>
          </div>
@@ -2484,6 +2486,8 @@ export default function SysopDashboard() {
           ) : null}
 
         </div>
+      ) : userRole === 'moderator' ? (
+        <ModerationView />
       ) : userRole === 'finance' ? (
         <FinanceView />
       ) : null}
