@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 
 type QuickReply = { id: string; label: string; emoji: string };
-type Product = { id: string; name: string; category: string; seller: string; price: string; image: string; date: string; desc: string; status: 'pending' | 'approved' | 'notified'; notifications?: string[] };
+type Product = { id: string; name: string; category: string; seller: string; price: string; image: string; date: string; desc: string; status: 'pending' | 'approved' | 'notified' | 'rejected'; notifications?: string[] };
 
 const quickReplies: QuickReply[] = [
   { id: 'photo', label: 'Fotoğrafı değiştir', emoji: '📷' },
@@ -28,23 +28,25 @@ const initialProducts: Product[] = [
 
 export function ModerationView() {
   const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [tab, setTab] = useState<'pending' | 'approved' | 'notified'>('pending');
+  const [tab, setTab] = useState<'pending' | 'approved' | 'notified' | 'rejected'>('pending');
   const [openReply, setOpenReply] = useState<string | null>(null);
   const [detail, setDetail] = useState<Product | null>(null);
-  const [toast, setToast] = useState<{ msg: string; type: 'green' | 'blue' | 'orange' } | null>(null);
+  const [toast, setToast] = useState<{ msg: string; type: 'green' | 'blue' | 'orange' | 'red' } | null>(null);
   const [viewMode, setViewMode] = useState<'list' | 'grid2' | 'grid4'>('list');
 
-  const show = (msg: string, type: 'green' | 'blue' | 'orange') => { setToast({ msg, type }); setTimeout(() => setToast(null), 2000); };
+  const show = (msg: string, type: 'green' | 'blue' | 'orange' | 'red') => { setToast({ msg, type }); setTimeout(() => setToast(null), 2000); };
 
   const pending = products.filter(p => p.status === 'pending');
   const approved = products.filter(p => p.status === 'approved');
   const notified = products.filter(p => p.status === 'notified');
+  const rejected = products.filter(p => p.status === 'rejected');
 
   const updateStatus = (id: string, status: Product['status'], notifs?: string[]) => {
     setProducts(prev => prev.map(p => p.id === id ? { ...p, status, notifications: notifs || p.notifications } : p));
   };
 
   const handleApprove = (p: Product) => { updateStatus(p.id, 'approved'); show(`✓ ${p.name} onaylandı`, 'green'); };
+  const handleReject = (p: Product) => { updateStatus(p.id, 'rejected'); show(`✕ ${p.name} reddedildi`, 'red'); };
   const handleNotify = (p: Product, reply: QuickReply) => {
     const existing = p.notifications || [];
     updateStatus(p.id, 'notified', [...existing, reply.label]);
@@ -53,11 +55,11 @@ export function ModerationView() {
   const handleUndo = (p: Product) => { updateStatus(p.id, 'pending', []); show(`↩ ${p.name} tekrar beklemeye alındı`, 'orange'); };
   const handleApproveAll = () => { setProducts(prev => prev.map(p => p.status === 'pending' ? { ...p, status: 'approved' } : p)); show(`✓ ${pending.length} ilan toplu onaylandı`, 'green'); };
 
-  const currentList = tab === 'pending' ? pending : tab === 'approved' ? approved : notified;
+  const currentList = tab === 'pending' ? pending : tab === 'approved' ? approved : tab === 'notified' ? notified : rejected;
 
   return (
     <div className={`mx-auto pb-24 animate-fade-in ${viewMode === 'grid4' ? 'max-w-[900px]' : 'max-w-[600px]'}`}>
-      {toast && <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[200] px-5 py-3 rounded-2xl text-[12px] font-bold shadow-2xl animate-fade-in ${toast.type === 'green' ? 'bg-green-600 text-white' : toast.type === 'blue' ? 'bg-blue-600 text-white' : 'bg-orange-500 text-white'}`}>{toast.msg}</div>}
+      {toast && <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[200] px-5 py-3 rounded-2xl text-[12px] font-bold shadow-2xl animate-fade-in ${toast.type === 'green' ? 'bg-green-600 text-white' : toast.type === 'blue' ? 'bg-blue-600 text-white' : toast.type === 'red' ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'}`}>{toast.msg}</div>}
 
       {/* Detail Modal */}
       {detail && (
@@ -76,7 +78,12 @@ export function ModerationView() {
                 </div>
               )}
               <div className="flex gap-2 mt-4">
-                {detail.status === 'pending' && <button onClick={() => { handleApprove(detail); setDetail(null); }} className="flex-1 py-3 rounded-2xl bg-green-500 text-white font-black text-[13px] active:scale-95 transition-all">✓ Onayla</button>}
+                {detail.status === 'pending' && (
+                  <>
+                    <button onClick={() => { handleApprove(detail); setDetail(null); }} className="flex-1 py-3 rounded-2xl bg-green-500 text-white font-black text-[13px] active:scale-95 transition-all">✓ Onayla</button>
+                    <button onClick={() => { handleReject(detail); setDetail(null); }} className="flex-1 py-3 rounded-2xl bg-red-500 text-white font-black text-[13px] active:scale-95 transition-all">✕ Reddet</button>
+                  </>
+                )}
                 {detail.status !== 'pending' && <button onClick={() => { handleUndo(detail); setDetail(null); }} className="flex-1 py-3 rounded-2xl bg-orange-500 text-white font-black text-[13px] active:scale-95 transition-all">↩ Geri Al</button>}
                 <button onClick={() => setDetail(null)} className="flex-1 py-3 rounded-2xl bg-gray-100 text-gray-600 font-black text-[13px]">Kapat</button>
               </div>
@@ -90,8 +97,9 @@ export function ModerationView() {
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-[18px] font-black text-[#111827]">İlan Onay</h2>
           <div className="flex items-center gap-2">
-            <div className="bg-green-50 text-green-600 px-2.5 py-1 rounded-full border border-green-100"><span className="text-[10px] font-black">✓{approved.length}</span></div>
-            <div className="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full border border-blue-100"><span className="text-[10px] font-black">💬{notified.length}</span></div>
+            <div className="bg-green-50 text-green-600 px-2.5 py-1 rounded-full border border-green-100 hidden sm:block"><span className="text-[10px] font-black">✓{approved.length}</span></div>
+            <div className="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full border border-blue-100 hidden sm:block"><span className="text-[10px] font-black">💬{notified.length}</span></div>
+            <div className="bg-red-50 text-red-600 px-2.5 py-1 rounded-full border border-red-100 hidden sm:block"><span className="text-[10px] font-black">✕{rejected.length}</span></div>
             <div className="flex items-center bg-white rounded-xl border border-gray-200 p-0.5 ml-1">
               <button onClick={() => setViewMode('list')} className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all ${viewMode === 'list' ? 'bg-[#111827] text-white' : 'text-gray-400 hover:text-gray-700'}`} title="Liste">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -106,11 +114,11 @@ export function ModerationView() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex bg-white rounded-2xl border border-gray-200 p-1 mb-3">
-          <button onClick={() => setTab('pending')} className={`flex-1 py-2.5 rounded-xl text-[11px] font-black transition-all ${tab === 'pending' ? 'bg-[#111827] text-white' : 'text-gray-500'}`}>Bekleyenler ({pending.length})</button>
-          <button onClick={() => setTab('approved')} className={`flex-1 py-2.5 rounded-xl text-[11px] font-black transition-all ${tab === 'approved' ? 'bg-green-500 text-white' : 'text-gray-500'}`}>Onaylananlar ({approved.length})</button>
-          <button onClick={() => setTab('notified')} className={`flex-1 py-2.5 rounded-xl text-[11px] font-black transition-all ${tab === 'notified' ? 'bg-blue-500 text-white' : 'text-gray-500'}`}>Bildirim ({notified.length})</button>
+        <div className="flex bg-white rounded-2xl border border-gray-200 p-1 mb-3 overflow-x-auto hide-scrollbar">
+          <button onClick={() => setTab('pending')} className={`px-3 py-2.5 whitespace-nowrap rounded-xl text-[11px] font-black transition-all flex-1 ${tab === 'pending' ? 'bg-[#111827] text-white' : 'text-gray-500'}`}>Bekleyen ({pending.length})</button>
+          <button onClick={() => setTab('approved')} className={`px-3 py-2.5 whitespace-nowrap rounded-xl text-[11px] font-black transition-all flex-1 ${tab === 'approved' ? 'bg-green-500 text-white' : 'text-gray-500'}`}>Onaylanan ({approved.length})</button>
+          <button onClick={() => setTab('notified')} className={`px-3 py-2.5 whitespace-nowrap rounded-xl text-[11px] font-black transition-all flex-1 ${tab === 'notified' ? 'bg-blue-500 text-white' : 'text-gray-500'}`}>Bildirim ({notified.length})</button>
+          <button onClick={() => setTab('rejected')} className={`px-3 py-2.5 whitespace-nowrap rounded-xl text-[11px] font-black transition-all flex-1 ${tab === 'rejected' ? 'bg-red-500 text-white' : 'text-gray-500'}`}>Reddedilen ({rejected.length})</button>
         </div>
 
         {tab === 'pending' && pending.length > 1 && (
@@ -121,8 +129,8 @@ export function ModerationView() {
       {/* List */}
       {currentList.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[30vh] text-center">
-          <div className="text-[40px] mb-2">{tab === 'pending' ? '🎉' : tab === 'approved' ? '📦' : '💬'}</div>
-          <p className="text-[13px] font-bold text-gray-400">{tab === 'pending' ? 'Bekleyen ilan yok!' : tab === 'approved' ? 'Henüz onaylanan ilan yok.' : 'Bildirim gönderilen ilan yok.'}</p>
+          <div className="text-[40px] mb-2">{tab === 'pending' ? '🎉' : tab === 'approved' ? '📦' : tab === 'notified' ? '💬' : '🚫'}</div>
+          <p className="text-[13px] font-bold text-gray-400">{tab === 'pending' ? 'Bekleyen ilan yok!' : tab === 'approved' ? 'Henüz onaylanan ilan yok.' : tab === 'notified' ? 'Bildirim gönderilen ilan yok.' : 'Reddedilen ilan yok.'}</p>
         </div>
       ) : (
         <div className={`mt-3 ${viewMode === 'list' ? 'space-y-3' : viewMode === 'grid2' ? 'grid grid-cols-2 gap-3' : 'grid grid-cols-4 gap-3'}`}>
@@ -141,14 +149,17 @@ export function ModerationView() {
                   <p className="text-[9px] font-bold text-gray-400 mt-0.5 truncate">{product.seller} • {product.category}</p>
                   <div className={`flex gap-1.5 mt-2 ${viewMode === 'grid4' ? 'flex-col' : ''}`}>
                     {tab === 'pending' ? (<>
-                      <button onClick={() => handleApprove(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-green-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-2 text-[9px]' : 'py-2.5 text-[10px]'}`}>
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Onayla
+                      <button onClick={() => handleApprove(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-green-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
+                        ✓
                       </button>
-                      <button onClick={() => { setOpenReply(isOpen ? null : product.id); setDetail(product); }} className={`flex-1 flex items-center justify-center gap-1 rounded-xl border-2 border-gray-200 text-gray-500 font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-2 text-[9px]' : 'py-2.5 text-[10px]'}`}>
-                        💬 Bildirim
+                      <button onClick={() => { setOpenReply(isOpen ? null : product.id); setDetail(product); }} className={`flex-1 flex items-center justify-center gap-1 rounded-xl border border-gray-200 text-gray-500 bg-gray-50 font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
+                        💬
+                      </button>
+                      <button onClick={() => handleReject(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-red-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
+                        ✕
                       </button>
                     </>) : (
-                      <button onClick={() => handleUndo(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-orange-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-2 text-[9px]' : 'py-2.5 text-[10px]'}`}>
+                      <button onClick={() => handleUndo(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-orange-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-1.5 text-[10px]' : 'py-2 text-[10px]'}`}>
                         ↩ Geri Al
                       </button>
                     )}
@@ -174,13 +185,16 @@ export function ModerationView() {
                       <span className="text-[12px] font-black text-[#111827]">{product.price}</span>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1.5 shrink-0 justify-center">
+                  <div className="flex flex-col gap-1 shrink-0 justify-center">
                     {tab === 'pending' ? (<>
-                      <button onClick={() => handleApprove(product)} className="w-[42px] h-[42px] flex items-center justify-center rounded-xl bg-green-500 text-white shadow-md shadow-green-500/30 active:scale-90 transition-all">
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                      <button onClick={() => handleApprove(product)} className="w-[36px] h-[36px] flex items-center justify-center rounded-xl bg-green-500 text-white shadow-sm shadow-green-500/30 active:scale-90 transition-all">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                       </button>
-                      <button onClick={() => setOpenReply(isOpen ? null : product.id)} className={`w-[42px] h-[42px] flex items-center justify-center rounded-xl border-2 active:scale-90 transition-all ${isOpen ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-400 border-gray-200'}`}>
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      <button onClick={() => setOpenReply(isOpen ? null : product.id)} className={`w-[36px] h-[36px] flex items-center justify-center rounded-xl border-2 active:scale-90 transition-all ${isOpen ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-400 border-gray-200'}`}>
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      </button>
+                      <button onClick={() => handleReject(product)} className="w-[36px] h-[36px] flex items-center justify-center rounded-xl bg-red-500 text-white shadow-sm shadow-red-500/30 active:scale-90 transition-all">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                       </button>
                     </>) : (
                       <button onClick={() => handleUndo(product)} className="w-[42px] h-[42px] flex items-center justify-center rounded-xl bg-orange-500 text-white shadow-md shadow-orange-500/30 active:scale-90 transition-all" title="Geri Al">
