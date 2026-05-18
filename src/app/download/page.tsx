@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import Image from "next/image";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 
 export default function DownloadPage() {
@@ -89,12 +88,10 @@ export default function DownloadPage() {
         
         {/* Logo / App Icon placeholder */}
         <div className="w-32 h-32 bg-white rounded-3xl shadow-2xl flex items-center justify-center mb-8 animate-fade-in-up border border-border-color overflow-hidden">
-          <Image 
-             src="/logo-salutbabe.png" 
+          <img 
+             src="/logo-icon.png" 
              alt="salutbabe Icon" 
-             width={100} 
-             height={100}
-             className="object-contain"
+             className="w-full h-full object-cover"
           />
         </div>
 

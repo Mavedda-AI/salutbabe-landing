@@ -217,8 +217,8 @@ export default function RegisterSellerPage() {
         
         {/* Top Header inside Card */}
         <div className="flex items-center justify-between p-6 md:px-10 py-5 border-b border-border-color/30">
-          <Link href="/" className="text-2xl font-black tracking-tighter text-text-primary">
-            salutbabe
+          <Link href="/" className="inline-block group">
+            <img src="/logo-text.png" alt="salutbabe" className="h-6 w-auto object-contain transition-transform group-hover:scale-105 dark:invert" />
           </Link>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border-color">
