@@ -98,10 +98,11 @@ export function ModerationView() {
               )}
               
               {detail.status === 'pending' && (
-                <div className="flex flex-wrap gap-1.5 mt-4">
+                <div className="grid grid-cols-3 gap-2 mt-4">
                   {quickReplies.map(r => (
-                    <button key={r.id} onClick={() => { handleNotify(detail, r); setDetail(null); }} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[10px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all">
-                      <HugeiconsIcon icon={r.icon} size={14} className="text-current" />{r.label}
+                    <button key={r.id} onClick={() => { handleNotify(detail, r); setDetail(null); }} className="flex flex-col items-center justify-center gap-1.5 p-2 rounded-xl text-[10px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center">
+                      <HugeiconsIcon icon={r.icon} size={18} className="text-current" />
+                      <span className="leading-tight">{r.label}</span>
                     </button>
                   ))}
                 </div>
@@ -186,10 +187,11 @@ export function ModerationView() {
               <p className="text-[14px] text-gray-600 line-clamp-2 leading-relaxed mb-4">{currentList[0].desc}</p>
               
               {tab === 'pending' && (
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="grid grid-cols-3 gap-2 mb-6">
                   {quickReplies.map(r => (
-                    <button key={r.id} onClick={() => handleNotify(currentList[0], r)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all">
-                      <HugeiconsIcon icon={r.icon} size={14} className="text-current" />{r.label}
+                    <button key={r.id} onClick={() => handleNotify(currentList[0], r)} className="flex flex-col items-center justify-center gap-1.5 p-2.5 rounded-xl text-[11px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center">
+                      <HugeiconsIcon icon={r.icon} size={20} className="text-current" />
+                      <span className="leading-tight">{r.label}</span>
                     </button>
                   ))}
                 </div>
@@ -292,10 +294,11 @@ export function ModerationView() {
                 {isOpen && tab === 'pending' && (
                   <div className="px-3 pb-3 animate-fade-in">
                     <div className="h-px bg-gray-100 mb-2"></div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="grid grid-cols-3 gap-1.5">
                       {quickReplies.map(r => (
-                        <button key={r.id} onClick={() => handleNotify(product, r)} className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-[10px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all">
-                          <HugeiconsIcon icon={r.icon} size={14} className="text-current" />{r.label}
+                        <button key={r.id} onClick={() => handleNotify(product, r)} className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all text-center">
+                          <HugeiconsIcon icon={r.icon} size={16} className="text-current" />
+                          <span className="leading-tight">{r.label}</span>
                         </button>
                       ))}
                     </div>
