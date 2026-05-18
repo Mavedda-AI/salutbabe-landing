@@ -396,6 +396,27 @@ export default function CategoryManagementPage() {
         { id: 'SUB-1612', name: 'Duvar Süsleri', productCount: 249, status: 'Aktif' },
         { id: 'SUB-1613', name: 'Tablo & Poster', productCount: 677, status: 'Aktif' },
       ]
+    },
+    {
+      id: 'CAT-17', name: 'Organik & Doğal Gıda', productCount: 2020, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-1701', name: 'Ev Yapımı Salça, Sos & Sebze Püreleri', productCount: 420, status: 'Aktif' },
+        { id: 'SUB-1702', name: 'Doğal Bal, Reçel & Marmelat', productCount: 350, status: 'Aktif' },
+        { id: 'SUB-1703', name: 'Pekmez, Tahin & Doğal Özler (Karadut, Keçiboynuzu)', productCount: 480, status: 'Aktif' },
+        { id: 'SUB-1704', name: 'Köy Yumurtası & Gezen Tavuk Yumurtası', productCount: 280, status: 'Aktif' },
+        { id: 'SUB-1705', name: 'Ev Yapımı Tarhana & Bebek Çorbaları', productCount: 510, status: 'Aktif' },
+        { id: 'SUB-1706', name: 'Organik Bebek İrmiği, Un & Tam Tahıllar', productCount: 320, status: 'Aktif' },
+        { id: 'SUB-1707', name: 'Geleneksel Ev Yapımı Erişte & Makarna', productCount: 410, status: 'Aktif' },
+        { id: 'SUB-1708', name: 'Organik Bakliyat & Tohumlar (Chia, Keten vs.)', productCount: 150, status: 'Aktif' },
+        { id: 'SUB-1709', name: 'Kurutulmuş Meyve, Sebze & Şekersiz Cipsler', productCount: 190, status: 'Aktif' },
+        { id: 'SUB-1710', name: 'Çiğ Kuruyemiş & Doğal Atıştırmalıklar', productCount: 260, status: 'Aktif' },
+        { id: 'SUB-1711', name: 'Doğal Bebek Bisküvisi & Şekersiz Kurabiyeler', productCount: 340, status: 'Aktif' },
+        { id: 'SUB-1712', name: 'İlikli Kemik Suyu & Et Suyu Konserveleri', productCount: 175, status: 'Aktif' },
+        { id: 'SUB-1713', name: 'Doğal Tereyağı, Peynir & Süt Ürünleri', productCount: 290, status: 'Aktif' },
+        { id: 'SUB-1714', name: 'Ev Yapımı Sirke (Elma, Alıç) & Yağlar', productCount: 120, status: 'Aktif' },
+        { id: 'SUB-1715', name: 'Anne Sütü Arttırıcı Doğal Çaylar & Bitkiler', productCount: 310, status: 'Aktif' },
+        { id: 'SUB-1716', name: 'Şekersiz Katkısız Meyve Özleri & Şuruplar', productCount: 180, status: 'Aktif' },
+      ]
     }
   ];
 
