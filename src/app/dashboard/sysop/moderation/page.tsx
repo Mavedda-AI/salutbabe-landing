@@ -32,6 +32,7 @@ export function ModerationView() {
   const [openReply, setOpenReply] = useState<string | null>(null);
   const [detail, setDetail] = useState<Product | null>(null);
   const [toast, setToast] = useState<{ msg: string; type: 'green' | 'blue' | 'orange' } | null>(null);
+  const [viewMode, setViewMode] = useState<'list' | 'grid2' | 'grid4'>('list');
 
   const show = (msg: string, type: 'green' | 'blue' | 'orange') => { setToast({ msg, type }); setTimeout(() => setToast(null), 2000); };
 
@@ -55,7 +56,7 @@ export function ModerationView() {
   const currentList = tab === 'pending' ? pending : tab === 'approved' ? approved : notified;
 
   return (
-    <div className="max-w-[600px] mx-auto pb-24 animate-fade-in">
+    <div className={`mx-auto pb-24 animate-fade-in ${viewMode === 'grid4' ? 'max-w-[900px]' : 'max-w-[600px]'}`}>
       {toast && <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[200] px-5 py-3 rounded-2xl text-[12px] font-bold shadow-2xl animate-fade-in ${toast.type === 'green' ? 'bg-green-600 text-white' : toast.type === 'blue' ? 'bg-blue-600 text-white' : 'bg-orange-500 text-white'}`}>{toast.msg}</div>}
 
       {/* Detail Modal */}
@@ -88,9 +89,20 @@ export function ModerationView() {
       <div className="sticky top-0 z-40 bg-[#F8F9FA]/95 backdrop-blur-xl pb-3 pt-1">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-[18px] font-black text-[#111827]">İlan Onay</h2>
-          <div className="flex gap-1.5">
+          <div className="flex items-center gap-2">
             <div className="bg-green-50 text-green-600 px-2.5 py-1 rounded-full border border-green-100"><span className="text-[10px] font-black">✓{approved.length}</span></div>
             <div className="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full border border-blue-100"><span className="text-[10px] font-black">💬{notified.length}</span></div>
+            <div className="flex items-center bg-white rounded-xl border border-gray-200 p-0.5 ml-1">
+              <button onClick={() => setViewMode('list')} className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all ${viewMode === 'list' ? 'bg-[#111827] text-white' : 'text-gray-400 hover:text-gray-700'}`} title="Liste">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+              </button>
+              <button onClick={() => setViewMode('grid2')} className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all ${viewMode === 'grid2' ? 'bg-[#111827] text-white' : 'text-gray-400 hover:text-gray-700'}`} title="2'li Grid">
+                <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+              </button>
+              <button onClick={() => setViewMode('grid4')} className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all ${viewMode === 'grid4' ? 'bg-[#111827] text-white' : 'text-gray-400 hover:text-gray-700'}`} title="4'lü Grid">
+                <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><rect x="0.5" y="0.5" width="3" height="3" rx="0.75"/><rect x="4.5" y="0.5" width="3" height="3" rx="0.75"/><rect x="8.5" y="0.5" width="3" height="3" rx="0.75"/><rect x="12.5" y="0.5" width="3" height="3" rx="0.75"/><rect x="0.5" y="4.5" width="3" height="3" rx="0.75"/><rect x="4.5" y="4.5" width="3" height="3" rx="0.75"/><rect x="8.5" y="4.5" width="3" height="3" rx="0.75"/><rect x="12.5" y="4.5" width="3" height="3" rx="0.75"/></svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -113,13 +125,42 @@ export function ModerationView() {
           <p className="text-[13px] font-bold text-gray-400">{tab === 'pending' ? 'Bekleyen ilan yok!' : tab === 'approved' ? 'Henüz onaylanan ilan yok.' : 'Bildirim gönderilen ilan yok.'}</p>
         </div>
       ) : (
-        <div className="space-y-3 mt-3">
+        <div className={`mt-3 ${viewMode === 'list' ? 'space-y-3' : viewMode === 'grid2' ? 'grid grid-cols-2 gap-3' : 'grid grid-cols-4 gap-3'}`}>
           {currentList.map(product => {
             const isOpen = openReply === product.id;
+
+            {/* GRID VIEW (grid2 / grid4) */}
+            if (viewMode !== 'list') return (
+              <div key={product.id} className="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
+                <div onClick={() => setDetail(product)} className="relative cursor-pointer active:scale-[0.98] transition-transform">
+                  <img src={product.image} alt={product.name} className={`w-full object-cover ${viewMode === 'grid4' ? 'aspect-square' : 'aspect-[4/3]'}`} />
+                  <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-full"><span className="text-[10px] font-black text-white">{product.price}</span></div>
+                </div>
+                <div className="p-3">
+                  <h4 className={`font-black text-[#111827] leading-tight truncate ${viewMode === 'grid4' ? 'text-[11px]' : 'text-[12px]'}`}>{product.name}</h4>
+                  <p className="text-[9px] font-bold text-gray-400 mt-0.5 truncate">{product.seller} • {product.category}</p>
+                  <div className={`flex gap-1.5 mt-2 ${viewMode === 'grid4' ? 'flex-col' : ''}`}>
+                    {tab === 'pending' ? (<>
+                      <button onClick={() => handleApprove(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-green-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-2 text-[9px]' : 'py-2.5 text-[10px]'}`}>
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Onayla
+                      </button>
+                      <button onClick={() => { setOpenReply(isOpen ? null : product.id); setDetail(product); }} className={`flex-1 flex items-center justify-center gap-1 rounded-xl border-2 border-gray-200 text-gray-500 font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-2 text-[9px]' : 'py-2.5 text-[10px]'}`}>
+                        💬 Bildirim
+                      </button>
+                    </>) : (
+                      <button onClick={() => handleUndo(product)} className={`flex-1 flex items-center justify-center gap-1 rounded-xl bg-orange-500 text-white font-black active:scale-90 transition-all ${viewMode === 'grid4' ? 'py-2 text-[9px]' : 'py-2.5 text-[10px]'}`}>
+                        ↩ Geri Al
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+
+            {/* LIST VIEW */}
             return (
               <div key={product.id} className="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
                 <div className="flex gap-3 p-3">
-                  {/* Tappable Image */}
                   <div onClick={() => setDetail(product)} className="w-[80px] h-[80px] rounded-2xl overflow-hidden shrink-0 bg-gray-100 cursor-pointer active:scale-95 transition-transform">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                   </div>
@@ -148,11 +189,9 @@ export function ModerationView() {
                     )}
                   </div>
                 </div>
-                {/* Notified badge */}
                 {product.notifications && product.notifications.length > 0 && tab !== 'pending' && (
                   <div className="px-3 pb-2"><div className="flex flex-wrap gap-1">{product.notifications.map((n, i) => <span key={i} className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">💬 {n}</span>)}</div></div>
                 )}
-                {/* Quick Replies */}
                 {isOpen && tab === 'pending' && (
                   <div className="px-3 pb-3 animate-fade-in">
                     <div className="h-px bg-gray-100 mb-2"></div>
