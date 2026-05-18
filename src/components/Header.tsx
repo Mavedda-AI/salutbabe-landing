@@ -97,7 +97,7 @@ const Header = () => {
                </div>
                <div className="flex flex-col justify-center text-left">
                  <span className="text-[18px] md:text-[20px] font-black text-text-primary leading-none tracking-tight">SalutBabe</span>
-                 <span className="text-[10px] md:text-[11px] text-text-secondary font-bold tracking-wide mt-0.5">Pazar Yeri & Satış</span>
+                 <span className="text-[10px] md:text-[11px] text-text-secondary font-bold tracking-wide mt-0.5">Anneden Anneye</span>
                </div>
             </Link>
 

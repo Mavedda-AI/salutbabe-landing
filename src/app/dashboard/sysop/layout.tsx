@@ -1,32 +1,32 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-    Activity01Icon,
-    Alert01Icon,
-    BankIcon,
-    BarChartIcon,
-    CameraVideoIcon,
-    CardExchange01Icon,
-    Coins01Icon,
-    Home01Icon,
-    Invoice01Icon,
-    Message01Icon,
-    MessageQuestionIcon,
-    Money01Icon,
-    Moon01Icon,
-    Package01Icon,
-    PieChart01Icon,
-    Settings01Icon,
-    ShoppingBag01Icon,
-    StarIcon,
-    Store01Icon,
-    StoreLocation01Icon,
-    Sun01Icon,
-    Tag01Icon,
-    TruckIcon,
-    UserIcon,
-    UserMultipleIcon,
-    Wallet01Icon
+  Activity01Icon,
+  Alert01Icon,
+  BankIcon,
+  BarChartIcon,
+  CameraVideoIcon,
+  CardExchange01Icon,
+  Coins01Icon,
+  Home01Icon,
+  Invoice01Icon,
+  Message01Icon,
+  MessageQuestionIcon,
+  Money01Icon,
+  Moon01Icon,
+  Package01Icon,
+  PieChart01Icon,
+  Settings01Icon,
+  ShoppingBag01Icon,
+  StarIcon,
+  Store01Icon,
+  StoreLocation01Icon,
+  Sun01Icon,
+  Tag01Icon,
+  TruckIcon,
+  UserIcon,
+  UserMultipleIcon,
+  Wallet01Icon
 } from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
@@ -351,7 +351,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                  </div>
                  <div className="flex flex-col justify-center">
                    <span className="text-[15px] font-black text-[#111827]  leading-tight">SalutBabe</span>
-                   <span className="text-[10px] text-gray-500 font-bold tracking-wide">Pazar Yeri & Satış</span>
+                   <span className="text-[10px] text-gray-500 font-bold tracking-wide">Anneden Anneye</span>
                  </div>
               </Link>
               
