@@ -17,6 +17,17 @@ export default function SystemSettingsPage() {
       { key: 'platinum_comm', label: 'Platinum Satıcı Komisyonu', value: '%8.5', type: 'input' },
       { key: 'gold_comm', label: 'Gold Satıcı Komisyonu', value: '%10.0', type: 'input' },
     ]},
+    { section: 'Kategori Komisyonları', items: [
+      { key: 'cat_bebek_giyim', label: 'Bebek & Çocuk Giyim', value: '%15.0', type: 'input' },
+      { key: 'cat_arac_gerec', label: 'Bebek Araç & Gereç', value: '%10.0', type: 'input' },
+      { key: 'cat_bez', label: 'Bebek Bez & Mendil', value: '%5.0', type: 'input' },
+      { key: 'cat_oyuncak', label: 'Oyuncak & Eğitici', value: '%12.0', type: 'input' },
+      { key: 'cat_beslenme', label: 'Beslenme & Emzirme', value: '%8.0', type: 'input' },
+      { key: 'cat_mobilya', label: 'Bebek & Çocuk Odası', value: '%12.0', type: 'input' },
+      { key: 'cat_guvenlik', label: 'Bebek Güvenlik & Teknoloji', value: '%9.0', type: 'input' },
+      { key: 'cat_organik', label: 'Organik & Doğal Gıda', value: '%7.5', type: 'input' },
+      { key: 'cat_ayakkabi', label: 'Çocuk Ayakkabı & Aksesuar', value: '%15.0', type: 'input' },
+    ]},
     { section: 'Kargo Ayarları', items: [
       { key: 'free_threshold', label: 'Ücretsiz Kargo Eşiği', value: '₺250', type: 'input' },
       { key: 'default_carrier', label: 'Varsayılan Kargo Firması', value: 'Yurtiçi Kargo', type: 'select' },
