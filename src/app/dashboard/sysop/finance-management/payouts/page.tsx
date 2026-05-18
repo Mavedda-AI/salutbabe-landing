@@ -1,4 +1,6 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
+import {File01Icon, Wallet01Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
 import {useRouter} from 'next/navigation';
@@ -146,7 +148,7 @@ export default function PayoutsManagement() {
       {modal === 'bulk_pay' && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setModal(null)}>
           <div className="w-full max-w-lg bg-white rounded-[24px] p-6 shadow-2xl border border-gray-100" onClick={e => e.stopPropagation()}>
-            <h3 className="text-[18px] font-black text-[#111827] mb-1">💰 Toplu Ödeme Onayı</h3>
+            <h3 className="text-[18px] font-black text-[#111827] mb-1"><HugeiconsIcon icon={Wallet01Icon} size={18} className="inline-block" /> Toplu Ödeme Onayı</h3>
             <p className="text-[12px] text-gray-500 mb-5">Seçilen {selectedItems.length} satıcıya toplam ₺{selectedTotal.toLocaleString('tr-TR')} tutarında ödeme yapılacak.</p>
             <div className="bg-gray-50 rounded-xl p-4 mb-5 max-h-[200px] overflow-y-auto space-y-2">
               {selectedItems.map(p => (
@@ -171,7 +173,7 @@ export default function PayoutsManagement() {
       {modal && typeof modal === 'object' && modal.type === 'detail' && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setModal(null)}>
           <div className="w-full max-w-md bg-white rounded-[24px] p-6 shadow-2xl border border-gray-100" onClick={e => e.stopPropagation()}>
-            <h3 className="text-[18px] font-black text-[#111827] mb-4">📋 Hakediş Detayı</h3>
+            <h3 className="text-[18px] font-black text-[#111827] mb-4"><HugeiconsIcon icon={File01Icon} size={18} className="inline-block" /> Hakediş Detayı</h3>
             <div className="bg-gray-50 rounded-xl p-4 space-y-2 mb-5">
               <div className="flex justify-between"><span className="text-[11px] font-bold text-gray-500">Hakediş No</span><span className="text-[12px] font-black">{modal.item.id}</span></div>
               <div className="flex justify-between"><span className="text-[11px] font-bold text-gray-500">Satıcı</span><span className="text-[12px] font-black">{modal.item.seller}</span></div>

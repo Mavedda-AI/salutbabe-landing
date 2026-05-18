@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {Tick01Icon} from '@hugeicons/core-free-icons';
+import {Alert02Icon, Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
 import {useRouter} from 'next/navigation';
@@ -140,7 +140,7 @@ export function FinanceView() {
       {warnModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setWarnModal(false)}>
           <div onClick={e => e.stopPropagation()} className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 bg-red-50"><h3 className="text-[16px] font-black text-red-700">⚠️ Mali Eşik Uyarısı — 350.000 TL</h3></div>
+            <div className="px-6 py-4 border-b border-gray-100 bg-red-50"><h3 className="text-[16px] font-black text-red-700"><HugeiconsIcon icon={Alert02Icon} size={18} className="inline-block text-red-700" /> Mali Eşik Uyarısı — 350.000 TL</h3></div>
             <div className="p-6 space-y-3">
               {[{name: 'Elif Boutique', total: '₺312,400', pct: '%89'}, {name: 'Urban Style TR', total: '₺298,000', pct: '%85'}, {name: 'Bella Moda', total: '₺295,500', pct: '%84'}].map((s, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">

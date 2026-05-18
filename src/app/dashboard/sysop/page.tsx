@@ -1,6 +1,13 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {RunningShoesIcon, Shirt01Icon, ShoppingBag01Icon, StarIcon} from '@hugeicons/core-free-icons';
+import {
+  Alert02Icon,
+  RunningShoesIcon,
+  Shirt01Icon,
+  ShoppingBag01Icon,
+  StarIcon,
+  SunglassesIcon
+} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
@@ -1106,7 +1113,7 @@ export default function SysopDashboard() {
                        <div className="flex flex-col gap-2">
                          {[
                            { name: 'Siyah Ceket', qty: 2, icon: <HugeiconsIcon icon={Shirt01Icon} size={18} />, color: 'bg-gray-200', price: '₺1,500', time: '3 saat önce' },
-                           { name: 'Güneş Gözlüğü', qty: 1, icon: '🕶️', color: 'bg-yellow-100', price: '₺150', time: '1 gün önce' }
+                           { name: 'Güneş Gözlüğü', qty: 1, icon: <HugeiconsIcon icon={SunglassesIcon} size={18} />, color: 'bg-yellow-100', price: '₺150', time: '1 gün önce' }
                          ].map((item, idx) => (
                            <div key={idx} onClick={(e) => { e.stopPropagation(); router.push('/dashboard/sysop/order-management'); }} className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${isDark ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}>
                               <div className="flex items-center gap-3">
@@ -1827,7 +1834,7 @@ export default function SysopDashboard() {
                    <p className={`text-[12px] font-bold mb-3 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Mağaza Şikayeti</p>
                    <div className={`flex items-center justify-between p-3 rounded-xl border ${isDark ? 'border-white/10 bg-white/5' : 'border-gray-100 bg-gray-50'}`}>
                       <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-xl text-orange-600">⚠</div>
+                         <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-xl text-orange-600"><HugeiconsIcon icon={Alert02Icon} size={20} /></div>
                          <div>
                             <p className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#111827]'}`}>"Çocuk Mağazası"</p>
                             <p className={`text-[10px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Küfürlü iletişim <span className="text-red-500 ml-1">3 ihbar</span></p>

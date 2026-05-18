@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {Flag01Icon, StarIcon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
+import {Camera01Icon, Flag01Icon, StarIcon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -46,7 +46,7 @@ export default function ReviewManagementPage() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
-      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block" /> {actionDone}</div>}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
           <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
@@ -84,7 +84,7 @@ export default function ReviewManagementPage() {
               <div className="flex items-start gap-3">
                 <input type="checkbox" checked={selected.includes(r.id)} onChange={() => toggleSelect(r.id)} className="w-4 h-4 rounded border-gray-300 accent-[#111827] mt-1 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2"><span className="text-[12px] font-bold text-[#111827]">{r.user}</span><span className="text-yellow-400 text-[12px]">{Array.from({length: r.rating}).map((_, i) => <HugeiconsIcon key={'star-'+i} icon={StarIcon} size={14} className="text-yellow-400 inline-block" />)}{Array.from({length: 5 - r.rating}).map((_, i) => <HugeiconsIcon key={'empty-'+i} icon={StarIcon} size={14} className="text-gray-300 inline-block" />)}</span>{r.images > 0 && <span className="text-[9px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded">📷 {r.images}</span>}</div>
+                  <div className="flex items-center gap-2"><span className="text-[12px] font-bold text-[#111827]">{r.user}</span><span className="text-yellow-400 text-[12px]">{Array.from({length: r.rating}).map((_, i) => <HugeiconsIcon key={'star-'+i} icon={StarIcon} size={14} className="text-yellow-400 inline-block" />)}{Array.from({length: 5 - r.rating}).map((_, i) => <HugeiconsIcon key={'empty-'+i} icon={StarIcon} size={14} className="text-gray-300 inline-block" />)}</span>{r.images > 0 && <span className="text-[9px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded"><HugeiconsIcon icon={Camera01Icon} size={12} className="inline-block" /> {r.images}</span>}</div>
                   <p className="text-[10px] font-bold text-gray-400 mt-0.5">{r.product}</p>
                   <p className="text-[12px] text-gray-700 mt-1">{r.text}</p>
                   <span className="text-[10px] text-gray-400 mt-1 block">{r.date}</span>

@@ -1,14 +1,14 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-  Alert01Icon,
-  BarChartIcon,
-  FlashIcon,
-  Mail01Icon,
-  RecordIcon,
-  StarIcon,
-  Tick01Icon,
-  Timer02Icon
+    Alert01Icon,
+    BarChartIcon,
+    FlashIcon,
+    Mail01Icon,
+    RecordIcon,
+    StarIcon,
+    Tick01Icon,
+    Timer02Icon
 } from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
@@ -126,7 +126,7 @@ export default function ComplaintManagementPage() {
                     <p className="text-[11px] text-gray-600 mt-1">{t.subject}</p>
                     <div className="flex items-center gap-3 mt-2">
                       <span className="text-[10px] font-bold text-green-600"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {t.resolution}</span>
-                      <span className="text-[10px] text-gray-400">⏱ {t.time}</span>
+                      <span className="text-[10px] text-gray-400"><HugeiconsIcon icon={Timer02Icon} size={12} className="inline-block text-gray-400" /> {t.time}</span>
                     </div>
                   </div>
                   <div className="text-center shrink-0">

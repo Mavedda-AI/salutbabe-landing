@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {BarChartIcon, Target01Icon} from '@hugeicons/core-free-icons';
+import {ArrowTurnBackwardIcon, BarChartIcon, Settings01Icon, Target01Icon} from '@hugeicons/core-free-icons';
 import {useRouter} from 'next/navigation';
 
 export default function UnitEconomicsPage() {
@@ -169,8 +169,8 @@ export default function UnitEconomicsPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: 'Brüt Marj', value: '%34.6', color: 'text-green-600', icon: <HugeiconsIcon icon={BarChartIcon} size={18} /> },
-            { label: 'Operasyon / Sipariş', value: '₺18.20', color: 'text-[#111827]', icon: '⚙️' },
-            { label: 'İade Oranı', value: '%4.2', color: 'text-[#FF8D28]', icon: '↩️' },
+            { label: 'Operasyon / Sipariş', value: '₺18.20', color: 'text-[#111827]', icon: <HugeiconsIcon icon={Settings01Icon} size={18} /> },
+            { label: 'İade Oranı', value: '%4.2', color: 'text-[#FF8D28]', icon: <HugeiconsIcon icon={ArrowTurnBackwardIcon} size={18} /> },
             { label: 'LTV / CAC', value: '3.8x', color: 'text-purple-600', icon: <HugeiconsIcon icon={Target01Icon} size={18} /> },
           ].map((r, i) => (
             <div key={i} className="bg-white rounded-[20px] border border-gray-100 p-4 shadow-sm text-center">

@@ -3,12 +3,12 @@ import {HugeiconsIcon} from '@hugeicons/react';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {
-  Delete01Icon,
-  Moon01Icon,
-  PauseCircleIcon,
-  Search01Icon,
-  Store01Icon,
-  Tick01Icon
+    Delete01Icon,
+    Moon01Icon,
+    PauseCircleIcon,
+    Search01Icon,
+    Store01Icon,
+    Tick01Icon
 } from '@hugeicons/core-free-icons';
 
 type User = { id: number; name: string; email: string; phone: string; role: 'Normal' | 'Satıcı' | 'Kurumsal' | 'Kurucu'; status: 'AKTİF' | 'PASİF' | 'ASKIDA'; joinDate: string; lastLogin: string; orders: number; reviews: number; complaints: number };
@@ -79,7 +79,7 @@ export default function UserManagementPage() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
-      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block" /> {actionDone}</div>}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 py-5 flex items-center gap-4">
           <button onClick={() => router.back()} className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors shrink-0"><svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>

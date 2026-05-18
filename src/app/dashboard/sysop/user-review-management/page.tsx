@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {Alert02Icon, Message01Icon, StarIcon, Store01Icon, UserIcon} from '@hugeicons/core-free-icons';
+import {Alert02Icon, Message01Icon, StarIcon, Store01Icon, Tick01Icon, UserIcon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -49,7 +49,7 @@ export default function UserReviewManagementPage() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
-      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block" /> {actionDone}</div>}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
           <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"><svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
@@ -61,7 +61,7 @@ export default function UserReviewManagementPage() {
           {kpis.map((k, i) => (<div key={i} className={`${cardClass} p-4 text-center`}><div className="flex justify-center text-[28px] mb-2">{k.icon}</div><p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p><p className="text-[22px] font-black text-[#111827]">{k.value}</p></div>))}
         </div>
         <div className={`${cardClass} p-2 flex gap-1`}>
-          {([['all', 'Tümü'], ['Satıcı', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={UserIcon} size={16} /> Satıcıya</div>], ['Mağaza', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Mağazaya</div>], ['low', '⚠️ Düşük Puan']] ).map(([id, label]: any) => (
+          {([['all', 'Tümü'], ['Satıcı', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={UserIcon} size={16} /> Satıcıya</div>], ['Mağaza', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Mağazaya</div>], ['low', <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Alert02Icon} size={16} /> Düşük Puan</div>]] ).map(([id, label]: any) => (
             <button key={id} onClick={() => { setFilter(id as any); setSelected([]); }} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${filter === id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>{label}</button>
           ))}
         </div>

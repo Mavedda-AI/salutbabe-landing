@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {Cancel01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
+import {Cancel01Icon, File01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -70,7 +70,7 @@ export default function BrandManagementPage() {
       {/* Toast */}
       {actionDone && (
         <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in flex items-center gap-2">
-          ✅ {actionDone}
+          <HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block" /> {actionDone}
         </div>
       )}
 
@@ -183,7 +183,7 @@ export default function BrandManagementPage() {
                   <div className="pt-4 border-t border-gray-100">
                     <p className="text-[10px] font-bold text-gray-400 mb-2">TESC\u0130L BELGES\u0130</p>
                     <div className="flex items-center gap-2 bg-orange-50 border border-orange-100 rounded-lg p-3">
-                      <span className="text-[20px]">📄</span>
+                      <HugeiconsIcon icon={File01Icon} size={20} />
                       <span className="text-[11px] font-bold text-orange-600">Henüz tescil belgesi yüklenmemiş</span>
                     </div>
                   </div>

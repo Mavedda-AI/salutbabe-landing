@@ -1,4 +1,6 @@
 'use client';
+import {HugeiconsIcon} from '@hugeicons/react';
+import {Alert02Icon, ArrowTurnBackwardIcon, File01Icon, Tick01Icon, Wallet01Icon} from '@hugeicons/core-free-icons';
 import React, {useState} from 'react';
 import LayoutWrapper from '@/components/LayoutWrapper';
 import {useRouter} from 'next/navigation';
@@ -123,12 +125,12 @@ export default function EscrowManagement() {
                       <td className="px-4 py-4 text-[10px] font-medium text-gray-500 max-w-[140px] truncate">{row.reason}</td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-1.5">
-                          <button onClick={() => setModal({ type: 'detail', item: row })} className="px-2 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-[10px] font-bold hover:bg-gray-200 transition-colors" title="Detay">📋</button>
+                          <button onClick={() => setModal({ type: 'detail', item: row })} className="px-2 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-[10px] font-bold hover:bg-gray-200 transition-colors" title="Detay"><HugeiconsIcon icon={File01Icon} size={14} /></button>
                           {row.status !== 'Serbest' && (
                             <>
-                              <button onClick={() => setModal({ type: 'release', item: row })} className="px-2 py-1.5 bg-green-50 text-green-700 rounded-lg text-[10px] font-bold hover:bg-green-100 transition-colors" title="Serbest Bırak">✅</button>
-                              <button onClick={() => setModal({ type: 'refund', item: row })} className="px-2 py-1.5 bg-orange-50 text-orange-700 rounded-lg text-[10px] font-bold hover:bg-orange-100 transition-colors" title="İade Et">↩️</button>
-                              <button onClick={() => setModal({ type: 'escalate', item: row })} className="px-2 py-1.5 bg-red-50 text-red-700 rounded-lg text-[10px] font-bold hover:bg-red-100 transition-colors" title="Eskalasyon">⚠️</button>
+                              <button onClick={() => setModal({ type: 'release', item: row })} className="px-2 py-1.5 bg-green-50 text-green-700 rounded-lg text-[10px] font-bold hover:bg-green-100 transition-colors" title="Serbest Bırak"><HugeiconsIcon icon={Tick01Icon} size={14} /></button>
+                              <button onClick={() => setModal({ type: 'refund', item: row })} className="px-2 py-1.5 bg-orange-50 text-orange-700 rounded-lg text-[10px] font-bold hover:bg-orange-100 transition-colors" title="İade Et"><HugeiconsIcon icon={ArrowTurnBackwardIcon} size={14} /></button>
+                              <button onClick={() => setModal({ type: 'escalate', item: row })} className="px-2 py-1.5 bg-red-50 text-red-700 rounded-lg text-[10px] font-bold hover:bg-red-100 transition-colors" title="Eskalasyon"><HugeiconsIcon icon={Alert02Icon} size={14} /></button>
                             </>
                           )}
                         </div>
@@ -147,10 +149,10 @@ export default function EscrowManagement() {
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => { setModal(null); setActionNote(''); }}>
           <div className="w-full max-w-md bg-white rounded-[24px] p-6 shadow-2xl border border-gray-100" onClick={e => e.stopPropagation()}>
             <h3 className="text-[18px] font-black text-[#111827] mb-1">
-              {modal.type === 'release' && '💰 Emaneti Serbest Bırak'}
-              {modal.type === 'refund' && '↩️ Alıcıya İade Et'}
-              {modal.type === 'escalate' && '⚠️ Eskalasyona Yükselt'}
-              {modal.type === 'detail' && '📋 Emanet Detayı'}
+              {modal.type === 'release' && <><HugeiconsIcon icon={Wallet01Icon} size={18} /> Emaneti Serbest Bırak</>}
+              {modal.type === 'refund' && <><HugeiconsIcon icon={ArrowTurnBackwardIcon} size={18} /> Alıcıya İade Et</>}
+              {modal.type === 'escalate' && <><HugeiconsIcon icon={Alert02Icon} size={18} /> Eskalasyona Yükselt</>}
+              {modal.type === 'detail' && <><HugeiconsIcon icon={File01Icon} size={18} /> Emanet Detayı</>}
             </h3>
             <p className="text-[12px] text-gray-500 mb-5">
               {modal.type === 'detail' ? `${modal.item.id} numaralı emanet kaydı` : `${modal.item.id} için işlem onayı`}
@@ -198,7 +200,7 @@ export default function EscrowManagement() {
       {bulkConfirm && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={() => setBulkConfirm(null)}>
           <div className="w-full max-w-md bg-white rounded-[24px] p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
-            <h3 className="text-[18px] font-black text-[#111827] mb-2">{bulkConfirm === 'release' ? '💰 Toplu Serbest Bırakma' : '↩️ Toplu İade'}</h3>
+            <h3 className="text-[18px] font-black text-[#111827] mb-2">{bulkConfirm === 'release' ? <><HugeiconsIcon icon={Wallet01Icon} size={18} /> Toplu Serbest Bırakma</> : <><HugeiconsIcon icon={ArrowTurnBackwardIcon} size={18} /> Toplu İade</>}</h3>
             <p className="text-[13px] text-gray-500 mb-5">{selected.length} emanet {bulkConfirm === 'release' ? 'serbest bırakılacak ve satıcı cüzdanlarına aktarılacak' : 'alıcılara iade edilecek'}. Onaylıyor musunuz?</p>
             <div className="flex gap-3">
               <button onClick={() => setBulkConfirm(null)} className="flex-1 py-3 rounded-xl bg-gray-100 text-gray-800 font-bold text-[13px]">İptal</button>
@@ -209,7 +211,7 @@ export default function EscrowManagement() {
       )}
 
       {/* Toast */}
-      {actionDone && <div className="fixed top-4 right-4 z-[1000] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">✅ {actionDone}</div>}
+      {actionDone && <div className="fixed top-4 right-4 z-[1000] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block" /> {actionDone}</div>}
     </LayoutWrapper>
   );
 }
