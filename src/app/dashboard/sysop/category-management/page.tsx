@@ -416,6 +416,9 @@ export default function CategoryManagementPage() {
         { id: 'SUB-1714', name: 'Ev Yapımı Sirke (Elma, Alıç) & Yağlar', productCount: 120, status: 'Aktif' },
         { id: 'SUB-1715', name: 'Anne Sütü Arttırıcı Doğal Çaylar & Bitkiler', productCount: 310, status: 'Aktif' },
         { id: 'SUB-1716', name: 'Şekersiz Katkısız Meyve Özleri & Şuruplar', productCount: 180, status: 'Aktif' },
+        { id: 'SUB-1717', name: 'Taze Bebek Sebzeleri (Avokado, Balkabağı vs.)', productCount: 550, status: 'Aktif' },
+        { id: 'SUB-1718', name: 'Organik Taze Meyveler', productCount: 420, status: 'Aktif' },
+        { id: 'SUB-1719', name: 'Yeşillik & Taze Otlar', productCount: 130, status: 'Aktif' },
       ]
     }
   ];
