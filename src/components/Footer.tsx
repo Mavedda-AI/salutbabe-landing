@@ -208,10 +208,8 @@ const Footer = () => {
           
           <div className="flex flex-col gap-10 lg:w-1/3">
             <div className="flex flex-col gap-3">
-              <Link className="inline-block w-fit" href="/">
-                <span className="text-4xl font-black tracking-tighter" data-underline-link="true">
-                  <span data-brand-wordmark="true">salutbabe</span>
-                </span>
+              <Link className="inline-block w-fit group" href="/">
+                <img src="/logo-text.png" alt="SalutBabe" className="h-12 w-auto object-contain transition-transform group-hover:scale-105 dark:invert" />
               </Link>
               <p className="font-semibold text-[10px] uppercase tracking-[0.15em] opacity-60">
                 Anneden Anneye Güvenli Alışveriş
@@ -307,15 +305,8 @@ const Footer = () => {
         </div>
 
         <div className="w-full mt-16 mb-8 md:mb-12 flex justify-center select-none pointer-events-none overflow-hidden">
-          <div className="relative inline-block px-4 py-4 md:px-8">
-            <h2 className="text-[10vw] font-black tracking-[-0.04em] text-text-primary/5 leading-none whitespace-nowrap" style={{ fontFamily: "'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif" }}>
-              salutbabe
-            </h2>
-            <div className="absolute inset-0 px-4 py-4 md:px-8">
-              <h2 className="text-[10vw] font-black tracking-[-0.04em] text-text-primary leading-none whitespace-nowrap" style={{ fontFamily: "'Airbnb Cereal', 'Airbnb Cereal App', 'AirbnbCereal', sans-serif" }}>
-                <span data-brand-wordmark="true">salutbabe</span>
-              </h2>
-            </div>
+          <div className="relative inline-block px-4 py-4 md:px-8 opacity-5 dark:opacity-10">
+            <img src="/logo-text.png" alt="SalutBabe" className="h-[8vw] md:h-[6vw] w-auto object-contain dark:invert" />
           </div>
         </div>
 
