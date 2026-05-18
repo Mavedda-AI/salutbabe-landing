@@ -12,21 +12,28 @@ export default function SystemSettingsPage() {
   const [saved, setSaved] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [settings, setSettings] = useState<SettingsSection[]>([
-    { section: 'Komisyon Ayarları', items: [
-      { key: 'default_comm', label: 'Varsayılan Komisyon Oranı', value: '%12.8', type: 'input' },
-      { key: 'platinum_comm', label: 'Platinum Satıcı Komisyonu', value: '%8.5', type: 'input' },
-      { key: 'gold_comm', label: 'Gold Satıcı Komisyonu', value: '%10.0', type: 'input' },
+    { section: 'Komisyon Ayarları (Alıcıdan Alınan)', items: [
+      { key: 'default_comm', label: 'Varsayılan Alıcı Komisyonu', value: '%5.0', type: 'input' },
+      { key: 'seller_comm', label: 'Satıcı Komisyonu', value: '%0.0', type: 'input' },
+      { key: 'buyer_prot_low', label: 'Sabit Güvence Bedeli (0-150 TL)', value: '₺9.90', type: 'input' },
+      { key: 'buyer_prot_mid', label: 'Sabit Güvence Bedeli (150-500 TL)', value: '₺14.90', type: 'input' },
+      { key: 'buyer_prot_high', label: 'Sabit Güvence Bedeli (500 TL+)', value: '₺19.90', type: 'input' },
     ]},
-    { section: 'Kategori Komisyonları', items: [
-      { key: 'cat_bebek_giyim', label: 'Bebek & Çocuk Giyim', value: '%15.0', type: 'input' },
-      { key: 'cat_arac_gerec', label: 'Bebek Araç & Gereç', value: '%10.0', type: 'input' },
-      { key: 'cat_bez', label: 'Bebek Bez & Mendil', value: '%5.0', type: 'input' },
-      { key: 'cat_oyuncak', label: 'Oyuncak & Eğitici', value: '%12.0', type: 'input' },
-      { key: 'cat_beslenme', label: 'Beslenme & Emzirme', value: '%8.0', type: 'input' },
-      { key: 'cat_mobilya', label: 'Bebek & Çocuk Odası', value: '%12.0', type: 'input' },
-      { key: 'cat_guvenlik', label: 'Bebek Güvenlik & Teknoloji', value: '%9.0', type: 'input' },
-      { key: 'cat_organik', label: 'Organik & Doğal Gıda', value: '%7.5', type: 'input' },
-      { key: 'cat_ayakkabi', label: 'Çocuk Ayakkabı & Aksesuar', value: '%15.0', type: 'input' },
+    { section: 'Kategori Komisyonları (Alıcıya Yansıyan)', items: [
+      { key: 'cat_bebek_giyim', label: 'Bebek & Çocuk Giyim', value: '%5.0', type: 'input' },
+      { key: 'cat_arac_gerec', label: 'Bebek Araç & Gereç', value: '%4.0', type: 'input' },
+      { key: 'cat_bez', label: 'Bebek Bez & Mendil', value: '%3.0', type: 'input' },
+      { key: 'cat_oyuncak', label: 'Oyuncak & Eğitici', value: '%5.0', type: 'input' },
+      { key: 'cat_beslenme', label: 'Beslenme & Emzirme', value: '%5.0', type: 'input' },
+      { key: 'cat_banyo', label: 'Banyo & Bebek Bakım', value: '%5.0', type: 'input' },
+      { key: 'cat_mobilya', label: 'Bebek & Çocuk Odası', value: '%4.0', type: 'input' },
+      { key: 'cat_guvenlik', label: 'Bebek Güvenlik & Teknoloji', value: '%4.0', type: 'input' },
+      { key: 'cat_okul', label: 'Okul & Kırtasiye', value: '%5.0', type: 'input' },
+      { key: 'cat_organik', label: 'Organik & Doğal Gıda', value: '%3.0', type: 'input' },
+      { key: 'cat_ayakkabi', label: 'Çocuk Ayakkabı & Aksesuar', value: '%5.0', type: 'input' },
+      { key: 'cat_anne', label: 'Hamile, Lohusa & Anne', value: '%5.0', type: 'input' },
+      { key: 'cat_parti', label: 'Parti, Doğum Günü & Kutlama', value: '%6.0', type: 'input' },
+      { key: 'cat_elyapimi', label: 'El Emeği & Kişiye Özel Tasarım', value: '%3.0', type: 'input' },
     ]},
     { section: 'Kargo Ayarları', items: [
       { key: 'free_threshold', label: 'Ücretsiz Kargo Eşiği', value: '₺250', type: 'input' },

@@ -420,6 +420,38 @@ export default function CategoryManagementPage() {
         { id: 'SUB-1718', name: 'Organik Taze Meyveler', productCount: 420, status: 'Aktif' },
         { id: 'SUB-1719', name: 'Yeşillik & Taze Otlar', productCount: 130, status: 'Aktif' },
       ]
+    },
+    {
+      id: 'CAT-18', name: 'Hamile, Lohusa & Anne', productCount: 4850, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-1801', name: 'Hamile Giyim (Pantolon, Elbise vs.)', productCount: 1200, status: 'Aktif' },
+        { id: 'SUB-1802', name: 'Lohusa Pijama & Gecelik', productCount: 850, status: 'Aktif' },
+        { id: 'SUB-1803', name: 'Toparlayıcı Korse & İç Giyim', productCount: 650, status: 'Aktif' },
+        { id: 'SUB-1804', name: 'Anne Bebek Bakım Çantası', productCount: 940, status: 'Aktif' },
+        { id: 'SUB-1805', name: 'Hastane Çantası Hazırlığı', productCount: 310, status: 'Aktif' },
+        { id: 'SUB-1806', name: 'Göğüs Pompası & Emzirme Yastığı', productCount: 900, status: 'Aktif' },
+      ]
+    },
+    {
+      id: 'CAT-19', name: 'Parti, Doğum Günü & Kutlama', productCount: 2100, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-1901', name: 'Doğum Günü & 1 Yaş Kostümleri', productCount: 620, status: 'Aktif' },
+        { id: 'SUB-1902', name: 'Baby Shower Süsleri', productCount: 250, status: 'Aktif' },
+        { id: 'SUB-1903', name: 'Diş Buğdayı Setleri', productCount: 180, status: 'Aktif' },
+        { id: 'SUB-1904', name: 'Kutlama Süsleri & Balonlar', productCount: 450, status: 'Aktif' },
+        { id: 'SUB-1905', name: 'Özel Gün Hediyelikleri', productCount: 600, status: 'Aktif' },
+      ]
+    },
+    {
+      id: 'CAT-20', name: 'El Emeği & Kişiye Özel Tasarım', productCount: 1550, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-2001', name: 'Amigurumi & Örgü Oyuncaklar', productCount: 450, status: 'Aktif' },
+        { id: 'SUB-2002', name: 'İsme Özel Nakışlı Battaniye & Kıyafet', productCount: 320, status: 'Aktif' },
+        { id: 'SUB-2003', name: 'El Yapımı Toka & Saç Bandı', productCount: 510, status: 'Aktif' },
+        { id: 'SUB-2004', name: 'Özel Tasarım Kapı Süsü & Pano', productCount: 120, status: 'Aktif' },
+        { id: 'SUB-2005', name: 'Makrome & Ahşap El İşi Ürünler', productCount: 150, status: 'Aktif' },
+        { id: 'SUB-2006', name: 'El Yapımı Anahtarlık & Çanta Süsü', productCount: 280, status: 'Aktif' },
+      ]
     }
   ];
 
