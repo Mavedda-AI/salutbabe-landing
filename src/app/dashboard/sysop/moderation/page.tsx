@@ -84,7 +84,9 @@ export function ModerationView() {
       {detail && (
         <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setDetail(null)}>
           <div onClick={e => e.stopPropagation()} className="w-full max-w-[480px] bg-white rounded-t-[28px] md:rounded-[28px] overflow-hidden shadow-2xl animate-fade-in max-h-[90vh] overflow-y-auto">
-            <img src={detail.image} alt={detail.name} className="w-full aspect-square object-cover" />
+            <div className="relative w-full h-[240px] shrink-0">
+              <img src={detail.image} alt={detail.name} className="w-full h-full object-cover" />
+            </div>
             <div className="p-5">
               <h3 className="text-[18px] font-black text-[#111827] mb-1">{detail.name}</h3>
               <p className="text-[12px] font-bold text-gray-400 mb-2">Satıcı: <span className="text-gray-600">{detail.seller}</span> • {detail.price} • {detail.date}</p>
@@ -98,10 +100,10 @@ export function ModerationView() {
               )}
               
               {detail.status === 'pending' && (
-                <div className="grid grid-cols-3 gap-2 mt-4">
+                <div className="grid grid-cols-3 gap-1.5 mt-3">
                   {quickReplies.map(r => (
-                    <button key={r.id} onClick={() => { handleNotify(detail, r); setDetail(null); }} className="flex flex-col items-center justify-center gap-1.5 p-2 rounded-xl text-[10px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center">
-                      <HugeiconsIcon icon={r.icon} size={18} className="text-current" />
+                    <button key={r.id} onClick={() => { handleNotify(detail, r); setDetail(null); }} className="flex flex-col items-center justify-center gap-1 py-1.5 px-1 rounded-xl text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center">
+                      <HugeiconsIcon icon={r.icon} size={16} className="text-current" />
                       <span className="leading-tight">{r.label}</span>
                     </button>
                   ))}
@@ -174,30 +176,30 @@ export function ModerationView() {
           <p className="text-[13px] font-bold text-gray-400">{tab === 'pending' ? 'Bekleyen ilan yok!' : tab === 'approved' ? 'Henüz onaylanan ilan yok.' : tab === 'notified' ? 'Bildirim gönderilen ilan yok.' : 'Reddedilen ilan yok.'}</p>
         </div>
       ) : viewMode === 'swipe' ? (
-        <div className="flex flex-col items-center mt-4">
+        <div className="flex flex-col items-center mt-2">
           <div className="w-full max-w-[400px] bg-white rounded-[32px] border border-gray-100 shadow-2xl overflow-hidden relative animate-fade-in" key={currentList[0].id}>
             <div onClick={() => setDetail(currentList[0])} className="relative cursor-pointer active:scale-[0.98] transition-transform">
-              <img src={currentList[0].image} alt={currentList[0].name} className="w-full aspect-[4/5] object-cover" />
+              <img src={currentList[0].image} alt={currentList[0].name} className="w-full aspect-[4/3] object-cover" />
               <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full"><span className="text-[14px] font-black text-white">{currentList[0].price}</span></div>
             </div>
             
-            <div className="p-6">
-              <h3 className="text-[22px] font-black text-[#111827] mb-1 leading-tight">{currentList[0].name}</h3>
-              <p className="text-[14px] font-bold text-gray-400 mb-3">{currentList[0].seller} • <span className="text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">{currentList[0].category}</span></p>
-              <p className="text-[14px] text-gray-600 line-clamp-2 leading-relaxed mb-4">{currentList[0].desc}</p>
+            <div className="p-4">
+              <h3 className="text-[20px] font-black text-[#111827] mb-1 leading-tight">{currentList[0].name}</h3>
+              <p className="text-[13px] font-bold text-gray-400 mb-2">{currentList[0].seller} • <span className="text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">{currentList[0].category}</span></p>
+              <p className="text-[13px] text-gray-600 line-clamp-2 leading-relaxed mb-3">{currentList[0].desc}</p>
               
               {tab === 'pending' && (
-                <div className="grid grid-cols-3 gap-2 mb-6">
+                <div className="grid grid-cols-3 gap-1.5 mb-4">
                   {quickReplies.map(r => (
-                    <button key={r.id} onClick={() => handleNotify(currentList[0], r)} className="flex flex-col items-center justify-center gap-1.5 p-2.5 rounded-xl text-[11px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center">
-                      <HugeiconsIcon icon={r.icon} size={20} className="text-current" />
+                    <button key={r.id} onClick={() => handleNotify(currentList[0], r)} className="flex flex-col items-center justify-center gap-1 py-1.5 px-1 rounded-xl text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center">
+                      <HugeiconsIcon icon={r.icon} size={16} className="text-current" />
                       <span className="leading-tight">{r.label}</span>
                     </button>
                   ))}
                 </div>
               )}
 
-              <div className="flex justify-between items-center px-4 mt-2">
+              <div className="flex justify-between items-center px-2 mt-2">
                 {tab === 'pending' ? (
                   <>
                     <button onClick={() => handleReject(currentList[0])} className="w-[72px] h-[72px] flex items-center justify-center rounded-full bg-red-50 text-red-500 shadow-sm border border-red-100 active:scale-90 transition-all hover:bg-red-500 hover:text-white" title="Reddet">
@@ -296,7 +298,7 @@ export function ModerationView() {
                     <div className="h-px bg-gray-100 mb-2"></div>
                     <div className="grid grid-cols-3 gap-1.5">
                       {quickReplies.map(r => (
-                        <button key={r.id} onClick={() => handleNotify(product, r)} className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all text-center">
+                        <button key={r.id} onClick={() => handleNotify(product, r)} className="flex flex-col items-center justify-center gap-1 py-1.5 px-1 rounded-xl text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all text-center">
                           <HugeiconsIcon icon={r.icon} size={16} className="text-current" />
                           <span className="leading-tight">{r.label}</span>
                         </button>
