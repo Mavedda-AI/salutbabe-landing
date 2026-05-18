@@ -24,12 +24,12 @@ type QuickReply = { id: string; label: string; icon: any };
 type Product = { id: string; name: string; category: string; seller: string; price: string; image: string; date: string; desc: string; status: 'pending' | 'approved' | 'notified' | 'rejected'; notifications?: string[] };
 
 const quickReplies: QuickReply[] = [
-  { id: 'photo', label: 'Fotoğrafı değiştir', icon: Camera01Icon },
-  { id: 'desc', label: 'Açıklama ekle', icon: PencilEdit01Icon },
-  { id: 'price', label: 'Fiyatı güncelle', icon: Money01Icon },
-  { id: 'category', label: 'Kategoriyi düzelt', icon: Tag01Icon },
-  { id: 'cert', label: 'Belge yükle', icon: DocumentAttachmentIcon },
-  { id: 'size', label: 'Beden bilgisi ekle', icon: RulerIcon },
+  { id: 'photo', label: 'Fotoğrafını iyileştirebilirsin', icon: Camera01Icon },
+  { id: 'desc', label: 'Açıklamanı zenginleştirebilirsin', icon: PencilEdit01Icon },
+  { id: 'price', label: 'Fiyatını gözden geçirebilirsin', icon: Money01Icon },
+  { id: 'category', label: 'Kategorini güncelleyebilirsin', icon: Tag01Icon },
+  { id: 'cert', label: 'Orijinallik belgesi yükleyebilirsin', icon: DocumentAttachmentIcon },
+  { id: 'size', label: 'Beden bilgisini netleştirebilirsin', icon: RulerIcon },
 ];
 
 const initialProducts: Product[] = [
@@ -52,6 +52,7 @@ export function ModerationView() {
   const [detail, setDetail] = useState<Product | null>(null);
   const [toast, setToast] = useState<{ msg: string; type: 'green' | 'blue' | 'orange' | 'red' } | null>(null);
   const [viewMode, setViewMode] = useState<'swipe' | 'list' | 'grid2' | 'grid4'>('list');
+  const [selectedNotifs, setSelectedNotifs] = useState<{ [productId: string]: string[] }>({});
 
   const show = (msg: string, type: 'green' | 'blue' | 'orange' | 'red') => { setToast({ msg, type }); setTimeout(() => setToast(null), 2000); };
 
@@ -60,17 +61,32 @@ export function ModerationView() {
   const notified = products.filter(p => p.status === 'notified');
   const rejected = products.filter(p => p.status === 'rejected');
 
+  const toggleNotif = (productId: string, label: string) => {
+    setSelectedNotifs(prev => {
+      const current = prev[productId] || [];
+      if (current.includes(label)) return { ...prev, [productId]: current.filter(l => l !== label) };
+      return { ...prev, [productId]: [...current, label] };
+    });
+  };
+
   const updateStatus = (id: string, status: Product['status'], notifs?: string[]) => {
     setProducts(prev => prev.map(p => p.id === id ? { ...p, status, notifications: notifs || p.notifications } : p));
   };
 
-  const handleApprove = (p: Product) => { updateStatus(p.id, 'approved'); show(`✓ ${p.name} onaylandı`, 'green'); };
-  const handleReject = (p: Product) => { updateStatus(p.id, 'rejected'); show(`✕ ${p.name} reddedildi`, 'red'); };
-  const handleNotify = (p: Product, reply: QuickReply) => {
-    const existing = p.notifications || [];
-    updateStatus(p.id, 'notified', [...existing, reply.label]);
-    show(`Bildirim gönderildi: ${reply.label}`, 'blue');
+  const handleApprove = (p: Product) => { 
+    const notifs = selectedNotifs[p.id] || [];
+    updateStatus(p.id, 'approved', [...(p.notifications || []), ...notifs]); 
+    show(notifs.length > 0 ? `✓ ${p.name} onaylandı ve bildirimler iletildi` : `✓ ${p.name} onaylandı`, 'green'); 
+    setSelectedNotifs(prev => { const next = {...prev}; delete next[p.id]; return next; });
   };
+  
+  const handleReject = (p: Product) => { 
+    const notifs = selectedNotifs[p.id] || [];
+    updateStatus(p.id, 'rejected', [...(p.notifications || []), ...notifs]); 
+    show(notifs.length > 0 ? `✕ ${p.name} reddedildi ve bildirimler iletildi` : `✕ ${p.name} reddedildi`, 'red'); 
+    setSelectedNotifs(prev => { const next = {...prev}; delete next[p.id]; return next; });
+  };
+  
   const handleUndo = (p: Product) => { updateStatus(p.id, 'pending', []); show(`↩ ${p.name} tekrar beklemeye alındı`, 'orange'); };
   const handleApproveAll = () => { setProducts(prev => prev.map(p => p.status === 'pending' ? { ...p, status: 'approved' } : p)); show(`✓ ${pending.length} ilan toplu onaylandı`, 'green'); };
 
@@ -101,12 +117,15 @@ export function ModerationView() {
               
               {detail.status === 'pending' && (
                 <div className="grid grid-cols-3 gap-1.5 mt-3">
-                  {quickReplies.map(r => (
-                    <button key={r.id} onClick={() => { handleNotify(detail, r); setDetail(null); }} className="flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center leading-tight">
-                      <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
-                      <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
-                    </button>
-                  ))}
+                  {quickReplies.map(r => {
+                    const isSelected = (selectedNotifs[detail.id] || []).includes(r.label);
+                    return (
+                      <button key={r.id} onClick={() => toggleNotif(detail.id, r.label)} className={`flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold border active:scale-95 transition-all text-center leading-tight ${isSelected ? 'bg-blue-100 text-blue-700 border-blue-300 shadow-inner' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'}`}>
+                        <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
+                        <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               )}
 
@@ -190,12 +209,15 @@ export function ModerationView() {
               
               {tab === 'pending' && (
                 <div className="grid grid-cols-3 gap-1.5 mb-4">
-                  {quickReplies.map(r => (
-                    <button key={r.id} onClick={() => handleNotify(currentList[0], r)} className="flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all text-center leading-tight">
-                      <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
-                      <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
-                    </button>
-                  ))}
+                  {quickReplies.map(r => {
+                    const isSelected = (selectedNotifs[currentList[0].id] || []).includes(r.label);
+                    return (
+                      <button key={r.id} onClick={() => toggleNotif(currentList[0].id, r.label)} className={`flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold border active:scale-95 transition-all text-center leading-tight ${isSelected ? 'bg-blue-100 text-blue-700 border-blue-300 shadow-inner' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'}`}>
+                        <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
+                        <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               )}
 
@@ -297,12 +319,15 @@ export function ModerationView() {
                   <div className="px-3 pb-3 animate-fade-in">
                     <div className="h-px bg-gray-100 mb-2"></div>
                     <div className="grid grid-cols-3 gap-1.5">
-                      {quickReplies.map(r => (
-                        <button key={r.id} onClick={() => handleNotify(product, r)} className="flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all text-center leading-tight">
-                          <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
-                          <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
-                        </button>
-                      ))}
+                      {quickReplies.map(r => {
+                        const isSelected = (selectedNotifs[product.id] || []).includes(r.label);
+                        return (
+                          <button key={r.id} onClick={() => toggleNotif(product.id, r.label)} className={`flex items-center justify-center gap-1 py-1.5 px-1 rounded-lg text-[9px] font-bold border active:scale-95 transition-all text-center leading-tight ${isSelected ? 'bg-blue-100 text-blue-700 border-blue-300 shadow-inner' : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600'}`}>
+                            <HugeiconsIcon icon={r.icon} size={14} className="text-current shrink-0" />
+                            <span className="w-full truncate sm:whitespace-normal">{r.label}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
