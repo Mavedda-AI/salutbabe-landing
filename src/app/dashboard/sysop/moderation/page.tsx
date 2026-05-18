@@ -1,11 +1,23 @@
 'use client';
 import React, {useState} from "react";
 
-import { HugeiconsIcon } from '@hugeicons/react';
+import {HugeiconsIcon} from '@hugeicons/react';
 import {
-  Camera01Icon, PencilEdit01Icon, Money01Icon, Tag01Icon, DocumentAttachmentIcon, RulerIcon,
-  Tick01Icon, Cancel01Icon, Message01Icon, ArrowTurnBackwardIcon,
-  ListViewIcon, Grid02Icon, DashboardSquare01Icon, CheckmarkCircle01Icon, Cards01Icon
+  ArrowTurnBackwardIcon,
+  Camera01Icon,
+  Cancel01Icon,
+  Cards01Icon,
+  CheckmarkCircle01Icon,
+  DashboardSquare01Icon,
+  DocumentAttachmentIcon,
+  Grid02Icon,
+  ListViewIcon,
+  Message01Icon,
+  Money01Icon,
+  PencilEdit01Icon,
+  RulerIcon,
+  Tag01Icon,
+  Tick01Icon
 } from '@hugeicons/core-free-icons';
 
 type QuickReply = { id: string; label: string; icon: any };
@@ -84,6 +96,17 @@ export function ModerationView() {
                   {detail.notifications.map((n, i) => <p key={i} className="text-[11px] text-blue-700 font-bold">• {n}</p>)}
                 </div>
               )}
+              
+              {detail.status === 'pending' && (
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {quickReplies.map(r => (
+                    <button key={r.id} onClick={() => { handleNotify(detail, r); setDetail(null); }} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[10px] font-bold bg-gray-50 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 active:scale-95 transition-all">
+                      <HugeiconsIcon icon={r.icon} size={14} className="text-current" />{r.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               <div className="flex gap-2 mt-4">
                 {detail.status === 'pending' && (
                   <>
