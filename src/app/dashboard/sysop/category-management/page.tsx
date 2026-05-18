@@ -14,22 +14,28 @@ export default function CategoryManagementPage() {
   useEffect(() => { setTimeout(() => setLoading(false), 400); }, []);
   const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
 
-  // Mock Category Tree
   const categories = [
     {
-      id: 'CAT-1', name: 'Giyim & Tekstil', productCount: 12450, status: 'Aktif',
+      id: 'CAT-1', name: 'Bebek & Çocuk Giyim', productCount: 12450, status: 'Aktif',
       subcategories: [
         { id: 'SUB-101', name: 'Zıbın & Tulum', productCount: 4200, status: 'Aktif' },
         { id: 'SUB-102', name: 'Hastane Çıkışı', productCount: 1850, status: 'Aktif' },
-        { id: 'SUB-103', name: 'Mont & Kaban', productCount: 890, status: 'Aktif' }
+        { id: 'SUB-103', name: 'Mont & Kaban', productCount: 890, status: 'Aktif' },
+        { id: 'SUB-104', name: 'Elbise & Etek', productCount: 2100, status: 'Aktif' },
+        { id: 'SUB-105', name: 'Takım & Setler', productCount: 3400, status: 'Aktif' },
+        { id: 'SUB-106', name: 'Pijama & İç Giyim', productCount: 1560, status: 'Aktif' },
+        { id: 'SUB-107', name: 'Ayakkabı & Patik', productCount: 2200, status: 'Aktif' },
       ]
     },
     {
-      id: 'CAT-2', name: 'Bebek Arabası & Taşıma', productCount: 3200, status: 'Aktif',
+      id: 'CAT-2', name: 'Bebek Arabası & Taşıma', productCount: 4500, status: 'Aktif',
       subcategories: [
         { id: 'SUB-201', name: 'Pusetler', productCount: 1200, status: 'Aktif' },
-        { id: 'SUB-202', name: 'Travel Sistem', productCount: 850, status: 'Aktif' },
-        { id: 'SUB-203', name: 'Kanguru & Sling', productCount: 1150, status: 'Aktif' }
+        { id: 'SUB-202', name: 'Travel Sistem Bebek Arabası', productCount: 850, status: 'Aktif' },
+        { id: 'SUB-203', name: 'Baston Bebek Arabası', productCount: 750, status: 'Aktif' },
+        { id: 'SUB-204', name: 'Oto Koltuğu', productCount: 1300, status: 'Aktif' },
+        { id: 'SUB-205', name: 'Kanguru & Sling', productCount: 1150, status: 'Aktif' },
+        { id: 'SUB-206', name: 'Portbebe', productCount: 400, status: 'Aktif' },
       ]
     },
     {
@@ -37,7 +43,51 @@ export default function CategoryManagementPage() {
       subcategories: [
         { id: 'SUB-301', name: 'Biberon & Emzik', productCount: 2400, status: 'Aktif' },
         { id: 'SUB-302', name: 'Mama Sandalyesi', productCount: 950, status: 'Aktif' },
-        { id: 'SUB-303', name: 'Göğüs Pompası (Sıfır)', productCount: 650, status: 'Pasif' }
+        { id: 'SUB-303', name: 'Göğüs Pompası (Sıfır)', productCount: 650, status: 'Pasif' },
+        { id: 'SUB-304', name: 'Emzirme Yastığı & Örtüsü', productCount: 850, status: 'Aktif' },
+        { id: 'SUB-305', name: 'Sterilizatör & Isıtıcı', productCount: 450, status: 'Aktif' },
+        { id: 'SUB-306', name: 'Bebek Yemek Takımı & Önlük', productCount: 1200, status: 'Aktif' },
+      ]
+    },
+    {
+      id: 'CAT-4', name: 'Bebek Odası & Mobilya', productCount: 3100, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-401', name: 'Bebek Karyolası & Beşik', productCount: 950, status: 'Aktif' },
+        { id: 'SUB-402', name: 'Oyun Parkı', productCount: 800, status: 'Aktif' },
+        { id: 'SUB-403', name: 'Dolap & Şifonyer', productCount: 450, status: 'Aktif' },
+        { id: 'SUB-404', name: 'Yatak & Uyku Seti', productCount: 1100, status: 'Aktif' },
+        { id: 'SUB-405', name: 'Bebek Telsizi & Kamera', productCount: 650, status: 'Aktif' },
+      ]
+    },
+    {
+      id: 'CAT-5', name: 'Banyo & Bakım', productCount: 2800, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-501', name: 'Bebek Küveti & Banyo Seti', productCount: 850, status: 'Aktif' },
+        { id: 'SUB-502', name: 'Bebek Bezi & Alt Açma', productCount: 1200, status: 'Aktif' },
+        { id: 'SUB-503', name: 'Anne Bebek Bakım Çantası', productCount: 900, status: 'Aktif' },
+        { id: 'SUB-504', name: 'Şampuan, Yağ & Losyon (Sıfır)', productCount: 1500, status: 'Aktif' },
+        { id: 'SUB-505', name: 'Ateş Ölçer & Sağlık', productCount: 550, status: 'Aktif' },
+      ]
+    },
+    {
+      id: 'CAT-6', name: 'Oyuncak & Kitap', productCount: 6400, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-601', name: 'Eğitici & Geliştirici Oyuncaklar', productCount: 2200, status: 'Aktif' },
+        { id: 'SUB-602', name: 'Oyun Halısı & Aktivite Merkezi', productCount: 1100, status: 'Aktif' },
+        { id: 'SUB-603', name: 'Çıngırak & Dişlik', productCount: 1300, status: 'Aktif' },
+        { id: 'SUB-604', name: 'Ahşap Oyuncaklar', productCount: 950, status: 'Aktif' },
+        { id: 'SUB-605', name: 'Bebek & Çocuk Kitapları', productCount: 1650, status: 'Aktif' },
+        { id: 'SUB-606', name: 'Yürüteç & İlk Adım Arabası', productCount: 450, status: 'Aktif' },
+      ]
+    },
+    {
+      id: 'CAT-7', name: 'Hamile & Lohusa', productCount: 3800, status: 'Aktif',
+      subcategories: [
+        { id: 'SUB-701', name: 'Hamile Giyim', productCount: 1800, status: 'Aktif' },
+        { id: 'SUB-702', name: 'Lohusa Pijama & Gecelik', productCount: 1250, status: 'Aktif' },
+        { id: 'SUB-703', name: 'Emzirme Sütyeni & İç Giyim', productCount: 950, status: 'Aktif' },
+        { id: 'SUB-704', name: 'Hamile Yastığı', productCount: 400, status: 'Aktif' },
+        { id: 'SUB-705', name: 'Çatlak Kremi & Bakım (Sıfır)', productCount: 750, status: 'Aktif' },
       ]
     }
   ];
