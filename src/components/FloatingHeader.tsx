@@ -39,7 +39,7 @@ const FloatingHeader = () => {
           <div className="flex items-center gap-12">
             <Link className="relative flex items-center group" href="/">
               <div className="absolute -inset-4 bg-primary-blue/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <Image alt="salutbabe" width={110} height={32} className="relative transition-all duration-500 group-hover:scale-105 active:scale-95" src="/logo-salutbabe.png" />
+              <Image alt="salutbabe" width={110} height={32} className="relative transition-all duration-500 group-hover:scale-105 active:scale-95 object-contain" src="/logo-text.png" />
             </Link>
             
             <nav className="hidden lg:flex items-center gap-1">
