@@ -115,30 +115,24 @@
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 22px; /* Increased gap to match Depop */
+  gap: 24px; /* Increased gap to match screenshot */
 }
 
 .hamburgerButton {
-  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px; /* Slightly increase clickable area without changing visible size */
+  margin: -8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 0;
+  color: #111;
 }
 
 .mainLogo {
   display: flex;
   align-items: center;
-  text-decoration: none;
-}
-
-.mainLogoTexts {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .mainLogoImage {
@@ -146,6 +140,7 @@
   width: auto;
   object-fit: contain;
   display: block;
+  transform: translateY(3px); /* Visually center the text with the hamburger */
 }
 
 .headerActions {

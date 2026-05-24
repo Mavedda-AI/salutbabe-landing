@@ -80,7 +80,7 @@ export default function Header() {
       <div className={styles.mainHeader}>
         {/* Left: Hamburger + Logo */}
         <div className={styles.headerLeft}>
-          <button className={styles.iconButton}>
+          <button className={styles.hamburgerButton}>
             <CustomHamburgerIcon size={28} color="#111" strokeWidth={2.5} />
           </button>
 
