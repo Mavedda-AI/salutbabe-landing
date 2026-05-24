@@ -1,0 +1,107 @@
+.bottomBarContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--background);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  /* Fallback for iOS safe area padding */
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.bottomBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 66px; /* Base height from flutter */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  transition: stroke 0.2s;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.4);
+  margin-top: 2px;
+  transition: color 0.2s;
+}
+
+.labelActive {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.navBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #E53935;
+  border-radius: 50%;
+  border: 1px solid var(--background);
+}
+
+.bookFillIcon {
+  position: absolute;
+  top: 11px;
+  width: 20px;
+  height: 16px;
+  background-color: #EC659C;
+  clip-path: polygon(0 15%, 50% 15%, 100% 15%, 100% 85%, 50% 100%, 0 85%);
+  z-index: -1;
+}
+
+/* Center Sell Button */
+.centerNavItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.centerIconWrapper {
+  width: 62px;
+  height: 48px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.2s, height 0.2s;
+}
+
+.centerPressed {
+  width: 68px;
+}

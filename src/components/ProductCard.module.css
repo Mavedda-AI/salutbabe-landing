@@ -13,9 +13,9 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4; /* Standard aspect ratio for clothing apps */
-  background-color: #EEEEEE; /* Colors.grey[200] */
-  border-radius: var(--product-card-radius);
+  aspect-ratio: 4 / 5; /* Adjusted slightly based on mockup */
+  background-color: #EEEEEE;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -24,6 +24,24 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.favoriteButton {
+  position: absolute;
+  top: 12px; 
+  right: 12px;
+  padding: 4px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  background: transparent;
+  border: none;
+}
+
+.heartIcon {
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
 }
 
 .badgeWrapper {
@@ -36,51 +54,24 @@
 }
 
 .badge {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 4px 14px 6px 14px;
-  border-bottom-left-radius: var(--badge-radius);
-  border-bottom-right-radius: var(--badge-radius);
-  backdrop-filter: blur(4px);
-}
-
-@media (prefers-color-scheme: dark) {
-  .badge {
-    background-color: rgba(18, 18, 18, 0.8);
-  }
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 .badgeText {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 800;
   color: var(--text-primary);
 }
 
-.favoriteButton {
-  position: absolute;
-  top: 8px; /* 32px if badge exists, but handling dynamically is complex in CSS only, defaulting to 8px */
-  right: 8px;
-  padding: 4px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-
-.favoriteButton:hover {
-  transform: scale(1.1);
-}
-
-.heartIcon {
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.45));
-}
-
 .infoWrapper {
-  padding: 8px 12px 0 12px;
+  padding: 12px 4px 0 4px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end; /* Align avatar to bottom */
 }
 
 .infoColumn {
@@ -91,25 +82,48 @@
 
 .title {
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 800; /* Bold title like mockup */
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  max-width: 130px; /* Force ellipsis to match mockup */
+}
+
+@media (min-width: 768px) {
+  .title {
+    max-width: 100%;
+  }
 }
 
 .statsRow {
-  height: 16px;
   display: flex;
   align-items: center;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
+  gap: 8px;
+  min-height: 16px;
+}
+
+.statsItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .statsText {
-  font-size: 10px;
-  color: var(--stat-grey);
-  line-height: 1.4;
+  font-size: 11px;
+  color: #757575; /* grey[600] */
+  font-weight: 500;
+}
+
+.oldPrice {
+  font-size: 11px;
+  color: #BDBDBD;
+}
+
+.strikeThrough {
+  text-decoration: line-through;
 }
 
 .priceRow {
@@ -117,25 +131,10 @@
   align-items: baseline;
 }
 
-.oldPrice {
-  font-size: 10px;
-  color: var(--old-price-grey);
-  margin-right: 4px;
-}
-
-.strikeThrough {
-  text-decoration: line-through;
-}
-
 .price {
-  font-size: 13px;
-  font-weight: bold;
-  color: var(--text-primary);
-}
-
-.priceDiscounted {
   font-size: 14px;
-  color: var(--price-red);
+  font-weight: 900;
+  color: var(--text-primary);
 }
 
 .sellerAvatar {
@@ -149,19 +148,20 @@
   width: 28px;
   height: 28px;
   border-radius: 14px;
-  background-color: #BDBDBD; /* Colors.grey[400] fallback */
+  background-color: #BDBDBD;
   border: 2px solid #FFFFFF;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: 800;
   color: #FFFFFF;
+  overflow: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  .avatarCircle {
-    border-color: #121212;
-  }
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

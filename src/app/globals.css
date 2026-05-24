@@ -19,15 +19,17 @@
   --old-price-grey: #BDBDBD; /* grey[400] */
 }
 
+/* Dark mode is temporarily disabled to force Light Mode
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #121212;
     --text-primary: #FFFFFF;
     --text-secondary: #A0A0A0;
-    --input-bg: #2D2D2D; /* equivalent to dark mode input in flutter #1E1E1E approx */
+    --input-bg: #2D2D2D;
     --primary-dark: #FFFFFF;
   }
 }
+*/
 
 * {
   box-sizing: border-box;

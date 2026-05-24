@@ -1,111 +1,226 @@
-.header {
+.headerWrapper {
   width: 100%;
-  background-color: var(--background);
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid var(--input-bg);
-}
-
-.headerContainer {
+  background-color: var(--background);
   display: flex;
-  align-items: center;
-  /* Flutter values: EdgeInsets.fromLTRB(12, 8, 12, 0) */
-  padding: 8px 12px 12px 12px;
-  gap: 8px;
-  max-width: 1200px;
-  margin: 0 auto;
+  flex-direction: column;
 }
 
-.searchBarWrapper {
-  flex: 1;
+/* 1. App Banner */
+.appBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111111; /* Very dark, almost black */
+  padding: 12px 16px;
   position: relative;
-  display: flex;
-  align-items: center;
-  height: 40px; /* TextField height in Flutter */
 }
 
-.searchIconWrapper {
-  position: absolute;
-  left: 12px;
+.bannerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bannerLogo {
+  width: 44px;
+  height: 44px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
+}
+
+.bannerLogoText {
+  font-size: 10px;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.5px;
+}
+
+.bannerTexts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bannerTitle {
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.bannerSubtitle {
+  color: #A0A0A0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.bannerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.openAppButton {
+  background-color: #FFFFFF;
+  color: #000000;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 20px; /* Pill shape */
+  border: none;
+}
+
+.closeBannerButton {
+  color: #888888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.bannerBottomLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3B82F6 0%, #EC659C 100%);
+}
+
+/* 2. Main Header */
+.mainHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hamburgerButton {
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centerLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.mainLogoIcon {
+  width: 44px;
+  height: 44px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainLogoText {
+  font-size: 10px;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.5px;
+}
+
+.mainLogoTexts {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainLogoTitle {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.mainLogoSubtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.panelButton {
+  background-color: #E8FAF4;
+  color: #2F9C82;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
+.actionIcon {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionIconLang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-weight: 800;
+  font-size: 15px;
+}
+
+/* 3. Search Bar */
+.searchContainer {
+  padding: 0 20px 16px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 30px; /* Fully rounded pill */
+  height: 48px;
+  padding: 0 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 
 .searchIcon {
-  width: 18px;
-  height: 18px;
   color: var(--text-secondary);
+  margin-right: 12px;
 }
 
 .searchInput {
-  width: 100%;
-  height: 100%;
-  background-color: var(--input-bg);
-  border: 1px solid transparent;
-  border-radius: 12px;
-  padding-left: 38px;
-  padding-right: 12px;
-  font-size: 15px;
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
   color: var(--text-primary);
-  font-family: inherit;
   outline: none;
-  transition: border-color 0.2s;
 }
 
 .searchInput::placeholder {
-  color: var(--text-secondary);
-}
-
-.searchInput:focus {
-  border-color: var(--primary-dark); /* Approx of Flutter focusedBorder */
-}
-
-.actionsWrapper {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.actionIconButton {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-primary);
-  border-radius: 18px;
-  transition: background-color 0.2s;
-}
-
-.actionIconButton:hover {
-  background-color: var(--input-bg);
-}
-
-.iconWithBadge {
-  position: relative;
-  display: inline-flex;
-}
-
-.badge {
-  position: absolute;
-  top: -4px;
-  right: -6px;
-  background-color: #D32F2F; /* Red badge */
-  border-radius: 10px;
-  min-width: 16px;
-  min-height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 4px;
-}
-
-.badgeText {
-  color: #FFFFFF;
-  font-size: 9px;
-  font-weight: 900;
-  line-height: 1;
+  color: #A0A0A0;
 }

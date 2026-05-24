@@ -1,124 +1,222 @@
-.main {
-  min-height: 100vh;
-  padding-bottom: 80px;
+.feedContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 90px;
+  background-color: var(--background);
 }
 
-.hero {
-  background-color: var(--accent-pink);
-  padding: 80px 20px;
-  text-align: center;
-  border-bottom: 1px solid var(--input-bg);
-}
-
-.heroTitle {
-  font-size: 48px;
-  font-weight: 800;
-  color: var(--primary-dark);
-  margin-bottom: 16px;
-  letter-spacing: -1px;
-}
-
-.heroSubtitle {
-  font-size: 18px;
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto 32px;
-}
-
-.heroButton {
-  background-color: var(--primary-dark);
-  color: var(--background);
-  font-size: 16px;
-  font-weight: 700;
-  padding: 14px 32px;
-  border-radius: 30px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.heroButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
-.section {
-  max-width: 1280px;
-  margin: 60px auto 0;
-  padding: 0 24px;
-}
-
-.sectionTitle {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 24px;
-}
-
-.categoriesWrapper {
+/* 1. Feed Header */
+.feedHeader {
   display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding-bottom: 16px;
-  scrollbar-width: none; /* Firefox */
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 4px 16px;
 }
 
-.categoriesWrapper::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-
-.categoryBtn {
-  background-color: var(--input-bg);
+.iconButton {
   color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 600;
-  padding: 12px 24px;
-  border-radius: 30px;
-  white-space: nowrap;
-  transition: background-color 0.2s;
-}
-
-.categoryBtn:hover, .categoryBtnActive {
-  background-color: var(--primary-dark);
-  color: var(--background);
-}
-
-.productGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 24px;
-}
-
-@media (min-width: 1024px) {
-  .productGrid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-.subcategoriesWrapper {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.headerTabs {
+  display: flex;
+  align-items: center;
   gap: 12px;
+}
+
+.headerTab {
+  font-size: 11px;
+  font-weight: 700;
+  color: #A0A0A0; /* Light grey */
+  letter-spacing: 0.5px;
+}
+
+.headerTabActive {
+  color: var(--text-primary);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 2. Green Banner */
+.bannerContainer {
+  padding: 8px 16px;
+}
+
+.greenBanner {
+  background: linear-gradient(135deg, #447744, #2A522A); /* Dark green gradient */
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(42, 82, 42, 0.2);
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bannerIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bannerTitle {
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.bannerText {
+  color: #E0E0E0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.bannerCloseButton {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 50%;
+  padding: 4px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. Category Filter Tabs */
+.categoryFiltersWrapper {
+  padding: 8px 0;
+  border-bottom: 1px solid #F5F5F5;
+}
+
+.categoryFilters {
+  display: flex;
+  align-items: center;
   overflow-x: auto;
-  padding-bottom: 12px;
-  margin-top: 8px;
+  gap: 16px;
+  padding: 0 16px;
   scrollbar-width: none;
 }
 
-.subcategoriesWrapper::-webkit-scrollbar {
+.categoryFilters::-webkit-scrollbar {
   display: none;
 }
 
-.subcategoryBtn {
-  background-color: var(--background);
-  color: var(--text-secondary);
+.filterItem {
   font-size: 13px;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--input-bg);
+  font-weight: 600;
+  color: #A0A0A0;
   white-space: nowrap;
-  transition: all 0.2s;
+  cursor: pointer;
 }
 
-.subcategoryBtn:hover {
-  border-color: var(--primary-dark);
-  color: var(--primary-dark);
+.filterItemActive {
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+.filterItemDropdown {
+  font-size: 13px;
+  font-weight: 600;
+  color: #A0A0A0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+/* 4. Stories Section */
+.storiesSection {
+  padding: 16px 0 8px 0;
+}
+
+.storiesScroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 0 16px;
+  scrollbar-width: none;
+}
+
+.storiesScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.storyItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.storyRingContainer {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.storyImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 0 1px #E5E5E5; /* subtle ring */
+}
+
+.storyAddBadgeBlack {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #000000;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storyName {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* 5. Grid Section */
+.gridSection {
+  padding: 8px 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; /* Smaller gap to match mockup */
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
