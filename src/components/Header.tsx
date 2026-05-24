@@ -2,7 +2,6 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {Cancel01Icon, Menu01Icon, Search01Icon, ShoppingBag01Icon} from 'hugeicons-react';
 import styles from './Header.module.css';
 
@@ -40,7 +39,7 @@ export default function Header() {
         {/* Left Side: Hamburger & Logo */}
         <div className={styles.headerLeft}>
           <button className={styles.hamburgerButton}>
-            <Menu01Icon size={28} color="currentColor" strokeWidth={2} />
+            <Menu01Icon size={30} color="currentColor" strokeWidth={2.5} />
           </button>
 
           <Link href="/" className={styles.mainLogo}>

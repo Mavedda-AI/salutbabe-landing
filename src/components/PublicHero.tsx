@@ -2,17 +2,25 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import styles from './PublicHero.module.css';
 import {Shield01Icon, SparklesIcon, TShirtIcon} from 'hugeicons-react';
 
 export default function PublicHero() {
-  const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
+  const [activeTab, setActiveTab] = useState<'buy' | 'sell' | 'live' | 'story'>('buy');
 
   const isBuy = activeTab === 'buy';
+  const isSell = activeTab === 'sell';
+  const isLive = activeTab === 'live';
+  const isStory = activeTab === 'story';
+
+  // Determine background based on state
+  let bgClass = styles.bgBuy;
+  if (isSell) bgClass = styles.bgSell;
+  else if (isLive) bgClass = styles.bgLive;
+  else if (isStory) bgClass = styles.bgStory;
 
   return (
-    <section className={`${styles.heroWrapper} ${isBuy ? styles.bgBuy : styles.bgSell}`}>
+    <section className={`${styles.heroWrapper} ${bgClass}`}>
       <div className={styles.heroContainer}>
         
         {/* Top Text Section */}
@@ -26,25 +34,39 @@ export default function PublicHero() {
                 Al
               </button>
               <button 
-                className={`${styles.toggleButton} ${!isBuy ? styles.activeToggleSell : ''}`}
+                className={`${styles.toggleButton} ${isSell ? styles.activeToggleSell : ''}`}
                 onClick={() => setActiveTab('sell')}
               >
                 Sat
+              </button>
+              <button 
+                className={`${styles.toggleButton} ${isLive ? styles.activeToggleLive : ''}`}
+                onClick={() => setActiveTab('live')}
+              >
+                Canlı Odalar
+              </button>
+              <button 
+                className={`${styles.toggleButton} ${isStory ? styles.activeToggleStory : ''}`}
+                onClick={() => setActiveTab('story')}
+              >
+                Hikayemiz
               </button>
             </div>
           </div>
           
           <h1 className={styles.headline}>
-            {isBuy ? (
-              <>İkinci el al.<br />Kendi tarzını yarat.</>
-            ) : (
-              <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>
-            )}
+            {isBuy && <>İkinci el al.<br />Kendi tarzını yarat.</>}
+            {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
+            {isLive && <>Gerçek zamanlı sohbet.<br />Odalarımıza katıl.</>}
+            {isStory && <>Bizim hikayemiz.<br />Anneden anneye.</>}
           </h1>
           <p className={styles.subhead}>Birlikte, anne-çocuk modasını döngüsel tutuyoruz.</p>
           
           <Link href="/login" className={styles.primaryButton}>
-            {isBuy ? "Hemen Keşfet" : "Hemen Sat"}
+            {isBuy && "Hemen Keşfet"}
+            {isSell && "Hemen Sat"}
+            {isLive && "Odalara Katıl"}
+            {isStory && "Hikayemizi Oku"}
           </Link>
         </div>
 
