@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 import styles from './PublicHero.module.css';
-import {SparklesIcon, TShirtIcon} from 'hugeicons-react';
+import {DeliveryTruck01Icon, SparklesIcon, TShirtIcon} from 'hugeicons-react';
 
 export default function PublicHero() {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell' | 'live' | 'story'>('buy');
