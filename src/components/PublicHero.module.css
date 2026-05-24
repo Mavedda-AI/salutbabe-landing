@@ -1,9 +1,18 @@
 .heroWrapper {
   width: 100%;
-  background: linear-gradient(180deg, #F9F7F5 0%, #E8F4F8 100%); /* Slight gradient to match image vibe */
-  padding: 60px 20px 20px 20px;
+  padding: 60px 0px 0px 0px; 
   display: flex;
   justify-content: center;
+  overflow-x: hidden; 
+  transition: background 0.4s ease;
+}
+
+.bgBuy {
+  background: linear-gradient(180deg, #F9F7F5 0%, #E8F4F8 100%);
+}
+
+.bgSell {
+  background: linear-gradient(180deg, #FAF0F2 0%, #F5E6E8 100%); /* Depop sell pink */
 }
 
 .heroContainer {
@@ -13,6 +22,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 0 20px; 
 }
 
 /* Typography & Button */
@@ -20,38 +30,75 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.togglePill {
+  background-color: white;
+  border-radius: 30px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.toggleButton {
+  padding: 10px 40px;
+  border-radius: 26px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2D2D2D;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  outline: none; /* Prevent blue border */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.activeToggleBuy {
+  background-color: #EBF1F5;
+}
+
+.activeToggleSell {
+  background-color: #F5E6E8; /* Match sell background */
 }
 
 .headline {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 900;
   color: var(--primary-dark);
   line-height: 1.1;
-  margin-bottom: 16px;
-  letter-spacing: -1px;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
 }
 
 @media (min-width: 768px) {
   .headline {
-    font-size: 56px;
+    font-size: 48px;
   }
 }
 
 .subhead {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .primaryButton {
   background-color: var(--primary-dark);
   color: white;
-  padding: 16px 40px;
-  border-radius: 4px; /* Depop uses less rounded buttons, but we can keep it slightly rounded */
+  padding: 14px 36px;
+  border-radius: 4px;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15px;
   text-decoration: none;
   display: inline-block;
   transition: opacity 0.2s;
@@ -65,16 +112,15 @@
 .featuresRow {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* Prevents left side clipping on overflow */
+  justify-content: flex-start; 
   gap: 12px;
-  margin-bottom: 60px;
+  margin-bottom: 16px;
   width: 100%;
   max-width: 900px;
   overflow-x: auto;
-  padding-bottom: 12px;
-  padding-left: 4px;
-  padding-right: 4px;
-  /* Scroll snap for smooth mobile swiping */
+  padding-bottom: 8px;
+  padding-left: 0px;
+  padding-right: 0px;
   scroll-snap-type: x mandatory;
 }
 
@@ -100,10 +146,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* On mobile: fixed width to prevent text squishing, allow scrolling */
   flex: 0 0 auto;
-  width: 160px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+  width: 145px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
   scroll-snap-align: start;
 }
 
@@ -117,22 +162,22 @@
 }
 
 .featureIcon {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .featureTitle {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
-  color: #2D2D2D; /* Very dark, like Depop */
+  color: #2D2D2D;
   margin-bottom: 4px;
   line-height: 1.2;
 }
 
 .featureDesc {
-  font-size: 14px;
-  color: #666666; /* Medium dark grey, like Depop */
+  font-size: 13px;
+  color: #666666;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 /* Overlapping Images Gallery */
@@ -140,11 +185,11 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   max-width: 900px;
-  height: 300px;
-  margin-top: 20px;
+  height: 340px;
+  margin-top: 0px;
 }
 
 @media (min-width: 768px) {
@@ -155,9 +200,9 @@
 
 .galleryImageWrapper {
   position: absolute;
-  width: 180px;
-  height: 250px;
-  border-radius: 20px;
+  width: 210px;
+  height: 310px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
@@ -165,9 +210,8 @@
 
 @media (min-width: 768px) {
   .galleryImageWrapper {
-    width: 280px;
-    height: 380px;
-    border-radius: 24px;
+    width: 300px;
+    height: 420px;
   }
 }
 
@@ -178,34 +222,34 @@
 }
 
 .imageLeft {
-  transform: translateX(-45%) rotate(-12deg);
+  transform: translateX(-48%) translateY(30px) rotate(-12deg);
   z-index: 1;
 }
 
 .imageCenter {
-  transform: translateY(-10px) rotate(-2deg);
+  transform: translateY(10px) rotate(-2deg);
   z-index: 3;
 }
 
 .imageRight {
-  transform: translateX(45%) rotate(10deg);
+  transform: translateX(48%) translateY(30px) rotate(10deg);
   z-index: 2;
 }
 
 /* Hover effects */
 @media (hover: hover) {
   .imageLeft:hover {
-    transform: translateX(-50%) rotate(-14deg) scale(1.05);
+    transform: translateX(-55%) translateY(10px) rotate(-14deg) scale(1.05);
     z-index: 4;
   }
 
   .imageCenter:hover {
-    transform: translateY(-20px) rotate(-2deg) scale(1.05);
+    transform: translateY(-10px) rotate(-2deg) scale(1.05);
     z-index: 4;
   }
 
   .imageRight:hover {
-    transform: translateX(50%) rotate(12deg) scale(1.05);
+    transform: translateX(55%) translateY(10px) rotate(12deg) scale(1.05);
     z-index: 4;
   }
 }
