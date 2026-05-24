@@ -23,8 +23,10 @@ export default function PublicHero() {
     <section className={`${styles.heroWrapper} ${bgClass}`}>
       <div className={styles.heroContainer}>
         
-        {/* Top Text Section */}
-        <div className={styles.textSection} key={`text-${activeTab}`}>
+        {/* Left Side (Text & Cards) */}
+        <div className={styles.heroLeft}>
+          {/* Top Text Section */}
+          <div className={styles.textSection} key={`text-${activeTab}`}>
           <div className={styles.toggleContainer}>
             <div className={styles.togglePill}>
               <button 
@@ -128,8 +130,9 @@ export default function PublicHero() {
             );
           })()}
         </div>
+        </div>
 
-        {/* Overlapping Images Gallery */}
+        {/* Right Side (Images Gallery) */}
         <div className={styles.imagesGallery} key={`gallery-${activeTab}`}>
           {(() => {
             let img1 = "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600";
