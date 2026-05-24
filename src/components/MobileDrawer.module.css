@@ -72,7 +72,7 @@
   color: white;
   text-align: center;
   padding: 14px;
-  border-radius: 4px; /* Depop buttons have small border radius */
+  border-radius: 6px; /* User specifically requested rounded corners */
   font-weight: 800;
   font-size: 15px;
   text-decoration: none;
@@ -149,4 +149,69 @@
 
 .footerLink:hover {
   text-decoration: underline;
+}
+
+.getAppText {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111111;
+  margin-top: 32px;
+  text-decoration: none;
+}
+
+.bottomSection {
+  padding: 24px 20px 40px 20px;
+  border-top: 1px solid #111111;
+}
+
+.socialRow {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.socialIcon {
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locationSelectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.locationSelect {
+  width: 100%;
+  appearance: none;
+  background: white;
+  border: 1px solid #111111;
+  border-radius: 6px; /* User specifically requested rounded boxes */
+  padding: 12px 16px;
+  padding-top: 24px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111111;
+  outline: none;
+  font-family: inherit;
+}
+
+.locationSelectLabel {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.locationSelectArrow {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
