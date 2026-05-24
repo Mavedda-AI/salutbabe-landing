@@ -1,0 +1,82 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  border-radius: var(--global-radius);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--input-bg);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  padding-top: 133%; /* 3:4 aspect ratio typical for fashion */
+  background-color: var(--input-bg);
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.brand {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.sellerInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 12px;
+  border-top: 1px solid var(--input-bg);
+}
+
+.sellerAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--primary-dark);
+}
+
+.sellerName {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
