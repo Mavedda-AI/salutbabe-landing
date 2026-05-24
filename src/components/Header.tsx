@@ -2,27 +2,8 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
-import {Cancel01Icon, Menu01Icon, Search01Icon} from 'hugeicons-react';
+import {Cancel01Icon, Menu01Icon, Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import styles from './Header.module.css';
-
-const CustomBagIcon = ({ size = 24, strokeWidth = 2.5, color = "currentColor", className = "" }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke={color} 
-    strokeWidth={strokeWidth} 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-    className={className}
-  >
-    {/* Trapezoid bag outline with rounded corners */}
-    <path d="M8 4h8c1.5 0 2.5.5 3 2l1.5 11c.5 2.5-1 4-4 4H7.5c-3 0-4.5-1.5-4-4L5 6c.5-1.5 1.5-2 3-2z" />
-    {/* Handle inside the bag */}
-    <path d="M9.5 4v1.5a2.5 2.5 0 0 0 5 0V4" />
-  </svg>
-);
 
 export default function Header() {
   const [showBanner, setShowBanner] = useState(true);
@@ -99,7 +80,7 @@ export default function Header() {
         {/* Right: Actions (Cart, Panel, Sign Up) */}
         <div className={styles.headerActions}>
           <button className={styles.actionIcon}>
-            <CustomBagIcon size={26} color="currentColor" strokeWidth={2.5} />
+            <ShoppingBasket02Icon size={26} color="currentColor" strokeWidth={2} />
           </button>
           <button className={styles.panelButton}>PANEL</button>
           <Link href="/register" className={styles.signupButton}>Kaydol</Link>
