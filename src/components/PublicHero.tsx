@@ -56,7 +56,7 @@ export default function PublicHero() {
           
           <h1 className={styles.headline}>
             {isBuy && <>İkinci el al.<br />Kendi tarzını yarat.</>}
-            {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
+            {isSell && <>Dolabını nakite çevir.</>}
             {isLive && <>Gerçek zamanlı sohbet.<br />Odalarımıza katıl.</>}
             {isStory && <>Bizim hikayemiz.<br />Anneden anneye.</>}
           </h1>
@@ -82,18 +82,18 @@ export default function PublicHero() {
           </div>
           <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
             {isBuy ? (
-              <TShirtIcon size={24} color="#414141" strokeWidth={1.5} className={styles.featureIcon} />
+              <TShirtIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
             ) : (
-              <SparklesIcon size={24} color="#414141" strokeWidth={1.5} className={styles.featureIcon} />
+              <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
             )}
             <h3 className={styles.featureTitle}>{isBuy ? "2M+" : "Hızlıca İlan Ver"}</h3>
             <p className={styles.featureDesc}>{isBuy ? "Satıştaki ürün" : "Yapay zeka destekli"}</p>
           </div>
           <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
             {isBuy ? (
-              <SparklesIcon size={24} color="#414141" strokeWidth={1.5} className={styles.featureIcon} />
+              <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
             ) : (
-              <SparklesIcon size={24} color="#414141" strokeWidth={1.5} className={styles.featureIcon} />
+              <DeliveryTruck01Icon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
             )}
             <h3 className={styles.featureTitle}>{isBuy ? "10K+" : "Kolayca Kargola"}</h3>
             <p className={styles.featureDesc}>{isBuy ? "Her gün yeni ilan" : "Yazıcıya gerek yok"}</p>

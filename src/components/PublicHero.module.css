@@ -217,7 +217,9 @@
   position: absolute;
   width: 240px; 
   height: 350px; 
-  border-radius: 20px;
+  border-radius: 16px;
+  border: 8px solid white; /* Creates the physical photo/polaroid look */
+  background: white;
   overflow: hidden;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15); 
   transition: transform 0.3s ease;
