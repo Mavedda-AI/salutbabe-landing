@@ -354,13 +354,21 @@ const LoginPage = () => {
             </button>
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-[14px] text-gray-500 font-medium">
-              Hesabın yok mu?{" "}
-              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-gray-900 dark:text-white font-bold hover:underline">
-                Kayıt Ol
-              </button>
-            </p>
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <button 
+              type="button" 
+              onClick={() => window.location.href='/dashboard/seller'} 
+              className="px-5 py-2.5 bg-[#E8F5E9] text-[#2E7D32] dark:bg-[#1B5E20]/20 dark:text-[#81C784] rounded-xl font-bold text-[14px] hover:bg-[#C8E6C9] dark:hover:bg-[#1B5E20]/40 transition-colors"
+            >
+              Satış Paneli
+            </button>
+            <button 
+              type="button" 
+              onClick={() => setShowSignupPopup(true)} 
+              className="px-5 py-2.5 bg-[#2D2D2D] text-white dark:bg-white dark:text-black rounded-xl font-bold text-[14px] hover:bg-black dark:hover:bg-gray-100 transition-colors"
+            >
+              Kaydol
+            </button>
           </div>
 
         </div>
