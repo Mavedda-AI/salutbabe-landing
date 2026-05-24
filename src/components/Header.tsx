@@ -15,8 +15,11 @@ export default function Header() {
         <div className={styles.appBanner}>
           <div className={styles.bannerLeft}>
             <div className={styles.bannerLogo}>
-              {/* Fallback to simple text logo if image not available */}
-              <span className={styles.bannerLogoText}>salutbabe</span>
+              <img 
+                src="/assets/images/logo/logo_salutbabe.png" 
+                alt="SalutBabe App" 
+                className={styles.bannerLogoImg} 
+              />
             </div>
             <div className={styles.bannerTexts}>
               <span className={styles.bannerTitle}>SalutBabe Uygulaması</span>
