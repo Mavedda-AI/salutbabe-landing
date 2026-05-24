@@ -77,7 +77,7 @@ export default function PublicHero() {
             {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
             {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
             {isOrganic && "Sürdürülebilir, %100 organik pamuklu yepyeni koleksiyonumuzu keşfedin."}
-          </p>>
+          </p>
           
           <Link href="/register" className={styles.primaryButton}>
             {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : isStory ? "Hikayemizi Oku" : "Koleksiyonu İncele"}
