@@ -56,7 +56,7 @@ export default function PublicHero() {
           
           <h1 className={styles.headline}>
             {isBuy && <>İkinci el al.<br />Kendi tarzını yarat.</>}
-            {isSell && <>Dolabını nakite çevir.</>}
+            {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
             {isLive && <>Gerçek zamanlı sohbet.<br />Odalarımıza katıl.</>}
             {isStory && <>Bizim hikayemiz.<br />Anneden anneye.</>}
           </h1>
@@ -101,7 +101,7 @@ export default function PublicHero() {
         </div>
 
         {/* Overlapping Images Gallery */}
-        <div className={styles.imagesGallery}>
+        <div className={styles.imagesGallery} key={`gallery-${activeTab}`}>
           {(() => {
             // Verified baby/toddler fashion IDs to avoid showing cars or food
             let img1 = "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600";
@@ -109,9 +109,10 @@ export default function PublicHero() {
             let img3 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
 
             if (isSell) {
-              img1 = "https://images.unsplash.com/photo-1581442616850-7bcff1d80af7?w=600"; // Taking photo
-              img2 = "https://images.unsplash.com/photo-1604176354204-9268737828e4?w=600"; // Holding clothes
-              img3 = "https://images.unsplash.com/photo-1656543802898-41c8c46683a7?w=600"; // Shipping box 
+              // Messy clothes/closet to trigger the "I need to clean my closet" feeling
+              img1 = "https://images.unsplash.com/photo-1540221652346-e5dd6b50f3e7?w=600"; 
+              img2 = "https://images.unsplash.com/photo-1672137233327-37b0c1049e77?w=600"; 
+              img3 = "https://images.unsplash.com/photo-1604072374690-0e7d7bddd54e?w=600"; 
             } else if (isLive) {
               img1 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
               img2 = "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600"; 
