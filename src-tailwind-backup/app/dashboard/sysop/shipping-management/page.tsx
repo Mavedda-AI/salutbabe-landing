@@ -4,6 +4,7 @@ import {HugeiconsIcon} from '@hugeicons/react';
 import {Alert02Icon, BarChartIcon, Package01Icon, Tick01Icon, Timer02Icon, TruckIcon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
+import {apiUrl} from '../../../../lib/api';
 
 import {PageHeader} from '../../components/ui/PageHeader';
 import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
@@ -38,13 +39,40 @@ export default function ShippingManagementPage() {
   const [providers, setProviders] = useState<any[]>([]);
   const [providerShipmentDetails, setProviderShipmentDetails] = useState<any>({});
   const [delayedShipments, setDelayedShipments] = useState<any[]>([]);
+  const [aiActions, setAiActions] = useState<any[]>([]);
   
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
     if (token && token !== 'mock_token') {
-      // Mock data replacement here if token valid, but since it's just dummy data removal, we leave it empty.
+      fetch(apiUrl('/admin/shipping'), {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data) {
+          setProviders(data.data.map((c: any) => ({
+            id: c.companyID,
+            name: c.name,
+            trend: '→',
+            shipments: 0,
+            onTime: 0,
+            avgDays: 0,
+            cost: '₺0.00'
+          })));
+        } else {
+          setProviders([]);
+        }
+        setDailyTrend([]);
+        setCityPerformance([]);
+        setProviderShipmentDetails({});
+        setDelayedShipments([]);
+        setAiActions([]);
+      })
+      .catch(console.error);
     } else {
       setKpis([
         { label: 'Toplam Kargo', value: '0', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={Package01Icon} size={32} /> },
@@ -57,6 +85,7 @@ export default function ShippingManagementPage() {
       setProviders([]);
       setProviderShipmentDetails({});
       setDelayedShipments([]);
+      setAiActions([]);
     }
   }, []);
 
@@ -463,26 +492,24 @@ export default function ShippingManagementPage() {
         )}
 
         {/* AI */}
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-[20px] border border-orange-100 p-5 mt-6">
-          <div className="flex items-center gap-2 mb-4">
-            <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-            <h2 className="text-[13px] font-black text-orange-700">AI Aksiyonlar</h2>
-          </div>
-          <div className="space-y-3">
-            {[
-              { title: 'PTT Kargo anlaşmasını gözden geçir', desc: '%82.4 zamanında teslim oranı kabul edilemez. Alternatif olarak Sürat Kargo ile pilot başlat.', impact: 'Kritik' },
-              { title: 'Antalya bölgesine ek dağıtım noktası', desc: 'Antalya gecikme oranı %13.5 ile en yüksek. Yerel depo/fulfillment merkezi maliyeti aylık ₺12K.', impact: '+₺22K/ay' },
-              { title: 'Cuma günü kargo yoğunluğunu dağıt', desc: 'Cuma 560 kargo ile zirve yapıyor. Perşembe kampanyaları Cuma yükünü %15 azaltabilir.', impact: '+₺8K/ay' },
-            ].map((a, i) => (
-              <div key={i} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-orange-100/50">
-                <div className="flex items-start justify-between gap-3">
-                  <div><p className="text-[12px] font-bold text-[#111827]">{a.title}</p><p className="text-[10px] text-gray-500 mt-1">{a.desc}</p></div>
-                  <span className={`text-[10px] font-black px-2 py-1 rounded-full shrink-0 ${a.impact === 'Kritik' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{a.impact}</span>
+        {aiActions.length > 0 && (
+          <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-[20px] border border-orange-100 p-5 mt-6">
+            <div className="flex items-center gap-2 mb-4">
+              <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+              <h2 className="text-[13px] font-black text-orange-700">AI Aksiyonlar</h2>
+            </div>
+            <div className="space-y-3">
+              {aiActions.map((a, i) => (
+                <div key={i} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-orange-100/50">
+                  <div className="flex items-start justify-between gap-3">
+                    <div><p className="text-[12px] font-bold text-[#111827]">{a.title}</p><p className="text-[10px] text-gray-500 mt-1">{a.desc}</p></div>
+                    <span className={`text-[10px] font-black px-2 py-1 rounded-full shrink-0 ${a.impact === 'Kritik' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{a.impact}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Toast Notification */}

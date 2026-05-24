@@ -2,6 +2,7 @@
 import {HugeiconsIcon} from '@hugeicons/react';
 import {Alert01Icon, Package01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
+import Cookies from "js-cookie";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {apiUrl} from "../../../../lib/api";
 import {PageHeader} from '../../components/ui/PageHeader';
@@ -14,6 +15,7 @@ interface DisputeOrder {
   orderID: string;
   totalAmount: number;
   status: string;
+  originalStatus: string;
   disputeReason?: string;
   createdAt: string;
   buyer: {
@@ -41,7 +43,7 @@ export default function OrderManagementPage() {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("admin_token") || localStorage.getItem("token");
       if (!token || token === "mock_token") {
         setOrders([]);
         return;
@@ -51,12 +53,25 @@ export default function OrderManagementPage() {
         headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
       });
       const data = await res.json();
-      if (data.payload) {
-        setOrders(data.payload.orders.map((o: any) => ({
-          ...o,
-          disputeReason: o.status === 'Disputed' ? 'Alıcı İtirazı' : undefined,
-          status: o.status === 'Disputed' ? 'Uyuşmazlık' : o.status
-        })));
+      if (data.payload && data.payload.orders) {
+        setOrders(data.payload.orders.map((o: any) => {
+          let translatedStatus = o.status;
+          const s = String(o.status).toLowerCase();
+          if (s === 'disputed') translatedStatus = 'Uyuşmazlık';
+          else if (s === 'completed') translatedStatus = 'Tamamlandı';
+          else if (s === 'cancelled') translatedStatus = 'İptal Edildi';
+          else if (s === 'pending') translatedStatus = 'Bekliyor';
+          else if (s === 'shipped') translatedStatus = 'Kargoda';
+          
+          return {
+            ...o,
+            orderID: o.orderID || o._id,
+            createdAt: o.orderDate || o.createdAt,
+            originalStatus: o.status,
+            disputeReason: s === 'disputed' ? 'Alıcı İtirazı' : undefined,
+            status: translatedStatus
+          };
+        }));
       }
     } catch (e) {
       console.error(e);
@@ -69,6 +84,25 @@ export default function OrderManagementPage() {
     fetchOrders();
   }, []);
 
+  const handleUpdateStatus = async (orderId: string, newStatus: string) => {
+    try {
+      const token = Cookies.get('admin_token') || localStorage.getItem('token');
+      await fetch(apiUrl(`/admin/orders/${orderId}/status`), {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+      
+      fetchOrders();
+      setSelectedOrder(null);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const filteredOrders = orders.filter(order => {
     const matchesTab = activeTab === 'all' 
       ? true 
@@ -77,8 +111,8 @@ export default function OrderManagementPage() {
       : ['Tamamlandı', 'İptal Edildi'].includes(order.status);
       
     const matchesSearch = order.orderID.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          order.buyer.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          order.seller.userName.toLowerCase().includes(searchQuery.toLowerCase());
+                          (order.buyer?.userName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          (order.seller?.userName || '').toLowerCase().includes(searchQuery.toLowerCase());
                           
     return matchesTab && matchesSearch;
   });
@@ -117,7 +151,7 @@ export default function OrderManagementPage() {
             #{o.orderID.split('-')[0].toUpperCase()}
           </span>
           <span className={`text-[10px] md:text-[11px] font-medium mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-            {new Date(o.createdAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
+            {o.createdAt ? new Date(o.createdAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US') : ''}
           </span>
         </div>
       )
@@ -128,8 +162,8 @@ export default function OrderManagementPage() {
       headerClassName: 'hidden md:table-cell',
       accessor: (o) => (
         <div className="flex flex-col">
-          <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{o.buyer.userName} {o.buyer.userSurname}</span>
-          <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{o.buyer.eMail}</span>
+          <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{o.buyer?.userName} {o.buyer?.userSurname}</span>
+          <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{o.buyer?.eMail}</span>
         </div>
       )
     },
@@ -139,8 +173,8 @@ export default function OrderManagementPage() {
       headerClassName: 'hidden md:table-cell',
       accessor: (o) => (
         <div className="flex flex-col">
-          <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{o.seller.userName} {o.seller.userSurname}</span>
-          <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{o.seller.eMail}</span>
+          <span className={`text-[12px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{o.seller?.userName} {o.seller?.userSurname}</span>
+          <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{o.seller?.eMail}</span>
         </div>
       )
     },
@@ -148,7 +182,7 @@ export default function OrderManagementPage() {
       header: 'Tutar',
       accessor: (o) => (
         <span className={`text-[11px] md:text-[13px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          {o.totalAmount.toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')} ₺
+          {Number(o.totalAmount).toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')} ₺
         </span>
       )
     },
@@ -219,27 +253,27 @@ export default function OrderManagementPage() {
         isOpen={!!selectedOrder} 
         onClose={() => setSelectedOrder(null)} 
         title="Sipariş Detayı"
-        description={selectedOrder ? `#${selectedOrder.orderID}` : undefined}
+        description={selectedOrder ? `#${selectedOrder.orderID.split('-')[0].toUpperCase()}` : undefined}
       >
         {selectedOrder && (
           <>
             <div className="grid grid-cols-2 gap-4 mb-2">
               <div className={`p-4 rounded-xl ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
                 <p className={`text-[10px] font-black tracking-widest mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>ALICI</p>
-                <p className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.buyer.userName} {selectedOrder.buyer.userSurname}</p>
-                <p className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{selectedOrder.buyer.eMail}</p>
+                <p className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.buyer?.userName} {selectedOrder.buyer?.userSurname}</p>
+                <p className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{selectedOrder.buyer?.eMail}</p>
               </div>
               <div className={`p-4 rounded-xl ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
                 <p className={`text-[10px] font-black tracking-widest mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>SATICI</p>
-                <p className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.seller.userName} {selectedOrder.seller.userSurname}</p>
-                <p className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{selectedOrder.seller.eMail}</p>
+                <p className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.seller?.userName} {selectedOrder.seller?.userSurname}</p>
+                <p className={`text-[12px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{selectedOrder.seller?.eMail}</p>
               </div>
             </div>
 
             <div className={`p-4 rounded-xl mb-4 flex justify-between items-center ${isDark ? 'bg-[#121214]' : 'bg-gray-50'}`}>
               <div>
                 <p className={`text-[10px] font-black tracking-widest mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>TUTAR</p>
-                <p className={`text-lg font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{selectedOrder.totalAmount.toLocaleString()} ₺</p>
+                <p className={`text-lg font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{Number(selectedOrder.totalAmount).toLocaleString()} ₺</p>
               </div>
               <div className="text-right">
                 <p className={`text-[10px] font-black tracking-widest mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>DURUM</p>
@@ -257,7 +291,7 @@ export default function OrderManagementPage() {
             <div className="flex gap-3">
               <button onClick={() => setSelectedOrder(null)} className={`flex-1 py-3 rounded-xl font-bold transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>Kapat</button>
               {selectedOrder.status === 'Uyuşmazlık' && (
-                <button onClick={() => { alert('Para iadesi onaylandı.'); setSelectedOrder(null); }} className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors">Alıcıya İade Et</button>
+                <button onClick={() => handleUpdateStatus(selectedOrder.orderID, 'Cancelled')} className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors">Alıcıya İade Et</button>
               )}
             </div>
           </>

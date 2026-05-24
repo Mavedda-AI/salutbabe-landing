@@ -7,6 +7,7 @@ import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
 import {FilterTabs, SearchInput, TabItem} from '../../components/ui/FilterBar';
 import {Column, DataTable} from '../../components/ui/DataTable';
 import {ActionModal, StatusBadge} from '../../components/ui/StatusBadge';
+import {apiUrl} from '../../../../lib/api';
 
 export default function ProductManagementPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -25,7 +26,6 @@ export default function ProductManagementPage() {
         return;
       }
 
-      const { apiUrl } = require('../../../../../lib/api');
       const res = await fetch(apiUrl('/admin/listings?page=1&limit=100'), {
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -63,7 +63,6 @@ export default function ProductManagementPage() {
          return;
       }
       
-      const { apiUrl } = require('../../../../../lib/api');
       const res = await fetch(apiUrl(`/admin/listings/${listingID}/status`), {
         method: 'PUT',
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
