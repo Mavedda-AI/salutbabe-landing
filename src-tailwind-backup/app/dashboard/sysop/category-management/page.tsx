@@ -6,6 +6,7 @@ import {PageHeader} from "../../components/ui/PageHeader";
 import {FilterTabs, SearchInput} from "../../components/ui/FilterBar";
 import {ActionModal, StatusBadge} from "../../components/ui/StatusBadge";
 import {Edit02Icon} from "@hugeicons/react";
+import {apiUrl} from "../../../../../lib/api";
 
 interface SubCategory {
   id: string;
@@ -41,12 +42,23 @@ export default function CategoryManagementPage() {
       return;
     }
     
-    // API entegrasyonu sonrasında burası güncellenecek
     setLoading(true);
-    setTimeout(() => {
-      setCategories([]);
-      setLoading(false);
-    }, 400);
+    fetch(apiUrl('admin/categories'), {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCategories(Array.isArray(data) ? data : data.categories || []);
+      })
+      .catch(err => {
+        console.error("Failed to fetch categories:", err);
+        setCategories([]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
@@ -58,12 +70,12 @@ export default function CategoryManagementPage() {
   const filteredCategories = categories.filter(c => {
     if (activeFilter === 'bebek' && !c.name.toLowerCase().includes('bebek')) return false;
     if (activeFilter === 'cocuk' && !c.name.toLowerCase().includes('çocuk')) return false;
-    if (activeFilter === 'organik' && !c.name.toLowerCase().includes('organik') && !c.subcategories.some(sub => sub.name.toLowerCase().includes('organik'))) return false;
+    if (activeFilter === 'organik' && !c.name.toLowerCase().includes('organik') && !(c.subcategories || []).some(sub => sub.name.toLowerCase().includes('organik'))) return false;
 
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     const matchCat = c.name.toLowerCase().includes(q);
-    const matchSub = c.subcategories.some(sub => sub.name.toLowerCase().includes(q));
+    const matchSub = (c.subcategories || []).some(sub => sub.name.toLowerCase().includes(q));
     return matchCat || matchSub;
   });
 
@@ -127,7 +139,7 @@ export default function CategoryManagementPage() {
                       </button>
                       <div className="flex flex-col">
                         <span className={`text-[14px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{cat.name}</span>
-                        <span className={`text-[11px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{cat.id} • {cat.productCount.toLocaleString()} Ürün</span>
+                        <span className={`text-[11px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{cat.id} • {(cat.productCount || 0).toLocaleString()} Ürün</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -146,13 +158,13 @@ export default function CategoryManagementPage() {
                          <button onClick={() => setShowModal({type: 'new_sub', parentId: cat.id})} className="text-[11px] font-bold text-primary hover:underline">+ Yeni Ekle</button>
                       </div>
                       
-                      {cat.subcategories.map(sub => (
+                      {(cat.subcategories || []).map(sub => (
                         <div key={sub.id} className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${isDark ? 'border-white/5 hover:bg-white/5' : 'border-gray-100 hover:bg-gray-50'}`}>
                           <div className="flex items-center gap-3">
                             <div className={`w-1.5 h-1.5 rounded-full ${sub.status === 'Aktif' ? 'bg-green-500' : 'bg-red-500'}`}></div>
                             <div className="flex flex-col">
                               <span className={`text-[13px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{sub.name}</span>
-                              <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>{sub.productCount.toLocaleString()} Ürün</span>
+                              <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>{(sub.productCount || 0).toLocaleString()} Ürün</span>
                             </div>
                           </div>
                           <button onClick={() => setShowModal({type: 'edit_sub', data: sub})} className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'border-white/10 text-gray-400 hover:bg-white/10 hover:text-white' : 'border-gray-200 text-gray-600 hover:bg-white shadow-sm'}`}>

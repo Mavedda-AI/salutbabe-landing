@@ -7,6 +7,7 @@ import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
 import {FilterTabs, SearchInput, TabItem} from '../../components/ui/FilterBar';
 import {Column, DataTable} from '../../components/ui/DataTable';
 import {ActionModal, StatusBadge} from '../../components/ui/StatusBadge';
+import {apiUrl} from '../../../../lib/api';
 
 type User = { 
   id: string; 
@@ -41,7 +42,6 @@ export default function UserManagementPage() {
         return;
       }
       
-      const { apiUrl } = require('../../../../../lib/api');
       const res = await fetch(apiUrl('/admin/users?page=1&limit=100'), {
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -89,7 +89,6 @@ export default function UserManagementPage() {
     try {
       const token = localStorage.getItem("token");
       if (token && token !== "mock_token") {
-        const { apiUrl } = require('../../../../../lib/api');
         const endpoint = newStatus === 'ASKIDA' ? `/admin/users/${id}/block` : `/admin/users/${id}/unblock`;
         await fetch(apiUrl(endpoint), {
           method: 'POST',
@@ -109,7 +108,6 @@ export default function UserManagementPage() {
     try {
       const token = localStorage.getItem("token");
       if (token && token !== "mock_token") {
-        const { apiUrl } = require('../../../../../lib/api');
         await fetch(apiUrl(`/admin/users/${id}/role`), {
           method: 'PUT',
           headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },

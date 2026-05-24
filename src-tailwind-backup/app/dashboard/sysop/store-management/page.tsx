@@ -8,6 +8,7 @@ import {PageHeader} from '../../components/ui/PageHeader';
 import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
 import {FilterTabs, SearchInput, TabItem} from '../../components/ui/FilterBar';
 import {Column, DataTable} from '../../components/ui/DataTable';
+import {ActionModal, StatusBadge} from '../../components/ui/StatusBadge';
 
 interface Store {
   storeID: string;
@@ -32,6 +33,9 @@ export default function StoreManagementPage() {
   const [saving, setSaving] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStore, setSelectedStore] = useState<{ id: string, isActive: boolean, name: string } | null>(null);
 
   const isDark = theme === 'dark';
 
@@ -50,9 +54,9 @@ export default function StoreManagementPage() {
       if (data.payload) {
         const enrichedStores = data.payload.map((s: any) => ({
           ...s,
-          segment: s.segment || (s.storeName.toLowerCase().includes('moda') ? 'pro' : 'mother'),
-          totalSales: s.totalSales || Math.floor(Math.random() * 50),
-          activeListings: s.activeListings || Math.floor(Math.random() * 20),
+          segment: s.segment || (s.storeName?.toLowerCase().includes('moda') ? 'pro' : 'mother'),
+          totalSales: s.totalSales || 0,
+          activeListings: s.activeListings || 0,
         }));
         setStores(enrichedStores);
       }
@@ -72,8 +76,6 @@ export default function StoreManagementPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token || token === "mock_token") {
-         setStores(stores.map(s => s.storeID === storeID ? { ...s, isActive: !currentStatus } : s));
-         setSaving(null);
          return;
       }
 
@@ -89,6 +91,8 @@ export default function StoreManagementPage() {
       console.error(e);
     } finally {
       setSaving(null);
+      setIsModalOpen(false);
+      setSelectedStore(null);
     }
   };
 
@@ -177,15 +181,10 @@ export default function StoreManagementPage() {
     {
       header: 'Durum',
       accessor: (s) => (
-        s.isActive ? (
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-green-50 text-green-600 border-green-100'}`}>
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> Aktif
-          </span>
-        ) : (
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-black uppercase tracking-wider border ${isDark ? 'bg-gray-500/10 text-gray-400 border-gray-500/20' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
-            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> Pasif
-          </span>
-        )
+        <StatusBadge 
+          status={s.isActive ? 'Aktif' : 'Pasif'} 
+          type={s.isActive ? 'success' : 'neutral'} 
+        />
       )
     },
     {
@@ -193,7 +192,11 @@ export default function StoreManagementPage() {
       className: 'text-right',
       accessor: (s) => (
         <button
-          onClick={(e) => { e.stopPropagation(); toggleStatus(s.storeID, s.isActive); }}
+          onClick={(e) => { 
+            e.stopPropagation(); 
+            setSelectedStore({ id: s.storeID, isActive: s.isActive, name: s.storeName });
+            setIsModalOpen(true);
+          }}
           disabled={saving === s.storeID}
           className={`relative overflow-hidden px-3 md:px-5 py-1.5 md:py-2 rounded-xl text-[10px] md:text-[12px] font-bold uppercase tracking-wider border-2 transition-all group
             ${saving === s.storeID ? 'opacity-50 cursor-not-allowed' : ''}
@@ -247,6 +250,46 @@ export default function StoreManagementPage() {
           emptyMessage="Arama kriterlerinize uyan satıcı bulunmuyor."
         />
       </div>
+
+      <ActionModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedStore(null);
+        }}
+        title={selectedStore?.isActive ? "Mağazayı Askıya Al" : "Mağazayı Onayla / Aç"}
+        description={selectedStore ? `"${selectedStore.name}" isimli mağazanın durumunu değiştirmek istediğinize emin misiniz?` : ""}
+      >
+        <div className="flex justify-end gap-3 mt-6">
+          <button
+            onClick={() => {
+              setIsModalOpen(false);
+              setSelectedStore(null);
+            }}
+            className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
+              isDark 
+                ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            İptal
+          </button>
+          <button
+            onClick={() => {
+              if (selectedStore) {
+                toggleStatus(selectedStore.id, selectedStore.isActive);
+              }
+            }}
+            className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
+              selectedStore?.isActive
+                ? 'bg-red-500 text-white hover:bg-red-600'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            {saving === selectedStore?.id ? 'İşleniyor...' : 'Evet, Onayla'}
+          </button>
+        </div>
+      </ActionModal>
     </div>
   );
 }

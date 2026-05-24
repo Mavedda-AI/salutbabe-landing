@@ -4,8 +4,9 @@ import {Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import {PageHeader} from '../../components/ui/PageHeader';
 import {ActionModal} from '../../components/ui/StatusBadge';
+import {apiUrl} from '../../../../lib/api';
 
-type SettingItem = { key: string; label: string; value: string; type: 'input' | 'select' | 'toggle' };
+type SettingItem = { key: string; label: string; value: string; type: 'input' | 'select' | 'toggle'; options?: string[] };
 type SettingsSection = { section: string; items: SettingItem[] };
 
 export default function SystemSettingsPage() {
@@ -23,7 +24,6 @@ export default function SystemSettingsPage() {
         return;
       }
       
-      const { apiUrl } = require('../../../../../lib/api');
       const res = await fetch(apiUrl('/admin/settings'), {
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -103,10 +103,11 @@ export default function SystemSettingsPage() {
                       </button>
                     ) : item.type === 'select' ? (
                       <select value={item.value} onChange={e => updateValue(si, ii, e.target.value)} className="w-40 px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0B0C0E] text-[12px] font-bold text-[#111827] dark:text-white text-right focus:outline-none focus:border-[#007AFF]">
-                        {item.key === 'default_carrier' && <><option>Yurtiçi Kargo</option><option>PTT Kargo</option><option>MNG Kargo</option><option>Aras Kargo</option></>}
-                        {item.key === 'payment_cycle' && <><option>T+1</option><option>T+3</option><option>T+5</option><option>T+7</option></>}
-                        {item.key === 'return_policy' && <><option>Koşulsuz İade</option><option>Koşullu İade</option><option>Değişim</option></>}
-                        {!['default_carrier', 'payment_cycle', 'return_policy'].includes(item.key) && <option>{item.value}</option>}
+                        {item.options ? item.options.map((opt, oi) => (
+                          <option key={oi} value={opt}>{opt}</option>
+                        )) : (
+                          <option value={item.value}>{item.value}</option>
+                        )}
                       </select>
                     ) : (
                       <input type="text" value={item.value} onChange={e => updateValue(si, ii, e.target.value)} className="w-32 px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0B0C0E] text-[12px] font-bold text-[#111827] dark:text-white text-right focus:outline-none focus:border-[#007AFF]" />
