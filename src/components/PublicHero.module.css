@@ -49,16 +49,15 @@
 }
 
 .togglePill {
-  background-color: white;
   display: flex;
   background-color: white;
   border-radius: 40px;
-  padding: 4px;
+  padding: 6px; /* Increased back from 4px */
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .toggleButton {
-  padding: 8px 16px;
+  padding: 11px 20px; /* Increased top/bottom padding to increase height by ~30% */
   border-radius: 36px;
   border: none;
   background: transparent;
@@ -91,7 +90,7 @@
 }
 
 .headline {
-  font-size: 36px; /* Scaled down significantly */
+  font-size: 32px; /* Even smaller to match Depop's mobile view exactly */
   font-weight: 900;
   color: #111111;
   line-height: 1.1;
@@ -101,15 +100,15 @@
 
 @media (min-width: 768px) {
   .headline {
-    font-size: 46px; /* Matches Depop much closer */
+    font-size: 40px; /* Reduced from 46px to match Depop desktop */
   }
 }
 
 .subhead {
-  font-size: 16px; /* Scaled down slightly */
+  font-size: 16px; 
   font-weight: 500;
   color: #111111;
-  margin-bottom: 24px;
+  margin-bottom: 16px; /* Tightened gap above button */
   letter-spacing: -0.2px;
 }
 
