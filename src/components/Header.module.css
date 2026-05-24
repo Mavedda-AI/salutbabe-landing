@@ -108,7 +108,7 @@
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px; /* Match Depop spacing */
 }
 
 .hamburgerButton {
@@ -130,19 +130,16 @@
 
 .mainLogoTexts {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(2px); /* Optically align text with hamburger */
 }
 
 .mainLogoImage {
+  height: 24px; /* Exact height to match Depop's scale */
+  width: auto;
   object-fit: contain;
-}
-
-.mainLogoSubtitle {
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 600;
+  display: block;
 }
 
 .headerActions {
@@ -162,19 +159,31 @@
 }
 
 .actionIcon {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-.actionIconLang {
+.signupButton {
+  background-color: #2D2D2D;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: var(--text-secondary);
-  font-weight: 800;
-  font-size: 15px;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.signupButton:hover {
+  opacity: 0.9;
 }
 
 /* 3. Search Bar */

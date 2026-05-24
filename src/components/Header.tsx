@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import {Cancel01Icon, GlobalIcon, Menu01Icon, Moon02Icon, Search01Icon} from 'hugeicons-react';
+import {Cancel01Icon, Menu01Icon, Search01Icon, ShoppingBag01Icon} from 'hugeicons-react';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -45,28 +45,22 @@ export default function Header() {
 
           <Link href="/" className={styles.mainLogo}>
             <div className={styles.mainLogoTexts}>
-              <Image 
+              <img 
                 src="/assets/images/logo/logo_salutbabe.png" 
                 alt="SalutBabe Logo" 
-                width={130} 
-                height={30} 
                 className={styles.mainLogoImage} 
               />
-              <span className={styles.mainLogoSubtitle}>Anneden Anneye</span>
             </div>
           </Link>
         </div>
 
-        {/* Right: Actions (Panel, Moon, Lang) */}
+        {/* Right: Actions (Cart, Panel, Sign Up) */}
         <div className={styles.headerActions}>
-          <button className={styles.panelButton}>PANEL</button>
           <button className={styles.actionIcon}>
-            <Moon02Icon size={24} color="currentColor" strokeWidth={2} />
+            <ShoppingBag01Icon size={24} color="currentColor" strokeWidth={2} />
           </button>
-          <button className={styles.actionIconLang}>
-            <GlobalIcon size={20} color="currentColor" strokeWidth={2} />
-            <span className={styles.langText}>TR</span>
-          </button>
+          <button className={styles.panelButton}>PANEL</button>
+          <Link href="/register" className={styles.signupButton}>Kaydol</Link>
         </div>
       </div>
 
