@@ -2,8 +2,26 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
-import {Cancel01Icon, Menu01Icon, Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
+import {Cancel01Icon, Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import styles from './Header.module.css';
+
+const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentColor", className = "" }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke={color} 
+    strokeWidth={strokeWidth} 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M4 6h16" />
+    <path d="M4 12h16" />
+    <path d="M4 18h16" />
+  </svg>
+);
 
 export default function Header() {
   const [showBanner, setShowBanner] = useState(true);
@@ -90,8 +108,8 @@ export default function Header() {
       {/* 3. Search Bar */}
       <div className={styles.searchContainer}>
         <div className={styles.searchBox}>
-          <Search01Icon className={styles.searchIcon} size={20} color="currentColor" strokeWidth={2} />
-          <input type="text" placeholder="Ara..." className={styles.searchInput} />
+          <Search01Icon size={18} color="#666" strokeWidth={2} />
+          <input type="text" placeholder="İstediğini ara" className={styles.searchInput} />
         </div>
       </div>
     </header>

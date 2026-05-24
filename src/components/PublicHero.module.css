@@ -98,24 +98,26 @@
 }
 
 .headline {
-  font-size: 32px; 
-  font-weight: 800;
-  color: var(--primary-dark);
-  line-height: 1.2;
-  margin-bottom: 8px; 
-  letter-spacing: -0.5px;
+  font-size: 42px; 
+  font-weight: 900;
+  color: #111111;
+  line-height: 1.1;
+  margin-bottom: 16px; 
+  letter-spacing: -1.5px;
 }
 
 @media (min-width: 768px) {
   .headline {
-    font-size: 48px;
+    font-size: 56px;
   }
 }
 
 .subhead {
-  font-size: 15px;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #111111;
+  margin-bottom: 32px;
+  letter-spacing: -0.2px;
 }
 
 .primaryButton {
