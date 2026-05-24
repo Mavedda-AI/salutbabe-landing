@@ -1,0 +1,142 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 24px;
+  padding-bottom: 80px; /* Make room for BottomBar */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logoCircle {
+  width: 80px;
+  height: 80px;
+  background-color: var(--primary-dark);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.logoText {
+  color: #FFFFFF;
+  font-size: 40px;
+  font-weight: 900;
+  font-family: var(--font-family);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input {
+  width: 100%;
+  height: 56px;
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: var(--global-radius);
+  padding: 0 20px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.input::placeholder {
+  color: rgba(0,0,0,0.38);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 1px var(--primary-dark);
+}
+
+.forgotPassword {
+  align-self: flex-end;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: -8px;
+}
+
+.loginButton {
+  width: 100%;
+  height: 56px;
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--global-radius);
+  margin-top: 8px;
+}
+
+.divider {
+  text-align: center;
+  position: relative;
+  margin: 16px 0;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: rgba(0,0,0,0.1);
+}
+
+.divider::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: rgba(0,0,0,0.1);
+}
+
+.divider span {
+  font-size: 14px;
+  color: var(--text-secondary);
+  background-color: var(--background);
+  padding: 0 12px;
+}
+
+.socialButton {
+  width: 100%;
+  height: 56px;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--global-radius);
+  border: 1px solid rgba(0,0,0,0.1);
+}
