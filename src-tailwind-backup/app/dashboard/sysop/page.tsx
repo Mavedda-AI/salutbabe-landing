@@ -12,6 +12,11 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {FinanceView} from './finance-management/page';
 import {ModerationView} from './moderation/page';
+import {apiUrl} from "../../../../lib/api";
+import Cookies from "js-cookie";
+import {KPIGrid} from "../../components/ui/KPIGrid";
+import {PageHeader} from "../../components/ui/PageHeader";
+import {FilterTabs} from "../../components/ui/FilterBar";
 
 const initialMapData: Record<string, { users: number; color: string }> = {
   'Marmara': { users: 4820, color: '#1A1A1A' },
@@ -66,25 +71,27 @@ export default function SysopDashboard() {
   const [selectedAlert, setSelectedAlert] = useState<AlertDef | null>(null);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [mockData, setMockData] = useState({
-    gmv: "4,240,500",
-    net: "1,256,940",
-    orders: "6,432",
-    users: "173,247",
-    rooms: "3,247",
-    paymentSuccess: "%92.4"
-  });
+  const [dashboardData, setDashboardData] = useState<any>(null);
 
   useEffect(() => {
     setMounted(true);
-    setMockData({
-      gmv: (Math.random() * (4500000 - 4000000) + 4000000).toLocaleString('en-US', {maximumFractionDigits: 0}),
-      net: (Math.random() * (1300000 - 1200000) + 1200000).toLocaleString('en-US', {maximumFractionDigits: 0}),
-      orders: (Math.random() * (6800 - 6000) + 6000).toLocaleString('en-US', {maximumFractionDigits: 0}),
-      users: (Math.random() * (180000 - 170000) + 170000).toLocaleString('en-US', {maximumFractionDigits: 0}),
-      rooms: (Math.random() * (3500 - 3000) + 3000).toLocaleString('en-US', {maximumFractionDigits: 0}),
-      paymentSuccess: "%" + (Math.random() * (95 - 88) + 88).toFixed(1)
-    });
+    
+    const fetchDashboard = async () => {
+      const token = typeof window !== 'undefined' ? (Cookies.get('admin_token') || localStorage.getItem('token')) : null;
+      if (!token || token === 'mock_token') return;
+      try {
+        const res = await fetch(apiUrl('/admin/dashboard'), {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const json = await res.json();
+        if (json.success && json.data) {
+          setDashboardData(json.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchDashboard();
   }, []);
 
   // --- INTELLIGENCE LAYER STATES ---
@@ -105,17 +112,7 @@ export default function SysopDashboard() {
   const mapMultiplier = getFilterMultiplier();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLiveMapData(prev => {
-        const next = { ...prev };
-        Object.keys(next).forEach(r => {
-          const rChange = Math.floor(Math.random() * 21) - 5;
-          next[r] = { ...next[r], users: Math.max(10, next[r].users + rChange) };
-        });
-        return next;
-      });
-    }, 2500);
-    return () => clearInterval(interval);
+    // Dummy interval removed
   }, []);
 
   const isFounder = true;
@@ -152,16 +149,21 @@ export default function SysopDashboard() {
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto animate-fade-in pb-12 font-sans">
       
-      {/* Role Switcher */}
-      <div className="flex items-center justify-end gap-2 mb-4">
-         <span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
-         <div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100/80 border-gray-200'}`}>
-           <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'founder' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kurucu</button>
-           <button onClick={() => setUserRole('moderator')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'moderator' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>İlan Onay</button>
-           <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'partner' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Operasyon</button>
-           <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'finance' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Finans</button>
-         </div>
-      </div>
+      <PageHeader 
+        title="Sistem Yöneticisi Paneli" 
+        description="Genel istatistikler ve yönetim araçları" 
+        actions={
+          <div className="flex items-center justify-end gap-2">
+            <span className={`text-[12px] font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Görünüm:</span>
+            <div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100/80 border-gray-200'}`}>
+              <button onClick={() => setUserRole('founder')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'founder' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kurucu</button>
+              <button onClick={() => setUserRole('moderator')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'moderator' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>İlan Onay</button>
+              <button onClick={() => setUserRole('partner')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'partner' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Operasyon</button>
+              <button onClick={() => setUserRole('finance')} className={`px-3 py-1 rounded-md text-[11px] transition-all ${userRole === 'finance' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Finans</button>
+            </div>
+          </div>
+        }
+      />
 
       {userRole === 'founder' ? (
         // ==========================================
@@ -258,180 +260,12 @@ export default function SysopDashboard() {
           </div>
           
           {/* ROW 1: 4 STAT CARDS */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div onClick={() => setExpandedCard(expandedCard === 'gmv' ? null : 'gmv')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'gmv' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-                  TOPLAM SATIŞ
-                </h3>
-                <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'gmv' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-              </div>
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>₺{mounted ? '1,256.940' : '1,256.940'}</h2>
-                <span className="text-[11px] font-bold text-green-500 whitespace-nowrap">+₺456</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={badgeGreen}>↗ 12%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>vs geçen ay</span>
-              </div>
-
-              {expandedCard === 'gmv' && (
-                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
-                  <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ürün GMV</span><span className="text-[12px] font-black text-[#111827]">₺{mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.85).toLocaleString('en-US', {maximumFractionDigits:0}) : '3,604,425'}</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Hizmet/Diğer</span><span className="text-[12px] font-black text-[#111827]">₺{mounted ? (parseInt(mockData.gmv.replace(/,/g, '')) * 0.15).toLocaleString('en-US', {maximumFractionDigits:0}) : '636,075'}</span></div>
-                  </div>
-                  <button onClick={() => router.push('/dashboard/sysop/analytics')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                    DETAYLARI GÖRÜNTÜLE
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div onClick={() => setExpandedCard(expandedCard === 'payout' ? null : 'payout')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'payout' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-start md:items-center mb-4">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span className="truncate">NET GELİR</span>
-                </h3>
-                <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-              </div>
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>₺{mounted ? mockData.net : '1,256,940'}</h2>
-                <span className="text-[12px] font-bold text-green-500 whitespace-nowrap">+₺456</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={badgeGreen}>↗ 12%</span>
-                <span className={`text-[11px] font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
-              </div>
-
-              {expandedCard === 'payout' && (
-                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
-                  <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Brüt Komisyon Hacmi</span><span className="text-[12px] font-black text-gray-900">₺1,256,940</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Sanal POS Kesintisi (İş Bankası)</span><span className="text-[12px] font-black text-red-500">-₺31,423</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kargo & İade Farkları</span><span className="text-[12px] font-black text-red-500">-₺18,500</span></div>
-                     <div className="h-px w-full bg-gray-200 my-1"></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-black text-gray-900">Gerçekleşen (True Profit)</span><span className="text-[12px] font-black text-green-600">₺1,207,017</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bekleyen</span><span className="text-[12px] font-black text-orange-500">₺49,923</span></div>
-                  </div>
-                  <button onClick={() => router.push('/dashboard/sysop/finance-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                    DETAYLARI GÖRÜNTÜLE
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div onClick={() => setExpandedCard(expandedCard === 'orders' ? null : 'orders')} className={`${cardClass} flex flex-col p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
-                  <span className="truncate">TOPLAM SİPARİŞ</span>
-                </h3>
-                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'orders' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-              </div>
-              <div className="flex items-baseline justify-between mb-3">
-                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                   <h2 className={textValue}>{mounted ? '6,432' : '6,432'}</h2>
-                   <span className={`text-[12px] font-bold text-gray-500`}>Sipariş</span>
-                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={badgeRed}>↘ 1.8%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>Ürün satışı</span>
-              </div>
-              
-              {/* CONVERSION FUNNEL (Collapsible Layer) */}
-              {expandedCard === 'orders' && (
-                <div className={`mt-4 pt-4 border-t animate-fade-in ${isDark ? 'border-white/10' : 'border-gray-100'}`} onClick={(e) => e.stopPropagation()}>
-                   <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3">Dönüşüm Hunisi</p>
-                   <div className="flex flex-col gap-2 relative mb-4">
-                      {/* Vertical line connector */}
-                      <div className="absolute left-[11px] top-4 bottom-4 w-0.5 bg-gray-200  rounded-full z-0"></div>
-                      
-                      {[{step: 'Görüntüleme', val: '45.2K', drop: null}, {step: 'Sepete Ekleme', val: '12.8K', drop: '-71%'}, {step: 'Ödeme Adımı', val: '8.4K', drop: '-34%'}, {step: 'Satın Alma', val: '6.4K', drop: '-23%'}].map((item, i) => (
-                        <div key={i} className="flex items-center gap-3 relative z-10">
-                           <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 ${isDark ? 'bg-[#121214] border-gray-700 text-gray-400' : 'bg-white border-gray-200 text-gray-500'}`}>
-                             {i+1}
-                           </div>
-                           <div className="flex-1 flex justify-between items-center bg-gray-50  px-3 py-1.5 rounded-lg border border-transparent ">
-                             <span className="text-[11px] font-bold">{item.step}</span>
-                             <div className="flex items-center gap-2">
-                               {item.drop && <span className="text-[9px] font-black text-red-500 bg-red-500/10 px-1 rounded">{item.drop}</span>}
-                               <span className="text-[11px] font-black">{item.val}</span>
-                             </div>
-                           </div>
-                        </div>
-                      ))}
-                   </div>
-                   <div className="flex justify-between items-center mb-4 mt-2 px-1"><span className="text-[11px] font-bold text-gray-500">Ödeme Başarı Oranı</span><span className="text-[12px] font-black text-green-600">{mounted ? mockData.paymentSuccess : '%92.4'}</span></div>
-                   <button onClick={() => router.push('/dashboard/sysop/order-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                     DETAYLARI GÖRÜNTÜLE
-                   </button>
-                </div>
-              )}
-            </div>
-
-            <div onClick={() => setExpandedCard(expandedCard === 'users' ? null : 'users')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'users' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                  <span className="truncate">TOPLAM MÜŞTERİ</span>
-                </h3>
-                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'users' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-              </div>
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{mounted ? '173,247' : '173,247'}</h2>
-                <span className={`text-[12px] font-bold text-gray-500`}>Kişi</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={badgeGreen}>↗ 1.8%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>Yeni müşteri</span>
-              </div>
-
-              {expandedCard === 'users' && (
-                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
-                  <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Aktif Kullanıcı</span><span className="text-[12px] font-black text-green-600">42,105</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Inaktif Kullanıcı</span><span className="text-[12px] font-black text-gray-600">131,142</span></div>
-                  </div>
-                  <button onClick={() => router.push('/dashboard/sysop/user-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                    DETAYLARI GÖRÜNTÜLE
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div onClick={() => setExpandedCard(expandedCard === 'rooms' ? null : 'rooms')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all ${expandedCard === 'rooms' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className={textTitle}>
-                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
-                  <span className="truncate">ETKİLEŞİM</span>
-                </h3>
-                <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-              </div>
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{mounted ? '3,247' : '3,247'}</h2>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={badgeRed}>↘ 2.8%</span>
-                <span className={`text-[10px] font-medium text-gray-400`}>vs geçen ay</span>
-              </div>
-
-              {expandedCard === 'rooms' && (
-                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
-                  <div className="space-y-2 mb-4">
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Aktif Odalar</span><span className="text-[12px] font-black text-[#111827]">142</span></div>
-                     <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Anlık Dinleyici</span><span className="text-[12px] font-black text-purple-600">3,105</span></div>
-                  </div>
-                  <button onClick={() => router.push('/dashboard/sysop/live-room-management')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
-                    DETAYLARI GÖRÜNTÜLE
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          <KPIGrid items={[
+            { label: 'TOPLAM SATIŞ (GMV)', value: `₺${(dashboardData?.totalRevenue || 0).toLocaleString('tr-TR')}`, icon: <HugeiconsIcon icon={ShoppingBag01Icon} size={24} />, colorClass: 'text-[#111827]' },
+            { label: 'NET GELİR', value: `₺${(dashboardData?.totalRevenue ? dashboardData.totalRevenue * 0.9 : 0).toLocaleString('tr-TR')}`, icon: <HugeiconsIcon icon={ShoppingBag01Icon} size={24} />, colorClass: 'text-green-600' },
+            { label: 'TOPLAM SİPARİŞ', value: (dashboardData?.totalOrders || 0).toLocaleString('tr-TR'), icon: <HugeiconsIcon icon={ShoppingBag01Icon} size={24} />, colorClass: 'text-[#111827]' },
+            { label: 'TOPLAM MÜŞTERİ', value: (dashboardData?.totalUsers || 0).toLocaleString('tr-TR'), icon: <HugeiconsIcon icon={StarIcon} size={24} />, colorClass: 'text-[#111827]' }
+          ]} />
 
           {/* ROW: USER DISTRIBUTION MAP */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
@@ -527,7 +361,7 @@ export default function SysopDashboard() {
                   İLAN ONAYLARI
                 </h3>
                 <div className="flex items-center gap-2">
-                  <div className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600 text-[9px] font-black tracking-wider animate-pulse">24 BEKLİYOR</div>
+                  <div className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-600 text-[9px] font-black tracking-wider animate-pulse">{dashboardData?.pendingListings || 0} BEKLİYOR</div>
                   <svg className={`w-4 h-4 text-gray-300 transition-transform ${expandedCard === 'moderation' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </div>
               </div>
@@ -535,7 +369,7 @@ export default function SysopDashboard() {
               <div className="grid grid-cols-3 gap-4 flex-1">
                 <div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Onay Bekleyen</p>
-                  <p className="text-[22px] font-black text-orange-500">24</p>
+                  <p className="text-[22px] font-black text-orange-500">{dashboardData?.pendingListings || 0}</p>
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Bugün Onaylanan</p>
@@ -1546,14 +1380,16 @@ export default function SysopDashboard() {
         <div className="space-y-6">
           
           {/* INNER TABS FOR OPERASYON */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide hide-scrollbar w-full snap-x">
-             <div className={`flex items-center p-0.5 rounded-lg border w-max ${isDark ? 'bg-[#1A1D1F] border-white/10' : 'bg-gray-100/80 border-gray-200'}`}>
-               <button onClick={() => setOpTab('general')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'general' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Genel Durum</button>
-               <button onClick={() => setOpTab('logistics')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'logistics' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kargo & Desi</button>
-               <button onClick={() => setOpTab('moderation')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'moderation' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Moderasyon</button>
-               <button onClick={() => setOpTab('growth')} className={`shrink-0 snap-start px-3 py-1 rounded-md text-[12px] transition-all ${opTab === 'growth' ? (isDark ? 'bg-white/10 text-white font-black shadow-sm' : 'bg-white text-gray-900 font-black shadow-sm') : 'text-gray-500 font-bold hover:text-gray-900'}`}>Kampanya</button>
-             </div>
-          </div>
+          <FilterTabs
+            tabs={[
+              { id: 'general', label: 'Genel Durum' },
+              { id: 'logistics', label: 'Kargo & Desi' },
+              { id: 'moderation', label: 'Moderasyon' },
+              { id: 'growth', label: 'Kampanya' }
+            ]}
+            activeTab={opTab}
+            onChange={(id) => setOpTab(id as any)}
+          />
 
           {opTab === 'general' ? (
             <>
