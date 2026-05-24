@@ -15,7 +15,8 @@
     "hugeicons-react": "^0.4.0",
     "next": "16.2.5",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.4",
