@@ -68,7 +68,7 @@ export default function PublicHero() {
             {isBuy && <>İkinci el al.<br />Kendi tarzını oluştur.</>}
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
             {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
-            {isStory && <>Her annenin bir hikayesi vardır.</>}
+            {isStory && <>Her Annenin<br />bir hikayesi vardır.</>}
             {isOrganic && <>Çiftçiden ve anneden.<br />Doğadan bebeğinize.</>}
           </h1>
           <p className={`${styles.subhead} ${isOrganic ? styles.textWhiteLight : ''}`}>
