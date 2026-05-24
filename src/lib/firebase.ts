@@ -20,8 +20,13 @@ if (typeof window !== "undefined" && !firebaseConfig.apiKey) {
 }
 
 try {
-  app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-  auth = getAuth(app);
+  if (firebaseConfig.apiKey) {
+    app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    auth = getAuth(app);
+  } else {
+    // Mock auth so UI doesn't crash when imported
+    auth = {} as any;
+  }
 } catch (error) {
   console.error("Firebase initialization error", error);
   auth = null as any;

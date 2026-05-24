@@ -1,10 +1,10 @@
 "use client";
 
 import React, {useState} from "react";
-import {useThemeLanguage} from "../../context/ThemeLanguageContext";
-import {useToast} from "../../context/ToastContext";
-import {apiUrl} from "../../lib/api";
-import {auth} from "../../lib/firebase";
+import {useThemeLanguage} from "@/context/ThemeLanguageContext";
+import {useToast} from "@/context/ToastContext";
+import {apiUrl} from "@/lib/api";
+import {auth} from "@/lib/firebase";
 import {GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 
 const LoginPage = () => {

@@ -1,4 +1,6 @@
 import type {Metadata} from 'next'
+import {ThemeLanguageProvider} from '@/context/ThemeLanguageContext';
+import {ToastProvider} from '@/context/ToastContext';
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body>
-        {children}
+        <ThemeLanguageProvider>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </ThemeLanguageProvider>
       </body>
     </html>
   )
