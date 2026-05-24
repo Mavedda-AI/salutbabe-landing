@@ -24,7 +24,7 @@ export default function PublicHero() {
       <div className={styles.heroContainer}>
         
         {/* Top Text Section */}
-        <div className={styles.textSection}>
+        <div className={styles.textSection} key={`text-${activeTab}`}>
           <div className={styles.toggleContainer}>
             <div className={styles.togglePill}>
               <button 
@@ -71,7 +71,7 @@ export default function PublicHero() {
         </div>
 
         {/* Feature Cards */}
-        <div className={styles.featuresRow}>
+        <div className={styles.featuresRow} key={`features-${activeTab}`}>
           <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
             <Shield01Icon size={24} color="#414141" strokeWidth={1.5} className={styles.featureIcon} />
             <h3 className={styles.featureTitle}>{isBuy ? "Güvenle Al" : "Güvenle Sat"}</h3>
