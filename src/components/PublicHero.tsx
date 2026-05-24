@@ -50,12 +50,12 @@ export default function PublicHero() {
 
         {/* Feature Cards */}
         <div className={styles.featuresRow}>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
             <Shield01Icon size={20} color="var(--primary-dark)" strokeWidth={1.5} className={styles.featureIcon} />
             <h3 className={styles.featureTitle}>{isBuy ? "Güvenle Al" : "Güvenle Sat"}</h3>
             <p className={styles.featureDesc}>Salutbabe Koruması</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
             {isBuy ? (
               <TShirtIcon size={20} color="var(--primary-dark)" strokeWidth={1.5} className={styles.featureIcon} />
             ) : (
@@ -64,7 +64,7 @@ export default function PublicHero() {
             <h3 className={styles.featureTitle}>{isBuy ? "2M+" : "Hızlıca İlan Ver"}</h3>
             <p className={styles.featureDesc}>{isBuy ? "Satıştaki ürün" : "Yapay zeka destekli"}</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
             {isBuy ? (
               <SparklesIcon size={20} color="var(--primary-dark)" strokeWidth={1.5} className={styles.featureIcon} />
             ) : (

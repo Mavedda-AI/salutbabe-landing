@@ -46,7 +46,7 @@ export default function Header() {
           <Link href="/" className={styles.mainLogo}>
             <div className={styles.mainLogoTexts}>
               <Image 
-                src="/assets/images/icon/icon_salutbabe_heart.svg" 
+                src="/assets/images/logo/logo_salutbabe.png" 
                 alt="SalutBabe Logo" 
                 width={130} 
                 height={30} 
