@@ -20,18 +20,7 @@
 }
 
 .bgStory {
-  background: linear-gradient(180deg, #A8247D 0%, #851860 100%); /* Magenta/Plum gradient */
-}
-
-/* Override text colors for dark background in Story mode */
-.bgStory .headline,
-.bgStory .subhead {
-  color: white;
-}
-
-.bgStory .primaryButton {
-  background-color: white;
-  color: #851860;
+  background: linear-gradient(180deg, #FDF4FF 0%, #F5D0FE 100%); /* Fuchsia gradient */
 }
 
 .heroContainer {
@@ -105,8 +94,7 @@
 }
 
 .activeToggleStory {
-  background-color: #851860; 
-  color: white;
+  background-color: #F5D0FE; /* Fuchsia tone */
 }
 
 .headline {
@@ -136,7 +124,7 @@
   font-size: 15px; 
   font-weight: 700;
   padding: 14px 48px; 
-  border-radius: 4px;
+  border-radius: 8px; /* Increased border radius */
   text-decoration: none;
   display: inline-block;
   transition: opacity 0.2s;
