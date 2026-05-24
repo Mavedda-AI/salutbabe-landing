@@ -6,18 +6,20 @@ import styles from './PublicHero.module.css';
 import {DeliveryTruck01Icon, SparklesIcon, TShirtIcon} from 'hugeicons-react';
 
 export default function PublicHero() {
-  const [activeTab, setActiveTab] = useState<'buy' | 'sell' | 'live' | 'story'>('buy');
+  const [activeTab, setActiveTab] = useState<'buy' | 'sell' | 'live' | 'story' | 'organic'>('buy');
 
   const isBuy = activeTab === 'buy';
   const isSell = activeTab === 'sell';
   const isLive = activeTab === 'live';
   const isStory = activeTab === 'story';
+  const isOrganic = activeTab === 'organic';
 
   // Determine background based on state
   let bgClass = styles.bgBuy;
   if (isSell) bgClass = styles.bgSell;
   else if (isLive) bgClass = styles.bgLive;
   else if (isStory) bgClass = styles.bgStory;
+  else if (isOrganic) bgClass = styles.bgOrganic;
 
   return (
     <section className={`${styles.heroWrapper} ${bgClass}`}>
@@ -53,6 +55,12 @@ export default function PublicHero() {
               >
                 Hikayemiz
               </button>
+              <button 
+                className={`${styles.toggleButton} ${isOrganic ? styles.activeToggleOrganic : ''}`}
+                onClick={() => setActiveTab('organic')}
+              >
+                Salut Organik
+              </button>
             </div>
           </div>
           
@@ -61,16 +69,18 @@ export default function PublicHero() {
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
             {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
             {isStory && <>Her annenin bir hikayesi vardır.<br />Biz de o hikayeyi devam ettiriyoruz.</>}
+            {isOrganic && <>En saf dokunuş.<br />Doğadan bebeğinize.</>}
           </h1>
           <p className={styles.subhead}>
             {isBuy && "Sürdürülebilir ve güvenilir ikinci el alışveriş."}
             {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
             {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
             {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
-          </p>
+            {isOrganic && "Sürdürülebilir, %100 organik pamuklu yepyeni koleksiyonumuzu keşfedin."}
+          </p>>
           
           <Link href="/register" className={styles.primaryButton}>
-            {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : "Hikayemizi Oku"}
+            {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : isStory ? "Hikayemizi Oku" : "Koleksiyonu İncele"}
           </Link>
         </div>
 
@@ -90,9 +100,9 @@ export default function PublicHero() {
               </svg>
             )}
             <h3 className={styles.featureTitle}>
-              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenli Sohbet" : "Güvenli Alan"}
+              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenli Sohbet" : isStory ? "Güvenli Alan" : "Sertifikalı"}
             </h3>
-            <p className={styles.featureDesc}>Salutbabe Koruması</p>
+            <p className={styles.featureDesc}>{isOrganic ? "GOTS Organik Sertifikası" : "Salutbabe Koruması"}</p>
           </div>
 
           {/* Dynamic Cards 2 & 3 */}
@@ -112,6 +122,9 @@ export default function PublicHero() {
             } else if (isStory) {
               card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Sürdürülebilir", desc: "İsrafı önleme vizyonu" };
               card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Anneden Anneye", desc: "Empati ve topluluk" };
+            } else if (isOrganic) {
+              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Doğa Dostu", desc: "Sürdürülebilir üretim" };
+              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Hassas Ciltler", desc: "Alerjen içermez" };
             }
 
             return (
@@ -154,6 +167,11 @@ export default function PublicHero() {
               img1 = "https://images.unsplash.com/photo-1542385151-efd9000785a0?w=600"; 
               img2 = "https://images.unsplash.com/photo-1560707857-b897819e06fb?w=600"; 
               img3 = "https://images.unsplash.com/photo-1570657891791-e39a9d185540?w=600"; 
+            } else if (isOrganic) {
+              // Organic neutral baby clothes
+              img1 = "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600";
+              img2 = "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600";
+              img3 = "https://images.unsplash.com/photo-1622290319146-7b63df48a635?w=600";
             }
 
             return (
