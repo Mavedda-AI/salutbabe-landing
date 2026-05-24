@@ -1,0 +1,114 @@
+.heroWrapper {
+  width: 100%;
+  background-color: #F7F4F2; /* onboard2Bg light beige color to feel warm */
+  padding: 40px 20px;
+  margin-bottom: 24px;
+}
+
+.heroContainer {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 32px;
+}
+
+@media (min-width: 992px) {
+  .heroContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 40px;
+  }
+}
+
+.textContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.headline {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--primary-dark);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .headline {
+    font-size: 48px;
+  }
+}
+
+.subhead {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 32px;
+  max-width: 500px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 26px; /* Pill shape */
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.primaryButton:hover {
+  opacity: 0.9;
+}
+
+.secondaryButton {
+  background-color: transparent;
+  color: var(--primary-dark);
+  padding: 14px 32px;
+  border-radius: 26px; /* Pill shape */
+  border: 2px solid var(--primary-dark);
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.secondaryButton:hover {
+  background-color: var(--primary-dark);
+  color: white;
+}
+
+.imageContent {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroImage {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 24px;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  box-shadow: var(--shadow-soft);
+}

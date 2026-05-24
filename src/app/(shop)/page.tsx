@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard from '@/components/ProductCard';
+import PublicHero from '@/components/PublicHero';
 import {
   Add01Icon,
   ArrowDown01Icon,
@@ -55,9 +56,13 @@ const MOCK_PRODUCTS = [
 
 export default function HomeFeed() {
   return (
-    <div className={styles.feedContainer}>
+    <>
+      {/* Vinted/Depop Style Public Landing Banner */}
+      <PublicHero />
       
-      {/* 1. Feed Header (Search, Tabs, Icons) */}
+      <div className={styles.feedContainer}>
+        
+        {/* 1. Feed Header (Search, Tabs, Icons) */}
       <div className={styles.feedHeader}>
         <button className={styles.iconButton}>
           <Search01Icon size={24} color="currentColor" strokeWidth={2} />
@@ -151,5 +156,6 @@ export default function HomeFeed() {
         </div>
       </section>
     </div>
+    </>
   );
 }
