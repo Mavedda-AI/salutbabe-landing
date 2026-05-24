@@ -92,6 +92,10 @@
   background-color: #F5D0FE; /* Fuchsia tone */
 }
 
+.activeToggleOrganic {
+  background-color: #E6E2D8; /* Soft natural earthy beige */
+}
+
 .headline {
   font-family: 'Fellix', sans-serif;
   font-size: 28px; /* Matched to Depop's relative sizing */
