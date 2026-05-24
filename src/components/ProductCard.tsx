@@ -1,4 +1,5 @@
 import React from 'react';
+import {FavouriteIcon, ViewIcon} from 'hugeicons-react';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
@@ -39,19 +40,13 @@ export default function ProductCard({
         
         {/* Heart Icon Top Right (Inside Image) */}
         <button className={styles.favoriteButton} aria-label="Favorite">
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill={isFavorite ? "red" : "none"}
-            stroke={isFavorite ? "red" : "white"}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={styles.heartIcon}
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
+          <FavouriteIcon 
+             className={styles.heartIcon} 
+             size={28} 
+             color={isFavorite ? "red" : "white"} 
+             fill={isFavorite ? "red" : "none"}
+             strokeWidth={2.5} 
+          />
         </button>
 
         {/* Optional Badge */}
@@ -75,15 +70,10 @@ export default function ProductCard({
               {statsText && (
                 <div className={styles.statsItem}>
                   {statsIcon === 'heart' && (
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="#D32F2F" stroke="#D32F2F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
+                    <FavouriteIcon size={12} color="#D32F2F" fill="#D32F2F" strokeWidth={2} />
                   )}
                   {statsIcon === 'eye' && (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#757575" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                      <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
+                    <ViewIcon size={14} color="#757575" strokeWidth={2} />
                   )}
                   <span className={styles.statsText}>{statsText}</span>
                 </div>
