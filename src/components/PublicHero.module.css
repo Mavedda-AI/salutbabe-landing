@@ -91,12 +91,13 @@
 }
 
 .headline {
+  font-family: 'GT America', sans-serif;
   font-size: 32px; /* Even smaller to match Depop's mobile view exactly */
   font-weight: 900;
   color: #111111;
   line-height: 1.1;
   margin-bottom: 12px; 
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
 }
 
 @media (min-width: 768px) {
