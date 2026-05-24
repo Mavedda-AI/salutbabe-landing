@@ -57,10 +57,15 @@ export default function PublicHero() {
           <h1 className={styles.headline}>
             {isBuy && <>İkinci el al.<br />Kendi tarzını yarat.</>}
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
-            {isLive && <>Canlı yayında keşfet.<br />Anında soru sor.</>}
-            {isStory && <>Bebekler büyür.<br />İyilik ve güven çoğalır.</>}
+            {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
+            {isStory && <>Her annenin bir hikayesi vardır.<br />Biz de o hikayeyi devam ettiriyoruz.</>}
           </h1>
-          <p className={styles.subhead}>Birlikte, anne-çocuk modasını döngüsel tutuyoruz.</p>
+          <p className={styles.subhead}>
+            {isBuy && "Dolaplarda bekleyen o özel parçaları anında keşfedin. Sürdürülebilir, güvenilir ve eşsiz bir ikinci el deneyimi."}
+            {isSell && "Küçülen kıyafetler odanızda yer kaplamasın. Saniyeler içinde ilan verin, güvenle satın ve bütçenize katkı sağlayın."}
+            {isLive && "Sadece bir pazar yeri değil. Açık veya özel sesli odalar kurun, annelerle sohbet edin, bilgilenin ve ilanlarınızı paylaşın."}
+            {isStory && "Bu sadece bir alışveriş platformu değil, bir paylaşım kültürü."}
+          </p>
           
           <Link href="/register" className={styles.primaryButton}>
             {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : "Hikayemizi Oku"}
@@ -83,7 +88,7 @@ export default function PublicHero() {
               </svg>
             )}
             <h3 className={styles.featureTitle}>
-              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenle İzle" : "Güvenli Alan"}
+              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenli Sohbet" : "Güvenli Alan"}
             </h3>
             <p className={styles.featureDesc}>Salutbabe Koruması</p>
           </div>
@@ -100,8 +105,8 @@ export default function PublicHero() {
               card2 = { icon: <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />, title: "Hızlıca İlan Ver", desc: "Yapay zeka destekli" };
               card3 = { icon: <DeliveryTruck01Icon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />, title: "Kolayca Kargola", desc: "Yazıcıya gerek yok" };
             } else if (isLive) {
-              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>, title: "Detaylı İncele", desc: "Gerçek ürüne bak" };
-              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>, title: "Anında Sor", desc: "Saniyeler içinde cevap" };
+              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>, title: "Sesli Odalar", desc: "Açık ve özel yayınlar" };
+              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>, title: "Keşfet & Öğren", desc: "Bilgi al, ilan paylaş" };
             } else if (isStory) {
               card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Sürdürülebilir", desc: "İsrafı önleme vizyonu" };
               card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Anneden Anneye", desc: "Empati ve topluluk" };
@@ -134,7 +139,7 @@ export default function PublicHero() {
             if (isSell) {
               // Messy clothes/closet
               img1 = "https://images.unsplash.com/photo-1540221652346-e5dd6b50f3e7?w=600"; 
-              img2 = "https://images.unsplash.com/photo-1672137233327-37b0c1049e77?w=600"; 
+              img2 = "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?w=600"; // Elegant clothes rack
               img3 = "https://images.unsplash.com/photo-1604072374690-0e7d7bddd54e?w=600"; 
             } else if (isLive) {
               // Video call & community
