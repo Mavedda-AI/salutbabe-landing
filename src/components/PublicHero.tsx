@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 import styles from './PublicHero.module.css';
-import {Shield01Icon, SparklesIcon, TShirtIcon} from 'hugeicons-react';
+import {SparklesIcon, TShirtIcon} from 'hugeicons-react';
 
 export default function PublicHero() {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell' | 'live' | 'story'>('buy');
@@ -73,7 +73,10 @@ export default function PublicHero() {
         {/* Feature Cards */}
         <div className={styles.featuresRow} key={`features-${activeTab}`}>
           <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
-            <Shield01Icon size={24} color="#414141" strokeWidth={1.5} className={styles.featureIcon} />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="M9 12l2 2 4-4"></path>
+            </svg>
             <h3 className={styles.featureTitle}>{isBuy ? "Güvenle Al" : "Güvenle Sat"}</h3>
             <p className={styles.featureDesc}>Salutbabe Koruması</p>
           </div>
