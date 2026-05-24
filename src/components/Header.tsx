@@ -78,10 +78,10 @@ export default function Header() {
 
       {/* 2. Main Header (Logo, Menu, Actions) */}
       <div className={styles.mainHeader}>
-        {/* Left Side: Hamburger & Logo */}
+        {/* Left: Hamburger + Logo */}
         <div className={styles.headerLeft}>
-          <button className={styles.hamburgerButton}>
-            <Menu01Icon size={30} color="currentColor" strokeWidth={2.5} />
+          <button className={styles.iconButton}>
+            <CustomHamburgerIcon size={28} color="#111" strokeWidth={2.5} />
           </button>
 
           <Link href="/" className={styles.mainLogo}>
