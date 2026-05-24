@@ -115,7 +115,7 @@
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 16px; /* Adjusted gap to look more balanced */
+  gap: 22px; /* Increased gap to match Depop */
 }
 
 .hamburgerButton {
@@ -142,10 +142,11 @@
 }
 
 .mainLogoImage {
-  height: 28px; /* Slightly larger to match hamburger scale */
+  height: 28px; 
   width: auto;
   object-fit: contain;
   display: block;
+  transform: translateY(4px); /* Optically center the text to compensate for transparent padding in PNG */
 }
 
 .headerActions {
