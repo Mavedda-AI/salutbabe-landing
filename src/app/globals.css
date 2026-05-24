@@ -17,6 +17,19 @@
   --price-red: #D32F2F;
   --stat-grey: #757575; /* grey[600] */
   --old-price-grey: #BDBDBD; /* grey[400] */
+
+  /* Global Soft Shadows */
+  --shadow-soft: 0px 4px 14px rgba(0, 0, 0, 0.05);
+  --shadow-bottom-bar: 0px -6px 14px rgba(0, 0, 0, 0.08);
+
+  /* Eco Banner */
+  --eco-gradient-start: #A3E635;
+  --eco-gradient-end: #D9F99D;
+  --eco-border: rgba(5, 150, 105, 0.2);
+  
+  /* Badges */
+  --badge-fast-reply: #10B981;
+  --badge-unread: #E53935;
 }
 
 /* Dark mode is temporarily disabled to force Light Mode
