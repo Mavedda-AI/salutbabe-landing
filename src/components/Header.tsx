@@ -81,24 +81,22 @@ export default function Header() {
         {/* Left: Hamburger + Logo */}
         <div className={styles.headerLeft}>
           <button className={styles.hamburgerButton}>
-            <CustomHamburgerIcon size={28} color="#111" strokeWidth={2.5} />
+            <CustomHamburgerIcon size={24} color="#111" strokeWidth={2} />
           </button>
 
           <Link href="/" className={styles.mainLogo}>
-            <div className={styles.mainLogoTexts}>
-              <img 
-                src="/assets/images/logo/logo_salutbabe.png" 
-                alt="SalutBabe Logo" 
-                className={styles.mainLogoImage} 
-              />
-            </div>
+            <img 
+              src="/assets/images/logo/logo_salutbabe.png" 
+              alt="SalutBabe" 
+              className={styles.mainLogoImage} 
+            />
           </Link>
         </div>
 
         {/* Right: Actions (Cart, Panel, Sign Up) */}
         <div className={styles.headerActions}>
           <button className={styles.actionIcon}>
-            <ShoppingBasket02Icon size={26} color="currentColor" strokeWidth={2} />
+            <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
           <button className={styles.panelButton}>PANEL</button>
           <Link href="/register" className={styles.signupButton}>Kaydol</Link>

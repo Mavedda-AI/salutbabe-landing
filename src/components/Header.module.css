@@ -106,7 +106,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
+  padding: 16px 24px;
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
@@ -115,7 +115,7 @@
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 24px; /* Increased gap to match screenshot */
+  gap: 16px; /* Back to Depop's tighter gap */
 }
 
 .hamburgerButton {
@@ -136,11 +136,10 @@
 }
 
 .mainLogoImage {
-  height: 28px; 
+  height: 24px; /* Reduced to match Depop's small logo */
   width: auto;
   object-fit: contain;
   display: block;
-  transform: translateY(3px); /* Visually center the text with the hamburger */
 }
 
 .headerActions {
@@ -205,7 +204,7 @@
   border: 1.5px solid #111111; /* Dark crisp border like Depop */
   border-radius: 30px;
   padding: 0 16px;
-  height: 42px; 
+  height: 48px; /* Taller search bar like Depop */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
