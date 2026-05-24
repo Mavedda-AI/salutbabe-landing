@@ -8,98 +8,7 @@
   flex-direction: column;
 }
 
-/* 1. App Banner */
-.appBanner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #111111; /* Very dark, almost black */
-  padding: 12px 16px;
-  position: relative;
-}
 
-.bannerLeft {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bannerLogo {
-  width: 44px;
-  height: 44px;
-  background-color: white;
-  border-radius: 12px; /* Squircle */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.bannerLogoImg {
-  width: 36px; /* Fit perfectly inside the squircle */
-  height: auto;
-  object-fit: contain;
-}
-
-.bannerTexts {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.bannerTitle {
-  color: #FFFFFF;
-  font-size: 15px;
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.bannerSubtitle {
-  color: #A0A0A0;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.bannerRight {
-  display: flex;
-  align-items: center;
-}
-
-.openAppButton {
-  background-color: white;
-  color: black;
-  font-weight: 800;
-  font-size: 13px;
-  padding: 6px 18px;
-  border-radius: 20px; /* Pill shape */
-  border: 2px solid #007AFF; /* Vibrant blue border */
-  cursor: pointer;
-  margin-right: 12px;
-  transition: opacity 0.2s;
-}
-
-.openAppButton:hover {
-  opacity: 0.8;
-}
-
-.closeBannerButton {
-  color: #888888;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-.bannerBottomLine {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #3B82F6 0%, #EC659C 100%);
-}
 
 /* 2. Main Header */
 .mainHeader {
@@ -136,10 +45,18 @@
 }
 
 .mainLogoImage {
-  height: 24px; /* Reduced to match Depop's small logo */
+  height: 20px;
   width: auto;
   object-fit: contain;
   display: block;
+}
+
+.headerTitleText {
+  font-size: 10px;
+  line-height: 1.1;
+  color: #111;
+  font-weight: 500;
+  margin-left: 4px;
 }
 
 .headerActions {
@@ -151,12 +68,13 @@
 .panelButton {
   background-color: #E8F5E9; /* Light green to match the reference */
   color: #2E7D32;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 .actionIcon {
@@ -167,24 +85,6 @@
   background: transparent;
   border: none;
   cursor: pointer;
-}
-
-.signupButton {
-  background-color: #2D2D2D;
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 8px 16px;
-  border-radius: 8px; /* Increased border radius */
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s;
-}
-
-.signupButton:hover {
-  opacity: 0.9;
 }
 
 /* 3. Search Bar */
@@ -235,29 +135,28 @@
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .mainHeader {
-    padding: 12px 12px; /* Less padding on small screens */
+    padding: 12px 16px;
   }
   
   .headerLeft {
-    gap: 12px; /* Reduce gap between hamburger and logo */
+    gap: 8px;
   }
   
   .headerActions {
-    gap: 10px; /* Reduce gaps between actions */
+    gap: 12px;
   }
   
   .mainLogoImage {
-    height: 22px; /* Scale logo down slightly */
-    transform: translateY(2px); /* Adjust visual offset for smaller size */
+    height: 18px;
+  }
+  
+  .headerTitleText {
+    font-size: 9px;
+    letter-spacing: -0.2px;
   }
   
   .panelButton {
     padding: 6px 10px;
-    font-size: 12px;
-  }
-  
-  .signupButton {
-    padding: 8px 12px;
-    font-size: 13px;
+    font-size: 11px;
   }
 }

@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
-import {Cancel01Icon, Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
+import {Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import MobileDrawer from './MobileDrawer';
 import styles from './Header.module.css';
 
@@ -51,33 +51,6 @@ export default function Header() {
 
   return (
     <header className={styles.headerWrapper}>
-      {/* 1. App Banner (Black Bar) */}
-      {showBanner && (
-        <div className={styles.appBanner}>
-          <div className={styles.bannerLeft}>
-            <div className={styles.bannerLogo}>
-              <img 
-                src="/assets/images/logo/logo_salutbabe.png" 
-                alt="SalutBabe App" 
-                className={styles.bannerLogoImg} 
-              />
-            </div>
-            <div className={styles.bannerTexts}>
-              <span className={styles.bannerTitle}>SalutBabe Uygulaması</span>
-              <span className={styles.bannerSubtitle}>Daha hızlı alışveriş deneyimi</span>
-            </div>
-          </div>
-          <div className={styles.bannerRight}>
-            <button className={styles.openAppButton} onClick={handleOpenApp}>AÇ</button>
-            <button className={styles.closeBannerButton} onClick={() => setShowBanner(false)}>
-              <Cancel01Icon size={20} color="currentColor" strokeWidth={2} />
-            </button>
-          </div>
-          {/* Subtle gradient line at the bottom of the banner */}
-          <div className={styles.bannerBottomLine}></div>
-        </div>
-      )}
-
       {/* 2. Main Header (Logo, Menu, Actions) */}
       <div className={styles.mainHeader}>
         {/* Left: Hamburger + Logo */}
@@ -93,15 +66,9 @@ export default function Header() {
               className={styles.mainLogoImage} 
             />
           </Link>
-        </div>
-
-        {/* Scrollable Categories for Mobile */}
-        <div className={styles.categoryLinksScroll}>
-          <Link href="/category/anne" className={styles.categoryPill}>ANNE</Link>
-          <Link href="/category/bebek" className={styles.categoryPill}>BEBEK</Link>
-          <Link href="/category/cocuk" className={styles.categoryPill}>ÇOCUK</Link>
-          <Link href="/category/oyuncak" className={styles.categoryPill}>OYUNCAK</Link>
-          <Link href="/category/arac-gerec" className={styles.categoryPill}>ARAÇ GEREÇ</Link>
+          <div className={styles.headerTitleText}>
+            ANNEBEBEKÇOCUKOYUNCAKARAÇ<br/>GEREÇ
+          </div>
         </div>
 
         {/* Right: Actions (Cart, Panel, Sign Up) */}
@@ -110,7 +77,6 @@ export default function Header() {
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
           <button className={styles.panelButton}>PANEL</button>
-          <Link href="/register" className={styles.signupButton}>Kaydol</Link>
         </div>
       </div>
 
