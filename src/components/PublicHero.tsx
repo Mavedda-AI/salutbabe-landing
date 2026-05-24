@@ -69,18 +69,18 @@ export default function PublicHero() {
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
             {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
             {isStory && <>Her annenin bir hikayesi vardır.<br />Biz de o hikayeyi devam ettiriyoruz.</>}
-            {isOrganic && <>En saf dokunuş.<br />Doğadan bebeğinize.</>}
+            {isOrganic && <>Çiftçiden ve anneden.<br />Doğadan bebeğinize.</>}
           </h1>
           <p className={styles.subhead}>
             {isBuy && "Sürdürülebilir ve güvenilir ikinci el alışveriş."}
             {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
             {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
             {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
-            {isOrganic && "Sürdürülebilir, %100 organik pamuklu yepyeni koleksiyonumuzu keşfedin."}
+            {isOrganic && "Çiftçiler ve üreten annelerin özenle hazırladığı %100 doğal ürünleri keşfedin."}
           </p>
           
           <Link href="/register" className={styles.primaryButton}>
-            {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : isStory ? "Hikayemizi Oku" : "Koleksiyonu İncele"}
+            {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : isStory ? "Hikayemizi Oku" : "Organikleri Keşfet"}
           </Link>
         </div>
 
@@ -100,9 +100,9 @@ export default function PublicHero() {
               </svg>
             )}
             <h3 className={styles.featureTitle}>
-              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenli Sohbet" : isStory ? "Güvenli Alan" : "Sertifikalı"}
+              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenli Sohbet" : isStory ? "Güvenli Alan" : "Doğal Üretim"}
             </h3>
-            <p className={styles.featureDesc}>{isOrganic ? "GOTS Organik Sertifikası" : "Salutbabe Koruması"}</p>
+            <p className={styles.featureDesc}>{isOrganic ? "Katkısız ve saf" : "Salutbabe Koruması"}</p>
           </div>
 
           {/* Dynamic Cards 2 & 3 */}
@@ -123,8 +123,8 @@ export default function PublicHero() {
               card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Sürdürülebilir", desc: "İsrafı önleme vizyonu" };
               card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Anneden Anneye", desc: "Empati ve topluluk" };
             } else if (isOrganic) {
-              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Doğa Dostu", desc: "Sürdürülebilir üretim" };
-              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Hassas Ciltler", desc: "Alerjen içermez" };
+              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M17 10h-2V8a5 5 0 0 0-10 0v2H3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10z"></path><path d="M7 10V8a5 5 0 0 1 10 0v2"></path></svg>, title: "Üreten Anneler", desc: "El emeği ürünler" };
+              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>, title: "Yerel Çiftçiler", desc: "Tarladan direkt size" };
             }
 
             return (
