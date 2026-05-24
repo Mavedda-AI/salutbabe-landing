@@ -61,10 +61,10 @@ export default function PublicHero() {
             {isStory && <>Her annenin bir hikayesi vardır.<br />Biz de o hikayeyi devam ettiriyoruz.</>}
           </h1>
           <p className={styles.subhead}>
-            {isBuy && "Dolaplarda bekleyen o özel parçaları anında keşfedin. Sürdürülebilir, güvenilir ve eşsiz bir ikinci el deneyimi."}
-            {isSell && "Küçülen kıyafetler odanızda yer kaplamasın. Saniyeler içinde ilan verin, güvenle satın ve bütçenize katkı sağlayın."}
-            {isLive && "Sadece bir pazar yeri değil. Açık veya özel sesli odalar kurun, annelerle sohbet edin, bilgilenin ve ilanlarınızı paylaşın."}
-            {isStory && "Bu sadece bir alışveriş platformu değil, bir paylaşım kültürü."}
+            {isBuy && "Özel parçaları anında keşfet. Sürdürülebilir ve güvenilir ikinci el alışveriş."}
+            {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
+            {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
+            {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
           </p>
           
           <Link href="/register" className={styles.primaryButton}>
