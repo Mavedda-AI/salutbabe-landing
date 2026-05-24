@@ -87,7 +87,7 @@ export default function PublicHero() {
         {/* Feature Cards */}
         <div className={styles.featuresRow} key={`features-${activeTab}`}>
           {/* Card 1: Static Shield (Applies to all but Buy) */}
-          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
+          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''} ${isOrganic ? styles.featureCardOrganic : ''}`}>
             {isBuy ? (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}>
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -129,12 +129,12 @@ export default function PublicHero() {
 
             return (
               <>
-                <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
+                <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''} ${isOrganic ? styles.featureCardOrganic : ''}`}>
                   {card2.icon}
                   <h3 className={styles.featureTitle}>{card2.title}</h3>
                   <p className={styles.featureDesc}>{card2.desc}</p>
                 </div>
-                <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
+                <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''} ${isOrganic ? styles.featureCardOrganic : ''}`}>
                   {card3.icon}
                   <h3 className={styles.featureTitle}>{card3.title}</h3>
                   <p className={styles.featureDesc}>{card3.desc}</p>
@@ -168,10 +168,10 @@ export default function PublicHero() {
               img2 = "https://images.unsplash.com/photo-1560707857-b897819e06fb?w=600"; 
               img3 = "https://images.unsplash.com/photo-1570657891791-e39a9d185540?w=600"; 
             } else if (isOrganic) {
-              // Organic neutral baby clothes
-              img1 = "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600";
-              img2 = "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600";
-              img3 = "https://images.unsplash.com/photo-1622290319146-7b63df48a635?w=600";
+              // Organic foods (jam, vegetables, natural jars)
+              img1 = "https://images.unsplash.com/photo-1632848129232-f816b590e5e3?w=600";
+              img2 = "https://images.unsplash.com/photo-1659822887922-c1386185cc6b?w=600";
+              img3 = "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=600";
             }
 
             return (
