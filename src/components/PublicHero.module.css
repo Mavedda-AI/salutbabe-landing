@@ -52,13 +52,13 @@
   display: flex;
   background-color: white;
   border-radius: 40px;
-  padding: 6px; 
+  padding: 4px; 
   border: 1px solid #EAEAEA; /* Added subtle border like Depop */
   box-shadow: none; /* Depop pill has no shadow */
 }
 
 .toggleButton {
-  padding: 11px 20px; 
+  padding: 8px 16px; 
   border-radius: 36px;
   border: none;
   background: transparent;
@@ -79,7 +79,7 @@
 .activeToggleSell {
   background-color: white; 
   border: 2px solid #FFE800; 
-  padding: 8px 18px; 
+  padding: 6px 14px; 
 }
 
 .activeToggleLive {
@@ -91,13 +91,13 @@
 }
 
 .headline {
-  font-family: 'GT America', sans-serif;
-  font-size: 32px; /* Even smaller to match Depop's mobile view exactly */
+  font-family: 'Fellix', sans-serif;
+  font-size: 28px; /* Matched to Depop's relative sizing */
   font-weight: 900;
   color: #111111;
-  line-height: 1.1;
+  line-height: 1.05;
   margin-bottom: 12px; 
-  letter-spacing: -1.5px;
+  letter-spacing: -1.2px;
 }
 
 @media (min-width: 768px) {
@@ -107,20 +107,21 @@
 }
 
 .subhead {
-  font-size: 16px; 
-  font-weight: 500;
+  font-family: 'Fellix', sans-serif;
+  font-size: 15px; 
+  font-weight: 400;
   color: #111111;
   margin-bottom: 16px; /* Tightened gap above button */
-  letter-spacing: -0.2px;
+  letter-spacing: 0px;
 }
 
 .primaryButton {
   background-color: #111111; /* Darker black */
   color: white;
-  font-size: 15px; /* Slightly larger like Depop */
+  font-size: 14px; /* Slightly larger like Depop */
   font-weight: 800; /* Bolder */
-  padding: 14px 36px; 
-  border-radius: 4px; /* Sharper edges like Depop */
+  padding: 12px 28px; 
+  border-radius: 2px; /* Sharper edges like Depop */
   text-decoration: none;
   display: inline-block;
   transition: opacity 0.2s;
@@ -138,8 +139,8 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 12px; /* Tighter gap */
-  margin-bottom: 48px;
+  gap: 8px; /* Tighter gap */
+  margin-bottom: 24px;
   width: 100%;
   max-width: 900px;
   overflow-x: auto;
@@ -156,16 +157,17 @@
 }
 
 .featureCard {
-  background: white; /* Changed back to solid white so it doesn't blend into gradient */
-  padding: 16px;
-  border-radius: 8px; /* Sharper corners */
-  width: 150px; 
-  min-height: 120px;
+  background: rgba(255, 255, 255, 0.7); /* Soften background to blend like Depop */
+  padding: 12px;
+  border-radius: 8px; /* Slightly softer corners for the cards */
+  width: 130px; 
+  min-height: 96px;
   text-align: left;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02); /* Very subtle shadow just to lift it from gradient */
+  box-shadow: none; /* Removed shadow */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align content to top */
+  justify-content: flex-start;
+  gap: 2px; /* Super tight gap to eliminate empty space */
   flex: 0 0 auto;
   scroll-snap-align: start;
 }
@@ -183,30 +185,30 @@
 }
 
 .featureIcon {
-  margin-bottom: 12px;
+  margin-bottom: 6px; /* Tighten space under icon */
 }
 
 .featureTitle {
-  font-size: 16px; /* Larger title font like Depop */
+  font-size: 14px; 
   font-weight: 800;
-  color: #111111; /* Dark text */
-  margin-bottom: 4px;
-  line-height: 1.2;
+  color: #111111; 
+  margin-bottom: 0px; /* Let gap handle spacing */
+  line-height: 1.1;
 }
 
 .featureDesc {
-  font-size: 14px; /* Larger desc font like Depop */
-  color: #414141; /* Dark gray text */
-  line-height: 1.4;
+  font-size: 13px; 
+  color: #414141; 
+  line-height: 1.1; /* Very tight line height for multi-line description */
 }
 
 /* Gallery overlapping images */
 .imagesGallery {
   position: relative;
   width: 100%;
-  height: 420px; 
+  height: 400px; 
   max-width: 1000px;
-  margin-top: -10px; 
+  margin-top: 0px; 
   display: flex;
   justify-content: center;
 }

@@ -45,7 +45,7 @@
 }
 
 .mainLogoImage {
-  height: 28px;
+  height: 32px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -84,10 +84,10 @@
 .signupButton {
   background-color: #111111;
   color: white;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 2px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -113,10 +113,10 @@
   flex-wrap: nowrap;
   align-items: center;
   background-color: white;
-  border: 1px solid #111111; /* Thinner border for minimalist look */
-  border-radius: 30px;
-  padding: 0 20px;
-  height: 36px; /* Shortened by 1/3 as requested */
+  border: 1.5px solid #111111; /* Thicker border like Depop */
+  border-radius: 24px;
+  padding: 0 16px;
+  height: 44px; /* Taller search box */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -159,7 +159,7 @@
   }
   
   .mainLogoImage {
-    height: 24px;
+    height: 28px;
   }
   
   .panelButton {
