@@ -109,9 +109,9 @@ export default function PublicHero() {
             let img3 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
 
             if (isSell) {
-              img1 = "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600"; 
-              img2 = "https://images.unsplash.com/photo-1627639679690-db4d401aae84?w=600"; 
-              img3 = "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=600"; 
+              img1 = "https://images.unsplash.com/photo-1581442616850-7bcff1d80af7?w=600"; // Taking photo
+              img2 = "https://images.unsplash.com/photo-1604176354204-9268737828e4?w=600"; // Holding clothes
+              img3 = "https://images.unsplash.com/photo-1656543802898-41c8c46683a7?w=600"; // Shipping box 
             } else if (isLive) {
               img1 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
               img2 = "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600"; 
