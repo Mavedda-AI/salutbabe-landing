@@ -2,14 +2,12 @@ import React from 'react';
 import ProductCard from '@/components/ProductCard';
 import PublicHero from '@/components/PublicHero';
 import {
-  Add01Icon,
-  ArrowDown01Icon,
-  Cancel01Icon,
-  DeliveryTruck01Icon,
-  Leaf02Icon,
-  Notification01Icon,
-  Search01Icon,
-  ShoppingCart01Icon
+    Add01Icon,
+    ArrowDown01Icon,
+    DeliveryTruck01Icon,
+    Notification01Icon,
+    Search01Icon,
+    ShoppingCart01Icon
 } from 'hugeicons-react';
 import styles from './page.module.css';
 
@@ -87,21 +85,7 @@ export default function HomeFeed() {
         </div>
       </div>
 
-      {/* 2. Green Banner (Salut Organik) */}
-      <div className={styles.bannerContainer}>
-        <div className={styles.greenBanner}>
-          <div className={styles.bannerContent}>
-            <div className={styles.bannerIconWrapper}>
-              <Leaf02Icon size={18} color="white" strokeWidth={2} />
-            </div>
-            <span className={styles.bannerTitle}>Salut Organik</span>
-            <span className={styles.bannerText}>Yerel çiftçiden, doğal ürünler</span>
-          </div>
-          <button className={styles.bannerCloseButton}>
-            <Cancel01Icon size={16} color="currentColor" strokeWidth={2} />
-          </button>
-        </div>
-      </div>
+
 
       {/* 3. Category Filter Tabs */}
       <div className={styles.categoryFiltersWrapper}>
