@@ -78,26 +78,23 @@ export default function PublicHero() {
         {/* Overlapping Images Gallery */}
         <div className={styles.imagesGallery}>
           <div className={`${styles.galleryImageWrapper} ${styles.imageLeft}`}>
-            <Image 
-              src="/assets/images/baby1.jpeg" 
+            <img 
+              src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=600" 
               alt="Baby Fashion 1" 
-              fill
               className={styles.galleryImg}
             />
           </div>
           <div className={`${styles.galleryImageWrapper} ${styles.imageCenter}`}>
-            <Image 
-              src="/assets/images/baby2.jpeg" 
+            <img 
+              src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600" 
               alt="Baby Fashion 2" 
-              fill
               className={styles.galleryImg}
             />
           </div>
           <div className={`${styles.galleryImageWrapper} ${styles.imageRight}`}>
-            <Image 
-              src="/assets/images/baby3.jpeg" 
+            <img 
+              src="https://images.unsplash.com/photo-1560243563-062bfc001d68?w=600" 
               alt="Baby Fashion 3" 
-              fill
               className={styles.galleryImg}
             />
           </div>
