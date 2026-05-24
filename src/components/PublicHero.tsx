@@ -76,11 +76,11 @@ export default function PublicHero() {
             {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
             {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
             {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
-            {isOrganic && "Çiftçiler ve üreten annelerin özenle hazırladığı %100 doğal ürünleri keşfedin."}
+            {isOrganic && "Çiftçiler ve üreten annelerin ürünlerini keşfedin."}
           </p>
           
           <Link href="/register" className={styles.primaryButton}>
-            {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : isStory ? "Hikayemizi Oku" : "Organikleri Keşfet"}
+            {isBuy ? "Hemen Al" : isSell ? "Hemen Sat" : isLive ? "Odalara Katıl" : isStory ? "Hikayeni Oluştur" : "Doğalı Keşfet"}
           </Link>
         </div>
 
