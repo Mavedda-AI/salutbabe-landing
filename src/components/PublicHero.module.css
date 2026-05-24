@@ -1,74 +1,60 @@
 .heroWrapper {
   width: 100%;
-  background-color: #F7F4F2; /* onboard2Bg light beige color to feel warm */
-  padding: 40px 20px;
-  margin-bottom: 24px;
-}
-
-.heroContainer {
-  max-width: 1600px;
-  margin: 0 auto;
+  background: linear-gradient(180deg, #F9F7F5 0%, #E8F4F8 100%); /* Slight gradient to match image vibe */
+  padding: 60px 20px 20px 20px;
+  overflow: hidden;
   display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 32px;
-}
-
-@media (min-width: 992px) {
-  .heroContainer {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 40px;
-  }
-}
-
-.textContent {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 
+.heroContainer {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Typography & Button */
+.textSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
 .headline {
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 900;
   color: var(--primary-dark);
-  line-height: 1.2;
+  line-height: 1.1;
   margin-bottom: 16px;
+  letter-spacing: -1px;
 }
 
 @media (min-width: 768px) {
   .headline {
-    font-size: 48px;
+    font-size: 56px;
   }
 }
 
 .subhead {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
-  color: var(--text-secondary);
-  line-height: 1.5;
+  color: var(--text-primary);
   margin-bottom: 32px;
-  max-width: 500px;
-}
-
-.buttonGroup {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
 }
 
 .primaryButton {
   background-color: var(--primary-dark);
   color: white;
-  padding: 14px 32px;
-  border-radius: 26px; /* Pill shape */
+  padding: 16px 40px;
+  border-radius: 4px; /* Depop uses less rounded buttons, but we can keep it slightly rounded */
   font-weight: 800;
   font-size: 16px;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   transition: opacity 0.2s;
 }
 
@@ -76,39 +62,147 @@
   opacity: 0.9;
 }
 
-.secondaryButton {
-  background-color: transparent;
-  color: var(--primary-dark);
-  padding: 14px 32px;
-  border-radius: 26px; /* Pill shape */
-  border: 2px solid var(--primary-dark);
-  font-weight: 800;
-  font-size: 16px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.secondaryButton:hover {
-  background-color: var(--primary-dark);
-  color: white;
-}
-
-.imageContent {
-  flex: 1;
+/* Feature Cards */
+.featuresRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; /* Prevents left side clipping on overflow */
+  gap: 12px;
+  margin-bottom: 60px;
   width: 100%;
+  max-width: 900px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  padding-left: 4px;
+  padding-right: 4px;
+  /* Scroll snap for smooth mobile swiping */
+  scroll-snap-type: x mandatory;
+}
+
+/* Hide scrollbar for cleaner look */
+.featuresRow::-webkit-scrollbar {
+  display: none;
+}
+.featuresRow {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (min-width: 768px) {
+  .featuresRow {
+    justify-content: center;
+  }
+}
+
+.featureCard {
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* On mobile: fixed width to prevent text squishing, allow scrolling */
+  flex: 0 0 auto;
+  width: 160px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .featureCard {
+    flex: 1;
+    width: auto;
+    max-width: 220px;
+    padding: 20px;
+  }
+}
+
+.featureIcon {
+  margin-bottom: 12px;
+}
+
+.featureTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #2D2D2D; /* Very dark, like Depop */
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.featureDesc {
+  font-size: 14px;
+  color: #666666; /* Medium dark grey, like Depop */
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Overlapping Images Gallery */
+.imagesGallery {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 900px;
+  height: 400px;
+  margin-top: 20px;
 }
 
-.heroImage {
-  width: 100%;
-  max-width: 600px;
+@media (min-width: 768px) {
+  .imagesGallery {
+    height: 500px;
+  }
+}
+
+.galleryImageWrapper {
+  position: absolute;
+  width: 250px;
+  height: 350px;
   border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .galleryImageWrapper {
+    width: 300px;
+    height: 420px;
+  }
+}
+
+.galleryImg {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  aspect-ratio: 4/3;
-  box-shadow: var(--shadow-soft);
+}
+
+.imageLeft {
+  transform: translateX(-40%) rotate(-12deg);
+  z-index: 1;
+}
+
+.imageCenter {
+  transform: translateY(-20px) rotate(-2deg);
+  z-index: 3;
+}
+
+.imageRight {
+  transform: translateX(40%) rotate(10deg);
+  z-index: 2;
+}
+
+.imageLeft:hover {
+  transform: translateX(-45%) rotate(-14deg) scale(1.05);
+  z-index: 4;
+}
+
+.imageCenter:hover {
+  transform: translateY(-30px) rotate(-2deg) scale(1.05);
+  z-index: 4;
+}
+
+.imageRight:hover {
+  transform: translateX(45%) rotate(12deg) scale(1.05);
+  z-index: 4;
 }
