@@ -36,21 +36,19 @@ export default function Header() {
 
       {/* 2. Main Header (Logo, Menu, Actions) */}
       <div className={styles.mainHeader}>
-        {/* Left: Hamburger */}
-        <button className={styles.hamburgerButton}>
-          <Menu01Icon size={28} color="currentColor" strokeWidth={2} />
-        </button>
+        {/* Left Side: Hamburger & Logo */}
+        <div className={styles.headerLeft}>
+          <button className={styles.hamburgerButton}>
+            <Menu01Icon size={28} color="currentColor" strokeWidth={2} />
+          </button>
 
-        {/* Center: Logo */}
-        <Link href="/" className={styles.centerLogo}>
-          <div className={styles.mainLogoIcon}>
-            <span className={styles.mainLogoText}>salutbabe</span>
-          </div>
-          <div className={styles.mainLogoTexts}>
-            <span className={styles.mainLogoTitle}>SalutBabe</span>
-            <span className={styles.mainLogoSubtitle}>Anneden Anneye</span>
-          </div>
-        </Link>
+          <Link href="/" className={styles.mainLogo}>
+            <div className={styles.mainLogoTexts}>
+              <span className={styles.mainLogoTitle}>SalutBabe</span>
+              <span className={styles.mainLogoSubtitle}>Anneden Anneye</span>
+            </div>
+          </Link>
+        </div>
 
         {/* Right: Actions (Panel, Moon, Lang) */}
         <div className={styles.headerActions}>
