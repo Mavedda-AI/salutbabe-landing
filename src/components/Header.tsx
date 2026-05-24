@@ -73,7 +73,7 @@ export default function Header() {
           <button className={styles.actionIcon}>
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
-          <Link href="/login" className={styles.panelButton}>Dolabım</Link>
+          <Link href="/login" className={styles.panelButton}>Satış Paneli</Link>
           <Link href="/register" className={styles.signupButton}>Kaydol</Link>
         </div>
       </div>
