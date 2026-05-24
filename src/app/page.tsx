@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import BentoHero from "../components/BentoHero";
 import ProductCard from "../components/ProductCard";
 import DiscountCards from "../components/DiscountCards";
 import Leaderboard from "../components/Leaderboard";
@@ -50,9 +51,14 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-24 md:pt-32">
+      {/* Hero Section */}
+      <BentoHero />
+
       {/* Top Discount Section */}
-      <DiscountCards />
+      <div className="mt-12 md:mt-24">
+        <DiscountCards />
+      </div>
       
       {/* Category Sections */}
       {loading ? (
