@@ -1,6 +1,6 @@
 .feedContainer {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding-bottom: 90px;
   background-color: var(--background);
@@ -218,5 +218,11 @@
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
