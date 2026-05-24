@@ -7,8 +7,16 @@
   --accent-pink: #FFF0F3;
   --accent-beige: #F7F4F2;
   --accent-blue: #E8F4F8;
+  
+  /* Pixel-Perfect Flutter Values */
   --global-radius: 16px;
-  --font-family: 'Inter', 'Outfit', sans-serif;
+  --product-card-radius: 20px;
+  --badge-radius: 16px;
+  --font-family: 'Fellix', 'Inter', sans-serif;
+  
+  --price-red: #D32F2F;
+  --stat-grey: #757575; /* grey[600] */
+  --old-price-grey: #BDBDBD; /* grey[400] */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,7 +24,7 @@
     --background: #121212;
     --text-primary: #FFFFFF;
     --text-secondary: #A0A0A0;
-    --input-bg: #2D2D2D;
+    --input-bg: #2D2D2D; /* equivalent to dark mode input in flutter #1E1E1E approx */
     --primary-dark: #FFFFFF;
   }
 }
@@ -48,7 +56,7 @@ button {
 }
 
 .container {
-  max-w: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }

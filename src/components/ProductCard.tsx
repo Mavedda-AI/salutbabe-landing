@@ -1,34 +1,96 @@
+import React from 'react';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
-  image: string;
-  price: string;
   brand: string;
+  price: string;
   sellerName: string;
+  image: string;
+  oldPrice?: string;
+  stats?: string;
+  badgeText?: string;
+  isFavorite?: boolean;
 }
 
-export default function ProductCard({ image, price, brand, sellerName }: ProductCardProps) {
+export default function ProductCard({
+  brand,
+  price,
+  sellerName,
+  image,
+  oldPrice,
+  stats,
+  badgeText,
+  isFavorite = false,
+}: ProductCardProps) {
+  // Extract initials for the avatar fallback
+  const getInitials = (name: string) => {
+    if (!name) return '?';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    return name[0].toUpperCase();
+  };
+
   return (
-    <article className={styles.card}>
-      <div className={styles.imageContainer}>
-        {/* Using a standard img tag since we don't have configured next/image domains */}
-        <img src={image} alt={`${brand} ürünü`} className={styles.image} />
+    <div className={styles.cardContainer}>
+      <div className={styles.imageWrapper}>
+        <img src={image} alt={brand} className={styles.productImage} />
+        
+        {badgeText && (
+          <div className={styles.badgeWrapper}>
+            <div className={styles.badge}>
+              <span className={styles.badgeText}>{badgeText}</span>
+            </div>
+          </div>
+        )}
+
+        <button className={styles.favoriteButton} aria-label="Favorite">
+          {/* Using a simple SVG heart to match flutter Icons.favorite / favorite_border */}
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill={isFavorite ? "red" : "none"}
+            stroke={isFavorite ? "red" : "white"}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={styles.heartIcon}
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
       </div>
-      <div className={styles.content}>
-        <div className={styles.priceRow}>
-          <span className={styles.price}>{price} ₺</span>
-          <button aria-label="Favoriye Ekle">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-          </button>
+
+      <div className={styles.infoWrapper}>
+        <div className={styles.infoColumn}>
+          <h3 className={styles.title}>{brand}</h3>
+          
+          <div className={styles.statsRow}>
+            {stats && (
+              <span className={styles.statsText}>
+                ★ {stats}
+              </span>
+            )}
+          </div>
+
+          <div className={styles.priceRow}>
+            {oldPrice && (
+              <span className={styles.oldPrice}>
+                Sıfır: <span className={styles.strikeThrough}>{oldPrice}</span>
+              </span>
+            )}
+            <span className={`${styles.price} ${oldPrice ? styles.priceDiscounted : ''}`}>
+              {price} TL
+            </span>
+          </div>
         </div>
-        <span className={styles.brand}>{brand}</span>
+
+        <div className={styles.sellerAvatar}>
+          <div className={styles.avatarCircle}>
+            {getInitials(sellerName)}
+          </div>
+        </div>
       </div>
-      <div className={styles.sellerInfo}>
-        <div className={styles.sellerAvatar}>{sellerName.charAt(0)}</div>
-        <span className={styles.sellerName}>{sellerName}</span>
-      </div>
-    </article>
+    </div>
   );
 }
