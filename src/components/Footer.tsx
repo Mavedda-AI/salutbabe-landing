@@ -40,9 +40,9 @@ export default function Footer() {
             <div className={styles.linkColumn}>
               <h4 className={styles.columnTitle}>PLATFORM</h4>
               <ul className={styles.linkList}>
-                <li><Link href="/new-arrivals">NEW ARRIVALS</Link></li>
-                <li><Link href="/categories">CATEGORIES</Link></li>
-                <li><Link href="/leaderboard">LEADERBOARD</Link></li>
+                <li><Link href="/new-arrivals">New Arrivals</Link></li>
+                <li><Link href="/categories">Categories</Link></li>
+                <li><Link href="/leaderboard">Leaderboard</Link></li>
               </ul>
             </div>
 
@@ -50,9 +50,9 @@ export default function Footer() {
             <div className={styles.linkColumn}>
               <h4 className={styles.columnTitle}>SUPPORT</h4>
               <ul className={styles.linkList}>
-                <li><Link href="/contact">CONTACT</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
                 <li><Link href="/faq">FAQ</Link></li>
-                <li><Link href="/legal">LEGAL</Link></li>
+                <li><Link href="/legal">Legal</Link></li>
               </ul>
             </div>
 
@@ -60,8 +60,8 @@ export default function Footer() {
             <div className={styles.linkColumn}>
               <h4 className={styles.columnTitle}>FOLLOW US</h4>
               <ul className={styles.linkList}>
-                <li><a href="https://instagram.com/salutbabe" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></li>
-                <li><a href="https://linkedin.com/company/salutbabe" target="_blank" rel="noopener noreferrer">LINKEDIN</a></li>
+                <li><a href="https://instagram.com/salutbabe" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li><a href="https://linkedin.com/company/salutbabe" target="_blank" rel="noopener noreferrer">Linkedin</a></li>
               </ul>
             </div>
           </div>
@@ -78,9 +78,9 @@ export default function Footer() {
 
         {/* Bottom Section: Copyright */}
         <div className={styles.bottomSection}>
-          <p className={styles.copyright}>© 2026 salutbabe. ALL RIGHTS RESERVED.</p>
+          <p className={styles.copyright}>© 2026 Salutbabe. All Rights Reserved.</p>
           <div className={styles.designer}>
-            designed by <span className={styles.handIcon}>👋</span>
+            designed and coded by salutbabe <span className={styles.handIcon}>👋</span>
           </div>
         </div>
 

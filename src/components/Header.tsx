@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 import {Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
+import CartDrawer from './CartDrawer';
 import MobileDrawer from './MobileDrawer';
 import styles from './Header.module.css';
 
@@ -27,6 +28,7 @@ const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentCol
 export default function Header() {
   const [showBanner, setShowBanner] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   const handleOpenApp = () => {
     if (typeof window !== 'undefined') {
@@ -70,16 +72,18 @@ export default function Header() {
 
         {/* Right: Actions (Cart, Panel, Sign Up) */}
         <div className={styles.headerActions}>
-          <button className={styles.actionIcon}>
+          <button className={styles.actionIcon} onClick={() => setIsCartDrawerOpen(true)}>
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
-          <Link href="/login" className={styles.panelButton}>Satış Paneli</Link>
-          <Link href="/register" className={styles.signupButton}>Kaydol</Link>
+          <Link href="/login" className={styles.signupButton}>Satıcı Paneli</Link>
         </div>
       </div>
 
       {/* Side Menu (Mobile Drawer) */}
       <MobileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+      
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
 
       {/* 3. Search Bar */}
       <div className={styles.searchContainer}>

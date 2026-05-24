@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Link from 'next/link';
 import {ArrowRight01Icon, Cancel01Icon} from 'hugeicons-react';
 import styles from './MobileDrawer.module.css';
@@ -9,6 +9,16 @@ interface MobileDrawerProps {
 }
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const categories = [
@@ -29,8 +39,8 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   ];
 
   return (
-    <div className={styles.drawerOverlay}>
-      <div className={styles.drawerContent}>
+    <div className={styles.drawerOverlay} onClick={onClose}>
+      <div className={styles.drawerContent} onClick={(e) => e.stopPropagation()}>
         
         {/* Header */}
         <div className={styles.drawerHeader}>
@@ -50,11 +60,8 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <Link href="/create" className={styles.primaryActionButton} onClick={onClose}>
               Hemen Sat
             </Link>
-            <Link href="/register" className={styles.secondaryActionButton} onClick={onClose}>
-              Kaydol
-            </Link>
             <Link href="/login" className={styles.secondaryActionButton} onClick={onClose}>
-              Giriş Yap
+              Satıcı Paneli
             </Link>
           </div>
 

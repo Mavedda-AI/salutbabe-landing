@@ -215,19 +215,123 @@ const LoginPage = () => {
   return (
     <main className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-[#0B0C0E] transition-colors duration-300">
       
-      {/* LEFT SIDE - IMAGE & OVERLAY */}
-      <div className="relative hidden lg:block w-full h-full overflow-hidden">
-        <div className="absolute inset-0 bg-black/30 z-10" />
+      {/* LEFT SIDE - IMAGE & OVERLAY & SCROLLING GRID */}
+      <div className="relative hidden lg:block w-full h-full overflow-hidden bg-[#0A0A0A]">
         <img 
           src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&q=80" 
           alt="Salutbabe Background" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay"
         />
-        <div className="absolute inset-0 z-20 flex flex-col justify-end p-16">
-          <h2 className="text-4xl font-black text-white mb-4 leading-tight">
+        
+        {/* Scrolling Grid Overlay */}
+        <div className="absolute inset-0 z-10 overflow-hidden flex gap-6 px-4 py-8 rotate-[-4deg] scale-125 origin-center ml-10">
+          <style>{`
+            @keyframes scrollUp {
+              0% { transform: translateY(0); }
+              100% { transform: translateY(-50%); }
+            }
+            @keyframes scrollDown {
+              0% { transform: translateY(-50%); }
+              100% { transform: translateY(0); }
+            }
+            .animate-scroll-up { animation: scrollUp 45s linear infinite; }
+            .animate-scroll-down { animation: scrollDown 55s linear infinite; }
+          `}</style>
+          
+          {/* Column 1 (Scrolls Up) */}
+          <div className="flex flex-col gap-6 w-1/3 animate-scroll-up">
+            {[1,2].map((group) => (
+              <React.Fragment key={group}>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-3xl shadow-2xl flex flex-col gap-3">
+                  <img src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&q=80&w=300" className="w-full h-44 object-cover rounded-2xl" alt="" />
+                  <div className="flex justify-between items-center px-2 pb-1">
+                    <span className="text-white font-bold text-sm">Zara Kids Mont</span>
+                    <span className="text-white font-black text-sm">450 ₺</span>
+                  </div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl shadow-2xl flex flex-col gap-3">
+                  <div className="flex gap-1 text-yellow-400 text-sm">★★★★★</div>
+                  <p className="text-white/90 text-[15px] font-medium leading-relaxed">"Harika bir uygulama, aradığım her şeyi çok hızlı ve güvenle buldum."</p>
+                  <span className="text-white/50 text-[11px] uppercase tracking-wider font-black">Ayşe Y.</span>
+                </div>
+                <div className="bg-[#A0D8D0]/90 backdrop-blur-xl border border-white/30 p-8 rounded-3xl shadow-2xl flex flex-col items-center justify-center text-center gap-2">
+                  <span className="text-[#1B5E20] font-black text-4xl tracking-tighter">50K+</span>
+                  <span className="text-[#1B5E20]/80 text-[11px] font-black uppercase tracking-widest">Mutlu Anne</span>
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* Column 2 (Scrolls Down) */}
+          <div className="flex flex-col gap-6 w-1/3 animate-scroll-down">
+            {[1,2].map((group) => (
+              <React.Fragment key={group}>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl shadow-2xl flex flex-col gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center text-white font-black text-lg">Z</div>
+                    <div>
+                      <div className="text-white font-black text-[15px]">Zeynep'in Dolabı</div>
+                      <div className="text-white/60 text-xs font-bold">240 Ürün</div>
+                    </div>
+                  </div>
+                  <button type="button" className="w-full py-3 bg-white text-black font-black rounded-xl text-xs hover:bg-gray-100 transition-colors">Takip Et</button>
+                </div>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-3xl shadow-2xl flex flex-col gap-3">
+                  <img src="https://images.unsplash.com/photo-1522771930-78848d92d3e2?auto=format&fit=crop&q=80&w=300" className="w-full h-56 object-cover rounded-2xl" alt="" />
+                  <div className="flex justify-between items-center px-2 pb-1">
+                    <span className="text-white font-bold text-sm">Nike Ayakkabı</span>
+                    <span className="text-white font-black text-sm">890 ₺</span>
+                  </div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl shadow-2xl flex flex-col gap-3">
+                  <div className="text-white font-black text-lg">Güvenli Ödeme</div>
+                  <p className="text-white/70 text-sm font-medium leading-relaxed">Tüm alışverişleriniz Salutbabe iade güvencesi altındadır.</p>
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* Column 3 (Scrolls Up) */}
+          <div className="flex flex-col gap-6 w-1/3 animate-scroll-up" style={{ animationDelay: '-15s' }}>
+            {[1,2].map((group) => (
+              <React.Fragment key={group}>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-3xl shadow-2xl flex flex-col gap-3">
+                  <img src="https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?auto=format&fit=crop&q=80&w=300" className="w-full h-40 object-cover rounded-2xl" alt="" />
+                  <div className="flex justify-between items-center px-2 pb-1">
+                    <span className="text-white font-bold text-sm">Bebek Arabası</span>
+                    <span className="text-white font-black text-sm">4.500 ₺</span>
+                  </div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl shadow-2xl flex flex-col gap-4">
+                  <span className="text-white font-black text-sm tracking-wide">Yeni Mesaj</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex-shrink-0"></div>
+                    <div className="h-2 w-32 bg-white/30 rounded-full"></div>
+                  </div>
+                  <div className="h-2 w-full bg-white/20 rounded-full mt-1"></div>
+                  <div className="h-2 w-2/3 bg-white/20 rounded-full"></div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-3xl shadow-2xl flex flex-col gap-3">
+                  <img src="https://images.unsplash.com/photo-1560506840-0cae0350d512?auto=format&fit=crop&q=80&w=300" className="w-full h-60 object-cover rounded-2xl" alt="" />
+                  <div className="flex justify-between items-center px-2 pb-1">
+                    <span className="text-white font-bold text-sm">Kız Çocuk Elbise</span>
+                    <span className="text-white font-black text-sm">320 ₺</span>
+                  </div>
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+
+        {/* Gradient Fade Overlays */}
+        <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+
+        {/* Text Area */}
+        <div className="absolute bottom-0 left-0 right-0 p-16 z-30 pointer-events-none">
+          <h2 className="text-5xl font-black text-white mb-5 leading-[1.1] drop-shadow-xl tracking-tight">
             Anne ve çocuk modasının<br/>en büyük Super-App'i
           </h2>
-          <p className="text-white/80 text-lg font-medium max-w-md">
+          <p className="text-white/80 text-[17px] font-medium max-w-md drop-shadow-lg leading-relaxed">
             Binlerce butik, özel tasarımlar ve güvenilir alışveriş deneyimi Salutbabe'de seni bekliyor.
           </p>
         </div>
