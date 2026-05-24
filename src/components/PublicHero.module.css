@@ -422,3 +422,76 @@
     z-index: 4;
   }
 }
+
+/* =========================================
+   DESKTOP 2-COLUMN LAYOUT (Depop Style)
+   ========================================= */
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .heroContainer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 40px;
+    text-align: left;
+    max-width: 1300px;
+  }
+
+  .heroLeft {
+    width: 45%;
+    align-items: flex-start;
+  }
+
+  .textSection {
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .toggleContainer {
+    justify-content: flex-start;
+  }
+
+  .featuresRow {
+    justify-content: flex-start;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .featureCard {
+    width: 140px; /* Slightly wider cards on desktop */
+    min-height: 100px;
+  }
+
+  .imagesGallery {
+    width: 50%;
+    margin-top: 0;
+    height: 500px;
+  }
+  
+  .galleryImageWrapper {
+    width: 260px;
+    height: 380px;
+  }
+  
+  .imageLeft {
+    transform: translateX(-100%) translateY(50px) rotate(-12deg);
+  }
+  
+  .imageCenter {
+    width: 300px;
+    height: 420px;
+    transform: translateX(-40%) translateY(0px) rotate(2deg);
+  }
+  
+  .imageRight {
+    transform: translateX(20%) translateY(60px) rotate(12deg);
+  }
+}
