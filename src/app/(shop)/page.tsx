@@ -1,14 +1,7 @@
 import React from 'react';
 import ProductCard from '@/components/ProductCard';
 import PublicHero from '@/components/PublicHero';
-import {
-    Add01Icon,
-    ArrowDown01Icon,
-    DeliveryTruck01Icon,
-    Notification01Icon,
-    Search01Icon,
-    ShoppingCart01Icon
-} from 'hugeicons-react';
+import {Add01Icon, ArrowDown01Icon} from 'hugeicons-react';
 import styles from './page.module.css';
 
 const MOCK_PRODUCTS = [
@@ -60,31 +53,6 @@ export default function HomeFeed() {
       
       <div className={styles.feedContainer}>
         
-        {/* 1. Feed Header (Search, Tabs, Icons) */}
-      <div className={styles.feedHeader}>
-        <button className={styles.iconButton}>
-          <Search01Icon size={24} color="currentColor" strokeWidth={2} />
-        </button>
-        
-        <div className={styles.headerTabs}>
-          <span className={styles.headerTab}>ODALAR</span>
-          <span className={styles.headerTab}>TAKİP ETTİKLERİN</span>
-          <span className={`${styles.headerTab} ${styles.headerTabActive}`}>İLANLAR</span>
-        </div>
-
-        <div className={styles.headerIcons}>
-          <button className={styles.iconButton}>
-            <DeliveryTruck01Icon size={24} color="currentColor" strokeWidth={2} />
-          </button>
-          <button className={styles.iconButton}>
-            <ShoppingCart01Icon size={24} color="currentColor" strokeWidth={2} />
-          </button>
-          <button className={styles.iconButton}>
-            <Notification01Icon size={24} color="currentColor" strokeWidth={2} />
-          </button>
-        </div>
-      </div>
-
 
 
       {/* 3. Category Filter Tabs */}
