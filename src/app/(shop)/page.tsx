@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductCard from '@/components/ProductCard';
 import PublicHero from '@/components/PublicHero';
-import {Add01Icon, ArrowDown01Icon} from 'hugeicons-react';
+import {ArrowDown01Icon} from 'hugeicons-react';
 import styles from './page.module.css';
 
 const MOCK_PRODUCTS = [
@@ -57,6 +57,7 @@ export default function HomeFeed() {
 
       {/* 3. Category Filter Tabs */}
       <div className={styles.categoryFiltersWrapper}>
+        <h2 className={styles.sectionTitle}>Kategoriler</h2>
         <div className={styles.categoryFilters}>
           <span className={`${styles.filterItem} ${styles.filterItemActive}`}>Tümü</span>
           <span className={styles.filterItem}>Sana Özel</span>
@@ -73,22 +74,6 @@ export default function HomeFeed() {
         </div>
       </div>
 
-      {/* 4. Stories Section */}
-      <section className={styles.storiesSection}>
-        <div className={styles.storiesScroll}>
-          {/* Main User Story with Add Badge */}
-          <div className={styles.storyItem}>
-            <div className={styles.storyRingContainer}>
-              {/* Using ui-avatars for a random profile picture simulating the user */}
-              <img src="https://ui-avatars.com/api/?name=Mustafa&background=random&color=fff&rounded=true" alt="Hikayen" className={styles.storyImage} />
-              <div className={styles.storyAddBadgeBlack}>
-                <Add01Icon size={12} color="white" strokeWidth={3} />
-              </div>
-            </div>
-            <span className={styles.storyName}>Hikayen</span>
-          </div>
-        </div>
-      </section>
 
       {/* 5. Products Grid */}
       <section className={styles.gridSection}>
