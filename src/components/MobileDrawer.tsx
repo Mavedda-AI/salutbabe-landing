@@ -12,8 +12,6 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   if (!isOpen) return null;
 
   const categories = [
-    { name: 'Kız Bebek', href: '/category/kiz-bebek' },
-    { name: 'Erkek Bebek', href: '/category/erkek-bebek' },
     { name: 'Anne', href: '/category/anne' },
     { name: 'Oyuncak', href: '/category/oyuncak' },
     { name: 'Araç & Gereç', href: '/category/arac-gerec' },

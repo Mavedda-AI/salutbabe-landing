@@ -45,19 +45,13 @@
 }
 
 .mainLogoImage {
-  height: 20px;
+  height: 28px;
   width: auto;
   object-fit: contain;
   display: block;
 }
 
-.headerTitleText {
-  font-size: 10px;
-  line-height: 1.1;
-  color: #111;
-  font-weight: 500;
-  margin-left: 4px;
-}
+
 
 .headerActions {
   display: flex;
@@ -85,6 +79,24 @@
   background: transparent;
   border: none;
   cursor: pointer;
+}
+
+.signupButton {
+  background-color: #111111;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.signupButton:hover {
+  opacity: 0.9;
 }
 
 /* 3. Search Bar */
@@ -147,15 +159,15 @@
   }
   
   .mainLogoImage {
-    height: 18px;
-  }
-  
-  .headerTitleText {
-    font-size: 9px;
-    letter-spacing: -0.2px;
+    height: 24px;
   }
   
   .panelButton {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .signupButton {
     padding: 6px 10px;
     font-size: 11px;
   }

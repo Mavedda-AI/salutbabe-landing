@@ -66,9 +66,6 @@ export default function Header() {
               className={styles.mainLogoImage} 
             />
           </Link>
-          <div className={styles.headerTitleText}>
-            ANNEBEBEKÇOCUKOYUNCAKARAÇ<br/>GEREÇ
-          </div>
         </div>
 
         {/* Right: Actions (Cart, Panel, Sign Up) */}
@@ -77,6 +74,7 @@ export default function Header() {
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
           <button className={styles.panelButton}>PANEL</button>
+          <Link href="/register" className={styles.signupButton}>Kaydol</Link>
         </div>
       </div>
 
