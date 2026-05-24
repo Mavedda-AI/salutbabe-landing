@@ -55,13 +55,13 @@ export default function PublicHero() {
           </div>
           
           <h1 className={styles.headline}>
-            {isBuy && <>İkinci el al.<br />Kendi tarzını yarat.</>}
+            {isBuy && <>İkinci el al.<br />Kendi tarzını oluştur.</>}
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
             {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
             {isStory && <>Her annenin bir hikayesi vardır.<br />Biz de o hikayeyi devam ettiriyoruz.</>}
           </h1>
           <p className={styles.subhead}>
-            {isBuy && "Özel parçaları anında keşfet. Sürdürülebilir ve güvenilir ikinci el alışveriş."}
+            {isBuy && "Sürdürülebilir ve güvenilir ikinci el alışveriş."}
             {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
             {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
             {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
@@ -137,10 +137,10 @@ export default function PublicHero() {
             let img3 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
 
             if (isSell) {
-              // Messy clothes/closet to trigger the "I need to clean my closet" feeling
-              img1 = "https://images.unsplash.com/photo-1540221652346-e5dd6b50f3e7?w=600"; // pile of clothes
-              img2 = "https://images.unsplash.com/photo-1604072374690-0e7d7bddd54e?w=600"; // messy laundry
-              img3 = "https://images.unsplash.com/photo-1630329273801-8f629dba0a72?w=600"; // messy
+              // Messy baby/kids clothes to trigger the "I need to clean my child's closet" feeling
+              img1 = "https://images.unsplash.com/photo-1542901689-f103b03b9e97?w=600"; 
+              img2 = "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=600"; 
+              img3 = "https://images.unsplash.com/photo-1560859259-fcf2b952aed8?w=600"; 
             } else if (isLive) {
               // Happy talking women / clubhouse vibe
               img1 = "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=600"; 
