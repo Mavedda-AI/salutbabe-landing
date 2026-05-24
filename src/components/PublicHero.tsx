@@ -137,15 +137,15 @@ export default function PublicHero() {
             let img3 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
 
             if (isSell) {
-              // Messy clothes/closet
-              img1 = "https://images.unsplash.com/photo-1540221652346-e5dd6b50f3e7?w=600"; 
-              img2 = "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?w=600"; // Elegant clothes rack
-              img3 = "https://images.unsplash.com/photo-1604072374690-0e7d7bddd54e?w=600"; 
+              // Messy clothes/closet to trigger the "I need to clean my closet" feeling
+              img1 = "https://images.unsplash.com/photo-1540221652346-e5dd6b50f3e7?w=600"; // pile of clothes
+              img2 = "https://images.unsplash.com/photo-1604072374690-0e7d7bddd54e?w=600"; // messy laundry
+              img3 = "https://images.unsplash.com/photo-1630329273801-8f629dba0a72?w=600"; // messy
             } else if (isLive) {
-              // Video call & community
-              img1 = "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=600"; 
-              img2 = "https://images.unsplash.com/photo-1612831455359-970e23a1e4e9?w=600"; 
-              img3 = "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=600"; 
+              // Happy talking women / clubhouse vibe
+              img1 = "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=600"; 
+              img2 = "https://images.unsplash.com/photo-1653762379954-8943c787e78b?w=600"; 
+              img3 = "https://images.unsplash.com/photo-1595986630530-969786b19b4d?w=600"; 
             } else if (isStory) {
               // Happy family / mother and baby
               img1 = "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600"; 
