@@ -57,7 +57,7 @@ export default function HomeFeed() {
 
       {/* 3. Category Filter Tabs */}
       <div className={styles.categoryFiltersWrapper}>
-        <h2 className={styles.sectionTitle}>Kategoriler</h2>
+        <h2 className={styles.sectionTitle}>Kategorine göre keşfet</h2>
         <div className={styles.categoryFilters}>
           <span className={`${styles.filterItem} ${styles.filterItemActive}`}>Tümü</span>
           <span className={styles.filterItem}>Sana Özel</span>
@@ -74,6 +74,24 @@ export default function HomeFeed() {
         </div>
       </div>
 
+      {/* 4. Category Banner */}
+      <div className={styles.categoryBannerContainer}>
+        <img 
+          src="https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=800&h=480" 
+          alt="Anne ve Bebek" 
+          className={styles.categoryBannerImage} 
+        />
+        <div className={styles.categoryBannerContent}>
+          <h3 className={styles.categoryBannerTitle}>Anne ve Bebek Kategorisinde Neler Var?</h3>
+          <p className={styles.categoryBannerSubtitle}>Hem senin hem de bebeğin için en seçkin ürünleri keşfet.</p>
+          <button className={styles.categoryBannerButton}>Hemen İncele</button>
+          <div className={styles.categoryBannerDots}>
+            <span className={`${styles.categoryBannerDot} ${styles.categoryBannerDotActive}`}></span>
+            <span className={styles.categoryBannerDot}></span>
+            <span className={styles.categoryBannerDot}></span>
+          </div>
+        </div>
+      </div>
 
       {/* 5. Products Grid */}
       <section className={styles.gridSection}>
