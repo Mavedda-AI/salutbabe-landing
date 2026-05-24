@@ -64,14 +64,14 @@ export default function PublicHero() {
             </div>
           </div>
           
-          <h1 className={styles.headline}>
+          <h1 className={`${styles.headline} ${isOrganic ? styles.textWhite : ''}`}>
             {isBuy && <>İkinci el al.<br />Kendi tarzını oluştur.</>}
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
             {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
-            {isStory && <>Her annenin bir hikayesi vardır.<br />Biz de o hikayeyi devam ettiriyoruz.</>}
+            {isStory && <>Her annenin bir hikayesi vardır.</>}
             {isOrganic && <>Çiftçiden ve anneden.<br />Doğadan bebeğinize.</>}
           </h1>
-          <p className={styles.subhead}>
+          <p className={`${styles.subhead} ${isOrganic ? styles.textWhiteLight : ''}`}>
             {isBuy && "Sürdürülebilir ve güvenilir ikinci el alışveriş."}
             {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
             {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
