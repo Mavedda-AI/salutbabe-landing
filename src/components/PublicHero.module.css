@@ -118,10 +118,10 @@
 .primaryButton {
   background-color: #111111; /* Darker black */
   color: white;
-  font-size: 14px; /* Slightly larger like Depop */
-  font-weight: 800; /* Bolder */
+  font-size: 14px; 
+  font-weight: 800; 
   padding: 12px 28px; 
-  border-radius: 2px; /* Sharper edges like Depop */
+  border-radius: 6px; /* Softened radius */
   text-decoration: none;
   display: inline-block;
   transition: opacity 0.2s;

@@ -99,27 +99,39 @@ export default function PublicHero() {
 
         {/* Overlapping Images Gallery */}
         <div className={styles.imagesGallery}>
-          <div className={`${styles.galleryImageWrapper} ${styles.imageLeft}`}>
-            <img 
-              src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=600" 
-              alt="Baby Fashion 1" 
-              className={styles.galleryImg}
-            />
-          </div>
-          <div className={`${styles.galleryImageWrapper} ${styles.imageCenter}`}>
-            <img 
-              src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600" 
-              alt="Baby Fashion 2" 
-              className={styles.galleryImg}
-            />
-          </div>
-          <div className={`${styles.galleryImageWrapper} ${styles.imageRight}`}>
-            <img 
-              src="https://images.unsplash.com/photo-1560243563-062bfc001d68?w=600" 
-              alt="Baby Fashion 3" 
-              className={styles.galleryImg}
-            />
-          </div>
+          {(() => {
+            let img1 = "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=600"; // Stylish toddler girl
+            let img2 = "https://images.unsplash.com/photo-1471286174890-9c1122cd79fc?w=600"; // Toddler fashion
+            let img3 = "https://images.unsplash.com/photo-1519340333755-56e9c1d04579?w=600"; // Baby clothes rack
+
+            if (isSell) {
+              img1 = "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600"; // Packing clothes/closet
+              img2 = "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600"; // Happy mom
+              img3 = "https://images.unsplash.com/photo-1489987707023-af815b801a2c?w=600"; // Neat folded clothes
+            } else if (isLive) {
+              img1 = "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600"; // Phone/Live stream vibe
+              img2 = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600"; // Community/talking
+              img3 = "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600"; // Tech/Chatting
+            } else if (isStory) {
+              img1 = "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=600"; // Mother and child vibe
+              img2 = "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600"; // Mom hugging baby
+              img3 = "https://images.unsplash.com/photo-1504151932400-72d4384f0e6d?w=600"; // Happy family/kids
+            }
+
+            return (
+              <>
+                <div className={`${styles.galleryImageWrapper} ${styles.imageLeft}`}>
+                  <img src={img1} alt="Baby Fashion Left" className={styles.galleryImg} />
+                </div>
+                <div className={`${styles.galleryImageWrapper} ${styles.imageCenter}`}>
+                  <img src={img2} alt="Baby Fashion Center" className={styles.galleryImg} />
+                </div>
+                <div className={`${styles.galleryImageWrapper} ${styles.imageRight}`}>
+                  <img src={img3} alt="Baby Fashion Right" className={styles.galleryImg} />
+                </div>
+              </>
+            );
+          })()}
         </div>
       </div>
     </section>
