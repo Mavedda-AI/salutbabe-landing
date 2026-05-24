@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 import {Cancel01Icon, Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
+import MobileDrawer from './MobileDrawer';
 import styles from './Header.module.css';
 
 const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentColor", className = "" }) => (
@@ -25,6 +26,7 @@ const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentCol
 
 export default function Header() {
   const [showBanner, setShowBanner] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleOpenApp = () => {
     if (typeof window !== 'undefined') {
@@ -80,7 +82,7 @@ export default function Header() {
       <div className={styles.mainHeader}>
         {/* Left: Hamburger + Logo */}
         <div className={styles.headerLeft}>
-          <button className={styles.hamburgerButton}>
+          <button className={styles.hamburgerButton} onClick={() => setIsDrawerOpen(true)}>
             <CustomHamburgerIcon size={24} color="#111" strokeWidth={2} />
           </button>
 
@@ -93,6 +95,15 @@ export default function Header() {
           </Link>
         </div>
 
+        {/* Scrollable Categories for Mobile */}
+        <div className={styles.categoryLinksScroll}>
+          <Link href="/category/anne" className={styles.categoryPill}>ANNE</Link>
+          <Link href="/category/bebek" className={styles.categoryPill}>BEBEK</Link>
+          <Link href="/category/cocuk" className={styles.categoryPill}>ÇOCUK</Link>
+          <Link href="/category/oyuncak" className={styles.categoryPill}>OYUNCAK</Link>
+          <Link href="/category/arac-gerec" className={styles.categoryPill}>ARAÇ GEREÇ</Link>
+        </div>
+
         {/* Right: Actions (Cart, Panel, Sign Up) */}
         <div className={styles.headerActions}>
           <button className={styles.actionIcon}>
@@ -102,6 +113,9 @@ export default function Header() {
           <Link href="/register" className={styles.signupButton}>Kaydol</Link>
         </div>
       </div>
+
+      {/* Side Menu (Mobile Drawer) */}
+      <MobileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
       {/* 3. Search Bar */}
       <div className={styles.searchContainer}>
