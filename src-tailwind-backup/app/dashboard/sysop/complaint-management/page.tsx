@@ -10,216 +10,295 @@ import {
     Tick01Icon,
     Timer02Icon
 } from '@hugeicons/core-free-icons';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
+
+import {PageHeader} from '../../components/ui/PageHeader';
+import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
+import {FilterTabs, SearchInput} from '../../components/ui/FilterBar';
+import {Column, DataTable} from '../../components/ui/DataTable';
+import {ActionModal, StatusBadge} from '../../components/ui/StatusBadge';
 
 export default function ComplaintManagementPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'open' | 'resolved' | 'stats'>('open');
   const [searchQuery, setSearchQuery] = useState('');
   const [priorityFilter, setPriorityFilter] = useState('Tümü');
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<any>(null);
 
-  const kpis = [
-    { label: 'Açık Destek', value: '142', sub: '32 acil öncelikli', color: 'text-[#FF383C]', bg: 'bg-red-50', icon: <HugeiconsIcon icon={RecordIcon} size={18} /> },
-    { label: 'Çözülme Oranı', value: '%94.8', sub: '↗ %1.2 iyileşme', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'Ort. Çözüm Süresi', value: '4.2 saat', sub: '↘ 1.1 saat düşüş', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
-    { label: 'CSAT Skoru', value: '4.6/5', sub: 'Son 30 gün ort.', color: 'text-purple-600', bg: 'bg-purple-50', icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
+  const [openTickets, setOpenTickets] = useState<any[]>([]);
+  const [resolvedTickets, setResolvedTickets] = useState<any[]>([]);
+  const [categoryStats, setCategoryStats] = useState<any[]>([]);
+  const [aiSuggestions, setAiSuggestions] = useState<any[]>([]);
+  
+  const [kpis, setKpis] = useState<KPIItem[]>([]);
+  const [statsKpis, setStatsKpis] = useState<KPIItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    
+    setLoading(true);
+    setTimeout(() => {
+      setOpenTickets([]);
+      setResolvedTickets([]);
+      setCategoryStats([]);
+      setAiSuggestions([]);
+      
+      setKpis([
+        { label: 'Açık Destek', value: '0', colorClass: 'text-[#FF383C]', icon: <HugeiconsIcon icon={RecordIcon} size={24} /> },
+        { label: 'Çözülme Oranı', value: '%0', colorClass: 'text-green-600', icon: <HugeiconsIcon icon={Tick01Icon} size={24} /> },
+        { label: 'Ort. Çözüm Süresi', value: '0 saat', colorClass: 'text-[#007AFF]', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
+        { label: 'CSAT Skoru', value: '0/5', colorClass: 'text-purple-600', icon: <HugeiconsIcon icon={StarIcon} size={24} /> },
+      ]);
+      
+      setStatsKpis([
+        { label: 'Bugün Açılan', value: '0', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={Mail01Icon} size={24} /> },
+        { label: 'Bugün Çözülen', value: '0', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={Tick01Icon} size={24} /> },
+        { label: 'Eskalasyon', value: '0', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={Alert01Icon} size={24} /> },
+        { label: 'İlk Yanıt Süresi', value: '0 dk', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={FlashIcon} size={24} /> },
+      ]);
+
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  const openColumns: Column<any>[] = [
+    {
+      header: 'KULLANICI & KONU',
+      accessor: (row) => (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[13px] font-bold text-gray-900">{row.user}</span>
+            <StatusBadge 
+              status={row.priority} 
+              type={row.priority === 'Acil' ? 'danger' : row.priority === 'Yüksek' ? 'warning' : 'neutral'} 
+            />
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{row.category}</span>
+          </div>
+          <p className="text-[12px] font-medium text-gray-700">{row.subject}</p>
+          <div className="flex items-center gap-3 mt-1.5">
+            <span className="text-[11px] text-gray-400 font-medium">{row.id}</span>
+            <span className="text-[11px] text-gray-400 font-medium">{row.time}</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      header: 'DURUM',
+      accessor: (row) => (
+        <StatusBadge 
+          status={row.status} 
+          type={row.status === 'Eskalasyon' ? 'danger' : row.status === 'İnceleniyor' ? 'info' : 'warning'} 
+        />
+      )
+    },
+    {
+      header: 'İŞLEM',
+      accessor: (row) => (
+        <button 
+          onClick={() => { setSelectedTicket(row); setIsModalOpen(true); }} 
+          className="text-[11px] font-black px-4 py-2 bg-[#111827] text-white rounded-xl hover:bg-gray-800 transition-colors"
+        >
+          YANITLA
+        </button>
+      )
+    }
   ];
 
-  const openTickets = [
-    { id: 'TKT-8421', user: 'Büşra Kaya', subject: 'Kargo 5 gündür teslim edilmedi', category: 'Kargo', priority: 'Acil', time: '2 saat önce', status: 'Yanıt Bekliyor' },
-    { id: 'TKT-8419', user: 'Ahmet Yılmaz', subject: 'Sahte ürün şüphesi - replika çanta', category: 'Sahte Ürün', priority: 'Acil', time: '3 saat önce', status: 'İnceleniyor' },
-    { id: 'TKT-8415', user: 'Cansu Demir', subject: 'İade onaylandı ama para iade edilmedi', category: 'İade/Ödeme', priority: 'Yüksek', time: '5 saat önce', status: 'Yanıt Bekliyor' },
-    { id: 'TKT-8412', user: 'Merve Çelik', subject: 'Yanlış beden gönderilmiş', category: 'Ürün', priority: 'Normal', time: '8 saat önce', status: 'İnceleniyor' },
-    { id: 'TKT-8408', user: 'Zeynep Koç', subject: 'Ödeme çekildi ama sipariş oluşmadı', category: 'İade/Ödeme', priority: 'Acil', time: '12 saat önce', status: 'Eskalasyon' },
-    { id: 'TKT-8405', user: 'Elif Şahin', subject: 'Satıcı mesajlara cevap vermiyor', category: 'Satıcı', priority: 'Normal', time: '1 gün önce', status: 'Yanıt Bekliyor' },
+  const resolvedColumns: Column<any>[] = [
+    {
+      header: 'KULLANICI & KONU',
+      accessor: (row) => (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[13px] font-bold text-gray-900">{row.user}</span>
+            <span className="text-[11px] text-gray-400 font-medium">{row.id}</span>
+          </div>
+          <p className="text-[12px] font-medium text-gray-700">{row.subject}</p>
+        </div>
+      )
+    },
+    {
+      header: 'ÇÖZÜM',
+      accessor: (row) => (
+        <div className="flex flex-col gap-1.5">
+          <span className="text-[12px] font-bold text-green-600 flex items-center gap-1.5">
+            <HugeiconsIcon icon={Tick01Icon} size={16} /> {row.resolution}
+          </span>
+          <span className="text-[11px] text-gray-400 font-medium flex items-center gap-1.5">
+            <HugeiconsIcon icon={Timer02Icon} size={14} /> {row.time}
+          </span>
+        </div>
+      )
+    },
+    {
+      header: 'MEMNUNİYET',
+      accessor: (row) => (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-0.5">
+            {Array.from({length: 5}).map((_, i) => (
+              <HugeiconsIcon 
+                key={'star-'+i} 
+                icon={StarIcon} 
+                size={16} 
+                className={i < row.satisfaction ? 'text-yellow-400' : 'text-gray-200'} 
+              />
+            ))}
+          </div>
+          <p className="text-[10px] font-bold text-gray-400 mt-1">{row.satisfaction}/5 Skor</p>
+        </div>
+      )
+    }
   ];
 
-  const resolvedRecent = [
-    { id: 'TKT-8400', user: 'Canan Öz', subject: 'Kupon kodu çalışmıyor', resolution: 'Kupon yeniden tanımlandı', time: '2 saat', satisfaction: 5 },
-    { id: 'TKT-8395', user: 'Selin Ak', subject: 'Hesap erişim sorunu', resolution: 'Şifre sıfırlandı', time: '45 dk', satisfaction: 5 },
-    { id: 'TKT-8390', user: 'Murat Demir', subject: 'Eksik ürün geldi', resolution: 'Eksik ürün tekrar gönderildi', time: '6 saat', satisfaction: 4 },
-    { id: 'TKT-8385', user: 'Ayşe Yıldız', subject: 'Fatura düzenlenmedi', resolution: 'E-fatura gönderildi', time: '1 saat', satisfaction: 5 },
-  ];
+  const filteredOpenTickets = openTickets.filter(t => 
+    (priorityFilter === 'Tümü' || t.priority === priorityFilter) && 
+    (t.user.toLowerCase().includes(searchQuery.toLowerCase()) || 
+     t.subject.toLowerCase().includes(searchQuery.toLowerCase()) || 
+     t.id.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
-  const categoryStats = [
-    { category: 'Kargo Gecikme', count: 48, pct: 33.8, color: 'bg-orange-400' },
-    { category: 'İade / Ödeme', count: 32, pct: 22.5, color: 'bg-blue-400' },
-    { category: 'Sahte Ürün İhbarı', count: 24, pct: 16.9, color: 'bg-red-400' },
-    { category: 'Ürün Sorunu', count: 18, pct: 12.7, color: 'bg-purple-400' },
-    { category: 'Satıcı Şikayeti', count: 12, pct: 8.5, color: 'bg-yellow-400' },
-    { category: 'Diğer', count: 8, pct: 5.6, color: 'bg-gray-400' },
-  ];
-
-  const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
+  const filteredResolvedTickets = resolvedTickets.filter(t => 
+    t.user.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    t.subject.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    t.id.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
-          <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <div>
-            <h1 className="text-[18px] font-black text-[#111827]">Destek & Şikayet Merkezi</h1>
-            <p className="text-[11px] font-medium text-gray-400">Canlı Veriler · Tüm Talepler</p>
-          </div>
-        </div>
-      </div>
+      <PageHeader 
+        title="Destek & Şikayet Merkezi" 
+        description="Canlı Veriler · Tüm Talepler" 
+      />
 
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
+        
+        {kpis.length > 0 && <KPIGrid items={kpis} />}
 
-        {/* KPIs */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {kpis.map((k, i) => (
-            <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <div className="flex justify-center text-[28px] mb-2">{k.icon}</div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
-              <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
-              <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Tabs */}
-        <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'open',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={RecordIcon} size={16} /> Açık Talepler</div>},{id:'resolved',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Çözülenler</div>},{id:'stats',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> İstatistik</div>}].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
-              {tab.label}
-            </button>
-          ))}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <FilterTabs 
+            activeTab={activeTab} 
+            onChange={(id) => setActiveTab(id as 'open' | 'resolved' | 'stats')} 
+            tabs={[
+              {id:'open', label: <div className="flex items-center gap-2"><HugeiconsIcon icon={RecordIcon} size={16} /> Açık Talepler</div>},
+              {id:'resolved', label: <div className="flex items-center gap-2"><HugeiconsIcon icon={Tick01Icon} size={16} /> Çözülenler</div>},
+              {id:'stats', label: <div className="flex items-center gap-2"><HugeiconsIcon icon={BarChartIcon} size={16} /> İstatistik</div>}
+            ]} 
+          />
+          {activeTab !== 'stats' && (
+            <SearchInput 
+              value={searchQuery} 
+              onChange={setSearchQuery} 
+              placeholder="Kullanıcı adı, konu veya kod ile ara..." 
+            />
+          )}
         </div>
 
         {activeTab === 'open' && (
-          <div className="space-y-3">
-            <div className={`${cardClass} p-4 space-y-3`}>
-              <div className="flex flex-col md:flex-row gap-3">
-                <div className="flex-1 relative">
-                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                  <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Kullanıcı adı, konu veya TKT kodu ile ara..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-[13px] font-medium focus:ring-2 focus:ring-[#111827] outline-none" />
-                </div>
-              </div>
-              <div className="w-full overflow-x-auto no-scrollbar">
-                <div className="flex items-center bg-[#F8F9FA] rounded-[16px] p-1.5 min-w-max border border-gray-100">
-                  {['Tümü', 'Acil', 'Yüksek', 'Normal'].map(f => (
-                    <button key={f} onClick={() => setPriorityFilter(f)} className={`px-5 py-2 text-[13px] font-bold rounded-[12px] transition-all whitespace-nowrap ${priorityFilter === f ? 'bg-white text-[#111827] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>{f}</button>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {openTickets.filter(t => (priorityFilter === 'Tümü' || t.priority === priorityFilter) && (t.user.toLowerCase().includes(searchQuery.toLowerCase()) || t.subject.toLowerCase().includes(searchQuery.toLowerCase()) || t.id.toLowerCase().includes(searchQuery.toLowerCase()))).map((t, i) => (
-              <div key={i} className={`${cardClass} p-4`}>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[12px] font-bold text-[#111827]">{t.user}</span>
-                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${t.priority === 'Acil' ? 'bg-red-100 text-red-600' : t.priority === 'Yüksek' ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-600'}`}>{t.priority}</span>
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-600">{t.category}</span>
-                    </div>
-                    <p className="text-[12px] font-medium text-gray-700 mt-1">{t.subject}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] text-gray-400">{t.id}</span>
-                      <span className="text-[10px] text-gray-400">{t.time}</span>
-                      <span className={`text-[9px] font-black ${t.status === 'Eskalasyon' ? 'text-red-500' : t.status === 'İnceleniyor' ? 'text-blue-500' : 'text-orange-500'}`}>{t.status}</span>
-                    </div>
-                  </div>
-                  <button className="text-[9px] font-black px-3 py-2 bg-[#111827] text-white rounded-lg shrink-0">YANITLA</button>
-                </div>
-              </div>
-            ))}
-          </div>
+           <div className="space-y-4">
+             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                {['Tümü', 'Acil', 'Yüksek', 'Normal'].map(f => (
+                  <button 
+                    key={f} 
+                    onClick={() => setPriorityFilter(f)} 
+                    className={`px-5 py-2.5 text-[13px] font-bold rounded-xl transition-all whitespace-nowrap border ${priorityFilter === f ? 'bg-[#111827] text-white border-[#111827] shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+                  >
+                    {f}
+                  </button>
+                ))}
+             </div>
+             
+             <DataTable 
+               columns={openColumns} 
+               data={filteredOpenTickets} 
+               keyExtractor={(r) => r.id} 
+               loading={loading} 
+             />
+           </div>
         )}
 
         {activeTab === 'resolved' && (
-          <div className="space-y-3">
-            <div className={`${cardClass} p-4`}>
-              <div className="relative">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Kullanıcı adı, konu veya TKT kodu ile ara..." className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-[13px] font-medium focus:ring-2 focus:ring-[#111827] outline-none" />
-              </div>
-            </div>
-            {resolvedRecent.filter(t => t.user.toLowerCase().includes(searchQuery.toLowerCase()) || t.subject.toLowerCase().includes(searchQuery.toLowerCase()) || t.id.toLowerCase().includes(searchQuery.toLowerCase())).map((t, i) => (
-              <div key={i} className={`${cardClass} p-4`}>
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[12px] font-bold text-[#111827]">{t.user}</span>
-                      <span className="text-[10px] text-gray-400">{t.id}</span>
-                    </div>
-                    <p className="text-[11px] text-gray-600 mt-1">{t.subject}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] font-bold text-green-600"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {t.resolution}</span>
-                      <span className="text-[10px] text-gray-400"><HugeiconsIcon icon={Timer02Icon} size={12} className="inline-block text-gray-400" /> {t.time}</span>
-                    </div>
-                  </div>
-                  <div className="text-center shrink-0">
-                    <p className="text-[18px] font-black text-yellow-500">{Array.from({length: t.satisfaction}).map((_, i) => <HugeiconsIcon key={'star-'+i} icon={StarIcon} size={14} className="text-yellow-400 inline-block" />)}</p>
-                    <p className="text-[9px] font-bold text-gray-400">{t.satisfaction}/5</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="space-y-4">
+             <DataTable 
+               columns={resolvedColumns} 
+               data={filteredResolvedTickets} 
+               keyExtractor={(r) => r.id} 
+               loading={loading} 
+             />
           </div>
         )}
 
         {activeTab === 'stats' && (
-          <>
-            <div className={`${cardClass} p-5`}>
-              <h2 className="text-[13px] font-black text-[#111827] mb-1">Kategori Dağılımı</h2>
-              <p className="text-[10px] font-medium text-gray-400 mb-4">Açık talep türleri</p>
-              <div className="space-y-3">
-                {categoryStats.map((c, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <span className="text-[10px] font-bold text-gray-500 w-28 shrink-0">{c.category}</span>
-                    <div className="flex-1 h-5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="space-y-6">
+            <div className="bg-white rounded-[24px] border border-gray-100 p-6 shadow-sm">
+              <h2 className="text-[15px] font-black text-[#111827] mb-1">Kategori Dağılımı</h2>
+              <p className="text-[12px] font-medium text-gray-400 mb-6">Açık talep türleri</p>
+              <div className="space-y-4">
+                {categoryStats.length > 0 ? categoryStats.map((c, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <span className="text-[12px] font-bold text-gray-500 w-32 shrink-0">{c.category}</span>
+                    <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
                       <div className={`h-full ${c.color} rounded-full`} style={{ width: `${c.pct}%` }} />
                     </div>
-                    <span className="text-[11px] font-black text-gray-700 w-8 text-right">{c.count}</span>
-                    <span className="text-[9px] font-bold text-gray-400 w-10 text-right">{c.pct}%</span>
+                    <span className="text-[13px] font-black text-gray-700 w-10 text-right">{c.count}</span>
+                    <span className="text-[11px] font-bold text-gray-400 w-10 text-right">{c.pct}%</span>
                   </div>
-                ))}
+                )) : (
+                  <div className="text-center py-8 text-[13px] font-bold text-gray-400">Veri bulunamadı</div>
+                )}
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {[
-                { label: 'Bugün Açılan', value: '18', icon: <HugeiconsIcon icon={Mail01Icon} size={18} /> },
-                { label: 'Bugün Çözülen', value: '24', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-                { label: 'Eskalasyon', value: '3', icon: <HugeiconsIcon icon={Alert01Icon} size={18} /> },
-                { label: 'İlk Yanıt Süresi', value: '12 dk', icon: <HugeiconsIcon icon={FlashIcon} size={18} /> },
-              ].map((s, i) => (
-                <div key={i} className={`${cardClass} p-4 text-center`}>
-                  <div className="flex justify-center text-[28px] mb-2">{s.icon}</div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{s.label}</p>
-                  <p className="text-[20px] font-black text-[#111827]">{s.value}</p>
-                </div>
-              ))}
-            </div>
-          </>
+            {statsKpis.length > 0 && <KPIGrid items={statsKpis} />}
+          </div>
         )}
 
-        {/* AI */}
-        <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-[20px] border border-red-100 p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-            <h2 className="text-[13px] font-black text-red-700">AI Aksiyonlar</h2>
+        {/* AI Actions */}
+        <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-[24px] border border-red-100 p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+              <svg className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+            </div>
+            <h2 className="text-[16px] font-black text-red-700">AI Aksiyon Önerileri</h2>
           </div>
           <div className="space-y-3">
-            {[
-              { title: 'Kargo gecikmesi otomatik yanıtı aktifleştir', desc: '%33.8 talep kargo kaynaklı. Otomatik tracking bilgisi + tahmini teslim tarihi gönderimi talep sayısını %40 azaltabilir.', impact: '-57 talep/ay' },
-              { title: 'Sahte ürün ihbar sürecini hızlandır', desc: '24 sahte ürün ihbarı bekliyor. Ortalama çözüm süresi 18 saat. Otomatik ürün kaldırma eşiği koy (3+ ihbar).', impact: 'Acil' },
-              { title: 'Chatbot entegrasyonu', desc: 'İlk yanıt süresi 12 dk. Sık sorulan sorular için chatbot %60 talep azaltımı sağlayabilir.', impact: '-85 talep/ay' },
-            ].map((a, i) => (
-              <div key={i} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-red-100/50">
-                <div className="flex items-start justify-between gap-3">
-                  <div><p className="text-[12px] font-bold text-[#111827]">{a.title}</p><p className="text-[10px] text-gray-500 mt-1">{a.desc}</p></div>
-                  <span className={`text-[10px] font-black px-2 py-1 rounded-full shrink-0 ${a.impact === 'Acil' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{a.impact}</span>
-                </div>
-              </div>
-            ))}
+             {aiSuggestions.length > 0 ? aiSuggestions.map((a, i) => (
+               <div key={i} className="bg-white/80 backdrop-blur rounded-[16px] p-5 border border-red-100/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                 <div>
+                   <p className="text-[14px] font-bold text-[#111827]">{a.title}</p>
+                   <p className="text-[12px] text-gray-500 mt-1.5">{a.desc}</p>
+                 </div>
+                 <StatusBadge status={a.impact} type={a.impact === 'Acil' ? 'danger' : 'success'} />
+               </div>
+             )) : (
+               <div className="text-center py-6 text-[13px] font-bold text-gray-400">Yeni AI önerisi bulunmuyor.</div>
+             )}
           </div>
         </div>
       </div>
+      
+      <ActionModal 
+        isOpen={isModalOpen} 
+        onClose={() => { setIsModalOpen(false); setSelectedTicket(null); }} 
+        title="Talebi Yanıtla"
+        description={selectedTicket ? `Talep No: ${selectedTicket.id}` : undefined}
+      >
+        <div className="space-y-4">
+          <textarea 
+            className="w-full h-32 p-4 rounded-xl border border-gray-200 text-[13px] font-medium resize-none focus:outline-none focus:ring-2 focus:ring-[#111827]"
+            placeholder="Yanıtınızı buraya yazın..."
+          ></textarea>
+          <button 
+            className="w-full py-3 bg-[#111827] text-white rounded-xl text-[13px] font-black hover:bg-gray-800 transition-colors"
+            onClick={() => { setIsModalOpen(false); setSelectedTicket(null); }}
+          >
+            YANIT GÖNDER
+          </button>
+        </div>
+      </ActionModal>
     </div>
   );
 }

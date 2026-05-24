@@ -1,84 +1,135 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {BankIcon, BarChartIcon, MoneyBag01Icon, Tick01Icon, Timer02Icon} from '@hugeicons/core-free-icons';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
+import {PageHeader} from '../../components/ui/PageHeader';
+import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
+import {FilterTabs} from '../../components/ui/FilterBar';
+import {Column, DataTable} from '../../components/ui/DataTable';
+import {ActionModal, StatusBadge} from '../../components/ui/StatusBadge';
 
 export default function PayoutManagementPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'pending' | 'completed' | 'overview'>('overview');
+  const [activeTab, setActiveTab] = useState('overview');
   const [showApproveModal, setShowApproveModal] = useState(false);
-  const [selectedPayouts, setSelectedPayouts] = useState<number[]>([]);
+  const [selectedPayouts, setSelectedPayouts] = useState<string[]>([]);
   const [actionDone, setActionDone] = useState<string | null>(null);
 
-  const kpis = [
-    { label: 'Havuzdaki Bakiye', value: '₺1,450,000', sub: '84 bekleyen onay', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={BankIcon} size={18} /> },
-    { label: 'Bu Hafta Onaylanan', value: '₺345,000', sub: '↗ %12.4 artış', color: 'text-green-600', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'Toplam Komisyon', value: '₺1,080,960', sub: 'Son 30 gün', color: 'text-purple-600', bg: 'bg-purple-50', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={18} /> },
-    { label: 'Ort. Ödeme Süresi', value: '3.2 gün', sub: '↘ 0.5 gün iyileşme', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
+  const [pendingData, setPendingData] = useState<any[]>([]);
+  const [completedData, setCompletedData] = useState<any[]>([]);
+  const [kpiData, setKpiData] = useState<KPIItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    
+    if (!token || token === 'mock_token') {
+      setPendingData([]);
+      setCompletedData([]);
+      setKpiData([
+        { label: 'Havuzdaki Bakiye', value: '₺0', colorClass: 'text-[#007AFF]', icon: <HugeiconsIcon icon={BankIcon} size={18} /> },
+        { label: 'Bu Hafta Onaylanan', value: '₺0', colorClass: 'text-green-600', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+        { label: 'Toplam Komisyon', value: '₺0', colorClass: 'text-purple-600', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={18} /> },
+        { label: 'Ort. Ödeme Süresi', value: '0 gün', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
+      ]);
+    } else {
+      setPendingData([]);
+      setCompletedData([]);
+      setKpiData([
+        { label: 'Havuzdaki Bakiye', value: '₺0', colorClass: 'text-[#007AFF]', icon: <HugeiconsIcon icon={BankIcon} size={18} /> },
+        { label: 'Bu Hafta Onaylanan', value: '₺0', colorClass: 'text-green-600', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+        { label: 'Toplam Komisyon', value: '₺0', colorClass: 'text-purple-600', icon: <HugeiconsIcon icon={MoneyBag01Icon} size={18} /> },
+        { label: 'Ort. Ödeme Süresi', value: '0 gün', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
+      ]);
+    }
+    setLoading(false);
+  }, []);
+
+  const tabs = [
+    { id: 'overview', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> Genel Bakış</div> },
+    { id: 'pending', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyenler</div> },
+    { id: 'completed', label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Tamamlanan</div> }
   ];
 
-  const pendingPayouts = [
-    { store: 'Elif Boutique', amount: '₺42,800', orders: 142, days: 2, tier: 'Platinum' },
-    { store: 'Maison de Mode', amount: '₺28,400', orders: 98, days: 3, tier: 'Gold' },
-    { store: 'Urban Style TR', amount: '₺22,100', orders: 76, days: 1, tier: 'Gold' },
-    { store: 'Chic Corner', amount: '₺18,600', orders: 64, days: 4, tier: 'Silver' },
-    { store: 'Trendy Kids', amount: '₺15,200', orders: 52, days: 2, tier: 'Silver' },
-    { store: 'Bella Moda', amount: '₺12,400', orders: 41, days: 5, tier: 'Bronze' },
+  const pendingColumns: Column<any>[] = [
+    {
+      header: 'Mağaza',
+      accessor: (item) => (
+        <div className="flex items-center gap-2">
+          <span className="text-[12px] font-bold text-[#111827]">{item.store}</span>
+          <StatusBadge status={item.tier} type={item.tier === 'Platinum' ? 'info' : item.tier === 'Gold' ? 'warning' : 'neutral'} />
+        </div>
+      )
+    },
+    {
+      header: 'Detay',
+      accessor: (item) => <span className="text-[10px] text-gray-500">{item.orders} sipariş · {item.days} gündür bekliyor</span>
+    },
+    {
+      header: 'Tutar',
+      accessor: (item) => <span className="text-[14px] font-black text-green-600">{item.amount}</span>
+    },
+    {
+      header: 'İşlem',
+      accessor: (item) => (
+        <button 
+          onClick={(e) => { e.stopPropagation(); setActionDone(`${item.store} ödemesi onaylandı.`); setTimeout(() => setActionDone(null), 2500); }} 
+          className="text-[9px] font-black px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+        >
+          ONAYLA
+        </button>
+      ),
+      className: 'text-right',
+      headerClassName: 'text-right'
+    }
   ];
 
-  const completedPayouts = [
-    { store: 'Elif Boutique', amount: '₺38,200', date: '14 May 2026', method: 'IBAN', status: 'Tamamlandı' },
-    { store: 'Urban Style TR', amount: '₺19,800', date: '13 May 2026', method: 'IBAN', status: 'Tamamlandı' },
-    { store: 'Chic Corner', amount: '₺14,500', date: '12 May 2026', method: 'IBAN', status: 'Tamamlandı' },
-    { store: 'Trendy Kids', amount: '₺11,200', date: '12 May 2026', method: 'IBAN', status: 'Tamamlandı' },
+  const completedColumns: Column<any>[] = [
+    {
+      header: 'Mağaza',
+      accessor: (item) => <span className="text-[12px] font-bold text-[#111827]">{item.store}</span>
+    },
+    {
+      header: 'Tarih',
+      accessor: (item) => <span className="text-[10px] text-gray-500">{item.date} · {item.method}</span>
+    },
+    {
+      header: 'Tutar',
+      accessor: (item) => <span className="text-[13px] font-black text-[#111827]">{item.amount}</span>
+    },
+    {
+      header: 'Durum',
+      accessor: (item) => <StatusBadge status={item.status} type="success" />
+    }
   ];
 
   const weeklyTrend = [
-    { week: 'H1', paid: 280, pending: 120 },
-    { week: 'H2', paid: 310, pending: 95 },
-    { week: 'H3', paid: 345, pending: 84 },
-    { week: 'H4', paid: 290, pending: 110 },
+    { week: 'H1', paid: 0, pending: 0 },
+    { week: 'H2', paid: 0, pending: 0 },
+    { week: 'H3', paid: 0, pending: 0 },
+    { week: 'H4', paid: 0, pending: 0 },
   ];
 
   const cardClass = 'bg-white rounded-[20px] border border-gray-100 shadow-sm';
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
-          <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <div>
-            <h1 className="text-[18px] font-black text-[#111827]">Finans & Hak Ediş</h1>
-            <p className="text-[11px] font-medium text-gray-400">Satıcı ödemeleri ve komisyon yönetimi</p>
-          </div>
-          <button onClick={() => setShowApproveModal(true)} className="ml-auto px-4 py-2 rounded-xl bg-green-500 text-white text-[10px] font-black tracking-wider hover:bg-green-600 transition-colors">
+      <PageHeader 
+        title="Finans & Hak Ediş" 
+        description="Satıcı ödemeleri ve komisyon yönetimi" 
+        onBack={() => router.back()}
+        actions={
+          <button onClick={() => setShowApproveModal(true)} className="px-4 py-2 rounded-xl bg-green-500 text-white text-[10px] font-black tracking-wider hover:bg-green-600 transition-colors">
             + TOPLU ONAYLA
           </button>
-        </div>
-      </div>
+        }
+      />
 
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {kpis.map((k, i) => (
-            <div key={i} className={`${k.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <div className="flex justify-center text-[28px] mb-2">{k.icon}</div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{k.label}</p>
-              <p className={`text-[24px] font-black ${k.color}`}>{k.value}</p>
-              <p className="text-[10px] font-bold text-green-500 mt-1">{k.sub}</p>
-            </div>
-          ))}
-        </div>
+        <KPIGrid items={kpiData} />
 
-        <div className={`${cardClass} p-2 flex gap-1`}>
-          {[{id:'overview',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={BarChartIcon} size={16} /> Genel Bakış</div>},{id:'pending',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Timer02Icon} size={16} /> Bekleyenler</div>},{id:'completed',label: <div className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Tamamlanan</div>}].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 px-3 py-2 rounded-lg text-[11px] font-bold transition-all ${activeTab === tab.id ? 'bg-[#111827] text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <FilterTabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
 
         {activeTab === 'overview' && (
           <>
@@ -90,8 +141,8 @@ export default function PayoutManagementPage() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span className="text-[9px] font-black text-gray-600">₺{w.paid}K</span>
                     <div className="w-full flex flex-col gap-1">
-                      <div className="w-full rounded-t-lg bg-green-400" style={{ height: `${(w.paid / 400) * 100}px` }} />
-                      <div className="w-full rounded-b-lg bg-orange-300" style={{ height: `${(w.pending / 400) * 60}px` }} />
+                      <div className="w-full rounded-t-lg bg-green-400" style={{ height: `${w.paid > 0 ? (w.paid / 400) * 100 : 0}px` }} />
+                      <div className="w-full rounded-b-lg bg-orange-300" style={{ height: `${w.pending > 0 ? (w.pending / 400) * 60 : 0}px` }} />
                     </div>
                     <span className="text-[9px] font-bold text-gray-400">{w.week}</span>
                   </div>
@@ -105,9 +156,9 @@ export default function PayoutManagementPage() {
 
             <div className="grid grid-cols-3 gap-3">
               {[
-                { label: 'Komisyon Oranı', value: '%12.8', color: 'text-purple-600' },
-                { label: 'İade Kesintisi', value: '₺32,400', color: 'text-red-500' },
-                { label: 'Net Take Rate', value: '%10.4', color: 'text-green-600' },
+                { label: 'Komisyon Oranı', value: '%0', color: 'text-purple-600' },
+                { label: 'İade Kesintisi', value: '₺0', color: 'text-red-500' },
+                { label: 'Net Take Rate', value: '%0', color: 'text-green-600' },
               ].map((m, i) => (
                 <div key={i} className={`${cardClass} p-4 text-center`}>
                   <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">{m.label}</p>
@@ -120,49 +171,39 @@ export default function PayoutManagementPage() {
 
         {activeTab === 'pending' && (
           <div className="space-y-3">
-            {/* Select All + Bulk */}
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-3">
-                <input type="checkbox" checked={selectedPayouts.length === pendingPayouts.length} onChange={() => setSelectedPayouts(selectedPayouts.length === pendingPayouts.length ? [] : pendingPayouts.map((_,i) => i))} className="w-4 h-4 rounded border-gray-300 accent-[#111827]" />
-                <span className="text-[11px] font-bold text-gray-400">Tümünü Seç ({pendingPayouts.length})</span>
+            {selectedPayouts.length > 0 && (
+              <div className="flex justify-end px-1">
+                <button onClick={() => { setActionDone(`${selectedPayouts.length} ödeme onaylandı.`); setSelectedPayouts([]); setTimeout(() => setActionDone(null), 2500); }} className="px-3 py-1.5 bg-green-500 text-white rounded-lg text-[10px] font-bold">
+                  {selectedPayouts.length} Seçili — Toplu Onayla
+                </button>
               </div>
-              {selectedPayouts.length > 0 && <button onClick={() => { setActionDone(`${selectedPayouts.length} ödeme onaylandı.`); setSelectedPayouts([]); setTimeout(() => setActionDone(null), 2500); }} className="px-3 py-1.5 bg-green-500 text-white rounded-lg text-[10px] font-bold">{selectedPayouts.length} Seçili — Toplu Onayla</button>}
-            </div>
-            {pendingPayouts.map((p, i) => (
-              <div key={i} className={`${cardClass} p-4 ${selectedPayouts.includes(i) ? 'ring-1 ring-green-400 bg-green-50/30' : ''}`}>
-                <div className="flex items-center justify-between gap-3">
-                  <input type="checkbox" checked={selectedPayouts.includes(i)} onChange={() => setSelectedPayouts(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i])} className="w-4 h-4 rounded border-gray-300 accent-[#111827] shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[12px] font-bold text-[#111827]">{p.store}</span>
-                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-purple-50 text-purple-600">{p.tier}</span>
-                    </div>
-                    <p className="text-[10px] text-gray-500 mt-0.5">{p.orders} sipariş · {p.days} gündür bekliyor</p>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-[14px] font-black text-green-600">{p.amount}</p>
-                  </div>
-                  <button onClick={() => { setActionDone(`${p.store} ödemesi onaylandı.`); setTimeout(() => setActionDone(null), 2500); }} className="text-[9px] font-black px-3 py-2 bg-green-500 text-white rounded-lg shrink-0 hover:bg-green-600 transition-colors">ONAYLA</button>
-                </div>
-              </div>
-            ))}
+            )}
+            <DataTable
+              data={pendingData}
+              columns={pendingColumns}
+              keyExtractor={(item: any) => item.store || Math.random().toString()}
+              loading={loading}
+              emptyMessage="Bekleyen ödeme bulunamadı."
+              selectedIds={selectedPayouts}
+              onToggleSelect={(id) => {
+                 setSelectedPayouts(prev => prev.includes(id as string) ? prev.filter(x => x !== id) : [...prev, id as string]);
+              }}
+              onToggleAll={() => {
+                 setSelectedPayouts(selectedPayouts.length === pendingData.length ? [] : pendingData.map(d => d.store));
+              }}
+            />
           </div>
         )}
 
         {activeTab === 'completed' && (
           <div className="space-y-3">
-            {completedPayouts.map((p, i) => (
-              <div key={i} className={`${cardClass} p-4`}>
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1">
-                    <span className="text-[12px] font-bold text-[#111827]">{p.store}</span>
-                    <p className="text-[10px] text-gray-500 mt-0.5">{p.date} · {p.method}</p>
-                  </div>
-                  <p className="text-[13px] font-black text-[#111827]">{p.amount}</p>
-                  <span className="text-[9px] font-black px-2 py-1 rounded-full bg-green-50 text-green-600"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {p.status}</span>
-                </div>
-              </div>
-            ))}
+            <DataTable
+              data={completedData}
+              columns={completedColumns}
+              keyExtractor={(item: any) => item.store || Math.random().toString()}
+              loading={loading}
+              emptyMessage="Tamamlanan ödeme bulunamadı."
+            />
           </div>
         )}
 
@@ -178,8 +219,11 @@ export default function PayoutManagementPage() {
             ].map((a, i) => (
               <div key={i} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-blue-100/50">
                 <div className="flex items-start justify-between gap-3">
-                  <div><p className="text-[12px] font-bold text-[#111827]">{a.title}</p><p className="text-[10px] text-gray-500 mt-1">{a.desc}</p></div>
-                  <span className={`text-[10px] font-black px-2 py-1 rounded-full shrink-0 ${a.impact === 'Acil' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{a.impact}</span>
+                  <div>
+                    <p className="text-[12px] font-bold text-[#111827]">{a.title}</p>
+                    <p className="text-[10px] text-gray-500 mt-1">{a.desc}</p>
+                  </div>
+                  <StatusBadge status={a.impact} type={a.impact === 'Acil' ? 'danger' : 'success'} />
                 </div>
               </div>
             ))}
@@ -187,23 +231,26 @@ export default function PayoutManagementPage() {
         </div>
       </div>
 
-      {showApproveModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setShowApproveModal(false)}>
-          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md p-8 rounded-2xl shadow-2xl text-center bg-white border border-gray-200">
-            <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
-            </div>
-            <h3 className="text-xl font-black mb-2 text-gray-900">Toplu Onay İşlemi</h3>
-            <p className="text-[13px] mb-6 text-gray-500">Havuzda bekleyen <strong>84 adet</strong> hak ediş talebini onaylayıp tutarları satıcı cüzdanlarına aktarmak istiyor musunuz?</p>
-            <div className="flex gap-3">
-              <button onClick={() => setShowApproveModal(false)} className="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-colors">İptal</button>
-              <button onClick={() => setShowApproveModal(false)} className="flex-1 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-bold transition-colors">Evet, Onayla</button>
-            </div>
+      <ActionModal 
+        isOpen={showApproveModal} 
+        onClose={() => setShowApproveModal(false)}
+        title="Toplu Onay İşlemi"
+      >
+        <div className="text-center">
+          <p className="text-[13px] mb-6 text-gray-500">Havuzda bekleyen <strong>{pendingData.length} adet</strong> hak ediş talebini onaylayıp tutarları satıcı cüzdanlarına aktarmak istiyor musunuz?</p>
+          <div className="flex gap-3">
+            <button onClick={() => setShowApproveModal(false)} className="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-colors">İptal</button>
+            <button onClick={() => { setActionDone(`${pendingData.length} ödeme onaylandı.`); setShowApproveModal(false); setTimeout(() => setActionDone(null), 2500); }} className="flex-1 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-bold transition-colors">Evet, Onayla</button>
           </div>
         </div>
-      )}
+      </ActionModal>
+
       {/* Toast */}
-      {actionDone && <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in"><HugeiconsIcon icon={Tick01Icon} size={16} className="inline-block mr-1" /> {actionDone}</div>}
+      {actionDone && (
+        <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in flex items-center gap-1">
+          <HugeiconsIcon icon={Tick01Icon} size={16} /> {actionDone}
+        </div>
+      )}
     </div>
   );
 }

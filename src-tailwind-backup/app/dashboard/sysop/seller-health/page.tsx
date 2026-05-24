@@ -1,77 +1,161 @@
 'use client';
+
+import React, {useEffect, useState} from 'react';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {Alert02Icon, CrownIcon, NewJobIcon, StarIcon, Tick01Icon} from '@hugeicons/core-free-icons';
 import {useRouter} from 'next/navigation';
+import {PageHeader} from '../../components/ui/PageHeader';
+import {KPIGrid, KPIItem} from '../../components/ui/KPIGrid';
+import {Column, DataTable} from '../../components/ui/DataTable';
+import {ActionModal, StatusBadge} from '../../components/ui/StatusBadge';
 
 export default function SellerHealthPage() {
   const router = useRouter();
+  const [token, setToken] = useState<string | null>(null);
+  const [selectedRiskSeller, setSelectedRiskSeller] = useState<any>(null);
 
-  const healthScores = [
-    { label: 'Aktif Satıcı', value: '1,245', color: 'text-[#34C759]', bg: 'bg-green-50', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'İnaktif (>7 Gün)', value: '84', color: 'text-[#FF8D28]', bg: 'bg-orange-50', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
-    { label: 'Top Satıcı (>15K ₺)', value: '32', color: 'text-[#111827]', bg: 'bg-gray-50', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
-    { label: 'Yeni Satıcı (30g)', value: '67', color: 'text-[#007AFF]', bg: 'bg-blue-50', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token') || 'mock_token';
+    setToken(storedToken);
+  }, []);
+
+  const hasValidToken = token && token !== 'mock_token';
+
+  const healthScores: KPIItem[] = hasValidToken ? [
+    { label: 'Aktif Satıcı', value: '1,245', colorClass: 'text-[#34C759]', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+    { label: 'İnaktif (>7 Gün)', value: '84', colorClass: 'text-[#FF8D28]', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
+    { label: 'Top Satıcı (>15K ₺)', value: '32', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
+    { label: 'Yeni Satıcı (30g)', value: '67', colorClass: 'text-[#007AFF]', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
+  ] : [
+    { label: 'Aktif Satıcı', value: '0', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+    { label: 'İnaktif (>7 Gün)', value: '0', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
+    { label: 'Top Satıcı (>15K ₺)', value: '0', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
+    { label: 'Yeni Satıcı (30g)', value: '0', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
   ];
 
-  const topSellers = [
-    { name: 'Elif Boutique', gmv: '₺142,500', orders: 842, rating: 4.9, status: 'active', growth: '+18%' },
-    { name: 'Maison de Mode', gmv: '₺98,200', orders: 567, rating: 4.8, status: 'active', growth: '+12%' },
-    { name: 'Urban Style TR', gmv: '₺87,400', orders: 492, rating: 4.7, status: 'active', growth: '+8%' },
-    { name: 'Chic Corner', gmv: '₺76,800', orders: 421, rating: 4.6, status: 'active', growth: '+22%' },
-    { name: 'Trendy Kids', gmv: '₺64,300', orders: 388, rating: 4.8, status: 'active', growth: '+5%' },
+  const topSellers = hasValidToken ? [
+    { id: 1, index: 1, name: 'Elif Boutique', gmv: '₺142,500', orders: 842, rating: 4.9, status: 'active', growth: '+18%' },
+    { id: 2, index: 2, name: 'Maison de Mode', gmv: '₺98,200', orders: 567, rating: 4.8, status: 'active', growth: '+12%' },
+    { id: 3, index: 3, name: 'Urban Style TR', gmv: '₺87,400', orders: 492, rating: 4.7, status: 'active', growth: '+8%' },
+    { id: 4, index: 4, name: 'Chic Corner', gmv: '₺76,800', orders: 421, rating: 4.6, status: 'active', growth: '+22%' },
+    { id: 5, index: 5, name: 'Trendy Kids', gmv: '₺64,300', orders: 388, rating: 4.8, status: 'active', growth: '+5%' },
+  ] : [];
+
+  const topSellersColumns: Column<any>[] = [
+    {
+      header: 'Satıcı',
+      accessor: (item) => (
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[12px] font-black shrink-0">
+            {item.index}
+          </div>
+          <div>
+            <p className="text-[12px] font-bold text-[#111827]">{item.name}</p>
+            <p className="text-[10px] text-gray-400">{item.orders} sipariş · <HugeiconsIcon icon={StarIcon} size={12} className="inline-block" /> {item.rating}</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      header: 'GMV',
+      accessor: (item) => (
+        <div className="text-right">
+          <p className="text-[13px] font-black text-[#111827]">{item.gmv}</p>
+          <p className="text-[10px] font-bold text-green-500">{item.growth}</p>
+        </div>
+      )
+    },
+    {
+      header: 'Durum',
+      accessor: (item) => (
+        <div className="flex justify-end">
+          <StatusBadge status={item.status} type="success" />
+        </div>
+      )
+    }
   ];
 
-  const riskSellers = [
-    { name: 'Fashion Palace', gmv: '₺38,200', lastActive: '8 gün önce', reason: 'Giriş yok', risk: 'Yüksek' },
-    { name: 'Style Hub', gmv: '₺22,100', lastActive: '12 gün önce', reason: 'Ürün güncellemesi yok', risk: 'Kritik' },
-    { name: 'Bella Moda', gmv: '₺18,700', lastActive: '7 gün önce', reason: 'Sipariş karşılanmadı', risk: 'Orta' },
+  const riskSellers = hasValidToken ? [
+    { id: 1, name: 'Fashion Palace', gmv: '₺38,200', lastActive: '8 gün önce', reason: 'Giriş yok', risk: 'Yüksek' },
+    { id: 2, name: 'Style Hub', gmv: '₺22,100', lastActive: '12 gün önce', reason: 'Ürün güncellemesi yok', risk: 'Kritik' },
+    { id: 3, name: 'Bella Moda', gmv: '₺18,700', lastActive: '7 gün önce', reason: 'Sipariş karşılanmadı', risk: 'Orta' },
+  ] : [];
+
+  const riskSellersColumns: Column<any>[] = [
+    {
+      header: 'Satıcı',
+      accessor: (item) => (
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-[12px] font-bold text-[#111827]">{item.name}</p>
+            <StatusBadge 
+              status={item.risk} 
+              type={item.risk === 'Kritik' ? 'danger' : item.risk === 'Yüksek' ? 'warning' : 'neutral'} 
+            />
+          </div>
+          <p className="text-[10px] text-gray-500 mt-0.5">{item.reason} · {item.lastActive}</p>
+        </div>
+      )
+    },
+    {
+      header: 'Aylık GMV',
+      accessor: (item) => (
+        <div className="text-right">
+          <p className="text-[12px] font-black text-[#111827]">{item.gmv}</p>
+          <p className="text-[9px] text-gray-400">Aylık GMV</p>
+        </div>
+      )
+    },
+    {
+      header: 'Aksiyon',
+      accessor: (item) => (
+        <div className="flex justify-end">
+          <button 
+            onClick={() => setSelectedRiskSeller(item)} 
+            className="text-[9px] font-black px-3 py-2 bg-[#FF8D28] text-white rounded-lg shrink-0 hover:bg-[#FF8D28]/80 transition-colors"
+          >
+            AKSİYON
+          </button>
+        </div>
+      )
+    }
   ];
 
-  const sellerTiers = [
+  const sellerTiers = hasValidToken ? [
     { tier: 'Platinum', count: 12, gmvShare: '%34', avgRating: 4.9, color: 'from-gray-200 to-gray-400' },
     { tier: 'Gold', count: 20, gmvShare: '%28', avgRating: 4.7, color: 'from-yellow-300 to-yellow-500' },
     { tier: 'Silver', count: 156, gmvShare: '%24', avgRating: 4.4, color: 'from-gray-300 to-gray-500' },
     { tier: 'Bronze', count: 1057, gmvShare: '%14', avgRating: 4.1, color: 'from-orange-300 to-orange-500' },
-  ];
+  ] : [];
 
-  const monthlyGrowth = [
+  const monthlyGrowth = hasValidToken ? [
     { month: 'Oca', active: 980, new: 42 },
     { month: 'Şub', active: 1020, new: 48 },
     { month: 'Mar', active: 1085, new: 72 },
     { month: 'Nis', active: 1140, new: 61 },
     { month: 'May', active: 1198, new: 64 },
     { month: 'Haz', active: 1245, new: 67 },
-  ];
-  const maxActive = Math.max(...monthlyGrowth.map(m => m.active));
+  ] : [];
+  const maxActive = monthlyGrowth.length > 0 ? Math.max(...monthlyGrowth.map(m => m.active)) : 0;
+
+  const aiActions = hasValidToken ? [
+    { title: 'İnaktif Top Satıcılarla telefon görüşmesi', desc: 'GMV\'si >15K ₺ olan Fashion Palace ve Style Hub\'a direkt arama yapılmalı. Kayıp riski aylık ₺60K.', impact: 'Acil' },
+    { title: 'Bronze satıcılara eğitim programı', desc: '1,057 Bronze satıcının %12\'si ürün fotoğraf kalitesi düşük. Otomatik iyileştirme aracı sun.', impact: '+₺45K/ay' },
+    { title: 'Gold → Platinum geçiş teşviki', desc: '8 Gold satıcı Platinum eşiğine çok yakın. Komisyon indirimi ile teşvik et.', impact: '+₺28K/ay' },
+  ] : [];
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans">
-      {/* Header */}
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 py-4 flex items-center gap-4">
-          <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <div>
-            <h1 className="text-[18px] font-black text-[#111827]">Satıcı Sağlığı</h1>
-            <p className="text-[11px] font-medium text-gray-400">Canlı Veriler · Tüm Satıcılar</p>
-          </div>
-          <div className="ml-auto px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black tracking-wider">FOUNDER ONLY</div>
-        </div>
-      </div>
+      <PageHeader 
+        title="Satıcı Sağlığı" 
+        description="Canlı Veriler · Tüm Satıcılar" 
+        actions={
+          <div className="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black tracking-wider">FOUNDER ONLY</div>
+        }
+      />
 
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-6 pb-20">
-
-        {/* Health Score Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {healthScores.map((h, i) => (
-            <div key={i} className={`${h.bg} border border-gray-100 rounded-[20px] p-4 text-center`}>
-              <div className="flex justify-center text-[28px] mb-2">{h.icon}</div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase mt-2 mb-1">{h.label}</p>
-              <p className={`text-[26px] font-black ${h.color}`}>{h.value}</p>
-            </div>
-          ))}
-        </div>
+        <KPIGrid items={healthScores} />
 
         {/* Seller Growth Trend */}
         <div className="bg-white rounded-[20px] border border-gray-100 p-5 shadow-sm">
@@ -80,13 +164,15 @@ export default function SellerHealthPage() {
               <h2 className="text-[13px] font-black text-[#111827]">Satıcı Büyüme Trendi</h2>
               <p className="text-[10px] font-medium text-gray-400 mt-0.5">Aylık aktif satıcı sayısı</p>
             </div>
-            <div className="flex items-center gap-1 bg-green-50 text-green-600 px-2 py-1 rounded-full text-[10px] font-black">
-              ↗ %27 büyüme (6 ay)
-            </div>
+            {hasValidToken && (
+              <div className="flex items-center gap-1 bg-green-50 text-green-600 px-2 py-1 rounded-full text-[10px] font-black">
+                ↗ %27 büyüme (6 ay)
+              </div>
+            )}
           </div>
           
           <div className="flex items-end justify-between gap-2 h-32">
-            {monthlyGrowth.map((m, i) => (
+            {monthlyGrowth.length > 0 ? monthlyGrowth.map((m, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
                 <span className="text-[9px] font-black text-gray-700">{m.active}</span>
                 <div className="w-full flex flex-col gap-0.5">
@@ -101,12 +187,16 @@ export default function SellerHealthPage() {
                 </div>
                 <span className="text-[9px] font-bold text-gray-400">{m.month}</span>
               </div>
-            ))}
+            )) : (
+              <div className="w-full h-full flex items-center justify-center text-[11px] text-gray-400 font-medium">Veri bulunamadı</div>
+            )}
           </div>
-          <div className="flex items-center gap-4 mt-3 justify-center">
-            <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-400"></div><span className="text-[9px] font-bold text-gray-500">Aktif Satıcı</span></div>
-            <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-green-400"></div><span className="text-[9px] font-bold text-gray-500">Yeni Katılım</span></div>
-          </div>
+          {monthlyGrowth.length > 0 && (
+            <div className="flex items-center gap-4 mt-3 justify-center">
+              <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-400"></div><span className="text-[9px] font-bold text-gray-500">Aktif Satıcı</span></div>
+              <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-green-400"></div><span className="text-[9px] font-bold text-gray-500">Yeni Katılım</span></div>
+            </div>
+          )}
         </div>
 
         {/* Seller Tiers */}
@@ -114,42 +204,34 @@ export default function SellerHealthPage() {
           <h2 className="text-[13px] font-black text-[#111827] mb-1">Satıcı Seviyeleri</h2>
           <p className="text-[10px] font-medium text-gray-400 mb-5">GMV bazlı segmentasyon</p>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {sellerTiers.map((t, i) => (
-              <div key={i} className={`rounded-2xl p-4 bg-gradient-to-br ${t.color} text-white`}>
-                <p className="text-[18px] font-black">{t.tier}</p>
-                <div className="mt-3 space-y-1">
-                  <div className="flex justify-between"><span className="text-[10px] opacity-80">Satıcı</span><span className="text-[12px] font-black">{t.count}</span></div>
-                  <div className="flex justify-between"><span className="text-[10px] opacity-80">GMV Pay</span><span className="text-[12px] font-black">{t.gmvShare}</span></div>
-                  <div className="flex justify-between"><span className="text-[10px] opacity-80">Ort. Puan</span><span className="text-[12px] font-black"><HugeiconsIcon icon={StarIcon} size={16} className="inline-block mr-1" /> {t.avgRating}</span></div>
+          {sellerTiers.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {sellerTiers.map((t, i) => (
+                <div key={i} className={`rounded-2xl p-4 bg-gradient-to-br ${t.color} text-white`}>
+                  <p className="text-[18px] font-black">{t.tier}</p>
+                  <div className="mt-3 space-y-1">
+                    <div className="flex justify-between"><span className="text-[10px] opacity-80">Satıcı</span><span className="text-[12px] font-black">{t.count}</span></div>
+                    <div className="flex justify-between"><span className="text-[10px] opacity-80">GMV Pay</span><span className="text-[12px] font-black">{t.gmvShare}</span></div>
+                    <div className="flex justify-between"><span className="text-[10px] opacity-80">Ort. Puan</span><span className="text-[12px] font-black flex items-center gap-1"><HugeiconsIcon icon={StarIcon} size={12} /> {t.avgRating}</span></div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+             <div className="text-center py-4 text-[11px] text-gray-400 font-medium">Veri bulunamadı</div>
+          )}
         </div>
 
         {/* Top Sellers */}
         <div className="bg-white rounded-[20px] border border-gray-100 p-5 shadow-sm">
           <h2 className="text-[13px] font-black text-[#111827] mb-1">Top Satıcılar</h2>
           <p className="text-[10px] font-medium text-gray-400 mb-4">GMV bazlı ilk 5</p>
-          
-          <div className="space-y-3">
-            {topSellers.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/50 border border-gray-100 hover:bg-gray-50 transition-colors">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[12px] font-black shrink-0">
-                  {i + 1}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[12px] font-bold text-[#111827] truncate">{s.name}</p>
-                  <p className="text-[10px] text-gray-400">{s.orders} sipariş · <HugeiconsIcon icon={StarIcon} size={16} className="inline-block mr-1" /> {s.rating}</p>
-                </div>
-                <div className="text-right shrink-0">
-                  <p className="text-[13px] font-black text-[#111827]">{s.gmv}</p>
-                  <p className="text-[10px] font-bold text-green-500">{s.growth}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <DataTable 
+            data={topSellers} 
+            columns={topSellersColumns} 
+            keyExtractor={(item) => item.id.toString()}
+            emptyMessage="Top satıcı bulunamadı."
+          />
         </div>
 
         {/* Risk Sellers */}
@@ -159,27 +241,12 @@ export default function SellerHealthPage() {
             <h2 className="text-[13px] font-black text-[#FF8D28]">Risk Altındaki Satıcılar</h2>
           </div>
           <p className="text-[10px] font-medium text-gray-400 mb-4">Acil aksiyon gerektirenler</p>
-          
-          <div className="space-y-3">
-            {riskSellers.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-[#FF8D28]/5 border border-[#FF8D28]/10">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="text-[12px] font-bold text-[#111827]">{s.name}</p>
-                    <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${s.risk === 'Kritik' ? 'bg-red-100 text-red-600' : s.risk === 'Yüksek' ? 'bg-orange-100 text-orange-600' : 'bg-yellow-100 text-yellow-700'}`}>{s.risk}</span>
-                  </div>
-                  <p className="text-[10px] text-gray-500 mt-0.5">{s.reason} · {s.lastActive}</p>
-                </div>
-                <div className="text-right shrink-0">
-                  <p className="text-[12px] font-black text-[#111827]">{s.gmv}</p>
-                  <p className="text-[9px] text-gray-400">Aylık GMV</p>
-                </div>
-                <button onClick={() => router.push('/dashboard/sysop/user-management')} className="text-[9px] font-black px-3 py-2 bg-[#FF8D28] text-white rounded-lg shrink-0 hover:bg-[#FF8D28]/80 transition-colors">
-                  AKSİYON
-                </button>
-              </div>
-            ))}
-          </div>
+          <DataTable 
+            data={riskSellers} 
+            columns={riskSellersColumns} 
+            keyExtractor={(item) => item.id.toString()}
+            emptyMessage="Risk altındaki satıcı bulunamadı."
+          />
         </div>
 
         {/* AI Recommendations */}
@@ -189,26 +256,43 @@ export default function SellerHealthPage() {
             <h2 className="text-[13px] font-black text-blue-700">AI Aksiyonlar</h2>
           </div>
 
-          <div className="space-y-3">
-            {[
-              { title: 'İnaktif Top Satıcılarla telefon görüşmesi', desc: 'GMV\'si >15K ₺ olan Fashion Palace ve Style Hub\'a direkt arama yapılmalı. Kayıp riski aylık ₺60K.', impact: 'Acil' },
-              { title: 'Bronze satıcılara eğitim programı', desc: '1,057 Bronze satıcının %12\'si ürün fotoğraf kalitesi düşük. Otomatik iyileştirme aracı sun.', impact: '+₺45K/ay' },
-              { title: 'Gold → Platinum geçiş teşviki', desc: '8 Gold satıcı Platinum eşiğine çok yakın. Komisyon indirimi ile teşvik et.', impact: '+₺28K/ay' },
-            ].map((action, i) => (
-              <div key={i} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-blue-100/50">
-                <div className="flex items-start justify-between gap-3">
+          {aiActions.length > 0 ? (
+            <div className="space-y-3">
+              {aiActions.map((action, i) => (
+                <div key={i} className="bg-white/80 backdrop-blur rounded-xl p-4 border border-blue-100/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
                     <p className="text-[12px] font-bold text-[#111827]">{action.title}</p>
                     <p className="text-[10px] text-gray-500 mt-1">{action.desc}</p>
                   </div>
-                  <span className={`text-[10px] font-black px-2 py-1 rounded-full shrink-0 whitespace-nowrap ${action.impact === 'Acil' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{action.impact}</span>
+                  <StatusBadge 
+                    status={action.impact} 
+                    type={action.impact === 'Acil' ? 'danger' : 'success'} 
+                  />
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-4 text-[11px] text-gray-400 font-medium">Veri bulunamadı</div>
+          )}
         </div>
-
       </div>
+      
+      <ActionModal
+        isOpen={!!selectedRiskSeller}
+        onClose={() => setSelectedRiskSeller(null)}
+        title="Aksiyon Seçenekleri"
+        description={`${selectedRiskSeller?.name} için aksiyon seçiniz.`}
+      >
+        <div className="space-y-3">
+           <button onClick={() => router.push('/dashboard/sysop/user-management')} className="w-full px-4 py-2 text-[12px] font-bold bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-colors">
+              Satıcıyı Yönet
+           </button>
+           <button onClick={() => setSelectedRiskSeller(null)} className="w-full px-4 py-2 text-[12px] font-bold bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-colors">
+              İptal
+           </button>
+        </div>
+      </ActionModal>
     </div>
   );
 }
+
