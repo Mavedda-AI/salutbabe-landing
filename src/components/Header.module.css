@@ -196,11 +196,14 @@
 
 .searchBox {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
   background-color: white;
   border: 1px solid #E5E5E5; 
   border-radius: 24px;
-  padding: 8px 16px; /* Minimalized padding */
+  padding: 0 16px;
+  height: 42px; /* Restored fixed height but minimalized */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 

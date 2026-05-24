@@ -136,6 +136,8 @@
 
 /* Feature Cards */
 .featuresRow {
+  position: relative;
+  z-index: 10; /* Bring cards IN FRONT of the images */
   display: flex;
   flex-direction: row;
   justify-content: flex-start; 
@@ -221,8 +223,8 @@
 
 .galleryImageWrapper {
   position: absolute;
-  width: 260px; 
-  height: 380px; 
+  width: 240px; 
+  height: 350px; 
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15); 
@@ -238,19 +240,19 @@
 /* Positioning to match Depop fan effect exactly */
 .imageLeft {
   left: 50%;
-  transform: translateX(-125%) translateY(40px) rotate(-12deg);
+  transform: translateX(-110%) translateY(40px) rotate(-10deg);
   z-index: 1;
 }
 
 .imageCenter {
   left: 50%;
-  transform: translateX(-50%) translateY(-20px) rotate(0deg); 
+  transform: translateX(-50%) translateY(10px) rotate(2deg); /* Added slight tilt */
   z-index: 2;
 }
 
 .imageRight {
   left: 50%;
-  transform: translateX(25%) translateY(50px) rotate(10deg);
+  transform: translateX(15%) translateY(50px) rotate(8deg);
   z-index: 1;
 }
 
