@@ -10,21 +10,84 @@ export default function ProductManagementPage() {
   const [activeTab, setActiveTab] = useState<'all' | 'active' | 'pending' | 'rejected'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState<string | null>(null);
+  const [products, setProducts] = useState<any[]>([]);
 
   const isDark = theme === 'dark';
 
-  useEffect(() => { setTimeout(() => setLoading(false), 500); }, []);
-  
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (token === "mock_token" || !token) {
+        setTimeout(() => {
+          setProducts([
+            { id: "PRD-101", name: "Organik Pamuk Zıbın Seti", store: "Ayşe'nin Dolabı", price: "245₺", status: "Yayında", stock: 12, date: "15.05.2026" },
+            { id: "PRD-102", name: "Bebek Arabası Puset", store: "Baby Moda", price: "4,500₺", status: "Onay Bekliyor", stock: 2, date: "14.05.2026" },
+            { id: "PRD-103", name: "Ahşap Eğitici Oyuncak", store: "Mini Adımlar", price: "320₺", status: "Yayında", stock: 45, date: "12.05.2026" },
+            { id: "PRD-104", name: "Sahte Marka (Replika) Tulum", store: "Şüpheli Satıcı", price: "100₺", status: "Reddedildi", stock: 0, date: "10.05.2026" },
+            { id: "PRD-105", name: "Yenidoğan Hastane Çıkışı", store: "Şirin Kids", price: "850₺", status: "Yayında", stock: 8, date: "08.05.2026" },
+          ]);
+          setLoading(false);
+        }, 500);
+        return;
+      }
+
+      const { apiUrl } = require('../../../../../lib/api');
+      const res = await fetch(apiUrl('/admin/listings?page=1&limit=100'), {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.payload && data.payload.listings) {
+        setProducts(data.payload.listings.map((p: any) => ({
+          id: p.listingID,
+          name: p.title,
+          store: p.seller?.userName ? `${p.seller.userName} ${p.seller.userSurname}` : 'Bilinmeyen Satıcı',
+          price: `${p.price}₺`,
+          status: p.status === 'active' ? 'Yayında' : p.status === 'pending_approval' ? 'Onay Bekliyor' : p.status === 'rejected' ? 'Reddedildi' : p.status,
+          stock: p.stock || 1,
+          date: new Date(p.createdAt).toLocaleDateString('tr-TR')
+        })));
+      }
+    } catch (e) {
+      console.error("Failed to fetch products:", e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleUpdateStatus = async (listingID: string, newStatus: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token === "mock_token" || !token) {
+         setProducts(products.map(p => p.id === listingID ? { ...p, status: newStatus === 'active' ? 'Yayında' : 'Reddedildi' } : p));
+         setShowModal(null);
+         return;
+      }
+      
+      const { apiUrl } = require('../../../../../lib/api');
+      const res = await fetch(apiUrl(`/admin/listings/${listingID}/status`), {
+        method: 'PUT',
+        headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (res.ok) {
+        setProducts(products.map(p => p.id === listingID ? { ...p, status: newStatus === 'active' ? 'Yayında' : 'Reddedildi' } : p));
+        setShowModal(null);
+      } else {
+        alert("Durum güncellenirken bir hata oluştu.");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Durum güncellenirken bir hata oluştu.");
+    }
+  };
+
   const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
 
-  // Mock Products
-  const products = [
-    { id: "PRD-101", name: "Organik Pamuk Zıbın Seti", store: "Ayşe'nin Dolabı", price: "245₺", status: "Yayında", stock: 12, date: "15.05.2026" },
-    { id: "PRD-102", name: "Bebek Arabası Puset", store: "Baby Moda", price: "4,500₺", status: "Onay Bekliyor", stock: 2, date: "14.05.2026" },
-    { id: "PRD-103", name: "Ahşap Eğitici Oyuncak", store: "Mini Adımlar", price: "320₺", status: "Yayında", stock: 45, date: "12.05.2026" },
-    { id: "PRD-104", name: "Sahte Marka (Replika) Tulum", store: "Şüpheli Satıcı", price: "100₺", status: "Reddedildi", stock: 0, date: "10.05.2026" },
-    { id: "PRD-105", name: "Yenidoğan Hastane Çıkışı", store: "Şirin Kids", price: "850₺", status: "Yayında", stock: 8, date: "08.05.2026" },
-  ];
 
   const filteredProducts = products.filter(p => {
     if (activeTab === 'active' && p.status !== 'Yayında') return false;
@@ -175,7 +238,7 @@ export default function ProductManagementPage() {
             <p className={`text-[13px] mb-8 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Bu ilan için uygulayacağınız aksiyonu seçin.</p>
             
             <div className="flex flex-col gap-3">
-              <button onClick={() => setShowModal(null)} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-green-500 text-white hover:bg-green-600 transition-colors">
+              <button onClick={() => showModal && handleUpdateStatus(showModal, 'active')} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-green-500 text-white hover:bg-green-600 transition-colors">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                 İlanı Onayla / Yayına Al
               </button>
@@ -183,7 +246,7 @@ export default function ProductManagementPage() {
                 <svg className="w-5 h-5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                 İlanı Düzenle
               </button>
-              <button onClick={() => setShowModal(null)} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">
+              <button onClick={() => showModal && handleUpdateStatus(showModal, 'rejected')} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
                 İlanı Reddet / Kaldır
               </button>
