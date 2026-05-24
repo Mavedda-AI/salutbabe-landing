@@ -17,13 +17,6 @@ export default function TopToastNotification() {
   useEffect(() => {
     // This is where we will hook up Socket.io
     // e.g., socket.on('notification', (data) => addToast(data));
-    
-    // For demonstration, let's show a toast after 5 seconds
-    const timer = setTimeout(() => {
-      setToasts([{ id: '1', title: 'Yeni Teklif Geldi!', message: 'Dinozor Sepeti için 200 TL teklifiniz var.' }]);
-    }, 5000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   const removeToast = (id: string) => {

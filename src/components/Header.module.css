@@ -232,3 +232,33 @@
 .searchInput::placeholder {
   color: #999999;
 }
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .mainHeader {
+    padding: 12px 12px; /* Less padding on small screens */
+  }
+  
+  .headerLeft {
+    gap: 12px; /* Reduce gap between hamburger and logo */
+  }
+  
+  .headerActions {
+    gap: 10px; /* Reduce gaps between actions */
+  }
+  
+  .mainLogoImage {
+    height: 22px; /* Scale logo down slightly */
+    transform: translateY(2px); /* Adjust visual offset for smaller size */
+  }
+  
+  .panelButton {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .signupButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
