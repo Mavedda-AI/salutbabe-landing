@@ -2,6 +2,7 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
+import {Cancel01Icon, GlobalIcon, Menu01Icon, Moon02Icon, Search01Icon} from 'hugeicons-react';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -25,10 +26,7 @@ export default function Header() {
           <div className={styles.bannerRight}>
             <button className={styles.openAppButton}>AÇ</button>
             <button className={styles.closeBannerButton} onClick={() => setShowBanner(false)}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
+              <Cancel01Icon size={20} color="currentColor" strokeWidth={2} />
             </button>
           </div>
           {/* Subtle gradient line at the bottom of the banner */}
@@ -40,11 +38,7 @@ export default function Header() {
       <div className={styles.mainHeader}>
         {/* Left: Hamburger */}
         <button className={styles.hamburgerButton}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+          <Menu01Icon size={28} color="currentColor" strokeWidth={2} />
         </button>
 
         {/* Center: Logo */}
@@ -62,16 +56,10 @@ export default function Header() {
         <div className={styles.headerActions}>
           <button className={styles.panelButton}>PANEL</button>
           <button className={styles.actionIcon}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
+            <Moon02Icon size={24} color="currentColor" strokeWidth={2} />
           </button>
           <button className={styles.actionIconLang}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
+            <GlobalIcon size={20} color="currentColor" strokeWidth={2} />
             <span className={styles.langText}>TR</span>
           </button>
         </div>
@@ -80,10 +68,7 @@ export default function Header() {
       {/* 3. Search Bar */}
       <div className={styles.searchContainer}>
         <div className={styles.searchBox}>
-          <svg className={styles.searchIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <Search01Icon className={styles.searchIcon} size={20} color="currentColor" strokeWidth={2} />
           <input type="text" placeholder="Ara..." className={styles.searchInput} />
         </div>
       </div>
