@@ -23,6 +23,10 @@
   background: linear-gradient(180deg, #FDF4FF 0%, #F3E8FF 100%); /* Light pastel purple/pink to match other tabs */
 }
 
+.bgOrganic {
+  background: linear-gradient(180deg, #FDFBF7 0%, #F3EDE4 100%); /* Earthy, natural beige/cream for organic */
+}
+
 .heroContainer {
   max-width: 1200px;
   width: 100%;
