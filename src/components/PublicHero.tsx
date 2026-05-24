@@ -57,70 +57,95 @@ export default function PublicHero() {
           <h1 className={styles.headline}>
             {isBuy && <>İkinci el al.<br />Kendi tarzını yarat.</>}
             {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
-            {isLive && <>Gerçek zamanlı sohbet.<br />Odalarımıza katıl.</>}
-            {isStory && <>Bizim hikayemiz.<br />Anneden anneye.</>}
+            {isLive && <>Canlı yayında keşfet.<br />Anında soru sor.</>}
+            {isStory && <>Bebekler büyür.<br />İyilik ve güven çoğalır.</>}
           </h1>
           <p className={styles.subhead}>Birlikte, anne-çocuk modasını döngüsel tutuyoruz.</p>
           
-          <Link href="/login" className={styles.primaryButton}>
-            {isBuy && "Hemen Keşfet"}
-            {isSell && "Hemen Sat"}
-            {isLive && "Odalara Katıl"}
-            {isStory && "Hikayemizi Oku"}
+          <Link href="/register" className={styles.primaryButton}>
+            {isBuy ? "Hemen Keşfet" : isSell ? "Satışa Başla" : isLive ? "Odalara Katıl" : "Hikayemizi Oku"}
           </Link>
         </div>
 
         {/* Feature Cards */}
         <div className={styles.featuresRow} key={`features-${activeTab}`}>
+          {/* Card 1: Static Shield (Applies to all but Buy) */}
           <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}>
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <path d="M9 12l2 2 4-4"></path>
-            </svg>
-            <h3 className={styles.featureTitle}>{isBuy ? "Güvenle Al" : "Güvenle Sat"}</h3>
+            {isBuy ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            )}
+            <h3 className={styles.featureTitle}>
+              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenle İzle" : "Güvenli Alan"}
+            </h3>
             <p className={styles.featureDesc}>Salutbabe Koruması</p>
           </div>
-          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
-            {isBuy ? (
-              <TShirtIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
-            ) : (
-              <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
-            )}
-            <h3 className={styles.featureTitle}>{isBuy ? "2M+" : "Hızlıca İlan Ver"}</h3>
-            <p className={styles.featureDesc}>{isBuy ? "Satıştaki ürün" : "Yapay zeka destekli"}</p>
-          </div>
-          <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
-            {isBuy ? (
-              <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
-            ) : (
-              <DeliveryTruck01Icon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />
-            )}
-            <h3 className={styles.featureTitle}>{isBuy ? "10K+" : "Kolayca Kargola"}</h3>
-            <p className={styles.featureDesc}>{isBuy ? "Her gün yeni ilan" : "Yazıcıya gerek yok"}</p>
-          </div>
+
+          {/* Dynamic Cards 2 & 3 */}
+          {(() => {
+            let card2 = { icon: <></>, title: '', desc: '' };
+            let card3 = { icon: <></>, title: '', desc: '' };
+
+            if (isBuy) {
+              card2 = { icon: <TShirtIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />, title: "2M+", desc: "Satıştaki ürün" };
+              card3 = { icon: <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />, title: "10K+", desc: "Her gün yeni ilan" };
+            } else if (isSell) {
+              card2 = { icon: <SparklesIcon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />, title: "Hızlıca İlan Ver", desc: "Yapay zeka destekli" };
+              card3 = { icon: <DeliveryTruck01Icon size={24} color="#111111" strokeWidth={2} className={styles.featureIcon} />, title: "Kolayca Kargola", desc: "Yazıcıya gerek yok" };
+            } else if (isLive) {
+              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>, title: "Detaylı İncele", desc: "Gerçek ürüne bak" };
+              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>, title: "Anında Sor", desc: "Saniyeler içinde cevap" };
+            } else if (isStory) {
+              card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Sürdürülebilir", desc: "İsrafı önleme vizyonu" };
+              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Anneden Anneye", desc: "Empati ve topluluk" };
+            }
+
+            return (
+              <>
+                <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
+                  {card2.icon}
+                  <h3 className={styles.featureTitle}>{card2.title}</h3>
+                  <p className={styles.featureDesc}>{card2.desc}</p>
+                </div>
+                <div className={`${styles.featureCard} ${!isBuy ? styles.featureCardSell : ''}`}>
+                  {card3.icon}
+                  <h3 className={styles.featureTitle}>{card3.title}</h3>
+                  <p className={styles.featureDesc}>{card3.desc}</p>
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         {/* Overlapping Images Gallery */}
         <div className={styles.imagesGallery} key={`gallery-${activeTab}`}>
           {(() => {
-            // Verified baby/toddler fashion IDs to avoid showing cars or food
             let img1 = "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600";
             let img2 = "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600"; 
             let img3 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
 
             if (isSell) {
-              // Messy clothes/closet to trigger the "I need to clean my closet" feeling
+              // Messy clothes/closet
               img1 = "https://images.unsplash.com/photo-1540221652346-e5dd6b50f3e7?w=600"; 
               img2 = "https://images.unsplash.com/photo-1672137233327-37b0c1049e77?w=600"; 
               img3 = "https://images.unsplash.com/photo-1604072374690-0e7d7bddd54e?w=600"; 
             } else if (isLive) {
-              img1 = "https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=600"; 
-              img2 = "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600"; 
-              img3 = "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600"; 
+              // Video call & community
+              img1 = "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=600"; 
+              img2 = "https://images.unsplash.com/photo-1612831455359-970e23a1e4e9?w=600"; 
+              img3 = "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=600"; 
             } else if (isStory) {
-              img1 = "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=600"; 
-              img2 = "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600"; 
-              img3 = "https://images.unsplash.com/photo-1627639679690-db4d401aae84?w=600"; 
+              // Happy family / mother and baby
+              img1 = "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600"; 
+              img2 = "https://images.unsplash.com/photo-1560707854-fb9a10eeaace?w=600"; 
+              img3 = "https://images.unsplash.com/photo-1542385151-efd9000785a0?w=600"; 
             }
 
             return (
