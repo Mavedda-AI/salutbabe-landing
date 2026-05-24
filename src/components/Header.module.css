@@ -131,14 +131,12 @@
 .mainLogoTexts {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
-.mainLogoTitle {
-  color: var(--text-primary);
-  font-size: 20px;
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.5px;
+.mainLogoImage {
+  object-fit: contain;
 }
 
 .mainLogoSubtitle {

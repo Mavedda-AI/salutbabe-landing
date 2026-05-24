@@ -2,6 +2,7 @@
 
 import React, {useState} from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {Cancel01Icon, GlobalIcon, Menu01Icon, Moon02Icon, Search01Icon} from 'hugeicons-react';
 import styles from './Header.module.css';
 
@@ -44,7 +45,13 @@ export default function Header() {
 
           <Link href="/" className={styles.mainLogo}>
             <div className={styles.mainLogoTexts}>
-              <span className={styles.mainLogoTitle}>SalutBabe</span>
+              <Image 
+                src="/assets/images/icon/icon_salutbabe_heart.svg" 
+                alt="SalutBabe Logo" 
+                width={130} 
+                height={30} 
+                className={styles.mainLogoImage} 
+              />
               <span className={styles.mainLogoSubtitle}>Anneden Anneye</span>
             </div>
           </Link>

@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './PublicHero.module.css';
-import {Shield01Icon, SparklesIcon, Truck01Icon, TShirtIcon} from 'hugeicons-react';
+import {Shield01Icon, SparklesIcon, TShirtIcon} from 'hugeicons-react';
 
 export default function PublicHero() {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
@@ -68,7 +68,7 @@ export default function PublicHero() {
             {isBuy ? (
               <SparklesIcon size={20} color="var(--primary-dark)" strokeWidth={1.5} className={styles.featureIcon} />
             ) : (
-              <Truck01Icon size={20} color="var(--primary-dark)" strokeWidth={1.5} className={styles.featureIcon} />
+              <SparklesIcon size={20} color="var(--primary-dark)" strokeWidth={1.5} className={styles.featureIcon} />
             )}
             <h3 className={styles.featureTitle}>{isBuy ? "10K+" : "Kolayca Kargola"}</h3>
             <p className={styles.featureDesc}>{isBuy ? "Her gün yeni ilan" : "Yazıcıya gerek yok"}</p>
