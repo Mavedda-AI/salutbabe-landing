@@ -24,7 +24,15 @@
 }
 
 .bgOrganic {
-  background: linear-gradient(180deg, #FDFBF7 0%, #F3EDE4 100%); /* Earthy, natural beige/cream for organic */
+  background: linear-gradient(180deg, #577D53 0%, #385535 100%); /* Deep earthy green matching the app banner */
+}
+
+.textWhite {
+  color: #FFFFFF !important;
+}
+
+.textWhiteLight {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .heroContainer {
@@ -93,7 +101,8 @@
 }
 
 .activeToggleOrganic {
-  background-color: #E6E2D8; /* Soft natural earthy beige */
+  background-color: #4A6E46; /* Matching the dark green banner */
+  color: white !important;
 }
 
 .headline {
