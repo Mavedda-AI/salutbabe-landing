@@ -485,12 +485,7 @@
   font-weight: 400;
   cursor: pointer;
 }
-.footerSubMenuItem a {
-  color: inherit;
-  text-decoration: none;
-  display: block; /* Make the whole area clickable */
-}
-.footerSubMenuItem a:hover {
+.footerSubMenuItem:hover {
   text-decoration: underline;
 }
 .footerAppSection {

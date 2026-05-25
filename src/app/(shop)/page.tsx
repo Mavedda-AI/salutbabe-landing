@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import Link from 'next/link';
 import PublicHero from '@/components/PublicHero';
 import {ArrowDown01Icon} from 'hugeicons-react';
 import {apiUrl} from '@/lib/api';
@@ -318,11 +317,11 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'salutbabe' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}><Link href="/about">Hakkımızda</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/careers">Kariyer</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/blog">Blog</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/news">Haberler</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/impact">Etki</Link></li>
+              <li className={styles.footerSubMenuItem}>Hakkımızda</li>
+              <li className={styles.footerSubMenuItem}>Kariyer</li>
+              <li className={styles.footerSubMenuItem}>Blog</li>
+              <li className={styles.footerSubMenuItem}>Haberler</li>
+              <li className={styles.footerSubMenuItem}>Etki</li>
             </ul>
           </div>
         </div>
@@ -334,11 +333,11 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'sell' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}><Link href="/sell">Salutbabe'te Satış Yap</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/shipping">Salutbabe Kargo</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/affiliates">Salutbabe Elçileri</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/insider">Salutbabe Insider Ol</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/top-seller">En İyi Satıcı Programı</Link></li>
+              <li className={styles.footerSubMenuItem}>Salutbabe'te Satış Yap</li>
+              <li className={styles.footerSubMenuItem}>Salutbabe Kargo</li>
+              <li className={styles.footerSubMenuItem}>Salutbabe Elçileri</li>
+              <li className={styles.footerSubMenuItem}>Salutbabe Insider Ol</li>
+              <li className={styles.footerSubMenuItem}>En İyi Satıcı Programı</li>
             </ul>
           </div>
         </div>
@@ -350,8 +349,8 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'help' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}><Link href="/help">Yardım Merkezi</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/safety">Güvenlik Merkezi</Link></li>
+              <li className={styles.footerSubMenuItem}>Yardım Merkezi</li>
+              <li className={styles.footerSubMenuItem}>Güvenlik Merkezi</li>
             </ul>
           </div>
         </div>
@@ -363,8 +362,8 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'info' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}><Link href="/privacy">Gizlilik Politikası</Link></li>
-              <li className={styles.footerSubMenuItem}><Link href="/terms">Kullanım Koşulları</Link></li>
+              <li className={styles.footerSubMenuItem}>Gizlilik Politikası</li>
+              <li className={styles.footerSubMenuItem}>Kullanım Koşulları</li>
             </ul>
           </div>
         </div>
