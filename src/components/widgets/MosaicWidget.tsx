@@ -6,18 +6,27 @@ import {useToast} from '@/context/ToastContext';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 
 const CURATED_IMAGES = [
-  "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&h=500&fit=crop", /* kids clothes rack */
-  "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500&h=500&fit=crop", /* white baby clothes flatlay */
-  "https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500&h=500&fit=crop", /* baby clothes hanging */
-  "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&h=500&fit=crop", /* baby clothes flatlay */
-  "https://images.unsplash.com/photo-1611911813383-67769b37a149?w=500&h=500&fit=crop", /* baby rompers flatlay */
-  "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&h=500&fit=crop", /* baby socks */
-  "https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500&h=500&fit=crop", /* baby clothes folded */
-  "https://images.unsplash.com/photo-1569974641446-22542de88536?w=500&h=500&fit=crop", /* baby overall */
-  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500&h=500&fit=crop", /* baby dress */
-  "https://images.unsplash.com/photo-1594819047050-99defca82545?w=500&h=500&fit=crop", /* pile of baby clothes */
-  "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500&h=500&fit=crop", /* baby shoes */
-  "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&h=500&fit=crop"  /* small baby shoes */
+  "https://images.unsplash.com/photo-1502451885777-16c98b07834a?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1542901689-f103b03b9e97?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1604303768345-038b79a8c47a?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1604482858862-1db908a653e4?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1616666428759-679a7d578307?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1638366834146-4222376925c6?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1670014543471-3b5412baa677?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340978515-3aefbb36bf66?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340978519-9a776125c387?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340978611-8c1f279fdaea?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340979021-bb987b79bb84?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340979028-ad1ff526933c?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340979193-481dd0eb49c8?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1673340979296-7db91c9ec4e3?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1675183689638-a68fe7048da9?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1675183690347-662b2f9f3cf7?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1675183690609-1672ce07849f?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1676031861141-fd1b9a2b812e?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1676031940533-8f1ac6a07268?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1686593675650-c7454df8a63d?w=500&h=500&fit=crop"
 ];
 
 const getMosaicImage = (index: number) => {
