@@ -16,7 +16,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Salutbabe'te Kargo Bedava",
     text: "Seveceğin bir şeyler bul. Sadece Salutbabe'te.",
     buttonText: "Alışverişe Başla",
-    bg: "#33373B", /* Premium Slate */
+    bg: "#111827", /* Premium Charcoal */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -28,7 +28,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Sana Özel Seçimler",
     text: "Zevkine ve tarzına en uygun ürünler.",
     buttonText: "Sana Özel Ürünleri Gör",
-    bg: "#1E3532", /* Premium Deep Emerald */
+    bg: "#86198F", /* Energetic Magenta */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -40,7 +40,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Annelerin İhtiyaçları",
     text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
     buttonText: "Anne Ürünlerini Keşfet",
-    bg: "#4A352B", /* Premium Mocha */
+    bg: "#9F1239", /* Energetic Ruby Red */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -52,7 +52,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Bebek Dünyası",
     text: "Bebeğiniz için en sevimli ürünler.",
     buttonText: "Bebek Ürünleri",
-    bg: "#232B3A", /* Premium Midnight Navy */
+    bg: "#1D4ED8", /* Energetic Royal Blue */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -64,7 +64,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Çocuk Modası",
     text: "Dayanıklı, rahat ve trend kıyafetler.",
     buttonText: "Çocuk Giyimi Keşfet",
-    bg: "#3B4232", /* Premium Deep Olive */
+    bg: "#0F766E", /* Energetic Deep Teal */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -76,7 +76,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "El İşçiliği Ürünler",
     text: "Özenle hazırlanmış el emeği ürünler.",
     buttonText: "Özel Tasarımları İncele",
-    bg: "#3A2A3A", /* Premium Plum */
+    bg: "#5B21B6", /* Energetic Violet */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -88,7 +88,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Bedene Göre Seçim",
     text: "Sana en uygun bedenleri hemen bul.",
     buttonText: "Beden Filtrele",
-    bg: "#5C3A21", /* Premium Deep Terracotta */
+    bg: "#3730A3", /* Energetic Indigo */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -100,7 +100,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Markaya Göre Seçim",
     text: "En sevdiğin markaları hemen keşfet.",
     buttonText: "Markaları Gör",
-    bg: "#1A1A1A", /* Premium Obsidian */
+    bg: "#B91C1C", /* Energetic Crimson */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -182,6 +182,7 @@ export default function HomeFeed() {
               src={CATEGORY_BANNERS[activeCategory]?.image} 
               alt="Promo" 
               className={styles.promoImage} 
+              style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.bg }}
             />
             <div 
               className={styles.promoContent} 
