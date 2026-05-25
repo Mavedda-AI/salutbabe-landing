@@ -532,11 +532,43 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.bundleImageCarousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  height: 100%;
+}
+.bundleImageCarousel::-webkit-scrollbar {
+  display: none;
 }
 .bundleImage {
+  scroll-snap-align: start;
+  flex: 0 0 100%;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.swipeHint {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+}
+.dot:first-child {
+  background: #fff;
 }
 .bundlePriceTag {
   position: absolute;

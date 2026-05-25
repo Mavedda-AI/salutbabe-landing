@@ -367,8 +367,19 @@ export default function HomeFeed() {
           <div className={styles.bundleGrid}>
             <div className={styles.bundleCard}>
               <div className={styles.bundleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500" alt="Yenidoğan Paketi" className={styles.bundleImage} />
+                <div className={styles.bundleImageCarousel}>
+                  <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500" alt="Yenidoğan Paketi 1" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500" alt="Yenidoğan Paketi 2" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500" alt="Yenidoğan Paketi 3" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500" alt="Yenidoğan Paketi 4" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500" alt="Yenidoğan Paketi 5" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500" alt="Yenidoğan Paketi 6" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500" alt="Yenidoğan Paketi 7" className={styles.bundleImage} />
+                </div>
                 <div className={styles.bundlePriceTag}>800 TL</div>
+                <div className={styles.swipeHint}>
+                  <div className={styles.dot}></div><div className={styles.dot}></div><div className={styles.dot}></div>
+                </div>
               </div>
               <div className={styles.bundleContent}>
                 <h3 className={styles.bundleTitle}>Yenidoğan Paketi</h3>
@@ -382,8 +393,15 @@ export default function HomeFeed() {
             
             <div className={styles.bundleCard}>
               <div className={styles.bundleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1569974641446-22542de88536?w=500" alt="Hastane Çıkışı Sepeti" className={styles.bundleImage} />
+                <div className={styles.bundleImageCarousel}>
+                  <img src="https://images.unsplash.com/photo-1569974641446-22542de88536?w=500" alt="Hastane Çıkışı Sepeti 1" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500" alt="Hastane Çıkışı Sepeti 2" className={styles.bundleImage} />
+                  <img src="https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500" alt="Hastane Çıkışı Sepeti 3" className={styles.bundleImage} />
+                </div>
                 <div className={styles.bundlePriceTag}>1200 TL</div>
+                <div className={styles.swipeHint}>
+                  <div className={styles.dot}></div><div className={styles.dot}></div><div className={styles.dot}></div>
+                </div>
               </div>
               <div className={styles.bundleContent}>
                 <h3 className={styles.bundleTitle}>Hastane Çıkışı Sepeti</h3>
