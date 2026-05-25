@@ -288,16 +288,17 @@
 }
 
 .styleGrid {
-  display: flex;
-  overflow-x: auto;
-  gap: 12px;
-  padding: 0 16px 8px 16px; /* Inner padding for the scroll container */
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 0 16px;
 }
 
-.styleGrid::-webkit-scrollbar {
-  display: none;
+@media (min-width: 768px) {
+  .styleGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
 }
 
 .styleCard {
@@ -305,7 +306,6 @@
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
-  flex: 0 0 42%; /* Show 2 items and a peek of the 3rd to indicate scrolling */
 }
 
 .styleImageWrapper {
@@ -332,7 +332,21 @@
 }
 
 .brandSection {
-  padding: 0 16px 24px 16px; /* Reduced bottom padding */
+  padding: 0 0 24px 0;
+}
+
+.brandGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .brandGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
 }
 
 .brandCard {
@@ -412,12 +426,19 @@
 
 /* 6. Popular This Week Section */
 .popularWeekSection {
-  padding: 0 16px 32px 16px;
+  padding: 0 0 32px 0;
 }
 .popularGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 0 16px;
+}
+@media (min-width: 768px) {
+  .popularGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
 }
 .popularCard {
   display: flex;
@@ -445,12 +466,19 @@
 
 /* 7. Shop by Price Section */
 .priceSection {
-  padding: 0 16px 32px 16px;
+  padding: 0 0 32px 0;
 }
 .priceGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 0 16px;
+}
+@media (min-width: 768px) {
+  .priceGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
 }
 .priceBtn {
   background: linear-gradient(180deg, #EAECEB 0%, #D5D8D5 100%); /* Slightly darker, adding a bit of black/grey to the background */
@@ -458,9 +486,9 @@
   color: #111111;
   font-size: 22px;
   font-weight: 500;
-  letter-spacing: -0.3px; /* Slightly tight for premium feel */
-  padding: 20px 24px; /* Slightly reduced height to make text look bigger */
-  border-radius: 6px;
+  letter-spacing: -0.3px;
+  padding: 40px 24px; /* Increased height for grid buttons */
+  border-radius: 8px; /* Slightly softer radius */
   border: none;
   cursor: pointer;
   transition: opacity 0.2s;

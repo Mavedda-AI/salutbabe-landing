@@ -266,24 +266,65 @@ export default function HomeFeed() {
 
         {/* Popular brands */}
         <div className={styles.brandSection}>
-          <h2 className={styles.sectionTitle} style={{ margin: '0 0 12px 0' }}>Popüler markalar</h2>
-          <div className={styles.brandCard}>
-            <div className={styles.brandImagesGrid}>
-              <img src="https://images.unsplash.com/photo-1611911813383-67769b37a149?w=300" alt="Brand 1" className={styles.brandImage} />
-              <img src="https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=300" alt="Brand 2" className={styles.brandImage} />
-              <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300" alt="Brand 3" className={styles.brandImage} />
-              <img src="https://images.unsplash.com/photo-1560506840-ec148e82a604?w=300" alt="Brand 4" className={styles.brandImage} />
+          <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Popüler markalar</h2>
+          <div className={styles.brandGrid}>
+            <div className={styles.brandCard}>
+              <div className={styles.brandImagesGrid}>
+                <img src="https://images.unsplash.com/photo-1611911813383-67769b37a149?w=300" alt="Brand 1" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=300" alt="Brand 2" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300" alt="Brand 3" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1560506840-ec148e82a604?w=300" alt="Brand 4" className={styles.brandImage} />
+              </div>
+              <div className={styles.brandFooter}>
+                <span className={styles.brandName}>Zara Baby</span>
+                <button className={styles.brandShopBtn}>Keşfet</button>
+              </div>
             </div>
-            <div className={styles.brandFooter}>
-              <span className={styles.brandName}>Zara Baby</span>
-              <button className={styles.brandShopBtn}>Keşfet</button>
+            
+            <div className={styles.brandCard}>
+              <div className={styles.brandImagesGrid}>
+                <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=300" alt="Brand 1" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=300" alt="Brand 2" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=300" alt="Brand 3" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1670014541811-9b0ec280ed60?w=300" alt="Brand 4" className={styles.brandImage} />
+              </div>
+              <div className={styles.brandFooter}>
+                <span className={styles.brandName}>H&M Kids</span>
+                <button className={styles.brandShopBtn}>Keşfet</button>
+              </div>
+            </div>
+
+            <div className={styles.brandCard}>
+              <div className={styles.brandImagesGrid}>
+                <img src="https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=300" alt="Brand 1" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=300" alt="Brand 2" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300" alt="Brand 3" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=300" alt="Brand 4" className={styles.brandImage} />
+              </div>
+              <div className={styles.brandFooter}>
+                <span className={styles.brandName}>Mango Kids</span>
+                <button className={styles.brandShopBtn}>Keşfet</button>
+              </div>
+            </div>
+
+            <div className={styles.brandCard}>
+              <div className={styles.brandImagesGrid}>
+                <img src="https://images.unsplash.com/photo-1555529771-835f59bfc50c?w=300" alt="Brand 1" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1560506840-ec148e82a604?w=300" alt="Brand 2" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1622290291468-a28f7a8dc6a8?w=300" alt="Brand 3" className={styles.brandImage} />
+                <img src="https://images.unsplash.com/photo-1611485988300-b7530defb8e2?w=300" alt="Brand 4" className={styles.brandImage} />
+              </div>
+              <div className={styles.brandFooter}>
+                <span className={styles.brandName}>LC Waikiki</span>
+                <button className={styles.brandShopBtn}>Keşfet</button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Popular this week */}
         <div className={styles.popularWeekSection}>
-          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Bu hafta popüler</h2>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Bu hafta popüler</h2>
           <div className={styles.popularGrid}>
             <div className={styles.popularCard}>
               <img src="https://images.unsplash.com/photo-1594150878496-a921e5af8907?w=500" alt="Bebek Ayakkabısı" className={styles.popularImage} />
@@ -295,12 +336,22 @@ export default function HomeFeed() {
               <span className={styles.popularTitle}>Bebek Tulumu</span>
               <span className={styles.popularSub}>+1.9k arama</span>
             </div>
+            <div className={styles.popularCard}>
+              <img src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500" alt="Mavi Gömlek" className={styles.popularImage} />
+              <span className={styles.popularTitle}>Mavi Gömlek</span>
+              <span className={styles.popularSub}>+2.4k arama</span>
+            </div>
+            <div className={styles.popularCard}>
+              <img src="https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500" alt="Kız Çocuk Elbise" className={styles.popularImage} />
+              <span className={styles.popularTitle}>Kız Çocuk Elbise</span>
+              <span className={styles.popularSub}>+1.1k arama</span>
+            </div>
           </div>
         </div>
 
         {/* Shop by price */}
         <div className={styles.priceSection}>
-          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Fiyata göre alışveriş</h2>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Fiyata göre alışveriş</h2>
           <div className={styles.priceGrid}>
             <button className={styles.priceBtn}><span>100 TL</span>Altı</button>
             <button className={styles.priceBtn}><span>250 TL</span>Altı</button>
