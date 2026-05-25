@@ -617,7 +617,10 @@
   padding: 0 0 32px 0;
 }
 .rankingGrid {
-  display: flex;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-auto-flow: column;
+  grid-auto-columns: 200px;
   overflow-x: auto;
   gap: 16px;
   padding: 0 16px 8px 16px;
@@ -629,9 +632,7 @@
 }
 @media (min-width: 768px) {
   .rankingGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    overflow-x: visible;
+    grid-auto-columns: 280px;
   }
 }
 .rankingCard {
