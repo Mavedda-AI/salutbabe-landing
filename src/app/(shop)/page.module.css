@@ -241,13 +241,20 @@
 
 /* 4. Style & Brand Sections */
 .styleSection {
-  padding: 16px 16px 24px 16px; /* Reduced bottom padding */
+  padding: 16px 0 24px 0; /* Remove horizontal padding so scroll bleeds to edge */
 }
 
 .styleGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  overflow-x: auto;
   gap: 12px;
+  padding: 0 16px 8px 16px; /* Inner padding for the scroll container */
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.styleGrid::-webkit-scrollbar {
+  display: none;
 }
 
 .styleCard {
@@ -255,6 +262,7 @@
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
+  flex: 0 0 42%; /* Show 2 items and a peek of the 3rd to indicate scrolling */
 }
 
 .styleImageWrapper {

@@ -222,7 +222,7 @@ export default function HomeFeed() {
 
         {/* Shop by style */}
         <div className={styles.styleSection}>
-          <h2 className={styles.sectionTitle} style={{ margin: '0 0 12px 0' }}>Stiline göre keşfet</h2>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 16px 12px 16px' }}>Stiline göre keşfet</h2>
           <div className={styles.styleGrid}>
             <div className={styles.styleCard}>
               <div className={styles.styleImageWrapper}>
@@ -235,6 +235,30 @@ export default function HomeFeed() {
                 <img src="/style_yellow.png" alt="Soft Renkler" className={styles.styleImage} />
               </div>
               <span className={styles.styleTitle}>Soft renkler</span>
+            </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="/style_shoes.png" alt="Minik Adımlar" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Minik Adımlar</span>
+            </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="/style_organic.png" alt="Organik Pamuk" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Organik Pamuk</span>
+            </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="/style_knit.png" alt="Örgü & Triko" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Örgü & Triko</span>
+            </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="/style_denim.png" alt="Denim Tutkusu" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Denim Tutkusu</span>
             </div>
           </div>
         </div>
