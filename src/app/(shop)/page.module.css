@@ -162,32 +162,34 @@
 }
 
 .promoBanner {
-  margin: 12px 0 0 0; /* Removed bottom margin */
+  margin: 12px 16px 0 16px; /* Added horizontal margin to match grid */
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  gap: 4px; /* Increased gap */
+  border-radius: 4px; /* Slight rounding like Depop */
 }
 
 .promoImage {
   width: 100%;
-  aspect-ratio: 16/9; /* Perfect Depop landscape ratio */
-  max-height: 220px; /* Cap the height */
+  aspect-ratio: 16/9;
+  max-height: 220px;
   object-fit: cover;
-  object-position: center; /* Relying on inherently wide images to prevent clipping */
+  object-position: center;
 }
 
 .promoContent {
-  padding: 20px 16px 20px 16px;
+  padding: 32px 16px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centered */
+  align-items: center;
   text-align: center;
-  min-height: 140px; /* Reduced from 180px */
+  min-height: 140px;
+  justify-content: center;
+  position: relative;
 }
 
 .promoTitle {
-  font-size: 18px; /* Reduced from 20px */
+  font-size: 18px;
   font-weight: 800;
   margin-bottom: 6px;
   white-space: nowrap;
@@ -197,9 +199,9 @@
 }
 
 .promoText {
-  font-size: 14px; /* Reduced from 15px */
+  font-size: 14px;
   font-weight: 500;
-  margin-bottom: 16px; /* Reduced from 24px */
+  margin-bottom: 24px;
   line-height: 1.4;
   white-space: nowrap;
   overflow: hidden;
@@ -211,22 +213,63 @@
   background-color: #FFFFFF;
   color: #111111;
   font-weight: 800;
-  font-size: 14px; /* Reduced from 15px */
-  padding: 10px 20px; /* Tighter padding */
+  font-size: 14px;
+  padding: 12px 24px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  margin-bottom: 24px; /* Reduced from 36px */
-  align-self: center; /* Centered button */
+  margin-bottom: 24px;
+  align-self: center;
 }
 
 .promoDots {
   display: flex;
   gap: 8px;
   justify-content: center;
-  align-self: center; /* Center the dots */
-  width: 100%;
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
 }
+
+/* DESKTOP Depop Banner Layout */
+@media (min-width: 768px) {
+  .promoBanner {
+    flex-direction: row;
+    height: 320px; /* Fixed height banner */
+  }
+  
+  .promoContent {
+    flex: 0 0 45%; /* 45% width for text */
+    order: 1; /* Text on left */
+    align-items: flex-start; /* Align left */
+    text-align: left;
+    padding: 0 64px; /* More padding on desktop */
+  }
+
+  .promoImage {
+    flex: 0 0 55%; /* 55% width for image */
+    order: 2; /* Image on right */
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  
+  .promoTitle {
+    font-size: 24px; /* Larger title */
+    white-space: normal;
+  }
+  
+  .promoText {
+    font-size: 15px;
+    white-space: normal;
+  }
+  
+  .promoButton {
+    align-self: flex-start;
+  }
+}
+
 
 .promoDot {
   width: 8px;
