@@ -354,3 +354,121 @@
     grid-template-columns: repeat(6, 1fr);
   }
 }
+
+/* 6. Popular This Week Section */
+.popularWeekSection {
+  padding: 0 16px 32px 16px;
+}
+.popularGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.popularCard {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.popularImage {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.popularTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111111;
+  margin-bottom: 2px;
+}
+.popularSub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #767676;
+}
+
+/* 7. Shop by Price Section */
+.priceSection {
+  padding: 0 16px 32px 16px;
+}
+.priceGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.priceBtn {
+  background-color: #F3F4F6;
+  color: #111111;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 24px;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.priceBtn:hover {
+  background-color: #E5E7EB;
+}
+.priceBtn span {
+  font-weight: 800;
+}
+
+/* 8. Depop-style Footer */
+.footer {
+  background-color: #F8F8F8;
+  padding: 0 0 32px 0;
+  border-top: 1px solid #EAEAEA;
+  width: 100%;
+}
+.footerMenu {
+  border-bottom: 1px solid #EAEAEA;
+}
+.footerMenuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111111;
+  cursor: pointer;
+}
+.footerAppSection {
+  padding: 32px 16px;
+}
+.footerAppTitle {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.footerAppDesc {
+  font-size: 14px;
+  color: #111111;
+  margin-bottom: 16px;
+}
+.footerAppBadges {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.footerBadge {
+  height: 40px;
+}
+.footerSocials {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+.footerRegion {
+  background-color: #EAEAEA;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}

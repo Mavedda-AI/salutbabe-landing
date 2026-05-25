@@ -226,13 +226,13 @@ export default function HomeFeed() {
           <div className={styles.styleGrid}>
             <div className={styles.styleCard}>
               <div className={styles.styleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1550639524-a6f58345a278?w=500" alt="Hafif Katmanlar" className={styles.styleImage} />
+                <img src="https://images.unsplash.com/photo-1735653095013-915a60775120?w=500" alt="Hafif Katmanlar" className={styles.styleImage} />
               </div>
               <span className={styles.styleTitle}>Hafif katmanlar</span>
             </div>
             <div className={styles.styleCard}>
               <div className={styles.styleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=500" alt="Soft Renkler" className={styles.styleImage} style={{ objectFit: 'contain' }} />
+                <img src="https://images.unsplash.com/photo-1681712859145-f41184a04ef6?w=500" alt="Soft Renkler" className={styles.styleImage} style={{ objectFit: 'cover' }} />
               </div>
               <span className={styles.styleTitle}>Soft renkler</span>
             </div>
@@ -244,15 +244,43 @@ export default function HomeFeed() {
           <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Popüler markalar</h2>
           <div className={styles.brandCard}>
             <div className={styles.brandImagesGrid}>
-              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" alt="Nike Shoe" className={styles.brandImage} />
-              <img src="https://images.unsplash.com/photo-1608667508764-33cf0726b13a?w=300" alt="Nike Top" className={styles.brandImage} />
-              <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=300" alt="Nike Hoodie" className={styles.brandImage} />
-              <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300" alt="Nike Jacket" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1611911813383-67769b37a149?w=300" alt="Brand 1" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=300" alt="Brand 2" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300" alt="Brand 3" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1560506840-ec148e82a604?w=300" alt="Brand 4" className={styles.brandImage} />
             </div>
             <div className={styles.brandFooter}>
-              <span className={styles.brandName}>Nike</span>
-              <button className={styles.brandShopBtn}>Alışverişe Başla</button>
+              <span className={styles.brandName}>Zara Baby</span>
+              <button className={styles.brandShopBtn}>Keşfet</button>
             </div>
+          </div>
+        </div>
+
+        {/* Popular this week */}
+        <div className={styles.popularWeekSection}>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Bu hafta popüler</h2>
+          <div className={styles.popularGrid}>
+            <div className={styles.popularCard}>
+              <img src="https://images.unsplash.com/photo-1594150878496-a921e5af8907?w=500" alt="Bebek Ayakkabısı" className={styles.popularImage} />
+              <span className={styles.popularTitle}>Bebek Ayakkabısı</span>
+              <span className={styles.popularSub}>+1.3k arama</span>
+            </div>
+            <div className={styles.popularCard}>
+              <img src="https://images.unsplash.com/photo-1632337949070-1fdb69fe2159?w=500" alt="Bebek Tulumu" className={styles.popularImage} />
+              <span className={styles.popularTitle}>Bebek Tulumu</span>
+              <span className={styles.popularSub}>+1.9k arama</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Shop by price */}
+        <div className={styles.priceSection}>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Fiyata göre alışveriş</h2>
+          <div className={styles.priceGrid}>
+            <button className={styles.priceBtn}><span>100 TL</span> Altı</button>
+            <button className={styles.priceBtn}><span>250 TL</span> Altı</button>
+            <button className={styles.priceBtn}><span>500 TL</span> Altı</button>
+            <button className={styles.priceBtn}><span>1000 TL</span> Altı</button>
           </div>
         </div>
 
@@ -282,6 +310,54 @@ export default function HomeFeed() {
           </div>
         </section>
       </div>
+
+      {/* Footer (Matches Depop Screenshot) */}
+      <footer className={styles.footer}>
+        <div className={styles.footerMenu}>
+          <div className={styles.footerMenuItem}>
+            Salutbabe
+            <ArrowDown01Icon size={18} color="currentColor" />
+          </div>
+        </div>
+        <div className={styles.footerMenu}>
+          <div className={styles.footerMenuItem}>
+            Satış Yap
+            <ArrowDown01Icon size={18} color="currentColor" />
+          </div>
+        </div>
+        <div className={styles.footerMenu}>
+          <div className={styles.footerMenuItem}>
+            Yardım
+            <ArrowDown01Icon size={18} color="currentColor" />
+          </div>
+        </div>
+        <div className={styles.footerMenu}>
+          <div className={styles.footerMenuItem}>
+            Site Bilgileri
+            <ArrowDown01Icon size={18} color="currentColor" />
+          </div>
+        </div>
+
+        <div className={styles.footerAppSection}>
+          <h4 className={styles.footerAppTitle}>Salutbabe uygulamasını indir</h4>
+          <p className={styles.footerAppDesc}>Daha hızlı ilan ver, siparişlerini takip et ve hiçbir fırsatı kaçırma.</p>
+          <div className={styles.footerAppBadges}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" className={styles.footerBadge} />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className={styles.footerBadge} />
+          </div>
+          <div className={styles.footerSocials}>
+            {/* Simple SVGs for X, IG, TikTok matching Depop style */}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="4" x2="20" y2="20"></line><line x1="20" y1="4" x2="4" y2="20"></line></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+          </div>
+        </div>
+        
+        <div className={styles.footerRegion}>
+          Türkiye
+          <ArrowDown01Icon size={18} color="currentColor" />
+        </div>
+      </footer>
     </>
   );
 }
