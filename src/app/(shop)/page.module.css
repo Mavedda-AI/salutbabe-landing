@@ -828,6 +828,59 @@
   color: #111;
 }
 
+/* 10. Country Footer */
+.countryFooter {
+  background-color: #111;
+  color: #fff;
+  padding: 40px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 24px;
+}
+.footerLinks a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.footerLinks a:hover {
+  opacity: 1;
+}
+.languageSelector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.langBtn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.langBtn.langActive, .langBtn:hover {
+  background: #fff;
+  color: #111;
+}
+.copyright {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: 16px;
+}
+
 /* 9. Shop by Price Section */
 .priceSection {
   padding: 0 0 32px 0;
