@@ -193,11 +193,12 @@
   border-radius: 8px; /* Slightly softer corners for the cards */
   /* width: 130px; Removed fixed width */
   min-height: 96px;
-  text-align: left;
+  text-align: center;
   box-shadow: none; /* Removed shadow */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: 2px; /* Super tight gap to eliminate empty space */
   flex: 1; /* Make them squeeze to fit the screen */
   min-width: 0; /* Prevent text overflow from pushing width */
