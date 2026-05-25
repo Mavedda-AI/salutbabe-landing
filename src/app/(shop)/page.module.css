@@ -167,6 +167,7 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: 4px; /* Slight rounding like Depop */
+  gap: 8px; /* Restore the thick background color line between image and content */
 }
 
 .promoImage {
