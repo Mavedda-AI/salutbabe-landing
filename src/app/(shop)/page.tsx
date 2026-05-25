@@ -114,6 +114,7 @@ export default function HomeFeed() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("Tümü");
   const [openFooterMenu, setOpenFooterMenu] = useState<string | null>(null);
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -317,11 +318,46 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'salutbabe' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Hakkımızda</li>
-              <li className={styles.footerSubMenuItem}>Kariyer</li>
-              <li className={styles.footerSubMenuItem}>Blog</li>
-              <li className={styles.footerSubMenuItem}>Haberler</li>
-              <li className={styles.footerSubMenuItem}>Etki</li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'hakkimizda' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'hakkimizda' ? null : 'hakkimizda')}>
+                  Hakkımızda
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'hakkimizda' ? styles.open : ''}`}>
+                  Salutbabe, anneden anneye güvenilir, hızlı ve sürdürülebilir bir bebek ve çocuk giyim pazaryeridir. Amacımız kullanılmayan kıyafetlere ikinci bir şans vermek.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'kariyer' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'kariyer' ? null : 'kariyer')}>
+                  Kariyer
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'kariyer' ? styles.open : ''}`}>
+                  Şu an için açık pozisyonumuz bulunmuyor. Ancak ekibimize katılmak isterseniz özgeçmişinizi info@salutbabe.com adresine gönderebilirsiniz.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'blog' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'blog' ? null : 'blog')}>
+                  Blog
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'blog' ? styles.open : ''}`}>
+                  Bebek gelişimi, sürdürülebilir moda, satıcı ipuçları ve annelik serüveni hakkında en güncel yazılarımız çok yakında burada olacak.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'haberler' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'haberler' ? null : 'haberler')}>
+                  Haberler
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'haberler' ? styles.open : ''}`}>
+                  Uygulama güncellemeleri, yeni özellikler ve Salutbabe ile ilgili basında çıkan en son haberler yakında eklenecektir.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'etki' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'etki' ? null : 'etki')}>
+                  Etki
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'etki' ? styles.open : ''}`}>
+                  İkinci el alışverişi teşvik ederek döngüsel ekonomiye katkı sağlıyor, tekstil atıklarını azaltıyor ve karbon ayak izimizi küçültüyoruz.
+                </div>
+              </li>
             </ul>
           </div>
         </div>

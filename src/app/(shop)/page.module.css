@@ -469,7 +469,7 @@
   transition: max-height 0.3s ease-out;
 }
 .footerMenuContent.open {
-  max-height: 400px; /* Increased to allow for more items */
+  max-height: 800px; /* Massively increased to allow for nested open items */
 }
 .footerSubMenuList {
   list-style: none;
@@ -480,13 +480,33 @@
   gap: 24px; /* Increased gap to match Depop's spacious feel */
 }
 .footerSubMenuItem {
+  display: flex;
+  flex-direction: column;
+}
+.footerSubItemHeader {
   font-size: 14px;
   color: #111111;
   font-weight: 400;
   cursor: pointer;
 }
-.footerSubMenuItem:hover {
+.footerSubItemHeader:hover {
   text-decoration: underline;
+}
+.footerSubItemHeader.active {
+  font-weight: 700;
+  text-decoration: underline;
+}
+.footerSubItemContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  color: #555555;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.footerSubItemContent.open {
+  max-height: 200px;
+  margin-top: 8px;
 }
 .footerAppSection {
   padding: 32px 16px;
