@@ -21,7 +21,7 @@ export default function ProductApprovalPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        setListings(data.payload?.rows || []);
+        setListings(data.payload?.products || data.payload?.rows || []);
       }
     } catch (e) {
       console.error(e);
@@ -110,7 +110,7 @@ export default function ProductApprovalPage() {
             <div key={listing.listingID} className={`flex flex-col overflow-hidden rounded-2xl border ${theme === 'light' ? 'bg-white border-border-color' : 'bg-surface border-white/5'} shadow-sm hover:shadow-md transition-shadow`}>
               <div className="relative aspect-[4/5] bg-gray-100 dark:bg-black/20">
                 <img 
-                  src={getMediaUrl(listing.imagePaths?.[0])} 
+                  src={getMediaUrl(listing.images?.[0]?.imageUrl || listing.imagePaths?.[0])} 
                   alt={listing.title} 
                   className="w-full h-full object-cover"
                   onError={(e) => { (e.target as HTMLImageElement).src = '/logo-favicon.png'; }}
