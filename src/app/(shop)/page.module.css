@@ -179,7 +179,7 @@
 }
 
 .promoContent {
-  padding: 32px 16px 48px 16px; /* Extra bottom padding for dots */
+  padding: 24px 16px 36px 16px; /* Reduced top/bottom padding to minimize dead space */
   display: flex;
   flex-direction: column;
   align-items: center;
