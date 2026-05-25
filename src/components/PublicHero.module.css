@@ -156,34 +156,26 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* Fix for mobile cut-off */
-  gap: 8px; /* Tighter gap */
+  gap: 6px; /* Minimized gap to fit on screen */
   margin-bottom: 24px;
   width: 100%;
   max-width: 900px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: visible; /* Changed from auto so they squeeze together */
   padding: 0 16px;
-  /* Hide scrollbar */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 @media (min-width: 768px) {
   .featuresRow {
     justify-content: center; /* Center on larger screens */
+    gap: 12px; /* Restore some gap for desktop */
   }
-}
-
-/* Hide scrollbar for cleaner look */
-.featuresRow::-webkit-scrollbar {
-  display: none;
 }
 
 .featureCard {
   background: rgba(255, 255, 255, 0.7); /* Soften background to blend like Depop */
-  padding: 12px;
+  padding: 10px 8px; /* Minimized padding */
   border-radius: 8px; /* Slightly softer corners for the cards */
-  width: 130px; 
+  /* width: 130px; Removed fixed width */
   min-height: 96px;
   text-align: left;
   box-shadow: none; /* Removed shadow */
@@ -191,8 +183,8 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 2px; /* Super tight gap to eliminate empty space */
-  flex: 0 0 auto;
-  scroll-snap-align: start;
+  flex: 1; /* Make them squeeze to fit the screen */
+  min-width: 0; /* Prevent text overflow from pushing width */
 }
 
 .featureCardSell {
@@ -208,13 +200,13 @@
 
 @media (min-width: 768px) {
   .featureCard {
-    flex: 1;
     max-width: 200px;
+    padding: 12px;
   }
 }
 
 .featureIcon {
-  margin-bottom: 6px; /* Tighten space under icon */
+  margin-bottom: 4px; /* Tighten space under icon */
 }
 
 .featureTitle {
