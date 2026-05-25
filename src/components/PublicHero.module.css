@@ -1,6 +1,6 @@
 .heroWrapper {
   width: 100%;
-  padding: 12px 0px 0px 0px; /* Minimized top padding */
+  padding: 4px 0px 0px 0px; /* Minimized top padding to close gap with search bar */
   display: flex;
   justify-content: center;
   overflow-x: hidden; 
