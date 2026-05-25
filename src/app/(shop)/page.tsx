@@ -113,6 +113,7 @@ export default function HomeFeed() {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("Tümü");
+  const [openFooterMenu, setOpenFooterMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -307,31 +308,63 @@ export default function HomeFeed() {
           </div>
         </div>
       </div>
-
       {/* Footer (Matches Depop Screenshot) */}
       <footer className={styles.footer}>
         <div className={styles.footerMenu}>
-          <div className={styles.footerMenuItem}>
+          <div className={`${styles.footerMenuItem} ${openFooterMenu === 'salutbabe' ? styles.activeTitle : ''}`} onClick={() => setOpenFooterMenu(openFooterMenu === 'salutbabe' ? null : 'salutbabe')}>
             Salutbabe
-            <ArrowDown01Icon size={18} color="currentColor" />
+            <ArrowDown01Icon size={18} color="currentColor" className={openFooterMenu === 'salutbabe' ? styles.arrowOpen : ''} />
+          </div>
+          <div className={`${styles.footerMenuContent} ${openFooterMenu === 'salutbabe' ? styles.open : ''}`}>
+            <ul className={styles.footerSubMenuList}>
+              <li className={styles.footerSubMenuItem}>Hakkımızda</li>
+              <li className={styles.footerSubMenuItem}>Kariyer</li>
+              <li className={styles.footerSubMenuItem}>Blog</li>
+              <li className={styles.footerSubMenuItem}>Haberler</li>
+              <li className={styles.footerSubMenuItem}>Etki</li>
+            </ul>
           </div>
         </div>
+        
         <div className={styles.footerMenu}>
-          <div className={styles.footerMenuItem}>
+          <div className={`${styles.footerMenuItem} ${openFooterMenu === 'sell' ? styles.activeTitle : ''}`} onClick={() => setOpenFooterMenu(openFooterMenu === 'sell' ? null : 'sell')}>
             Satış Yap
-            <ArrowDown01Icon size={18} color="currentColor" />
+            <ArrowDown01Icon size={18} color="currentColor" className={openFooterMenu === 'sell' ? styles.arrowOpen : ''} />
+          </div>
+          <div className={`${styles.footerMenuContent} ${openFooterMenu === 'sell' ? styles.open : ''}`}>
+            <ul className={styles.footerSubMenuList}>
+              <li className={styles.footerSubMenuItem}>Salutbabe'te Satış Yap</li>
+              <li className={styles.footerSubMenuItem}>Salutbabe Kargo</li>
+              <li className={styles.footerSubMenuItem}>Salutbabe Elçileri</li>
+              <li className={styles.footerSubMenuItem}>Salutbabe Insider Ol</li>
+              <li className={styles.footerSubMenuItem}>En İyi Satıcı Programı</li>
+            </ul>
           </div>
         </div>
+        
         <div className={styles.footerMenu}>
-          <div className={styles.footerMenuItem}>
+          <div className={`${styles.footerMenuItem} ${openFooterMenu === 'help' ? styles.activeTitle : ''}`} onClick={() => setOpenFooterMenu(openFooterMenu === 'help' ? null : 'help')}>
             Yardım
-            <ArrowDown01Icon size={18} color="currentColor" />
+            <ArrowDown01Icon size={18} color="currentColor" className={openFooterMenu === 'help' ? styles.arrowOpen : ''} />
+          </div>
+          <div className={`${styles.footerMenuContent} ${openFooterMenu === 'help' ? styles.open : ''}`}>
+            <ul className={styles.footerSubMenuList}>
+              <li className={styles.footerSubMenuItem}>Yardım Merkezi</li>
+              <li className={styles.footerSubMenuItem}>Güvenlik Merkezi</li>
+            </ul>
           </div>
         </div>
+        
         <div className={styles.footerMenu}>
-          <div className={styles.footerMenuItem}>
+          <div className={`${styles.footerMenuItem} ${openFooterMenu === 'info' ? styles.activeTitle : ''}`} onClick={() => setOpenFooterMenu(openFooterMenu === 'info' ? null : 'info')}>
             Site Bilgileri
-            <ArrowDown01Icon size={18} color="currentColor" />
+            <ArrowDown01Icon size={18} color="currentColor" className={openFooterMenu === 'info' ? styles.arrowOpen : ''} />
+          </div>
+          <div className={`${styles.footerMenuContent} ${openFooterMenu === 'info' ? styles.open : ''}`}>
+            <ul className={styles.footerSubMenuList}>
+              <li className={styles.footerSubMenuItem}>Gizlilik Politikası</li>
+              <li className={styles.footerSubMenuItem}>Kullanım Koşulları</li>
+            </ul>
           </div>
         </div>
 
