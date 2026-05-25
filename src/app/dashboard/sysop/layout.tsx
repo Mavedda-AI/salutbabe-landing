@@ -139,6 +139,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       '/dashboard/sysop/shipping-management',
       '/dashboard/sysop/store-management',
       '/dashboard/sysop/product-management',
+      '/dashboard/sysop/product-approval',
       '/dashboard/sysop/category-management',
       '/dashboard/sysop/brand-management',
       '/dashboard/sysop/system-settings',
@@ -229,6 +230,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       ),
       submenus: [
         { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/product-management' },
+        { label: t('dashboard.sysop.nav_product_approval') || 'İlan Onaylama', href: '/dashboard/sysop/product-approval' },
         { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/category-management' },
         { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/brand-management' }
       ] 
