@@ -2,10 +2,12 @@
 
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {useToast} from "../../../../context/ToastContext";
 import {API_BASE_URL, apiUrl} from "../../../../lib/api";
 
 export default function ProductApprovalPage() {
   const { t, theme } = useThemeLanguage();
+  const { showToast } = useToast();
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -47,12 +49,13 @@ export default function ProductApprovalPage() {
       const data = await res.json();
       if (data.request?.requestResult) {
         setListings(prev => prev.filter(l => l.listingID !== listingID));
-        // You could use a toast here if you import a toast manager, but local state update is fine.
+        showToast("İlan başarıyla onaylandı.", "success");
       } else {
-        alert("Onaylama başarısız: " + (data.request?.requestMessage || "Bilinmeyen hata"));
+        showToast("Onaylama başarısız: " + (data.request?.requestMessage || "Bilinmeyen hata"), "error");
       }
     } catch (e) {
       console.error(e);
+      showToast("Bir hata oluştu", "error");
     }
   };
 
@@ -73,11 +76,13 @@ export default function ProductApprovalPage() {
       const data = await res.json();
       if (data.request?.requestResult) {
         setListings(prev => prev.filter(l => l.listingID !== listingID));
+        showToast("İlan başarıyla reddedildi.", "success");
       } else {
-        alert("Reddetme başarısız: " + (data.request?.requestMessage || "Bilinmeyen hata"));
+        showToast("Reddetme başarısız: " + (data.request?.requestMessage || "Bilinmeyen hata"), "error");
       }
     } catch (e) {
       console.error(e);
+      showToast("Bir hata oluştu", "error");
     }
   };
 
