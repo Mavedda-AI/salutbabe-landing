@@ -31,7 +31,7 @@ export default function RankingWidget() {
               <img src={avatar} alt={`User ${i}`} className={styles.rankingAvatar} loading="lazy" />
               <div className={styles.rankingInfo}>
                 <span className={styles.rankingName}>@{name}</span>
-                <span className={styles.rankingLikes}><FavouriteIcon size={14} color="#111" variant="solid" /> {likes}</span>
+                <span className={styles.rankingLikes}><FavouriteIcon size={14} color="#111" fill="#111" /> {likes}</span>
               </div>
             </div>
           );
