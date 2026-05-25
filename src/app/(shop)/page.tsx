@@ -181,7 +181,10 @@ function MosaicItem({ index }: { index: number }) {
       
       {isSold && (
         <div className={styles.mosaicSoldOverlay}>
-          <span className={styles.soldStamp}>SATILDI</span>
+          <div className={styles.soldStamp}>
+            <div className={styles.soldStampTop}>ÜZGÜNÜZ</div>
+            <div className={styles.soldStampBottom}>SATILDI</div>
+          </div>
         </div>
       )}
     </div>
