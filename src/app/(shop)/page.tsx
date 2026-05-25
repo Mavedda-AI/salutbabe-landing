@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
+import Link from 'next/link';
 import PublicHero from '@/components/PublicHero';
 import {ArrowDown01Icon} from 'hugeicons-react';
 import {apiUrl} from '@/lib/api';
@@ -317,11 +318,11 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'salutbabe' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Hakkımızda</li>
-              <li className={styles.footerSubMenuItem}>Kariyer</li>
-              <li className={styles.footerSubMenuItem}>Blog</li>
-              <li className={styles.footerSubMenuItem}>Haberler</li>
-              <li className={styles.footerSubMenuItem}>Etki</li>
+              <li className={styles.footerSubMenuItem}><Link href="/about">Hakkımızda</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/careers">Kariyer</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/blog">Blog</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/news">Haberler</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/impact">Etki</Link></li>
             </ul>
           </div>
         </div>
@@ -333,11 +334,11 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'sell' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Salutbabe'te Satış Yap</li>
-              <li className={styles.footerSubMenuItem}>Salutbabe Kargo</li>
-              <li className={styles.footerSubMenuItem}>Salutbabe Elçileri</li>
-              <li className={styles.footerSubMenuItem}>Salutbabe Insider Ol</li>
-              <li className={styles.footerSubMenuItem}>En İyi Satıcı Programı</li>
+              <li className={styles.footerSubMenuItem}><Link href="/sell">Salutbabe'te Satış Yap</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/shipping">Salutbabe Kargo</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/affiliates">Salutbabe Elçileri</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/insider">Salutbabe Insider Ol</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/top-seller">En İyi Satıcı Programı</Link></li>
             </ul>
           </div>
         </div>
@@ -349,8 +350,8 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'help' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Yardım Merkezi</li>
-              <li className={styles.footerSubMenuItem}>Güvenlik Merkezi</li>
+              <li className={styles.footerSubMenuItem}><Link href="/help">Yardım Merkezi</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/safety">Güvenlik Merkezi</Link></li>
             </ul>
           </div>
         </div>
@@ -362,8 +363,8 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'info' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Gizlilik Politikası</li>
-              <li className={styles.footerSubMenuItem}>Kullanım Koşulları</li>
+              <li className={styles.footerSubMenuItem}><Link href="/privacy">Gizlilik Politikası</Link></li>
+              <li className={styles.footerSubMenuItem}><Link href="/terms">Kullanım Koşulları</Link></li>
             </ul>
           </div>
         </div>
@@ -377,9 +378,15 @@ export default function HomeFeed() {
           </div>
           <div className={styles.footerSocials}>
             {/* Simple SVGs for X, IG, TikTok matching Depop style */}
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="4" x2="20" y2="20"></line><line x1="20" y1="4" x2="4" y2="20"></line></svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+            <a href="https://x.com/salutbabecom" target="_blank" rel="noopener noreferrer">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="4" x2="20" y2="20"></line><line x1="20" y1="4" x2="4" y2="20"></line></svg>
+            </a>
+            <a href="https://instagram.com/salutbabecom" target="_blank" rel="noopener noreferrer">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://tiktok.com/@salutbabecom" target="_blank" rel="noopener noreferrer">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+            </a>
           </div>
         </div>
         

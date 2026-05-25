@@ -1,5 +1,4 @@
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import TopToastNotification from '@/components/TopToastNotification';
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
@@ -8,7 +7,6 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <TopToastNotification />
       <Header />
       <main>{children}</main>
-      <Footer />
     </>
   );
 }

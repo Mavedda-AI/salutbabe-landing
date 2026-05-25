@@ -485,7 +485,12 @@
   font-weight: 400;
   cursor: pointer;
 }
-.footerSubMenuItem:hover {
+.footerSubMenuItem a {
+  color: inherit;
+  text-decoration: none;
+  display: block; /* Make the whole area clickable */
+}
+.footerSubMenuItem a:hover {
   text-decoration: underline;
 }
 .footerAppSection {
@@ -511,9 +516,21 @@
 }
 .footerSocials {
   display: flex;
-  justify-content: center;
   gap: 32px;
-  margin-bottom: 32px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+.footerSocials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111111;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.footerSocials a:hover {
+  opacity: 0.6;
+  transform: scale(1.05); /* Slight pop effect on hover */
 }
 .footerRegion {
   background-color: #EAEAEA;
