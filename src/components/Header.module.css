@@ -132,7 +132,7 @@
   border: 1.5px solid #111111; /* Thicker border like Depop */
   border-radius: 24px;
   padding: 0 16px;
-  height: 44px; /* Taller search box */
+  height: 35px; /* Height reduced by 20% */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -151,7 +151,7 @@
   border: none;
   background: transparent;
   padding: 0 12px;
-  font-size: 15px; /* Slightly larger text */
+  font-size: 14px; /* Slightly reduced to fit shorter box */
   color: var(--text-primary);
   outline: none;
 }
