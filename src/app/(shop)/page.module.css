@@ -848,10 +848,10 @@
   background: linear-gradient(180deg, #EAECEB 0%, #D5D8D5 100%); /* Slightly darker, adding a bit of black/grey to the background */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06); /* A little black shadow behind the button to make it pop */
   color: #111111;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.3px;
-  padding: 40px 24px; /* Increased height for grid buttons */
+  padding: 16px 24px; /* Minimized height for stacked layout */
   border-radius: 8px; /* Slightly softer radius */
   border: none;
   cursor: pointer;
