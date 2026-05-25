@@ -109,6 +109,86 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
   }
 };
 
+const ALL_MOSAIC_IMAGES = [
+  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500",
+  "https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500",
+  "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500",
+  "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500",
+  "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500",
+  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500",
+  "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500",
+  "https://images.unsplash.com/photo-1569974641446-22542de88536?w=500",
+  "https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500",
+  "https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500",
+  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500",
+  "https://images.unsplash.com/photo-1616666428759-679a7d578307?w=500",
+  "https://images.unsplash.com/photo-1611911813383-67769b37a149?w=500",
+  "https://images.unsplash.com/photo-1594150878496-a921e5af8907?w=500",
+  "https://images.unsplash.com/photo-1632337949070-1fdb69fe2159?w=500"
+];
+
+function MosaicItem({ index }: { index: number }) {
+  const { showToast } = useToast();
+  const [img, setImg] = useState(ALL_MOSAIC_IMAGES[index % ALL_MOSAIC_IMAGES.length]);
+  const [price, setPrice] = useState(100 + ((index * 37) % 900));
+  const [views, setViews] = useState(12 + ((index * 19) % 300));
+  const [isSold, setIsSold] = useState(false);
+
+  useEffect(() => {
+    // Sadece bazı öğeler dinamik davransın, çok karmaşa olmasın
+    if (index % 5 !== 0) return;
+
+    const initialDelay = 3000 + (index * 1200);
+    let swapTimeout: NodeJS.Timeout;
+    let isMounted = true;
+    
+    const startAnimation = () => {
+      if (!isMounted) return;
+      setIsSold(true);
+      
+      swapTimeout = setTimeout(() => {
+        if (!isMounted) return;
+        setImg(ALL_MOSAIC_IMAGES[Math.floor(Math.random() * ALL_MOSAIC_IMAGES.length)]);
+        setPrice(Math.floor(Math.random() * 800) + 100);
+        setViews(Math.floor(Math.random() * 300) + 10);
+        setIsSold(false);
+      }, 2000); // 2 saniye sonra ürünü değiştir
+    };
+
+    const firstTimeout = setTimeout(() => {
+      startAnimation();
+      setInterval(startAnimation, 12000); // 12 saniyede bir tekrarla
+    }, initialDelay);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(firstTimeout);
+      clearTimeout(swapTimeout);
+    };
+  }, [index]);
+
+  return (
+    <div 
+      className={styles.mosaicItem}
+      onClick={() => showToast("Satın almak ve incelemek için uygulamasını indirin!", "info")}
+    >
+      <img src={img} alt={`Seçilen Ürün ${index}`} loading="lazy" />
+      <div className={styles.mosaicOverlay}>
+        <span>App'te Gör</span>
+      </div>
+      
+      <div className={styles.mosaicPrice}>{price} TL</div>
+      <div className={styles.mosaicViews}>👁 {views}</div>
+      
+      {isSold && (
+        <div className={styles.mosaicSoldOverlay}>
+          <span className={styles.soldStamp}>SATILDI</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function HomeFeed() {
   const { showToast } = useToast();
   const [products, setProducts] = useState<any[]>([]);
@@ -500,55 +580,9 @@ export default function HomeFeed() {
         <div className={styles.mosaicSection}>
           <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Sizin İçin Seçilenler</h2>
           <div className={styles.mosaicContainer}>
-            {Array.from({ length: 48 }).map((_, i) => {
-              const mosaicImages = [
-                "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500",
-                "https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500",
-                "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500",
-                "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500",
-                "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500",
-                "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500",
-                "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500",
-                "https://images.unsplash.com/photo-1569974641446-22542de88536?w=500",
-                "https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500",
-                "https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500",
-                "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500",
-                "https://images.unsplash.com/photo-1616666428759-679a7d578307?w=500",
-                "https://images.unsplash.com/photo-1611911813383-67769b37a149?w=500",
-                "https://images.unsplash.com/photo-1594150878496-a921e5af8907?w=500",
-                "https://images.unsplash.com/photo-1632337949070-1fdb69fe2159?w=500"
-              ];
-              const img = mosaicImages[i % mosaicImages.length];
-              
-              // Pseudo-random data based on index
-              const price = 100 + (i * 37 % 900); // 100 to 999 TL
-              const views = 12 + (i * 19 % 300); // 12 to 311 views
-              const isSold = i % 7 === 3; // Every ~7th item is sold
-              const delay = (i % 5) * 2; // Stagger the animation delay
-
-              return (
-                <div 
-                  key={i} 
-                  className={styles.mosaicItem}
-                  onClick={() => showToast("Satın almak ve incelemek için uygulamasını indirin!", "info")}
-                >
-                  <img src={img} alt={`Seçilen Ürün ${i}`} loading="lazy" />
-                  <div className={styles.mosaicOverlay}>
-                    <span>App'te Gör</span>
-                  </div>
-                  
-                  {/* Dynamic overlays */}
-                  <div className={styles.mosaicPrice}>{price} TL</div>
-                  <div className={styles.mosaicViews}>👁 {views}</div>
-                  
-                  {isSold && (
-                    <div className={styles.mosaicSoldOverlay} style={{ animationDelay: `${delay}s` }}>
-                      <span className={styles.soldStamp}>SATILDI</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            {Array.from({ length: 48 }).map((_, i) => (
+              <MosaicItem key={i} index={i} />
+            ))}
           </div>
         </div>
 
