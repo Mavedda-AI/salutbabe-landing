@@ -90,15 +90,6 @@ export default function ProductApprovalPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-black text-text-primary tracking-tight uppercase">
-          {t('dashboard.sysop.nav_product_approval') || 'İlan Onaylama'}
-        </h2>
-        <p className="text-[13px] font-bold text-text-secondary">
-          Kullanıcılar tarafından yüklenen ürün ilanlarını inceleyip onaylayın veya reddedin.
-        </p>
-      </div>
-
       {loading ? (
         <div className="flex justify-center p-12">
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
