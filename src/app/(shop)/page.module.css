@@ -410,25 +410,28 @@
   gap: 8px;
 }
 .priceBtn {
-  background: linear-gradient(180deg, #EBF1FA 0%, #F8F3F0 100%); /* Exact Depop gradient */
+  background: linear-gradient(180deg, #F4F1EC 0%, #E4E8E3 100%); /* Premium Warm Vanilla to Soft Sage */
   color: #111111;
-  font-size: 22px; /* Increased from 20px to match Depop's 'Under' size */
+  font-size: 22px;
   font-weight: 500;
-  padding: 28px 24px; /* Taller button */
-  text-align: center;
+  letter-spacing: -0.3px; /* Slightly tight for premium feel */
+  padding: 20px 24px; /* Slightly reduced height to make text look bigger */
   border-radius: 6px;
   border: none;
   cursor: pointer;
   transition: opacity 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: baseline; /* Align texts perfectly by their bottom edges */
+  gap: 6px; /* Precise tight spacing between words */
 }
 .priceBtn:hover {
   opacity: 0.9;
 }
 .priceBtn span {
-  font-size: 24px;
-  font-weight: 900; /* Extra bold for 'Altı' */
-  letter-spacing: -0.5px;
-  margin-left: 4px; /* Since span is now the second word, change margin to left */
+  font-size: 26px; /* Much larger for contrast */
+  font-weight: 900;
+  letter-spacing: -1px; /* Very tight spacing for the heavy text */
 }
 
 /* 8. Depop-style Footer */
