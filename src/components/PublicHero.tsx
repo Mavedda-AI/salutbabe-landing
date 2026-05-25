@@ -65,18 +65,18 @@ export default function PublicHero() {
           </div>
           
           <h1 className={`${styles.headline} ${isOrganic ? styles.textWhite : ''}`}>
-            {isBuy && <>İkinci el al.<br />Kendi tarzını oluştur.</>}
-            {isSell && <>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</>}
-            {isLive && <>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</>}
-            {isStory && <>Her Annenin<br />bir hikayesi vardır.</>}
-            {isOrganic && <>Çiftçiden ve anneden.<br />Doğadan bebeğinize.</>}
+            {isBuy && <span>İkinci el al.<br />Kendi tarzını oluştur.</span>}
+            {isSell && <span>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</span>}
+            {isLive && <span>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</span>}
+            {isStory && <span>Her Annenin<br />bir hikayesi vardır.</span>}
+            {isOrganic && <span>Çiftçiden ve anneden.<br />Doğadan bebeğinize.</span>}
           </h1>
           <p className={`${styles.subhead} ${isOrganic ? styles.textWhiteLight : ''}`}>
-            {isBuy && "Sürdürülebilir ve güvenilir ikinci el alışveriş."}
-            {isSell && "Küçülenleri kolayca sat, aile bütçene anında katkı sağla."}
-            {isLive && "Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet."}
-            {isStory && "Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü."}
-            {isOrganic && "Çiftçiler ve üreten annelerin ürünlerini keşfedin."}
+            {isBuy && <span>Sürdürülebilir ve güvenilir ikinci el alışveriş.</span>}
+            {isSell && <span>Küçülenleri kolayca sat, aile bütçene anında katkı sağla.</span>}
+            {isLive && <span>Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet.</span>}
+            {isStory && <span>Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü.</span>}
+            {isOrganic && <span>Çiftçiler ve üreten annelerin ürünlerini keşfedin.</span>}
           </p>
           
           <Link href="/register" className={styles.primaryButton}>

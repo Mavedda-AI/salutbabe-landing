@@ -10,86 +10,102 @@ import styles from './page.module.css';
 const FILTER_TABS = ["Tümü", "Sana Özel", "Anne", "Bebek", "Çocuk", "Diğer"];
 const DROPDOWN_TABS = ["Beden", "Marka"];
 
-const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string }> = {
+const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string; dotColorActive: string; dotColorInactive: string }> = {
   "Tümü": {
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
     title: "Salutbabe'te Kargo Bedava",
     text: "Seveceğin bir şeyler bul. Sadece Salutbabe'te.",
     buttonText: "Alışverişe Başla",
-    bg: "linear-gradient(180deg, #F9F7F5 0%, #E8F4F8 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#33373B", /* Premium Slate */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Sana Özel": {
     image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
     title: "Sana Özel Seçimler",
     text: "Zevkine ve tarzına en uygun ürünler.",
     buttonText: "Sana Özel Ürünleri Gör",
-    bg: "linear-gradient(180deg, #FDF4FF 0%, #F3E8FF 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#1E3532", /* Premium Deep Emerald */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Anne": {
     image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=1200",
     title: "Annelerin İhtiyaçları",
     text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
     buttonText: "Anne Ürünlerini Keşfet",
-    bg: "linear-gradient(180deg, #FAF0F2 0%, #F5E6E8 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#4A352B", /* Premium Mocha */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Bebek": {
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
     title: "Bebek Dünyası",
     text: "Bebeğiniz için en sevimli ürünler.",
     buttonText: "Bebek Ürünleri",
-    bg: "linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#232B3A", /* Premium Midnight Navy */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Çocuk": {
     image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
     title: "Çocuk Modası",
     text: "Dayanıklı, rahat ve trend kıyafetler.",
     buttonText: "Çocuk Giyimi Keşfet",
-    bg: "linear-gradient(180deg, #FFFBEB 0%, #FEF3C7 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#3B4232", /* Premium Deep Olive */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Diğer": {
     image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=1200",
     title: "El İşçiliği Ürünler",
     text: "Özenle hazırlanmış el emeği ürünler.",
     buttonText: "Özel Tasarımları İncele",
-    bg: "linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#3A2A3A", /* Premium Plum */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Beden": {
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
     title: "Bedene Göre Seçim",
     text: "Sana en uygun bedenleri hemen bul.",
     buttonText: "Beden Filtrele",
-    bg: "linear-gradient(180deg, #F5F3FF 0%, #EDE9FE 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#5C3A21", /* Premium Deep Terracotta */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Marka": {
     image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
     title: "Markaya Göre Seçim",
     text: "En sevdiğin markaları hemen keşfet.",
     buttonText: "Markaları Gör",
-    bg: "linear-gradient(180deg, #FFF1F2 0%, #FFE4E6 100%)",
-    color: "#111111",
-    btnBg: "#111111",
-    btnColor: "#FFFFFF"
+    bg: "#1A1A1A", /* Premium Obsidian */
+    color: "#FFFFFF",
+    btnBg: "#FFFFFF",
+    btnColor: "#111111",
+    dotColorActive: "rgba(255, 255, 255, 0.9)",
+    dotColorInactive: "rgba(255, 255, 255, 0.3)"
   }
 };
 
@@ -188,15 +204,15 @@ export default function HomeFeed() {
               <div className={styles.promoDots}>
                 <span 
                   className={styles.promoDot} 
-                  style={{ backgroundColor: 'rgba(17, 17, 17, 0.8)' }}
+                  style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorActive }}
                 ></span>
                 <span 
                   className={styles.promoDot} 
-                  style={{ backgroundColor: 'rgba(17, 17, 17, 0.2)' }}
+                  style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorInactive }}
                 ></span>
                 <span 
                   className={styles.promoDot} 
-                  style={{ backgroundColor: 'rgba(17, 17, 17, 0.2)' }}
+                  style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorInactive }}
                 ></span>
               </div>
             </div>
@@ -206,24 +222,25 @@ export default function HomeFeed() {
         {/* Products Grid */}
         <section className={styles.gridSection}>
           <div className={styles.grid}>
-            {loading ? (
-              // Loading skeletons or empty state could go here, for now just a text
-              <p style={{ padding: 16 }}>Ürünler yükleniyor...</p>
-            ) : products.length > 0 ? (
-              products.map((product) => (
-                <ProductCard
-                  key={product.listingID || product.id}
-                  brand={product.brand?.name || product.title || 'Marka Yok'}
-                  price={product.price || '0'}
-                  sellerName={product.user?.firstName || 'Satıcı'}
-                  image={product.images?.[0]?.url || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=500'}
-                  statsText={product.statsText || ''}
-                  statsIcon={product.statsIcon}
-                  isFavorite={product.isFavorite || false}
-                />
-              ))
-            ) : (
-              <p style={{ padding: 16, color: '#666' }}>Henüz ürün bulunmuyor.</p>
+            {loading && (
+              <div key="loading" style={{ padding: 16 }}>Ürünler yükleniyor...</div>
+            )}
+            
+            {!loading && products.length > 0 && products.map((product) => (
+              <ProductCard
+                key={product.listingID || product.id}
+                brand={product.brand?.name || product.title || 'Marka Yok'}
+                price={product.price || '0'}
+                sellerName={product.user?.firstName || 'Satıcı'}
+                image={product.images?.[0]?.url || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=500'}
+                statsText={product.statsText || ''}
+                statsIcon={product.statsIcon}
+                isFavorite={product.isFavorite || false}
+              />
+            ))}
+            
+            {!loading && products.length === 0 && (
+              <div key="empty" style={{ padding: 16, color: '#666' }}>Henüz ürün bulunmuyor.</div>
             )}
           </div>
         </section>
