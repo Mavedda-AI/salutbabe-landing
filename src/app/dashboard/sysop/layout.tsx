@@ -33,15 +33,26 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     try {
       const token = localStorage.getItem("auth_token");
       if (!token) return;
-      const res = await fetch(apiUrl("/notifications?page=1&limit=20"), {
-        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
-      });
-      const data = await res.json();
+      
+      const [listRes, countRes] = await Promise.all([
+        fetch(apiUrl("/notifications?page=1&limit=20"), {
+          headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+        }),
+        fetch(apiUrl("/notifications/unread-count"), {
+          headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+        })
+      ]);
+
+      const data = await listRes.json();
+      const countData = await countRes.json();
+
       if (data.request?.requestResult) {
         const rows = data.payload?.notifications || data.payload?.rows || [];
         setNotifications(rows);
-        const unreadRows = rows.filter((n: any) => !n.isRead).length;
-        setUnreadCount(data.payload?.unreadCount ?? unreadRows);
+      }
+      
+      if (countData.request?.requestResult) {
+        setUnreadCount(countData.payload?.count || 0);
       }
     } catch (e) {
       console.error("Notifications fetch failed:", e);
@@ -546,8 +557,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                                 <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-primary' : 'bg-transparent'}`}></div>
                               </div>
                               <div>
-                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.title || t('dashboard.sysop.notification')}</h4>
-                                <p className="text-[12px] text-text-secondary leading-snug mb-2">{notif.body || notif.message || notif.notification?.body || ''}</p>
+                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.notificationTitle || notif.notification?.title || t('dashboard.sysop.notification')}</h4>
+                                <p className="text-[12px] text-text-secondary leading-snug mb-2">{notif.body || notif.message || notif.notification?.notificationContent || notif.notification?.body || ''}</p>
                                 <span className="text-[10px] font-bold text-text-secondary/80">
                                   {(notif.sentDate || notif.createdAt) ? new Date(notif.sentDate || notif.createdAt).toLocaleString(language === 'tr' ? 'tr-TR' : language === 'fr' ? 'fr-FR' : 'en-US') : ''}
                                 </span>
