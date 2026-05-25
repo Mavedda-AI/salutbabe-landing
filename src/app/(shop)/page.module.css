@@ -476,7 +476,7 @@
 }
 .popularImage {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1; /* Minimized height, perfect square */
   object-fit: cover;
   border-radius: 4px;
   margin-bottom: 8px;
@@ -493,7 +493,175 @@
   color: #767676;
 }
 
-/* 7. Shop by Price Section */
+/* 7. Annelerin Sepetleri */
+.bundleSection {
+  padding: 0 0 32px 0;
+}
+.bundleGrid {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 0 16px 8px 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.bundleGrid::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .bundleGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: visible;
+  }
+}
+.bundleCard {
+  flex: 0 0 80%; /* Almost full width on mobile */
+  background: #fff;
+  border: 1px solid #EAECEB;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .bundleCard {
+    flex: auto;
+  }
+}
+.bundleImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+}
+.bundleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bundlePriceTag {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #111;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 14px;
+}
+.bundleContent {
+  padding: 16px;
+}
+.bundleTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 4px;
+}
+.bundleDesc {
+  font-size: 14px;
+  color: #767676;
+  margin-bottom: 12px;
+}
+.bundleSeller {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sellerAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.sellerName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* 8. Haftanın En Çok Etkileşim Alanları */
+.rankingSection {
+  padding: 0 0 32px 0;
+}
+.rankingGrid {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 0 16px 8px 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rankingGrid::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .rankingGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: visible;
+  }
+}
+.rankingCard {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  background: #F9F9F9;
+  padding: 24px 16px;
+  border-radius: 8px;
+}
+@media (min-width: 768px) {
+  .rankingCard {
+    flex: auto;
+  }
+}
+.rankBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #111;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+}
+.rankingAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 2px solid #EAECEB;
+}
+.rankingName {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.rankingLikes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* 9. Shop by Price Section */
 .priceSection {
   padding: 0 0 32px 0;
 }
