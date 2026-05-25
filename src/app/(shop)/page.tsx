@@ -365,53 +365,132 @@ export default function HomeFeed() {
         <div className={styles.bundleSection}>
           <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Annelerin Sepetleri</h2>
           <div className={styles.bundleGrid}>
-            <div className={styles.bundleCard}>
-              <div className={styles.bundleImageWrapper}>
-                <div className={styles.bundleImageCarousel}>
-                  <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500" alt="Yenidoğan Paketi 1" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500" alt="Yenidoğan Paketi 2" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500" alt="Yenidoğan Paketi 3" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500" alt="Yenidoğan Paketi 4" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500" alt="Yenidoğan Paketi 5" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500" alt="Yenidoğan Paketi 6" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500" alt="Yenidoğan Paketi 7" className={styles.bundleImage} />
+            {[
+              {
+                title: "Yenidoğan Paketi",
+                desc: "7 parça - Hiç kullanılmadı",
+                price: "800 TL",
+                sellerName: "ayse_mom",
+                sellerAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500",
+                  "https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500",
+                  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500",
+                  "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500",
+                  "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500",
+                  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500",
+                  "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500"
+                ]
+              },
+              {
+                title: "Hastane Çıkışı Sepeti",
+                desc: "Premium markalar - Etiketli",
+                price: "1200 TL",
+                sellerName: "zeynep_baby",
+                sellerAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1569974641446-22542de88536?w=500",
+                  "https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500",
+                  "https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500"
+                ]
+              },
+              {
+                title: "Kışlık Tulum Seti",
+                desc: "3 parça - Az kullanıldı",
+                price: "950 TL",
+                sellerName: "cansu_moda",
+                sellerAvatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500",
+                  "https://images.unsplash.com/photo-1616666428759-679a7d578307?w=500",
+                  "https://images.unsplash.com/photo-1611911813383-67769b37a149?w=500"
+                ]
+              },
+              {
+                title: "Yazlık Tatil Bavulu",
+                desc: "10 parça - Lekesiz",
+                price: "600 TL",
+                sellerName: "derin_dolap",
+                sellerAvatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500",
+                  "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500"
+                ]
+              },
+              {
+                title: "İlk Adım Ayakkabı Seti",
+                desc: "5 parça çorap ve ayakkabı",
+                price: "450 TL",
+                sellerName: "bebek_butik",
+                sellerAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1594150878496-a921e5af8907?w=500",
+                  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500",
+                  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500",
+                  "https://images.unsplash.com/photo-1555529771-835f59bfc50c?w=500",
+                  "https://images.unsplash.com/photo-1569974641446-22542de88536?w=500"
+                ]
+              },
+              {
+                title: "Organik Pamuk Body",
+                desc: "6 parça - H&M Kids",
+                price: "350 TL",
+                sellerName: "selin_ikinciel",
+                sellerAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500",
+                  "https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500",
+                  "https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500"
+                ]
+              },
+              {
+                title: "1 Yaş Doğum Günü Kombini",
+                desc: "2 parça - 1 kez giyildi",
+                price: "850 TL",
+                sellerName: "deniz_kids",
+                sellerAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500",
+                  "https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500"
+                ]
+              },
+              {
+                title: "Uyku Tulumu Paketi",
+                desc: "3 parça - TOG değerli",
+                price: "1100 TL",
+                sellerName: "pelin_bebek",
+                sellerAvatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100",
+                images: [
+                  "https://images.unsplash.com/photo-1632337949070-1fdb69fe2159?w=500",
+                  "https://images.unsplash.com/photo-1611911813383-67769b37a149?w=500",
+                  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500"
+                ]
+              }
+            ].map((bundle, i) => (
+              <div key={i} className={styles.bundleCard}>
+                <div className={styles.bundleImageWrapper}>
+                  <div className={styles.bundleImageCarousel}>
+                    {bundle.images.map((img, j) => (
+                      <img key={j} src={img} alt={`${bundle.title} ${j + 1}`} className={styles.bundleImage} />
+                    ))}
+                  </div>
+                  <div className={styles.bundlePriceTag}>{bundle.price}</div>
+                  <div className={styles.swipeHint}>
+                    {bundle.images.slice(0, 3).map((_, k) => (
+                      <div key={k} className={styles.dot}></div>
+                    ))}
+                  </div>
                 </div>
-                <div className={styles.bundlePriceTag}>800 TL</div>
-                <div className={styles.swipeHint}>
-                  <div className={styles.dot}></div><div className={styles.dot}></div><div className={styles.dot}></div>
+                <div className={styles.bundleContent}>
+                  <h3 className={styles.bundleTitle}>{bundle.title}</h3>
+                  <p className={styles.bundleDesc}>{bundle.desc}</p>
+                  <div className={styles.bundleSeller}>
+                    <img src={bundle.sellerAvatar} alt="Seller" className={styles.sellerAvatar} />
+                    <span className={styles.sellerName}>{bundle.sellerName}</span>
+                  </div>
                 </div>
               </div>
-              <div className={styles.bundleContent}>
-                <h3 className={styles.bundleTitle}>Yenidoğan Paketi</h3>
-                <p className={styles.bundleDesc}>7 parça - Hiç kullanılmadı</p>
-                <div className={styles.bundleSeller}>
-                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Seller" className={styles.sellerAvatar} />
-                  <span className={styles.sellerName}>ayse_mom</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className={styles.bundleCard}>
-              <div className={styles.bundleImageWrapper}>
-                <div className={styles.bundleImageCarousel}>
-                  <img src="https://images.unsplash.com/photo-1569974641446-22542de88536?w=500" alt="Hastane Çıkışı Sepeti 1" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500" alt="Hastane Çıkışı Sepeti 2" className={styles.bundleImage} />
-                  <img src="https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500" alt="Hastane Çıkışı Sepeti 3" className={styles.bundleImage} />
-                </div>
-                <div className={styles.bundlePriceTag}>1200 TL</div>
-                <div className={styles.swipeHint}>
-                  <div className={styles.dot}></div><div className={styles.dot}></div><div className={styles.dot}></div>
-                </div>
-              </div>
-              <div className={styles.bundleContent}>
-                <h3 className={styles.bundleTitle}>Hastane Çıkışı Sepeti</h3>
-                <p className={styles.bundleDesc}>Premium markalar - Etiketli</p>
-                <div className={styles.bundleSeller}>
-                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" alt="Seller" className={styles.sellerAvatar} />
-                  <span className={styles.sellerName}>zeynep_baby</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
