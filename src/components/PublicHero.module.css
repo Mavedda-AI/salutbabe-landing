@@ -57,26 +57,42 @@
 
 .toggleContainer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Fix for left side cut off on mobile */
   margin-bottom: 24px;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.toggleContainer::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .toggleContainer {
+    justify-content: center; /* Center on desktop */
+  }
 }
 
 .togglePill {
   display: flex;
   background-color: white;
   border-radius: 40px;
-  padding: 4px; 
-  border: 1px solid #EAEAEA; /* Added subtle border like Depop */
-  box-shadow: none; /* Depop pill has no shadow */
+  padding: 2px; /* Minimized padding */
+  border: 1px solid #EAEAEA;
+  box-shadow: none;
+  margin: 0 auto; /* Center within flex-start if it fits */
+  width: max-content;
 }
 
 .toggleButton {
-  padding: 8px 16px; 
+  padding: 8px 10px; /* Minimized horizontal padding */
   border-radius: 36px;
   border: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 13px; /* Minimized font size */
   font-weight: 700;
   color: var(--text-secondary);
   cursor: pointer;
