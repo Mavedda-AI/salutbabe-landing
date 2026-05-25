@@ -1,13 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, {useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import Link from 'next/link';
 import {Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import CartDrawer from './CartDrawer';
 import MobileDrawer from './MobileDrawer';
 import styles from './Header.module.css';
-import {, {useState} from 'react';
 
 const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentColor", className = "" }) => (
   <svg 
