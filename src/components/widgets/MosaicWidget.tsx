@@ -38,7 +38,13 @@ function MosaicItem({ index }: { index: number }) {
       
       swapTimeout = setTimeout(() => {
         if (!isMounted) return;
-        setImg(ALL_MOSAIC_IMAGES[Math.floor(Math.random() * ALL_MOSAIC_IMAGES.length)]);
+        
+        let newImg;
+        do {
+          newImg = ALL_MOSAIC_IMAGES[Math.floor(Math.random() * ALL_MOSAIC_IMAGES.length)];
+        } while (newImg === img);
+        
+        setImg(newImg);
         setPrice(Math.floor(Math.random() * 800) + 100);
         setViews(Math.floor(Math.random() * 300) + 10);
         setIsSold(false);
