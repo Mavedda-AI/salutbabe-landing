@@ -523,8 +523,16 @@
 }
 .footerAppBadges {
   display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
+  gap: 16px;
+  align-items: center;
+}
+.footerAppBadges a {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  display: flex;
+}
+.footerAppBadges a:hover {
+  transform: scale(1.03); /* Subtle pop up on hover */
+  opacity: 0.9;
 }
 .footerBadge {
   height: 40px;
