@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import ProductCard from '@/components/ProductCard';
 import PublicHero from '@/components/PublicHero';
 import {ArrowDown01Icon} from 'hugeicons-react';
 import {apiUrl} from '@/lib/api';
@@ -307,23 +306,6 @@ export default function HomeFeed() {
             <button className={styles.priceBtn}><span>1000 TL</span>Altı</button>
           </div>
         </div>
-
-        {/* Products Grid */}
-        <section className={styles.gridSection}>
-          <div className={styles.grid}>
-            {loading && (
-              <div key="loading" style={{ padding: 16 }}>Ürünler yükleniyor...</div>
-            )}
-            
-            {!loading && products.length > 0 && products.map((product) => (
-              <ProductCard
-                key={product.listingID || product.id}
-                brand={product.brand?.name || product.title || 'Marka Yok'}
-                price={product.price || '0'}
-                sellerName={product.user?.firstName || 'Satıcı'}
-                image={product.images?.[0]?.url || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=500'}
-                statsText={product.statsText || ''}
-                statsIcon={product.statsIcon}
                 isFavorite={product.isFavorite || false}
               />
             ))}
