@@ -48,7 +48,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Bebek": {
-    image: "https://images.unsplash.com/photo-1608365151231-7dbed3034787?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?auto=format&fit=crop&q=80&w=1200",
     title: "Bebek Dünyası",
     text: "Bebeğiniz için en sevimli ürünler.",
     buttonText: "Bebek Ürünleri",
@@ -96,7 +96,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Marka": {
-    image: "https://images.unsplash.com/photo-1766918780914-927fb058414b?auto=format&fit=crop&q=80&w=1200",
+    image: "/baby_brands.png",
     title: "Markaya Göre Seçim",
     text: "En sevdiğin markaları hemen keşfet.",
     buttonText: "Markaları Gör",
