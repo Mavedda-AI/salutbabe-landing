@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import Link from 'next/link';
 import {ArrowRight01Icon, Cancel01Icon} from 'hugeicons-react';
 import styles from './MobileDrawer.module.css';
-import {, {useEffect} from 'react';
 
 interface MobileDrawerProps {
   isOpen: boolean;

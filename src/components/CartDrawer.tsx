@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {Cancel01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import styles from './CartDrawer.module.css';
-import {, {useEffect} from 'react';
 
 interface CartDrawerProps {
   isOpen: boolean;

@@ -1,11 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, {useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import Link from 'next/link';
 import styles from './PublicHero.module.css';
 import {DeliveryTruck01Icon, SparklesIcon, TShirtIcon} from 'hugeicons-react';
-import {, {useState} from 'react';
 
 export default function PublicHero() {
   const { t } = useThemeLanguage();
