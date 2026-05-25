@@ -61,14 +61,14 @@ export default function HomeFeed() {
         {/* 6. Bundles (Annelerin Sepetleri) */}
         <BundleWidget />
 
-        {/* 7. Shop by Price */}
-        <PriceGridWidget />
-
         {/* 8. Mosaic Wall (Sizin İçin Seçilenler) */}
         <MosaicWidget />
 
         {/* 9. Ranking / Leaderboard */}
         <RankingWidget />
+
+        {/* 7. Shop by Price */}
+        <PriceGridWidget />
       </div>
 
       {/* 10. Country & Language Selector Footer */}
