@@ -76,6 +76,7 @@ export default function Header() {
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
           <Link href="/login" className={styles.signupButton}>Satıcı Paneli</Link>
+          <Link href="/register" className={styles.loginLink}>Kaydol</Link>
         </div>
       </div>
 

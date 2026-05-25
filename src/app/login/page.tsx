@@ -365,7 +365,7 @@ const LoginPage = () => {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="E-posta Adresin"
                 required
-                className="w-full px-5 py-4 rounded-2xl bg-[#F7F7F9] dark:bg-[#161618] border-none focus:ring-2 focus:ring-[#2D2D2D] dark:focus:ring-white transition-all outline-none text-gray-900 dark:text-white font-medium placeholder:text-gray-400 text-[15px]"
+                className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white transition-all outline-none text-gray-900 dark:text-white font-medium placeholder:text-gray-400 text-[15px] shadow-sm"
               />
             </div>
 
@@ -377,7 +377,7 @@ const LoginPage = () => {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="Şifren"
                   required
-                  className="w-full px-5 py-4 rounded-2xl bg-[#F7F7F9] dark:bg-[#161618] border-none focus:ring-2 focus:ring-[#2D2D2D] dark:focus:ring-white transition-all outline-none text-gray-900 dark:text-white font-medium placeholder:text-gray-400 text-[15px] pr-12"
+                  className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white transition-all outline-none text-gray-900 dark:text-white font-medium placeholder:text-gray-400 text-[15px] pr-12 shadow-sm"
                 />
                 <button
                   type="button"
@@ -397,7 +397,7 @@ const LoginPage = () => {
                 </button>
               </div>
               <div className="flex justify-end mt-3">
-                <span className="text-[13px] font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white cursor-pointer transition-colors">
+                <span className="text-[13px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white cursor-pointer transition-colors">
                   Şifremi Unuttum
                 </span>
               </div>
@@ -406,7 +406,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading !== null}
-              className="w-full py-4 bg-[#2D2D2D] dark:bg-white text-white dark:text-black rounded-2xl font-bold text-[15px] hover:bg-black dark:hover:bg-gray-100 transition-all duration-300 active:scale-[0.98] mt-2 disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-bold text-[15px] hover:bg-gray-800 dark:hover:bg-gray-200 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] mt-2 disabled:opacity-50 flex items-center justify-center gap-2 shadow-md"
             >
               {loading === "email" ? (
                 <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -427,7 +427,7 @@ const LoginPage = () => {
             <button
               onClick={handleGoogleLogin}
               disabled={loading !== null}
-              className="w-full flex items-center justify-center gap-3 py-4 bg-transparent border border-gray-200 dark:border-[#2A2A2C] text-gray-900 dark:text-white rounded-2xl font-bold text-[15px] hover:bg-gray-50 dark:hover:bg-[#161618] transition-all duration-300 active:scale-[0.98] disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-3 py-4 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-2xl font-bold text-[15px] hover:bg-gray-50 dark:hover:bg-white/5 hover:shadow-md transition-all duration-300 active:scale-[0.98] disabled:opacity-50 shadow-sm"
             >
               {loading === "google" ? (
                 <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -448,18 +448,18 @@ const LoginPage = () => {
             {/* Apple login removed as requested */}
           </div>
 
-          <div className="mt-8 flex items-center justify-center gap-3">
+          <div className="mt-8 flex items-center justify-center gap-4">
             <button 
               type="button" 
               onClick={() => window.location.href='/dashboard/seller'} 
-              className="px-5 py-2.5 bg-[#E8F5E9] text-[#2E7D32] dark:bg-[#1B5E20]/20 dark:text-[#81C784] rounded-xl font-bold text-[14px] hover:bg-[#C8E6C9] dark:hover:bg-[#1B5E20]/40 transition-colors"
+              className="px-6 py-3 bg-[#E8F5E9] text-[#2E7D32] dark:bg-[#2E7D32]/20 dark:text-[#A5D6A7] rounded-xl font-bold text-[14px] hover:bg-[#C8E6C9] dark:hover:bg-[#2E7D32]/40 transition-colors shadow-sm"
             >
               Satış Paneli
             </button>
             <button 
               type="button" 
               onClick={() => setShowSignupPopup(true)} 
-              className="px-5 py-2.5 bg-[#2D2D2D] text-white dark:bg-white dark:text-black rounded-xl font-bold text-[14px] hover:bg-black dark:hover:bg-gray-100 transition-colors"
+              className="px-6 py-3 bg-gray-100 text-gray-900 dark:bg-white/10 dark:text-white rounded-xl font-bold text-[14px] hover:bg-gray-200 dark:hover:bg-white/20 transition-colors shadow-sm"
             >
               Kaydol
             </button>
