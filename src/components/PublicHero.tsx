@@ -80,7 +80,7 @@ export default function PublicHero() {
           </p>
           
           <Link href="/register" className={styles.primaryButton}>
-            {isBuy ? "Hemen Al" : isSell ? "Hemen Sat" : isLive ? "Odalara Katıl" : isStory ? "Hikayeni Oluştur" : "Doğalı Keşfet"}
+            {isBuy ? "Hemen Keşfet" : isSell ? "Hemen Sat" : isLive ? "Odalara Katıl" : isStory ? "Hikayeni Oluştur" : "Doğalı Keşfet"}
           </Link>
         </div>
 
