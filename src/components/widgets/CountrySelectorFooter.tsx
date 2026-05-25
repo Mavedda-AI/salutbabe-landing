@@ -15,9 +15,15 @@ export default function CountrySelectorFooter() {
     <footer className={styles.countryFooter}>
       <div className={styles.footerLinks}>
         <a href="#">{t('footer.download_app')}</a>
-        <a href="#">{t('footer.contact_us')}</a>
+        <a href="#">Nasıl Satış Yaparım?</a>
+        <a href="#">Sıkça Sorulan Sorular</a>
+        <a href="#">Kargo ve Teslimat</a>
         <a href="#">{t('footer.secure_payment')}</a>
         <a href="#">{t('footer.return_policy')}</a>
+        <a href="#">Gizlilik Politikası</a>
+        <a href="#">Kullanıcı Sözleşmesi</a>
+        <a href="#">Hakkımızda</a>
+        <a href="#">{t('footer.contact_us')}</a>
       </div>
       
       <div className={styles.languageSelector}>
