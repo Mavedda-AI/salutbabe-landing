@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import PublicHero from '@/components/PublicHero';
 import {ArrowDown01Icon} from 'hugeicons-react';
 import {apiUrl} from '@/lib/api';
+import {useToast} from '@/context/ToastContext';
 import styles from './page.module.css';
 
 const FILTER_TABS = ["Tümü", "Sana Özel", "Anne", "Bebek", "Çocuk", "Diğer"];
@@ -109,6 +110,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
 };
 
 export default function HomeFeed() {
+  const { showToast } = useToast();
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -517,6 +519,13 @@ export default function HomeFeed() {
                 "https://images.unsplash.com/photo-1632337949070-1fdb69fe2159?w=500"
               ];
               const img = mosaicImages[i % mosaicImages.length];
+              
+              // Pseudo-random data based on index
+              const price = 100 + (i * 37 % 900); // 100 to 999 TL
+              const views = 12 + (i * 19 % 300); // 12 to 311 views
+              const isSold = i % 7 === 3; // Every ~7th item is sold
+              const delay = (i % 5) * 2; // Stagger the animation delay
+
               return (
                 <div 
                   key={i} 
@@ -527,6 +536,16 @@ export default function HomeFeed() {
                   <div className={styles.mosaicOverlay}>
                     <span>App'te Gör</span>
                   </div>
+                  
+                  {/* Dynamic overlays */}
+                  <div className={styles.mosaicPrice}>{price} TL</div>
+                  <div className={styles.mosaicViews}>👁 {views}</div>
+                  
+                  {isSold && (
+                    <div className={styles.mosaicSoldOverlay} style={{ animationDelay: `${delay}s` }}>
+                      <span className={styles.soldStamp}>SATILDI</span>
+                    </div>
+                  )}
                 </div>
               );
             })}
