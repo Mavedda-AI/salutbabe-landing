@@ -172,8 +172,8 @@
 .promoImage {
   width: 100%;
   height: 280px; /* Matched to Depop */
-  object-fit: contain;
-  object-position: center; /* Guarantee the whole image is visible */
+  object-fit: cover;
+  object-position: center; /* Relying on inherently wide images to prevent clipping */
 }
 
 .promoContent {
