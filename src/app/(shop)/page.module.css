@@ -1,8 +1,8 @@
 .feedContainer {
   width: 100%;
-  max-width: 480px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding-bottom: 24px; /* Reduced from 90px */
+  padding-bottom: 24px;
   background-color: var(--background);
   min-height: 100vh;
 }
@@ -481,9 +481,13 @@
 /* 8. Depop-style Footer */
 .footer {
   background-color: #F8F8F8;
-  padding: 0 0 90px 0; /* Moved the 90px padding here for the bottom tab bar */
+  padding: 0 0 90px 0;
   border-top: 1px solid #EAEAEA;
   width: 100%;
+}
+.footerContent {
+  max-width: 1300px;
+  margin: 0 auto;
 }
 .footerMenu {
   border-bottom: 1px solid #EAEAEA;
@@ -606,4 +610,42 @@
   align-items: center;
   font-size: 14px;
   font-weight: 500;
+}
+
+/* Desktop Footer Layout */
+@media (min-width: 768px) {
+  .footer {
+    padding: 0;
+  }
+  .footerContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 40px;
+    align-items: flex-start;
+  }
+  .footerMenu {
+    border-bottom: none;
+    flex: 1;
+  }
+  .footerMenuItem {
+    padding: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 800;
+    pointer-events: none; /* Disable toggle on desktop */
+  }
+  .arrowOpen, .footerMenuItem svg {
+    display: none; /* Hide arrows on desktop */
+  }
+  .footerMenuContent {
+    max-height: none !important;
+  }
+  .footerSubMenuList {
+    padding: 0;
+    gap: 16px;
+  }
+  .footerAppSection {
+    flex: 1.5;
+    padding: 0;
+  }
 }

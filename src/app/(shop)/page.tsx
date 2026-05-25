@@ -311,7 +311,8 @@ export default function HomeFeed() {
       </div>
       {/* Footer (Matches Depop Screenshot) */}
       <footer className={styles.footer}>
-        <div className={styles.footerMenu}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerMenu}>
           <div className={`${styles.footerMenuItem} ${openFooterMenu === 'salutbabe' ? styles.activeTitle : ''}`} onClick={() => setOpenFooterMenu(openFooterMenu === 'salutbabe' ? null : 'salutbabe')}>
             Salutbabe
             <ArrowDown01Icon size={18} color="currentColor" className={openFooterMenu === 'salutbabe' ? styles.arrowOpen : ''} />
@@ -490,6 +491,7 @@ export default function HomeFeed() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
             </a>
           </div>
+        </div>
         </div>
         
         <div className={styles.footerRegion}>
