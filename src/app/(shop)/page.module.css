@@ -714,18 +714,36 @@
   z-index: 10;
 }
 .soldStamp {
-  color: #D32F2F;
+  display: flex;
+  flex-direction: column;
   border: 4px solid #D32F2F;
-  font-weight: 900;
-  font-size: 20px;
-  padding: 6px 16px;
   border-radius: 8px;
-  text-transform: uppercase;
+  overflow: hidden;
   transform: rotate(-15deg);
-  background: transparent;
-  font-family: "Courier New", Courier, monospace;
-  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.95);
+  font-family: "Arial Black", "Arial", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   animation: stampImpact 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.soldStampTop {
+  color: #333;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  text-align: center;
+  border-bottom: 2px solid #D32F2F;
+  letter-spacing: 1px;
+}
+.soldStampBottom {
+  background: #D32F2F;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  text-align: center;
+  letter-spacing: 2px;
 }
 
 /* 9. Haftanın En Çok Etkileşim Alanları */
