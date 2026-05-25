@@ -25,13 +25,31 @@ export default function RankingWidget() {
           const name = names[i % names.length] + Math.floor(Math.random() * 100);
           const likes = Math.floor(Math.random() * 500) + 50;
 
+          const rank = i + 1;
+          const isTop1 = rank === 1;
+          const isTop2 = rank === 2;
+          const isTop3 = rank === 3;
+          const isTop3Any = isTop1 || isTop2 || isTop3;
+          
+          let badgeContent = `#${rank}`;
+          let badgeClass = styles.rankingBadge;
+          if (isTop1) { badgeContent = "👑 #1"; badgeClass = `${styles.rankingBadge} ${styles.badgeGold}`; }
+          else if (isTop2) { badgeContent = "🥈 #2"; badgeClass = `${styles.rankingBadge} ${styles.badgeSilver}`; }
+          else if (isTop3) { badgeContent = "🥉 #3"; badgeClass = `${styles.rankingBadge} ${styles.badgeBronze}`; }
+
+          const cardClass = `${styles.rankingCard} ${isTop1 ? styles.cardTop1 : isTop2 ? styles.cardTop2 : isTop3 ? styles.cardTop3 : ''}`;
+          const extraStat = isTop1 ? "+42 Satış 🔥" : isTop2 ? "+28 Satış 📈" : isTop3 ? "+15 Satış ✨" : `+${Math.floor(Math.random() * 5) + 1} Satış`;
+
           return (
-            <div key={i} className={styles.rankingCard}>
-              <div className={styles.rankingBadge}>#{i + 1}</div>
+            <div key={i} className={cardClass}>
+              <div className={badgeClass}>{badgeContent}</div>
               <img src={avatar} alt={`User ${i}`} className={styles.rankingAvatar} loading="lazy" />
               <div className={styles.rankingInfo}>
                 <span className={styles.rankingName}>@{name}</span>
-                <span className={styles.rankingLikes}><FavouriteIcon size={14} color="#111" fill="#111" /> {likes}</span>
+                <span className={styles.rankingLikes}>
+                  <FavouriteIcon size={14} color="#FF4D4F" fill="#FF4D4F" /> {likes}
+                </span>
+                <span className={styles.rankingExtraStat}>{extraStat}</span>
               </div>
             </div>
           );
