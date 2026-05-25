@@ -306,15 +306,6 @@ export default function HomeFeed() {
             <button className={styles.priceBtn}><span>1000 TL</span>Altı</button>
           </div>
         </div>
-                isFavorite={product.isFavorite || false}
-              />
-            ))}
-            
-            {!loading && products.length === 0 && (
-              <div key="empty" style={{ padding: 16, color: '#666' }}>Henüz ürün bulunmuyor.</div>
-            )}
-          </div>
-        </section>
       </div>
 
       {/* Footer (Matches Depop Screenshot) */}

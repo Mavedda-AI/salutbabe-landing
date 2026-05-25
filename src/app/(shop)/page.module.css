@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding-bottom: 90px;
+  padding-bottom: 24px; /* Reduced from 90px */
   background-color: var(--background);
   min-height: 100vh;
 }
@@ -438,7 +438,7 @@
 /* 8. Depop-style Footer */
 .footer {
   background-color: #F8F8F8;
-  padding: 0 0 32px 0;
+  padding: 0 0 90px 0; /* Moved the 90px padding here for the bottom tab bar */
   border-top: 1px solid #EAEAEA;
   width: 100%;
 }
