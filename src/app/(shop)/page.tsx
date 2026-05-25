@@ -10,54 +10,86 @@ import styles from './page.module.css';
 const FILTER_TABS = ["Tümü", "Sana Özel", "Anne", "Bebek", "Çocuk", "Diğer"];
 const DROPDOWN_TABS = ["Beden", "Marka"];
 
-const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: string; buttonText: string }> = {
+const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string }> = {
   "Tümü": {
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
     title: "Salutbabe'te Kargo Bedava",
     text: "Seveceğin bir şeyler bul. Sadece Salutbabe'te.",
-    buttonText: "Alışverişe Başla"
+    buttonText: "Alışverişe Başla",
+    bg: "linear-gradient(180deg, #F9F7F5 0%, #E8F4F8 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Sana Özel": {
-    image: "https://images.unsplash.com/photo-1555529771-835f59fc5efe?auto=format&fit=crop&q=80&w=1200",
-    title: "Sana Özel Algoritmalar",
-    text: "Zevkine ve tarzına en uygun ürünleri senin için seçtik.",
-    buttonText: "Sana Özel Ürünleri Gör"
+    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
+    title: "Sana Özel Seçimler",
+    text: "Zevkine ve tarzına en uygun ürünler.",
+    buttonText: "Sana Özel Ürünleri Gör",
+    bg: "linear-gradient(180deg, #FDF4FF 0%, #F3E8FF 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Anne": {
-    image: "https://images.unsplash.com/photo-1550987303-3ea76b91c107?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=1200",
     title: "Annelerin İhtiyaçları",
-    text: "Hamilelikten lohusalığa, annelerin tüm ihtiyaçları ve şık giyim seçenekleri.",
-    buttonText: "Anne Ürünlerini Keşfet"
+    text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
+    buttonText: "Anne Ürünlerini Keşfet",
+    bg: "linear-gradient(180deg, #FAF0F2 0%, #F5E6E8 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Bebek": {
-    image: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&q=80&w=1200",
-    title: "Bebek Dünyasına Hoşgeldiniz",
-    text: "Yenidoğandan itibaren bebeğinizin ihtiyaç duyacağı en sevimli ürünler.",
-    buttonText: "Bebek Ürünleri"
+    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
+    title: "Bebek Dünyası",
+    text: "Bebeğiniz için en sevimli ürünler.",
+    buttonText: "Bebek Ürünleri",
+    bg: "linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Çocuk": {
-    image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&q=80&w=1200",
-    title: "Çocuklar İçin Tarzlar",
-    text: "Büyüyen çocuklarınız için dayanıklı, rahat ve en trend kıyafetler.",
-    buttonText: "Çocuk Giyimi Keşfet"
+    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
+    title: "Çocuk Modası",
+    text: "Dayanıklı, rahat ve trend kıyafetler.",
+    buttonText: "Çocuk Giyimi Keşfet",
+    bg: "linear-gradient(180deg, #FFFBEB 0%, #FEF3C7 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Diğer": {
-    image: "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=1200",
     title: "El İşçiliği Ürünler",
-    text: "Özenle hazırlanmış el emeği ürünler, oyuncaklar ve benzersiz tasarımlar.",
-    buttonText: "Özel Tasarımları İncele"
+    text: "Özenle hazırlanmış el emeği ürünler.",
+    buttonText: "Özel Tasarımları İncele",
+    bg: "linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Beden": {
-    image: "https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
     title: "Bedene Göre Seçim",
-    text: "Sana ve çocuğuna en uygun bedenleri filtrele, tam oturan ürünleri bul.",
-    buttonText: "Beden Filtrele"
+    text: "Sana en uygun bedenleri hemen bul.",
+    buttonText: "Beden Filtrele",
+    bg: "linear-gradient(180deg, #F5F3FF 0%, #EDE9FE 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   },
   "Marka": {
     image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
     title: "Markaya Göre Seçim",
-    text: "En sevdiğin markaların ikinci el ve sıfır ürünlerini keşfet.",
-    buttonText: "Markaları Gör"
+    text: "En sevdiğin markaları hemen keşfet.",
+    buttonText: "Markaları Gör",
+    bg: "linear-gradient(180deg, #FFF1F2 0%, #FFE4E6 100%)",
+    color: "#111111",
+    btnBg: "#111111",
+    btnColor: "#FFFFFF"
   }
 };
 
@@ -135,14 +167,37 @@ export default function HomeFeed() {
               alt="Promo" 
               className={styles.promoImage} 
             />
-            <div className={styles.promoContent}>
+            <div 
+              className={styles.promoContent} 
+              style={{ 
+                background: CATEGORY_BANNERS[activeCategory]?.bg, 
+                color: CATEGORY_BANNERS[activeCategory]?.color 
+              }}
+            >
               <h3 className={styles.promoTitle}>{CATEGORY_BANNERS[activeCategory]?.title}</h3>
               <p className={styles.promoText}>{CATEGORY_BANNERS[activeCategory]?.text}</p>
-              <button className={styles.promoButton}>{CATEGORY_BANNERS[activeCategory]?.buttonText}</button>
+              <button 
+                className={styles.promoButton}
+                style={{ 
+                  backgroundColor: CATEGORY_BANNERS[activeCategory]?.btnBg, 
+                  color: CATEGORY_BANNERS[activeCategory]?.btnColor 
+                }}
+              >
+                {CATEGORY_BANNERS[activeCategory]?.buttonText}
+              </button>
               <div className={styles.promoDots}>
-                <span className={`${styles.promoDot} ${styles.promoDotActive}`}></span>
-                <span className={styles.promoDot}></span>
-                <span className={styles.promoDot}></span>
+                <span 
+                  className={styles.promoDot} 
+                  style={{ backgroundColor: 'rgba(17, 17, 17, 0.8)' }}
+                ></span>
+                <span 
+                  className={styles.promoDot} 
+                  style={{ backgroundColor: 'rgba(17, 17, 17, 0.2)' }}
+                ></span>
+                <span 
+                  className={styles.promoDot} 
+                  style={{ backgroundColor: 'rgba(17, 17, 17, 0.2)' }}
+                ></span>
               </div>
             </div>
           </div>
