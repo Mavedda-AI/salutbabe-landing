@@ -69,11 +69,11 @@ export default function CountrySelectorFooter() {
         <div className={styles.appDownloadTitle}>Salutbabe uygulamasını indirin</div>
         <div className={styles.appDownloadText}>Daha hızlı listeleyin, siparişlerinizi takip edin ve hiçbir yeniliği kaçırmayın.</div>
         <div className={styles.storeButtons}>
-          <a href="https://apps.apple.com/us/app/salutbabe/id6759988511" target="_blank" rel="noopener noreferrer" className={styles.storeBtn}>
-            App Store
+          <a href="https://apps.apple.com/us/app/salutbabe/id6759988511" target="_blank" rel="noopener noreferrer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" style={{ height: 40 }} />
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.salutbabe&hl=tr" target="_blank" rel="noopener noreferrer" className={styles.storeBtn}>
-            Google Play
+          <a href="https://play.google.com/store/apps/details?id=com.salutbabe&hl=tr" target="_blank" rel="noopener noreferrer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" style={{ height: 40 }} />
           </a>
         </div>
       </div>
