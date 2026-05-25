@@ -12,7 +12,7 @@ const DROPDOWN_TABS = ["Beden", "Marka"];
 
 const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string; dotColorActive: string; dotColorInactive: string }> = {
   "Tümü": {
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?auto=format&fit=crop&q=80&w=1200",
     title: "Salutbabe'te Kargo Bedava",
     text: "Seveceğin bir şeyler bul. Sadece Salutbabe'te.",
     buttonText: "Alışverişe Başla",
@@ -24,7 +24,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Sana Özel": {
-    image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=80&w=1200",
     title: "Sana Özel Seçimler",
     text: "Zevkine ve tarzına en uygun ürünler.",
     buttonText: "Sana Özel Ürünleri Gör",
@@ -36,7 +36,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Anne": {
-    image: "https://images.unsplash.com/photo-1560707854-fb9a10eeaace?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1568043625493-2b0633c7c491?auto=format&fit=crop&q=80&w=1200",
     title: "Annelerin İhtiyaçları",
     text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
     buttonText: "Anne Ürünlerini Keşfet",
@@ -60,7 +60,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Çocuk": {
-    image: "https://images.unsplash.com/photo-1618570624585-43156608a47c?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1596066190600-3af9aadaaea1?auto=format&fit=crop&q=80&w=1200",
     title: "Çocuk Modası",
     text: "Dayanıklı, rahat ve trend kıyafetler.",
     buttonText: "Çocuk Giyimi Keşfet",
@@ -84,7 +84,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Beden": {
-    image: "https://images.unsplash.com/photo-1596484552993-aec4311d3381?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1560506840-ec148e82a604?auto=format&fit=crop&q=80&w=1200",
     title: "Bedene Göre Seçim",
     text: "Sana en uygun bedenleri hemen bul.",
     buttonText: "Beden Filtrele",
@@ -96,7 +96,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Marka": {
-    image: "https://images.unsplash.com/photo-1641440616490-723c8cc161b8?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1766918780914-927fb058414b?auto=format&fit=crop&q=80&w=1200",
     title: "Markaya Göre Seçim",
     text: "En sevdiğin markaları hemen keşfet.",
     buttonText: "Markaları Gör",
