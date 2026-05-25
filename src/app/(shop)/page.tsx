@@ -401,39 +401,29 @@ export default function HomeFeed() {
         <div className={styles.rankingSection}>
           <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Haftanın En Çok Etkileşim Alanları</h2>
           <div className={styles.rankingGrid}>
-            <div className={styles.rankingCard}>
-              <div className={styles.rankBadge}>1</div>
-              <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200" alt="User 1" className={styles.rankingAvatar} />
-              <span className={styles.rankingName}>cansu_moda</span>
-              <div className={styles.rankingLikes}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#111" />
-                </svg>
-                <span>1203</span>
-              </div>
-            </div>
-            <div className={styles.rankingCard}>
-              <div className={styles.rankBadge}>2</div>
-              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200" alt="User 2" className={styles.rankingAvatar} />
-              <span className={styles.rankingName}>derin_dolap</span>
-              <div className={styles.rankingLikes}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#111" />
-                </svg>
-                <span>845</span>
-              </div>
-            </div>
-            <div className={styles.rankingCard}>
-              <div className={styles.rankBadge}>3</div>
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" alt="User 3" className={styles.rankingAvatar} />
-              <span className={styles.rankingName}>bebek_butik</span>
-              <div className={styles.rankingLikes}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#111" />
-                </svg>
-                <span>612</span>
-              </div>
-            </div>
+            {Array.from({ length: 50 }).map((_, i) => {
+              const avatars = [
+                "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200",
+                "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200",
+                "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
+                "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200"
+              ];
+              const names = ["cansu_moda", "derin_dolap", "bebek_butik", "ayse_mom", "zeynep_baby", "deniz_kids", "selin_ikinciel", "pelin_bebek"];
+              return (
+                <div key={i} className={styles.rankingCard}>
+                  <div className={styles.rankBadge}>{i + 1}</div>
+                  <img src={avatars[i % avatars.length]} alt={`User ${i + 1}`} className={styles.rankingAvatar} />
+                  <span className={styles.rankingName}>{names[i % names.length]}_{i + 1}</span>
+                  <div className={styles.rankingLikes}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#111" />
+                    </svg>
+                    <span>{Math.max(50, 1500 - i * 29)}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
