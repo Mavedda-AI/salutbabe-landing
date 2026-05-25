@@ -756,8 +756,9 @@
   grid-auto-flow: column;
   grid-auto-columns: 140px;
   overflow-x: auto;
+  overflow-y: hidden;
   gap: 16px;
-  padding: 0 16px 8px 16px;
+  padding: 8px 16px 16px 16px; /* Added top/bottom padding to prevent clipping of scaled cards */
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -845,10 +846,93 @@
   color: #111;
 }
 
-/* 10. Country Footer */
+/* 10. Accordion Footer */
+.accordionFooter {
+  background-color: #F4F4F4;
+  color: #111;
+  padding: 24px 16px 40px;
+  font-family: inherit;
+}
+.accordionItem {
+  border-bottom: 1px solid #EAEAEA;
+}
+.accordionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  color: #111;
+}
+.accordionContent {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.accordionContent a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+}
+.appDownloadSection {
+  padding: 32px 0 24px 0;
+}
+.appDownloadTitle {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.appDownloadText {
+  font-size: 14px;
+  color: #111;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.storeButtons {
+  display: flex;
+  gap: 12px;
+}
+.storeBtn {
+  background: #000;
+  color: #FFF;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px 0;
+}
+.seoSection {
+  padding: 24px 0;
+  text-align: center;
+}
+.seoTitle {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.seoLink {
+  color: #111;
+  text-decoration: none;
+  font-size: 15px;
+}
 .countryFooter {
-  background-color: #111;
-  color: #fff;
+  background-color: #F4F4F4;
   padding: 40px 16px 24px;
   display: flex;
   flex-direction: column;
