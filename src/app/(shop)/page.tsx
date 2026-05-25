@@ -16,7 +16,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Salutbabe'te Kargo Bedava",
     text: "Seveceğin bir şeyler bul. Sadece Salutbabe'te.",
     buttonText: "Alışverişe Başla",
-    bg: "#111827", /* Premium Charcoal */
+    bg: "#14342B", /* Deep Forest Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -28,7 +28,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Sana Özel Seçimler",
     text: "Zevkine ve tarzına en uygun ürünler.",
     buttonText: "Sana Özel Ürünleri Gör",
-    bg: "#86198F", /* Energetic Magenta */
+    bg: "#82857C", /* RAL 7023 Concrete Grey */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -40,7 +40,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Annelerin İhtiyaçları",
     text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
     buttonText: "Anne Ürünlerini Keşfet",
-    bg: "#9F1239", /* Energetic Ruby Red */
+    bg: "#BCA371", /* Warm Sand / Gold */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -52,7 +52,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Bebek Dünyası",
     text: "Bebeğiniz için en sevimli ürünler.",
     buttonText: "Bebek Ürünleri",
-    bg: "#1D4ED8", /* Energetic Royal Blue */
+    bg: "#A3AFA2", /* Sage Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -64,7 +64,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Çocuk Modası",
     text: "Dayanıklı, rahat ve trend kıyafetler.",
     buttonText: "Çocuk Giyimi Keşfet",
-    bg: "#0F766E", /* Energetic Deep Teal */
+    bg: "#55644D", /* Olive Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -76,7 +76,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "El İşçiliği Ürünler",
     text: "Özenle hazırlanmış el emeği ürünler.",
     buttonText: "Özel Tasarımları İncele",
-    bg: "#5B21B6", /* Energetic Violet */
+    bg: "#14342B", /* Deep Forest Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -88,7 +88,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Bedene Göre Seçim",
     text: "Sana en uygun bedenleri hemen bul.",
     buttonText: "Beden Filtrele",
-    bg: "#3730A3", /* Energetic Indigo */
+    bg: "#82857C", /* RAL 7023 Concrete Grey */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
@@ -100,7 +100,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     title: "Markaya Göre Seçim",
     text: "En sevdiğin markaları hemen keşfet.",
     buttonText: "Markaları Gör",
-    bg: "#B91C1C", /* Energetic Crimson */
+    bg: "#BCA371", /* Warm Sand / Gold */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
     btnColor: "#111111",
