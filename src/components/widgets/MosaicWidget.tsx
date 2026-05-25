@@ -5,7 +5,7 @@ import styles from '@/app/(shop)/page.module.css';
 import {useToast} from '@/context/ToastContext';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 
-const ALL_MOSAIC_IMAGES = [
+const CURATED_IMAGES = [
   "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?w=500&h=500&fit=crop",
   "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&h=500&fit=crop",
   "https://images.unsplash.com/photo-1568043625493-2b0633c7c491?w=500&h=500&fit=crop",
@@ -16,6 +16,14 @@ const ALL_MOSAIC_IMAGES = [
   "https://images.unsplash.com/photo-1546015720-b8b30df5aa27?w=500&h=500&fit=crop",
   "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500&h=500&fit=crop"
 ];
+
+const getMosaicImage = (index: number) => {
+  if (index < CURATED_IMAGES.length) {
+    return CURATED_IMAGES[index];
+  }
+  // Fallback to loremflickr with lock to guarantee unique, non-repeating baby clothing images
+  return `https://loremflickr.com/500/500/baby,clothing?lock=${index}`;
+};
 
 function MosaicItem({ index }: { index: number }) {
   const { showToast } = useToast();
