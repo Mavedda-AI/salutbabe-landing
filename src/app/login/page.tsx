@@ -25,7 +25,7 @@ const LoginPage = () => {
   const [showRegPassword, setShowRegPassword] = useState(false);
 
   // ── Shared: send idToken to backend social-login endpoint ───────────────────
-  const sendToBackend = async (idToken: string, provider: "google", user: any) => {
+  const sendToBackend = async (idToken: string, provider: "google" | "apple", user: any) => {
     const payload = {
       oauthData: {
         provider,
