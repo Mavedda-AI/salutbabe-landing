@@ -23,24 +23,34 @@ export default function CountrySelectorFooter() {
 
   const accordions = [
     {
-      id: 'salutbabe',
-      title: 'Salutbabe',
-      links: ['Hakkımızda', 'Kariyer', 'Basın', 'Sürdürülebilirlik', 'Haberler']
-    },
-    {
       id: 'sell',
-      title: 'Satış',
-      links: ['Nasıl Satış Yaparım?', 'Satış Rehberi', 'Güvenli Ödeme', 'Satıcı Kuralları']
+      title: 'Nasıl Satış Yaparım?',
+      content: 'Salutbabe\'de satış yapmak çok kolay! Ürün fotoğrafını çek, açıklamanı yaz ve ücretsiz olarak listele. Alıcı bulunduğunda güvenli kargo ile gönderim yap.'
     },
     {
-      id: 'help',
-      title: 'Yardım',
-      links: ['Sıkça Sorulan Sorular', 'Bize Ulaşın', 'Kargo ve Teslimat', 'İade Şartları', 'Güvenlik Merkezi']
+      id: 'faq',
+      title: 'Sıkça Sorulan Sorular',
+      content: 'Ödemeler, kargo süreçleri ve iade koşulları hakkında en çok merak edilen soruların yanıtlarına canlı destek merkezimizden ulaşabilirsiniz.'
     },
     {
-      id: 'site_info',
-      title: 'Site Bilgileri',
-      links: ['Gizlilik Politikası', 'Kullanıcı Sözleşmesi', 'Çerez Politikası']
+      id: 'shipping',
+      title: 'Kargo ve Teslimat',
+      content: 'Siparişleriniz anlaşmalı kargo firmalarımız ile 1-3 iş günü içerisinde güvenle adresinize teslim edilir. Kargo takibini hesabınızdan yapabilirsiniz.'
+    },
+    {
+      id: 'terms',
+      title: 'Kullanıcı Sözleşmesi',
+      content: 'Platformumuzu kullanırken hem alıcıları hem de satıcıları koruyan güncel kurallarımız ve yasal yükümlülükler bu sözleşme çatısı altında yer almaktadır.'
+    },
+    {
+      id: 'privacy',
+      title: 'Gizlilik Politikası',
+      content: 'Kişisel verileriniz üst düzey güvenlik önlemleriyle korunmakta olup, üçüncü şahıslarla asla paylaşılmamaktadır. Detaylar için KVKK metnini inceleyebilirsiniz.'
+    },
+    {
+      id: 'about',
+      title: 'Hakkımızda',
+      content: 'Salutbabe, annelerin bebek ve çocuk kıyafetlerini güvenle alıp satabileceği, sürdürülebilir modaya katkı sağlayan Türkiye\'nin en güvenilir ikinci el alışveriş topluluğudur.'
     }
   ];
 
@@ -57,9 +67,9 @@ export default function CountrySelectorFooter() {
           </button>
           {openSection === acc.id && (
             <div className={styles.accordionContent}>
-              {acc.links.map((link, idx) => (
-                <a key={idx} href="#">{link}</a>
-              ))}
+              <p style={{ color: '#666', fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
+                {acc.content}
+              </p>
             </div>
           )}
         </div>
