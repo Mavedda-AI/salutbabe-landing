@@ -6,20 +6,15 @@ import {useToast} from '@/context/ToastContext';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 
 const ALL_MOSAIC_IMAGES = [
-  "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1568043625493-2b0633c7c491?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1596066190600-3af9aadaaea1?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1602773974733-b56200c8653f?w=500&h=500&fit=crop",
   "https://images.unsplash.com/photo-1560506840-ec148e82a604?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1569974641446-22542de88536?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1611911813383-67769b37a149?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1616666428759-679a7d578307?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1622290291165-d341f1938b8a?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1594819047050-99defca82545?w=500&h=500&fit=crop"
+  "https://images.unsplash.com/photo-1546015720-b8b30df5aa27?w=500&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500&h=500&fit=crop"
 ];
 
 function MosaicItem({ index }: { index: number }) {
