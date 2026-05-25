@@ -410,7 +410,7 @@
   gap: 8px;
 }
 .priceBtn {
-  background-color: #F3F4F6;
+  background: linear-gradient(180deg, #F2F5F2 0%, #FAF8F2 100%); /* Pale sage to pale sand */
   color: #111111;
   font-size: 18px;
   font-weight: 500;
@@ -419,13 +419,13 @@
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: opacity 0.2s;
 }
 .priceBtn:hover {
-  background-color: #E5E7EB;
+  opacity: 0.9;
 }
 .priceBtn span {
-  font-weight: 800;
+  font-weight: 800; /* Emphasizes the 'Altı' text */
 }
 
 /* 8. Depop-style Footer */
