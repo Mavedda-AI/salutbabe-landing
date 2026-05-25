@@ -22,23 +22,27 @@ export default function RankingWidget() {
           ];
           const names = ["ayse_mom", "derin_dolap", "zeynep_baby", "cansu_moda", "pelin_bebek"];
           const avatar = avatars[i % avatars.length];
-          const name = names[i % names.length] + Math.floor(Math.random() * 100);
-          const likes = Math.floor(Math.random() * 500) + 50;
+          // Use deterministic math instead of Math.random to prevent SSR hydration mismatch
+          const name = names[i % names.length] + ((i * 17) % 100);
+          const likes = ((50 - i) * 11) + 50;
 
           const rank = i + 1;
           const isTop1 = rank === 1;
           const isTop2 = rank === 2;
           const isTop3 = rank === 3;
-          const isTop3Any = isTop1 || isTop2 || isTop3;
           
           let badgeContent = `#${rank}`;
           let badgeClass = styles.rankingBadge;
-          if (isTop1) { badgeContent = "👑 #1"; badgeClass = `${styles.rankingBadge} ${styles.badgeGold}`; }
-          else if (isTop2) { badgeContent = "🥈 #2"; badgeClass = `${styles.rankingBadge} ${styles.badgeSilver}`; }
-          else if (isTop3) { badgeContent = "🥉 #3"; badgeClass = `${styles.rankingBadge} ${styles.badgeBronze}`; }
+          if (isTop1) { badgeClass = `${styles.rankingBadge} ${styles.badgePremium1}`; }
+          else if (isTop2 || isTop3) { badgeClass = `${styles.rankingBadge} ${styles.badgePremiumTop}`; }
 
-          const cardClass = `${styles.rankingCard} ${isTop1 ? styles.cardTop1 : isTop2 ? styles.cardTop2 : isTop3 ? styles.cardTop3 : ''}`;
-          const extraStat = isTop1 ? "+42 Satış 🔥" : isTop2 ? "+28 Satış 📈" : isTop3 ? "+15 Satış ✨" : `+${Math.floor(Math.random() * 5) + 1} Satış`;
+          const cardClass = `${styles.rankingCard} ${isTop1 ? styles.cardPremium1 : isTop2 || isTop3 ? styles.cardPremiumTop : ''}`;
+          
+          // Sleek, professional extra stats instead of loud emojis
+          let extraStat = `+${(i % 5) + 1} Satış`;
+          if (isTop1) extraStat = "En Çok Satan";
+          else if (isTop2) extraStat = "Popüler";
+          else if (isTop3) extraStat = "Yükselen";
 
           return (
             <div key={i} className={cardClass}>
