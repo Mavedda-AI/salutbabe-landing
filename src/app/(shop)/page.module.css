@@ -287,16 +287,24 @@
 }
 
 .styleGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 0 16px;
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 0 16px 8px 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.styleGrid::-webkit-scrollbar {
+  display: none;
 }
 
 @media (min-width: 768px) {
   .styleGrid {
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
+    padding: 0 16px;
+    overflow-x: visible;
   }
 }
 
@@ -305,6 +313,13 @@
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
+  flex: 0 0 55%; /* Show 1.5 items on mobile */
+}
+
+@media (min-width: 768px) {
+  .styleCard {
+    flex: auto;
+  }
 }
 
 .styleImageWrapper {
@@ -336,8 +351,8 @@
 
 .brandGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: 1fr; /* 1 column on mobile like Depop */
+  gap: 24px;
   padding: 0 16px;
 }
 
