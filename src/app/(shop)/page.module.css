@@ -717,34 +717,33 @@
 .soldStamp {
   display: flex;
   flex-direction: column;
-  border: 4px solid #D32F2F;
-  border-radius: 8px;
+  border: 2px solid #FF4D4F; /* Softer, cuter red */
+  border-radius: 12px; /* Rounder corners */
   overflow: hidden;
-  transform: rotate(-15deg);
+  transform: rotate(-10deg); /* Less aggressive rotation */
   background: rgba(255, 255, 255, 0.95);
-  font-family: "Arial Black", "Arial", sans-serif;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  animation: stampImpact 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  font-family: "Nunito", "Inter", sans-serif; /* Cuter font fallback */
+  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.2); /* Soft red shadow */
+  animation: stampImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 .soldStampTop {
-  color: #333;
-  font-size: 13px;
-  font-weight: 900;
+  color: #FF4D4F;
+  font-size: 9px; /* Smaller */
+  font-weight: 800;
   text-transform: uppercase;
-  padding: 4px 12px;
+  padding: 4px 8px 2px 8px;
   text-align: center;
-  border-bottom: 2px solid #D32F2F;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 .soldStampBottom {
-  background: #D32F2F;
+  background: #FF4D4F;
   color: #fff;
-  font-size: 16px;
+  font-size: 11px; /* Smaller */
   font-weight: 900;
   text-transform: uppercase;
-  padding: 4px 12px;
+  padding: 2px 8px 4px 8px;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 /* 9. Haftanın En Çok Etkileşim Alanları */
