@@ -365,10 +365,10 @@ export default function HomeFeed() {
         <div className={styles.priceSection}>
           <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Fiyata göre alışveriş</h2>
           <div className={styles.priceGrid}>
-            <button className={styles.priceBtn}><span>100 TL</span>Altı</button>
             <button className={styles.priceBtn}><span>250 TL</span>Altı</button>
             <button className={styles.priceBtn}><span>500 TL</span>Altı</button>
             <button className={styles.priceBtn}><span>1000 TL</span>Altı</button>
+            <button className={styles.priceBtn}><span>2000 TL</span>Altı</button>
           </div>
         </div>
       </div>
