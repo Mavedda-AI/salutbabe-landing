@@ -367,7 +367,7 @@ export default function HomeFeed() {
           <div className={styles.bundleGrid}>
             <div className={styles.bundleCard}>
               <div className={styles.bundleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1555529771-835f59bfc50c?w=500" alt="Yenidoğan Paketi" className={styles.bundleImage} />
+                <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500" alt="Yenidoğan Paketi" className={styles.bundleImage} />
                 <div className={styles.bundlePriceTag}>800 TL</div>
               </div>
               <div className={styles.bundleContent}>
@@ -382,7 +382,7 @@ export default function HomeFeed() {
             
             <div className={styles.bundleCard}>
               <div className={styles.bundleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1544426573-0e86b2450372?w=500" alt="Hastane Çıkışı Sepeti" className={styles.bundleImage} />
+                <img src="https://images.unsplash.com/photo-1569974641446-22542de88536?w=500" alt="Hastane Çıkışı Sepeti" className={styles.bundleImage} />
                 <div className={styles.bundlePriceTag}>1200 TL</div>
               </div>
               <div className={styles.bundleContent}>
