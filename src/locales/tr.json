@@ -22,7 +22,30 @@
     "create_account": "ÜCRETSİZ HESAP OLUŞTUR",
     "download_app": "UYGULAMAYI İNDİR",
     "no_products": "Henüz bu kategoride ürün bulunmuyor.",
-    "loading": "Yükleniyor..."
+    "loading": "Yükleniyor...",
+    "category_filter_title": "Kategorine göre keşfet",
+    "tab_all": "Tümü",
+    "tab_foryou": "Sana Özel",
+    "tab_mom": "Anne",
+    "tab_baby": "Bebek",
+    "tab_child": "Çocuk",
+    "tab_other": "Diğer",
+    "tab_size": "Beden",
+    "tab_brand": "Marka",
+    "style_explore": "Stiline göre keşfet",
+    "price_shopping": "Fiyata göre alışveriş",
+    "price_under_100": "100 TL Altı",
+    "price_under_200": "200 TL Altı",
+    "price_under_500": "500 TL Altı",
+    "price_under_1000": "1000 TL Altı",
+    "bundle_title": "Annelerin Sepetleri",
+    "bundle_desc": "Tek tıkla hazır kombinler ve setler.",
+    "view_in_app": "App'te Gör",
+    "sold": "SATILDI",
+    "sorry": "ÜZGÜNÜZ",
+    "for_you_picks": "Sizin İçin Seçilenler",
+    "ranking_title": "Haftanın En Çok Etkileşim Alanları",
+    "ranking_desc": "salutbabe topluluğunun bu hafta en çok incelediği ve favorilediği satıcılar."
   },
   "stats": {
     "secure_payments": "GÜVENLİ ÖDEME",
@@ -280,5 +303,12 @@
     "app_title": "SalutBabe Uygulaması",
     "app_subtitle": "Daha hızlı alışveriş deneyimi",
     "open_btn": "Aç"
+  },
+  "footer": {
+    "download_app": "Uygulamayı İndir",
+    "contact_us": "Bize Ulaşın",
+    "secure_payment": "Güvenli Ödeme",
+    "return_policy": "İade Şartları",
+    "all_rights_reserved": "Tüm hakları saklıdır."
   }
 }

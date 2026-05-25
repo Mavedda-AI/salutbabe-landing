@@ -5,14 +5,16 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import tr from '../locales/tr.json';
 import en from '../locales/en.json';
 import fr from '../locales/fr.json';
+import de from '../locales/de.json';
 
 export const dictionaries = {
   tr,
   en,
-  fr
+  fr,
+  de
 };
 
-type Language = 'tr' | 'en' | 'fr';
+type Language = 'tr' | 'en' | 'fr' | 'de';
 type Theme = 'light' | 'dark';
 
 interface ThemeLanguageContextType {

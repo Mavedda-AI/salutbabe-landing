@@ -22,7 +22,30 @@
     "create_account": "CRÉER UN COMPTE GRATUIT",
     "download_app": "TÉLÉCHARGER L'APPLICATION",
     "no_products": "Aucun produit trouvé dans cette catégorie.",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "category_filter_title": "Explorer par catégorie",
+    "tab_all": "Tout",
+    "tab_foryou": "Pour vous",
+    "tab_mom": "Maman",
+    "tab_baby": "Bébé",
+    "tab_child": "Enfant",
+    "tab_other": "Autres",
+    "tab_size": "Taille",
+    "tab_brand": "Marque",
+    "style_explore": "Explorer par style",
+    "price_shopping": "Acheter par prix",
+    "price_under_100": "Moins de 100 TL",
+    "price_under_200": "Moins de 200 TL",
+    "price_under_500": "Moins de 500 TL",
+    "price_under_1000": "Moins de 1000 TL",
+    "bundle_title": "Paniers de mères",
+    "bundle_desc": "Combinaisons et ensembles prêts en un clic.",
+    "view_in_app": "Voir dans l'App",
+    "sold": "VENDU",
+    "sorry": "DÉSOLÉ",
+    "for_you_picks": "Sélectionnés pour vous",
+    "ranking_title": "Les plus populaires cette semaine",
+    "ranking_desc": "Les vendeurs les plus vus et favoris par la communauté salutbabe cette semaine."
   },
   "stats": {
     "secure_payments": "PAIEMENTS SÉCURISÉS",
@@ -291,5 +314,12 @@
     "app_title": "Application SalutBabe",
     "app_subtitle": "Une expérience d'achat plus rapide",
     "open_btn": "Ouvrir"
+  },
+  "footer": {
+    "download_app": "Télécharger l'App",
+    "contact_us": "Nous contacter",
+    "secure_payment": "Paiement sécurisé",
+    "return_policy": "Politique de retour",
+    "all_rights_reserved": "Tous droits réservés."
   }
 }
