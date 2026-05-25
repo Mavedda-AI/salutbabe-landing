@@ -5,7 +5,8 @@ import {useThemeLanguage} from "@/context/ThemeLanguageContext";
 import {useToast} from "@/context/ToastContext";
 import {apiUrl} from "@/lib/api";
 import {auth} from "@/lib/firebase";
-import {GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import {GoogleAuthProvider, OAuthProvider, signInWithPopup} from "firebase/auth";
+import Header from "@/components/Header";
 
 const LoginPage = () => {
   const { t } = useThemeLanguage();
@@ -98,6 +99,9 @@ const LoginPage = () => {
   const handleGoogleLogin = async () => {
     try {
       setLoading("google");
+      if (!auth || !auth.app) {
+        throw new Error("Firebase is not properly initialized. Check your environment variables.");
+      }
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
@@ -106,6 +110,26 @@ const LoginPage = () => {
     } catch (error: any) {
       console.error("[Auth] Google Login Error:", error);
       showToast(error.message || "Google login failed.", "error");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  // ── Apple ───────────────────────────────────────────────────────────────────
+  const handleAppleLogin = async () => {
+    try {
+      setLoading("google"); // Using google loading state since we don't have separate Apple state right now, or we can just use "apple" if we update state type
+      if (!auth || !auth.app) {
+        throw new Error("Firebase is not properly initialized. Check your environment variables.");
+      }
+      const provider = new OAuthProvider('apple.com');
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+      const backendResponse = await sendToBackend(idToken, "apple", result.user);
+      processAuthResult(backendResponse);
+    } catch (error: any) {
+      console.error("[Auth] Apple Login Error:", error);
+      showToast(error.message || "Apple login failed.", "error");
     } finally {
       setLoading(null);
     }
@@ -162,19 +186,21 @@ const LoginPage = () => {
   const isFormValid = email.length > 0 && password.length > 0;
 
   return (
-    <main className="min-h-screen w-full bg-white flex flex-col items-center pt-[12vh]">
+    <>
+      <Header />
+      <main className="min-h-screen w-full bg-white flex flex-col items-center pt-[10vh]">
       
       {/* Container */}
-      <div className="w-full max-w-[400px] px-6 flex flex-col items-center">
+      <div className="w-full max-w-[330px] px-2 flex flex-col items-center">
         
         {/* Logo */}
-        <div className="w-[60px] h-[60px] bg-[#FF3300] rounded-full flex items-center justify-center mb-6 shadow-sm overflow-hidden">
-           {/* Depop style simple circle or letter */}
-           <span className="text-white font-black text-3xl select-none leading-none mt-1">S</span>
+        <div className="w-[44px] h-[44px] bg-[#E32915] rounded-full flex items-center justify-center mb-5 overflow-hidden">
+           {/* Depop style red circle */}
+           <span className="text-white font-black text-xl select-none mt-0.5">S</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-[28px] font-black text-[#111111] mb-10 tracking-tight text-center">
+        <h1 className="text-[24px] font-extrabold text-[#111111] mb-6 tracking-tight text-center">
           Sign up or log in
         </h1>
 
@@ -185,24 +211,40 @@ const LoginPage = () => {
               onClick={handleGoogleLogin}
               disabled={loading !== null}
               style={{ border: '1px solid #DADCE0' }}
-              className="w-full relative flex items-center justify-center py-3 mb-3 bg-white text-[#3C4043] rounded-full font-medium text-[15px] hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="w-full h-[48px] flex items-center mb-3 bg-white text-[#3C4043] rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50"
             >
               {loading === "google" ? (
-                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                </svg>
+                <div className="w-full flex justify-center">
+                  <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                  </svg>
+                </div>
               ) : (
                 <>
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                  <div className="w-[52px] h-full flex justify-center items-center shrink-0">
+                    <img 
+                      src="https://lh3.googleusercontent.com/a/ACg8ocKwZt92G9N1zL8pS0y_6RzH8Q7Q=s96-c" 
+                      alt="Avatar" 
+                      className="w-[28px] h-[28px] rounded-full object-cover shadow-sm"
+                      onError={(e) => {
+                        // Fallback to Google logo if avatar fails
+                        e.currentTarget.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22" height="22"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>`;
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 flex flex-col items-start justify-center text-left pt-[2px]">
+                    <span className="font-bold text-[#3C4043] text-[13.5px] leading-tight">Continue as Mustafa</span>
+                    <span className="text-[#5F6368] text-[11px] leading-tight mt-[1px]">mustafamavedda@gmail.com</span>
+                  </div>
+                  <div className="w-[40px] h-full flex justify-center items-center shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18" height="18">
                       <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
                       <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
                       <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
                       <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                     </svg>
                   </div>
-                  Continue with Google
                 </>
               )}
             </button>
@@ -210,29 +252,33 @@ const LoginPage = () => {
             {/* Apple Button */}
             <button
               type="button"
+              onClick={handleAppleLogin}
               disabled={loading !== null}
               style={{ backgroundColor: '#000000', color: '#FFFFFF' }}
-              className="w-full relative flex items-center justify-center py-3 rounded-full font-medium text-[15px] hover:opacity-80 transition-opacity disabled:opacity-50"
+              className="w-full h-[48px] flex items-center rounded-full hover:opacity-80 transition-opacity disabled:opacity-50"
             >
-              <div className="absolute left-4 top-1/2 -translate-y-1/2">
+              <div className="w-[52px] h-full flex justify-center items-center shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="white" width="18" height="18">
                   <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
                 </svg>
               </div>
-              Continue with Apple
+              <div className="flex-1 flex items-center justify-start">
+                <span className="font-extrabold text-[15px] pl-1 tracking-wide">Continue with Apple</span>
+              </div>
+              <div className="w-[40px] shrink-0"></div>
             </button>
 
             {/* Divider */}
-            <div className="flex items-center gap-4 my-8 w-full px-2">
-              <hr className="flex-1 border-[#E0E0E0]" />
-              <span className="text-[14px] text-[#666666] font-medium bg-white">or</span>
-              <hr className="flex-1 border-[#E0E0E0]" />
+            <div className="flex items-center w-full mt-7 mb-6">
+              <div className="flex-1 border-t border-[#EAEAEA]"></div>
+              <span className="text-[13px] text-[#757575] font-normal px-5 bg-white tracking-wide">or</span>
+              <div className="flex-1 border-t border-[#EAEAEA]"></div>
             </div>
 
             {/* Email Link */}
             <button 
               onClick={() => setView("email")}
-              className="text-[#1976D2] font-bold text-[15px] hover:underline"
+              className="text-[#1976D2] font-medium text-[14.5px] hover:underline tracking-wide"
             >
               Continue with email
             </button>
@@ -275,10 +321,10 @@ const LoginPage = () => {
             </button>
 
             {/* Divider */}
-            <div className="flex items-center gap-4 my-8 w-full px-2">
-              <hr className="flex-1 border-gray-300" />
-              <span className="text-[14px] text-gray-500 font-medium bg-white">or</span>
-              <hr className="flex-1 border-gray-300" />
+            <div className="flex items-center w-full mt-7 mb-6">
+              <div className="flex-1 border-t border-[#EAEAEA]"></div>
+              <span className="text-[13px] text-[#757575] font-normal px-5 bg-white tracking-wide">or</span>
+              <div className="flex-1 border-t border-[#EAEAEA]"></div>
             </div>
             
             <div className="w-full space-y-3">
@@ -288,32 +334,39 @@ const LoginPage = () => {
                 onClick={handleGoogleLogin}
                 disabled={loading !== null}
                 style={{ border: '1px solid #DADCE0' }}
-                className="w-full relative flex items-center justify-center py-3 bg-white text-[#3C4043] rounded-full font-medium text-[15px] hover:bg-gray-50 transition-colors disabled:opacity-50"
+                className="w-full h-[48px] flex items-center bg-white text-[#3C4043] rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50"
               >
-                <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                <div className="w-[52px] h-full flex justify-center items-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22" height="22">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
                     <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
                     <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                   </svg>
                 </div>
-                Continue with Google
+                <div className="flex-1 flex items-center justify-start">
+                  <span className="font-extrabold text-[15px] pl-1 tracking-wide">Continue with Google</span>
+                </div>
+                <div className="w-[40px] shrink-0"></div>
               </button>
               
               {/* Apple Button */}
               <button
                 type="button"
+                onClick={handleAppleLogin}
                 disabled={loading !== null}
                 style={{ backgroundColor: '#000000', color: '#FFFFFF' }}
-                className="w-full relative flex items-center justify-center py-3 rounded-full font-medium text-[15px] hover:opacity-80 transition-opacity disabled:opacity-50"
+                className="w-full h-[48px] flex items-center rounded-full hover:opacity-80 transition-opacity disabled:opacity-50"
               >
-                <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                <div className="w-[52px] h-full flex justify-center items-center shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="white" width="18" height="18">
                     <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
                   </svg>
                 </div>
-                Continue with Apple
+                <div className="flex-1 flex items-center justify-start">
+                  <span className="font-extrabold text-[15px] pl-1 tracking-wide">Continue with Apple</span>
+                </div>
+                <div className="w-[40px] shrink-0"></div>
               </button>
             </div>
             
@@ -329,6 +382,7 @@ const LoginPage = () => {
         )}
       </div>
     </main>
+    </>
   );
 };
 
