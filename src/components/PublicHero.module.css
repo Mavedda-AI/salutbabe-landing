@@ -467,6 +467,7 @@
     padding: 80px 40px;
     text-align: left;
     max-width: 1300px;
+    margin: 0 auto;
   }
 
   .heroLeft {
@@ -491,7 +492,7 @@
   }
 
   .featureCard {
-    width: 140px; /* Slightly wider cards on desktop */
+    width: 140px;
     min-height: 100px;
   }
 
@@ -499,24 +500,30 @@
     width: 50%;
     margin-top: 0;
     height: 500px;
+    position: relative;
   }
   
   .galleryImageWrapper {
-    width: 260px;
-    height: 380px;
+    width: 240px;
+    height: 340px;
+    top: 50%;
   }
   
   .imageLeft {
-    transform: translateX(-100%) translateY(50px) rotate(-12deg);
+    left: 25%;
+    transform: translate(-50%, -50%) rotate(-12deg);
   }
   
   .imageCenter {
-    width: 300px;
-    height: 420px;
-    transform: translateX(-40%) translateY(0px) rotate(2deg);
+    width: 280px;
+    height: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(2deg);
+    z-index: 3;
   }
   
   .imageRight {
-    transform: translateX(20%) translateY(60px) rotate(12deg);
+    left: 75%;
+    transform: translate(-50%, -50%) rotate(12deg);
   }
 }

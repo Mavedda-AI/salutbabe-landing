@@ -53,24 +53,26 @@ export default function Header() {
 
   return (
     <header className={styles.headerWrapper}>
-      {/* 2. Main Header (Logo, Menu, Actions) */}
-      <div className={styles.mainHeader}>
+      <div className={styles.headerContent}>
         {/* Left: Hamburger + Logo */}
         <div className={styles.headerLeft}>
           <button className={styles.hamburgerButton} onClick={() => setIsDrawerOpen(true)}>
             <CustomHamburgerIcon size={24} color="#111" strokeWidth={2} />
           </button>
-
           <Link href="/" className={styles.mainLogo}>
-            <img 
-              src="/assets/images/logo/logo_salutbabe.png" 
-              alt="SalutBabe" 
-              className={styles.mainLogoImage} 
-            />
+            <img src="/assets/images/logo/logo_salutbabe.png" alt="SalutBabe" className={styles.mainLogoImage} />
           </Link>
         </div>
 
-        {/* Right: Actions (Cart, Panel, Sign Up) */}
+        {/* Center: Search Bar */}
+        <div className={styles.searchContainer}>
+          <div className={styles.searchBox}>
+            <Search01Icon size={18} color="#666" strokeWidth={2} />
+            <input type="text" placeholder="İstediğini ara" className={styles.searchInput} />
+          </div>
+        </div>
+
+        {/* Right: Actions */}
         <div className={styles.headerActions}>
           <button className={styles.actionIcon} onClick={() => setIsCartDrawerOpen(true)}>
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
@@ -85,14 +87,6 @@ export default function Header() {
       
       {/* Cart Drawer */}
       <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
-
-      {/* 3. Search Bar */}
-      <div className={styles.searchContainer}>
-        <div className={styles.searchBox}>
-          <Search01Icon size={18} color="#666" strokeWidth={2} />
-          <input type="text" placeholder="İstediğini ara" className={styles.searchInput} />
-        </div>
-      </div>
     </header>
   );
 }
