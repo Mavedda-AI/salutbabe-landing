@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
-import { from 'react';
+
 import styles from '@/app/(shop)/page.module.css';
 
 export default function BrandGridWidget() {
