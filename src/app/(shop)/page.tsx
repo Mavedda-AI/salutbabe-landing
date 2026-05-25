@@ -369,11 +369,46 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'sell' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Salutbabe'te Satış Yap</li>
-              <li className={styles.footerSubMenuItem}>Salutbabe Kargo</li>
-              <li className={styles.footerSubMenuItem}>Salutbabe Elçileri</li>
-              <li className={styles.footerSubMenuItem}>Salutbabe Insider Ol</li>
-              <li className={styles.footerSubMenuItem}>En İyi Satıcı Programı</li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'satis' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'satis' ? null : 'satis')}>
+                  Salutbabe'te Satış Yap
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'satis' ? styles.open : ''}`}>
+                  Kullanmadığınız bebek ve çocuk eşyalarını saniyeler içinde listeleyin, yeni annelerle buluşturun.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'kargo' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'kargo' ? null : 'kargo')}>
+                  Salutbabe Kargo
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'kargo' ? styles.open : ''}`}>
+                  Anlaşmalı kargo firmalarımızla evden çıkmadan uygun fiyata ve güvenle gönderim yapın.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'elciler' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'elciler' ? null : 'elciler')}>
+                  Salutbabe Elçileri
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'elciler' ? styles.open : ''}`}>
+                  Platformumuzu arkadaşlarınıza önererek komisyon kazanın ve topluluğumuzu büyütün.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'insider' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'insider' ? null : 'insider')}>
+                  Salutbabe Insider Ol
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'insider' ? styles.open : ''}`}>
+                  En yeni satıcı özelliklerine ilk siz erişin, özel davetlere ve fırsatlara katılma şansı yakalayın.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'eniyi' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'eniyi' ? null : 'eniyi')}>
+                  En İyi Satıcı Programı
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'eniyi' ? styles.open : ''}`}>
+                  Yüksek puanlı satıcımız olun, listelemelerinizde üst sıralara çıkın ve güvenilirlik rozeti kazanın.
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -385,8 +420,22 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'help' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Yardım Merkezi</li>
-              <li className={styles.footerSubMenuItem}>Güvenlik Merkezi</li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'merkez' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'merkez' ? null : 'merkez')}>
+                  Yardım Merkezi
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'merkez' ? styles.open : ''}`}>
+                  Sıkça sorulan sorular, kargo takibi ve iade süreçleriyle ilgili tüm detaylara buradan ulaşabilirsiniz.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'guvenlik' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'guvenlik' ? null : 'guvenlik')}>
+                  Güvenlik Merkezi
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'guvenlik' ? styles.open : ''}`}>
+                  Alıcı ve satıcı koruma politikalarımızla ödemeleriniz ve kişisel verileriniz her zaman güvendedir.
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -398,8 +447,22 @@ export default function HomeFeed() {
           </div>
           <div className={`${styles.footerMenuContent} ${openFooterMenu === 'info' ? styles.open : ''}`}>
             <ul className={styles.footerSubMenuList}>
-              <li className={styles.footerSubMenuItem}>Gizlilik Politikası</li>
-              <li className={styles.footerSubMenuItem}>Kullanım Koşulları</li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'gizlilik' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'gizlilik' ? null : 'gizlilik')}>
+                  Gizlilik Politikası
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'gizlilik' ? styles.open : ''}`}>
+                  Kişisel verilerinizin nasıl işlendiğini ve sistemlerimizde nasıl korunduğunu detaylı olarak inceleyin.
+                </div>
+              </li>
+              <li className={styles.footerSubMenuItem}>
+                <div className={`${styles.footerSubItemHeader} ${openSubMenu === 'kosul' ? styles.active : ''}`} onClick={() => setOpenSubMenu(openSubMenu === 'kosul' ? null : 'kosul')}>
+                  Kullanım Koşulları
+                </div>
+                <div className={`${styles.footerSubItemContent} ${openSubMenu === 'kosul' ? styles.open : ''}`}>
+                  Salutbabe platformunu kullanırken uymanız gereken kurallar, komisyon oranları ve hizmet şartlarımız.
+                </div>
+              </li>
             </ul>
           </div>
         </div>
