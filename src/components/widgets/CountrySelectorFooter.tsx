@@ -69,19 +69,25 @@ export default function CountrySelectorFooter() {
         <div className={styles.appDownloadTitle}>Salutbabe uygulamasını indirin</div>
         <div className={styles.appDownloadText}>Daha hızlı listeleyin, siparişlerinizi takip edin ve hiçbir yeniliği kaçırmayın.</div>
         <div className={styles.storeButtons}>
-          <a href="#" className={styles.storeBtn}>
+          <a href="https://apps.apple.com/us/app/salutbabe/id6759988511" target="_blank" rel="noopener noreferrer" className={styles.storeBtn}>
             App Store
           </a>
-          <a href="#" className={styles.storeBtn}>
+          <a href="https://play.google.com/store/apps/details?id=com.salutbabe&hl=tr" target="_blank" rel="noopener noreferrer" className={styles.storeBtn}>
             Google Play
           </a>
         </div>
       </div>
 
       <div className={styles.socialLinks}>
-        <NewTwitterIcon size={24} color="#111" />
-        <InstagramIcon size={24} color="#111" />
-        <TiktokIcon size={24} color="#111" />
+        <a href="https://x.com/salutbabecom" target="_blank" rel="noopener noreferrer">
+          <NewTwitterIcon size={24} color="#111" />
+        </a>
+        <a href="https://instagram.com/salutbabecom" target="_blank" rel="noopener noreferrer">
+          <InstagramIcon size={24} color="#111" />
+        </a>
+        <a href="https://tiktok.com/@salutbabecom" target="_blank" rel="noopener noreferrer">
+          <TiktokIcon size={24} color="#111" />
+        </a>
       </div>
 
       <div className={styles.seoSection}>
