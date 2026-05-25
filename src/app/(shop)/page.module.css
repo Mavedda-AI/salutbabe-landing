@@ -94,7 +94,7 @@
 }
 /* 3. Category Filter Tabs - MODERN PILLS */
 .categoryFiltersWrapper {
-  padding: 32px 0 16px 0;
+  padding: 24px 0 0 0; /* Removed bottom padding */
 }
 
 .sectionTitle {
@@ -162,7 +162,7 @@
 }
 
 .promoBanner {
-  margin: 8px 0 32px 0;
+  margin: 12px 0 0 0; /* Removed bottom margin */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -241,7 +241,7 @@
 
 /* 4. Style & Brand Sections */
 .styleSection {
-  padding: 16px 16px 32px 16px;
+  padding: 16px 16px 24px 16px; /* Reduced bottom padding */
 }
 
 .styleGrid {
@@ -263,6 +263,9 @@
   background-color: #F0F0F0;
   border-radius: 4px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .styleImage {
@@ -278,7 +281,7 @@
 }
 
 .brandSection {
-  padding: 0 16px 32px 16px;
+  padding: 0 16px 24px 16px; /* Reduced bottom padding */
 }
 
 .brandCard {
@@ -297,7 +300,7 @@
 
 .brandImage {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1; /* PERFECT SQUARE like Depop */
   object-fit: cover;
 }
 
@@ -305,6 +308,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px; /* Add space between images and text like Depop */
 }
 
 .brandName {

@@ -222,17 +222,17 @@ export default function HomeFeed() {
 
         {/* Shop by style */}
         <div className={styles.styleSection}>
-          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Stiline göre keşfet</h2>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 0 12px 0' }}>Stiline göre keşfet</h2>
           <div className={styles.styleGrid}>
             <div className={styles.styleCard}>
               <div className={styles.styleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1735653095013-915a60775120?w=500" alt="Hafif Katmanlar" className={styles.styleImage} />
+                <img src="/style_jacket.png" alt="Hafif Katmanlar" className={styles.styleImage} />
               </div>
               <span className={styles.styleTitle}>Hafif katmanlar</span>
             </div>
             <div className={styles.styleCard}>
               <div className={styles.styleImageWrapper}>
-                <img src="https://images.unsplash.com/photo-1681712859145-f41184a04ef6?w=500" alt="Soft Renkler" className={styles.styleImage} style={{ objectFit: 'cover' }} />
+                <img src="/style_yellow.png" alt="Soft Renkler" className={styles.styleImage} />
               </div>
               <span className={styles.styleTitle}>Soft renkler</span>
             </div>
@@ -241,7 +241,7 @@ export default function HomeFeed() {
 
         {/* Popular brands */}
         <div className={styles.brandSection}>
-          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Popüler markalar</h2>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 0 12px 0' }}>Popüler markalar</h2>
           <div className={styles.brandCard}>
             <div className={styles.brandImagesGrid}>
               <img src="https://images.unsplash.com/photo-1611911813383-67769b37a149?w=300" alt="Brand 1" className={styles.brandImage} />
