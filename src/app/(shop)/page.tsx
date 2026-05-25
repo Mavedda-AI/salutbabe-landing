@@ -36,7 +36,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Anne": {
-    image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1555252834-01314959f9c7?auto=format&fit=crop&q=80&w=1200",
     title: "Annelerin İhtiyaçları",
     text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
     buttonText: "Anne Ürünlerini Keşfet",
@@ -48,7 +48,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Bebek": {
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1522771930-78848d9293e8?auto=format&fit=crop&q=80&w=1200",
     title: "Bebek Dünyası",
     text: "Bebeğiniz için en sevimli ürünler.",
     buttonText: "Bebek Ürünleri",
@@ -60,7 +60,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Çocuk": {
-    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1514090277107-5ee9b2d87e07?auto=format&fit=crop&q=80&w=1200",
     title: "Çocuk Modası",
     text: "Dayanıklı, rahat ve trend kıyafetler.",
     buttonText: "Çocuk Giyimi Keşfet",
@@ -72,7 +72,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Diğer": {
-    image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1584992236322-132d432b49bd?auto=format&fit=crop&q=80&w=1200",
     title: "El İşçiliği Ürünler",
     text: "Özenle hazırlanmış el emeği ürünler.",
     buttonText: "Özel Tasarımları İncele",
@@ -84,7 +84,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Beden": {
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1567113463300-102a922b0dce?auto=format&fit=crop&q=80&w=1200",
     title: "Bedene Göre Seçim",
     text: "Sana en uygun bedenleri hemen bul.",
     buttonText: "Beden Filtrele",
@@ -96,7 +96,7 @@ const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: str
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   },
   "Marka": {
-    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200",
     title: "Markaya Göre Seçim",
     text: "En sevdiğin markaları hemen keşfet.",
     buttonText: "Markaları Gör",
@@ -215,6 +215,42 @@ export default function HomeFeed() {
                   style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorInactive }}
                 ></span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Shop by style */}
+        <div className={styles.styleSection}>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Stiline göre keşfet</h2>
+          <div className={styles.styleGrid}>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1550639524-a6f58345a278?w=500" alt="Hafif Katmanlar" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Hafif katmanlar</span>
+            </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=500" alt="Soft Renkler" className={styles.styleImage} style={{ objectFit: 'contain' }} />
+              </div>
+              <span className={styles.styleTitle}>Soft renkler</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Popular brands */}
+        <div className={styles.brandSection}>
+          <h2 className={styles.sectionTitle} style={{ margin: '0 0 16px 0' }}>Popüler markalar</h2>
+          <div className={styles.brandCard}>
+            <div className={styles.brandImagesGrid}>
+              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300" alt="Nike Shoe" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1608667508764-33cf0726b13a?w=300" alt="Nike Top" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=300" alt="Nike Hoodie" className={styles.brandImage} />
+              <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300" alt="Nike Jacket" className={styles.brandImage} />
+            </div>
+            <div className={styles.brandFooter}>
+              <span className={styles.brandName}>Nike</span>
+              <button className={styles.brandShopBtn}>Alışverişe Başla</button>
             </div>
           </div>
         </div>

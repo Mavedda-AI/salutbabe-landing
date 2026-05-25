@@ -237,7 +237,92 @@
   background-color: #FFFFFF;
 }
 
-/* 4. Grid Section */
+/* 4. Style & Brand Sections */
+.styleSection {
+  padding: 16px 16px 32px 16px;
+}
+
+.styleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.styleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.styleImageWrapper {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: #F0F0F0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.styleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.styleTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111111;
+}
+
+.brandSection {
+  padding: 0 16px 32px 16px;
+}
+
+.brandCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brandImagesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.brandImage {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.brandFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brandName {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111111;
+}
+
+.brandShopBtn {
+  background-color: #111111;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* 5. Grid Section */
 .gridSection {
   padding: 16px 16px 64px 16px;
 }
