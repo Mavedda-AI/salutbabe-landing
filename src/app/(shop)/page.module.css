@@ -644,7 +644,7 @@
   position: relative;
   cursor: pointer;
   background: #F9F9F9;
-  padding: 24px 16px;
+  padding: 12px 8px;
   border-radius: 8px;
 }
 @media (min-width: 768px) {
@@ -654,8 +654,8 @@
 }
 .rankBadge {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 8px;
+  left: 8px;
   background: #111;
   color: #fff;
   width: 24px;
@@ -668,18 +668,18 @@
   font-size: 12px;
 }
 .rankingAvatar {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   border: 2px solid #EAECEB;
 }
 .rankingName {
   font-size: 15px;
   font-weight: 800;
   color: #111;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
