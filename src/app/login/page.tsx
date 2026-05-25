@@ -3,7 +3,7 @@
 import React, {useState} from "react";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
-import {signInWithApple, signInWithGoogle} from "../../lib/firebase";
+import {signInWithGoogle} from "../../lib/firebase";
 import {apiUrl} from "../../lib/api";
 
 const LoginPage = () => {
@@ -12,7 +12,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState<"google" | "apple" | "email" | "register" | null>(null);
+  const [loading, setLoading] = useState<"google" | "email" | "register" | null>(null);
 
   // Registration states
   const [showSignupPopup, setShowSignupPopup] = useState(false);
@@ -23,7 +23,7 @@ const LoginPage = () => {
   const [showRegPassword, setShowRegPassword] = useState(false);
 
   // ── Shared: send idToken to backend social-login endpoint ───────────────────
-  const sendToBackend = async (idToken: string, provider: "google" | "apple", user: any) => {
+  const sendToBackend = async (idToken: string, provider: "google", user: any) => {
     const payload = {
       oauthData: {
         provider,
@@ -111,20 +111,6 @@ const LoginPage = () => {
       processAuthResult(result);
     } catch (err: any) {
       showToast(err.message || t("auth.google_failed"), "error");
-    } finally {
-      setLoading(null);
-    }
-  };
-
-  // ── Apple ───────────────────────────────────────────────────────────────────
-  const handleAppleLogin = async () => {
-    setLoading("apple");
-    try {
-      const { idToken, user: firebaseUser } = await signInWithApple();
-      const result = await sendToBackend(idToken, "apple", firebaseUser);
-      processAuthResult(result);
-    } catch (err: any) {
-      showToast(err.message || t("auth.apple_failed"), "error");
     } finally {
       setLoading(null);
     }
