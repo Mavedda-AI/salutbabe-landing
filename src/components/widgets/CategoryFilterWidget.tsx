@@ -5,7 +5,7 @@ import styles from '@/app/(shop)/page.module.css';
 import {ArrowDown01Icon} from 'hugeicons-react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 
-export const CATEGORY_BANNERS: Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string; dotColorActive: string; dotColorInactive: string }> = {
+const getCategoryBanners = (t: any): Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string; dotColorActive: string; dotColorInactive: string }> => ({
   "Tümü": {
     image: "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?auto=format&fit=crop&q=80&w=1200",
     title: "Salutbabe'te Kargo Bedava",
@@ -102,7 +102,7 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
     dotColorActive: "rgba(255, 255, 255, 0.9)",
     dotColorInactive: "rgba(255, 255, 255, 0.3)"
   }
-};
+});
 
 interface Props {
   activeCategory: string;
@@ -111,6 +111,7 @@ interface Props {
 
 export default function CategoryFilterWidget({ activeCategory, setActiveCategory }: Props) {
   const { t } = useThemeLanguage();
+  const CATEGORY_BANNERS = getCategoryBanners(t);
 
   const FILTER_TABS = [
     { key: "Tümü", label: t('home.tab_all') },
