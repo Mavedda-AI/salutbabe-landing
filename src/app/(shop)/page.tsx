@@ -261,6 +261,18 @@ export default function HomeFeed() {
               </div>
               <span className={styles.styleTitle}>Denim Tutkusu</span>
             </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1546015720-b8b30df5aa27?w=500" alt="Sokak Stili" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Sokak Stili</span>
+            </div>
+            <div className={styles.styleCard}>
+              <div className={styles.styleImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1519241047957-be31d7379a5d?w=500" alt="Özel Tasarımlar" className={styles.styleImage} />
+              </div>
+              <span className={styles.styleTitle}>Özel Tasarımlar</span>
+            </div>
           </div>
         </div>
 
