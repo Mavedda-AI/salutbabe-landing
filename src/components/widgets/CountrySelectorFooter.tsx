@@ -6,7 +6,7 @@ import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {ArrowDown01Icon, ArrowUp01Icon, InstagramIcon, NewTwitterIcon, TiktokIcon} from 'hugeicons-react';
 
 export default function CountrySelectorFooter() {
-  const { language, setLanguage } = useThemeLanguage();
+  const { language, setLanguage, t } = useThemeLanguage();
   const [openSection, setOpenSection] = useState<string | null>(null);
 
   const toggleSection = (section: string) => {
@@ -24,33 +24,33 @@ export default function CountrySelectorFooter() {
   const accordions = [
     {
       id: 'sell',
-      title: 'Nasıl Satış Yaparım?',
-      content: 'Salutbabe\'de satış yapmak çok kolay! Ürün fotoğrafını çek, açıklamanı yaz ve ücretsiz olarak listele. Alıcı bulunduğunda güvenli kargo ile gönderim yap.'
+      title: t('widgets.footer_sell'),
+      content: t('widgets.footer_sell_desc')
     },
     {
       id: 'faq',
-      title: 'Sıkça Sorulan Sorular',
-      content: 'Ödemeler, kargo süreçleri ve iade koşulları hakkında en çok merak edilen soruların yanıtlarına canlı destek merkezimizden ulaşabilirsiniz.'
+      title: t('widgets.footer_faq'),
+      content: t('widgets.footer_faq_desc')
     },
     {
       id: 'shipping',
-      title: 'Kargo ve Teslimat',
-      content: 'Siparişleriniz anlaşmalı kargo firmalarımız ile 1-3 iş günü içerisinde güvenle adresinize teslim edilir. Kargo takibini hesabınızdan yapabilirsiniz.'
+      title: t('widgets.footer_shipping'),
+      content: t('widgets.footer_shipping_desc')
     },
     {
       id: 'terms',
-      title: 'Kullanıcı Sözleşmesi',
-      content: 'Platformumuzu kullanırken hem alıcıları hem de satıcıları koruyan güncel kurallarımız ve yasal yükümlülükler bu sözleşme çatısı altında yer almaktadır.'
+      title: t('widgets.footer_terms'),
+      content: t('widgets.footer_terms_desc')
     },
     {
       id: 'privacy',
-      title: 'Gizlilik Politikası',
-      content: 'Kişisel verileriniz üst düzey güvenlik önlemleriyle korunmakta olup, üçüncü şahıslarla asla paylaşılmamaktadır. Detaylar için KVKK metnini inceleyebilirsiniz.'
+      title: t('widgets.footer_privacy'),
+      content: t('widgets.footer_privacy_desc')
     },
     {
       id: 'about',
-      title: 'Hakkımızda',
-      content: 'Salutbabe, annelerin bebek ve çocuk kıyafetlerini güvenle alıp satabileceği, sürdürülebilir modaya katkı sağlayan Türkiye\'nin en güvenilir ikinci el alışveriş topluluğudur.'
+      title: t('widgets.footer_about'),
+      content: t('widgets.footer_about_desc')
     }
   ];
 
@@ -76,8 +76,8 @@ export default function CountrySelectorFooter() {
       ))}
 
       <div className={styles.appDownloadSection}>
-        <div className={styles.appDownloadTitle}>Salutbabe uygulamasını indirin</div>
-        <div className={styles.appDownloadText}>Daha hızlı listeleyin, siparişlerinizi takip edin ve hiçbir yeniliği kaçırmayın.</div>
+        <div className={styles.appDownloadTitle}>{t('widgets.country_app_title')}</div>
+        <div className={styles.appDownloadText}>{t('widgets.country_app_desc')}</div>
         <div className={styles.storeButtons}>
           <a href="https://apps.apple.com/us/app/salutbabe/id6759988511" target="_blank" rel="noopener noreferrer">
             <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" style={{ height: 40 }} />
@@ -101,8 +101,8 @@ export default function CountrySelectorFooter() {
       </div>
 
       <div className={styles.seoSection}>
-        <div className={styles.seoTitle}>Şunlar da İlginizi Çekebilir</div>
-        <a href="#" className={styles.seoLink}>Vintage Bebek Elbiseleri</a>
+        <div className={styles.seoTitle}>{t('widgets.country_seo_title')}</div>
+        <a href="#" className={styles.seoLink}>{t('widgets.country_seo_link')}</a>
       </div>
 
       <div className={styles.languageSelector} style={{ marginTop: 24 }}>

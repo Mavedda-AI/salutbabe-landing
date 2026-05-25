@@ -964,23 +964,29 @@
   gap: 12px;
 }
 .langBtn {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #111;
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  opacity: 0.3;
 }
 .langBtn.langActive, .langBtn:hover {
   background: #fff;
+  border: 1px solid #EAEAEA;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   color: #111;
+  opacity: 1;
 }
 .copyright {
   font-size: 12px;
   opacity: 0.5;
   margin-top: 16px;
+  color: #111;
 }
 
 /* 9. Shop by Price Section */

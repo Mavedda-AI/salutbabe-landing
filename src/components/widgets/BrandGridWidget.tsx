@@ -1,12 +1,15 @@
 "use client";
 
 import React from 'react';
+import {useThemeLanguage} from '@/context/ThemeLanguageContext';
+import { from 'react';
 import styles from '@/app/(shop)/page.module.css';
 
 export default function BrandGridWidget() {
+  const { t } = useThemeLanguage();
   return (
     <div className={styles.brandSection}>
-      <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>Popüler markalar</h2>
+      <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>{t("widgets.brands_title")}</h2>
       <div className={styles.brandGrid}>
         <div className={styles.brandCard}>
           <div className={styles.brandImagesGrid}>
@@ -17,7 +20,7 @@ export default function BrandGridWidget() {
           </div>
           <div className={styles.brandFooter}>
             <span className={styles.brandName}>Zara Baby</span>
-            <button className={styles.brandShopBtn}>Keşfet</button>
+            <button className={styles.brandShopBtn}>{t("widgets.discover")}</button>
           </div>
         </div>
         
@@ -30,7 +33,7 @@ export default function BrandGridWidget() {
           </div>
           <div className={styles.brandFooter}>
             <span className={styles.brandName}>H&M Kids</span>
-            <button className={styles.brandShopBtn}>Keşfet</button>
+            <button className={styles.brandShopBtn}>{t("widgets.discover")}</button>
           </div>
         </div>
 
@@ -43,7 +46,7 @@ export default function BrandGridWidget() {
           </div>
           <div className={styles.brandFooter}>
             <span className={styles.brandName}>Mango Kids</span>
-            <button className={styles.brandShopBtn}>Keşfet</button>
+            <button className={styles.brandShopBtn}>{t("widgets.discover")}</button>
           </div>
         </div>
 
@@ -56,7 +59,7 @@ export default function BrandGridWidget() {
           </div>
           <div className={styles.brandFooter}>
             <span className={styles.brandName}>LC Waikiki</span>
-            <button className={styles.brandShopBtn}>Keşfet</button>
+            <button className={styles.brandShopBtn}>{t("widgets.discover")}</button>
           </div>
         </div>
       </div>
