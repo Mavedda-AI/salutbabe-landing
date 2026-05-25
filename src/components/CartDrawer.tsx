@@ -1,6 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {Cancel01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import styles from './CartDrawer.module.css';
+import {, {useEffect} from 'react';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -8,6 +10,7 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
+  const { t } = useThemeLanguage();
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -26,7 +29,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         
         {/* Header */}
         <div className={styles.drawerHeader}>
-          <h2 className={styles.drawerTitle}>Sepetim</h2>
+          <h2 className={styles.drawerTitle}>{t("widgets.cart_title")}</h2>
           <button className={styles.closeButton} onClick={onClose} aria-label="Kapat">
             <Cancel01Icon size={20} color="#111" strokeWidth={2} />
           </button>
@@ -38,7 +41,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <div className={styles.emptyIcon}>
               <ShoppingBasket02Icon size={44} color="#888" strokeWidth={1.5} />
             </div>
-            <h3 className={styles.emptyTitle}>Sepetin şu an boş</h3>
+            <h3 className={styles.emptyTitle}>{t("widgets.cart_empty")}</h3>
             <p className={styles.emptyDesc}>
               Binlerce özel tasarım ürün arasından beğendiklerini sepetine eklemeye hemen başla.
             </p>

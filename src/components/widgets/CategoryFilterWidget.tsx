@@ -10,7 +10,7 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
     image: "https://images.unsplash.com/photo-1622218286192-95f6a20083c7?auto=format&fit=crop&q=80&w=1200",
     title: "Salutbabe'te Kargo Bedava",
     text: "Seveceğin bir şeyler bul. Sadece Salutbabe'te.",
-    buttonText: "Alışverişe Başla",
+    buttonText: t("widgets.category_all_button"),
     bg: "#14342B", /* Deep Forest Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
@@ -32,9 +32,9 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
   },
   "Anne": {
     image: "https://images.unsplash.com/photo-1568043625493-2b0633c7c491?auto=format&fit=crop&q=80&w=1200",
-    title: "Annelerin İhtiyaçları",
-    text: "Hamilelikten lohusalığa tüm ihtiyaçların.",
-    buttonText: "Anne Ürünlerini Keşfet",
+    title: t("widgets.category_mom_title"),
+    text: t("widgets.category_mom_desc"),
+    buttonText: t("widgets.category_mom_button"),
     bg: "#BCA371", /* Warm Sand / Gold */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
@@ -44,9 +44,9 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
   },
   "Bebek": {
     image: "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?auto=format&fit=crop&q=80&w=1200",
-    title: "Bebek Dünyası",
+    title: t("widgets.category_baby_title"),
     text: "Bebeğiniz için en sevimli ürünler.",
-    buttonText: "Bebek Ürünleri",
+    buttonText: t("widgets.category_baby_button"),
     bg: "#A3AFA2", /* Sage Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
@@ -56,9 +56,9 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
   },
   "Çocuk": {
     image: "https://images.unsplash.com/photo-1596066190600-3af9aadaaea1?auto=format&fit=crop&q=80&w=1200",
-    title: "Çocuk Modası",
+    title: t("widgets.category_child_title"),
     text: "Dayanıklı, rahat ve trend kıyafetler.",
-    buttonText: "Çocuk Giyimi Keşfet",
+    buttonText: t("widgets.category_child_button"),
     bg: "#55644D", /* Olive Green */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",
@@ -80,7 +80,7 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
   },
   "Beden": {
     image: "https://images.unsplash.com/photo-1560506840-ec148e82a604?auto=format&fit=crop&q=80&w=1200",
-    title: "Bedene Göre Seçim",
+    title: t("widgets.category_size_title"),
     text: "Sana en uygun bedenleri hemen bul.",
     buttonText: "Beden Filtrele",
     bg: "#82857C", /* RAL 7023 Concrete Grey */
@@ -92,9 +92,9 @@ export const CATEGORY_BANNERS: Record<string, { image: string; title: string; te
   },
   "Marka": {
     image: "/baby_brands.png",
-    title: "Markaya Göre Seçim",
+    title: t("widgets.category_brand_title"),
     text: "En sevdiğin markaları hemen keşfet.",
-    buttonText: "Markaları Gör",
+    buttonText: t("widgets.category_brand_button"),
     bg: "#BCA371", /* Warm Sand / Gold */
     color: "#FFFFFF",
     btnBg: "#FFFFFF",

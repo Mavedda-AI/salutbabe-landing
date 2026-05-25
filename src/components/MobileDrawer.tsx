@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import Link from 'next/link';
 import {ArrowRight01Icon, Cancel01Icon} from 'hugeicons-react';
 import styles from './MobileDrawer.module.css';
+import {, {useEffect} from 'react';
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -9,6 +11,7 @@ interface MobileDrawerProps {
 }
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
+  const { t } = useThemeLanguage();
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -23,19 +26,19 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
   const categories = [
     { name: 'Anne', href: '/category/anne' },
-    { name: 'Oyuncak', href: '/category/oyuncak' },
-    { name: 'Araç & Gereç', href: '/category/arac-gerec' },
-    { name: 'Markalar', href: '/brands' },
-    { name: 'İndirim', href: '/sale', isRed: true },
+    { name: t('widgets.drawer_toy'), href: '/category/oyuncak' },
+    { name: t('widgets.drawer_equipment'), href: '/category/arac-gerec' },
+    { name: t('widgets.drawer_brands'), href: '/brands' },
+    { name: t('widgets.drawer_sale'), href: '/sale', isRed: true },
   ];
 
   const footerLinks = [
     { name: 'Blog', href: '/blog' },
     { name: 'Destek', href: '/support' },
-    { name: 'Hakkımızda', href: '/about' },
+    { name: t('widgets.drawer_about'), href: '/about' },
     { name: 'Şartlar', href: '/terms' },
     { name: 'Nasıl Satış Yapılır?', href: '/how-to-sell' },
-    { name: 'Gizlilik', href: '/privacy' },
+    { name: t('widgets.drawer_privacy'), href: '/privacy' },
   ];
 
   return (

@@ -1,11 +1,13 @@
 "use client";
 
-import React, {useState} from 'react';
+import React from 'react';
+import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import Link from 'next/link';
 import {Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import CartDrawer from './CartDrawer';
 import MobileDrawer from './MobileDrawer';
 import styles from './Header.module.css';
+import {, {useState} from 'react';
 
 const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentColor", className = "" }) => (
   <svg 
@@ -26,6 +28,7 @@ const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentCol
 );
 
 export default function Header() {
+  const { t } = useThemeLanguage();
   const [showBanner, setShowBanner] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
@@ -78,7 +81,7 @@ export default function Header() {
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
           <Link href="/login" className={styles.signupButton}>Satıcı Paneli</Link>
-          <Link href="/register" className={styles.loginLink}>Kaydol</Link>
+          <Link href="/register" className={styles.loginLink}>{t("widgets.header_register")}</Link>
         </div>
       </div>
 

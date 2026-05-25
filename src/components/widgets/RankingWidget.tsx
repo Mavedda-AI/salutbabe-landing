@@ -41,7 +41,7 @@ export default function RankingWidget() {
           // Sleek, professional extra stats instead of loud emojis
           let extraStat = `+${(i % 5) + 1} Satış`;
           if (isTop1) extraStat = "En Çok Satan";
-          else if (isTop2) extraStat = "Popüler";
+          else if (isTop2) extraStat = t("widgets.ranking_popular");
           else if (isTop3) extraStat = "Yükselen";
 
           return (
