@@ -28,7 +28,7 @@ const getMosaicImage = (index: number) => {
 function MosaicItem({ index }: { index: number }) {
   const { showToast } = useToast();
   const { t } = useThemeLanguage();
-  const [img, setImg] = useState(ALL_MOSAIC_IMAGES[index % ALL_MOSAIC_IMAGES.length]);
+  const [img, setImg] = useState(getMosaicImage(index));
   const [price, setPrice] = useState(100 + ((index * 37) % 900));
   const [views, setViews] = useState(12 + ((index * 19) % 300));
   const [isSold, setIsSold] = useState(false);
@@ -50,7 +50,7 @@ function MosaicItem({ index }: { index: number }) {
         setImg(prevImg => {
           let newImg;
           do {
-            newImg = ALL_MOSAIC_IMAGES[Math.floor(Math.random() * ALL_MOSAIC_IMAGES.length)];
+            newImg = getMosaicImage(Math.floor(Math.random() * 200));
           } while (newImg === prevImg);
           return newImg;
         });
