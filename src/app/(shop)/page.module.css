@@ -197,7 +197,7 @@
 .promoText {
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 24px;
+  margin-bottom: 16px; /* Reduced margin */
   line-height: 1.4;
   white-space: normal;
 }
@@ -211,7 +211,7 @@
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  margin-bottom: 24px;
+  margin-bottom: 4px; /* Significantly reduced to close gap with dots */
   align-self: center;
 }
 
@@ -220,7 +220,7 @@
   gap: 8px;
   justify-content: center;
   position: absolute;
-  bottom: 16px;
+  bottom: 12px; /* Moved slightly up */
   left: 0;
   right: 0;
 }
