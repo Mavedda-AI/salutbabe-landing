@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from '@/app/(shop)/page.module.css';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
+import {ViewIcon} from 'hugeicons-react';
 
 import {apiUrl} from '@/lib/api';
 
@@ -25,9 +26,10 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
       
       <div className={styles.mosaicPrice}>{price} {product.currency || 'TL'}</div>
       
-      {/* Brand Badge */}
-      <div className={styles.mosaicViews} style={{ bottom: '32px', fontSize: '11px', background: 'rgba(0,0,0,0.8)', padding: '4px 8px' }}>
-        {brandName.length > 15 ? brandName.substring(0, 15) + '...' : brandName}
+      {/* Views Badge */}
+      <div className={styles.mosaicViews} style={{ bottom: '32px', fontSize: '11px', background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', padding: '4px 8px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '4px', color: '#fff' }}>
+        <ViewIcon size={12} strokeWidth={2.5} />
+        {product.viewCount || product.totalViewsLast24h || 0}
       </div>
       
       {isSold && (
