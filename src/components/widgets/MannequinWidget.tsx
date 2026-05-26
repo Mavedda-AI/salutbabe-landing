@@ -181,10 +181,16 @@ export default function MannequinWidget() {
 
   return (
     <div style={{ margin: '40px 16px', position: 'relative' }}>
-      <style>{`
+      <style dangerouslySetInnerHTML={{__html: `
         @keyframes imageFade { from { opacity: 0.6; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-      `}</style>
+        @keyframes scanLaser { 
+          0% { top: 0%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+      `}} />
 
       <div style={{
         background: '#FFF',
@@ -224,14 +230,14 @@ export default function MannequinWidget() {
 
           <img 
             key={activeType + selectedPrice}
-            src={activeType === 'baby' ? '/mannequins/baby-transparent.png?v=4' : '/mannequins/child-transparent.png?v=4'} 
+            src={activeType === 'baby' ? '/mannequins/baby-perfect.png?v=5' : '/mannequins/child-perfect.png?v=5'} 
             alt="Styled Mannequin" 
             style={{
               width: '100%', height: '100%', 
               objectFit: 'contain',
               animation: 'imageFade 0.6s ease-out forwards',
               /* Dynamic Clothing Color Trick! */
-              filter: 
+              filter: isGeneratingAI ? 'brightness(0.5) grayscale(1)' :
                 selectedPrice === 100 ? 'contrast(1.05)' :
                 selectedPrice === 200 ? 'hue-rotate(90deg) contrast(1.1)' :
                 selectedPrice === 500 ? 'hue-rotate(180deg) saturate(1.5) brightness(0.95)' :
@@ -239,6 +245,31 @@ export default function MannequinWidget() {
               transition: 'filter 0.5s ease-in-out',
             }}
           />
+
+          {/* AI Virtual Try-On Scanner Overlay */}
+          {isGeneratingAI && (
+            <div style={{
+              position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              zIndex: 20
+            }}>
+              <div style={{
+                position: 'absolute', top: 0, left: 0, right: 0, height: '4px',
+                background: '#A3E635', boxShadow: '0 0 15px #A3E635, 0 0 30px #A3E635',
+                animation: 'scanLaser 2s linear infinite'
+              }} />
+              <div style={{
+                background: 'rgba(20, 52, 43, 0.85)', backdropFilter: 'blur(4px)',
+                padding: '12px 24px', borderRadius: '30px', border: '1px solid #A3E635',
+                display: 'flex', alignItems: 'center', gap: '8px'
+              }}>
+                <SparklesIcon size={18} color="#A3E635" />
+                <span style={{ color: '#A3E635', fontWeight: 600, fontSize: '14px', letterSpacing: '0.5px' }}>
+                  {aiLoadingText}
+                </span>
+              </div>
+            </div>
+          )}
 
           <div style={{
             position: 'absolute', bottom: 0, left: 0, right: 0, height: '160px',
