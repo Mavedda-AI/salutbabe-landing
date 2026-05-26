@@ -5,13 +5,11 @@ import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
 import {
-    ArrowLeft01Icon,
-    ArrowRight01Icon,
-    BabyBedIcon,
-    Backpack01Icon,
-    ShoppingBasketAdd01Icon,
-    Shuffle01Icon,
-    SparklesIcon
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  Backpack01Icon,
+  ShoppingBasketAdd01Icon,
+  SparklesIcon
 } from 'hugeicons-react';
 
 // ── Product type ──
