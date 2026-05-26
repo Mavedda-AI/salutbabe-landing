@@ -10,6 +10,7 @@ import BundleWidget from '@/components/widgets/BundleWidget';
 import MosaicWidget from '@/components/widgets/MosaicWidget';
 import RankingWidget from '@/components/widgets/RankingWidget';
 import PriceGridWidget from '@/components/widgets/PriceGridWidget';
+import MannequinWidget from '@/components/widgets/MannequinWidget';
 import CountrySelectorFooter from '@/components/widgets/CountrySelectorFooter';
 import styles from './page.module.css';
 
@@ -45,6 +46,9 @@ export default function HomeFeed() {
 
         {/* 9. Ranking / Leaderboard */}
         <RankingWidget />
+
+        {/* Mannequin Outfit Builder */}
+        <MannequinWidget />
 
         {/* 7. Shop by Price */}
         <PriceGridWidget />
