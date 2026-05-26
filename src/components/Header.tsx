@@ -15,6 +15,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
@@ -71,10 +72,19 @@ const Header = () => {
           {/* Top Row: Logo (Center) & Switchers (Right) */}
           <div className="flex items-center justify-between md:justify-center w-full py-2 relative">
             <div className="md:absolute md:left-0 flex items-center">
-               <button className="md:hidden text-text-primary">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                 </svg>
+               <button 
+                 className="md:hidden text-text-primary"
+                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+               >
+                 {isMobileMenuOpen ? (
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                   </svg>
+                 ) : (
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                   </svg>
+                 )}
                </button>
             </div>
 
@@ -213,6 +223,46 @@ const Header = () => {
               )}
             </div>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden flex flex-col items-center w-full py-4 gap-6 border-t border-border-color/20 mt-2 bg-background/95 backdrop-blur-xl shadow-lg rounded-b-xl">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors">
+                {t("header.home") || "HOME"}
+              </Link>
+              <Link href="/category/new" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors">
+                {t("header.new_arrivals")}
+              </Link>
+              <Link href="/categories" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors">
+                {t("header.categories")}
+              </Link>
+              
+              <div className="w-1/2 border-t border-border-color/20 my-1"></div>
+              
+              {isLoggedIn ? (
+                <>
+                  <Link href="/favorites" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors">
+                    {t("header.favorites") || "FAVORITES"}
+                  </Link>
+                  <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors">
+                    {t("header.cart") || "CART"}
+                  </Link>
+                  <Link href={isAdmin ? "/dashboard/sysop/admin" : "/dashboard/sysop"} onClick={() => setIsMobileMenuOpen(false)} className="text-[11px] font-black uppercase tracking-widest bg-surface border border-border-color px-5 py-2.5 rounded-xl hover:bg-text-primary hover:text-background transition-all">
+                    {t("header.back_to_panel")}
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-bold uppercase tracking-[0.1em] text-text-secondary hover:text-primary transition-colors">
+                    {t("header.login")}
+                  </Link>
+                  <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="text-[13px] font-black uppercase tracking-[0.1em] sell-gradient-text hover:opacity-80 transition-opacity">
+                    {t("header.sell")}
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
