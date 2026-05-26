@@ -1,12 +1,15 @@
 "use client";
 
-import React, {useEffect, useState} from 'react';
+import React, {use, useEffect, useState} from 'react';
 import styles from './PDP.module.css';
 import {ArrowLeft01Icon, FavouriteIcon, MoreVerticalIcon, Share01Icon, Tick02Icon} from 'hugeicons-react';
 import Link from 'next/link';
 import {apiUrl} from '@/lib/api';
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const unwrappedParams = use(params);
+  const id = unwrappedParams.id;
+  
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [purchased, setPurchased] = useState(false);
@@ -21,7 +24,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         });
         const data = await res.json();
         if (isMounted && data?.payload?.products) {
-          const found = data.payload.products.find((p: any) => p.listingID === params.id);
+          const found = data.payload.products.find((p: any) => p.listingID === id);
           setProduct(found);
         }
       } catch (error) {
@@ -32,7 +35,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     };
     fetchProduct();
     return () => { isMounted = false; };
-  }, [params.id]);
+  }, [id]);
 
   if (loading) {
     return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>;
