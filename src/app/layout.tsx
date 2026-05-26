@@ -1,6 +1,7 @@
 import type {Metadata} from 'next'
 import {ThemeLanguageProvider} from '@/context/ThemeLanguageContext';
 import {ToastProvider} from '@/context/ToastContext';
+import {CartProvider} from '@/context/CartContext';
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -18,7 +19,9 @@ export default function RootLayout({
       <body>
         <ThemeLanguageProvider>
           <ToastProvider>
-            {children}
+            <CartProvider>
+              {children}
+            </CartProvider>
           </ToastProvider>
         </ThemeLanguageProvider>
       </body>

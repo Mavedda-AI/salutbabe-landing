@@ -5,16 +5,29 @@ import styles from '@/app/(shop)/page.module.css';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useRouter} from 'next/navigation';
 import {ViewIcon} from 'hugeicons-react';
+import {useCart} from '@/context/CartContext';
 
 import {apiUrl} from '@/lib/api';
 
 function MosaicItem({ product, onClick }: { product: any, onClick: () => void }) {
   const { t } = useThemeLanguage();
+  const { addToCart } = useCart();
   const image = product.images?.[0]?.imageUrl || "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500&h=500&fit=crop";
   const displayPrice = parseFloat(product.price || 0).toString();
   const displayCurrency = product.currency === 'TRY' ? 'TL' : (product.currency || 'TL');
   const brandName = product.brand?.name || product.title;
   const isSold = product.status === "sold";
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart({
+      listingID: product.listingID,
+      title: product.title,
+      price: parseFloat(product.price || 0),
+      primaryImage: image,
+      brand: { name: brandName }
+    });
+  };
 
   return (
     <div 
@@ -23,7 +36,7 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
     >
       <img src={image} alt={brandName} loading="lazy" />
       <div className={styles.mosaicOverlay}>
-        <span>{t('home.view_in_app') || 'Uygulamada Gör'}</span>
+        <span onClick={handleAddToCart} style={{ cursor: 'pointer' }}>Sepete Ekle</span>
       </div>
       
       <div className={styles.mosaicPrice}>{displayPrice} {displayCurrency}</div>
