@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {BookOpen01Icon, FavouriteIcon, Home01Icon, Message01Icon, UserIcon} from 'hugeicons-react';
+import {BookOpen01Icon, Camera01Icon, Home01Icon, Message01Icon, UserIcon} from 'hugeicons-react';
 import styles from './BottomBar.module.css';
 
 export default function BottomBar() {
@@ -39,15 +39,15 @@ export default function BottomBar() {
         {/* Tab 3: Center Sell Button */}
         <Link 
           href="/create" 
-          className={styles.centerNavItem}
+          className={`${styles.centerNavItem} ${isCenterPressed ? styles.centerPressed : ''}`}
           onMouseDown={() => setIsCenterPressed(true)}
           onMouseUp={() => setIsCenterPressed(false)}
           onMouseLeave={() => setIsCenterPressed(false)}
           onTouchStart={() => setIsCenterPressed(true)}
           onTouchEnd={() => setIsCenterPressed(false)}
         >
-          <div className={`${styles.centerIconWrapper} ${isCenterPressed ? styles.centerPressed : ''}`}>
-             <FavouriteIcon size={34} color={isActive('/create') ? 'var(--text-primary)' : 'rgba(0,0,0,0.4)'} strokeWidth={isActive('/create') ? 2.5 : 2} />
+          <div className={styles.centerIconWrapper}>
+             <Camera01Icon size={24} strokeWidth={2.5} />
           </div>
           <span className={`${styles.label} ${isActive('/create') ? styles.labelActive : ''}`}>Satış Yap</span>
         </Link>

@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import {Location01Icon, Mail01Icon} from 'hugeicons-react';
+import {handleOpenApp} from '@/utils/appHelpers';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -70,10 +71,10 @@ export default function Footer() {
 
         {/* Middle Section: App Download */}
         <div className={styles.middleSection}>
-          <a href="#" className={styles.downloadButton}>
+          <button onClick={handleOpenApp} className={styles.downloadButton}>
             <span className={styles.greenDot}></span>
             Download App
-          </a>
+          </button>
         </div>
 
         {/* Bottom Section: Copyright */}

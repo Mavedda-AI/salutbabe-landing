@@ -93,15 +93,22 @@
 }
 
 .centerIconWrapper {
-  width: 62px;
+  width: 48px;
   height: 48px;
   border-radius: 24px;
+  background-color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: width 0.2s, height 0.2s;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.centerPressed {
-  width: 68px;
+.centerIconWrapper svg {
+  color: var(--background-default);
+}
+
+.centerPressed .centerIconWrapper {
+  transform: scale(0.9);
+  background-color: #333;
 }

@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {Cancel01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
+import {useRouter} from 'next/navigation';
 import styles from './CartDrawer.module.css';
 
 interface CartDrawerProps {
@@ -10,6 +11,8 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { t } = useThemeLanguage();
+  const router = useRouter();
+  
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -44,7 +47,13 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <p className={styles.emptyDesc}>
               Binlerce özel tasarım ürün arasından beğendiklerini sepetine eklemeye hemen başla.
             </p>
-            <button className={styles.shopButton} onClick={onClose}>
+            <button 
+              className={styles.shopButton} 
+              onClick={() => {
+                onClose();
+                router.push('/');
+              }}
+            >
               Alışverişe Başla
             </button>
           </div>

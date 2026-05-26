@@ -6,6 +6,7 @@ import Link from 'next/link';
 import {Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import CartDrawer from './CartDrawer';
 import MobileDrawer from './MobileDrawer';
+import SearchDrawer from './SearchDrawer';
 import styles from './Header.module.css';
 
 const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentColor", className = "" }) => (
@@ -31,27 +32,7 @@ export default function Header() {
   const [showBanner, setShowBanner] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-
-  const handleOpenApp = () => {
-    if (typeof window !== 'undefined') {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-      
-      // iOS detection
-      if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-        window.location.href = 'https://apps.apple.com/us/app/salutbabe/id6759988511';
-        return;
-      }
-      
-      // Android detection
-      if (/android/i.test(userAgent)) {
-        window.location.href = 'https://play.google.com/store/apps/details?id=com.salutbabe&hl=tr';
-        return;
-      }
-      
-      // Default fallback for desktop/other
-      window.location.href = 'https://apps.apple.com/us/app/salutbabe/id6759988511';
-    }
-  };
+  const [isSearchDrawerOpen, setIsSearchDrawerOpen] = useState(false);
 
   return (
     <header className={styles.headerWrapper}>
@@ -67,10 +48,12 @@ export default function Header() {
         </div>
 
         {/* Center: Search Bar */}
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} onClick={() => setIsSearchDrawerOpen(true)} style={{cursor: 'pointer'}}>
           <div className={styles.searchBox}>
             <Search01Icon size={18} color="#666" strokeWidth={2} />
-            <input type="text" placeholder={t("widgets.header_search_placeholder")} className={styles.searchInput} />
+            <div className={styles.searchInput} style={{display: 'flex', alignItems: 'center', color: '#666'}}>
+              {t("widgets.header_search_placeholder")}
+            </div>
           </div>
         </div>
 
@@ -89,6 +72,9 @@ export default function Header() {
       
       {/* Cart Drawer */}
       <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
+      
+      {/* Search Drawer */}
+      <SearchDrawer isOpen={isSearchDrawerOpen} onClose={() => setIsSearchDrawerOpen(false)} />
     </header>
   );
 }

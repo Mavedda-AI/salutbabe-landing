@@ -102,7 +102,7 @@ export default function CountrySelectorFooter() {
 
       <div className={styles.seoSection}>
         <div className={styles.seoTitle}>{t('widgets.country_seo_title')}</div>
-        <a href="#" className={styles.seoLink}>{t('widgets.country_seo_link')}</a>
+        <a href="/sitemap" className={styles.seoLink}>{t('widgets.country_seo_link')}</a>
       </div>
 
       <div className={styles.languageSelector} style={{ marginTop: 24 }}>
