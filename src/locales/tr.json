@@ -45,7 +45,10 @@
     "sorry": "ÜZGÜNÜZ",
     "for_you_picks": "Sizin İçin Seçilenler",
     "ranking_title": "Haftanın En Çok Etkileşim Alanları",
-    "ranking_desc": "salutbabe topluluğunun bu hafta en çok incelediği ve favorilediği satıcılar."
+    "ranking_desc": "salutbabe topluluğunun bu hafta en çok incelediği ve favorilediği satıcılar.",
+    "add_to_cart": "Sepete Ekle",
+    "added_to_cart": "Ürün sepete eklendi!",
+    "products_load_error": "Ürünler yüklenemedi. Lütfen daha sonra tekrar deneyin."
   },
   "stats": {
     "secure_payments": "GÜVENLİ ÖDEME",
@@ -439,5 +442,49 @@
     "hero_card3_story_desc": "Deneyimler",
     "hero_card3_organic_title": "Sağlıklı",
     "hero_card3_organic_desc": "Gelecek için"
+  },
+
+  "cart": {
+    "total": "Toplam",
+    "checkout": "Siparişi Tamamla",
+    "start_shopping": "Alışverişe Başla",
+    "empty_desc": "Binlerce özel tasarım ürün sizi bekliyor",
+    "order_success": "Sipariş başarıyla tamamlandı!"
+  },
+  "search": {
+    "cancel": "İptal",
+    "trending": "Trend Aramalar",
+    "recent": "Son Arananlar"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "messages": "Mesajlar",
+    "sell": "Satış Yap",
+    "our_story": "Hikayemiz",
+    "profile": "Profil"
+  },
+  "ranking": {
+    "sales": "Satış",
+    "best_selling": "En Çok Satan",
+    "rising": "Yükselen"
+  },
+  "error": {
+    "title": "Bir şeyler ters gitti",
+    "retry": "Tekrar Dene",
+    "not_found_title": "Sayfa Bulunamadı",
+    "not_found_desc": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+    "go_home": "Ana Sayfaya Dön"
+  },
+  "loading": {
+    "text": "Yükleniyor..."
+  },
+  "drawer": {
+    "sell_now": "Hemen Sat",
+    "seller_panel": "Satıcı Paneli",
+    "more_from": "Salutbabe'den daha fazlası",
+    "support": "Destek",
+    "terms": "Şartlar",
+    "how_to_sell": "Nasıl Satış Yapılır?",
+    "blog": "Blog"
   }
 }

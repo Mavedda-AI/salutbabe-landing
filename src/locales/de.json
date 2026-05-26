@@ -45,7 +45,10 @@
     "sorry": "ENTSCHULDIGUNG",
     "for_you_picks": "Für dich ausgewählt",
     "ranking_title": "Am meisten interagiert diese Woche",
-    "ranking_desc": "Die von der salutbabe-Community am meisten angesehenen und favorisierten Verkäufer diese Woche."
+    "ranking_desc": "Die von der salutbabe-Community am meisten angesehenen und favorisierten Verkäufer diese Woche.",
+    "add_to_cart": "In den Warenkorb",
+    "added_to_cart": "Produkt zum Warenkorb hinzugefügt!",
+    "products_load_error": "Produkte konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
   },
   "stats": {
     "secure_payments": "SECURE PAYMENTS",
@@ -446,6 +449,51 @@
     "hero_card3_story_title": "Echt",
     "hero_card3_story_desc": "Erfahrungen",
     "hero_card3_organic_title": "Gesund",
-    "hero_card3_organic_desc": "Für die Zukunft"
+    "hero_card3_organic_desc": "Für die Zukunft",
+    "ranking_popular_week": "Beliebt diese Woche"
+  },
+
+  "cart": {
+    "total": "Gesamt",
+    "checkout": "Bestellung abschließen",
+    "start_shopping": "Einkauf starten",
+    "empty_desc": "Tausende einzigartige Produkte warten auf Sie",
+    "order_success": "Bestellung erfolgreich abgeschlossen!"
+  },
+  "search": {
+    "cancel": "Abbrechen",
+    "trending": "Trending-Suchen",
+    "recent": "Letzte Suchen"
+  },
+  "nav": {
+    "home": "Startseite",
+    "messages": "Nachrichten",
+    "sell": "Verkaufen",
+    "our_story": "Unsere Geschichte",
+    "profile": "Profil"
+  },
+  "ranking": {
+    "sales": "Verkäufe",
+    "best_selling": "Bestseller",
+    "rising": "Aufsteigend"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "retry": "Erneut versuchen",
+    "not_found_title": "Seite nicht gefunden",
+    "not_found_desc": "Die gesuchte Seite existiert nicht oder wurde möglicherweise verschoben.",
+    "go_home": "Zur Startseite"
+  },
+  "loading": {
+    "text": "Wird geladen..."
+  },
+  "drawer": {
+    "sell_now": "Jetzt Verkaufen",
+    "seller_panel": "Verkäufer-Panel",
+    "more_from": "Mehr von Salutbabe",
+    "support": "Unterstützung",
+    "terms": "Bedingungen",
+    "how_to_sell": "Wie verkaufe ich?",
+    "blog": "Blog"
   }
 }

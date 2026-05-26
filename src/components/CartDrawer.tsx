@@ -48,7 +48,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
               <h3 className={styles.emptyTitle}>{t("widgets.cart_empty")}</h3>
               <p className={styles.emptyDesc}>
-                Binlerce özel tasarım ürün arasından beğendiklerini sepetine eklemeye hemen başla.
+                {t('cart.empty_desc')}
               </p>
               <button 
                 className={styles.shopButton} 
@@ -57,7 +57,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   router.push('/');
                 }}
               >
-                Alışverişe Başla
+                {t('cart.start_shopping')}
               </button>
             </div>
           ) : (
@@ -84,18 +84,18 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               
               <div style={{ marginTop: 'auto', borderTop: '1px solid #eee', paddingTop: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>
-                  <span>Toplam</span>
+                  <span>{t('cart.total')}</span>
                   <span>{cartTotal} TL</span>
                 </div>
                 <button 
                   style={{ width: '100%', padding: '16px', background: '#111', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 600, cursor: 'pointer' }}
                   onClick={() => {
-                    alert("Sipariş başarıyla tamamlandı!");
+                    alert(t('cart.order_success'));
                     clearCart();
                     onClose();
                   }}
                 >
-                  Siparişi Tamamla
+                  {t('cart.checkout')}
                 </button>
               </div>
             </div>

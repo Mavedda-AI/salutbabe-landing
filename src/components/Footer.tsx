@@ -2,11 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
-import {Location01Icon, Mail01Icon} from 'hugeicons-react';
+import {Location01Icon, Mail01Icon, WavingHand02Icon} from 'hugeicons-react';
 import {handleOpenApp} from '@/utils/appHelpers';
+import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import styles from './Footer.module.css';
 
 export default function Footer() {
+  const { t } = useThemeLanguage();
+
   return (
     <footer className={styles.footerWrapper}>
       <div className={styles.container}>
@@ -51,7 +54,7 @@ export default function Footer() {
             <div className={styles.linkColumn}>
               <h4 className={styles.columnTitle}>SUPPORT</h4>
               <ul className={styles.linkList}>
-                <li><Link href="/contact">Contact</Link></li>
+                <li><Link href="/contact">{t('footer.contact_us')}</Link></li>
                 <li><Link href="/faq">FAQ</Link></li>
                 <li><Link href="/legal">Legal</Link></li>
               </ul>
@@ -73,15 +76,15 @@ export default function Footer() {
         <div className={styles.middleSection}>
           <button onClick={handleOpenApp} className={styles.downloadButton}>
             <span className={styles.greenDot}></span>
-            Download App
+            {t('footer.download_app')}
           </button>
         </div>
 
         {/* Bottom Section: Copyright */}
         <div className={styles.bottomSection}>
-          <p className={styles.copyright}>© 2026 Salutbabe. All Rights Reserved.</p>
+          <p className={styles.copyright}>© 2026 Salutbabe. {t('footer.all_rights_reserved')}</p>
           <div className={styles.designer}>
-            designed and coded by salutbabe <span className={styles.handIcon}>👋</span>
+            designed and coded by salutbabe <span className={styles.handIcon}><WavingHand02Icon size={16} color="currentColor" strokeWidth={2} /></span>
           </div>
         </div>
 

@@ -45,7 +45,10 @@
     "sorry": "DÉSOLÉ",
     "for_you_picks": "Sélectionnés pour vous",
     "ranking_title": "Les plus populaires cette semaine",
-    "ranking_desc": "Les vendeurs les plus vus et favoris par la communauté salutbabe cette semaine."
+    "ranking_desc": "Les vendeurs les plus vus et favoris par la communauté salutbabe cette semaine.",
+    "add_to_cart": "Ajouter au panier",
+    "added_to_cart": "Produit ajouté au panier!",
+    "products_load_error": "Les produits n'ont pas pu être chargés. Veuillez réessayer plus tard."
   },
   "stats": {
     "secure_payments": "PAIEMENTS SÉCURISÉS",
@@ -448,6 +451,51 @@
     "hero_card3_story_title": "Réel",
     "hero_card3_story_desc": "Expériences",
     "hero_card3_organic_title": "Sain",
-    "hero_card3_organic_desc": "Pour l'avenir"
+    "hero_card3_organic_desc": "Pour l'avenir",
+    "ranking_popular_week": "Populaires cette semaine"
+  },
+
+  "cart": {
+    "total": "Total",
+    "checkout": "Finaliser la commande",
+    "start_shopping": "Commencer les achats",
+    "empty_desc": "Des milliers de produits uniques vous attendent",
+    "order_success": "Commande terminée avec succès!"
+  },
+  "search": {
+    "cancel": "Annuler",
+    "trending": "Recherches tendances",
+    "recent": "Recherches récentes"
+  },
+  "nav": {
+    "home": "Accueil",
+    "messages": "Messages",
+    "sell": "Vendre",
+    "our_story": "Notre Histoire",
+    "profile": "Profil"
+  },
+  "ranking": {
+    "sales": "Ventes",
+    "best_selling": "Meilleures ventes",
+    "rising": "En hausse"
+  },
+  "error": {
+    "title": "Quelque chose s'est mal passé",
+    "retry": "Réessayer",
+    "not_found_title": "Page non trouvée",
+    "not_found_desc": "La page que vous cherchez n'existe pas ou a peut-être été déplacée.",
+    "go_home": "Retour à l'accueil"
+  },
+  "loading": {
+    "text": "Chargement..."
+  },
+  "drawer": {
+    "sell_now": "Vendre Maintenant",
+    "seller_panel": "Panneau Vendeur",
+    "more_from": "Plus de Salutbabe",
+    "support": "Support",
+    "terms": "Conditions",
+    "how_to_sell": "Comment vendre ?",
+    "blog": "Blog"
   }
 }

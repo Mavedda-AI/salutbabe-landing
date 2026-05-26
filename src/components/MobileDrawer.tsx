@@ -24,7 +24,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   if (!isOpen) return null;
 
   const categories = [
-    { name: 'Anne', href: '/category/anne' },
+    { name: t('home.tab_mom'), href: '/category/anne' },
     { name: t('widgets.drawer_toy'), href: '/category/oyuncak' },
     { name: t('widgets.drawer_equipment'), href: '/category/arac-gerec' },
     { name: t('widgets.drawer_brands'), href: '/brands' },
@@ -32,11 +32,11 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   ];
 
   const footerLinks = [
-    { name: 'Blog', href: '/blog' },
-    { name: 'Destek', href: '/support' },
+    { name: t('drawer.blog'), href: '/blog' },
+    { name: t('drawer.support'), href: '/support' },
     { name: t('widgets.drawer_about'), href: '/about' },
-    { name: 'Şartlar', href: '/terms' },
-    { name: 'Nasıl Satış Yapılır?', href: '/how-to-sell' },
+    { name: t('drawer.terms'), href: '/terms' },
+    { name: t('drawer.how_to_sell'), href: '/how-to-sell' },
     { name: t('widgets.drawer_privacy'), href: '/privacy' },
   ];
 
@@ -60,10 +60,10 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           {/* Main Action Buttons */}
           <div className={styles.actionButtonsContainer}>
             <Link href="/create" className={styles.primaryActionButton} onClick={onClose}>
-              Hemen Sat
+              {t('drawer.sell_now')}
             </Link>
             <Link href="/login" className={styles.secondaryActionButton} onClick={onClose}>
-              Satıcı Paneli
+              {t('drawer.seller_panel')}
             </Link>
           </div>
 
@@ -86,7 +86,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
           {/* Footer Links Area */}
           <div className={styles.footerArea}>
-            <h4 className={styles.footerTitle}>Salutbabe'den daha fazlası</h4>
+            <h4 className={styles.footerTitle}>{t('drawer.more_from')}</h4>
             <div className={styles.footerGrid}>
               {footerLinks.map((link, idx) => (
                 <Link 

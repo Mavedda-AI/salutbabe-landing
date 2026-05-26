@@ -45,7 +45,10 @@
     "sorry": "SORRY WE'RE",
     "for_you_picks": "Picked for You",
     "ranking_title": "Most Interacted This Week",
-    "ranking_desc": "Sellers most viewed and favorited by the salutbabe community this week."
+    "ranking_desc": "Sellers most viewed and favorited by the salutbabe community this week.",
+    "add_to_cart": "Add to Cart",
+    "added_to_cart": "Product added to cart!",
+    "products_load_error": "Products could not be loaded. Please try again later."
   },
   "stats": {
     "secure_payments": "SECURE PAYMENTS",
@@ -446,6 +449,51 @@
     "hero_card3_story_title": "Real",
     "hero_card3_story_desc": "Experiences",
     "hero_card3_organic_title": "Healthy",
-    "hero_card3_organic_desc": "For the future"
+    "hero_card3_organic_desc": "For the future",
+    "ranking_popular_week": "This Week's Popular"
+  },
+
+  "cart": {
+    "total": "Total",
+    "checkout": "Complete Order",
+    "start_shopping": "Start Shopping",
+    "empty_desc": "Thousands of unique products are waiting for you",
+    "order_success": "Order completed successfully!"
+  },
+  "search": {
+    "cancel": "Cancel",
+    "trending": "Trending Searches",
+    "recent": "Recent Searches"
+  },
+  "nav": {
+    "home": "Home",
+    "messages": "Messages",
+    "sell": "Sell",
+    "our_story": "Our Story",
+    "profile": "Profile"
+  },
+  "ranking": {
+    "sales": "Sales",
+    "best_selling": "Best Selling",
+    "rising": "Rising"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "retry": "Try Again",
+    "not_found_title": "Page Not Found",
+    "not_found_desc": "The page you're looking for doesn't exist or may have been moved.",
+    "go_home": "Go to Home"
+  },
+  "loading": {
+    "text": "Loading..."
+  },
+  "drawer": {
+    "sell_now": "Sell Now",
+    "seller_panel": "Seller Panel",
+    "more_from": "More from Salutbabe",
+    "support": "Support",
+    "terms": "Terms",
+    "how_to_sell": "How to Sell?",
+    "blog": "Blog"
   }
 }

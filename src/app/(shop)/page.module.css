@@ -877,6 +877,16 @@
   color: #111;
 }
 
+.rankingInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* 10. Accordion Footer */
 .accordionFooter {
   background-color: #F4F4F4;
@@ -1005,7 +1015,7 @@
   transition: all 0.2s;
   opacity: 0.3;
 }
-.langBtn.langActive, .langBtn:hover {
+.langActive, .langBtn:hover {
   background: #fff;
   border: 1px solid #EAEAEA;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -1231,4 +1241,9 @@
     flex: 1.5;
     padding: 0;
   }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }

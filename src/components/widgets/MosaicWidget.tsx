@@ -29,7 +29,7 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
       primaryImage: image,
       brand: { name: brandName }
     });
-    showToast("Ürün sepete eklendi!", "success");
+    showToast(t('home.added_to_cart'), "success");
     setIsCartOpen(true);
   };
 
@@ -40,7 +40,7 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
     >
       <img src={image} alt={brandName} loading="lazy" />
       <div className={styles.mosaicOverlay}>
-        <span onClick={handleAddToCart} style={{ cursor: 'pointer' }}>Sepete Ekle</span>
+        <span onClick={handleAddToCart} style={{ cursor: 'pointer' }}>{t('home.add_to_cart')}</span>
       </div>
       
       <div className={styles.mosaicPrice}>{displayPrice} {displayCurrency}</div>
@@ -229,7 +229,7 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
           </div>
         ) : (
           <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
-            Ürünler yüklenemedi. Lütfen daha sonra tekrar deneyin.
+            {t('home.products_load_error')}
           </div>
         )}
       </div>

@@ -173,12 +173,12 @@ export default function CategoryFilterWidget({ activeCategory, setActiveCategory
                   {banner.buttonText}
                 </button>
                 <div className={styles.promoDots}>
-                  {banners.slice(0, 4).map((_, dotIndex) => (
+                  {banners.map((_, dotIndex) => (
                     <span 
                       key={dotIndex}
                       className={styles.promoDot} 
                       style={{ 
-                        backgroundColor: (index % 4) === dotIndex ? banner.dotColorActive : banner.dotColorInactive 
+                        backgroundColor: index === dotIndex ? banner.dotColorActive : banner.dotColorInactive 
                       }}
                     />
                   ))}

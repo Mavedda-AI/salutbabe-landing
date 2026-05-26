@@ -128,7 +128,7 @@ export default function CountrySelectorFooter() {
           className={`${styles.langBtn} ${language === 'fr' ? styles.langActive : ''}`} 
           onClick={() => handleLanguageChange('fr')}
         >
-          🇲🇦 Morocco
+          🇫🇷 Français
         </button>
       </div>
 

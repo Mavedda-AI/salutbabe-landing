@@ -4,6 +4,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Clock01Icon, Search01Icon} from 'hugeicons-react';
 import styles from './SearchDrawer.module.css';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
+import {useRouter} from 'next/navigation';
 
 interface SearchDrawerProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface SearchDrawerProps {
 
 export default function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
   const { t } = useThemeLanguage();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   
@@ -40,9 +42,8 @@ export default function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
   if (!isOpen) return null;
 
   const handleSearch = (term: string) => {
-    console.log("Searching for:", term);
     onClose();
-    // To do: router.push(`/search?q=${encodeURIComponent(term)}`);
+    router.push(`/search?q=${encodeURIComponent(term)}`);
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -68,14 +69,14 @@ export default function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
             />
           </div>
           <button type="button" className={styles.closeButton} onClick={onClose}>
-            İptal
+            {t('search.cancel')}
           </button>
         </form>
 
         {!searchTerm && (
           <>
             <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Trend Aramalar</h3>
+              <h3 className={styles.sectionTitle}>{t('search.trending')}</h3>
               <div className={styles.pillContainer}>
                 {trendingSearches.map((term, i) => (
                   <button 
@@ -91,7 +92,7 @@ export default function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
             </div>
 
             <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Son Arananlar</h3>
+              <h3 className={styles.sectionTitle}>{t('search.recent')}</h3>
               <div>
                 {recentSearches.map((term, i) => (
                   <div 

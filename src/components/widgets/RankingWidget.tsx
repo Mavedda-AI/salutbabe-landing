@@ -39,10 +39,10 @@ export default function RankingWidget() {
           const cardClass = `${styles.rankingCard} ${isTop1 ? styles.cardPremium1 : isTop2 || isTop3 ? styles.cardPremiumTop : ''}`;
           
           // Sleek, professional extra stats instead of loud emojis
-          let extraStat = `+${(i % 5) + 1} Satış`;
-          if (isTop1) extraStat = "En Çok Satan";
+          let extraStat = `+${(i % 5) + 1} ${t('ranking.sales')}`;
+          if (isTop1) extraStat = t('ranking.best_selling');
           else if (isTop2) extraStat = t("widgets.ranking_popular");
-          else if (isTop3) extraStat = "Yükselen";
+          else if (isTop3) extraStat = t('ranking.rising');
 
           return (
             <div key={i} className={cardClass}>
