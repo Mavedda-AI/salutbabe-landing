@@ -29,6 +29,8 @@ interface CartContextType {
   showToast: boolean;
   toastProduct: Product | null;
   setShowToast: (show: boolean) => void;
+  isCartOpen: boolean;
+  setIsCartOpen: (open: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -38,6 +40,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [showToast, setShowToast] = useState(false);
   const [toastProduct, setToastProduct] = useState<Product | null>(null);
   const [serviceFee, setServiceFee] = useState(0);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -127,7 +130,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         serviceFee,
         showToast,
         toastProduct,
-        setShowToast
+        setShowToast,
+        isCartOpen,
+        setIsCartOpen
       }}
     >
       {children}

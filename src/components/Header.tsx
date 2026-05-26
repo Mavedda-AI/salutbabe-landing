@@ -2,6 +2,7 @@
 
 import React, {useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
+import {useCart} from '@/context/CartContext';
 import Link from 'next/link';
 import {Search01Icon, ShoppingBasket02Icon} from 'hugeicons-react';
 import CartDrawer from './CartDrawer';
@@ -29,9 +30,9 @@ const CustomHamburgerIcon = ({ size = 26, strokeWidth = 2.5, color = "currentCol
 
 export default function Header() {
   const { t } = useThemeLanguage();
+  const { isCartOpen, setIsCartOpen, cartCount } = useCart();
   const [showBanner, setShowBanner] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isSearchDrawerOpen, setIsSearchDrawerOpen] = useState(false);
 
   return (
@@ -59,8 +60,13 @@ export default function Header() {
 
         {/* Right: Actions */}
         <div className={styles.headerActions}>
-          <button className={styles.actionIcon} onClick={() => setIsCartDrawerOpen(true)}>
+          <button className={styles.actionIcon} onClick={() => setIsCartOpen(true)} style={{ position: 'relative' }}>
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
+            {cartCount > 0 && (
+              <span style={{ position: 'absolute', top: -5, right: -5, background: 'red', color: 'white', borderRadius: '50%', width: 16, height: 16, fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {cartCount}
+              </span>
+            )}
           </button>
           <Link href="/login" className={styles.signupButton}>{t("widgets.header_seller_panel")}</Link>
           <Link href="/register" className={styles.loginLink}>{t("widgets.header_register")}</Link>
@@ -71,7 +77,7 @@ export default function Header() {
       <MobileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       
       {/* Cart Drawer */}
-      <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       
       {/* Search Drawer */}
       <SearchDrawer isOpen={isSearchDrawerOpen} onClose={() => setIsSearchDrawerOpen(false)} />
