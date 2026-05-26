@@ -212,13 +212,14 @@ export default function MannequinWidget() {
           </div>
 
           <img 
-            src={MASTER_MANNEQUIN_IMAGE} 
+            src={`${MASTER_MANNEQUIN_IMAGE}?v=2`} 
             alt="Master Mannequin" 
             style={{
               width: '100%', height: '100%', 
               objectFit: 'cover',
-              objectPosition: activeType === 'baby' ? 'left center' : 'right center',
-              transition: 'object-position 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+              transform: 'scale(1.8)',
+              transformOrigin: activeType === 'baby' ? '25% 60%' : '75% 55%',
+              transition: 'transform-origin 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
             }}
           />
 
