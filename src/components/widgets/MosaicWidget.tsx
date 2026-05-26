@@ -10,7 +10,8 @@ import {apiUrl} from '@/lib/api';
 function MosaicItem({ product, onClick }: { product: any, onClick: () => void }) {
   const { t } = useThemeLanguage();
   const image = product.images?.[0]?.imageUrl || "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500&h=500&fit=crop";
-  const price = product.price || 0;
+  const displayPrice = parseFloat(product.price || 0).toString();
+  const displayCurrency = product.currency === 'TRY' ? 'TL' : (product.currency || 'TL');
   const brandName = product.brand?.name || product.title;
   const isSold = product.status === "sold";
 
@@ -24,10 +25,10 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
         <span>{t('home.view_in_app') || 'Uygulamada Gör'}</span>
       </div>
       
-      <div className={styles.mosaicPrice}>{price} {product.currency || 'TL'}</div>
+      <div className={styles.mosaicPrice}>{displayPrice} {displayCurrency}</div>
       
       {/* Views Badge */}
-      <div className={styles.mosaicViews} style={{ bottom: '32px', fontSize: '11px', background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', padding: '4px 8px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '4px', color: '#fff' }}>
+      <div className={styles.mosaicViews}>
         <ViewIcon size={12} strokeWidth={2.5} />
         {product.viewCount || product.totalViewsLast24h || 0}
       </div>

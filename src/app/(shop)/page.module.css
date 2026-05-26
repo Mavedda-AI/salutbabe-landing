@@ -677,26 +677,27 @@
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #111;
+  background: transparent;
+  color: #fff;
   font-weight: 800;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 4px;
+  font-size: 13px;
+  padding: 0;
+  border-radius: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 .mosaicViews {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(0, 0, 0, 0.6);
+  background: transparent;
   color: #fff;
-  font-weight: 600;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 0;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.7));
 }
 
 @keyframes stampImpact {
