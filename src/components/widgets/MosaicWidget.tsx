@@ -12,7 +12,7 @@ import {apiUrl} from '@/lib/api';
 
 function MosaicItem({ product, onClick }: { product: any, onClick: () => void }) {
   const { t } = useThemeLanguage();
-  const { addToCart } = useCart();
+  const { addToCart, setIsCartOpen } = useCart();
   const { showToast } = useToast();
   const image = product.images?.[0]?.imageUrl || "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500&h=500&fit=crop";
   const displayPrice = parseFloat(product.price || 0).toString();
@@ -30,6 +30,7 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
       brand: { name: brandName }
     });
     showToast("Ürün sepete eklendi!", "success");
+    setIsCartOpen(true);
   };
 
   return (
