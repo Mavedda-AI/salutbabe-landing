@@ -212,6 +212,14 @@ export default function MannequinWidget() {
         }
       `}} />
 
+      {/* Title Header */}
+      <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px', paddingLeft: '8px' }}>
+        <SparklesIcon size={22} color="#121212" />
+        <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#121212', letterSpacing: '-0.3px', margin: 0 }}>
+          Salutbabe Kıyafet Deneme Kabini
+        </h2>
+      </div>
+
       <div style={{
         background: '#FFF',
         borderRadius: '28px',
