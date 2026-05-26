@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import styles from '@/app/(shop)/page.module.css';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useRouter} from 'next/navigation';
-import {ViewIcon} from 'hugeicons-react';
+import {ArrowDown01Icon, ViewIcon} from 'hugeicons-react';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
 
@@ -63,12 +63,26 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
   );
 }
 
-export default function MosaicWidget() {
+export default function MosaicWidget({ activeCategory = "Tümü", setActiveCategory = () => {} }: { activeCategory?: string, setActiveCategory?: (c: string) => void }) {
   const { t } = useThemeLanguage();
   const router = useRouter();
   const [showAppModal, setShowAppModal] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const FILTER_TABS = [
+    { key: "Tümü", label: t('home.tab_all') },
+    { key: "Sana Özel", label: t('home.tab_foryou') },
+    { key: "Anne", label: t('home.tab_mom') },
+    { key: "Bebek", label: t('home.tab_baby') },
+    { key: "Çocuk", label: t('home.tab_child') },
+    { key: "Diğer", label: t('home.tab_other') }
+  ];
+  
+  const DROPDOWN_TABS = [
+    { key: "Beden", label: t('home.tab_size') },
+    { key: "Marka", label: t('home.tab_brand') }
+  ];
 
   useEffect(() => {
     let isMounted = true;
@@ -100,6 +114,27 @@ export default function MosaicWidget() {
       <div id="shop-grid" className={styles.mosaicSection} style={{ scrollMarginTop: '80px' }}>
         <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>{t('home.for_you_picks')}</h2>
         
+        <div className={styles.categoryFilters} style={{ margin: '0 16px 24px 16px' }}>
+          {FILTER_TABS.map((tab) => (
+            <span 
+              key={tab.key}
+              onClick={() => setActiveCategory(tab.key)}
+              className={`${styles.filterPill} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
+            >
+              {tab.label}
+            </span>
+          ))}
+          {DROPDOWN_TABS.map((tab) => (
+            <span 
+              key={tab.key}
+              className={`${styles.filterPillDropdown} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
+              onClick={() => setActiveCategory(tab.key)}
+            >
+              {tab.label} <ArrowDown01Icon size={18} color="currentColor" strokeWidth={2.5} />
+            </span>
+          ))}
+        </div>
+
         {loading ? (
           <div className={styles.mosaicContainer}>
             {Array.from({ length: 12 }).map((_, i) => (

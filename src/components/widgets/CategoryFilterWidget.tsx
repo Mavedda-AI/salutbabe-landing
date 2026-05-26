@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styles from '@/app/(shop)/page.module.css';
-import {ArrowDown01Icon} from 'hugeicons-react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 
 const getCategoryBanners = (t: any): Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string; dotColorActive: string; dotColorInactive: string }> => ({
@@ -130,26 +129,6 @@ export default function CategoryFilterWidget({ activeCategory, setActiveCategory
   return (
     <div className={styles.categoryFiltersWrapper}>
       <h2 className={styles.sectionTitle}>{t('home.category_filter_title')}</h2>
-      <div className={styles.categoryFilters}>
-        {FILTER_TABS.map((tab) => (
-          <span 
-            key={tab.key}
-            onClick={() => setActiveCategory(tab.key)}
-            className={`${styles.filterPill} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
-          >
-            {tab.label}
-          </span>
-        ))}
-        {DROPDOWN_TABS.map((tab) => (
-          <span 
-            key={tab.key}
-            className={`${styles.filterPillDropdown} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
-            onClick={() => setActiveCategory(tab.key)}
-          >
-            {tab.label} <ArrowDown01Icon size={18} color="currentColor" strokeWidth={2.5} />
-          </span>
-        ))}
-      </div>
 
       {/* Promotional Banner */}
       <div className={styles.promoBanner}>

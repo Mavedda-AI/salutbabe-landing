@@ -62,7 +62,7 @@ export default function HomeFeed() {
         <BundleWidget />
 
         {/* 8. Mosaic Wall (Sizin İçin Seçilenler) */}
-        <MosaicWidget />
+        <MosaicWidget activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
 
         {/* 9. Ranking / Leaderboard */}
         <RankingWidget />
