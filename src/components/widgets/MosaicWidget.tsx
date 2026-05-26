@@ -124,9 +124,21 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
 
   useEffect(() => {
     let isMounted = true;
+    setLoading(true);
     const fetchProducts = async () => {
       try {
-        const res = await fetch(apiUrl('/listings/products?limit=48'), {
+        let url = '/listings/products?limit=48';
+        if (activeCategory && activeCategory !== "Tümü" && activeCategory !== "Sana Özel") {
+           url += `&category=${encodeURIComponent(activeCategory)}`;
+           if (activeSubCategory) {
+              url += `&subCategory=${encodeURIComponent(activeSubCategory)}`;
+              if (activeSubSubCategory) {
+                  url += `&subSubCategory=${encodeURIComponent(activeSubSubCategory)}`;
+              }
+           }
+        }
+
+        const res = await fetch(apiUrl(url), {
           headers: { 'X-Device-Type': 'web' }
         });
         const data = await res.json();
@@ -145,7 +157,7 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [activeCategory, activeSubCategory, activeSubSubCategory]);
 
   return (
     <>
