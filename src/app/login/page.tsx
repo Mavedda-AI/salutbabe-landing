@@ -74,7 +74,7 @@ const LoginPage = () => {
         : (userType === "SYSOP" || userType === "ADMIN");
       
       if (isAdmin) {
-        window.location.href = "/dashboard/sysop";
+        window.location.href = "/dashboard/sysop/product-approval";
       } else {
         window.location.href = "/";
       }
@@ -171,7 +171,7 @@ const LoginPage = () => {
         const isAdmin = userType.includes("SYSOP") || userType.includes("ADMIN");
         
         if (isAdmin) {
-          window.location.href = "/dashboard/sysop";
+          window.location.href = "/dashboard/sysop/product-approval";
         } else {
           window.location.href = "/";
         }
@@ -218,7 +218,7 @@ const LoginPage = () => {
         : (userType === "SYSOP" || userType === "ADMIN");
         
       if (isAdmin) {
-        window.location.href = "/dashboard/sysop";
+        window.location.href = "/dashboard/sysop/product-approval";
       } else {
         window.location.href = "/";
       }
