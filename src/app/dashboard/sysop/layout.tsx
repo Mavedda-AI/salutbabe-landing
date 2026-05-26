@@ -17,6 +17,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ message: string, visible: boolean, type: 'warning' | 'success' | 'error' }>({
     message: '',
     visible: false,
@@ -606,7 +607,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             </div>
             
             <div className="relative group">
-              <div className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10">
+              <div 
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10"
+              >
                  {user?.profilePhotoUrl ? (
                    <img 
                      src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
@@ -622,7 +626,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                  )}
               </div>
                      {/* Profile Dropdown */}
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110] overflow-hidden">
+              <div className={`absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl transition-all duration-300 transform origin-top-right z-[110] overflow-hidden ${isProfileMenuOpen ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-95 md:group-hover:opacity-100 md:group-hover:visible md:group-hover:scale-100'}`}>
                  <div className="p-5 bg-gray-50 dark:bg-white/5 border-b border-border-color">
                     <p className="text-[14px] font-black text-text-primary truncate leading-tight">{user?.userName} {user?.userSurname}</p>
                     <p className="text-[11px] font-medium text-text-secondary truncate mt-0.5">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>

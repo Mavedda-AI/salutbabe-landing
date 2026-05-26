@@ -20,9 +20,9 @@ const Header = () => {
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
     const userStr = localStorage.getItem("user");
-    setIsLoggedIn(!!token);
+    setIsLoggedIn(!!token && token !== "null" && token !== "undefined");
 
-    if (userStr) {
+    if (userStr && userStr !== "null" && userStr !== "undefined") {
       try {
         const user = JSON.parse(userStr);
         const ut = user.userType;
