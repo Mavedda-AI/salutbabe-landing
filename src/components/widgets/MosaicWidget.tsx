@@ -6,12 +6,14 @@ import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useRouter} from 'next/navigation';
 import {ViewIcon} from 'hugeicons-react';
 import {useCart} from '@/context/CartContext';
+import {useToast} from '@/context/ToastContext';
 
 import {apiUrl} from '@/lib/api';
 
 function MosaicItem({ product, onClick }: { product: any, onClick: () => void }) {
   const { t } = useThemeLanguage();
   const { addToCart } = useCart();
+  const { showToast } = useToast();
   const image = product.images?.[0]?.imageUrl || "https://images.unsplash.com/photo-1542355581-caf7454785ca?w=500&h=500&fit=crop";
   const displayPrice = parseFloat(product.price || 0).toString();
   const displayCurrency = product.currency === 'TRY' ? 'TL' : (product.currency || 'TL');
@@ -27,6 +29,7 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
       primaryImage: image,
       brand: { name: brandName }
     });
+    showToast("Ürün sepete eklendi!", "success");
   };
 
   return (
