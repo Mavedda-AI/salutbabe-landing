@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import {PageHeader} from "@/app/dashboard/components/ui/PageHeader";
-import {FilterTabs} from "@/app/dashboard/components/ui/FilterTabs";
+import {FilterTabs} from "@/app/dashboard/components/ui/FilterBar";
 import {HugeiconsIcon} from "@hugeicons/react";
 import {AiBrain01Icon, Alert01Icon, Calendar01Icon, Calendar02Icon, Calendar03Icon} from "@hugeicons/core-free-icons";
 

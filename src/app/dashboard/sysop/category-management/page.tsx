@@ -5,7 +5,8 @@ import {useThemeLanguage} from "@/context/ThemeLanguageContext";
 import {PageHeader} from "@/app/dashboard/components/ui/PageHeader";
 import {FilterTabs, SearchInput} from "@/app/dashboard/components/ui/FilterBar";
 import {ActionModal, StatusBadge} from "@/app/dashboard/components/ui/StatusBadge";
-import {PencilIcon} from "@hugeicons/react";
+import {PencilIcon} from "@hugeicons/core-free-icons";
+import {HugeiconsIcon} from "@hugeicons/react";
 import {apiUrl} from "@/lib/api";
 
 interface SubCategory {
@@ -145,7 +146,7 @@ export default function CategoryManagementPage() {
                     <div className="flex items-center gap-3">
                        <StatusBadge status={cat.status} type={cat.status === 'Aktif' ? 'success' : 'danger'} />
                        <button onClick={(e) => { e.stopPropagation(); setShowModal({type: 'edit', data: cat}); }} className={`p-2 rounded-lg transition-colors ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-500 hover:text-gray-900 hover:bg-white shadow-sm'}`}>
-                         <PencilIcon size={20} />
+                         <HugeiconsIcon icon={PencilIcon} size={20} />
                        </button>
                     </div>
                   </div>

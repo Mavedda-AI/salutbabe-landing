@@ -68,9 +68,9 @@ export default function BrandManagementPage() {
   };
 
   const kpis = [
-    { label: 'Onaylı Marka', value: brands.filter(b => b.status === 'Onaylı').length, icon: <HugeiconsIcon icon={Tick01Icon} size={24} /> },
-    { label: 'Beklemede', value: brands.filter(b => b.status === 'Beklemede').length, icon: <HugeiconsIcon icon={Timer02Icon} size={24} /> },
-    { label: 'Engelli', value: brands.filter(b => b.status === 'Engelli').length, icon: <HugeiconsIcon icon={Cancel01Icon} size={24} /> },
+    { label: 'Onaylı Marka', value: brands.filter(b => b.status === 'Onaylı').length, icon: <HugeiconsIcon icon={Tick01Icon} size={24} />, colorClass: 'text-green-500' },
+    { label: 'Beklemede', value: brands.filter(b => b.status === 'Beklemede').length, icon: <HugeiconsIcon icon={Timer02Icon} size={24} />, colorClass: 'text-yellow-500' },
+    { label: 'Engelli', value: brands.filter(b => b.status === 'Engelli').length, icon: <HugeiconsIcon icon={Cancel01Icon} size={24} />, colorClass: 'text-red-500' },
   ];
 
   const tabs = [
