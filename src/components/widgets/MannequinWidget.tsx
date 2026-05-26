@@ -161,10 +161,10 @@ export default function MannequinWidget() {
     
     // AI Virtual Try-On Simulation
     setIsGeneratingAI(true);
-    setAiLoadingText('Manken 3D pozisyonu algılanıyor...');
+    setAiLoadingText('Sihirli dokunuşlar hazırlanıyor...');
     
-    setTimeout(() => setAiLoadingText('Kumaş kıvrımları ve ışık hesaplanıyor...'), 1800);
-    setTimeout(() => setAiLoadingText('Yapay Zeka kombini giydiriyor...'), 3600);
+    setTimeout(() => setAiLoadingText('En tatlı kombinler seçiliyor...'), 1800);
+    setTimeout(() => setAiLoadingText('Bebeğinizin yeni tarzı yükleniyor...'), 3600);
 
     setTimeout(() => {
       setSelectedPrice(price);
@@ -205,25 +205,36 @@ export default function MannequinWidget() {
         @keyframes imageFade { from { opacity: 0.6; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Full Screen Majestic Laser Sweep */
+        @keyframes imageFade { from { opacity: 0.6; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Combined Laser & Sweet UI Animations */
         @keyframes scanLaserBeam {
           0% { transform: translateY(-160px); opacity: 0; }
           10% { opacity: 1; }
           90% { opacity: 1; }
           100% { transform: translateY(480px); opacity: 0; }
         }
-        @keyframes aiProcessingImage {
-          0%, 100% { filter: brightness(0.6) blur(2px) contrast(1.2); }
-          50% { filter: brightness(0.9) blur(4px) contrast(1.5); }
+        @keyframes sparklePop {
+          0% { transform: scale(0) rotate(0deg); opacity: 0; }
+          50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+          100% { transform: scale(0) rotate(360deg); opacity: 0; }
         }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes floatGentle {
+          0%, 100% { transform: translate(-50%, -50%); }
+          50% { transform: translate(-50%, -58%); }
+        }
+        @keyframes dotBounce {
+          0%, 100% { transform: translateY(0); opacity: 0.4; }
+          50% { transform: translateY(-4px); opacity: 1; }
+        }
       `}} />
 
       {/* Title Header */}
       <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px', paddingLeft: '8px' }}>
         <SparklesIcon size={22} color="#121212" />
         <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#121212', letterSpacing: '-0.3px', margin: 0 }}>
-          Salutbabe Kıyafet Deneme Kabini
+          Salutbabe Sanal Stilist
         </h2>
       </div>
 
@@ -271,53 +282,48 @@ export default function MannequinWidget() {
               objectFit: 'contain',
               mixBlendMode: 'darken',
               animation: 'imageFade 0.6s ease-out forwards',
-              /* Dim the background mannequin slightly so the laser pops */
-              filter: isGeneratingAI ? 'brightness(0.7) contrast(1.1)' : 'none',
               transition: 'all 0.5s ease-in-out'
             }}
           />
 
-          {/* FULL SCREEN MAJESTIC GREEN LASER */}
+          {/* MAGICAL GREEN LASER + VISIBLE MANNEQUIN */}
           {isGeneratingAI && (
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
               zIndex: 20, pointerEvents: 'none',
-              background: 'rgba(5, 15, 10, 0.25)', /* Slight dark green tint */
-              backdropFilter: 'blur(2px)',
               overflow: 'hidden'
             }}>
               
-              {/* Massive Sweeping Full-Width Laser Beam */}
+              {/* Massive Sweeping Full-Width Green Laser Beam */}
               <div style={{
                 position: 'absolute', top: 0, left: 0, right: 0, height: '180px',
                 background: 'linear-gradient(to bottom, transparent 0%, rgba(163, 230, 53, 0.05) 40%, rgba(163, 230, 53, 0.3) 95%, #A3E635 100%)',
                 animation: 'scanLaserBeam 2.75s cubic-bezier(0.4, 0, 0.2, 1) infinite',
                 boxShadow: '0 8px 40px rgba(163, 230, 53, 0.6)',
-                borderBottom: '3px solid #A3E635',
-                zIndex: 15
+                borderBottom: '3px solid #A3E635'
               }} />
 
-              {/* Scanning Grid Background */}
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                backgroundImage: 'linear-gradient(rgba(163,230,53,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(163,230,53,0.1) 1px, transparent 1px)',
-                backgroundSize: '30px 30px',
-                zIndex: 14,
-                opacity: 0.7
-              }} />
+              {/* Magical Green Sparkles Popping around */}
+              <SparklesIcon color="#A3E635" size={32} style={{ position: 'absolute', top: '15%', left: '20%', animation: 'sparklePop 2s ease-in-out infinite' }} />
+              <SparklesIcon color="#A3E635" size={24} style={{ position: 'absolute', top: '30%', right: '25%', animation: 'sparklePop 2.5s ease-in-out infinite 0.5s' }} />
+              <SparklesIcon color="#A3E635" size={40} style={{ position: 'absolute', bottom: '25%', left: '35%', animation: 'sparklePop 3s ease-in-out infinite 1s' }} />
 
-              {/* Central Information HUD Box */}
+              {/* Ultra-Elegant Floating Pill with the Magic Message (Smaller & Cut) */}
               <div style={{
                 position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                background: 'rgba(20, 40, 30, 0.9)', backdropFilter: 'blur(10px)',
-                padding: '16px 28px', borderRadius: '40px',
-                border: '1px solid rgba(163, 230, 53, 0.6)',
-                boxShadow: '0 10px 30px rgba(163, 230, 53, 0.3)',
-                display: 'flex', alignItems: 'center', gap: '12px',
-                zIndex: 30
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(10px)',
+                padding: '12px 20px', borderRadius: '24px',
+                boxShadow: '0 10px 20px rgba(0,0,0,0.08), 0 0 0 2px rgba(163, 230, 53, 0.4)',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
+                animation: 'floatGentle 4s ease-in-out infinite'
               }}>
-                <SparklesIcon size={20} color="#A3E635" style={{ animation: 'spin 3s linear infinite' }} />
-                <span style={{ color: '#A3E635', fontSize: '15px', fontWeight: 700, letterSpacing: '0.5px' }}>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '3px', background: '#A3E635', animation: 'dotBounce 1s infinite' }} />
+                  <div style={{ width: '6px', height: '6px', borderRadius: '3px', background: '#A3E635', animation: 'dotBounce 1s infinite 0.2s' }} />
+                  <div style={{ width: '6px', height: '6px', borderRadius: '3px', background: '#A3E635', animation: 'dotBounce 1s infinite 0.4s' }} />
+                </div>
+                <span style={{ color: '#121212', fontSize: '13px', fontWeight: 600, textAlign: 'center', letterSpacing: '-0.2px', whiteSpace: 'nowrap' }}>
                   {aiLoadingText}
                 </span>
               </div>
