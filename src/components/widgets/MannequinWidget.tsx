@@ -122,6 +122,7 @@ export default function MannequinWidget() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
   const [aiLoadingText, setAiLoadingText] = useState('Kombin analiz ediliyor...');
+  const [touchStart, setTouchStart] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   
   const PRICES = [100, 200, 500, 1000];
@@ -238,14 +239,8 @@ export default function MannequinWidget() {
             style={{
               width: '100%', height: '100%', 
               objectFit: 'contain',
-              animation: 'imageFade 0.6s ease-out forwards',
-              /* Dynamic Clothing Color Trick! */
-              filter: isGeneratingAI ? 'brightness(0.5) grayscale(1)' :
-                selectedPrice === 100 ? 'contrast(1.05)' :
-                selectedPrice === 200 ? 'hue-rotate(90deg) contrast(1.1)' :
-                selectedPrice === 500 ? 'hue-rotate(180deg) saturate(1.5) brightness(0.95)' :
-                'sepia(0.6) hue-rotate(320deg) saturate(2) brightness(0.9)',
-              transition: 'filter 0.5s ease-in-out',
+              mixBlendMode: 'darken',
+              animation: 'imageFade 0.6s ease-out forwards'
             }}
           />
 
@@ -351,14 +346,7 @@ export default function MannequinWidget() {
                   height: 'auto', 
                   display: 'block',
                   animation: 'imageFade 0.4s ease-out forwards',
-                  mixBlendMode: 'darken',
-                  /* Dynamic Clothing Color Trick! (Match Mannequin) */
-                  filter: 
-                    selectedPrice === 100 ? 'contrast(1.05)' :
-                    selectedPrice === 200 ? 'hue-rotate(90deg) contrast(1.1)' :
-                    selectedPrice === 500 ? 'hue-rotate(180deg) saturate(1.5) brightness(0.95)' :
-                    'sepia(0.6) hue-rotate(320deg) saturate(2) brightness(0.9)',
-                  transition: 'filter 0.5s ease-in-out',
+                  mixBlendMode: 'darken'
                 }} 
               />
             </div>
