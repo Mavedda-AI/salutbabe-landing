@@ -125,7 +125,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       const userRoles = Array.isArray(roles) ? roles : [roles];
       
       const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
-      const isWhitelisted = allowedEmails.includes(parsedUser.email?.toLowerCase());
+      const isWhitelisted = allowedEmails.includes(parsedUser.email?.toLowerCase() || "");
 
       const hasAccess = isWhitelisted || userRoles.some((r: string) => 
         ['FOUNDER', 'SYSOP', 'PARTNER', 'ADMIN'].includes(r)

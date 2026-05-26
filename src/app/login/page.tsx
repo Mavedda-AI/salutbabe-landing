@@ -74,7 +74,7 @@ const LoginPage = () => {
         : (userType === "SYSOP" || userType === "ADMIN");
       
       const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
-      const isWhitelisted = allowedEmails.includes(user?.email?.toLowerCase());
+      const isWhitelisted = allowedEmails.includes(user?.email?.toLowerCase() || "");
 
       if (isAdmin || isWhitelisted) {
         window.location.href = "/dashboard/sysop";
