@@ -109,7 +109,7 @@
   align-items: center;
   overflow-x: auto;
   gap: 10px;
-  padding: 0 16px 8px 16px;
+  padding: 0 10px 8px 10px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -165,7 +165,7 @@
   align-items: center;
   overflow-x: auto;
   gap: 12px;
-  padding: 0 16px 8px 16px;
+  padding: 0 10px 8px 10px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }

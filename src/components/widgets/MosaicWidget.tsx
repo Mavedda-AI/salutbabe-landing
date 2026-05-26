@@ -152,7 +152,7 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
       <div id="shop-grid" className={styles.mosaicSection} style={{ scrollMarginTop: '80px' }}>
         <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>{t('home.for_you_picks')}</h2>
         
-        <div className={styles.categoryFilters} style={{ margin: '0 16px 8px 16px', gap: '16px' }}>
+        <div className={styles.categoryFilters} style={{ margin: '0 0 8px 0', gap: '16px' }}>
           {FILTER_TABS.map((tab) => (
             <span 
               key={tab.key}
