@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
-import {ArrowLeft01Icon, ArrowRight01Icon, ShoppingBasketAdd01Icon, SparklesIcon} from 'hugeicons-react';
+import {ArrowRight01Icon, ShoppingBasketAdd01Icon, SparklesIcon} from 'hugeicons-react';
 
 // ── Types ──
 interface OutfitItem {
@@ -126,23 +126,6 @@ export default function MannequinWidget() {
 
   const PRICES = [100, 200, 500, 1000];
 
-  // Auto-slide effect (Banner style)
-  useEffect(() => {
-    if (isGeneratingAI) return;
-    const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setActiveType(prev => {
-          const newType = prev === 'baby' ? 'child' : 'baby';
-          setCurrentOutfit((newType === 'baby' ? BABY_OUTFITS[selectedPrice as keyof typeof BABY_OUTFITS] : CHILD_OUTFITS[selectedPrice as keyof typeof CHILD_OUTFITS])[0]);
-          return newType;
-        });
-        setIsAnimating(false);
-      }, 400);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isGeneratingAI, selectedPrice]);
-
   const switchType = (type: 'baby' | 'child') => {
     if (type === activeType || isGeneratingAI) return;
     setIsAnimating(true);
@@ -248,37 +231,19 @@ export default function MannequinWidget() {
             }}
           />
 
-          {/* Cute Arrow Indicators for Swiping */}
+          {/* Single Right Arrow Indicator for Cycling Mannequins */}
           <button 
-            onClick={() => switchType('baby')}
-            style={{
-              position: 'absolute', top: '45%', left: '16px', transform: 'translateY(-50%)',
-              width: '36px', height: '36px', borderRadius: '18px',
-              background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)', border: 'none', zIndex: 10,
-              opacity: activeType === 'child' ? 1 : 0.3,
-              pointerEvents: activeType === 'child' ? 'auto' : 'none',
-              cursor: 'pointer', transition: 'all 0.3s'
-            }}
-          >
-            <ArrowLeft01Icon size={18} color="#121212" />
-          </button>
-
-          <button 
-            onClick={() => switchType('child')}
+            onClick={() => switchType(activeType === 'baby' ? 'child' : 'baby')}
             style={{
               position: 'absolute', top: '45%', right: '16px', transform: 'translateY(-50%)',
-              width: '36px', height: '36px', borderRadius: '18px',
-              background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)',
+              width: '40px', height: '40px', borderRadius: '20px',
+              background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)', border: 'none', zIndex: 10,
-              opacity: activeType === 'baby' ? 1 : 0.3,
-              pointerEvents: activeType === 'baby' ? 'auto' : 'none',
-              cursor: 'pointer', transition: 'all 0.3s'
+              boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: 'none', zIndex: 10,
+              cursor: 'pointer', transition: 'all 0.2s ease-out'
             }}
           >
-            <ArrowRight01Icon size={18} color="#121212" />
+            <ArrowRight01Icon size={20} color="#121212" />
           </button>
 
           {/* AI Virtual Try-On Scanner Overlay */}
