@@ -1,32 +1,32 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-    Activity01Icon,
-    Alert01Icon,
-    BankIcon,
-    BarChartIcon,
-    CameraVideoIcon,
-    CardExchange01Icon,
-    Coins01Icon,
-    Home01Icon,
-    Invoice01Icon,
-    Message01Icon,
-    MessageQuestionIcon,
-    Money01Icon,
-    Moon01Icon,
-    Package01Icon,
-    PieChart01Icon,
-    Settings01Icon,
-    ShoppingBagIcon,
-    StarIcon,
-    Store01Icon,
-    StoreLocation01Icon,
-    Sun01Icon,
-    Tag01Icon,
-    TruckIcon,
-    UserGroupIcon,
-    UserIcon,
-    Wallet01Icon
+  Activity01Icon,
+  Alert01Icon,
+  BankIcon,
+  BarChartIcon,
+  CameraVideoIcon,
+  CardExchange01Icon,
+  Coins01Icon,
+  Home01Icon,
+  Invoice01Icon,
+  Message01Icon,
+  MessageQuestionIcon,
+  Money01Icon,
+  Moon01Icon,
+  Package01Icon,
+  PieChart01Icon,
+  Settings01Icon,
+  ShoppingBagIcon,
+  StarIcon,
+  Store01Icon,
+  StoreLocation01Icon,
+  Sun01Icon,
+  Tag01Icon,
+  TruckIcon,
+  UserGroupIcon,
+  UserIcon,
+  Wallet01Icon
 } from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
@@ -41,6 +41,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isUnderConstruction, setIsUnderConstruction] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -131,6 +132,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         showToast("Bu alana erişim yetkiniz bulunmuyor.", "error");
         setTimeout(() => router.push("/"), 1500);
         return;
+      }
+
+      const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
+      if (!allowedEmails.includes(parsedUser.email?.toLowerCase())) {
+        setIsUnderConstruction(true);
       }
 
       setUser(parsedUser);
@@ -323,6 +329,24 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }, [activeMenu?.label]);
 
   if (!isAuthenticated) return null;
+
+  if (isUnderConstruction) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] text-[#111827] animate-fade-in font-sans">
+        <div className="text-center p-8 bg-white rounded-[24px] shadow-sm border border-gray-100 max-w-md w-full mx-4 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-400 to-blue-500"></div>
+          <div className="w-20 h-20 mx-auto mb-6 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
+            <svg className="w-10 h-10 text-[#111827]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+          </div>
+          <h1 className="text-2xl font-black mb-3 text-[#111827]">Yapım Aşamasında</h1>
+          <p className="text-[13px] text-gray-500 font-medium mb-8 leading-relaxed">Bu sayfa şu an sizin için güncelleniyor. Çok yakında yeni ve kapsamlı tasarımıyla yayında olacak.</p>
+          <Link href="/" className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-all hover:scale-[1.02] shadow-sm">
+            Ana Sayfaya Dön
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
@@ -548,7 +572,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             <button 
               onClick={() => {
                 const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
-                const nextIdx = (langs.indexOf(language) + 1) % langs.length;
+                const nextIdx = (langs.indexOf(language as any) + 1) % langs.length;
                 setLanguage(langs[nextIdx]);
               }}
               className={`flex items-center gap-3 transition-all group ${theme === 'light' ? 'text-text-secondary hover:text-text-primary' : 'text-white/60 hover:text-white'}`}
