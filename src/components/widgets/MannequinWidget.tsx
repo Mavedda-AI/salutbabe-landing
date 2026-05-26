@@ -4,17 +4,9 @@ import React, {useCallback, useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
-import {
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  BabyBed01Icon,
-  Backpack01Icon,
-  ShoppingBasketAdd01Icon,
-  ShuffleIcon,
-  SparklesIcon
-} from 'hugeicons-react';
+import {ArrowLeft01Icon, ArrowRight01Icon, ShoppingBasketAdd01Icon} from 'hugeicons-react';
 
-// ── Product type ──
+// ── Types ──
 interface OutfitItem {
   id: string;
   name: string;
@@ -22,7 +14,6 @@ interface OutfitItem {
   originalPrice: number;
   image: string;
   type: 'top' | 'bottom' | 'shoes' | 'accessory';
-  color: string;
 }
 
 interface OutfitSet {
@@ -31,168 +22,134 @@ interface OutfitSet {
   items: OutfitItem[];
 }
 
-// ── Real product-like outfit sets ──
+// ── Data ──
 const BABY_OUTFITS: Record<number, OutfitSet[]> = {
-  100: [
-    {
-      name: 'Günlük Rahatlık',
-      tagline: 'Yumuşacık kumaşlarla rahat bir gün',
-      items: [
-        { id: 'b100-1', name: 'Organik Pamuk Body', price: 25, originalPrice: 89, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=300&h=300&fit=crop', type: 'top', color: '#F8D7DA' },
-        { id: 'b100-2', name: 'Yumuşak Örme Pantolon', price: 30, originalPrice: 79, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=300&h=300&fit=crop', type: 'bottom', color: '#D4EDDA' },
-        { id: 'b100-3', name: 'Triko Patik', price: 20, originalPrice: 59, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=300&fit=crop', type: 'shoes', color: '#CCE5FF' },
-        { id: 'b100-4', name: 'Şirin Bere', price: 15, originalPrice: 45, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#FFF3CD' },
-      ],
-    },
-    {
-      name: 'Parktaki Prens/Prenses',
-      tagline: 'Dışarıda oynamak için ideal',
-      items: [
-        { id: 'b100-5', name: 'Çizgili Tişört', price: 20, originalPrice: 69, image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=300&h=300&fit=crop', type: 'top', color: '#E2E3F1' },
-        { id: 'b100-6', name: 'Eşofman Altı', price: 30, originalPrice: 85, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=300&h=300&fit=crop', type: 'bottom', color: '#D6E9F8' },
-        { id: 'b100-7', name: 'Bez Ayakkabı', price: 25, originalPrice: 65, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=300&fit=crop', type: 'shoes', color: '#F8D7DA' },
-        { id: 'b100-8', name: 'Güneş Şapkası', price: 15, originalPrice: 49, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#D4EDDA' },
-      ],
-    },
-  ],
-  200: [
-    {
-      name: 'Şık Davet Kombini',
-      tagline: 'Özel günler için harika bir seçim',
-      items: [
-        { id: 'b200-1', name: 'Fiyonklu Gömlek', price: 45, originalPrice: 149, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=300&h=300&fit=crop', type: 'top', color: '#E8F4FD' },
-        { id: 'b200-2', name: 'Kadife Pantolon', price: 55, originalPrice: 129, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=300&h=300&fit=crop', type: 'bottom', color: '#FDE8E8' },
-        { id: 'b200-3', name: 'Deri Görünüm Patik', price: 50, originalPrice: 119, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=300&fit=crop', type: 'shoes', color: '#E8E8FD' },
-        { id: 'b200-4', name: 'Bandana Set', price: 35, originalPrice: 89, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#FDF8E8' },
-      ],
-    },
-  ],
-  500: [
-    {
-      name: 'Premium Kombin',
-      tagline: 'Marka kalitesi, uygun fiyat',
-      items: [
-        { id: 'b500-1', name: 'Merino Yün Hırka', price: 120, originalPrice: 349, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=300&h=300&fit=crop', type: 'top', color: '#F0E6FF' },
-        { id: 'b500-2', name: 'Organik Jean', price: 140, originalPrice: 289, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=300&h=300&fit=crop', type: 'bottom', color: '#E6F0FF' },
-        { id: 'b500-3', name: 'El Yapımı Bot', price: 130, originalPrice: 329, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=300&fit=crop', type: 'shoes', color: '#FFE6F0' },
-        { id: 'b500-4', name: 'Kaşmir Şal', price: 90, originalPrice: 249, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#E6FFE6' },
-      ],
-    },
-  ],
-  1000: [
-    {
-      name: 'Lüks Tasarım Seti',
-      tagline: 'Tasarımcı markaları ikinci elde',
-      items: [
-        { id: 'b1k-1', name: 'Tasarımcı Mont', price: 280, originalPrice: 899, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=300&h=300&fit=crop', type: 'top', color: '#FFF0E6' },
-        { id: 'b1k-2', name: 'İtalyan Kumaş Pantolon', price: 250, originalPrice: 699, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=300&h=300&fit=crop', type: 'bottom', color: '#E6FFF0' },
-        { id: 'b1k-3', name: 'Premium Deri Ayakkabı', price: 300, originalPrice: 799, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=300&fit=crop', type: 'shoes', color: '#F0E6FF' },
-        { id: 'b1k-4', name: 'Kaşmir Bere & Atkı', price: 150, originalPrice: 459, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#FFE6E6' },
-      ],
-    },
-  ],
+  100: [{
+    name: 'Sevimli Günlük', tagline: '100 TL ile gün boyu rahatlık',
+    items: [
+      { id: 'b1-1', name: 'Ayıcıklı Sweat', price: 35, originalPrice: 120, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'b1-2', name: 'Örme Eşofman Altı', price: 40, originalPrice: 150, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'b1-3', name: 'Cırt Cırtlı Sneaker', price: 15, originalPrice: 60, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'b1-4', name: 'Sırt Çantası', price: 10, originalPrice: 40, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
+  200: [{
+    name: 'Tilki Temalı Set', tagline: '200 TL ile doğadan ilham alan stil',
+    items: [
+      { id: 'b2-1', name: 'Tilki İşlemeli Kazak', price: 65, originalPrice: 250, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'b2-2', name: 'Yeşil Pantolon', price: 75, originalPrice: 280, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'b2-3', name: 'Kışlık Bot', price: 40, originalPrice: 150, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'b2-4', name: 'Bere', price: 20, originalPrice: 80, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
+  500: [{
+    name: 'Klasik Tarz', tagline: '500 TL ile zamansız şıklık',
+    items: [
+      { id: 'b5-1', name: 'Gri Triko', price: 180, originalPrice: 650, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'b5-2', name: 'Keten Pantolon', price: 150, originalPrice: 550, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'b5-3', name: 'Deri Slip-on', price: 110, originalPrice: 450, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'b5-4', name: 'Kasket', price: 60, originalPrice: 250, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
+  1000: [{
+    name: 'Sokak Modası', tagline: '1000 TL ile Hypebeast stili',
+    items: [
+      { id: 'b1k-1', name: 'Tasarımcı Hoodie', price: 350, originalPrice: 1500, image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'b1k-2', name: 'Premium Eşofman Altı', price: 300, originalPrice: 1200, image: 'https://images.unsplash.com/photo-1604006852748-903fccbc4019?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'b1k-3', name: 'Trend Sneaker', price: 250, originalPrice: 950, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'b1k-4', name: 'Çapraz Çanta & Bere', price: 100, originalPrice: 400, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
 };
 
 const CHILD_OUTFITS: Record<number, OutfitSet[]> = {
-  100: [
-    {
-      name: 'Okul Sonrası Stili',
-      tagline: 'Enerjik günler için rahat ve şık',
-      items: [
-        { id: 'c100-1', name: 'Baskılı Tişört', price: 25, originalPrice: 79, image: 'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=300&h=300&fit=crop', type: 'top', color: '#D4EDDA' },
-        { id: 'c100-2', name: 'Jogger Pantolon', price: 30, originalPrice: 99, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop', type: 'bottom', color: '#CCE5FF' },
-        { id: 'c100-3', name: 'Kanvas Sneaker', price: 30, originalPrice: 89, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop', type: 'shoes', color: '#FFF3CD' },
-        { id: 'c100-4', name: 'Spor Şapka', price: 10, originalPrice: 39, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#F8D7DA' },
-      ],
-    },
-    {
-      name: 'Hafta Sonu Macerası',
-      tagline: 'Keşfetmeye hazır küçük kaşifler',
-      items: [
-        { id: 'c100-5', name: 'Kapüşonlu Sweat', price: 35, originalPrice: 119, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=300&fit=crop', type: 'top', color: '#E2E3F1' },
-        { id: 'c100-6', name: 'Şort', price: 20, originalPrice: 69, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop', type: 'bottom', color: '#D6E9F8' },
-        { id: 'c100-7', name: 'Sandalet', price: 25, originalPrice: 79, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop', type: 'shoes', color: '#F0E6FF' },
-        { id: 'c100-8', name: 'Bandana', price: 10, originalPrice: 35, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#E6FFF0' },
-      ],
-    },
-  ],
-  200: [
-    {
-      name: 'Cool Kid Kombin',
-      tagline: 'Trendleri takip eden minik modacılar',
-      items: [
-        { id: 'c200-1', name: 'Denim Ceket', price: 65, originalPrice: 199, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=300&fit=crop', type: 'top', color: '#CCE5FF' },
-        { id: 'c200-2', name: 'Kargo Pantolon', price: 50, originalPrice: 149, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop', type: 'bottom', color: '#D4EDDA' },
-        { id: 'c200-3', name: 'Retro Sneaker', price: 55, originalPrice: 169, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop', type: 'shoes', color: '#FFF3CD' },
-        { id: 'c200-4', name: 'Sırt Çantası', price: 25, originalPrice: 89, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#FDE8E8' },
-      ],
-    },
-  ],
-  500: [
-    {
-      name: 'Mini Fashionista',
-      tagline: 'Kaliteden ödün vermeden şıklık',
-      items: [
-        { id: 'c500-1', name: 'Yün Blazer', price: 150, originalPrice: 449, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=300&fit=crop', type: 'top', color: '#E8F4FD' },
-        { id: 'c500-2', name: 'Slim Fit Chino', price: 120, originalPrice: 299, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop', type: 'bottom', color: '#F0E6FF' },
-        { id: 'c500-3', name: 'Oxford Ayakkabı', price: 130, originalPrice: 379, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop', type: 'shoes', color: '#FFE6F0' },
-        { id: 'c500-4', name: 'Papyon & Kemer Set', price: 80, originalPrice: 199, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#E6FFE6' },
-      ],
-    },
-  ],
-  1000: [
-    {
-      name: 'Haute Couture Mini',
-      tagline: 'Lüks markalar, akıllı fiyatlar',
-      items: [
-        { id: 'c1k-1', name: 'Kaşe Palto', price: 320, originalPrice: 1199, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=300&fit=crop', type: 'top', color: '#FFF0E6' },
-        { id: 'c1k-2', name: 'Marka Jean', price: 220, originalPrice: 699, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop', type: 'bottom', color: '#E6FFF0' },
-        { id: 'c1k-3', name: 'İtalyan Çizme', price: 280, originalPrice: 899, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop', type: 'shoes', color: '#F0E6FF' },
-        { id: 'c1k-4', name: 'Tasarım Atkı', price: 160, originalPrice: 499, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=300&fit=crop', type: 'accessory', color: '#FFE6E6' },
-      ],
-    },
-  ],
+  100: [{
+    name: 'Prenses Stili', tagline: '100 TL ile rüya gibi bir elbise',
+    items: [
+      { id: 'c1-1', name: 'Tüllü Elbise', price: 60, originalPrice: 200, image: 'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'c1-2', name: 'İnce Külotlu Çorap', price: 15, originalPrice: 50, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'c1-3', name: 'Beyaz Sneaker', price: 20, originalPrice: 120, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'c1-4', name: 'Saç Tokası Seti', price: 5, originalPrice: 20, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
+  200: [{
+    name: 'Sevimli Tilki', tagline: '200 TL ile detaylarda şıklık',
+    items: [
+      { id: 'c2-1', name: 'İşlemeli Bluz', price: 70, originalPrice: 280, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'c2-2', name: 'Pembe Jogger', price: 60, originalPrice: 250, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'c2-3', name: 'Cırtlı Kışlık Bot', price: 50, originalPrice: 220, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'c2-4', name: 'Peluş Oyuncak/Aksesuar', price: 20, originalPrice: 100, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
+  500: [{
+    name: 'Zarif Sonbahar', tagline: '500 TL ile şık elbise kombini',
+    items: [
+      { id: 'c5-1', name: 'Örme Kazak Elbise', price: 250, originalPrice: 850, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'c5-2', name: 'Dantelli Külotlu Çorap', price: 50, originalPrice: 150, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'c5-3', name: 'Yüksek Sneaker', price: 130, originalPrice: 480, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'c5-4', name: 'Mini Çanta', price: 70, originalPrice: 250, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
+  1000: [{
+    name: 'Hype Görünüm', tagline: '1000 TL ile trendlerin öncüsü',
+    items: [
+      { id: 'c1k-1', name: 'Markalı Hoodie', price: 380, originalPrice: 1600, image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200&h=200&fit=crop', type: 'top' },
+      { id: 'c1k-2', name: 'Siyah Eşofman Altı', price: 250, originalPrice: 1100, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&h=200&fit=crop', type: 'bottom' },
+      { id: 'c1k-3', name: 'Lüks Deri Çizme', price: 270, originalPrice: 1250, image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=200&h=200&fit=crop', type: 'shoes' },
+      { id: 'c1k-4', name: 'Tasarım Güneş Gözlüğü', price: 100, originalPrice: 550, image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&h=200&fit=crop', type: 'accessory' },
+    ],
+  }],
 };
 
-const PRICE_MESSAGES: Record<number, { title: string; desc: string }> = {
-  100: { title: '100 TL\'ye bu kombini alabilirsiniz!', desc: 'Evet, sadece yüz liraya baştan aşağı şık!' },
-  200: { title: '200 TL ile özel gün hazırlığı!', desc: 'Davetlere hazır, bütçeye uygun.' },
-  500: { title: '500 TL\'ye premium kalite!', desc: 'Marka ürünler, ikinci el avantajıyla.' },
-  1000: { title: '1000 TL\'ye lüks markalar!', desc: 'Tasarımcı ürünleri uygun fiyatlarla keşfet.' },
+// Mannequin background images mapped to prices
+const MANNEQUIN_IMAGES: Record<number, string> = {
+  100: '/mannequins/m1.png',
+  200: '/mannequins/m2.png',
+  500: '/mannequins/m4.png',
+  1000: '/mannequins/m3.png',
 };
 
 export default function MannequinWidget() {
   const { t } = useThemeLanguage();
   const { addToCart } = useCart();
   const { showToast } = useToast();
+  
   const [activeType, setActiveType] = useState<'baby' | 'child'>('baby');
-  const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
-  const [currentOutfit, setCurrentOutfit] = useState<OutfitSet | null>(null);
+  const [selectedPrice, setSelectedPrice] = useState<number>(100);
+  const [currentOutfit, setCurrentOutfit] = useState<OutfitSet>(BABY_OUTFITS[100][0]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
 
   const PRICES = [100, 200, 500, 1000];
 
-  const selectPrice = useCallback((price: number) => {
+  const selectPrice = useCallback((price: number, type: 'baby' | 'child' = activeType) => {
     setIsAnimating(true);
     setSelectedPrice(price);
-
-    const outfits = activeType === 'baby' ? BABY_OUTFITS[price] : CHILD_OUTFITS[price];
-    const randomIndex = Math.floor(Math.random() * outfits.length);
     
     setTimeout(() => {
+      const outfits = type === 'baby' ? BABY_OUTFITS[price] : CHILD_OUTFITS[price];
+      const randomIndex = Math.floor(Math.random() * outfits.length);
       setCurrentOutfit(outfits[randomIndex]);
       setIsAnimating(false);
-    }, 350);
+    }, 400);
   }, [activeType]);
 
-  const shuffleOutfit = () => {
-    if (!selectedPrice) return;
-    selectPrice(selectedPrice);
+  const switchType = (type: 'baby' | 'child') => {
+    if (type === activeType) return;
+    setActiveType(type);
+    selectPrice(selectedPrice, type);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStart - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      const newType = diff > 0 ? 'child' : 'baby';
+      switchType(newType);
+    }
   };
 
   const handleAddAllToCart = () => {
-    if (!currentOutfit) return;
     currentOutfit.items.forEach(item => {
       addToCart({
         listingID: item.id,
@@ -203,429 +160,172 @@ export default function MannequinWidget() {
         brand: { name: 'Salutbabe' },
       });
     });
-    showToast(t('home.added_to_cart') || 'Tüm kombin sepete eklendi!', 'success');
+    showToast('Tüm kombin sepete eklendi!', 'success');
   };
 
-  const totalPrice = currentOutfit?.items.reduce((sum, item) => sum + item.price, 0) || 0;
-  const totalOriginal = currentOutfit?.items.reduce((sum, item) => sum + item.originalPrice, 0) || 0;
-  const savingsPercent = totalOriginal > 0 ? Math.round((1 - totalPrice / totalOriginal) * 100) : 0;
-
-  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = touchStart - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      const newType = diff > 0 ? 'child' : 'baby';
-      setActiveType(newType);
-      setCurrentOutfit(null);
-      setSelectedPrice(null);
-    }
-  };
-
-  const switchType = (type: 'baby' | 'child') => {
-    setActiveType(type);
-    setCurrentOutfit(null);
-    setSelectedPrice(null);
-  };
+  const totalPrice = currentOutfit.items.reduce((sum, item) => sum + item.price, 0);
+  const totalOriginal = currentOutfit.items.reduce((sum, item) => sum + item.originalPrice, 0);
+  const savingsPercent = Math.round((1 - totalPrice / totalOriginal) * 100);
 
   return (
-    <div style={{ padding: '0 16px', margin: '28px 0' }}>
+    <div style={{ margin: '40px 16px', position: 'relative' }}>
       <style>{`
-        @keyframes mannequinFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes mannequinPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-        @keyframes mannequinShine { 0% { left: -100%; } 100% { left: 200%; } }
+        @keyframes imageFade { from { opacity: 0.6; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
 
       <div style={{
         background: '#FFF',
-        borderRadius: '24px',
-        border: '1px solid #F0ECE8',
+        borderRadius: '28px',
         overflow: 'hidden',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.06)',
+        border: '1px solid #F0ECE8',
       }}>
-        {/* ── Header ── */}
-        <div style={{
-          background: 'linear-gradient(135deg, #14342B 0%, #1a5a45 50%, #14342B 100%)',
-          padding: '24px 20px',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          {/* Shine effect */}
-          <div style={{
-            position: 'absolute', top: 0, left: '-100%', width: '50%', height: '100%',
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)',
-            animation: 'mannequinShine 4s infinite',
-          }} />
-          
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
-            <SparklesIcon size={20} color="#C9A96E" />
-            <span style={{ color: '#C9A96E', fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>
-              Salutbabe Özel
-            </span>
-            <SparklesIcon size={20} color="#C9A96E" />
-          </div>
-          
-          <h2 style={{ color: '#FFF', fontSize: '22px', fontWeight: 900, margin: '0 0 6px', lineHeight: 1.3 }}>
-            {activeType === 'baby' ? 'Bebeğinizi Şık Giydirin' : 'Çocuğunuzu Şık Giydirin'}
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '13px', fontWeight: 500, margin: 0, lineHeight: 1.5 }}>
-            İkinci el ürünlerle bütçenizi koruyun, stili yakalayın
-          </p>
-        </div>
-
-        {/* ── Baby / Child Toggle ── */}
-        <div
+        
+        {/* ── Mannequin Image Display Area ── */}
+        <div 
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          style={{ display: 'flex', gap: '0', margin: '16px 16px 0', background: '#F5F3F0', borderRadius: '16px', padding: '4px', position: 'relative' }}
+          style={{ 
+            height: '400px', 
+            position: 'relative', 
+            background: '#F5F3F0',
+            overflow: 'hidden'
+          }}
         >
-          <button
-            onClick={() => switchType('baby')}
-            style={{
-              flex: 1, padding: '12px 8px', borderRadius: '13px', border: 'none', cursor: 'pointer',
-              background: activeType === 'baby' ? '#FFF' : 'transparent',
-              color: activeType === 'baby' ? '#14342B' : '#999',
-              fontWeight: activeType === 'baby' ? 800 : 500,
-              fontSize: '14px', fontFamily: 'inherit',
-              boxShadow: activeType === 'baby' ? '0 2px 10px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-            }}
-          >
-            <BabyBed01Icon size={18} color={activeType === 'baby' ? '#14342B' : '#999'} />
-            Bebek (0-3 yaş)
-          </button>
-          <button
-            onClick={() => switchType('child')}
-            style={{
-              flex: 1, padding: '12px 8px', borderRadius: '13px', border: 'none', cursor: 'pointer',
-              background: activeType === 'child' ? '#FFF' : 'transparent',
-              color: activeType === 'child' ? '#14342B' : '#999',
-              fontWeight: activeType === 'child' ? 800 : 500,
-              fontSize: '14px', fontFamily: 'inherit',
-              boxShadow: activeType === 'child' ? '0 2px 10px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-            }}
-          >
-            <Backpack01Icon size={18} color={activeType === 'child' ? '#14342B' : '#999'} />
-            Çocuk (3-12 yaş)
-          </button>
-        </div>
+          {/* Swiping Indicator */}
+          <div style={{
+            position: 'absolute', top: '16px', left: '50%', transform: 'translateX(-50%)',
+            background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)',
+            padding: '6px 16px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '8px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)', zIndex: 10
+          }}>
+            <button onClick={() => switchType('baby')} style={{ background: 'none', border: 'none', color: activeType === 'baby' ? '#14342B' : '#CCC', fontWeight: activeType === 'baby' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+               Bebek
+            </button>
+            <div style={{ display: 'flex', color: '#CCC' }}>
+              <ArrowLeft01Icon size={12} />
+              <ArrowRight01Icon size={12} />
+            </div>
+            <button onClick={() => switchType('child')} style={{ background: 'none', border: 'none', color: activeType === 'child' ? '#14342B' : '#CCC', fontWeight: activeType === 'child' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+               Çocuk
+            </button>
+          </div>
 
-        {/* Swipe hint */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '4px', padding: '6px 0 0', opacity: 0.4 }}>
-          <ArrowLeft01Icon size={12} color="#999" />
-          <span style={{ fontSize: '10px', color: '#999' }}>kaydır</span>
-          <ArrowRight01Icon size={12} color="#999" />
-        </div>
+          {/* Realistic Mannequin Photo */}
+          <img 
+            key={MANNEQUIN_IMAGES[selectedPrice]}
+            src={MANNEQUIN_IMAGES[selectedPrice]} 
+            alt="Styled Mannequin" 
+            style={{
+              width: '100%', height: '100%', 
+              objectFit: 'cover',
+              /* Crucial trick: Pan left for baby, right for child */
+              objectPosition: activeType === 'baby' ? 'left center' : 'right center',
+              transition: 'object-position 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s',
+              animation: 'imageFade 0.6s ease-out forwards',
+              filter: isAnimating ? 'blur(8px) brightness(0.9)' : 'blur(0) brightness(1)',
+            }}
+          />
 
-        {/* ── Price Tabs ── */}
-        <div style={{ padding: '12px 16px 0' }}>
-          <p style={{ textAlign: 'center', fontSize: '13px', fontWeight: 600, color: '#14342B', margin: '0 0 10px' }}>
-            Bütçeni seç, kombini gör
-          </p>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {PRICES.map(price => {
-              const isActive = selectedPrice === price;
-              return (
-                <button
-                  key={price}
-                  onClick={() => selectPrice(price)}
-                  style={{
-                    flex: 1, padding: '12px 4px', borderRadius: '14px', border: 'none', cursor: 'pointer',
-                    background: isActive ? '#14342B' : '#F8F6F3',
-                    color: isActive ? '#FFF' : '#333',
-                    fontWeight: 800, fontSize: '15px', fontFamily: 'inherit',
-                    boxShadow: isActive ? '0 4px 14px rgba(20,52,43,0.25)' : 'none',
-                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                    transform: isActive ? 'scale(1.05)' : 'scale(1)',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1px',
-                  }}
-                >
-                  <span>{price === 1000 ? '1K' : price}</span>
-                  <span style={{ fontSize: '9px', fontWeight: 600, opacity: 0.7 }}>TL Altı</span>
-                </button>
-              );
-            })}
+          {/* Gradient Overlay for text readability at bottom */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0, height: '160px',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
+            display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '24px',
+          }}>
+            <h2 style={{ color: '#FFF', fontSize: '24px', fontWeight: 900, margin: '0 0 4px', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+              {currentOutfit.name}
+            </h2>
+            <p style={{ color: '#E0E0E0', fontSize: '14px', margin: 0, fontWeight: 500, textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+              {currentOutfit.tagline}
+            </p>
           </div>
         </div>
 
-        {/* ── Outfit Display ── */}
-        {currentOutfit && selectedPrice && (
-          <div style={{
-            padding: '16px',
-            animation: 'mannequinFadeIn 0.4s ease-out',
-            opacity: isAnimating ? 0.3 : 1,
-            transition: 'opacity 0.3s ease',
-          }}>
-            {/* Message */}
-            <div style={{
-              textAlign: 'center', padding: '16px 12px', marginBottom: '14px',
-              background: 'linear-gradient(135deg, #f0faf5 0%, #fdf8f0 100%)',
-              borderRadius: '16px', border: '1px solid #e8f5ec',
-            }}>
-              <p style={{ fontSize: '17px', fontWeight: 900, color: '#14342B', margin: '0 0 4px', lineHeight: 1.3 }}>
-                {PRICE_MESSAGES[selectedPrice].title}
-              </p>
-              <p style={{ fontSize: '12px', color: '#666', margin: 0, fontWeight: 500 }}>
-                {PRICE_MESSAGES[selectedPrice].desc}
-              </p>
-            </div>
-
-            {/* ── Dressed Mannequin ── */}
-            <div style={{
-              display: 'flex', justifyContent: 'center', alignItems: 'center',
-              padding: '8px 0 16px', position: 'relative',
-            }}>
-              <div style={{
-                background: 'radial-gradient(circle, #f8f6f3 0%, transparent 70%)',
-                padding: '12px 32px', borderRadius: '50%',
-                animation: 'mannequinFadeIn 0.5s ease-out',
-              }}>
-                {activeType === 'baby' ? (
-                  /* Baby Mannequin SVG */
-                  <svg viewBox="0 0 180 260" style={{ width: '120px', height: '180px' }}>
-                    {/* Hat/Accessory */}
-                    {(() => { const acc = currentOutfit.items.find(i => i.type === 'accessory'); return acc ? <ellipse cx="90" cy="22" rx="32" ry="12" fill={acc.color} opacity="0.85" /> : null; })()}
-                    {/* Head */}
-                    <circle cx="90" cy="40" r="26" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1.5" />
-                    <circle cx="80" cy="37" r="2.5" fill="#666" />
-                    <circle cx="100" cy="37" r="2.5" fill="#666" />
-                    <path d="M83 46 Q90 52 97 46" fill="none" stroke="#D4B8A0" strokeWidth="1.5" strokeLinecap="round" />
-                    {/* Neck */}
-                    <rect x="84" y="66" width="12" height="8" rx="4" fill="#F5E6D3" />
-                    {/* Top */}
-                    {(() => { const top = currentOutfit.items.find(i => i.type === 'top'); const c = top?.color || '#E8E0D8'; return (
-                      <>
-                        <path d={`M55 74 Q55 70 65 70 L85 70 L90 66 L95 70 L115 70 Q125 70 125 74 L125 130 Q125 136 120 136 L60 136 Q55 136 55 130 Z`} fill={c} />
-                        <path d="M55 74 L38 82 Q34 84 36 88 L45 100 Q48 104 52 100 L55 92" fill={c} />
-                        <path d="M125 74 L142 82 Q146 84 144 88 L135 100 Q132 104 128 100 L125 92" fill={c} />
-                        {/* Collar detail */}
-                        <path d="M80 70 L90 76 L100 70" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5" />
-                      </>
-                    ); })()}
-                    {/* Hands */}
-                    <circle cx="44" cy="102" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
-                    <circle cx="136" cy="102" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
-                    {/* Bottom */}
-                    {(() => { const bot = currentOutfit.items.find(i => i.type === 'bottom'); const c = bot?.color || '#D5CEC7'; return (
-                      <path d={`M60 136 L62 200 Q62 206 68 206 L82 206 Q86 206 86 200 L90 160 L94 200 Q94 206 98 206 L112 206 Q118 206 118 200 L120 136 Z`} fill={c} />
-                    ); })()}
-                    {/* Shoes */}
-                    {(() => { const shoe = currentOutfit.items.find(i => i.type === 'shoes'); const c = shoe?.color || '#C4BBB2'; return (
-                      <>
-                        <path d="M62 204 L58 210 Q54 218 62 220 L82 220 Q90 220 88 212 L86 204 Z" fill={c} rx="4" />
-                        <path d="M118 204 L122 210 Q126 218 118 220 L98 220 Q90 220 92 212 L94 204 Z" fill={c} rx="4" />
-                      </>
-                    ); })()}
-                  </svg>
-                ) : (
-                  /* Child Mannequin SVG */
-                  <svg viewBox="0 0 180 300" style={{ width: '120px', height: '200px' }}>
-                    {/* Hat/Accessory */}
-                    {(() => { const acc = currentOutfit.items.find(i => i.type === 'accessory'); return acc ? <ellipse cx="90" cy="18" rx="28" ry="10" fill={acc.color} opacity="0.85" /> : null; })()}
-                    {/* Head */}
-                    <ellipse cx="90" cy="36" rx="22" ry="24" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1.5" />
-                    <circle cx="82" cy="33" r="2.5" fill="#666" />
-                    <circle cx="98" cy="33" r="2.5" fill="#666" />
-                    <path d="M84 43 Q90 48 96 43" fill="none" stroke="#D4B8A0" strokeWidth="1.5" strokeLinecap="round" />
-                    {/* Neck */}
-                    <rect x="84" y="60" width="12" height="10" rx="4" fill="#F5E6D3" />
-                    {/* Top */}
-                    {(() => { const top = currentOutfit.items.find(i => i.type === 'top'); const c = top?.color || '#E8E0D8'; return (
-                      <>
-                        <path d={`M55 70 Q52 66 62 66 L82 66 L90 60 L98 66 L118 66 Q128 66 125 70 L122 145 Q122 150 117 150 L63 150 Q58 150 58 145 Z`} fill={c} />
-                        <path d="M55 70 L35 80 Q30 82 32 87 L42 108 Q45 112 50 108 L55 95" fill={c} />
-                        <path d="M125 70 L145 80 Q150 82 148 87 L138 108 Q135 112 130 108 L125 95" fill={c} />
-                        <path d="M78 66 L90 72 L102 66" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5" />
-                      </>
-                    ); })()}
-                    {/* Hands */}
-                    <circle cx="41" cy="110" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
-                    <circle cx="139" cy="110" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
-                    {/* Bottom */}
-                    {(() => { const bot = currentOutfit.items.find(i => i.type === 'bottom'); const c = bot?.color || '#D5CEC7'; return (
-                      <path d={`M63 150 L65 240 Q65 246 70 246 L84 246 Q88 246 88 240 L90 185 L92 240 Q92 246 96 246 L110 246 Q115 246 115 240 L117 150 Z`} fill={c} />
-                    ); })()}
-                    {/* Shoes */}
-                    {(() => { const shoe = currentOutfit.items.find(i => i.type === 'shoes'); const c = shoe?.color || '#C4BBB2'; return (
-                      <>
-                        <path d="M65 244 L60 252 Q56 260 64 262 L84 262 Q92 262 90 254 L88 244 Z" fill={c} rx="4" />
-                        <path d="M115 244 L120 252 Q124 260 116 262 L96 262 Q88 262 90 254 L92 244 Z" fill={c} rx="4" />
-                      </>
-                    ); })()}
-                  </svg>
-                )}
-              </div>
-              {/* Total badge on mannequin */}
-              <div style={{
-                position: 'absolute', bottom: '8px', left: '50%', transform: 'translateX(-50%)',
-                background: '#14342B', color: '#FFF', padding: '5px 16px',
-                borderRadius: '20px', fontSize: '13px', fontWeight: 800,
-                boxShadow: '0 4px 12px rgba(20,52,43,0.3)',
-              }}>
-                {totalPrice} ₺
-              </div>
-            </div>
-
-            {/* Outfit Name */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <div>
-                <p style={{ fontSize: '16px', fontWeight: 800, color: '#111', margin: '0 0 2px' }}>
-                  {currentOutfit.name}
-                </p>
-                <p style={{ fontSize: '12px', color: '#999', margin: 0, fontWeight: 500 }}>
-                  {currentOutfit.tagline}
-                </p>
-              </div>
+        {/* ── Budgets & Interaction ── */}
+        <div style={{ padding: '20px 16px', background: '#FFF' }}>
+          
+          {/* Prices */}
+          <div style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
+            {PRICES.map(price => (
               <button
-                onClick={shuffleOutfit}
+                key={price}
+                onClick={() => selectPrice(price)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '4px', padding: '8px 12px',
-                  borderRadius: '10px', border: '1px solid #E8E4E0', background: '#FFF',
-                  cursor: 'pointer', fontSize: '11px', fontWeight: 700, color: '#14342B',
-                  fontFamily: 'inherit', transition: 'all 0.2s',
+                  flex: 1, padding: '12px 4px', borderRadius: '16px',
+                  border: '1px solid', borderColor: selectedPrice === price ? '#14342B' : '#E8E4E0',
+                  background: selectedPrice === price ? '#14342B' : '#F8F6F3',
+                  color: selectedPrice === price ? '#FFF' : '#333',
+                  fontWeight: 800, fontSize: '14px',
+                  transition: 'all 0.2s',
+                  boxShadow: selectedPrice === price ? '0 4px 12px rgba(20,52,43,0.2)' : 'none',
                 }}
               >
-                <ShuffleIcon size={14} color="#14342B" />
-                Değiştir
+                {price} ₺
               </button>
-            </div>
+            ))}
+          </div>
 
-            {/* Product Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '14px' }}>
+          {/* Product Cards Grid */}
+          <div style={{
+             animation: isAnimating ? 'none' : 'slideInUp 0.4s ease-out',
+             opacity: isAnimating ? 0 : 1, transition: 'opacity 0.3s'
+          }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 800, margin: '0 0 12px', color: '#111' }}>
+              Kombindeki Ürünler
+            </h3>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
               {currentOutfit.items.map((item, index) => (
-                <div
-                  key={item.id}
-                  style={{
-                    background: '#FFF', borderRadius: '16px', overflow: 'hidden',
-                    border: '1px solid #F0ECE8',
-                    animation: `mannequinFadeIn 0.4s ease-out ${index * 0.08}s both`,
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  }}
-                >
-                  {/* Product Image */}
-                  <div style={{
-                    height: '110px', background: item.color,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    position: 'relative', overflow: 'hidden',
-                  }}>
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      loading="lazy"
-                      style={{
-                        width: '100%', height: '100%', objectFit: 'cover',
-                        mixBlendMode: 'multiply', opacity: 0.9,
-                      }}
-                    />
-                    {/* Type badge */}
-                    <span style={{
-                      position: 'absolute', top: '6px', left: '6px',
-                      background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)',
-                      padding: '3px 8px', borderRadius: '8px', fontSize: '9px',
-                      fontWeight: 700, color: '#14342B', textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                    }}>
-                      {item.type === 'top' ? 'Üst' : item.type === 'bottom' ? 'Alt' : item.type === 'shoes' ? 'Ayakkabı' : 'Aksesuar'}
-                    </span>
-                  </div>
-                  {/* Product Info */}
-                  <div style={{ padding: '10px 10px 12px' }}>
-                    <p style={{
-                      fontSize: '12px', fontWeight: 700, color: '#111', margin: '0 0 6px',
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                    }}>
+                <div key={item.id} style={{
+                  display: 'flex', alignItems: 'center', gap: '10px', background: '#FFF',
+                  border: '1px solid #F0ECE8', borderRadius: '12px', padding: '8px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+                }}>
+                  <img src={item.image} alt={item.name} style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} />
+                  <div>
+                    <p style={{ fontSize: '11px', fontWeight: 700, margin: '0 0 2px', color: '#111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '80px' }}>
                       {item.name}
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ fontSize: '15px', fontWeight: 900, color: '#14342B' }}>
-                        {item.price} ₺
-                      </span>
-                      <span style={{
-                        fontSize: '11px', fontWeight: 500, color: '#BBB',
-                        textDecoration: 'line-through',
-                      }}>
-                        {item.originalPrice} ₺
-                      </span>
+                      <span style={{ fontSize: '13px', fontWeight: 900, color: '#14342B' }}>{item.price}₺</span>
+                      <span style={{ fontSize: '10px', color: '#999', textDecoration: 'line-through' }}>{item.originalPrice}₺</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Savings Summary */}
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
-              padding: '14px 16px', marginBottom: '12px',
-              background: 'linear-gradient(135deg, #14342B, #1a5a45)',
-              borderRadius: '16px', color: '#FFF',
-            }}>
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: '10px', fontWeight: 600, margin: 0, opacity: 0.7, marginBottom: '2px' }}>Piyasa Fiyatı</p>
-                <p style={{ fontSize: '16px', fontWeight: 800, margin: 0, textDecoration: 'line-through', opacity: 0.5 }}>{totalOriginal} ₺</p>
+            {/* Savings & Add to Cart */}
+            <div style={{ background: '#F8F6F3', borderRadius: '20px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <p style={{ fontSize: '11px', color: '#666', margin: '0 0 2px' }}>Piyasa Değeri</p>
+                  <p style={{ fontSize: '15px', fontWeight: 600, textDecoration: 'line-through', color: '#999', margin: 0 }}>{totalOriginal} ₺</p>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <p style={{ fontSize: '11px', color: '#14342B', fontWeight: 800, margin: '0 0 2px' }}>Salutbabe Fiyatı</p>
+                  <p style={{ fontSize: '24px', fontWeight: 900, color: '#14342B', margin: 0 }}>{totalPrice} ₺</p>
+                </div>
               </div>
-              <div style={{
-                width: '2px', height: '30px', background: 'rgba(255,255,255,0.15)', borderRadius: '1px',
-              }} />
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: '10px', fontWeight: 600, margin: 0, opacity: 0.7, marginBottom: '2px' }}>Salutbabe&apos;de</p>
-                <p style={{ fontSize: '22px', fontWeight: 900, margin: 0 }}>{totalPrice} ₺</p>
-              </div>
-              <div style={{
-                width: '2px', height: '30px', background: 'rgba(255,255,255,0.15)', borderRadius: '1px',
-              }} />
-              <div style={{
-                background: '#C9A96E', padding: '6px 12px', borderRadius: '10px', textAlign: 'center',
-              }}>
-                <p style={{ fontSize: '10px', fontWeight: 700, margin: 0, color: '#14342B', marginBottom: '1px' }}>Tasarruf</p>
-                <p style={{ fontSize: '16px', fontWeight: 900, margin: 0, color: '#14342B' }}>%{savingsPercent}</p>
-              </div>
+              
+              <button
+                onClick={handleAddAllToCart}
+                style={{
+                  width: '100%', padding: '14px', borderRadius: '14px', border: 'none',
+                  background: '#C9A96E', color: '#14342B', fontWeight: 900, fontSize: '15px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                  cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 12px rgba(201,169,110,0.3)',
+                }}
+              >
+                <ShoppingBasketAdd01Icon size={20} />
+                Tüm Kombini Sepete Ekle
+              </button>
             </div>
-
-            {/* Add to Cart CTA */}
-            <button
-              onClick={handleAddAllToCart}
-              style={{
-                width: '100%', padding: '16px', borderRadius: '16px', border: 'none',
-                background: 'linear-gradient(135deg, #14342B, #1a5a45)',
-                cursor: 'pointer', fontWeight: 800, fontSize: '15px', color: '#FFF',
-                fontFamily: 'inherit', display: 'flex', alignItems: 'center',
-                justifyContent: 'center', gap: '10px',
-                boxShadow: '0 6px 20px rgba(20,52,43,0.3)',
-                transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden',
-              }}
-            >
-              <ShoppingBasketAdd01Icon size={20} color="#FFF" />
-              Tüm Kombini Sepete Ekle
-            </button>
+            
           </div>
-        )}
-
-        {/* ── Empty State ── */}
-        {!currentOutfit && (
-          <div style={{
-            padding: '32px 24px 36px', textAlign: 'center',
-          }}>
-            <div style={{
-              width: '64px', height: '64px', borderRadius: '20px', margin: '0 auto 16px',
-              background: 'linear-gradient(135deg, #f0faf5, #fdf8f0)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              border: '1px solid #e8f5ec',
-            }}>
-              <SparklesIcon size={28} color="#14342B" />
-            </div>
-            <p style={{ fontSize: '15px', fontWeight: 700, color: '#333', margin: '0 0 6px' }}>
-              Bütçeni seç, harika kombinleri keşfet
-            </p>
-            <p style={{ fontSize: '12px', color: '#999', margin: 0, lineHeight: 1.5 }}>
-              Yukarıdan bir fiyat aralığı seçerek<br />
-              ikinci el ürünlerle nasıl şık kombinler<br />
-              oluşturabileceğini gör!
-            </p>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
