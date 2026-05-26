@@ -7,8 +7,10 @@ import {useToast} from '@/context/ToastContext';
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
+  BabyBed01Icon,
   Backpack01Icon,
   ShoppingBasketAdd01Icon,
+  ShuffleIcon,
   SparklesIcon
 } from 'hugeicons-react';
 
