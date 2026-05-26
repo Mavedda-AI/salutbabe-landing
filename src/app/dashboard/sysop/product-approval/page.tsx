@@ -186,7 +186,7 @@ export default function ProductApprovalPage() {
                   </button>
                   <button 
                     onClick={() => handleApprove(listing.listingID)}
-                    className="flex-1 py-3 rounded-xl text-[13px] font-black bg-success text-white hover:bg-success/90 active:scale-95 shadow-lg shadow-success/20 transition-all uppercase tracking-widest"
+                    className="flex-1 py-3 rounded-xl text-[13px] font-black bg-green-500 text-white hover:bg-green-600 active:scale-95 shadow-lg shadow-green-500/20 transition-all uppercase tracking-widest"
                   >
                     Onayla
                   </button>
