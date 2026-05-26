@@ -1,9 +1,9 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
-import {useToast} from "../../../../context/ToastContext";
-import {API_BASE_URL, apiUrl} from "../../../../lib/api";
+import {useThemeLanguage} from "@/context/ThemeLanguageContext";
+import {useToast} from "@/context/ToastContext";
+import {API_BASE_URL, apiUrl} from "@/lib/api";
 
 export default function ProductApprovalPage() {
   const { t, theme } = useThemeLanguage();
