@@ -214,12 +214,11 @@ export default function MannequinWidget() {
 
           <img 
             key={activeType + selectedPrice}
-            src={activeType === 'baby' ? '/mannequins/baby-perfect.png?v=6' : '/mannequins/child-perfect.png?v=6'} 
+            src={activeType === 'baby' ? '/mannequins/baby-perfect.png?v=7' : '/mannequins/child-perfect.png?v=7'} 
             alt="Styled Mannequin" 
             style={{
               width: '100%', height: '100%', 
               objectFit: 'contain',
-              mixBlendMode: 'darken', /* This magically removes the white background */
               animation: 'imageFade 0.6s ease-out forwards',
               /* Dynamic Clothing Color Trick! */
               filter: isGeneratingAI ? 'brightness(0.5) grayscale(1)' :
