@@ -290,7 +290,7 @@ export default function MannequinWidget() {
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             }}
           >
-            <BabyBedIcon size={18} color={activeType === 'baby' ? '#14342B' : '#999'} />
+            <BabyBed01Icon size={18} color={activeType === 'baby' ? '#14342B' : '#999'} />
             Bebek (0-3 yaş)
           </button>
           <button
@@ -390,7 +390,7 @@ export default function MannequinWidget() {
                   fontFamily: 'inherit', transition: 'all 0.2s',
                 }}
               >
-                <Shuffle01Icon size={14} color="#14342B" />
+                <ShuffleIcon size={14} color="#14342B" />
                 Değiştir
               </button>
             </div>
