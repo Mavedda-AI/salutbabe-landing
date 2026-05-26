@@ -212,14 +212,21 @@ export default function MannequinWidget() {
           </div>
 
           <img 
-            src={`${MASTER_MANNEQUIN_IMAGE}?v=2`} 
-            alt="Master Mannequin" 
+            key={activeType + selectedPrice}
+            src={activeType === 'baby' ? '/mannequins/baby-crop.png?v=3' : '/mannequins/child-crop.png?v=3'} 
+            alt="Styled Mannequin" 
             style={{
               width: '100%', height: '100%', 
-              objectFit: 'cover',
-              transform: 'scale(1.8)',
-              transformOrigin: activeType === 'baby' ? '25% 60%' : '75% 55%',
-              transition: 'transform-origin 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
+              objectFit: 'contain',
+              mixBlendMode: 'darken',
+              animation: 'imageFade 0.6s ease-out forwards',
+              /* Dynamic Clothing Color Trick! */
+              filter: 
+                selectedPrice === 100 ? 'contrast(1.05)' :
+                selectedPrice === 200 ? 'hue-rotate(90deg) contrast(1.1)' :
+                selectedPrice === 500 ? 'hue-rotate(180deg) saturate(1.5) brightness(0.95)' :
+                'sepia(0.6) hue-rotate(320deg) saturate(2) brightness(0.9)',
+              transition: 'filter 0.5s ease-in-out',
             }}
           />
 
@@ -277,7 +284,7 @@ export default function MannequinWidget() {
               marginBottom: '20px',
             }}>
               <img 
-                key={currentOutfit.outfitImage}
+                key={currentOutfit.outfitImage + selectedPrice}
                 src={currentOutfit.outfitImage} 
                 alt="Outfit Flatlay" 
                 style={{ 
@@ -285,6 +292,14 @@ export default function MannequinWidget() {
                   height: 'auto', 
                   display: 'block',
                   animation: 'imageFade 0.4s ease-out forwards',
+                  mixBlendMode: 'darken',
+                  /* Dynamic Clothing Color Trick! (Match Mannequin) */
+                  filter: 
+                    selectedPrice === 100 ? 'contrast(1.05)' :
+                    selectedPrice === 200 ? 'hue-rotate(90deg) contrast(1.1)' :
+                    selectedPrice === 500 ? 'hue-rotate(180deg) saturate(1.5) brightness(0.95)' :
+                    'sepia(0.6) hue-rotate(320deg) saturate(2) brightness(0.9)',
+                  transition: 'filter 0.5s ease-in-out',
                 }} 
               />
             </div>
