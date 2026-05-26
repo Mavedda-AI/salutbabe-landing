@@ -356,8 +356,6 @@ export default function MannequinWidget() {
                   width: '100%', 
                   height: 'auto', 
                   display: 'block',
-                  marginBottom: '-28%', /* Aggressively crop the bottom empty space */
-                  transform: 'scale(1.05)', /* Slight zoom to trim edges */
                   animation: 'imageFade 0.4s ease-out forwards',
                   mixBlendMode: 'darken'
                 }} 
