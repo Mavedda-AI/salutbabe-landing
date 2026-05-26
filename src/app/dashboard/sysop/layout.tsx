@@ -125,7 +125,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       const userRoles = Array.isArray(roles) ? roles : [roles];
       
       const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
-      const isWhitelisted = allowedEmails.includes(parsedUser.email?.toLowerCase() || "");
+      const userEmail = parsedUser.email || parsedUser.eMail || "";
+      const isWhitelisted = allowedEmails.includes(userEmail.toLowerCase());
 
       const hasAccess = isWhitelisted || userRoles.some((r: string) => 
         ['FOUNDER', 'SYSOP', 'PARTNER', 'ADMIN'].includes(r)
@@ -342,9 +343,22 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           </div>
           <h1 className="text-2xl font-black mb-3 text-[#111827]">Yapım Aşamasında</h1>
           <p className="text-[13px] text-gray-500 font-medium mb-8 leading-relaxed">Bu sayfa şu an sizin için güncelleniyor. Çok yakında yeni ve kapsamlı tasarımıyla yayında olacak.</p>
-          <Link href="/" className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-all hover:scale-[1.02] shadow-sm">
-            Ana Sayfaya Dön
-          </Link>
+          <div className="flex flex-col gap-3">
+            <Link href="/" className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-all hover:scale-[1.02] shadow-sm">
+              Ana Sayfaya Dön
+            </Link>
+            <button 
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                localStorage.removeItem("auth_token");
+                window.location.href = "/login";
+              }}
+              className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-gray-100 text-gray-700 rounded-xl text-[13px] font-bold hover:bg-gray-200 transition-all shadow-sm"
+            >
+              Farklı Hesapla Giriş Yap (Çıkış)
+            </button>
+          </div>
         </div>
       </div>
     );
