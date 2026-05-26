@@ -1,4 +1,40 @@
 @import "tailwindcss";
+@source "./dashboard";
+
+@theme {
+  --color-primary: #5FC8C0;
+  --color-secondary: #FF9EBE;
+  --color-accent: #7EDB9E;
+  --color-background: #FAF9F6;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #1F2A2F;
+  --color-text-secondary: #5A6A72;
+  --color-border-color: #E8EDEB;
+  
+  --color-warning: #FFB74D;
+  --color-error: #FF6B6B;
+  --color-info: #5E9ED6;
+  --color-baby-blue: #A1D4E8;
+  
+  --font-inter: 'Inter', sans-serif;
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0, 0, 1) forwards;
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
 
 :root {
   --primary-dark: #2D2D2D;
