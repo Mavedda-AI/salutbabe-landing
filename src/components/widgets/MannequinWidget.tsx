@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
-import {ShoppingBasketAdd01Icon} from 'hugeicons-react';
+import {ArrowLeft01Icon, ArrowRight01Icon, ShoppingBasketAdd01Icon, SparklesIcon} from 'hugeicons-react';
 
 // ── Types ──
 interface OutfitItem {
@@ -247,6 +247,39 @@ export default function MannequinWidget() {
               transition: 'filter 0.5s ease-in-out',
             }}
           />
+
+          {/* Cute Arrow Indicators for Swiping */}
+          <button 
+            onClick={() => switchType('baby')}
+            style={{
+              position: 'absolute', top: '45%', left: '16px', transform: 'translateY(-50%)',
+              width: '36px', height: '36px', borderRadius: '18px',
+              background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)', border: 'none', zIndex: 10,
+              opacity: activeType === 'child' ? 1 : 0.3,
+              pointerEvents: activeType === 'child' ? 'auto' : 'none',
+              cursor: 'pointer', transition: 'all 0.3s'
+            }}
+          >
+            <ArrowLeft01Icon size={18} color="#121212" />
+          </button>
+
+          <button 
+            onClick={() => switchType('child')}
+            style={{
+              position: 'absolute', top: '45%', right: '16px', transform: 'translateY(-50%)',
+              width: '36px', height: '36px', borderRadius: '18px',
+              background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(4px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)', border: 'none', zIndex: 10,
+              opacity: activeType === 'baby' ? 1 : 0.3,
+              pointerEvents: activeType === 'baby' ? 'auto' : 'none',
+              cursor: 'pointer', transition: 'all 0.3s'
+            }}
+          >
+            <ArrowRight01Icon size={18} color="#121212" />
+          </button>
 
           {/* AI Virtual Try-On Scanner Overlay */}
           {isGeneratingAI && (
