@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from '@/app/(shop)/page.module.css';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
+import {useRouter} from 'next/navigation';
 import {ViewIcon} from 'hugeicons-react';
 
 import {apiUrl} from '@/lib/api';
@@ -47,6 +48,7 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
 
 export default function MosaicWidget() {
   const { t } = useThemeLanguage();
+  const router = useRouter();
   const [showAppModal, setShowAppModal] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +80,7 @@ export default function MosaicWidget() {
 
   return (
     <>
-      <div className={styles.mosaicSection}>
+      <div id="shop-grid" className={styles.mosaicSection} style={{ scrollMarginTop: '80px' }}>
         <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>{t('home.for_you_picks')}</h2>
         
         {loading ? (
@@ -90,7 +92,7 @@ export default function MosaicWidget() {
         ) : products.length > 0 ? (
           <div className={styles.mosaicContainer}>
             {products.map((product, i) => (
-              <MosaicItem key={product.listingID || i} product={product} onClick={() => setShowAppModal(true)} />
+              <MosaicItem key={product.listingID || i} product={product} onClick={() => router.push('/product/' + product.listingID)} />
             ))}
           </div>
         ) : (

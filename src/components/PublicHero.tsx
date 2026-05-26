@@ -81,8 +81,8 @@ export default function PublicHero() {
             {isOrganic && <span>{t("widgets.hero_subhead_organic")}</span>}
           </p>
           
-          <Link href="/register" className={styles.primaryButton}>
-            {isBuy ? t('widgets.hero_discover_now') : isSell ? t('widgets.hero_sell_now') : isLive ? t('widgets.hero_join_rooms') : isStory ? t('widgets.hero_create_story') : t('widgets.hero_discover_natural')}
+          <Link href="#shop-grid" className={styles.primaryButton}>
+            {isBuy ? "Hemen Al" : isSell ? t('widgets.hero_sell_now') : isLive ? t('widgets.hero_join_rooms') : isStory ? t('widgets.hero_create_story') : t('widgets.hero_discover_natural')}
           </Link>
         </div>
 
