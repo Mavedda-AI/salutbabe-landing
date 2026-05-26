@@ -52,8 +52,8 @@ export default function AdminListings() {
   return (
     <div>
       <h1 className="text-3xl font-black text-slate-900 mb-8">Manage Listings</h1>
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <table className="w-full text-left border-collapse">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-100">
               <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Listing</th>

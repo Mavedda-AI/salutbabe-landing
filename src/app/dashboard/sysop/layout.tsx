@@ -13,6 +13,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -287,9 +288,17 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
+      {/* Mobile Sidebar Backdrop */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] lg:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
       {/* Main Sidebar */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-50 hidden lg:flex flex-col transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
+        className={`fixed inset-y-0 left-0 z-[200] flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${isSidebarCollapsed ? 'lg:w-[80px]' : 'lg:w-[280px] w-[280px]'}
           ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#09090B] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
@@ -301,9 +310,16 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               </Link>
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
-                className="absolute top-4 right-4 text-white/20 hover:text-white dark:text-white/20 dark:hover:text-white light:text-text-secondary/20 light:hover:text-text-primary transition-colors lg:flex hidden p-1 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-black/5 rounded-md"
+                className="absolute top-4 right-4 text-white/20 hover:text-white dark:text-white/20 dark:hover:text-white light:text-text-secondary/20 light:hover:text-text-primary transition-colors hidden lg:flex p-1 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-black/5 rounded-md"
               >
                 <img src="/images/icon/collapse.svg" alt="Collapse" className={`w-4 h-4 opacity-40 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
+              </button>
+              {/* Mobile Close Button */}
+              <button 
+                onClick={() => setIsMobileSidebarOpen(false)}
+                className="absolute top-4 right-4 text-text-secondary hover:text-text-primary lg:hidden p-1 rounded-md"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </>
           ) : (
@@ -430,8 +446,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                         : (theme === 'light' ? 'text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'text-white/60 hover:bg-white/5 hover:text-white')
                       }`}
                   >
-                    <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
-                      <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === item.href ? 'text-[#1A2332]' : 'text-inherit'}`}>
+                    <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'lg:mx-auto' : ''}`}>
+                      <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === item.href ? (theme === 'light' ? 'text-white' : 'text-[#1A2332]') : 'text-inherit'}`}>
                         {item.icon || (
                           <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -496,13 +512,23 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative w-full overflow-hidden`}>
         
         {/* Header */}
-        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-8 flex items-center justify-between w-full">
-          <div className="flex flex-col justify-center">
-             <h1 className="text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
-             <p className="text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-4 lg:px-8 flex items-center justify-between w-full">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="lg:hidden p-2 text-text-secondary hover:text-primary transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div className="flex flex-col justify-center">
+               <h1 className="text-lg lg:text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+               <p className="text-[10px] lg:text-[12px] font-bold text-text-secondary hidden sm:block">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+            </div>
           </div>
 
           <div className="flex-1"></div>
@@ -620,7 +646,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-8 animate-fade-in relative z-0 overflow-y-auto">
+        <main className="flex-1 p-4 lg:p-8 animate-fade-in relative z-0 overflow-y-auto w-full">
           {children}
         </main>
 

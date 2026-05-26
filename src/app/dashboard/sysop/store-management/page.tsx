@@ -76,8 +76,8 @@ export default function StoreManagementPage() {
   return (
     <div className="space-y-8 animate-fade-in">
 
-      <div className={`rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
-        <table className="w-full text-left border-collapse">
+      <div className={`rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
+        <table className="w-full text-left border-collapse min-w-[700px]">
           <thead>
             <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
               <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.stores.table_store')}</th>

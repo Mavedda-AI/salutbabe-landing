@@ -180,8 +180,8 @@ export default function ShippingManagementPage() {
         </button>
       </div>
 
-      <div className={`rounded-[2.5rem] border overflow-hidden ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
-        <table className="w-full text-left border-collapse">
+      <div className={`rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
+        <table className="w-full text-left border-collapse min-w-[700px]">
           <thead>
             <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
               <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.shipping.logo')}</th>
@@ -254,8 +254,8 @@ export default function ShippingManagementPage() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8 no-scrollbar">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.shipping.company_name')}</label>
                   <input 
@@ -276,7 +276,7 @@ export default function ShippingManagementPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] ml-1">{t('dashboard.shipping.source')}</label>
                   <select 
@@ -341,8 +341,8 @@ export default function ShippingManagementPage() {
 
                 <div className="space-y-3">
                   {currentCompany.rates?.map((rate, idx) => (
-                    <div key={idx} className="flex items-center gap-4 animate-in slide-in-from-left-2 duration-200">
-                      <div className="flex-1 grid grid-cols-3 gap-4">
+                    <div key={idx} className="flex flex-col md:flex-row md:items-center gap-4 animate-in slide-in-from-left-2 duration-200">
+                      <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div className="relative">
                           <input 
                             type="number" 

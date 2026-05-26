@@ -135,14 +135,14 @@ export default function AdminUsersPage() {
   const LoadingSkeleton = () => (
     <div className="flex flex-col gap-6 animate-pulse">
       {/* Search & Filters Bar Skeleton */}
-      <div className={`p-4 rounded-[2rem] border flex items-center gap-4
+      <div className={`p-4 rounded-[2rem] border flex flex-wrap md:flex-nowrap items-center gap-4
         ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
-        <div className={`flex-1 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-        <div className="flex items-center gap-2">
+        <div className={`w-full md:flex-1 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className="flex flex-wrap items-center gap-2">
            {[1, 2, 3].map(i => <div key={i} className={`w-20 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />)}
         </div>
-        <div className={`w-[1px] h-8 ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-        <div className="flex items-center gap-2">
+        <div className={`hidden md:block w-[1px] h-8 ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className="flex items-center gap-2 ml-auto">
            <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
            <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
         </div>
@@ -172,9 +172,9 @@ export default function AdminUsersPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* Search & Filters Bar */}
-      <div className={`p-4 rounded-[2rem] border flex items-center gap-4 transition-all duration-300
+      <div className={`p-4 rounded-[2rem] border flex flex-col lg:flex-row items-center gap-4 transition-all duration-300
         ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
-        <div className="flex-1 relative group">
+        <div className="w-full lg:flex-1 relative group">
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -186,18 +186,19 @@ export default function AdminUsersPage() {
           />
         </div>
         
-        <div className="flex items-center gap-2">
-          {['ADMIN', 'SELLER', 'USER'].map(filter => (
-            <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider transition-all
-              ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
-              {t('dashboard.role_' + filter.toLowerCase())}
-            </button>
-          ))}
-        </div>
+        <div className="w-full lg:w-auto flex flex-wrap items-center justify-between lg:justify-start gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {['ADMIN', 'SELLER', 'USER'].map(filter => (
+              <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider transition-all
+                ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+                {t('dashboard.role_' + filter.toLowerCase())}
+              </button>
+            ))}
+          </div>
 
-        <div className="w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2" />
+          <div className="hidden lg:block w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2" />
 
-        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
            <button 
              onClick={() => setViewMode('list')}
              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
@@ -222,14 +223,14 @@ export default function AdminUsersPage() {
         {users.map((user) => (
           viewMode === 'list' ? (
             /* List View Card */
-            <div key={user.userID} className={`p-8 rounded-[2.5rem] border transition-all duration-500 group hover:scale-[1.01]
+            <div key={user.userID} className={`p-6 lg:p-8 rounded-[2.5rem] border transition-all duration-500 group hover:scale-[1.01]
               ${theme === 'light' 
                 ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' 
                 : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
               
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
                 {/* User Info Section */}
-                <div className="lg:col-span-3 flex items-center gap-6">
+                <div className="lg:col-span-3 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-4 lg:gap-6 text-center sm:text-left">
                   <div className="relative">
                     <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center font-black text-2xl transition-all duration-500 group-hover:rotate-6
                       ${theme === 'light' ? 'bg-primary/10 text-primary border-2 border-primary/20' : 'bg-primary/20 text-primary border-2 border-primary/20 shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
@@ -436,7 +437,7 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Pagination Bar */}
-      <div className={`p-4 rounded-[2rem] border flex items-center justify-between transition-all duration-300
+      <div className={`p-4 rounded-[2rem] border flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-300
         ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
         <div className="flex items-center gap-4">
            <div className={`px-4 py-2 rounded-xl text-[11px] font-black tracking-wider

@@ -111,7 +111,7 @@ export default function SysopDashboard() {
           ${theme === 'light' 
             ? 'bg-white border-border-color shadow-sm' 
             : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
-          <div className="p-8 border-b border-border-color flex items-center justify-between">
+          <div className="p-4 sm:p-8 border-b border-border-color flex items-center justify-between">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.recent_transactions')}</h3>
             <button className="text-[12px] font-black text-primary hover:underline">{t('dashboard.sysop.view_all')}</button>
           </div>
@@ -154,7 +154,7 @@ export default function SysopDashboard() {
           ${theme === 'light' 
             ? 'bg-white border-border-color shadow-sm' 
             : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
-          <div className="p-8 border-b border-border-color">
+          <div className="p-4 sm:p-8 border-b border-border-color">
             <h3 className="text-[16px] font-black text-text-primary uppercase tracking-wider">{t('dashboard.sysop.quick_access')}</h3>
           </div>
           <div className="p-4">

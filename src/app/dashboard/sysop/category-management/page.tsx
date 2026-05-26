@@ -117,8 +117,8 @@ export default function AdminCategories() {
 
       {view === "categories" ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <table className="w-full text-left border-collapse">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Category</th>
@@ -164,8 +164,8 @@ export default function AdminCategories() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <table className="w-full text-left border-collapse">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Attribute</th>
