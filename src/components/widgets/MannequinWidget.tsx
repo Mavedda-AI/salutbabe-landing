@@ -213,12 +213,11 @@ export default function MannequinWidget() {
 
           <img 
             key={activeType + selectedPrice}
-            src={activeType === 'baby' ? '/mannequins/baby-crop.png?v=3' : '/mannequins/child-crop.png?v=3'} 
+            src={activeType === 'baby' ? '/mannequins/baby-transparent.png?v=4' : '/mannequins/child-transparent.png?v=4'} 
             alt="Styled Mannequin" 
             style={{
               width: '100%', height: '100%', 
               objectFit: 'contain',
-              mixBlendMode: 'darken',
               animation: 'imageFade 0.6s ease-out forwards',
               /* Dynamic Clothing Color Trick! */
               filter: 
