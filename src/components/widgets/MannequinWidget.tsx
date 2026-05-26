@@ -199,14 +199,14 @@ export default function MannequinWidget() {
             padding: '6px 16px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '8px',
             boxShadow: '0 4px 12px rgba(0,0,0,0.05)', zIndex: 10
           }}>
-            <button onClick={() => switchType('baby')} style={{ background: 'none', border: 'none', color: activeType === 'baby' ? '#14342B' : '#CCC', fontWeight: activeType === 'baby' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <button onClick={() => switchType('baby')} style={{ background: 'none', border: 'none', color: activeType === 'baby' ? '#121212' : '#CCC', fontWeight: activeType === 'baby' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                Bebek
             </button>
             <div style={{ display: 'flex', color: '#CCC' }}>
               <ArrowLeft01Icon size={12} />
               <ArrowRight01Icon size={12} />
             </div>
-            <button onClick={() => switchType('child')} style={{ background: 'none', border: 'none', color: activeType === 'child' ? '#14342B' : '#CCC', fontWeight: activeType === 'child' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <button onClick={() => switchType('child')} style={{ background: 'none', border: 'none', color: activeType === 'child' ? '#121212' : '#CCC', fontWeight: activeType === 'child' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                Çocuk
             </button>
           </div>
@@ -239,19 +239,19 @@ export default function MannequinWidget() {
 
         <div style={{ padding: '24px 20px', background: '#FFF' }}>
           
-          <div style={{ display: 'flex', gap: '6px', marginBottom: '28px' }}>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '28px' }}>
             {PRICES.map(price => (
               <button
                 key={price}
                 onClick={() => selectPrice(price)}
                 style={{
                   flex: 1, padding: '12px 4px', borderRadius: '16px',
-                  border: '1px solid', borderColor: selectedPrice === price ? '#14342B' : '#E8E4E0',
-                  background: selectedPrice === price ? '#14342B' : '#FFF',
+                  border: '1px solid', borderColor: selectedPrice === price ? '#2D2D2D' : '#EBEBEB',
+                  background: selectedPrice === price ? '#2D2D2D' : '#FFF',
                   color: selectedPrice === price ? '#FFF' : '#333',
-                  fontWeight: 800, fontSize: '14px',
+                  fontWeight: 700, fontSize: '14px',
                   transition: 'all 0.2s',
-                  boxShadow: selectedPrice === price ? '0 4px 12px rgba(20,52,43,0.2)' : '0 2px 6px rgba(0,0,0,0.02)',
+                  boxShadow: selectedPrice === price ? '0 4px 12px rgba(0,0,0,0.1)' : '0 2px 6px rgba(0,0,0,0.02)',
                 }}
               >
                 {price} ₺
@@ -264,7 +264,7 @@ export default function MannequinWidget() {
              opacity: isAnimating ? 0 : 1, transition: 'opacity 0.3s'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 900, margin: 0, color: '#111' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0, color: '#121212' }}>
                 Önerilen Kombin
               </h3>
             </div>
@@ -273,9 +273,8 @@ export default function MannequinWidget() {
               width: '100%', 
               borderRadius: '20px', 
               overflow: 'hidden', 
-              background: '#F9F8F6',
+              background: '#F5F5F5',
               marginBottom: '20px',
-              border: '1px solid #EAE6E2'
             }}>
               <img 
                 key={currentOutfit.outfitImage}
@@ -295,39 +294,39 @@ export default function MannequinWidget() {
                 <div key={item.id} style={{
                   display: 'flex', alignItems: 'flex-end', marginBottom: '10px',
                 }}>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#333', margin: 0, paddingRight: '8px' }}>
+                  <p style={{ fontSize: '14px', fontWeight: 500, color: '#333', margin: 0, paddingRight: '8px' }}>
                     {item.name}
                   </p>
-                  <div style={{ flex: 1, borderBottom: '1px dashed #DDD', position: 'relative', top: '-4px' }} />
-                  <p style={{ fontSize: '14px', fontWeight: 800, color: '#14342B', margin: 0, paddingLeft: '8px' }}>
+                  <div style={{ flex: 1, borderBottom: '1px dashed #E0E0E0', position: 'relative', top: '-4px' }} />
+                  <p style={{ fontSize: '14px', fontWeight: 700, color: '#121212', margin: 0, paddingLeft: '8px' }}>
                     {item.price} ₺
                   </p>
                 </div>
               ))}
             </div>
 
-            <div style={{ background: '#F8F6F3', borderRadius: '20px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px', border: '1px solid #EAE6E2' }}>
+            <div style={{ background: '#F5F5F5', borderRadius: '20px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <p style={{ fontSize: '11px', color: '#666', margin: '0 0 2px' }}>Piyasa Değeri</p>
-                  <p style={{ fontSize: '15px', fontWeight: 600, textDecoration: 'line-through', color: '#999', margin: 0 }}>{totalOriginal} ₺</p>
+                  <p style={{ fontSize: '12px', color: '#666', margin: '0 0 4px', fontWeight: 500 }}>Piyasa Değeri</p>
+                  <p style={{ fontSize: '16px', fontWeight: 600, textDecoration: 'line-through', color: '#999', margin: 0 }}>{totalOriginal} ₺</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p style={{ fontSize: '11px', color: '#14342B', fontWeight: 800, margin: '0 0 2px' }}>Salutbabe Kombini</p>
-                  <p style={{ fontSize: '24px', fontWeight: 900, color: '#14342B', margin: 0 }}>{totalPrice} ₺</p>
+                  <p style={{ fontSize: '12px', color: '#121212', fontWeight: 700, margin: '0 0 4px' }}>Salutbabe Kombini</p>
+                  <p style={{ fontSize: '26px', fontWeight: 800, color: '#121212', margin: 0 }}>{totalPrice} ₺</p>
                 </div>
               </div>
               
               <button
                 onClick={handleAddAllToCart}
                 style={{
-                  width: '100%', padding: '14px', borderRadius: '14px', border: 'none',
-                  background: '#C9A96E', color: '#14342B', fontWeight: 900, fontSize: '15px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                  cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 12px rgba(201,169,110,0.3)',
+                  width: '100%', padding: '16px', borderRadius: '16px', border: 'none',
+                  background: '#2D2D2D', color: '#FFF', fontWeight: 700, fontSize: '16px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                  cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 6px 16px rgba(0,0,0,0.1)',
                 }}
               >
-                <ShoppingBasketAdd01Icon size={20} />
+                <ShoppingBasketAdd01Icon size={20} color="#FFF" />
                 Tüm Kombini Sepete Ekle
               </button>
             </div>
