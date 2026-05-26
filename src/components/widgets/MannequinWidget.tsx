@@ -163,14 +163,14 @@ export default function MannequinWidget() {
     setIsGeneratingAI(true);
     setAiLoadingText('Manken 3D pozisyonu algılanıyor...');
     
-    setTimeout(() => setAiLoadingText('Kumaş kıvrımları ve ışık hesaplanıyor...'), 1200);
-    setTimeout(() => setAiLoadingText('Yapay Zeka kombini giydiriyor...'), 2400);
+    setTimeout(() => setAiLoadingText('Kumaş kıvrımları ve ışık hesaplanıyor...'), 1800);
+    setTimeout(() => setAiLoadingText('Yapay Zeka kombini giydiriyor...'), 3600);
 
     setTimeout(() => {
       setSelectedPrice(price);
       setCurrentOutfit((activeType === 'baby' ? BABY_OUTFITS[price] : CHILD_OUTFITS[price])[0]);
       setIsGeneratingAI(false);
-    }, 3500);
+    }, 5500);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
@@ -205,24 +205,18 @@ export default function MannequinWidget() {
         @keyframes imageFade { from { opacity: 0.6; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Minimalist Sci-Fi X-Ray Animation */
-        @keyframes quantumXray {
-          0% { filter: invert(0) sepia(0) hue-rotate(0deg) saturate(1) brightness(1) blur(0px); transform: scale(1); }
-          15% { filter: invert(1) sepia(1) hue-rotate(180deg) saturate(3) brightness(1.1) blur(1px); transform: scale(0.98); }
-          85% { filter: invert(1) sepia(1) hue-rotate(180deg) saturate(3) brightness(1.1) blur(1px); transform: scale(0.98); }
-          100% { filter: invert(0) sepia(0) hue-rotate(0deg) saturate(1) brightness(1) blur(0px); transform: scale(1); }
+        /* Full Screen Majestic Laser Sweep */
+        @keyframes scanLaserBeam {
+          0% { transform: translateY(-160px); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(480px); opacity: 0; }
         }
-        @keyframes elegantLensFocus {
-          0% { transform: translate(-50%, -50%) scale(2) rotate(0deg); opacity: 0; border-width: 1px; }
-          20% { opacity: 1; border-width: 3px; }
-          80% { transform: translate(-50%, -50%) scale(0.8) rotate(180deg); opacity: 1; border-width: 1px; }
-          100% { transform: translate(-50%, -50%) scale(0.5) rotate(270deg); opacity: 0; border-width: 1px; }
+        @keyframes aiProcessingImage {
+          0%, 100% { filter: brightness(0.6) blur(2px) contrast(1.2); }
+          50% { filter: brightness(0.9) blur(4px) contrast(1.5); }
         }
-        @keyframes textGlowPulse {
-          0%, 100% { opacity: 0.5; text-shadow: 0 0 10px rgba(0, 240, 255, 0); }
-          50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 240, 255, 0.8); }
-        }
-        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
 
       {/* Title Header */}
@@ -239,7 +233,7 @@ export default function MannequinWidget() {
         overflow: 'hidden',
         boxShadow: '0 10px 40px rgba(0,0,0,0.06)',
         border: '1px solid #F0ECE8',
-        transition: 'background 0.5s ease',
+        position: 'relative'
       }}>
         
         <div 
@@ -276,65 +270,56 @@ export default function MannequinWidget() {
               width: '100%', height: '100%', 
               objectFit: 'contain',
               mixBlendMode: 'darken',
-              animation: isGeneratingAI ? 'quantumXray 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'imageFade 0.6s ease-out forwards',
-              transition: 'all 0.3s ease-in-out'
+              animation: 'imageFade 0.6s ease-out forwards',
+              /* Dim the background mannequin slightly so the laser pops */
+              filter: isGeneratingAI ? 'brightness(0.7) contrast(1.1)' : 'none',
+              transition: 'all 0.5s ease-in-out'
             }}
           />
 
-          {/* ELEGANT MINIMALIST SCI-FI OVERLAY */}
+          {/* FULL SCREEN MAJESTIC GREEN LASER */}
           {isGeneratingAI && (
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-              zIndex: 20,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              pointerEvents: 'none'
+              zIndex: 20, pointerEvents: 'none',
+              background: 'rgba(5, 15, 10, 0.25)', /* Slight dark green tint */
+              backdropFilter: 'blur(2px)',
+              overflow: 'hidden'
             }}>
               
-              {/* Massive Soft Ambient Glow */}
+              {/* Massive Sweeping Full-Width Laser Beam */}
               <div style={{
-                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                width: '150%', height: '150%',
-                background: 'radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 60%)',
-                animation: 'textGlowPulse 2s infinite'
+                position: 'absolute', top: 0, left: 0, right: 0, height: '180px',
+                background: 'linear-gradient(to bottom, transparent 0%, rgba(163, 230, 53, 0.05) 40%, rgba(163, 230, 53, 0.3) 95%, #A3E635 100%)',
+                animation: 'scanLaserBeam 2.75s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                boxShadow: '0 8px 40px rgba(163, 230, 53, 0.6)',
+                borderBottom: '3px solid #A3E635',
+                zIndex: 15
               }} />
 
-              {/* Ultra-Thin Elegant Focusing Lens/Ring */}
+              {/* Scanning Grid Background */}
               <div style={{
-                position: 'absolute', top: '50%', left: '50%',
-                width: '300px', height: '300px',
-                borderRadius: '50%',
-                border: '1px solid rgba(0, 240, 255, 0.8)',
-                boxShadow: '0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.2)',
-                animation: 'elegantLensFocus 3.5s cubic-bezier(0.25, 1, 0.5, 1) forwards'
-              }} />
-              
-              {/* Inner Delicate Dashed Ring */}
-              <div style={{
-                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                width: '280px', height: '280px',
-                borderRadius: '50%',
-                border: '1px dashed rgba(255, 255, 255, 0.3)',
-                animation: 'spinSlow 10s linear infinite',
-                opacity: 0.6
+                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                backgroundImage: 'linear-gradient(rgba(163,230,53,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(163,230,53,0.1) 1px, transparent 1px)',
+                backgroundSize: '30px 30px',
+                zIndex: 14,
+                opacity: 0.7
               }} />
 
-              {/* Minimalist Cinematic Typography */}
+              {/* Central Information HUD Box */}
               <div style={{
-                position: 'absolute', bottom: '15%', left: '0', right: '0',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-                animation: 'textGlowPulse 2s infinite'
+                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                background: 'rgba(20, 40, 30, 0.9)', backdropFilter: 'blur(10px)',
+                padding: '16px 28px', borderRadius: '40px',
+                border: '1px solid rgba(163, 230, 53, 0.6)',
+                boxShadow: '0 10px 30px rgba(163, 230, 53, 0.3)',
+                display: 'flex', alignItems: 'center', gap: '12px',
+                zIndex: 30
               }}>
-                <span style={{ 
-                  color: '#00F0FF', fontSize: '11px', fontWeight: 500, letterSpacing: '4px', textTransform: 'uppercase',
-                  fontFamily: 'monospace'
-                }}>
+                <SparklesIcon size={20} color="#A3E635" style={{ animation: 'spin 3s linear infinite' }} />
+                <span style={{ color: '#A3E635', fontSize: '15px', fontWeight: 700, letterSpacing: '0.5px' }}>
                   {aiLoadingText}
                 </span>
-                <div style={{ display: 'flex', gap: '4px' }}>
-                  <div style={{ width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%' }} />
-                  <div style={{ width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%', opacity: 0.5 }} />
-                  <div style={{ width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%', opacity: 0.2 }} />
-                </div>
               </div>
 
             </div>
