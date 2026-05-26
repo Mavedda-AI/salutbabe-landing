@@ -1,6 +1,6 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
-import {RecordIcon, Search01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
+import {Alert01Icon, Clock01Icon, RecordIcon, Search01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {PageHeader} from '@/app/dashboard/components/ui/PageHeader';
@@ -59,9 +59,9 @@ export default function StoreComplaintManagementPage() {
   };
 
   const kpis: KPIItem[] = [
-    { label: 'Açık', value: complaints.filter(c => c.status === 'Açık').length, icon: <HugeiconsIcon icon={RecordIcon} size={24} /> },
-    { label: 'İncelenen', value: complaints.filter(c => c.status === 'İnceleniyor').length, icon: <HugeiconsIcon icon={Search01Icon} size={24} /> },
-    { label: 'Çözülen', value: complaints.filter(c => c.status === 'Çözüldü').length, icon: <HugeiconsIcon icon={Tick01Icon} size={24} /> },
+    { label: 'Açık', value: complaints.filter(c => c.status === 'Açık').length, colorClass: 'text-red-500', icon: <HugeiconsIcon icon={Alert01Icon} size={24} /> },
+    { label: 'İncelenen', value: complaints.filter(c => c.status === 'İnceleniyor').length, colorClass: 'text-yellow-500', icon: <HugeiconsIcon icon={Clock01Icon} size={24} /> },
+    { label: 'Çözülen', value: complaints.filter(c => c.status === 'Çözüldü').length, colorClass: 'text-green-500', icon: <HugeiconsIcon icon={Tick01Icon} size={24} /> },
   ];
 
   const tabs = [
