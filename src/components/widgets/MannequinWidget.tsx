@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
@@ -121,25 +121,36 @@ export default function MannequinWidget() {
   const [currentOutfit, setCurrentOutfit] = useState<OutfitSet>(BABY_OUTFITS[100][0]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiLoadingText, setAiLoadingText] = useState('Kombin analiz ediliyor...');
 
   const PRICES = [100, 200, 500, 1000];
 
-  const selectPrice = useCallback((price: number, type: 'baby' | 'child' = activeType) => {
-    setIsAnimating(true);
-    setSelectedPrice(price);
-    
-    setTimeout(() => {
-      const outfits = type === 'baby' ? BABY_OUTFITS[price] : CHILD_OUTFITS[price];
-      const randomIndex = Math.floor(Math.random() * outfits.length);
-      setCurrentOutfit(outfits[randomIndex]);
-      setIsAnimating(false);
-    }, 300);
-  }, [activeType]);
-
   const switchType = (type: 'baby' | 'child') => {
-    if (type === activeType) return;
-    setActiveType(type);
-    selectPrice(selectedPrice, type);
+    if (type === activeType || isGeneratingAI) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setActiveType(type);
+      setCurrentOutfit((type === 'baby' ? BABY_OUTFITS[selectedPrice] : CHILD_OUTFITS[selectedPrice])[0]);
+      setIsAnimating(false);
+    }, 400);
+  };
+
+  const selectPrice = (price: number) => {
+    if (price === selectedPrice || isGeneratingAI) return;
+    
+    // AI Virtual Try-On Simulation
+    setIsGeneratingAI(true);
+    setAiLoadingText('Manken 3D pozisyonu algılanıyor...');
+    
+    setTimeout(() => setAiLoadingText('Kumaş kıvrımları ve ışık hesaplanıyor...'), 1200);
+    setTimeout(() => setAiLoadingText('Yapay Zeka kombini giydiriyor...'), 2400);
+
+    setTimeout(() => {
+      setSelectedPrice(price);
+      setCurrentOutfit((activeType === 'baby' ? BABY_OUTFITS[price] : CHILD_OUTFITS[price])[0]);
+      setIsGeneratingAI(false);
+    }, 3500);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
