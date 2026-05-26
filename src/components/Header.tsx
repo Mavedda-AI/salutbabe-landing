@@ -70,7 +70,7 @@ export default function Header() {
         <div className={styles.searchContainer}>
           <div className={styles.searchBox}>
             <Search01Icon size={18} color="#666" strokeWidth={2} />
-            <input type="text" placeholder="İstediğini ara" className={styles.searchInput} />
+            <input type="text" placeholder={t("widgets.header_search_placeholder")} className={styles.searchInput} />
           </div>
         </div>
 
@@ -79,7 +79,7 @@ export default function Header() {
           <button className={styles.actionIcon} onClick={() => setIsCartDrawerOpen(true)}>
             <ShoppingBasket02Icon size={24} color="#111" strokeWidth={1.5} />
           </button>
-          <Link href="/login" className={styles.signupButton}>Satıcı Paneli</Link>
+          <Link href="/login" className={styles.signupButton}>{t("widgets.header_seller_panel")}</Link>
           <Link href="/register" className={styles.loginLink}>{t("widgets.header_register")}</Link>
         </div>
       </div>

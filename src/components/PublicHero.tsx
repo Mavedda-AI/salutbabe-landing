@@ -67,18 +67,18 @@ export default function PublicHero() {
           </div>
           
           <h1 className={`${styles.headline} ${isOrganic ? styles.textWhite : ''}`}>
-            {isBuy && <span>İkinci el al.<br />Kendi tarzını oluştur.</span>}
-            {isSell && <span>Dolabını nakite çevir.<br />Hemen kazanmaya başla.</span>}
-            {isLive && <span>Sesli odalarda buluş.<br />Deneyimlerini paylaş.</span>}
-            {isStory && <span>Her Annenin<br />bir hikayesi vardır.</span>}
-            {isOrganic && <span>Çiftçiden ve anneden.<br />Doğadan bebeğinize.</span>}
+            {isBuy && <span>{t("widgets.hero_headline_buy_1")}<br />{t("widgets.hero_headline_buy_2")}</span>}
+            {isSell && <span>{t("widgets.hero_headline_sell_1")}<br />{t("widgets.hero_headline_sell_2")}</span>}
+            {isLive && <span>{t("widgets.hero_headline_live_1")}<br />{t("widgets.hero_headline_live_2")}</span>}
+            {isStory && <span>{t("widgets.hero_headline_story_1")}<br />{t("widgets.hero_headline_story_2")}</span>}
+            {isOrganic && <span>{t("widgets.hero_headline_organic_1")}<br />{t("widgets.hero_headline_organic_2")}</span>}
           </h1>
           <p className={`${styles.subhead} ${isOrganic ? styles.textWhiteLight : ''}`}>
-            {isBuy && <span>Sürdürülebilir ve güvenilir ikinci el alışveriş.</span>}
-            {isSell && <span>Küçülenleri kolayca sat, aile bütçene anında katkı sağla.</span>}
-            {isLive && <span>Sesli odalara katıl, annelerle sohbet et ve ilanları ilk sen keşfet.</span>}
-            {isStory && <span>Bu sadece bir alışveriş platformu değil, büyük bir paylaşım kültürü.</span>}
-            {isOrganic && <span>Çiftçiler ve üreten annelerin ürünlerini keşfedin.</span>}
+            {isBuy && <span>{t("widgets.hero_subhead_buy")}</span>}
+            {isSell && <span>{t("widgets.hero_subhead_sell")}</span>}
+            {isLive && <span>{t("widgets.hero_subhead_live")}</span>}
+            {isStory && <span>{t("widgets.hero_subhead_story")}</span>}
+            {isOrganic && <span>{t("widgets.hero_subhead_organic")}</span>}
           </p>
           
           <Link href="/register" className={styles.primaryButton}>
@@ -102,9 +102,9 @@ export default function PublicHero() {
               </svg>
             )}
             <h3 className={styles.featureTitle}>
-              {isBuy ? "Güvenle Al" : isSell ? "Güvenle Sat" : isLive ? "Güvenli Sohbet" : isStory ? "Güvenli Alan" : "Doğal Üretim"}
+              {isBuy ? t("widgets.hero_card1_buy") : isSell ? t("widgets.hero_card1_sell") : isLive ? t("widgets.hero_card1_live") : isStory ? t("widgets.hero_card1_story") : t("widgets.hero_card1_organic")}
             </h3>
-            <p className={styles.featureDesc}>{isOrganic ? "Katkısız ve saf" : "Salutbabe Koruması"}</p>
+            <p className={styles.featureDesc}>{isOrganic ? t("widgets.hero_card1_desc_organic") : t("widgets.hero_card1_desc_default")}</p>
           </div>
 
           {/* Dynamic Cards 2 & 3 */}
@@ -113,14 +113,14 @@ export default function PublicHero() {
             let card3 = { icon: <></>, title: '', desc: '' };
 
             if (isBuy) {
-              card2 = { icon: <TShirtIcon size={24} color="#111111" strokeWidth={1.5} className={styles.featureIcon} />, title: "2M+", desc: "Satıştaki ürün" };
-              card3 = { icon: <SparklesIcon size={24} color="#111111" strokeWidth={1.5} className={styles.featureIcon} />, title: "10K+", desc: "Her gün yeni ilan" };
+              card2 = { icon: <TShirtIcon size={24} color="#111111" strokeWidth={1.5} className={styles.featureIcon} />, title: t("widgets.hero_card2_buy_title"), desc: t("widgets.hero_card2_buy_desc") };
+              card3 = { icon: <SparklesIcon size={24} color="#111111" strokeWidth={1.5} className={styles.featureIcon} />, title: t("widgets.hero_card3_buy_title"), desc: t("widgets.hero_card3_buy_desc") };
             } else if (isSell) {
               card2 = { icon: <SparklesIcon size={24} color="#111111" strokeWidth={1.5} className={styles.featureIcon} />, title: "Hızlıca İlan Ver", desc: "Yapay zeka destekli" };
               card3 = { icon: <DeliveryTruck01Icon size={24} color="#111111" strokeWidth={1.5} className={styles.featureIcon} />, title: "Kolayca Kargola", desc: "Yazıcıya gerek yok" };
             } else if (isLive) {
               card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>, title: "Sesli Odalar", desc: "Açık ve özel yayınlar" };
-              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>, title: t("widgets.hero_card3_title"), desc: t("widgets.hero_card3_desc") };
+              card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>, title: t("widgets.hero_card3_live_title"), desc: t("widgets.hero_card3_live_desc") };
             } else if (isStory) {
               card2 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>, title: "Sürdürülebilir", desc: "İsrafı önleme vizyonu" };
               card3 = { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.featureIcon}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>, title: "Anneden Anneye", desc: "Empati ve topluluk" };
