@@ -126,12 +126,29 @@ export default function MannequinWidget() {
 
   const PRICES = [100, 200, 500, 1000];
 
+  // Auto-slide effect (Banner style)
+  useEffect(() => {
+    if (isGeneratingAI) return;
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setActiveType(prev => {
+          const newType = prev === 'baby' ? 'child' : 'baby';
+          setCurrentOutfit((newType === 'baby' ? BABY_OUTFITS[selectedPrice as keyof typeof BABY_OUTFITS] : CHILD_OUTFITS[selectedPrice as keyof typeof CHILD_OUTFITS])[0]);
+          return newType;
+        });
+        setIsAnimating(false);
+      }, 400);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isGeneratingAI, selectedPrice]);
+
   const switchType = (type: 'baby' | 'child') => {
     if (type === activeType || isGeneratingAI) return;
     setIsAnimating(true);
     setTimeout(() => {
       setActiveType(type);
-      setCurrentOutfit((type === 'baby' ? BABY_OUTFITS[selectedPrice] : CHILD_OUTFITS[selectedPrice])[0]);
+      setCurrentOutfit((type === 'baby' ? BABY_OUTFITS[selectedPrice as keyof typeof BABY_OUTFITS] : CHILD_OUTFITS[selectedPrice as keyof typeof CHILD_OUTFITS])[0]);
       setIsAnimating(false);
     }, 400);
   };
