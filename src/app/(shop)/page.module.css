@@ -161,8 +161,24 @@
   border-color: #111111;
 }
 
+.promoBannerCarousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  margin: 12px 16px 0 16px;
+  position: relative;
+  gap: 16px;
+}
+
+.promoBannerCarousel::-webkit-scrollbar {
+  display: none;
+}
+
 .promoBanner {
-  margin: 12px 16px 0 16px; /* Added horizontal margin to match grid */
+  flex: 0 0 100%;
+  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   overflow: hidden;

@@ -1,7 +1,8 @@
 "use client";
 
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from '@/app/(shop)/page.module.css';
+import {ArrowRight01Icon} from 'hugeicons-react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 
 const getCategoryBanners = (t: any): Record<string, { image: string; title: string; text: string; buttonText: string; bg: string; color: string; btnBg: string; btnColor: string; dotColorActive: string; dotColorInactive: string }> => ({
@@ -111,70 +112,105 @@ interface Props {
 export default function CategoryFilterWidget({ activeCategory, setActiveCategory }: Props) {
   const { t } = useThemeLanguage();
   const CATEGORY_BANNERS = getCategoryBanners(t);
-
-  const FILTER_TABS = [
-    { key: "Tümü", label: t('home.tab_all') },
-    { key: "Sana Özel", label: t('home.tab_foryou') },
-    { key: "Anne", label: t('home.tab_mom') },
-    { key: "Bebek", label: t('home.tab_baby') },
-    { key: "Çocuk", label: t('home.tab_child') },
-    { key: "Diğer", label: t('home.tab_other') }
-  ];
+  const banners = Object.values(CATEGORY_BANNERS);
   
-  const DROPDOWN_TABS = [
-    { key: "Beden", label: t('home.tab_size') },
-    { key: "Marka", label: t('home.tab_brand') }
-  ];
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollNext = () => {
+    if (scrollRef.current) {
+      const container = scrollRef.current;
+      const scrollAmount = container.clientWidth;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      
+      if (container.scrollLeft >= maxScroll - 10) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        const index = Math.round(scrollRef.current.scrollLeft / scrollRef.current.clientWidth);
+        setActiveIndex(index);
+      }
+    };
+    
+    const container = scrollRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
 
   return (
     <div className={styles.categoryFiltersWrapper}>
       <h2 className={styles.sectionTitle}>{t('home.category_filter_title')}</h2>
 
-      {/* Promotional Banner */}
-      <div className={styles.promoBanner}>
-        <img 
-          src={CATEGORY_BANNERS[activeCategory]?.image} 
-          alt="Promo" 
-          className={styles.promoImage} 
-          style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.bg }}
-        />
-        <div 
-          className={styles.promoContent} 
-          style={{ 
-            background: CATEGORY_BANNERS[activeCategory]?.bg, 
-            color: CATEGORY_BANNERS[activeCategory]?.color 
-          }}
-        >
-          <h3 className={styles.promoTitle}>{CATEGORY_BANNERS[activeCategory]?.title}</h3>
-          <p className={styles.promoText}>{CATEGORY_BANNERS[activeCategory]?.text}</p>
-          <button 
-            className={styles.promoButton}
-            style={{ 
-              backgroundColor: CATEGORY_BANNERS[activeCategory]?.btnBg, 
-              color: CATEGORY_BANNERS[activeCategory]?.btnColor 
-            }}
-          >
-            {CATEGORY_BANNERS[activeCategory]?.buttonText}
-          </button>
-          <div className={styles.promoDots}>
-            <span 
-              className={styles.promoDot} 
-              style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorActive }}
-            ></span>
-            <span 
-              className={styles.promoDot} 
-              style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorInactive }}
-            ></span>
-            <span 
-              className={styles.promoDot} 
-              style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorInactive }}
-            ></span>
-            <span 
-              className={styles.promoDot} 
-              style={{ backgroundColor: CATEGORY_BANNERS[activeCategory]?.dotColorInactive }}
-            ></span>
-          </div>
+      <div style={{ position: 'relative' }}>
+        <div className={styles.promoBannerCarousel} ref={scrollRef}>
+          {banners.map((banner, index) => (
+            <div key={index} className={styles.promoBanner}>
+              <img 
+                src={banner.image} 
+                alt="Promo" 
+                className={styles.promoImage} 
+                style={{ backgroundColor: banner.bg }}
+              />
+              <div 
+                className={styles.promoContent} 
+                style={{ background: banner.bg, color: banner.color }}
+              >
+                <h3 className={styles.promoTitle}>{banner.title}</h3>
+                <p className={styles.promoText}>{banner.text}</p>
+                <button 
+                  className={styles.promoButton}
+                  style={{ backgroundColor: banner.btnBg, color: banner.btnColor }}
+                >
+                  {banner.buttonText}
+                </button>
+                <div className={styles.promoDots}>
+                  {banners.slice(0, 4).map((_, dotIndex) => (
+                    <span 
+                      key={dotIndex}
+                      className={styles.promoDot} 
+                      style={{ 
+                        backgroundColor: (index % 4) === dotIndex ? banner.dotColorActive : banner.dotColorInactive 
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
+        
+        <button 
+          onClick={scrollNext}
+          style={{
+            position: 'absolute',
+            right: '24px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'rgba(255, 255, 255, 0.9)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            zIndex: 10
+          }}
+          aria-label="Next Banner"
+        >
+          <ArrowRight01Icon size={20} color="#111" strokeWidth={2.5} />
+        </button>
       </div>
     </div>
   );
