@@ -119,46 +119,59 @@
 }
 
 .filterPill {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: #111111; /* Black text */
+  color: #999999; /* Grey text for inactive */
   white-space: nowrap;
   cursor: pointer;
-  border: 1px solid #DDDDDD;
-  border-radius: 30px;
-  padding: 6px 14px;
+  padding: 4px 6px;
   background-color: transparent;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .filterPill:hover {
-  border-color: #111111;
+  color: #666666;
 }
 
 .filterPillActive {
   background-color: transparent;
-  color: #111111;
-  border: 1px solid #111111;
+  color: #111111; /* Black for active */
+  font-weight: 800; /* Bold for active */
 }
 
 .filterPillDropdown {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: #111111;
+  color: #999999;
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 4px;
   cursor: pointer;
-  border: 1px solid #DDDDDD;
-  border-radius: 30px;
-  padding: 6px 14px;
+  padding: 4px 6px;
   background-color: transparent;
   transition: all 0.2s ease;
 }
 
 .filterPillDropdown:hover {
-  border-color: #111111;
+  color: #666666;
+}
+
+.subCategoryRow {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 0 16px 8px 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.subCategoryRow::-webkit-scrollbar {
+  display: none;
 }
 
 .promoBannerCarousel {

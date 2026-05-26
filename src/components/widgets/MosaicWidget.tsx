@@ -63,12 +63,50 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
   );
 }
 
+const SUB_CATEGORIES: Record<string, Record<string, string[]>> = {
+  "Anne": {
+    "Bakım & Sağlık": ["Anne Bakım", "Anne Sağlığı", "Göğüs Pedi & Kremi"],
+    "Çanta": [],
+    "Emzirme": [],
+    "Giyim": [],
+    "Pratik Çözümler": []
+  },
+  "Bebek": {
+    "Aksesuar": [],
+    "Alt Giyim": [],
+    "Araç Gereç": ["Ana Kucağı", "Bebek Arabaları", "Bebek Taşıma Gereçleri", "Beşik & Park Yatak"],
+    "Ayakkabı": [],
+    "Banyo & Bakım": []
+  },
+  "Çocuk": {
+    "Aksesuar": [],
+    "Alt Giyim": [],
+    "Ayakkabı": ["Bot", "Çizme", "Deniz Ayakkabısı", "Sandalet", "Spor Ayakkabı"],
+    "Çocuk Odası": [],
+    "Dış Giyim": []
+  }
+};
+
 export default function MosaicWidget({ activeCategory = "Tümü", setActiveCategory = () => {} }: { activeCategory?: string, setActiveCategory?: (c: string) => void }) {
   const { t } = useThemeLanguage();
   const router = useRouter();
   const [showAppModal, setShowAppModal] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
+  const [activeSubSubCategory, setActiveSubSubCategory] = useState<string | null>(null);
+
+  const handleMainCategoryClick = (key: string) => {
+    setActiveCategory(key);
+    setActiveSubCategory(null);
+    setActiveSubSubCategory(null);
+  };
+
+  const handleSubCategoryClick = (key: string) => {
+    setActiveSubCategory(key);
+    setActiveSubSubCategory(null);
+  };
 
   const FILTER_TABS = [
     { key: "Tümü", label: t('home.tab_all') },
@@ -114,26 +152,56 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
       <div id="shop-grid" className={styles.mosaicSection} style={{ scrollMarginTop: '80px' }}>
         <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>{t('home.for_you_picks')}</h2>
         
-        <div className={styles.categoryFilters} style={{ margin: '0 16px 24px 16px' }}>
+        <div className={styles.categoryFilters} style={{ margin: '0 16px 8px 16px', gap: '16px' }}>
           {FILTER_TABS.map((tab) => (
             <span 
               key={tab.key}
-              onClick={() => setActiveCategory(tab.key)}
+              onClick={() => handleMainCategoryClick(tab.key)}
               className={`${styles.filterPill} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
             >
               {tab.label}
+              {SUB_CATEGORIES[tab.key] && <span style={{ fontSize: '10px', marginLeft: '2px', color: '#111' }}>•</span>}
             </span>
           ))}
           {DROPDOWN_TABS.map((tab) => (
             <span 
               key={tab.key}
               className={`${styles.filterPillDropdown} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
-              onClick={() => setActiveCategory(tab.key)}
+              onClick={() => handleMainCategoryClick(tab.key)}
             >
               {tab.label} <ArrowDown01Icon size={18} color="currentColor" strokeWidth={2.5} />
             </span>
           ))}
         </div>
+
+        {activeCategory && SUB_CATEGORIES[activeCategory] && (
+          <div className={styles.subCategoryRow}>
+            {Object.keys(SUB_CATEGORIES[activeCategory]).map((sub) => (
+              <span
+                key={sub}
+                onClick={() => handleSubCategoryClick(sub)}
+                className={`${styles.filterPill} ${activeSubCategory === sub ? styles.filterPillActive : ''}`}
+              >
+                {sub}
+                {SUB_CATEGORIES[activeCategory][sub].length > 0 && <span style={{ fontSize: '10px', marginLeft: '2px', color: '#111' }}>•</span>}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {activeCategory && activeSubCategory && SUB_CATEGORIES[activeCategory]?.[activeSubCategory]?.length > 0 && (
+          <div className={styles.subCategoryRow}>
+            {SUB_CATEGORIES[activeCategory][activeSubCategory].map((subsub) => (
+              <span
+                key={subsub}
+                onClick={() => setActiveSubSubCategory(subsub)}
+                className={`${styles.filterPill} ${activeSubSubCategory === subsub ? styles.filterPillActive : ''}`}
+              >
+                {subsub}
+              </span>
+            ))}
+          </div>
+        )}
 
         {loading ? (
           <div className={styles.mosaicContainer}>
