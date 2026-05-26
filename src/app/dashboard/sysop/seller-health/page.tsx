@@ -27,10 +27,10 @@ export default function SellerHealthPage() {
     { label: 'Top Satıcı (>15K ₺)', value: '32', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
     { label: 'Yeni Satıcı (30g)', value: '67', colorClass: 'text-[#007AFF]', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
   ] : [
-    { label: 'Aktif Satıcı', value: '0', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
-    { label: 'İnaktif (>7 Gün)', value: '0', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
-    { label: 'Top Satıcı (>15K ₺)', value: '0', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
-    { label: 'Yeni Satıcı (30g)', value: '0', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
+    { label: 'Aktif Satıcı', value: '0', colorClass: 'text-[#34C759]', icon: <HugeiconsIcon icon={Tick01Icon} size={18} /> },
+    { label: 'İnaktif (>7 Gün)', value: '0', colorClass: 'text-[#FF8D28]', icon: <HugeiconsIcon icon={Alert02Icon} size={24} /> },
+    { label: 'Top Satıcı (>15K ₺)', value: '0', colorClass: 'text-[#111827]', icon: <HugeiconsIcon icon={CrownIcon} size={18} /> },
+    { label: 'Yeni Satıcı (30g)', value: '0', colorClass: 'text-[#007AFF]', icon: <HugeiconsIcon icon={NewJobIcon} size={18} /> },
   ];
 
   const topSellers = hasValidToken ? [

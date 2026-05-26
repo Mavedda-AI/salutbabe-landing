@@ -3,16 +3,16 @@
 import React, {useEffect, useState} from "react";
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-    Camera01Icon,
-    Cancel01Icon,
-    CheckmarkCircle01Icon,
-    DocumentAttachmentIcon,
-    Message01Icon,
-    Money01Icon,
-    PencilEdit01Icon,
-    RulerIcon,
-    Tag01Icon,
-    Tick01Icon,
+  Camera01Icon,
+  Cancel01Icon,
+  CheckmarkCircle01Icon,
+  DocumentAttachmentIcon,
+  Message01Icon,
+  Money01Icon,
+  PencilEdit01Icon,
+  RulerIcon,
+  Tag01Icon,
+  Tick01Icon,
 } from '@hugeicons/core-free-icons';
 
 import {PageHeader} from "@/app/dashboard/components/ui/PageHeader";
@@ -158,7 +158,7 @@ export function ModerationView() {
         if (p.status === 'rejected') type = 'danger';
         if (p.status === 'pending') type = 'warning';
 
-        let label = p.status;
+        let label: string = p.status;
         if (p.status === 'pending') label = 'Bekleyen';
         if (p.status === 'approved') label = 'Onaylandı';
         if (p.status === 'notified') label = 'Bildirim';
