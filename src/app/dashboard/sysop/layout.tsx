@@ -124,7 +124,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       const roles = parsedUser.userType || [];
       const userRoles = Array.isArray(roles) ? roles : [roles];
       
-      const hasAccess = userRoles.some((r: string) => 
+      const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
+      const isWhitelisted = allowedEmails.includes(parsedUser.email?.toLowerCase());
+
+      const hasAccess = isWhitelisted || userRoles.some((r: string) => 
         ['FOUNDER', 'SYSOP', 'PARTNER', 'ADMIN'].includes(r)
       );
 
@@ -134,8 +137,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         return;
       }
 
-      const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
-      if (!allowedEmails.includes(parsedUser.email?.toLowerCase())) {
+      if (!isWhitelisted) {
         setIsUnderConstruction(true);
       }
 

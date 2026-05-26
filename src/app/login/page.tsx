@@ -73,8 +73,11 @@ const LoginPage = () => {
         ? (userType.includes("SYSOP") || userType.includes("ADMIN"))
         : (userType === "SYSOP" || userType === "ADMIN");
       
-      if (isAdmin) {
-        window.location.href = "/dashboard/sysop/product-approval";
+      const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
+      const isWhitelisted = allowedEmails.includes(user?.email?.toLowerCase());
+
+      if (isAdmin || isWhitelisted) {
+        window.location.href = "/dashboard/sysop";
       } else {
         window.location.href = "/";
       }
