@@ -204,12 +204,25 @@ export default function MannequinWidget() {
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes imageFade { from { opacity: 0.6; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes scanLaser { 
-          0% { top: 0%; opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { top: 100%; opacity: 0; }
+        
+        /* Minimalist Sci-Fi X-Ray Animation */
+        @keyframes quantumXray {
+          0% { filter: invert(0) sepia(0) hue-rotate(0deg) saturate(1) brightness(1) blur(0px); transform: scale(1); }
+          15% { filter: invert(1) sepia(1) hue-rotate(180deg) saturate(3) brightness(1.1) blur(1px); transform: scale(0.98); }
+          85% { filter: invert(1) sepia(1) hue-rotate(180deg) saturate(3) brightness(1.1) blur(1px); transform: scale(0.98); }
+          100% { filter: invert(0) sepia(0) hue-rotate(0deg) saturate(1) brightness(1) blur(0px); transform: scale(1); }
         }
+        @keyframes elegantLensFocus {
+          0% { transform: translate(-50%, -50%) scale(2) rotate(0deg); opacity: 0; border-width: 1px; }
+          20% { opacity: 1; border-width: 3px; }
+          80% { transform: translate(-50%, -50%) scale(0.8) rotate(180deg); opacity: 1; border-width: 1px; }
+          100% { transform: translate(-50%, -50%) scale(0.5) rotate(270deg); opacity: 0; border-width: 1px; }
+        }
+        @keyframes textGlowPulse {
+          0%, 100% { opacity: 0.5; text-shadow: 0 0 10px rgba(0, 240, 255, 0); }
+          50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 240, 255, 0.8); }
+        }
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}} />
 
       {/* Title Header */}
@@ -226,6 +239,7 @@ export default function MannequinWidget() {
         overflow: 'hidden',
         boxShadow: '0 10px 40px rgba(0,0,0,0.06)',
         border: '1px solid #F0ECE8',
+        transition: 'background 0.5s ease',
       }}>
         
         <div 
@@ -238,23 +252,6 @@ export default function MannequinWidget() {
             overflow: 'hidden'
           }}
         >
-          {/* Swiped to change mannequins (Toggle UI removed) */}
-
-          <img 
-            key={activeType + selectedPrice}
-            src={`/mannequins/${activeType}-${selectedPrice}.png`} 
-            alt="Styled Mannequin" 
-            style={{
-              width: '100%', height: '100%', 
-              objectFit: 'contain',
-              mixBlendMode: 'darken',
-              animation: 'imageFade 0.6s ease-out forwards',
-              /* Add a tiny loading dim effect during AI Generation to simulate processing */
-              filter: isGeneratingAI ? 'brightness(0.7) blur(2px)' : 'none',
-              transition: 'filter 0.5s ease-in-out'
-            }}
-          />
-
           {/* Single Right Arrow Indicator for Cycling Mannequins */}
           <button 
             onClick={() => switchType(activeType === 'baby' ? 'child' : 'baby')}
@@ -264,34 +261,82 @@ export default function MannequinWidget() {
               background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: 'none', zIndex: 10,
-              cursor: 'pointer', transition: 'all 0.2s ease-out'
+              cursor: 'pointer', transition: 'all 0.2s ease-out',
+              opacity: isGeneratingAI ? 0 : 1, pointerEvents: isGeneratingAI ? 'none' : 'auto'
             }}
           >
             <ArrowRight01Icon size={20} color="#121212" />
           </button>
 
-          {/* AI Virtual Try-On Scanner Overlay */}
+          <img 
+            key={activeType + selectedPrice}
+            src={`/mannequins/${activeType}-${selectedPrice}.png`} 
+            alt="Styled Mannequin" 
+            style={{
+              width: '100%', height: '100%', 
+              objectFit: 'contain',
+              mixBlendMode: 'darken',
+              animation: isGeneratingAI ? 'quantumXray 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'imageFade 0.6s ease-out forwards',
+              transition: 'all 0.3s ease-in-out'
+            }}
+          />
+
+          {/* ELEGANT MINIMALIST SCI-FI OVERLAY */}
           {isGeneratingAI && (
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              zIndex: 20
+              zIndex: 20,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'none'
             }}>
+              
+              {/* Massive Soft Ambient Glow */}
               <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: '4px',
-                background: '#A3E635', boxShadow: '0 0 15px #A3E635, 0 0 30px #A3E635',
-                animation: 'scanLaser 2s linear infinite'
+                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                width: '150%', height: '150%',
+                background: 'radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 60%)',
+                animation: 'textGlowPulse 2s infinite'
               }} />
+
+              {/* Ultra-Thin Elegant Focusing Lens/Ring */}
               <div style={{
-                background: 'rgba(20, 52, 43, 0.85)', backdropFilter: 'blur(4px)',
-                padding: '12px 24px', borderRadius: '30px', border: '1px solid #A3E635',
-                display: 'flex', alignItems: 'center', gap: '8px'
+                position: 'absolute', top: '50%', left: '50%',
+                width: '300px', height: '300px',
+                borderRadius: '50%',
+                border: '1px solid rgba(0, 240, 255, 0.8)',
+                boxShadow: '0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.2)',
+                animation: 'elegantLensFocus 3.5s cubic-bezier(0.25, 1, 0.5, 1) forwards'
+              }} />
+              
+              {/* Inner Delicate Dashed Ring */}
+              <div style={{
+                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                width: '280px', height: '280px',
+                borderRadius: '50%',
+                border: '1px dashed rgba(255, 255, 255, 0.3)',
+                animation: 'spinSlow 10s linear infinite',
+                opacity: 0.6
+              }} />
+
+              {/* Minimalist Cinematic Typography */}
+              <div style={{
+                position: 'absolute', bottom: '15%', left: '0', right: '0',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+                animation: 'textGlowPulse 2s infinite'
               }}>
-                <SparklesIcon size={18} color="#A3E635" />
-                <span style={{ color: '#A3E635', fontWeight: 600, fontSize: '14px', letterSpacing: '0.5px' }}>
+                <span style={{ 
+                  color: '#00F0FF', fontSize: '11px', fontWeight: 500, letterSpacing: '4px', textTransform: 'uppercase',
+                  fontFamily: 'monospace'
+                }}>
                   {aiLoadingText}
                 </span>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  <div style={{ width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%' }} />
+                  <div style={{ width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%', opacity: 0.5 }} />
+                  <div style={{ width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%', opacity: 0.2 }} />
+                </div>
               </div>
+
             </div>
           )}
 
