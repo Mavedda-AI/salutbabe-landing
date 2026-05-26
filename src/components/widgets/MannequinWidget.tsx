@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {useThemeLanguage} from '@/context/ThemeLanguageContext';
 import {useCart} from '@/context/CartContext';
 import {useToast} from '@/context/ToastContext';
-import {ArrowLeft01Icon, ArrowRight01Icon, ShoppingBasketAdd01Icon} from 'hugeicons-react';
+import {ShoppingBasketAdd01Icon} from 'hugeicons-react';
 
 // ── Types ──
 interface OutfitItem {
@@ -206,35 +206,20 @@ export default function MannequinWidget() {
           style={{ 
             height: '420px', 
             position: 'relative', 
-            background: '#F5F3F0',
+            background: 'transparent',
             overflow: 'hidden'
           }}
         >
-          <div style={{
-            position: 'absolute', top: '16px', left: '50%', transform: 'translateX(-50%)',
-            background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)',
-            padding: '6px 16px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '8px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.05)', zIndex: 10
-          }}>
-            <button onClick={() => switchType('baby')} style={{ background: 'none', border: 'none', color: activeType === 'baby' ? '#121212' : '#CCC', fontWeight: activeType === 'baby' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-               Bebek
-            </button>
-            <div style={{ display: 'flex', color: '#CCC' }}>
-              <ArrowLeft01Icon size={12} />
-              <ArrowRight01Icon size={12} />
-            </div>
-            <button onClick={() => switchType('child')} style={{ background: 'none', border: 'none', color: activeType === 'child' ? '#121212' : '#CCC', fontWeight: activeType === 'child' ? 800 : 500, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-               Çocuk
-            </button>
-          </div>
+          {/* Swiped to change mannequins (Toggle UI removed) */}
 
           <img 
             key={activeType + selectedPrice}
-            src={activeType === 'baby' ? '/mannequins/baby-perfect.png?v=5' : '/mannequins/child-perfect.png?v=5'} 
+            src={activeType === 'baby' ? '/mannequins/baby-perfect.png?v=6' : '/mannequins/child-perfect.png?v=6'} 
             alt="Styled Mannequin" 
             style={{
               width: '100%', height: '100%', 
               objectFit: 'contain',
+              mixBlendMode: 'darken', /* This magically removes the white background */
               animation: 'imageFade 0.6s ease-out forwards',
               /* Dynamic Clothing Color Trick! */
               filter: isGeneratingAI ? 'brightness(0.5) grayscale(1)' :
