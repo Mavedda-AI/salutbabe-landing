@@ -242,13 +242,16 @@ export default function MannequinWidget() {
 
           <img 
             key={activeType + selectedPrice}
-            src={activeType === 'baby' ? '/mannequins/baby-perfect.png?v=7' : '/mannequins/child-perfect.png?v=7'} 
+            src={`/mannequins/${activeType}-${selectedPrice}.png`} 
             alt="Styled Mannequin" 
             style={{
               width: '100%', height: '100%', 
               objectFit: 'contain',
               mixBlendMode: 'darken',
-              animation: 'imageFade 0.6s ease-out forwards'
+              animation: 'imageFade 0.6s ease-out forwards',
+              /* Add a tiny loading dim effect during AI Generation to simulate processing */
+              filter: isGeneratingAI ? 'brightness(0.7) blur(2px)' : 'none',
+              transition: 'filter 0.5s ease-in-out'
             }}
           />
 
