@@ -373,6 +373,102 @@ export default function MannequinWidget() {
               </p>
             </div>
 
+            {/* ── Dressed Mannequin ── */}
+            <div style={{
+              display: 'flex', justifyContent: 'center', alignItems: 'center',
+              padding: '8px 0 16px', position: 'relative',
+            }}>
+              <div style={{
+                background: 'radial-gradient(circle, #f8f6f3 0%, transparent 70%)',
+                padding: '12px 32px', borderRadius: '50%',
+                animation: 'mannequinFadeIn 0.5s ease-out',
+              }}>
+                {activeType === 'baby' ? (
+                  /* Baby Mannequin SVG */
+                  <svg viewBox="0 0 180 260" style={{ width: '120px', height: '180px' }}>
+                    {/* Hat/Accessory */}
+                    {(() => { const acc = currentOutfit.items.find(i => i.type === 'accessory'); return acc ? <ellipse cx="90" cy="22" rx="32" ry="12" fill={acc.color} opacity="0.85" /> : null; })()}
+                    {/* Head */}
+                    <circle cx="90" cy="40" r="26" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1.5" />
+                    <circle cx="80" cy="37" r="2.5" fill="#666" />
+                    <circle cx="100" cy="37" r="2.5" fill="#666" />
+                    <path d="M83 46 Q90 52 97 46" fill="none" stroke="#D4B8A0" strokeWidth="1.5" strokeLinecap="round" />
+                    {/* Neck */}
+                    <rect x="84" y="66" width="12" height="8" rx="4" fill="#F5E6D3" />
+                    {/* Top */}
+                    {(() => { const top = currentOutfit.items.find(i => i.type === 'top'); const c = top?.color || '#E8E0D8'; return (
+                      <>
+                        <path d={`M55 74 Q55 70 65 70 L85 70 L90 66 L95 70 L115 70 Q125 70 125 74 L125 130 Q125 136 120 136 L60 136 Q55 136 55 130 Z`} fill={c} />
+                        <path d="M55 74 L38 82 Q34 84 36 88 L45 100 Q48 104 52 100 L55 92" fill={c} />
+                        <path d="M125 74 L142 82 Q146 84 144 88 L135 100 Q132 104 128 100 L125 92" fill={c} />
+                        {/* Collar detail */}
+                        <path d="M80 70 L90 76 L100 70" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5" />
+                      </>
+                    ); })()}
+                    {/* Hands */}
+                    <circle cx="44" cy="102" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
+                    <circle cx="136" cy="102" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
+                    {/* Bottom */}
+                    {(() => { const bot = currentOutfit.items.find(i => i.type === 'bottom'); const c = bot?.color || '#D5CEC7'; return (
+                      <path d={`M60 136 L62 200 Q62 206 68 206 L82 206 Q86 206 86 200 L90 160 L94 200 Q94 206 98 206 L112 206 Q118 206 118 200 L120 136 Z`} fill={c} />
+                    ); })()}
+                    {/* Shoes */}
+                    {(() => { const shoe = currentOutfit.items.find(i => i.type === 'shoes'); const c = shoe?.color || '#C4BBB2'; return (
+                      <>
+                        <path d="M62 204 L58 210 Q54 218 62 220 L82 220 Q90 220 88 212 L86 204 Z" fill={c} rx="4" />
+                        <path d="M118 204 L122 210 Q126 218 118 220 L98 220 Q90 220 92 212 L94 204 Z" fill={c} rx="4" />
+                      </>
+                    ); })()}
+                  </svg>
+                ) : (
+                  /* Child Mannequin SVG */
+                  <svg viewBox="0 0 180 300" style={{ width: '120px', height: '200px' }}>
+                    {/* Hat/Accessory */}
+                    {(() => { const acc = currentOutfit.items.find(i => i.type === 'accessory'); return acc ? <ellipse cx="90" cy="18" rx="28" ry="10" fill={acc.color} opacity="0.85" /> : null; })()}
+                    {/* Head */}
+                    <ellipse cx="90" cy="36" rx="22" ry="24" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1.5" />
+                    <circle cx="82" cy="33" r="2.5" fill="#666" />
+                    <circle cx="98" cy="33" r="2.5" fill="#666" />
+                    <path d="M84 43 Q90 48 96 43" fill="none" stroke="#D4B8A0" strokeWidth="1.5" strokeLinecap="round" />
+                    {/* Neck */}
+                    <rect x="84" y="60" width="12" height="10" rx="4" fill="#F5E6D3" />
+                    {/* Top */}
+                    {(() => { const top = currentOutfit.items.find(i => i.type === 'top'); const c = top?.color || '#E8E0D8'; return (
+                      <>
+                        <path d={`M55 70 Q52 66 62 66 L82 66 L90 60 L98 66 L118 66 Q128 66 125 70 L122 145 Q122 150 117 150 L63 150 Q58 150 58 145 Z`} fill={c} />
+                        <path d="M55 70 L35 80 Q30 82 32 87 L42 108 Q45 112 50 108 L55 95" fill={c} />
+                        <path d="M125 70 L145 80 Q150 82 148 87 L138 108 Q135 112 130 108 L125 95" fill={c} />
+                        <path d="M78 66 L90 72 L102 66" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5" />
+                      </>
+                    ); })()}
+                    {/* Hands */}
+                    <circle cx="41" cy="110" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
+                    <circle cx="139" cy="110" r="7" fill="#F5E6D3" stroke="#E8DDD2" strokeWidth="1" />
+                    {/* Bottom */}
+                    {(() => { const bot = currentOutfit.items.find(i => i.type === 'bottom'); const c = bot?.color || '#D5CEC7'; return (
+                      <path d={`M63 150 L65 240 Q65 246 70 246 L84 246 Q88 246 88 240 L90 185 L92 240 Q92 246 96 246 L110 246 Q115 246 115 240 L117 150 Z`} fill={c} />
+                    ); })()}
+                    {/* Shoes */}
+                    {(() => { const shoe = currentOutfit.items.find(i => i.type === 'shoes'); const c = shoe?.color || '#C4BBB2'; return (
+                      <>
+                        <path d="M65 244 L60 252 Q56 260 64 262 L84 262 Q92 262 90 254 L88 244 Z" fill={c} rx="4" />
+                        <path d="M115 244 L120 252 Q124 260 116 262 L96 262 Q88 262 90 254 L92 244 Z" fill={c} rx="4" />
+                      </>
+                    ); })()}
+                  </svg>
+                )}
+              </div>
+              {/* Total badge on mannequin */}
+              <div style={{
+                position: 'absolute', bottom: '8px', left: '50%', transform: 'translateX(-50%)',
+                background: '#14342B', color: '#FFF', padding: '5px 16px',
+                borderRadius: '20px', fontSize: '13px', fontWeight: 800,
+                boxShadow: '0 4px 12px rgba(20,52,43,0.3)',
+              }}>
+                {totalPrice} ₺
+              </div>
+            </div>
+
             {/* Outfit Name */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
               <div>
