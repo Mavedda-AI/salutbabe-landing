@@ -120,20 +120,39 @@ export default function MannequinWidget() {
   const [selectedPrice, setSelectedPrice] = useState<number>(100);
   const [currentOutfit, setCurrentOutfit] = useState<OutfitSet>(BABY_OUTFITS[100][0]);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
   const [aiLoadingText, setAiLoadingText] = useState('Kombin analiz ediliyor...');
-
+  const scrollRef = useRef<HTMLDivElement>(null);
+  
   const PRICES = [100, 200, 500, 1000];
 
   const switchType = (type: 'baby' | 'child') => {
     if (type === activeType || isGeneratingAI) return;
+    
+    // Manually scroll to the correct snap point
+    if (scrollRef.current) {
+      const targetScroll = type === 'baby' ? 0 : scrollRef.current.clientWidth;
+      scrollRef.current.scrollTo({ left: targetScroll, behavior: 'smooth' });
+    }
+
     setIsAnimating(true);
     setTimeout(() => {
       setActiveType(type);
       setCurrentOutfit((type === 'baby' ? BABY_OUTFITS[selectedPrice as keyof typeof BABY_OUTFITS] : CHILD_OUTFITS[selectedPrice as keyof typeof CHILD_OUTFITS])[0]);
       setIsAnimating(false);
     }, 400);
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (isGeneratingAI) return;
+    const scrollLeft = e.currentTarget.scrollLeft;
+    const width = e.currentTarget.clientWidth;
+    const newType = scrollLeft > width / 2 ? 'child' : 'baby';
+    
+    if (newType !== activeType) {
+      setActiveType(newType);
+      setCurrentOutfit((newType === 'baby' ? BABY_OUTFITS[selectedPrice as keyof typeof BABY_OUTFITS] : CHILD_OUTFITS[selectedPrice as keyof typeof CHILD_OUTFITS])[0]);
+    }
   };
 
   const selectPrice = (price: number) => {
