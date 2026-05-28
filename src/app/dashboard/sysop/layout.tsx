@@ -1,38 +1,10 @@
-'use client';
-import {HugeiconsIcon} from '@hugeicons/react';
-import {
-  Activity01Icon,
-  Alert01Icon,
-  BankIcon,
-  BarChartIcon,
-  CameraVideoIcon,
-  CardExchange01Icon,
-  Coins01Icon,
-  Home01Icon,
-  Invoice01Icon,
-  Message01Icon,
-  MessageQuestionIcon,
-  Money01Icon,
-  Moon01Icon,
-  Package01Icon,
-  PieChart01Icon,
-  Settings01Icon,
-  ShoppingBagIcon,
-  StarIcon,
-  Store01Icon,
-  StoreLocation01Icon,
-  Sun01Icon,
-  Tag01Icon,
-  TruckIcon,
-  UserGroupIcon,
-  UserIcon,
-  Wallet01Icon
-} from '@hugeicons/core-free-icons';
+"use client";
+
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
-import {useThemeLanguage} from "@/context/ThemeLanguageContext";
-import {API_BASE_URL, apiUrl} from "@/lib/api";
+import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
+import {API_BASE_URL, apiUrl} from "../../../lib/api";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -41,11 +13,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isUnderConstruction, setIsUnderConstruction] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ message: string, visible: boolean, type: 'warning' | 'success' | 'error' }>({
     message: '',
     visible: false,
@@ -63,19 +35,29 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     try {
       const token = localStorage.getItem("auth_token");
       if (!token) return;
-      const res = await fetch(apiUrl("/notifications?page=1&limit=20"), {
-        headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
-      });
-      const data = await res.json();
+      
+      const [listRes, countRes] = await Promise.all([
+        fetch(apiUrl("/notifications?page=1&limit=20"), {
+          headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+        }),
+        fetch(apiUrl("/notifications/unread-count"), {
+          headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
+        })
+      ]);
+
+      const data = await listRes.json();
+      const countData = await countRes.json();
+
       if (data.request?.requestResult) {
         const rows = data.payload?.notifications || data.payload?.rows || [];
         setNotifications(rows);
-        const unreadRows = rows.filter((n: any) => !n.isRead).length;
-        setUnreadCount(data.payload?.unreadCount ?? unreadRows);
+      }
+      
+      if (countData.request?.requestResult) {
+        setUnreadCount(countData.payload?.count || 0);
       }
     } catch (e) {
-      // Use console.warn instead of console.error to prevent Next.js dev overlay for network issues
-      console.warn("Notifications fetch failed due to network unavailability.");
+      console.error("Notifications fetch failed:", e);
     }
   };
 
@@ -110,42 +92,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
+    const token = localStorage.getItem("token");
     const userStr = localStorage.getItem("user");
     
     if (!token || !userStr) {
       router.push("/login");
-      return;
-    } 
-    
-    try {
-      const parsedUser = JSON.parse(userStr);
-      // Check if user has required roles for Sysop/Partner dashboard
-      const roles = parsedUser.userType || [];
-      const userRoles = Array.isArray(roles) ? roles : [roles];
-      
-      const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
-      const userEmail = parsedUser.email || parsedUser.eMail || "";
-      const isWhitelisted = allowedEmails.includes(userEmail.toLowerCase());
-
-      const hasAccess = isWhitelisted || userRoles.some((r: string) => 
-        ['FOUNDER', 'SYSOP', 'PARTNER', 'ADMIN'].includes(r)
-      );
-
-      if (!hasAccess) {
-        showToast("Bu alana erişim yetkiniz bulunmuyor.", "error");
-        setTimeout(() => router.push("/"), 1500);
-        return;
+    } else {
+      try {
+        const parsedUser = JSON.parse(userStr);
+        setUser(parsedUser);
+        setIsAuthenticated(true);
+      } catch (e) {
+        router.push("/login");
       }
-
-      if (!isWhitelisted) {
-        setIsUnderConstruction(true);
-      }
-
-      setUser(parsedUser);
-      setIsAuthenticated(true);
-    } catch (e) {
-      router.push("/login");
     }
   }, [router]);
 
@@ -169,7 +128,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     href?: string;
     desc?: string;
     icon?: React.ReactNode;
-    submenus?: { label: string; href: string; icon?: React.ReactNode }[];
+    submenus?: { label: string; href: string }[];
   }
 
   const userType = user?.userType || [];
@@ -193,41 +152,24 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       '/dashboard/sysop/shipping-management',
       '/dashboard/sysop/store-management',
       '/dashboard/sysop/product-management',
+      '/dashboard/sysop/product-approval',
       '/dashboard/sysop/category-management',
       '/dashboard/sysop/brand-management',
-      '/dashboard/sysop/review-management',
-      '/dashboard/sysop/complaint-management',
-      '/dashboard/sysop/store-complaint-management',
-      '/dashboard/sysop/user-review-management',
-      '/dashboard/sysop/live-room-management',
-      '/dashboard/sysop/payout-management',
-      '/dashboard/sysop/finance-management',
-      '/dashboard/sysop/finance-management/escrow',
-      '/dashboard/sysop/finance-management/payouts',
-      '/dashboard/sysop/finance-management/failed-payouts',
-      '/dashboard/sysop/finance-management/invoices',
       '/dashboard/sysop/system-settings',
-      '/dashboard/sysop/analytics',
-      '/dashboard/sysop/unit-economics',
-      '/dashboard/sysop/seller-health',
-      '/dashboard/sysop/user-distribution',
-      '/dashboard/sysop/moderation',
       '/dashboard/common/profile'
     ];
 
     if (!implementedRoutes.includes(href)) {
       e.preventDefault();
       showToast(t('dashboard.under_construction') || "Bu özellik yapım aşamasındadır.", 'warning');
-    } else {
-      setIsMobileMenuOpen(false); // Close mobile menu on navigation
     }
   };
 
   const normalUserNav: NavItem[] = [
-    { label: t('dashboard.nav_dashboard'), href: '/dashboard/sysop', desc: t('dashboard.nav_dashboard_desc'), icon: <HugeiconsIcon icon={Home01Icon} size={24} /> },
-    { label: t('dashboard.nav_customers'), href: '/dashboard/sysop/customers', desc: t('dashboard.nav_customers_desc'), icon: <HugeiconsIcon icon={UserGroupIcon} size={24} /> },
-    { label: t('dashboard.nav_products'), href: '/dashboard/sysop/products', desc: t('dashboard.nav_products_desc'), icon: <HugeiconsIcon icon={ShoppingBagIcon} size={24} /> },
-    { label: t('dashboard.nav_orders'), href: '/dashboard/sysop/orders', desc: t('dashboard.nav_orders_desc'), icon: <HugeiconsIcon icon={Package01Icon} size={24} /> },
+    { label: t('dashboard.nav_dashboard'), href: '/dashboard/sysop', desc: t('dashboard.nav_dashboard_desc') },
+    { label: t('dashboard.nav_customers'), href: '/dashboard/sysop/customers', desc: t('dashboard.nav_customers_desc') },
+    { label: t('dashboard.nav_products'), href: '/dashboard/sysop/products', desc: t('dashboard.nav_products_desc') },
+    { label: t('dashboard.nav_orders'), href: '/dashboard/sysop/orders', desc: t('dashboard.nav_orders_desc') },
   ];
 
   const adminNav: NavItem[] = [
@@ -235,75 +177,86 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       label: t('dashboard.nav_dashboard'), 
       href: '/dashboard/sysop', 
       desc: t('dashboard.nav_dashboard_desc'),
-      icon: <HugeiconsIcon icon={Home01Icon} size={24} />
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M10 3H3V10H10V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 3H14V10H21V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 14H14V21H21V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M10 14H3V21H10V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )
     },
     { 
       label: t('dashboard.sysop.nav_users'), 
-      icon: <HugeiconsIcon icon={UserGroupIcon} size={24} />,
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M17 16V18C17 19.1046 16.1046 20 15 20H5C3.89543 20 3 19.1046 3 18V16C3 13.7909 4.79086 12 7 12H13C15.2091 12 17 13.7909 17 16Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M10 12C12.2091 12 14 10.2091 14 8C14 5.79086 12.2091 4 10 4C7.79086 4 6 5.79086 6 8C6 10.2091 7.79086 12 10 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 16V18C21 18.5523 20.5523 19 20 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M18 12C19.6569 12 21 13.3431 21 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M15 4.5C16.3807 4.5 17.5 5.61929 17.5 7C17.5 8.38071 16.3807 9.5 15 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       submenus: [
-        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management', icon: <HugeiconsIcon icon={UserIcon} size={18} /> },
-        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management', icon: <HugeiconsIcon icon={Store01Icon} size={18} /> }
-      ] 
-    },
-    { 
-      label: 'Analitik',
-      icon: <HugeiconsIcon icon={BarChartIcon} size={24} />,
-      submenus: [
-        { label: 'Genel Analitik', href: '/dashboard/sysop/analytics', icon: <HugeiconsIcon icon={PieChart01Icon} size={18} /> },
-        { label: 'Birim Ekonomisi', href: '/dashboard/sysop/unit-economics', icon: <HugeiconsIcon icon={Activity01Icon} size={18} /> },
-        { label: 'Satıcı Sağlığı', href: '/dashboard/sysop/seller-health', icon: <HugeiconsIcon icon={Alert01Icon} size={18} /> }
-      ] 
-    },
-    { 
-      label: 'Finans & Hak Ediş', 
-      icon: <HugeiconsIcon icon={Wallet01Icon} size={24} />,
-      submenus: [
-        { label: 'Finans Paneli', href: '/dashboard/sysop/finance-management', icon: <HugeiconsIcon icon={BankIcon} size={18} /> },
-        { label: 'Havuz (Emanet)', href: '/dashboard/sysop/finance-management/escrow', icon: <HugeiconsIcon icon={CardExchange01Icon} size={18} /> },
-        { label: 'Bekleyen Hakedişler', href: '/dashboard/sysop/finance-management/payouts', icon: <HugeiconsIcon icon={Money01Icon} size={18} /> },
-        { label: 'Başarısız Ödemeler', href: '/dashboard/sysop/finance-management/failed-payouts', icon: <HugeiconsIcon icon={Coins01Icon} size={18} /> },
-        { label: 'GİB Fatura Kuyruğu', href: '/dashboard/sysop/finance-management/invoices', icon: <HugeiconsIcon icon={Invoice01Icon} size={18} /> },
-        { label: 'Satıcı Ödemeleri', href: '/dashboard/sysop/payout-management', icon: <HugeiconsIcon icon={Wallet01Icon} size={18} /> }
-      ] 
-    },
-    { 
-      label: 'Canlı Odalar', 
-      icon: <HugeiconsIcon icon={CameraVideoIcon} size={24} />,
-      submenus: [
-        { label: 'Oda Moderasyonu', href: '/dashboard/sysop/live-room-management', icon: <HugeiconsIcon icon={Message01Icon} size={18} /> }
+        { label: t('dashboard.sysop.nav_user_mgmt'), href: '/dashboard/sysop/user-management' },
+        { label: t('dashboard.sysop.nav_store_mgmt'), href: '/dashboard/sysop/store-management' }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_orders'), 
-      icon: <HugeiconsIcon icon={Package01Icon} size={24} />,
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 8.5C3 7.11929 4.11929 6 5.5 6H18.5C19.8807 6 21 7.11929 21 8.5V17.5C21 19.9853 18.9853 22 16.5 22H7.5C5.01472 22 3 19.9853 3 17.5V8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M8 6V4.5C8 3.11929 9.11929 2 10.5 2H13.5C14.8807 2 16 3.11929 16 4.5V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 10H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       submenus: [
-        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/order-management', icon: <HugeiconsIcon icon={Package01Icon} size={18} /> },
-        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management', icon: <HugeiconsIcon icon={TruckIcon} size={18} /> }
+        { label: t('dashboard.sysop.nav_order_mgmt'), href: '/dashboard/sysop/order-management' },
+        { label: t('dashboard.sysop.nav_shipping_cos'), href: '/dashboard/sysop/shipping-management' }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_reviews'), 
-      icon: <HugeiconsIcon icon={StarIcon} size={24} />,
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M8 10H16M8 14H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M7 22H11C13.8284 22 15.2426 22 16.1213 21.1213C17 20.2426 17 18.8284 17 16V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 14V6C21 3.17157 21 1.75736 20.1213 0.87868C19.2426 0 17.8284 0 15 0H7C4.17157 0 2.75736 0 1.87868 0.87868C1 1.75736 1 3.17157 1 6V16C1 18.8284 1 20.2426 1.87868 21.1213C2.75736 22 4.17157 22 7 22Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       submenus: [
-        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/review-management', icon: <HugeiconsIcon icon={StarIcon} size={18} /> },
-        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management', icon: <HugeiconsIcon icon={MessageQuestionIcon} size={18} /> },
-        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/store-complaint-management', icon: <HugeiconsIcon icon={StoreLocation01Icon} size={18} /> },
-        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/user-review-management', icon: <HugeiconsIcon icon={UserIcon} size={18} /> }
+        { label: t('dashboard.sysop.nav_product_reviews'), href: '/dashboard/sysop/review-management' },
+        { label: t('dashboard.sysop.nav_product_complaints'), href: '/dashboard/sysop/complaint-management' },
+        { label: t('dashboard.sysop.nav_store_complaints'), href: '/dashboard/sysop/store-complaint-management' },
+        { label: t('dashboard.sysop.nav_user_reviews'), href: '/dashboard/sysop/user-review-management' }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_products'), 
-      icon: <HugeiconsIcon icon={ShoppingBagIcon} size={24} />,
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 22V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 7L12 12L3 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
       submenus: [
-        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/product-management', icon: <HugeiconsIcon icon={ShoppingBagIcon} size={18} /> },
-        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/category-management', icon: <HugeiconsIcon icon={Tag01Icon} size={18} /> },
-        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/brand-management', icon: <HugeiconsIcon icon={StarIcon} size={18} /> }
+        { label: t('dashboard.sysop.nav_products'), href: '/dashboard/sysop/product-management' },
+        { label: t('dashboard.sysop.nav_product_approval') || 'İlan Onaylama', href: '/dashboard/sysop/product-approval' },
+        { label: t('dashboard.sysop.nav_categories'), href: '/dashboard/sysop/category-management' },
+        { label: t('dashboard.sysop.nav_brands'), href: '/dashboard/sysop/brand-management' }
       ] 
     },
     { 
       label: t('dashboard.sysop.nav_settings'), 
       href: '/dashboard/sysop/system-settings',
-      icon: <HugeiconsIcon icon={Settings01Icon} size={24} />
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M19.6224 10.3954L18.4568 8.37738C17.6708 7.01599 17.2778 6.33529 17.5549 5.44781C17.8321 4.56034 18.4727 3.99042 19.7538 2.8506M4.37756 13.6046L5.54316 15.6226C6.3292 16.984 6.72222 17.6647 6.44505 18.5522C6.16789 19.4397 5.52731 20.0096 4.24615 21.1494M13.6046 4.37756L15.6226 5.54316C16.984 6.3292 17.6647 6.72222 18.5522 6.44505C19.4397 6.16789 20.0096 5.52731 21.1494 4.24615M10.3954 19.6224L8.37738 18.4568C7.01599 17.6708 6.33529 17.2778 5.44781 17.5549C4.56034 17.8321 3.99042 18.4727 2.8506 19.7538M10.3954 4.37756L8.37738 5.54316C7.01599 6.3292 6.33529 6.72222 5.44781 6.44505C4.56034 6.16789 3.99042 5.52731 2.8506 4.24615M13.6046 19.6224L15.6226 18.4568C16.984 17.6708 17.6647 17.2778 18.5522 17.5549C19.4397 17.8321 20.0096 18.4727 21.1494 19.7538M4.37756 10.3954L5.54316 8.37738C6.3292 7.01599 6.72222 6.33529 6.44505 5.44781C6.16789 4.56034 5.52731 3.99042 4.24615 2.8506M19.6224 13.6046L18.4568 15.6226C17.6708 16.984 17.2778 17.6647 17.5549 18.5522C17.8321 19.4397 18.4727 20.0096 19.7538 21.1494" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )
     },
   ];
 
@@ -333,85 +286,41 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
   if (!isAuthenticated) return null;
 
-  if (isUnderConstruction) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] text-[#111827] animate-fade-in font-sans">
-        <div className="text-center p-8 bg-white rounded-[24px] shadow-sm border border-gray-100 max-w-md w-full mx-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-400 to-blue-500"></div>
-          <div className="w-20 h-20 mx-auto mb-6 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
-            <svg className="w-10 h-10 text-[#111827]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-          </div>
-          <h1 className="text-2xl font-black mb-3 text-[#111827]">Yapım Aşamasında</h1>
-          <p className="text-[13px] text-gray-500 font-medium mb-8 leading-relaxed">Bu sayfa şu an sizin için güncelleniyor. Çok yakında yeni ve kapsamlı tasarımıyla yayında olacak.</p>
-          <div className="flex flex-col gap-3">
-            <Link href="/" className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-[#111827] text-white rounded-xl text-[13px] font-bold hover:bg-black transition-all hover:scale-[1.02] shadow-sm">
-              Ana Sayfaya Dön
-            </Link>
-            <button 
-              onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                localStorage.removeItem("auth_token");
-                window.location.href = "/login";
-              }}
-              className="inline-flex items-center justify-center w-full px-6 py-3.5 bg-gray-100 text-gray-700 rounded-xl text-[13px] font-bold hover:bg-gray-200 transition-all shadow-sm"
-            >
-              Farklı Hesapla Giriş Yap (Çıkış)
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-text-primary flex transition-colors duration-300 font-sans selection:bg-primary/20">
       
-      {/* Mobile Overlay */}
-      {isMobileMenuOpen && (
+      {/* Mobile Sidebar Backdrop */}
+      {isMobileSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] lg:hidden animate-fade-in"
-          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] lg:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}
 
       {/* Main Sidebar */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-[110] flex flex-col transition-all duration-300 ease-in-out 
-          ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}
-          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        className={`fixed inset-y-0 left-0 z-[200] flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${isSidebarCollapsed ? 'lg:w-[80px]' : 'lg:w-[280px] w-[280px]'}
           ${theme === 'light' ? 'bg-white border-r border-border-color' : 'bg-[#09090B] border-r border-white/5'}`}
       >
         {/* Sidebar Header / Logo */}
-        <div className="relative flex items-center h-24 px-6">
+        <div className="relative flex items-center justify-center h-24 p-6">
           {!isSidebarCollapsed ? (
             <>
-              <Link href="/dashboard/sysop" className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl overflow-hidden bg-white border border-gray-100 flex flex-shrink-0 items-center justify-center shadow-sm">
-                   <img src="/logo-icon.png" alt="SalutBabe" className="w-full h-full object-contain p-1" />
-                 </div>
-                 <div className="flex flex-col justify-center">
-                   <span className="text-[15px] font-black text-[#111827]  leading-tight">SalutBabe</span>
-                   <span className="text-[10px] text-gray-500 font-bold tracking-wide">Anneden Anneye</span>
-                 </div>
+              <Link href="/dashboard/sysop" className="flex items-center justify-center">
+                 <img src="/logo-salutbabe.png" alt="Logo" className={`h-7 w-auto ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
               </Link>
-              
-              {/* Desktop Collapse Button */}
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
-                className="absolute top-4 right-4 text-white/20 hover:text-white   light:text-text-secondary/20 light:hover:text-text-primary transition-colors lg:flex hidden p-1 hover:bg-white/5  light:hover:bg-black/5 rounded-md"
+                className="absolute top-4 right-4 text-white/20 hover:text-white dark:text-white/20 dark:hover:text-white light:text-text-secondary/20 light:hover:text-text-primary transition-colors hidden lg:flex p-1 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-black/5 rounded-md"
               >
                 <img src="/images/icon/collapse.svg" alt="Collapse" className={`w-4 h-4 opacity-40 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
               </button>
-
               {/* Mobile Close Button */}
               <button 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="absolute top-4 right-4 lg:hidden p-2 text-text-secondary hover:text-text-primary"
+                onClick={() => setIsMobileSidebarOpen(false)}
+                className="absolute top-4 right-4 text-text-secondary hover:text-text-primary lg:hidden p-1 rounded-md"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </>
           ) : (
@@ -517,19 +426,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                             key={sIdx}
                             href={sub.href}
                             onClick={(e) => handleNavClick(e, sub.href || '#')}
-                            className={`flex items-center gap-2 py-2 px-3 rounded-lg text-[12px] font-bold transition-all
+                            className={`block py-2 text-[12px] font-bold transition-all
                               ${pathname === sub.href 
-                                ? (theme === 'light' ? 'bg-primary/10 text-primary' : 'bg-primary/20 text-white') 
-                                : (theme === 'light' ? 'text-text-secondary/60 hover:bg-black/5 hover:text-text-primary' : 'text-white/40 hover:bg-white/5 hover:text-white')}`}
+                                ? (theme === 'light' ? 'text-text-primary' : 'text-white') 
+                                : (theme === 'light' ? 'text-text-secondary/40 hover:text-text-primary' : 'text-white/40 hover:text-white')}`}
                           >
-                            {sub.icon ? (
-                              <div className="w-4 h-4 flex items-center justify-center opacity-80">
-                                {sub.icon}
-                              </div>
-                            ) : (
-                              <span className="w-4 text-center">•</span>
-                            )}
-                            <span>{sub.label}</span>
+                            • {sub.label}
                           </Link>
                         ))}
                       </div>
@@ -545,8 +447,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                         : (theme === 'light' ? 'text-text-secondary hover:bg-black/5 hover:text-text-primary' : 'text-white/60 hover:bg-white/5 hover:text-white')
                       }`}
                   >
-                    <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
-                      <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === item.href ? 'text-[#1A2332]' : 'text-inherit'}`}>
+                    <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'lg:mx-auto' : ''}`}>
+                      <div className={`w-5 h-5 rounded flex items-center justify-center ${pathname === item.href ? (theme === 'light' ? 'text-white' : 'text-[#1A2332]') : 'text-inherit'}`}>
                         {item.icon || (
                           <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -580,7 +482,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               className={`flex items-center gap-3 transition-all group ${theme === 'light' ? 'text-text-secondary hover:text-text-primary' : 'text-white/60 hover:text-white'}`}
             >
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${theme === 'light' ? 'bg-black/5 group-hover:bg-black/10' : 'bg-white/5 group-hover:bg-white/10'}`}>
-                {theme === 'dark' ? <HugeiconsIcon icon={Sun01Icon} size={16} /> : <HugeiconsIcon icon={Moon01Icon} size={16} />}
+                {theme === 'dark' ? '☀️' : '🌙'}
               </div>
               {!isSidebarCollapsed && <span className="text-[12px] font-bold">{theme === 'dark' ? (language === 'tr' ? 'Aydınlık' : language === 'fr' ? 'Clair' : 'Light') : (language === 'tr' ? 'Karanlık' : language === 'fr' ? 'Sombre' : 'Dark')}</span>}
             </button>
@@ -588,7 +490,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             <button 
               onClick={() => {
                 const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
-                const nextIdx = (langs.indexOf(language as any) + 1) % langs.length;
+                const nextIdx = (langs.indexOf(language) + 1) % langs.length;
                 setLanguage(langs[nextIdx]);
               }}
               className={`flex items-center gap-3 transition-all group ${theme === 'light' ? 'text-text-secondary hover:text-text-primary' : 'text-white/60 hover:text-white'}`}
@@ -611,76 +513,28 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative w-full max-w-[100vw] overflow-x-hidden`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative w-full overflow-hidden`}>
         
         {/* Header */}
-        <header className="h-20 bg-white/95  backdrop-blur-md border-b border-border-color sticky top-0 z-[90] px-4 md:px-8 flex items-center justify-between w-full gap-4">
-          
-          <div className="flex items-center gap-3 md:gap-4">
-            {/* Mobile Hamburger Button */}
+        <header className="h-20 bg-white/95 dark:bg-surface/95 backdrop-blur-md border-b border-border-color sticky top-0 z-[100] px-4 lg:px-8 flex items-center justify-between w-full">
+          <div className="flex items-center gap-4">
             <button 
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 -ml-2 text-text-primary hover:bg-black/5  rounded-lg transition-colors"
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="lg:hidden p-2 text-text-secondary hover:text-primary transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-
-            {/* Back Button (Only visible on subpages) */}
-            {pathname !== '/dashboard/sysop' && (
-              <button 
-                onClick={() => router.push('/dashboard/sysop')}
-                className="p-2 -ml-1 text-text-secondary hover:text-primary hover:bg-black/5  rounded-lg transition-colors flex items-center justify-center group"
-                title={t('dashboard.sysop.go_back') || 'Geri Dön'}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5 group-hover:-translate-x-1 transition-transform">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </button>
-            )}
-
-            <div className="flex flex-col justify-center border-l pl-3 md:pl-4 border-border-color">
-               <h1 className="text-base md:text-xl font-black text-text-primary leading-tight line-clamp-1">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
-               <p className="hidden md:block text-[12px] font-bold text-text-secondary">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+            <div className="flex flex-col justify-center">
+               <h1 className="text-lg lg:text-xl font-black text-text-primary leading-tight">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+               <p className="text-[10px] lg:text-[12px] font-bold text-text-secondary hidden sm:block">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
             </div>
           </div>
 
-          <div className="flex-1 px-4 hidden md:block max-w-xl">
-             <div className={`relative flex items-center w-full h-10 rounded-xl border transition-colors ${theme === 'light' ? 'bg-gray-50/50 border-gray-200 focus-within:border-primary/50 focus-within:bg-white' : 'bg-white/5 border-white/10 focus-within:border-primary/50'}`}>
-                <svg className={`w-4 h-4 ml-3 ${theme === 'light' ? 'text-gray-400' : 'text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input 
-                  type="text" 
-                  placeholder="Ara" 
-                  className="w-full h-full bg-transparent border-none outline-none px-3 text-[13px] font-medium text-text-primary placeholder:text-gray-400"
-                />
-             </div>
-          </div>
+          <div className="flex-1"></div>
 
-          <div className="flex items-center gap-2 md:gap-4 ml-auto">
-            
-            {/* Team Avatars Mock */}
-            <div className="hidden xl:flex items-center -space-x-2 mr-2">
-               <img src="https://i.pravatar.cc/100?img=1" alt="T1" className="w-8 h-8 rounded-full border-2 border-white  object-cover" />
-               <img src="https://i.pravatar.cc/100?img=2" alt="T2" className="w-8 h-8 rounded-full border-2 border-white  object-cover" />
-               <img src="https://i.pravatar.cc/100?img=3" alt="T3" className="w-8 h-8 rounded-full border-2 border-white  object-cover" />
-               <button className="w-8 h-8 rounded-full border-2 border-white  bg-[#2E2E3A] text-white flex items-center justify-center text-[14px] font-bold z-10 hover:bg-black transition-colors">+</button>
-            </div>
-
-            {/* Header Action Buttons */}
-            <div className="hidden lg:flex items-center gap-2 mr-2">
-               <button className={`px-4 py-2 rounded-xl flex items-center gap-2 text-[12px] font-bold border transition-all active:scale-95 ${theme === 'light' ? 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100' : 'bg-[#1A1D1F] border-white/5 text-gray-300 hover:bg-white/10'}`}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  Geçen Ay
-                  <svg className="w-3 h-3 ml-1 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-               </button>
-               <button className={`px-4 py-2 rounded-xl flex items-center gap-2 text-[12px] font-bold border transition-all active:scale-95 ${theme === 'light' ? 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100' : 'bg-[#1A1D1F] border-white/5 text-gray-300 hover:bg-white/10'}`}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
-                  Filtrele
-               </button>
-            </div>
-
-            {/* Notification Bell */}
+          <div className="flex items-center gap-4 relative">
             <div className="relative">
               <button 
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
@@ -690,7 +544,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                 </svg>
                 {unreadCount > 0 && (
-                  <span className="absolute top-1 right-1 w-5 h-5 bg-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white  shadow-md">
+                  <span className="absolute top-1 right-1 w-5 h-5 bg-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-surface shadow-md">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>
                 )}
@@ -699,11 +553,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               {isNotificationOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationOpen(false)}></div>
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-surface text-text-primary  border border-border-color rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
-                    <div className="p-4 border-b border-border-color flex items-center justify-between bg-gray-50 ">
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-surface text-text-primary dark:text-white border border-border-color rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[500px]">
+                    <div className="p-4 border-b border-border-color flex items-center justify-between bg-gray-50 dark:bg-background">
                       <div>
-                        <h3 className="text-[14px] font-bold text-text-primary ">{t('dashboard.notifications_title')}</h3>
-                        <p className="text-[11px] text-text-secondary  mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
+                        <h3 className="text-[14px] font-bold text-text-primary dark:text-white">{t('dashboard.notifications_title')}</h3>
+                        <p className="text-[11px] text-text-secondary dark:text-text-secondary mt-0.5">{t('dashboard.notifications_unread').replace('{count}', unreadCount.toString())}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <button onClick={handleMarkAllAsRead} className="text-[11px] font-bold text-primary hover:underline">
@@ -723,15 +577,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                           <div 
                             key={notif.userNotificationID || notif.id || Math.random()} 
                             onClick={() => !notif.isRead && handleMarkAsRead(notif.userNotificationID || notif.id)}
-                            className="p-4 border-b border-border-color hover:bg-black/5  transition-colors relative cursor-pointer"
+                            className="p-4 border-b border-border-color hover:bg-black/5 dark:hover:bg-white/5 transition-colors relative cursor-pointer"
                           >
                             <div className="flex gap-3">
                               <div className="mt-1 flex-shrink-0">
                                 <div className={`w-2 h-2 rounded-full ${!notif.isRead ? 'bg-primary' : 'bg-transparent'}`}></div>
                               </div>
                               <div>
-                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.title || t('dashboard.sysop.notification')}</h4>
-                                <p className="text-[12px] text-text-secondary leading-snug mb-2">{notif.body || notif.message || notif.notification?.body || ''}</p>
+                                <h4 className="text-[13px] font-bold text-text-primary mb-1">{notif.title || notif.notification?.notificationTitle || notif.notification?.title || t('dashboard.sysop.notification')}</h4>
+                                <p className="text-[12px] text-text-secondary leading-snug mb-2">{notif.body || notif.message || notif.notification?.notificationContent || notif.notification?.body || ''}</p>
                                 <span className="text-[10px] font-bold text-text-secondary/80">
                                   {(notif.sentDate || notif.createdAt) ? new Date(notif.sentDate || notif.createdAt).toLocaleString(language === 'tr' ? 'tr-TR' : language === 'fr' ? 'fr-FR' : 'en-US') : ''}
                                 </span>
@@ -742,8 +596,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                       )}
                     </div>
                     
-                    <div className="p-3 border-t border-border-color bg-gray-50 ">
-                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5  rounded-lg transition-colors">
+                    <div className="p-3 border-t border-border-color bg-gray-50 dark:bg-background">
+                      <button onClick={() => setIsNotificationOpen(false)} className="w-full py-2 text-center text-[12px] font-bold text-text-secondary hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors">
                         {t('dashboard.notifications_close')}
                       </button>
                     </div>
@@ -751,16 +605,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                 </>
               )}
             </div>
-
-            {/* Export Button */}
-            <button className={`hidden sm:flex px-4 py-2.5 rounded-full items-center gap-2 text-[12px] font-bold transition-all active:scale-95 ${theme === 'light' ? 'bg-[#111827] text-white hover:bg-black shadow-md' : 'bg-white text-black hover:bg-gray-200'}`}>
-               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-               Dışa Aktar
-            </button>
             
-            {/* User Profile */}
-            <div className="relative group ml-2">
-              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border border-border-color shadow-sm relative z-10">
+            <div className="relative group">
+              <div 
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                className="w-11 h-11 rounded-full bg-white dark:bg-surface flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden border-2 border-border-color shadow-sm relative z-10"
+              >
                  {user?.profilePhotoUrl ? (
                    <img 
                      src={user.profilePhotoUrl.startsWith('http') ? user.profilePhotoUrl : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl}`} 
@@ -776,8 +626,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                  )}
               </div>
                      {/* Profile Dropdown */}
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white  border border-border-color rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-[110] overflow-hidden">
-                 <div className="p-5 bg-gray-50  border-b border-border-color">
+              <div className={`absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface border border-border-color rounded-2xl shadow-2xl transition-all duration-300 transform origin-top-right z-[110] overflow-hidden ${isProfileMenuOpen ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-95 md:group-hover:opacity-100 md:group-hover:visible md:group-hover:scale-100'}`}>
+                 <div className="p-5 bg-gray-50 dark:bg-white/5 border-b border-border-color">
                     <p className="text-[14px] font-black text-text-primary truncate leading-tight">{user?.userName} {user?.userSurname}</p>
                     <p className="text-[11px] font-medium text-text-secondary truncate mt-0.5">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>
                  </div>
@@ -800,27 +650,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-4 md:p-8 animate-fade-in relative z-0 overflow-y-auto overflow-x-hidden pb-32 md:pb-8 bg-[#F4F5F7]">
+        <main className="flex-1 p-4 lg:p-8 animate-fade-in relative z-0 overflow-y-auto w-full">
           {children}
         </main>
 
         {/* Mini Footer */}
-        <footer className="hidden md:block py-3 px-6 border-t border-border-color bg-white  sticky bottom-0 z-50">
+        <footer className="py-3 px-6 border-t border-border-color bg-white dark:bg-surface sticky bottom-0 z-50">
           <div className="flex items-center justify-center relative">
-            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center flex items-center justify-center gap-1.5">
-              <span>{t('dashboard.developed_by')}</span> 
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="black" stroke="url(#wave-gradient)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 animate-wave origin-[70%_70%]">
-                <defs>
-                  <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#00B2FF" />
-                    <stop offset="100%" stopColor="#FF007A" />
-                  </linearGradient>
-                </defs>
-                <path d="M219.31,98.46A88,88,0,1,1,67.08,186.77h0L26.15,115.88a16,16,0,0,1,27.69-16L72.4,132a8,8,0,0,0,13.86-8L47,56A16,16,0,0,1,74.69,40L114,108a8,8,0,1,0,13.85-8l-30-52a16,16,0,0,1,27.71-16L166,102.12A48.25,48.25,0,0,0,152,136a47.59,47.59,0,0,0,9.6,28.8,8,8,0,1,0,12.79-9.61A32,32,0,0,1,181,110.26a8,8,0,0,0,2.17-10.43L171.71,80a16,16,0,0,1,27.71-16l19.89,34.46Zm-29.37-57A43.74,43.74,0,0,1,216.74,62l.33.57a8,8,0,0,0,13.86-8L230.6,54a59.64,59.64,0,0,0-36.54-28,8,8,0,0,0-4.12,15.46ZM79.58,225.72A103.58,103.58,0,0,1,53.93,196a8,8,0,0,0-13.86,8,119.56,119.56,0,0,0,29.6,34.28,8,8,0,0,0,9.91-12.56Z"/>
-              </svg>
-
-              <span>{t('dashboard.all_rights')}</span>
+            <div className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-wider text-center">
+              {t('dashboard.developed_by')} <span className="text-transparent bg-clip-text font-black text-[12px] bg-[linear-gradient(110deg,#FF007A_0%,#00B2FF_50%,#FF007A_100%)] bg-[length:200%_auto] animate-[brandShift_5.2s_ease-in-out_infinite]" style={{ WebkitTextStroke: "0.05em transparent" }}>salutbabe</span> {t('dashboard.all_rights')}
             </div>
             <div className="absolute right-0 group flex items-center">
               <svg className="w-4 h-4 text-text-secondary/40 hover:text-primary transition-colors cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -832,8 +670,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
         </footer>
-
-
       </div>
 
       {/* Custom Toast */}

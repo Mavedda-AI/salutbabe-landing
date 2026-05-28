@@ -1,65 +1,40 @@
-'use client';
-import {HugeiconsIcon} from '@hugeicons/react';
-import React, {useEffect, useState} from 'react';
-import {Delete01Icon, Moon01Icon, PauseCircleIcon, Store01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
-import {PageHeader} from '@/app/dashboard/components/ui/PageHeader';
-import {KPIGrid, KPIItem} from '@/app/dashboard/components/ui/KPIGrid';
-import {FilterTabs, SearchInput, TabItem} from '@/app/dashboard/components/ui/FilterBar';
-import {Column, DataTable} from '@/app/dashboard/components/ui/DataTable';
-import {ActionModal, StatusBadge} from '@/app/dashboard/components/ui/StatusBadge';
-import {apiUrl} from '@/lib/api';
+"use client";
 
-type User = { 
-  id: string; 
-  name: string; 
-  email: string; 
-  phone: string; 
-  role: string; 
-  status: string; 
-  joinDate: string; 
-  lastLogin: string; 
-  orders: number; 
-  reviews: number; 
-  complaints: number; 
-};
+import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../../../lib/api";
+import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 
-export default function UserManagementPage() {
-  const [users, setUsers] = useState<User[]>([]);
+export default function AdminUsersPage() {
+  const { t, theme, language } = useThemeLanguage();
+  
+  const formatBalance = (amount: number) => {
+    return new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : language === 'fr' ? 'fr-FR' : 'en-US', {
+      notation: 'compact',
+      maximumFractionDigits: 1
+    }).format(amount);
+  };
+
+  const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<string>('all');
-  const [search, setSearch] = useState('');
-  const [selected, setSelected] = useState<string[]>([]);
-  const [modalUser, setModalUser] = useState<User | null>(null);
-  const [kvkkModal, setKvkkModal] = useState(false);
-  const [actionDone, setActionDone] = useState<string | null>(null);
+  const [editingUser, setEditingUser] = useState<any>(null);
+  const [balanceInput, setBalanceInput] = useState("");
+  const [pendingBalanceInput, setPendingBalanceInput] = useState("");
+  const [editingRoleUser, setEditingRoleUser] = useState<any>(null);
+  const [roleInput, setRoleInput] = useState<string[]>([]);
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   const fetchUsers = async () => {
-    setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      if (!token || token === "mock_token") {
-        setUsers([]); // API expected
-        return;
-      }
-      
-      const res = await fetch(apiUrl('/admin/users?page=1&limit=100'), {
-        headers: { "Authorization": `Bearer ${token}` }
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl("/admin/users"), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
+        },
       });
       const data = await res.json();
-      if (data.payload && data.payload.users) {
-        setUsers(data.payload.users.map((u: any) => ({
-          id: u.userID,
-          name: `${u.userName || ''} ${u.userSurname || ''}`.trim() || 'İsimsiz',
-          email: u.eMail,
-          phone: u.phoneNumber || '-',
-          role: u.role || 'Normal',
-          status: u.isBlocked ? 'ASKIDA' : 'AKTİF',
-          joinDate: new Date(u.createdAt).toLocaleDateString('tr-TR'),
-          lastLogin: u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString('tr-TR') : '-',
-          orders: 0, // from API later
-          reviews: 0,
-          complaints: 0
-        })));
+      if (data.request?.requestResult) {
+        setUsers(data.payload?.users || []);
       }
     } catch (e) {
       console.error(e);
@@ -72,213 +47,530 @@ export default function UserManagementPage() {
     fetchUsers();
   }, []);
 
-  const filtered = users
-    .filter(u => {
-      if (filter === 'AKTİF') return u.status === 'AKTİF';
-      if (filter === 'PASİF') return u.status === 'PASİF';
-      if (filter === 'ASKIDA') return u.status === 'ASKIDA';
-      if (filter === 'Satıcı') return u.role === 'Satıcı' || u.role === 'Kurumsal';
-      return true;
-    })
-    .filter(u => u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase()));
-
-  const toggleSelect = (id: string) => setSelected(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
-  const toggleAll = () => setSelected(selected.length === filtered.length ? [] : filtered.map(u => u.id));
-
-  const updateStatus = async (id: string, newStatus: string, msg: string) => {
+  const handleUpdateBalance = async () => {
+    if (!editingUser) return;
     try {
-      const token = localStorage.getItem("token");
-      if (token && token !== "mock_token") {
-        const endpoint = newStatus === 'ASKIDA' ? `/admin/users/${id}/block` : `/admin/users/${id}/unblock`;
-        await fetch(apiUrl(endpoint), {
-          method: 'POST',
-          headers: { "Authorization": `Bearer ${token}` }
-        });
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl(`/admin/users/${editingUser.userID}/balance`), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
+        },
+        body: JSON.stringify({
+          balance: parseFloat(balanceInput),
+          pendingBalance: parseFloat(pendingBalanceInput)
+        }),
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        alert(t('dashboard.success') || "Başarılı");
+        setEditingUser(null);
+        fetchUsers();
+      } else {
+        alert(t('dashboard.error') || "Hata oluştu");
       }
-      setUsers(p => p.map(u => u.id === id ? { ...u, status: newStatus } : u));
-      setActionDone(msg);
-      setTimeout(() => setActionDone(null), 2500);
-      setModalUser(null);
+    } catch (e) {
+      console.error(e);
+      alert(t('dashboard.error') || "Hata oluştu");
+    }
+  };
+
+  const handleBlockUser = async (userID: string, isBlocked: boolean) => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      const endpoint = isBlocked ? 'unblock' : 'block';
+      const res = await fetch(apiUrl(`/admin/users/${userID}/${endpoint}`), {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
+        },
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        fetchUsers();
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
-  const updateRole = async (id: string, role: string) => {
+  const handleUpdateRole = async () => {
+    if (!editingRoleUser) return;
     try {
-      const token = localStorage.getItem("token");
-      if (token && token !== "mock_token") {
-        await fetch(apiUrl(`/admin/users/${id}/role`), {
-          method: 'PUT',
-          headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ role })
-        });
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl(`/admin/users/${editingRoleUser.userID}/role`), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
+        },
+        body: JSON.stringify({ roles: roleInput }),
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        alert(t('dashboard.success') || "Başarılı");
+        setEditingRoleUser(null);
+        fetchUsers();
+      } else {
+        alert(t('dashboard.error') || "Hata oluştu");
       }
-      setUsers(p => p.map(u => u.id === id ? { ...u, role } : u));
-      setActionDone(`Kullanıcı rolü "${role}" olarak güncellendi.`);
-      setTimeout(() => setActionDone(null), 2500);
     } catch (e) {
       console.error(e);
+      alert(t('dashboard.error') || "Hata oluştu");
     }
   };
 
-  const kpis: KPIItem[] = [
-    { label: 'AKTİF', value: users.filter(u => u.status === 'AKTİF').length, icon: <HugeiconsIcon icon={Tick01Icon} size={32} className="text-green-500" />, colorClass: 'text-green-500' },
-    { label: 'ASKIDA', value: users.filter(u => u.status === 'ASKIDA').length, icon: <HugeiconsIcon icon={PauseCircleIcon} size={32} className="text-orange-500" />, colorClass: 'text-orange-500' },
-    { label: 'SATICI', value: users.filter(u => u.role === 'Satıcı' || u.role === 'Kurumsal').length, icon: <HugeiconsIcon icon={Store01Icon} size={32} className="text-blue-600" />, colorClass: 'text-blue-600' },
-    { label: 'PASİF', value: users.filter(u => u.status === 'PASİF').length, icon: <HugeiconsIcon icon={Moon01Icon} size={32} className="text-slate-600" />, colorClass: 'text-slate-600' },
-  ];
-
-  const tabs: TabItem[] = [
-    { id: 'all', label: 'Tümü' },
-    { id: 'AKTİF', label: <span className="flex items-center gap-1.5"><HugeiconsIcon icon={Tick01Icon} size={16} /> Aktif</span> },
-    { id: 'ASKIDA', label: <span className="flex items-center gap-1.5"><HugeiconsIcon icon={PauseCircleIcon} size={16} /> Askıda</span> },
-    { id: 'PASİF', label: <span className="flex items-center gap-1.5"><HugeiconsIcon icon={Moon01Icon} size={16} /> Pasif</span> },
-    { id: 'Satıcı', label: <span className="flex items-center gap-1.5"><HugeiconsIcon icon={Store01Icon} size={16} /> Satıcılar</span> },
-  ];
-
-  const columns: Column<User>[] = [
-    {
-      header: 'Kullanıcı',
-      accessor: (u) => (
-        <div>
-          <p className="text-[12px] font-bold text-gray-900 dark:text-white">{u.name}</p>
-          <p className="text-[10px] text-gray-400">{u.email}</p>
-        </div>
-      )
-    },
-    {
-      header: 'Rol',
-      accessor: (u) => (
-        <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${u.role === 'Kurucu' ? 'bg-purple-50 text-purple-600' : u.role === 'Satıcı' ? 'bg-blue-50 text-blue-600' : u.role === 'Kurumsal' ? 'bg-indigo-50 text-indigo-600' : 'bg-gray-50 text-gray-600'}`}>
-          {u.role}
-        </span>
-      )
-    },
-    {
-      header: 'Durum',
-      accessor: (u) => <StatusBadge status={u.status} type={u.status === 'AKTİF' ? 'success' : u.status === 'ASKIDA' ? 'warning' : 'neutral'} />
-    },
-    {
-      header: 'Siparişler',
-      accessor: (u) => <span className="text-[11px] font-bold text-gray-600 dark:text-gray-400">{u.orders}</span>
-    },
-    {
-      header: 'Son Giriş',
-      accessor: (u) => <span className="text-[11px] font-medium text-gray-500">{u.lastLogin}</span>
-    },
-    {
-      header: 'İşlem',
-      className: 'text-right',
-      accessor: (u) => (
-        <button onClick={() => setModalUser(u)} className="text-[10px] font-black px-3 py-1.5 bg-gray-100 text-gray-700 dark:bg-[#1A1D1F] dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-white/10">
-          DETAY
-        </button>
-      )
+  const toggleRole = (role: string) => {
+    if (roleInput.includes(role)) {
+      setRoleInput(roleInput.filter(r => r !== role));
+    } else {
+      setRoleInput([...roleInput, role]);
     }
-  ];
+  };
 
-  return (
-    <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#0B0C0E] font-sans">
-      {actionDone && (
-        <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">
-          <HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block mr-2" /> 
-          {actionDone}
+  const LoadingSkeleton = () => (
+    <div className="flex flex-col gap-6 animate-pulse">
+      {/* Search & Filters Bar Skeleton */}
+      <div className={`p-4 rounded-[2rem] border flex flex-wrap md:flex-nowrap items-center gap-4
+        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
+        <div className={`w-full md:flex-1 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className="flex flex-wrap items-center gap-2">
+           {[1, 2, 3].map(i => <div key={i} className={`w-20 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />)}
         </div>
-      )}
-      
-      <PageHeader 
-        title="Kullanıcı Yönetimi" 
-        description="Platform üyeleri, roller & KVKK yönetimi" 
-        actions={
-          <button onClick={() => setKvkkModal(true)} className="px-4 py-2.5 rounded-2xl bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 text-[13px] font-bold border border-red-100 dark:border-red-500/20 hover:bg-red-100 dark:hover:bg-red-500/30 transition-colors flex items-center gap-2">
-            <HugeiconsIcon icon={Delete01Icon} size={18} /> KVKK Silme
-          </button>
-        }
-      />
-
-      <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-5 pb-20">
-        <KPIGrid items={kpis} />
-
-        <div className="flex flex-col md:flex-row gap-4 justify-between">
-          <FilterTabs tabs={tabs} activeTab={filter} onChange={id => { setFilter(id); setSelected([]); }} />
-          <SearchInput value={search} onChange={setSearch} placeholder="İsim veya e-posta ara..." />
+        <div className={`hidden md:block w-[1px] h-8 ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className="flex items-center gap-2 ml-auto">
+           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
         </div>
-
-        {selected.length > 0 && (
-          <div className="flex items-center gap-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 rounded-xl px-4 py-3">
-            <span className="text-[12px] font-bold text-blue-700 dark:text-blue-400">{selected.length} kullanıcı seçili</span>
-            <div className="flex gap-2 ml-auto">
-              <button className="px-3 py-1.5 bg-orange-500 text-white rounded-lg text-[10px] font-bold">Toplu Askıya Al</button>
-            </div>
-          </div>
-        )}
-
-        <DataTable 
-          data={filtered} 
-          columns={columns} 
-          keyExtractor={u => u.id}
-          loading={loading}
-          selectedIds={selected}
-          onToggleSelect={toggleSelect}
-          onToggleAll={toggleAll}
-        />
       </div>
 
-      <ActionModal 
-        isOpen={!!modalUser} 
-        onClose={() => setModalUser(null)} 
-        title={modalUser?.name || ''} 
-      >
-        {modalUser && (
-          <>
-            <div className="space-y-3 p-4 bg-gray-50 dark:bg-white/5 rounded-xl">
-              {[
-                ['E-posta', modalUser.email], 
-                ['Telefon', modalUser.phone], 
-                ['Kayıt Tarihi', modalUser.joinDate], 
-                ['Son Giriş', modalUser.lastLogin], 
-                ['Siparişler', String(modalUser.orders)], 
-                ['Yorumlar', String(modalUser.reviews)], 
-                ['Şikayetler', String(modalUser.complaints)]
-              ].map(([l, v], i) => (
-                <div key={i} className="flex justify-between items-center">
-                  <span className="text-[11px] font-bold text-gray-500">{l}</span>
-                  <span className="text-[12px] font-black text-gray-900 dark:text-white">{v}</span>
+      {/* User Cards Skeleton */}
+      {[1, 2, 3, 4].map(i => (
+        <div key={i} className={`p-8 rounded-[2.5rem] border flex items-center gap-8
+          ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
+          <div className={`w-20 h-20 rounded-[2rem] ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          <div className="flex-1 space-y-2">
+            <div className={`w-48 h-5 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+            <div className={`w-32 h-3 rounded-full ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
+          </div>
+          <div className="hidden lg:flex flex-col gap-2 w-48">
+            <div className={`w-full h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+            <div className={`w-full h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          </div>
+          <div className={`w-32 h-10 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        </div>
+      ))}
+    </div>
+  );
+
+  if (loading) return <LoadingSkeleton />;
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Search & Filters Bar */}
+      <div className={`p-4 rounded-[2rem] border flex flex-col lg:flex-row items-center gap-4 transition-all duration-300
+        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+        <div className="w-full lg:flex-1 relative group">
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input 
+            type="text" 
+            placeholder={t('dashboard.search_placeholder') || "Kullanıcı ara..."}
+            className={`w-full h-12 pl-12 pr-4 rounded-2xl outline-none text-[13px] font-bold transition-all
+              ${theme === 'light' ? 'bg-gray-50 focus:bg-white border border-transparent focus:border-primary/20' : 'bg-white/5 focus:bg-white/10 border border-transparent focus:border-white/10'}`}
+          />
+        </div>
+        
+        <div className="w-full lg:w-auto flex flex-wrap items-center justify-between lg:justify-start gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {['ADMIN', 'SELLER', 'USER'].map(filter => (
+              <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider transition-all
+                ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+                {t('dashboard.role_' + filter.toLowerCase())}
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden lg:block w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2" />
+
+          <div className="flex items-center gap-2">
+           <button 
+             onClick={() => setViewMode('list')}
+             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
+               ${viewMode === 'list' 
+                 ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                 : theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+           </button>
+           <button 
+             onClick={() => setViewMode('grid')}
+             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
+               ${viewMode === 'grid' 
+                 ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                 : theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+           </button>
+         </div>
+        </div>
+      </div>
+
+      {/* Users Rendering */}
+      <div className={viewMode === 'list' ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"}>
+        {users.map((user) => (
+          viewMode === 'list' ? (
+            /* List View Card */
+            <div key={user.userID} className={`p-6 lg:p-8 rounded-[2.5rem] border transition-all duration-500 group hover:scale-[1.01]
+              ${theme === 'light' 
+                ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' 
+                : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                {/* User Info Section */}
+                <div className="lg:col-span-3 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-4 lg:gap-6 text-center sm:text-left">
+                  <div className="relative">
+                    <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center font-black text-2xl transition-all duration-500 group-hover:rotate-6
+                      ${theme === 'light' ? 'bg-primary/10 text-primary border-2 border-primary/20' : 'bg-primary/20 text-primary border-2 border-primary/20 shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
+                      {user.userName?.[0] || user.eMail[0].toUpperCase()}
+                    </div>
+                    <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-4 flex items-center justify-center
+                      ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
+                      <div className={`w-2.5 h-2.5 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'}`} />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-[17px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
+                    <p className="text-[12px] font-bold text-text-secondary/60 lowercase tracking-widest">@{user.userNickname || t('dashboard.anonymous')}</p>
+                  </div>
                 </div>
-              ))}
-              <div className="pt-3 border-t border-gray-100 dark:border-white/10 flex items-center justify-between">
-                <span className="text-[11px] font-bold text-gray-500">Rol</span>
-                <select 
-                  value={modalUser.role} 
-                  onChange={e => updateRole(modalUser.id, e.target.value)} 
-                  className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1A1D1F] text-[12px] font-bold text-[#111827] dark:text-white focus:outline-none"
-                >
-                  <option>Normal</option><option>Satıcı</option><option>Kurumsal</option><option>Kurucu</option><option>Admin</option>
-                </select>
+
+                {/* Contact Info Section */}
+                <div className="lg:col-span-3">
+                  <div className="flex flex-col gap-2">
+                     <div className="flex items-center gap-3">
+                       <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                       <span className="text-[13px] font-bold text-text-primary tracking-tight">{user.eMail}</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                       <svg className="w-4 h-4 text-text-secondary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                       <span className="text-[12px] font-bold text-text-secondary/60">{user.phoneNumber || t('dashboard.no_phone')}</span>
+                     </div>
+                  </div>
+                </div>
+
+                {/* Roles Section */}
+                <div className="lg:col-span-2">
+                  <div className="flex gap-2 flex-wrap justify-center lg:justify-start">
+                     {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
+                       <span key={idx} className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all duration-300
+                         ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_15px_rgba(95,200,192,0.1)]' : 
+                           role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
+                           'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
+                         {t('dashboard.role_' + role.toLowerCase())}
+                       </span>
+                     ))}
+                  </div>
+                </div>
+
+                {/* Balance Section */}
+                <div className="lg:col-span-2 text-right lg:text-center">
+                   <div className="inline-block text-left">
+                     <p className="text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-1">{t('dashboard.table_balance')}</p>
+                     <div className="flex items-baseline gap-1">
+                       <span className="text-[22px] font-black text-text-primary tracking-tight">{formatBalance(user.balance || 0)}</span>
+                       <span className="text-[13px] font-black text-primary">₺</span>
+                     </div>
+                     <div className="mt-1 flex items-center gap-1.5">
+                       <div className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
+                       <span className="text-[10px] font-black text-orange-400 uppercase tracking-tighter opacity-80">{formatBalance(user.pendingBalance || 0)} ₺</span>
+                     </div>
+                   </div>
+                </div>
+
+                {/* Actions Section */}
+                <div className="lg:col-span-2">
+                  <div className="flex flex-col gap-2">
+                    <button 
+                      onClick={() => {
+                        setEditingUser(user);
+                        setBalanceInput(user.balance?.toString() || "0");
+                        setPendingBalanceInput(user.pendingBalance?.toString() || "0");
+                      }}
+                      className={`flex items-center justify-between px-5 py-3 rounded-2xl text-[12px] font-black transition-all group/btn
+                        ${theme === 'light' ? 'bg-gray-50 text-text-primary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-primary hover:bg-primary hover:text-white shadow-lg'}`}
+                    >
+                      <span>{t('dashboard.btn_balance')}</span>
+                      <svg className="w-4 h-4 opacity-40 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                    </button>
+                    
+                    <div className="grid grid-cols-2 gap-2">
+                      <button 
+                        onClick={() => {
+                          setEditingRoleUser(user);
+                          setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
+                        }}
+                        className={`flex items-center justify-center p-3 rounded-2xl transition-all
+                          ${theme === 'light' ? 'bg-gray-50 text-blue-500 hover:bg-blue-500 hover:text-white' : 'bg-white/5 text-blue-500 hover:bg-blue-500 hover:text-white'}`}
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                      </button>
+                      <button 
+                        onClick={() => handleBlockUser(user.userID, !user.isActive)}
+                        className={`flex items-center justify-center p-3 rounded-2xl transition-all
+                          ${!user.isActive 
+                            ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' 
+                            : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-2 mt-4">
-              <button onClick={() => setModalUser(null)} className="flex-1 py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-white font-bold text-[12px]">Kapat</button>
-              {modalUser.status !== 'ASKIDA' && <button onClick={() => updateStatus(modalUser.id, 'ASKIDA', `${modalUser.name} askıya alındı.`)} className="flex-1 py-2.5 rounded-xl bg-orange-500 text-white font-bold text-[12px]">Askıya Al</button>}
-              {modalUser.status === 'ASKIDA' && <button onClick={() => updateStatus(modalUser.id, 'AKTİF', `${modalUser.name} aktifleştirildi.`)} className="flex-1 py-2.5 rounded-xl bg-green-600 text-white font-bold text-[12px]">Aktifleştir</button>}
-            </div>
-          </>
-        )}
-      </ActionModal>
+          ) : (
+            /* Grid View Card */
+            <div key={user.userID} className={`p-8 rounded-[3rem] border transition-all duration-500 group hover:scale-[1.02] flex flex-col items-center text-center
+              ${theme === 'light' 
+                ? 'bg-white border-border-color shadow-sm hover:shadow-2xl hover:border-primary/20' 
+                : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+              
+              {/* Profile Header */}
+              <div className="relative mb-6">
+                <div className={`w-28 h-28 rounded-[2.5rem] flex items-center justify-center font-black text-3xl transition-all duration-500 group-hover:rotate-6
+                  ${theme === 'light' ? 'bg-primary/10 text-primary border-4 border-white shadow-xl' : 'bg-primary/20 text-primary border-4 border-[#121214] shadow-2xl shadow-primary/10'}`}>
+                  {user.userName?.[0] || user.eMail[0].toUpperCase()}
+                </div>
+                <div className={`absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-4 flex items-center justify-center
+                  ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
+                  <div className={`w-3 h-3 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]'}`} />
+                </div>
+              </div>
 
-      <ActionModal 
-        isOpen={kvkkModal} 
-        onClose={() => setKvkkModal(false)} 
-        title="KVKK Veri Silme Talebi"
-        description="6698 sayılı KVKK kapsamında kullanıcı verilerini kalıcı olarak silmek için ilgili kullanıcının e-posta adresini girin."
-      >
-        <input type="email" placeholder="kullanici@email.com" className="w-full px-4 py-2.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[13px] font-bold text-gray-900 dark:text-white focus:outline-none focus:border-red-500 mb-4" />
-        <div className="flex gap-3">
-          <button onClick={() => setKvkkModal(false)} className="flex-1 py-3 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-white font-bold text-[13px]">İptal</button>
-          <button onClick={() => { setKvkkModal(false); setActionDone('KVKK silme talebi işleme alındı.'); setTimeout(() => setActionDone(null), 2500); }} className="flex-1 py-3 rounded-xl bg-red-500 text-white font-bold text-[13px]">Kalıcı Sil</button>
+              {/* User Identity */}
+              <div className="mb-6">
+                <h4 className="text-[19px] font-black text-text-primary tracking-tight mb-1">{user.userName} {user.userSurname}</h4>
+                <p className="text-[12px] font-bold text-text-secondary/60 lowercase tracking-[0.2em] mb-4">@{user.userNickname || t('dashboard.anonymous')}</p>
+                <div className="flex gap-2 justify-center flex-wrap">
+                   {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
+                     <span key={idx} className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border
+                       ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20' : 
+                         role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
+                         'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
+                       {t('dashboard.role_' + role.toLowerCase())}
+                     </span>
+                   ))}
+                </div>
+              </div>
+
+              {/* Stats / Balance */}
+              <div className={`w-full p-6 rounded-[2rem] mb-8 flex justify-center items-center gap-6
+                ${theme === 'light' ? 'bg-gray-50' : 'bg-white/5'}`}>
+                 <div className="text-center">
+                    <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.table_balance')}</p>
+                    <div className="flex items-center gap-1 justify-center">
+                       <span className="text-[20px] font-black text-text-primary">{formatBalance(user.balance || 0)}</span>
+                       <span className="text-[12px] font-black text-primary">₺</span>
+                    </div>
+                 </div>
+                 <div className="w-[1px] h-8 bg-text-secondary/10" />
+                 <div className="text-center">
+                    <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.label_pending')}</p>
+                    <div className="flex items-center gap-1 justify-center text-orange-400">
+                       <span className="text-[20px] font-black">{formatBalance(user.pendingBalance || 0)}</span>
+                       <span className="text-[12px] font-black">₺</span>
+                    </div>
+                 </div>
+              </div>
+
+              {/* Contact Mini */}
+              <p className="text-[13px] font-bold text-text-primary/80 mb-8 truncate w-full px-2">{user.eMail}</p>
+
+              {/* Actions Grid */}
+              <div className="w-full grid grid-cols-3 gap-2">
+                 <button 
+                   onClick={() => {
+                     setEditingUser(user);
+                     setBalanceInput(user.balance?.toString() || "0");
+                     setPendingBalanceInput(user.pendingBalance?.toString() || "0");
+                   }}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     ${theme === 'light' ? 'bg-primary text-white shadow-lg' : 'bg-primary text-white shadow-lg'}`}>
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" /></svg>
+                 </button>
+                 <button 
+                   onClick={() => {
+                     setEditingRoleUser(user);
+                     setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
+                   }}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     ${theme === 'light' ? 'bg-gray-100 text-blue-500' : 'bg-white/5 text-blue-500'}`}>
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                 </button>
+                 <button 
+                   onClick={() => handleBlockUser(user.userID, !user.isActive)}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     ${!user.isActive ? 'bg-green-500 text-white shadow-lg' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                     {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                   </svg>
+                 </button>
+              </div>
+            </div>
+          )
+        ))}
+
+        {users.length === 0 && (
+          <div className={`p-20 text-center rounded-[3rem] border-2 border-dashed
+            ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+            <div className="w-16 h-16 rounded-full bg-text-secondary/5 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-text-secondary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </div>
+            <p className="text-[13px] font-bold text-text-secondary">{t('dashboard.empty_users')}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Pagination Bar */}
+      <div className={`p-4 rounded-[2rem] border flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-300
+        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+        <div className="flex items-center gap-4">
+           <div className={`px-4 py-2 rounded-xl text-[11px] font-black tracking-wider
+             ${theme === 'light' ? 'bg-gray-50 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>
+             {t('dashboard.admin_users_total').replace('{count}', users.length.toString())}
+           </div>
         </div>
-      </ActionModal>
+
+        <div className="flex items-center gap-2">
+           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-secondary hover:bg-primary hover:text-white'}`}>
+             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+           </button>
+           <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[12px] font-black bg-primary text-white shadow-lg shadow-primary/20`}>1</div>
+           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-secondary hover:bg-primary hover:text-white'}`}>
+             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+           </button>
+        </div>
+
+        <div className="flex items-center gap-3">
+           <span className="text-[11px] font-black text-text-secondary/40 uppercase tracking-widest">{t('dashboard.show_label') || "GÖSTER"}:</span>
+           <select className={`px-4 h-10 rounded-xl text-[11px] font-black outline-none transition-all
+             ${theme === 'light' ? 'bg-gray-50 text-text-primary focus:bg-white border border-transparent focus:border-primary/20' : 'bg-white/5 text-text-primary focus:bg-white/10 border border-transparent focus:border-white/10'}`}>
+             <option>10</option>
+             <option>20</option>
+             <option>50</option>
+           </select>
+        </div>
+      </div>
+
+      {/* Modals remain the same but styled consistently */}
+      {editingUser && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+          <div className={`rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl animate-scale-in border
+            ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#18181B] border-white/5'}`}>
+            <h3 className="text-2xl font-black text-text-primary mb-2 tracking-tight">{t('dashboard.modal_update_balance')}</h3>
+            <p className="text-[13px] font-bold text-text-secondary/60 mb-8">{t('dashboard.modal_update_balance_desc').replace('{name}', editingUser.userName)}</p>
+            
+            <div className="space-y-6">
+              <div className="group">
+                <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">{t('dashboard.active_balance')}</label>
+                <div className="relative">
+                  <input 
+                    type="number" 
+                    value={balanceInput} 
+                    onChange={(e) => setBalanceInput(e.target.value)}
+                    className={`w-full h-14 pl-6 pr-12 rounded-2xl outline-none text-[16px] font-black transition-all border
+                      ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30 shadow-inner' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`}
+                  />
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary text-[15px]">₺</span>
+                </div>
+              </div>
+              <div className="group">
+                <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-orange-400 transition-colors">{t('dashboard.pending_balance')}</label>
+                <div className="relative">
+                  <input 
+                    type="number" 
+                    value={pendingBalanceInput} 
+                    onChange={(e) => setPendingBalanceInput(e.target.value)}
+                    className={`w-full h-14 pl-6 pr-12 rounded-2xl outline-none text-[16px] font-black transition-all border
+                      ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-orange-400/30 shadow-inner' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`}
+                  />
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-orange-400 text-[15px]">₺</span>
+                </div>
+              </div>
+              <div className="flex gap-4 mt-10">
+                <button 
+                  onClick={() => setEditingUser(null)}
+                  className={`flex-1 h-14 rounded-2xl font-black text-[14px] transition-all
+                    ${theme === 'light' ? 'bg-gray-100 text-text-primary hover:bg-gray-200' : 'bg-white/5 text-text-primary hover:bg-white/10'}`}
+                >
+                  {t('dashboard.btn_cancel')}
+                </button>
+                <button 
+                  onClick={handleUpdateBalance}
+                  className="flex-1 h-14 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black text-[14px] shadow-xl shadow-primary/30 hover:scale-[1.02] transition-all"
+                >
+                  {t('dashboard.btn_save')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingRoleUser && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+          <div className={`rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl animate-scale-in border
+            ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#18181B] border-white/5'}`}>
+            <h3 className="text-2xl font-black text-text-primary mb-2 tracking-tight">{t('dashboard.modal_update_role')}</h3>
+            <p className="text-[13px] font-bold text-text-secondary/60 mb-8">{t('dashboard.modal_update_role_desc').replace('{name}', editingRoleUser.userName)}</p>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {['USER', 'SELLER', 'ADMIN', 'SYSOP'].map(role => (
+                <label key={role} className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all group
+                  ${roleInput.includes(role) 
+                    ? 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(95,200,192,0.1)]' 
+                    : theme === 'light' ? 'bg-gray-50 border-transparent hover:border-primary/20' : 'bg-white/5 border-transparent hover:border-white/10'}`}>
+                  <span className={`text-[14px] font-black transition-colors ${roleInput.includes(role) ? 'text-primary' : 'text-text-primary'}`}>{t('dashboard.role_' + role.toLowerCase())}</span>
+                  <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
+                    ${roleInput.includes(role) ? 'bg-primary border-primary' : 'border-text-secondary/20 group-hover:border-primary/50'}`}>
+                    {roleInput.includes(role) && (
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    )}
+                  </div>
+                  <input 
+                    type="checkbox" 
+                    className="hidden"
+                    checked={roleInput.includes(role)}
+                    onChange={() => toggleRole(role)}
+                  />
+                </label>
+              ))}
+              
+              <div className="flex gap-4 mt-10">
+                <button 
+                  onClick={() => setEditingRoleUser(null)}
+                  className={`flex-1 h-14 rounded-2xl font-black text-[14px] transition-all
+                    ${theme === 'light' ? 'bg-gray-100 text-text-primary hover:bg-gray-200' : 'bg-white/5 text-text-primary hover:bg-white/10'}`}
+                >
+                  {t('dashboard.btn_cancel')}
+                </button>
+                <button 
+                  onClick={handleUpdateRole}
+                  className="flex-1 h-14 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black text-[14px] shadow-xl shadow-primary/30 hover:scale-[1.02] transition-all"
+                >
+                  {t('dashboard.btn_save')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

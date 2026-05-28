@@ -1,212 +1,292 @@
-'use client';
+"use client";
 
 import React, {useEffect, useState} from "react";
-import {useThemeLanguage} from "@/context/ThemeLanguageContext";
-import {PageHeader} from "@/app/dashboard/components/ui/PageHeader";
-import {FilterTabs, SearchInput} from "@/app/dashboard/components/ui/FilterBar";
-import {ActionModal, StatusBadge} from "@/app/dashboard/components/ui/StatusBadge";
-import {PencilIcon} from "@hugeicons/core-free-icons";
-import {HugeiconsIcon} from "@hugeicons/react";
-import {apiUrl} from "@/lib/api";
+import {apiUrl} from "../../../../lib/api";
 
-interface SubCategory {
-  id: string;
-  name: string;
-  productCount: number;
-  status: string;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  productCount: number;
-  status: string;
-  subcategories: SubCategory[];
-}
-
-export default function CategoryManagementPage() {
-  const { theme } = useThemeLanguage();
+export default function AdminCategories() {
+  const [categories, setCategories] = useState<any[]>([]);
+  const [attributes, setAttributes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedCats, setExpandedCats] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [showModal, setShowModal] = useState<any>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [view, setView] = useState<"categories" | "attributes">("categories");
 
-  const isDark = theme === 'dark';
+  // Category Form
+  const [editingCategory, setEditingCategory] = useState<any>(null);
+  const [catName, setCatName] = useState("");
+  const [catSlug, setCatSlug] = useState("");
+  const [catParent, setCatParent] = useState("");
+
+  // Attribute Form
+  const [editingAttribute, setEditingAttribute] = useState<any>(null);
+  const [attrNameKey, setAttrNameKey] = useState("");
+  const [attrDisplayNameTr, setAttrDisplayNameTr] = useState("");
+  const [attrDisplayNameEn, setAttrDisplayNameEn] = useState("");
+  const [attrType, setAttrType] = useState("select");
+  const [attrMobileComponent, setAttrMobileComponent] = useState("dropdown");
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    if (token === "mock_token" || !token) {
-      setCategories([]);
-      setLoading(false);
-      return;
-    }
-    
-    setLoading(true);
-    fetch(apiUrl('admin/categories'), {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        setCategories(Array.isArray(data) ? data : data.categories || []);
-      })
-      .catch(err => {
-        console.error("Failed to fetch categories:", err);
-        setCategories([]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    fetchData();
   }, []);
 
-  const cardClass = `rounded-[20px] border transition-all duration-300 ${isDark ? 'bg-[#121214] border-white/5 shadow-2xl' : 'bg-white border-gray-100 shadow-sm'}`;
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const headers = { 
+        Authorization: `Bearer ${token}`,
+        "X-Device-Type": "web"
+      };
 
-  const toggleCat = (id: string) => {
-    setExpandedCats(prev => prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]);
+      const [catRes, attrRes] = await Promise.all([
+        fetch(apiUrl("/admin/categories"), { headers }),
+        fetch(apiUrl("/admin/attributes"), { headers })
+      ]);
+
+      const catData = await catRes.json();
+      const attrData = await attrRes.json();
+
+      if (catData.payload) setCategories(catData.payload);
+      if (attrData.payload) setAttributes(attrData.payload);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const filteredCategories = categories.filter(c => {
-    if (activeFilter === 'bebek' && !c.name.toLowerCase().includes('bebek')) return false;
-    if (activeFilter === 'cocuk' && !c.name.toLowerCase().includes('çocuk')) return false;
-    if (activeFilter === 'organik' && !c.name.toLowerCase().includes('organik') && !(c.subcategories || []).some(sub => sub.name.toLowerCase().includes('organik'))) return false;
+  const handleSaveAttribute = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const method = editingAttribute ? "PUT" : "POST";
+      const url = editingAttribute 
+        ? apiUrl(`/admin/attributes/${editingAttribute.attributeID}`)
+        : apiUrl("/admin/attributes");
 
-    if (!searchQuery) return true;
-    const q = searchQuery.toLowerCase();
-    const matchCat = c.name.toLowerCase().includes(q);
-    const matchSub = (c.subcategories || []).some(sub => sub.name.toLowerCase().includes(q));
-    return matchCat || matchSub;
-  });
+      const res = await fetch(url, {
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nameKey: attrNameKey,
+          displayedName: { tr: attrDisplayNameTr, en: attrDisplayNameEn },
+          type: attrType,
+          mobileComponent: attrMobileComponent
+        })
+      });
 
-  const filterTabs = [
-    { id: 'all', label: 'Tümü' },
-    { id: 'bebek', label: 'Bebek' },
-    { id: 'cocuk', label: 'Çocuk' },
-    { id: 'organik', label: 'Organik' }
-  ];
+      if (res.ok) {
+        setEditingAttribute(null);
+        resetAttrForm();
+        fetchData();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const resetAttrForm = () => {
+    setAttrNameKey("");
+    setAttrDisplayNameTr("");
+    setAttrDisplayNameEn("");
+    setAttrType("select");
+    setAttrMobileComponent("dropdown");
+  };
+
+  if (loading) return <div className="p-8 font-bold text-slate-500">Loading Categories & Attributes...</div>;
 
   return (
-    <div className="space-y-6 animate-fade-in max-w-[1400px] mx-auto pb-12">
-      <PageHeader 
-        title="Kategori & Alt Kategori Yönetimi"
-        description="Pazaryerindeki ana ve alt kategorileri, ağaç (tree) yapısında düzenleyin."
-        actions={
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-black text-slate-900">Category & Attribute Management</h1>
+        <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
           <button 
-            onClick={() => setShowModal({type: 'new'})} 
-            className="w-full md:w-auto px-5 py-2.5 rounded-xl text-[12px] font-black uppercase tracking-wider text-white bg-primary hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+            onClick={() => setView("categories")}
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${view === "categories" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
           >
-            + Yeni Kategori Ekle
+            Categories
           </button>
-        }
-      />
-
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <FilterTabs 
-          tabs={filterTabs} 
-          activeTab={activeFilter} 
-          onChange={(id) => setActiveFilter(id)} 
-        />
-        <div className="flex-1" />
-        <SearchInput 
-          value={searchQuery} 
-          onChange={(val) => {
-            setSearchQuery(val);
-            if (val) setExpandedCats(categories.map(c => c.id));
-          }} 
-          placeholder="Kategori veya Alt Kategori Ara..." 
-        />
-      </div>
-
-      <div className={`${cardClass} overflow-hidden`}>
-        <div className="p-4 md:p-6">
-          {loading ? (
-            <div className="p-8 text-center text-gray-500 text-sm font-medium">Kategori ağacı yükleniyor...</div>
-          ) : filteredCategories.length === 0 ? (
-            <div className="p-8 text-center text-gray-500 text-sm font-medium">Aranan kriterde kategori bulunamadı.</div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {filteredCategories.map(cat => (
-                <div key={cat.id} className={`rounded-2xl border transition-all ${isDark ? 'border-white/5 bg-[#1A1D1F]' : 'border-gray-200 bg-gray-50/50'}`}>
-                  {/* Main Category Row */}
-                  <div 
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors rounded-2xl"
-                    onClick={() => toggleCat(cat.id)}
-                  >
-                    <div className="flex items-center gap-4">
-                      <button className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform ${expandedCats.includes(cat.id) ? 'rotate-90' : ''} ${isDark ? 'bg-white/10 text-white' : 'bg-white shadow-sm text-gray-600'}`}>
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                      </button>
-                      <div className="flex flex-col">
-                        <span className={`text-[14px] font-black ${isDark ? 'text-white' : 'text-gray-900'}`}>{cat.name}</span>
-                        <span className={`text-[11px] font-medium mt-0.5 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{cat.id} • {(cat.productCount || 0).toLocaleString()} Ürün</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                       <StatusBadge status={cat.status} type={cat.status === 'Aktif' ? 'success' : 'danger'} />
-                       <button onClick={(e) => { e.stopPropagation(); setShowModal({type: 'edit', data: cat}); }} className={`p-2 rounded-lg transition-colors ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-500 hover:text-gray-900 hover:bg-white shadow-sm'}`}>
-                         <HugeiconsIcon icon={PencilIcon} size={20} />
-                       </button>
-                    </div>
-                  </div>
-
-                  {/* Subcategories (Alt Kategoriler) */}
-                  {expandedCats.includes(cat.id) && (
-                    <div className={`border-t p-4 md:pl-16 pl-6 flex flex-col gap-2 ${isDark ? 'border-white/5 bg-[#121214]/50' : 'border-gray-200 bg-white'}`}>
-                      <div className="flex items-center justify-between mb-2">
-                         <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Alt Kategoriler</span>
-                         <button onClick={() => setShowModal({type: 'new_sub', parentId: cat.id})} className="text-[11px] font-bold text-primary hover:underline">+ Yeni Ekle</button>
-                      </div>
-                      
-                      {(cat.subcategories || []).map(sub => (
-                        <div key={sub.id} className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${isDark ? 'border-white/5 hover:bg-white/5' : 'border-gray-100 hover:bg-gray-50'}`}>
-                          <div className="flex items-center gap-3">
-                            <div className={`w-1.5 h-1.5 rounded-full ${sub.status === 'Aktif' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                            <div className="flex flex-col">
-                              <span className={`text-[13px] font-bold ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{sub.name}</span>
-                              <span className={`text-[10px] font-medium mt-0.5 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>{(sub.productCount || 0).toLocaleString()} Ürün</span>
-                            </div>
-                          </div>
-                          <button onClick={() => setShowModal({type: 'edit_sub', data: sub})} className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${isDark ? 'border-white/10 text-gray-400 hover:bg-white/10 hover:text-white' : 'border-gray-200 text-gray-600 hover:bg-white shadow-sm'}`}>
-                            Düzenle
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+          <button 
+            onClick={() => setView("attributes")}
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${view === "attributes" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+          >
+            Attributes
+          </button>
         </div>
       </div>
 
-      <ActionModal
-        isOpen={!!showModal}
-        onClose={() => setShowModal(null)}
-        title={showModal?.type === 'new' ? 'Yeni Kategori' : showModal?.type === 'edit' ? 'Kategori Düzenle' : 'Alt Kategori İşlemi'}
-        description="Kategori adını ve durumunu buradan güncelleyebilirsiniz."
-      >
-        <div className="flex flex-col gap-4">
-          <div>
-            <label className={`block text-[11px] font-bold uppercase mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Kategori Adı</label>
-            <input type="text" defaultValue={showModal?.data?.name || ''} className={`w-full h-12 rounded-xl px-4 text-[13px] font-bold border outline-none focus:border-primary transition-colors ${isDark ? 'bg-[#121214] border-white/10 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'}`} placeholder="Örn: Bebek Giyim" />
-          </div>
-          <div>
-            <label className={`block text-[11px] font-bold uppercase mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Durum</label>
-            <select defaultValue={showModal?.data?.status || 'Aktif'} className={`w-full h-12 rounded-xl px-4 text-[13px] font-bold border outline-none focus:border-primary transition-colors appearance-none ${isDark ? 'bg-[#121214] border-white/10 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'}`}>
-              <option value="Aktif">Aktif (Yayında)</option>
-              <option value="Pasif">Pasif (Gizli)</option>
-            </select>
+      {view === "categories" ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[500px]">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-100">
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Category</th>
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Parent</th>
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Slug</th>
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categories.map(cat => (
+                  <tr key={cat.categoryID} className="border-b border-slate-50 hover:bg-slate-50/50">
+                    <td className="p-4 font-bold text-slate-900">
+                      {cat.displayedName?.tr || cat.name}
+                    </td>
+                    <td className="p-4 text-slate-500 text-sm">
+                      {cat.parent?.displayedName?.tr || "-"}
+                    </td>
+                    <td className="p-4 text-slate-500 font-mono text-xs">{cat.slug}</td>
+                    <td className="p-4">
+                      <button className="text-xs font-bold text-indigo-500 hover:underline">Edit</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           
-          <div className="flex gap-3 mt-4">
-            <button onClick={() => setShowModal(null)} className={`flex-1 p-3 rounded-xl font-bold text-[13px] transition-colors ${isDark ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>İptal</button>
-            <button onClick={() => setShowModal(null)} className="flex-1 p-3 rounded-xl font-bold text-[13px] bg-primary hover:bg-primary/90 text-white transition-colors shadow-lg shadow-primary/20">Kaydet</button>
+          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit">
+             <h2 className="text-xl font-black mb-4">Add Category</h2>
+             <p className="text-slate-500 text-sm mb-4">Create a new category for products.</p>
+             <div className="space-y-4">
+               <div>
+                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name (TR)</label>
+                 <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. Ayakkabı" />
+               </div>
+               <div>
+                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Slug</label>
+                 <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. ayakkabi" />
+               </div>
+               <button className="w-full bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-colors">Save Category</button>
+             </div>
           </div>
         </div>
-      </ActionModal>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[500px]">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-100">
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Attribute</th>
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Mobile Component</th>
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Type</th>
+                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {attributes.map(attr => (
+                  <tr key={attr.attributeID} className="border-b border-slate-50 hover:bg-slate-50/50">
+                    <td className="p-4">
+                      <div className="font-bold text-slate-900">{attr.displayedName?.tr || attr.nameKey}</div>
+                      <div className="text-xs text-slate-400 font-mono">{attr.nameKey}</div>
+                    </td>
+                    <td className="p-4">
+                       <span className="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-[10px] font-black uppercase tracking-tighter">
+                         {attr.mobileComponent || 'dropdown'}
+                       </span>
+                    </td>
+                    <td className="p-4 text-slate-600 text-sm">{attr.type}</td>
+                    <td className="p-4 flex gap-2">
+                      <button 
+                        onClick={() => {
+                          setEditingAttribute(attr);
+                          setAttrNameKey(attr.nameKey);
+                          setAttrDisplayNameTr(attr.displayedName?.tr || "");
+                          setAttrDisplayNameEn(attr.displayedName?.en || "");
+                          setAttrType(attr.type);
+                          setAttrMobileComponent(attr.mobileComponent || "dropdown");
+                        }}
+                        className="text-xs font-bold text-indigo-500 hover:underline"
+                      >
+                        Edit
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit">
+             <h2 className="text-xl font-black mb-4">{editingAttribute ? 'Edit Attribute' : 'Add Attribute'}</h2>
+             <div className="space-y-4">
+               <div>
+                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name Key (Technical)</label>
+                 <input 
+                   value={attrNameKey}
+                   onChange={(e) => setAttrNameKey(e.target.value)}
+                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                   placeholder="e.g. color" 
+                 />
+               </div>
+               <div className="grid grid-cols-2 gap-2">
+                 <div>
+                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name (TR)</label>
+                   <input 
+                     value={attrDisplayNameTr}
+                     onChange={(e) => setAttrDisplayNameTr(e.target.value)}
+                     className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                     placeholder="Renk" 
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name (EN)</label>
+                   <input 
+                     value={attrDisplayNameEn}
+                     onChange={(e) => setAttrDisplayNameEn(e.target.value)}
+                     className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                     placeholder="Color" 
+                   />
+                 </div>
+               </div>
+               <div>
+                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Type</label>
+                 <select 
+                   value={attrType}
+                   onChange={(e) => setAttrType(e.target.value)}
+                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                 >
+                   <option value="select">Select (Single)</option>
+                   <option value="multiselect">Multiselect</option>
+                   <option value="text">Text Input</option>
+                 </select>
+               </div>
+               <div>
+                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1 text-indigo-600">Mobile UI Component</label>
+                 <select 
+                   value={attrMobileComponent}
+                   onChange={(e) => setAttrMobileComponent(e.target.value)}
+                   className="w-full bg-white border border-indigo-200 rounded-xl px-4 py-2 text-sm font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm shadow-indigo-100"
+                 >
+                   <option value="dropdown">Default Dropdown</option>
+                   <option value="horizontal_list">Horizontal Chips</option>
+                   <option value="grid">Grid Selection</option>
+                   <option value="color_picker">Color Palette (Hex Selection)</option>
+                   <option value="size_selector">Size Grid</option>
+                 </select>
+                 <p className="mt-1 text-[10px] text-slate-400 leading-tight">Determines how this attribute renders in the mobile app listing form.</p>
+               </div>
+               <div className="flex gap-2">
+                 <button 
+                  onClick={handleSaveAttribute}
+                  className="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100"
+                 >
+                   {editingAttribute ? 'Update' : 'Create'} Attribute
+                 </button>
+                 {editingAttribute && (
+                   <button 
+                     onClick={() => { setEditingAttribute(null); resetAttrForm(); }}
+                     className="bg-slate-200 text-slate-700 font-bold px-4 rounded-xl hover:bg-slate-300 transition-colors"
+                   >
+                     Cancel
+                   </button>
+                 )}
+               </div>
+             </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

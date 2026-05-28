@@ -1,224 +1,199 @@
-'use client';
-import {HugeiconsIcon} from '@hugeicons/react';
-import React, {useEffect, useState} from 'react';
-import {AppStoreIcon, PauseCircleIcon, Store01Icon, Tick01Icon} from '@hugeicons/core-free-icons';
-import {PageHeader} from '@/app/dashboard/components/ui/PageHeader';
-import {KPIGrid, KPIItem} from '@/app/dashboard/components/ui/KPIGrid';
-import {FilterTabs, SearchInput, TabItem} from '@/app/dashboard/components/ui/FilterBar';
-import {Column, DataTable} from '@/app/dashboard/components/ui/DataTable';
-import {ActionModal, StatusBadge} from '@/app/dashboard/components/ui/StatusBadge';
-import {apiUrl} from '@/lib/api';
+"use client";
 
-export default function ProductManagementPage() {
-  const [products, setProducts] = useState<any[]>([]);
+import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../../../lib/api";
+
+export default function AdminListings() {
+  const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showModal, setShowModal] = useState<string | null>(null);
-  const [actionDone, setActionDone] = useState<string | null>(null);
+  const [selectedListing, setSelectedListing] = useState<any>(null);
 
-  const fetchProducts = async () => {
-    setLoading(true);
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const fetchListings = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (token === "mock_token" || !token) {
-        setProducts([]);
-        return;
-      }
-
-      const res = await fetch(apiUrl('/admin/listings?page=1&limit=100'), {
-        headers: { "Authorization": `Bearer ${token}` }
+      const res = await fetch(apiUrl("/admin/listings"), {
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
       });
       const data = await res.json();
-      if (data.payload && data.payload.listings) {
-        setProducts(data.payload.listings.map((p: any) => ({
-          id: p.listingID,
-          name: p.title,
-          store: p.seller?.userName ? `${p.seller.userName} ${p.seller.userSurname}` : 'Bilinmeyen Satıcı',
-          price: `${p.price}₺`,
-          status: p.status === 'active' ? 'Yayında' : p.status === 'pending_approval' ? 'Onay Bekliyor' : p.status === 'rejected' ? 'Reddedildi' : p.status,
-          stock: p.stock || 1,
-          date: new Date(p.createdAt).toLocaleDateString('tr-TR')
-        })));
-      }
+      if (data.payload?.listings) setListings(data.payload.listings);
     } catch (e) {
-      console.error("Failed to fetch products:", e);
+      console.error(e);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const handleUpdateStatus = async (listingID: string, newStatus: string) => {
+  const updateStatus = async (id: string, status: string) => {
     try {
       const token = localStorage.getItem("token");
-      if (token === "mock_token" || !token) {
-         setProducts(products.map(p => p.id === listingID ? { ...p, status: newStatus === 'active' ? 'Yayında' : 'Reddedildi' } : p));
-         setActionDone(`İlan durumu güncellendi.`);
-         setTimeout(() => setActionDone(null), 2500);
-         setShowModal(null);
-         return;
-      }
-      
-      const res = await fetch(apiUrl(`/admin/listings/${listingID}/status`), {
-        method: 'PUT',
-        headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus })
+      const res = await fetch(apiUrl(`/admin/listings/${id}/status`), {
+        method: "PUT",
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Device-Type": "web"
+        },
+        body: JSON.stringify({ status })
       });
-      if (res.ok) {
-        setProducts(products.map(p => p.id === listingID ? { ...p, status: newStatus === 'active' ? 'Yayında' : 'Reddedildi' } : p));
-        setActionDone(`İlan durumu güncellendi.`);
-        setTimeout(() => setActionDone(null), 2500);
-        setShowModal(null);
-      } else {
-        alert("Durum güncellenirken bir hata oluştu.");
-      }
+      if (res.ok) fetchListings();
     } catch (e) {
       console.error(e);
-      alert("Durum güncellenirken bir hata oluştu.");
     }
   };
 
-  const filteredProducts = products.filter(p => {
-    if (activeTab === 'active' && p.status !== 'Yayında') return false;
-    if (activeTab === 'pending' && p.status !== 'Onay Bekliyor') return false;
-    if (activeTab === 'rejected' && p.status !== 'Reddedildi') return false;
-    
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      return p.name.toLowerCase().includes(q) || p.store.toLowerCase().includes(q) || p.id.toLowerCase().includes(q);
-    }
-    return true;
-  });
-
-  const getStatusType = (status: string) => {
-    switch (status) {
-      case 'Yayında': return 'success';
-      case 'Onay Bekliyor': return 'warning';
-      case 'Reddedildi': return 'danger';
-      default: return 'neutral';
-    }
-  };
-
-  const kpis: KPIItem[] = [
-    { label: 'TOPLAM İLAN', value: products.length, icon: <HugeiconsIcon icon={AppStoreIcon} size={32} className="text-blue-500" />, colorClass: 'text-blue-500' },
-    { label: 'YAYINDA', value: products.filter(p => p.status === 'Yayında').length, icon: <HugeiconsIcon icon={Tick01Icon} size={32} className="text-green-500" />, colorClass: 'text-green-500' },
-    { label: 'ONAY BEKLEYEN', value: products.filter(p => p.status === 'Onay Bekliyor').length, icon: <HugeiconsIcon icon={PauseCircleIcon} size={32} className="text-orange-500" />, colorClass: 'text-orange-500' },
-    { label: 'MAĞAZALAR', value: new Set(products.map(p => p.store)).size, icon: <HugeiconsIcon icon={Store01Icon} size={32} className="text-purple-500" />, colorClass: 'text-purple-500' },
-  ];
-
-  const tabs: TabItem[] = [
-    { id: 'all', label: 'Tüm İlanlar' },
-    { id: 'active', label: 'Yayındakiler' },
-    { id: 'pending', label: 'Onay Bekleyenler' },
-    { id: 'rejected', label: 'Reddedilenler' }
-  ];
-
-  const columns: Column<any>[] = [
-    {
-      header: 'Ürün & Kategori',
-      accessor: (p) => (
-        <div className="flex flex-col">
-          <span className="text-[12px] font-bold text-gray-900 dark:text-white line-clamp-1">{p.name}</span>
-          <span className="text-[10px] font-medium mt-0.5 text-gray-400">#{p.id}</span>
-        </div>
-      )
-    },
-    {
-      header: 'Satıcı / Mağaza',
-      className: 'hidden md:table-cell',
-      headerClassName: 'hidden md:table-cell',
-      accessor: (p) => <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2 py-1 rounded-md">{p.store}</span>
-    },
-    {
-      header: 'Fiyat & Stok',
-      accessor: (p) => (
-        <div className="flex flex-col">
-          <span className="text-[12px] font-black text-gray-900 dark:text-white">{p.price}</span>
-          <span className="text-[10px] font-medium text-gray-400">{p.stock} adet stok</span>
-        </div>
-      )
-    },
-    {
-      header: 'Tarih',
-      className: 'hidden md:table-cell',
-      headerClassName: 'hidden md:table-cell',
-      accessor: (p) => <span className="text-[11px] font-medium text-gray-500">{p.date}</span>
-    },
-    {
-      header: 'Durum',
-      accessor: (p) => <StatusBadge status={p.status} type={getStatusType(p.status)} />
-    },
-    {
-      header: 'İşlem',
-      className: 'text-right',
-      accessor: (p) => (
-        <button onClick={() => setShowModal(p.id)} className="px-3 py-1.5 rounded-lg border text-[10px] md:text-[11px] font-bold transition-colors dark:border-white/10 dark:text-gray-400 dark:hover:text-white dark:hover:bg-white/5 border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50">
-          İncele / Düzenle
-        </button>
-      )
-    }
-  ];
+  if (loading) return <div className="text-slate-500 font-bold">Loading listings...</div>;
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#0B0C0E] font-sans">
-      {actionDone && (
-        <div className="fixed top-4 right-4 z-[200] bg-[#111827] text-white px-5 py-3 rounded-xl text-[13px] font-bold shadow-2xl animate-fade-in">
-          <HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-400 inline-block mr-2" /> 
-          {actionDone}
-        </div>
-      )}
-      
-      <PageHeader 
-        title="Ürün Kataloğu Yönetimi" 
-        description="Platformdaki tüm ürünleri, fiyatları ve stok durumlarını inceleyin." 
-        actions={
-          <button className="px-4 py-2.5 rounded-2xl bg-[#111827] dark:bg-white text-white dark:text-black text-[13px] font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
-            Yeni İlan Oluştur
-          </button>
-        }
-      />
-
-      <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-5 pb-20">
-        <KPIGrid items={kpis} />
-
-        <div className="flex flex-col md:flex-row gap-4 justify-between">
-          <FilterTabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
-          <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="İlan ara..." />
-        </div>
-
-        <DataTable 
-          data={filteredProducts} 
-          columns={columns} 
-          keyExtractor={p => p.id}
-          loading={loading}
-          emptyMessage="Bu kriterlere uygun ilan bulunamadı."
-        />
+    <div>
+      <h1 className="text-3xl font-black text-slate-900 mb-8">Manage Listings</h1>
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[600px]">
+          <thead>
+            <tr className="bg-slate-50 border-b border-slate-100">
+              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Listing</th>
+              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Seller</th>
+              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Price</th>
+              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Status</th>
+              <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listings.map(listing => (
+              <tr key={listing.listingID} className="border-b border-slate-50 hover:bg-slate-50/50">
+                <td className="p-4 font-bold text-slate-900">{listing.title}</td>
+                <td className="p-4 text-slate-600">
+                  {listing.seller?.userName} {listing.seller?.userSurname}
+                </td>
+                <td className="p-4 text-slate-900 font-bold">₺{listing.price}</td>
+                <td className="p-4">
+                  <span className={`px-2 py-1 rounded-md text-xs font-bold ${listing.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : listing.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-700'}`}>
+                    {listing.status}
+                  </span>
+                </td>
+                <td className="p-4 flex gap-2">
+                  {listing.status === 'PENDING' && (
+                    <>
+                      <button onClick={() => updateStatus(listing.listingID, 'ACTIVE')} className="text-xs font-bold text-green-500 hover:underline">Approve</button>
+                      <button onClick={() => updateStatus(listing.listingID, 'REJECTED')} className="text-xs font-bold text-red-500 hover:underline">Reject</button>
+                    </>
+                  )}
+                  {listing.status === 'ACTIVE' && (
+                    <button onClick={() => updateStatus(listing.listingID, 'PASSIVE')} className="text-xs font-bold text-slate-500 hover:underline">Deactivate</button>
+                  )}
+                  <button onClick={() => setSelectedListing(listing)} className="text-xs font-bold text-indigo-500 hover:underline">View Details</button>
+                </td>
+              </tr>
+            ))}
+            {listings.length === 0 && (
+              <tr>
+                <td colSpan={5} className="p-8 text-center text-slate-500 font-medium">No listings found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
-      <ActionModal 
-        isOpen={!!showModal} 
-        onClose={() => setShowModal(null)} 
-        title="İlan Aksiyonları"
-        description="Bu ilan için uygulayacağınız aksiyonu seçin."
-      >
-        <button onClick={() => showModal && handleUpdateStatus(showModal, 'active')} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-green-500 text-white hover:bg-green-600 transition-colors">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-          İlanı Onayla / Yayına Al
-        </button>
-        <button onClick={() => setShowModal(null)} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 border transition-colors dark:border-white/10 dark:hover:bg-white/5 dark:text-white border-gray-200 hover:bg-gray-50 text-gray-700">
-          <svg className="w-5 h-5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-          İlanı Düzenle
-        </button>
-        <button onClick={() => showModal && handleUpdateStatus(showModal, 'rejected')} className="w-full p-4 rounded-xl font-bold flex items-center justify-center gap-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
-          İlanı Reddet / Kaldır
-        </button>
-      </ActionModal>
+      {selectedListing && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedListing(null)}></div>
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+              <h3 className="text-xl font-black text-slate-900">Listing Details</h3>
+              <button onClick={() => setSelectedListing(null)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Title</h4>
+                     <p className="font-bold text-slate-900">{selectedListing.title || '-'}</p>
+                   </div>
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Description</h4>
+                     <p className="text-sm text-slate-600 leading-relaxed">{selectedListing.description || '-'}</p>
+                   </div>
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Price</h4>
+                     <p className="font-black text-slate-900 text-xl">₺{selectedListing.price}</p>
+                   </div>
+                </div>
+                <div className="space-y-4">
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Seller</h4>
+                     <p className="font-bold text-slate-900">{selectedListing.seller?.userName} {selectedListing.seller?.userSurname}</p>
+                   </div>
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Status</h4>
+                     <span className={`px-3 py-1 rounded-md text-xs font-bold ${selectedListing.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : selectedListing.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-700'}`}>
+                        {selectedListing.status}
+                     </span>
+                   </div>
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Category & Brand</h4>
+                     <p className="text-sm text-slate-600">
+                        {selectedListing.category?.name || selectedListing.categoryID || 'Unknown Category'} - {selectedListing.brand?.name || selectedListing.brand || 'No Brand'}
+                     </p>
+                   </div>
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Condition</h4>
+                     <p className="text-sm text-slate-600">{selectedListing.condition || '-'}</p>
+                   </div>
+                </div>
+              </div>
+
+              {selectedListing.photos && selectedListing.photos.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Photos</h4>
+                  <div className="flex gap-4 overflow-x-auto pb-4">
+                    {selectedListing.photos.map((photo: any, idx: number) => (
+                      <div key={idx} className="w-32 h-32 rounded-xl overflow-hidden shrink-0 border border-slate-100 bg-slate-50">
+                        <img src={typeof photo === 'string' ? photo : photo.url} alt={`Photo ${idx}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="p-6 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
+               {selectedListing.status === 'PENDING' && (
+                 <>
+                   <button 
+                    onClick={() => { updateStatus(selectedListing.listingID, 'REJECTED'); setSelectedListing({...selectedListing, status: 'REJECTED'}); }} 
+                    className="px-6 py-2.5 rounded-xl font-bold text-sm text-red-600 bg-red-100 hover:bg-red-200 transition-colors"
+                   >
+                     Reject
+                   </button>
+                   <button 
+                    onClick={() => { updateStatus(selectedListing.listingID, 'ACTIVE'); setSelectedListing({...selectedListing, status: 'ACTIVE'}); }} 
+                    className="px-6 py-2.5 rounded-xl font-bold text-sm text-white bg-green-600 hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20"
+                   >
+                     Approve
+                   </button>
+                 </>
+               )}
+               {selectedListing.status === 'ACTIVE' && (
+                 <button 
+                  onClick={() => { updateStatus(selectedListing.listingID, 'PASSIVE'); setSelectedListing({...selectedListing, status: 'PASSIVE'}); }} 
+                  className="px-6 py-2.5 rounded-xl font-bold text-sm text-slate-600 bg-slate-200 hover:bg-slate-300 transition-colors"
+                 >
+                   Deactivate
+                 </button>
+               )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
