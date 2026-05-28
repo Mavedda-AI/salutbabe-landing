@@ -62,7 +62,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <Link href="/create" className={styles.primaryActionButton} onClick={onClose}>
               {t('drawer.sell_now')}
             </Link>
-            <Link href="/login" className={styles.secondaryActionButton} onClick={onClose}>
+            <Link href="https://www.salutbabe.com/login" className={styles.secondaryActionButton} onClick={onClose}>
               {t('drawer.seller_panel')}
             </Link>
           </div>
