@@ -6,7 +6,7 @@ import {ServerHealthProvider} from '@/context/ServerHealthContext';
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Salutbabe | Premium Vinted Style',
+  title: 'salutbabe | Premium Vinted Style',
   description: 'Anneden Anneye Güvenli Alışveriş – Safe Mother-to-Mother Shopping for Baby & Kids Clothing',
   keywords: ['salutbabe', 'ikinci el bebek kıyafeti', 'anne alışveriş', 'second hand baby clothes', 'kids fashion', 'sustainable fashion', 'vinted', 'bebek giyim'],
   icons: {
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     apple: '/logo-favicon.png',
   },
   openGraph: {
-    title: 'Salutbabe | Premium Vinted Style',
+    title: 'salutbabe | Premium Vinted Style',
     description: 'Anneden Anneye Güvenli Alışveriş – Safe Mother-to-Mother Shopping for Baby & Kids Clothing',
     url: 'https://salutbabe.com',
-    siteName: 'Salutbabe',
+    siteName: 'salutbabe',
     locale: 'tr_TR',
     type: 'website',
     images: [

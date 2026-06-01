@@ -1,11 +1,107 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
 import {auth, signInWithGoogle} from "../../lib/firebase";
 import {OAuthProvider, signInWithPopup} from "firebase/auth";
 import {apiUrl} from "../../lib/api";
+
+const GlowInput = ({ label, type = "text", value, onChange, placeholder, required, icon, ...props }: any) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const [capsLockActive, setCapsLockActive] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  const updateCapsLock = (e: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+    setCapsLockActive(e.getModifierState("CapsLock"));
+  };
+
+  // HACK: Safari forces an unremovable Caps Lock icon on type="password". 
+  // By using type="text" and masking the font via -webkit-text-security, 
+  // we bypass Safari's forced UI while keeping the password perfectly masked!
+  const isPasswordMasked = type === "password";
+  const renderedType = isPasswordMasked ? "text" : type;
+
+  return (
+    <div 
+      ref={containerRef}
+      className="relative w-full group"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <label className="absolute top-0 -translate-y-1/2 left-4 px-1.5 bg-[#171923] z-20 pointer-events-none">
+        <span className="relative block text-[11px] font-bold tracking-wider text-[#8F95B2]">
+          {label}
+          
+          {/* Overlay text that receives the gradient and is masked by the exact mouse position */}
+          <span 
+            className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-br from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0] transition-opacity duration-300"
+            style={{
+              opacity: isHovered ? 1 : 0,
+              WebkitMaskImage: `radial-gradient(100px circle at ${position.x - 16}px ${position.y + 8}px, black, transparent)`,
+              maskImage: `radial-gradient(100px circle at ${position.x - 16}px ${position.y + 8}px, black, transparent)`
+            }}
+          >
+            {label}
+          </span>
+        </span>
+      </label>
+      
+      <div className="relative rounded-xl bg-[#222533] z-10 overflow-hidden">
+        {/* Dynamic Gradient Glow */}
+        <div 
+          className="absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            background: `linear-gradient(135deg, var(--color-salut-orange, #FF6B00), var(--color-salut-pink, #FF9EBE), var(--color-salut-teal, #5FC8C0))`,
+            WebkitMaskImage: `radial-gradient(100px circle at ${position.x}px ${position.y}px, black, transparent)`,
+            maskImage: `radial-gradient(100px circle at ${position.x}px ${position.y}px, black, transparent)`
+          }}
+        />
+
+        {/* Inner background blocking glow except 1px border */}
+        <div className="absolute inset-[1px] bg-[#222533] rounded-xl z-0 transition-colors group-focus-within:bg-[#1C1F2B]" />
+        
+        {/* Flex Layout for Input + Icons to prevent Safari native overlap */}
+        <div className="relative z-10 w-full h-14 border border-transparent focus-within:border-blue-500/50 rounded-xl px-5 flex items-center transition-all">
+          <input
+            type={renderedType}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
+            onKeyDown={updateCapsLock}
+            onKeyUp={updateCapsLock}
+            onClick={updateCapsLock}
+            style={{ WebkitTextSecurity: isPasswordMasked ? "disc" : "none" }}
+            {...props}
+            className="flex-1 w-full bg-transparent text-white placeholder-[#4A506B] outline-none h-full"
+          />
+          <div className="flex items-center gap-2 ml-2 shrink-0">
+            {capsLockActive && (
+              <div className="text-orange-400 animate-pulse" title="Caps Lock is ON">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                  <rect x="4" y="4" width="16" height="16" rx="4" />
+                  <path d="M12 16V8" />
+                  <path d="M8 12L12 8L16 12" />
+                </svg>
+              </div>
+            )}
+            {icon && <div>{icon}</div>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const LoginPage = () => {
   const { t } = useThemeLanguage();
@@ -234,199 +330,229 @@ const LoginPage = () => {
   };
 
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: '#FAFAFA', fontFamily: 'var(--font-family)' }}>
-      <div style={{ width: '100%', maxWidth: '420px' }}>
-        
-        {/* Logo/Header */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h1 style={{ fontSize: '36px', fontWeight: 900, color: '#111', letterSpacing: '-0.5px', marginBottom: '8px' }}>salutbabe.</h1>
-          <p style={{ color: '#767676', fontSize: '15px', fontWeight: 500 }}>{t("auth.signin_desc") || "Hesabına giriş yap."}</p>
+    <main className="min-h-screen flex w-full font-sans bg-[#171923] text-white">
+      
+      {/* Left Promotional Side (Hidden on Mobile) */}
+      <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-end overflow-hidden">
+        <div className="absolute inset-0 w-full h-full">
+          <img src="/images/login-promo.png" alt="Promo" className="w-full h-full object-cover" />
+          {/* Subtle gradient to blend with the dark background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#171923]/80 via-[#171923]/40 to-transparent"></div>
         </div>
-
-        {/* Card */}
-        <div style={{ background: '#FFF', borderRadius: '24px', padding: '32px', boxShadow: '0 8px 30px rgba(0,0,0,0.04)', border: '1px solid #EAEAEA' }}>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {/* Google Button */}
-            <button
-              onClick={handleGoogleLogin}
-              disabled={loading !== null}
-              style={{ width: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '14px', background: '#FFF', border: '1px solid #EAEAEA', color: '#111', borderRadius: '14px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', transition: 'all 0.2s', opacity: loading !== null ? 0.5 : 1 }}
-            >
-              {loading === "google" ? (
-                <svg style={{ width: '20px', height: '20px', animation: 'spin 1s linear infinite' }} fill="none" viewBox="0 0 24 24">
-                  <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                </svg>
-              ) : (
-                <svg style={{ position: 'absolute', left: '16px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22" height="22">
-                  <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                  <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                  <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                  <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                </svg>
-              )}
-              {t("auth.google_signin") || "Google ile devam et"}
-            </button>
-
-            {/* Apple Button */}
-            <button
-              type="button"
-              onClick={handleAppleLogin}
-              disabled={loading !== null}
-              style={{ width: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '14px', background: '#111', color: '#FFF', borderRadius: '14px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', border: 'none', transition: 'all 0.2s', opacity: loading !== null ? 0.5 : 1 }}
-            >
-              <div style={{ position: 'absolute', left: '16px', width: '22px', height: '22px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="18" height="18">
-                  <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
-                </svg>
+        
+        {/* Glassmorphic overlay card at the bottom */}
+        <div className="relative z-10 m-12 p-8 rounded-[32px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-[10px]">
+                ✓
               </div>
-              {t("auth.apple_signin") || "Apple ile devam et"}
+              <span className="text-xs font-bold tracking-[0.2em] text-white/70 uppercase">
+                {t('auth.secure_shopping') || 'GÜVENLİ ALIŞVERİŞ'}
+              </span>
+            </div>
+            
+            <h2 className="text-xl font-bold text-white mb-2">
+              {t('auth.promo_title') || 'Anneden anneye, güvenle.'}
+            </h2>
+            <h3 className="text-xl font-bold text-blue-400 mb-2">
+              {t('auth.promo_subtitle') || 'Sıfır Komisyon Avantajı'}
+            </h3>
+            <p className="text-sm text-white/60">
+              {t('auth.promo_desc') || 'Bebeğinizin küçülenlerini değerlendirin, ihtiyacınız olanlara ulaşın.'}
+            </p>
+          </div>
+          
+          <button className="bg-blue-500 hover:bg-blue-600 transition-colors px-6 py-3 rounded-full flex items-center gap-3 font-bold text-sm shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+            <span className="w-6 h-6 rounded-full bg-white text-blue-500 flex items-center justify-center text-lg leading-none">
+              →
+            </span>
+            {t('auth.discover') || 'KEŞFET'}
+          </button>
+        </div>
+      </div>
+
+      {/* Right Login Side */}
+      <div className="w-full lg:w-[45%] flex items-center justify-center p-8 sm:p-16 relative bg-[#171923] overflow-y-auto">
+        <div className="w-full max-w-[400px] mx-auto">
+          {/* Header */}
+          <div className="mb-10 text-center">
+            <h1 className="text-3xl font-black tracking-tight mb-3">
+              {t('auth.welcome_back') || 'Welcome Back to'} <span className="text-[#FF6B00]">salutbabe</span>
+            </h1>
+            <p className="text-[#8F95B2] font-medium text-sm">
+              {t('auth.signin_desc') || 'Sign in to continue your journey'}
+            </p>
+          </div>
+
+          {/* Email / Phone Toggle */}
+          <div className="flex bg-[#1B1D27] rounded-[24px] p-1.5 max-w-[260px] mx-auto mb-10 border border-[#2A2E3D]/50 shadow-inner">
+            <button type="button" className="flex-1 bg-[#3A3F55] text-white rounded-[20px] py-2.5 text-[15px] font-bold shadow-lg ring-1 ring-white/10">
+              {t('auth.email_toggle') || 'Email'}
+            </button>
+            <button 
+              type="button" 
+              onClick={() => showToast(t('auth.coming_soon') || 'Yakında eklenecek!', 'info')}
+              className="flex-1 text-[#6F768E] hover:text-white/80 transition-colors rounded-[20px] py-2.5 text-[15px] font-bold"
+            >
+              {t('auth.phone_toggle') || 'Phone'}
             </button>
           </div>
 
-          {/* Divider */}
-          <div style={{ display: 'flex', alignItems: 'center', margin: '24px 0' }}>
-            <div style={{ flex: 1, height: '1px', background: '#EAEAEA' }}></div>
-            <span style={{ padding: '0 16px', fontSize: '13px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              {t("auth.or_email") || "veya e-posta kullan"}
-            </span>
-            <div style={{ flex: 1, height: '1px', background: '#EAEAEA' }}></div>
-          </div>
-
-          {/* Email Form */}
-          <form onSubmit={handleEmailLogin} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <input
+          <form onSubmit={handleEmailLogin} className="flex flex-col gap-6">
+            
+            {/* Custom Outline Input - Email */}
+            <GlowInput
+              label={t('auth.email') || "E-Mail"}
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder={t("auth.email") || "E-posta Adresi"}
+              onChange={(e: any) => setEmail(e.target.value)}
+              placeholder={t('auth.email_placeholder') || "Enter your email"}
               required
-              style={{ width: '100%', padding: '14px 16px', borderRadius: '14px', background: '#FAFAFA', border: '1px solid #EAEAEA', outline: 'none', color: '#111', fontWeight: 500, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box' }}
             />
 
-            <div style={{ position: 'relative' }}>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder={t("auth.password") || "Şifre"}
-                required
-                style={{ width: '100%', padding: '14px 48px 14px 16px', borderRadius: '14px', background: '#FAFAFA', border: '1px solid #EAEAEA', outline: 'none', color: '#111', fontWeight: 500, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box' }}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#999', cursor: 'pointer', padding: '4px' }}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="20" height="20">
-                  {showPassword ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                  ) : (
-                    <>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </>
-                  )}
-                </svg>
+            {/* Custom Outline Input - Password */}
+            <GlowInput
+              label={t('auth.password') || "Password"}
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e: any) => setPassword(e.target.value)}
+              placeholder={t('auth.password_placeholder') || "Enter your password"}
+              required
+              icon={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-[#8F95B2] hover:text-white transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                    {showPassword ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    ) : (
+                      <>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </>
+                    )}
+                  </svg>
+                </button>
+              }
+            />
+
+            {/* Extras: Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between px-1">
+              <label className="cursor-pointer flex items-center gap-3">
+                <input type="checkbox" className="checkbox checkbox-sm rounded bg-[#222533] border-[#4A506B] checked:bg-blue-500 checked:border-blue-500" />
+                <span className="text-sm text-[#8F95B2] font-medium">{t('auth.remember_me') || "Remember Me"}</span>
+              </label>
+              
+              <button type="button" className="text-sm text-blue-500 font-bold hover:text-blue-400 transition-colors">
+                {t('auth.forgot_password') || "Forgot Password?"}
               </button>
             </div>
 
             <button
               type="submit"
               disabled={loading !== null}
-              style={{ width: '100%', padding: '16px', background: '#111', color: '#FFF', borderRadius: '14px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', border: 'none', marginTop: '4px', boxShadow: '0 4px 14px rgba(0,0,0,0.15)', transition: 'all 0.2s', opacity: loading !== null ? 0.5 : 1, fontFamily: 'inherit' }}
+              className="w-full h-14 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all"
             >
-              {loading === "email" ? (t("auth.signing_in") || "Giriş yapılıyor...") : (t("auth.signin_btn") || "GİRİŞ YAP")}
+              {loading === "email" ? (
+                <div className="flex items-center justify-center gap-2">
+                  <span className="loading loading-spinner loading-sm"></span>
+                  {t('auth.signing_in') || "Signing In..."}
+                </div>
+              ) : (
+                t('auth.signin_btn') || "Sign In"
+              )}
+            </button>
+            
+            {/* Google Alternative Button */}
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={loading !== null}
+              className="w-full h-14 bg-[#222533] hover:bg-[#2A2E40] border border-[#2A2E40] hover:border-[#4A506B]/50 text-white rounded-xl font-bold text-[15px] transition-all flex items-center justify-center gap-3"
+            >
+              <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+              </svg>
+              {t('auth.google_signin') || "Continue with Google"}
             </button>
           </form>
-        </div>
 
-        {/* Footer */}
-        <div style={{ marginTop: '32px', textAlign: 'center' }}>
-          <p style={{ fontSize: '15px', color: '#767676', fontWeight: 500 }}>
-            {t("auth.no_account") || "Hesabın yok mu?"}{" "}
-            <button type="button" onClick={() => setShowSignupPopup(true)} style={{ color: '#111', fontWeight: 800, cursor: 'pointer', background: 'none', border: 'none', textDecoration: 'underline', textUnderlineOffset: '4px', fontSize: '15px', fontFamily: 'inherit' }}>
-              {t("auth.signup_link") || "Kayıt ol"}
-            </button>
-          </p>
-
-          <p style={{ fontSize: '12px', color: '#999', maxWidth: '340px', margin: '16px auto 0', lineHeight: 1.6 }}>
-            {t("auth.terms_prefix") || "Devam ederek"}{" "}
-            <button 
-              type="button"
-              onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { tab: 'terms-of-use' } }))}
-              style={{ fontWeight: 700, color: '#767676', cursor: 'pointer', background: 'none', border: 'none', textDecoration: 'underline', textUnderlineOffset: '2px', fontSize: '12px', fontFamily: 'inherit' }}
-            >
-              {t("auth.terms_link") || "kullanım şartlarımızı"}
-            </button>
-            {" "}{t("auth.terms_suffix") || "kabul etmiş sayılırsınız."}
-          </p>
+          {/* Footer */}
+          <div className="mt-12 text-center">
+            <p className="text-[13px] text-[#8F95B2] font-medium">
+              {t('auth.no_account') || "Don't Have an Account?"}{" "}
+              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-[#3B82F6] font-bold hover:underline underline-offset-4 ml-1">
+                {t('auth.create_one') || "Create One"}
+              </button>
+            </p>
+          </div>
         </div>
       </div>
 
       {/* REGISTRATION POPUP MODAL */}
-      {showSignupPopup && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}>
-          <div style={{ width: '100%', maxWidth: '420px', background: '#FFF', border: '1px solid #EAEAEA', borderRadius: '24px', padding: '32px', boxShadow: '0 25px 50px rgba(0,0,0,0.15)', position: 'relative' }}>
-            <button
-              onClick={() => setShowSignupPopup(false)}
-              style={{ position: 'absolute', right: '20px', top: '20px', color: '#999', cursor: 'pointer', background: '#FAFAFA', border: 'none', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="18" height="18">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            
-            <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-              <h2 style={{ fontSize: '28px', fontWeight: 900, color: '#111', marginBottom: '8px' }}>{t("auth.join") || "Kayıt Ol"}</h2>
-              <p style={{ color: '#767676', fontSize: '14px', fontWeight: 500 }}>{t("auth.signup_desc") || "Aramıza katılmak için bilgilerini doldur."}</p>
+      <dialog className={`modal ${showSignupPopup ? 'modal-open' : ''}`}>
+        <div className="modal-box p-8 sm:p-10 rounded-3xl max-w-lg bg-[#171923] border border-[#222533] text-white">
+          <button
+            onClick={() => setShowSignupPopup(false)}
+            className="btn btn-sm btn-circle btn-ghost absolute right-5 top-5 text-[#8F95B2] hover:text-white"
+          >
+            ✕
+          </button>
+          
+          <div className="text-center mb-10 mt-2">
+            <h2 className="text-3xl font-black mb-3 text-white">{t('auth.create_account') || "Create Account"}</h2>
+            <p className="text-[15px] text-[#8F95B2] font-medium">{t('auth.signup_desc') || "Join us to continue your journey."}</p>
+          </div>
+
+          <form onSubmit={handleEmailRegister} className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <GlowInput
+                label={t('auth.first_name') || "First Name"}
+                type="text"
+                value={regFirstName}
+                onChange={(e: any) => setRegFirstName(e.target.value)}
+                placeholder={t('auth.first_name_placeholder') || "Enter first name"}
+                required
+              />
+              <GlowInput
+                label={t('auth.last_name') || "Last Name"}
+                type="text"
+                value={regLastName}
+                onChange={(e: any) => setRegLastName(e.target.value)}
+                placeholder={t('auth.last_name_placeholder') || "Enter last name"}
+                required
+              />
             </div>
 
-            <form onSubmit={handleEmailRegister} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <input
-                  type="text"
-                  value={regFirstName}
-                  onChange={e => setRegFirstName(e.target.value)}
-                  required
-                  placeholder="Adınız"
-                  style={{ width: '100%', padding: '14px 16px', borderRadius: '14px', background: '#FAFAFA', border: '1px solid #EAEAEA', outline: 'none', color: '#111', fontWeight: 500, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box' }}
-                />
-                <input
-                  type="text"
-                  value={regLastName}
-                  onChange={e => setRegLastName(e.target.value)}
-                  required
-                  placeholder="Soyadınız"
-                  style={{ width: '100%', padding: '14px 16px', borderRadius: '14px', background: '#FAFAFA', border: '1px solid #EAEAEA', outline: 'none', color: '#111', fontWeight: 500, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box' }}
-                />
-              </div>
+            <GlowInput
+              label={t('auth.email') || "E-Mail"}
+              type="email"
+              value={regEmail}
+              onChange={(e: any) => setRegEmail(e.target.value)}
+              placeholder={t('auth.email_placeholder') || "Enter your email"}
+              required
+            />
 
-              <input
-                type="email"
-                value={regEmail}
-                onChange={e => setRegEmail(e.target.value)}
-                placeholder="E-posta adresi"
-                required
-                style={{ width: '100%', padding: '14px 16px', borderRadius: '14px', background: '#FAFAFA', border: '1px solid #EAEAEA', outline: 'none', color: '#111', fontWeight: 500, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box' }}
-              />
-
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={showRegPassword ? "text" : "password"}
-                  value={regPassword}
-                  onChange={e => setRegPassword(e.target.value)}
-                  placeholder="Şifre (min 8 karakter)"
-                  required
-                  style={{ width: '100%', padding: '14px 48px 14px 16px', borderRadius: '14px', background: '#FAFAFA', border: '1px solid #EAEAEA', outline: 'none', color: '#111', fontWeight: 500, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box' }}
-                />
+            <GlowInput
+              label={t('auth.password') || "Password"}
+              type={showRegPassword ? "text" : "password"}
+              value={regPassword}
+              onChange={(e: any) => setRegPassword(e.target.value)}
+              placeholder={t('auth.password_min') || "Min 8 characters"}
+              required
+              icon={
                 <button
                   type="button"
                   onClick={() => setShowRegPassword(!showRegPassword)}
-                  style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#999', cursor: 'pointer', padding: '4px' }}
+                  className="text-[#8F95B2] hover:text-white transition-colors"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="20" height="20">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                     {showRegPassword ? (
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
                     ) : (
@@ -437,19 +563,31 @@ const LoginPage = () => {
                     )}
                   </svg>
                 </button>
-              </div>
+              }
+            />
 
-              <button
-                type="submit"
-                disabled={loading === "register"}
-                style={{ width: '100%', padding: '16px', background: '#111', color: '#FFF', borderRadius: '14px', fontWeight: 700, fontSize: '15px', cursor: 'pointer', border: 'none', marginTop: '4px', boxShadow: '0 4px 14px rgba(0,0,0,0.15)', transition: 'all 0.2s', opacity: loading === "register" ? 0.5 : 1, fontFamily: 'inherit' }}
-              >
-                {loading === "register" ? (t("auth.continuing") || "Kayıt olunuyor...") : (t("auth.signup_btn") || "Kayıt Ol")}
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              disabled={loading !== null}
+              className="w-full h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all"
+            >
+              {loading === "register" ? (
+                <div className="flex items-center justify-center gap-2">
+                  <span className="loading loading-spinner loading-sm"></span>
+                  {t('auth.creating_account') || "Creating Account..."}
+                </div>
+              ) : (
+                t('auth.create_account') || "Create Account"
+              )}
+            </button>
+          </form>
         </div>
-      )}
+        
+        {/* Click outside to close */}
+        <form method="dialog" className="modal-backdrop">
+          <button onClick={() => setShowSignupPopup(false)}>close</button>
+        </form>
+      </dialog>
     </main>
   );
 };

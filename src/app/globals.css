@@ -1,7 +1,26 @@
 @import "tailwindcss";
-@source "./dashboard";
+@plugin "daisyui";
+@source "../";
 
 @theme {
+  /* Salutbabe Light Mode Colors */
+  --color-salut-light-bg: #FAF9F6;
+  --color-salut-light-surface: #FFFFFF;
+  --color-salut-light-text: #1F2A2F;
+  --color-salut-light-border: #E8EDEB;
+
+  /* Salutbabe Dark Mode Colors */
+  --color-salut-dark-bg: #171923;
+  --color-salut-dark-surface: #222533;
+  --color-salut-dark-text: #FFFFFF;
+  --color-salut-dark-border: #2A2E3D;
+
+  /* Brand Core Colors (Gradient Ready) */
+  --color-salut-orange: #FF6B00;
+  --color-salut-pink: #FF9EBE;
+  --color-salut-teal: #5FC8C0;
+  --color-salut-babyblue: #A1D4E8;
+
   --color-primary: #5FC8C0;
   --color-secondary: #FF9EBE;
   --color-accent: #7EDB9E;
@@ -82,11 +101,6 @@
 }
 */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 body {
   background-color: var(--background);
@@ -112,4 +126,10 @@ button {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+/* Hide native Safari/WebKit Caps Lock Indicator to prevent double icons */
+input::-webkit-caps-lock-indicator,
+input::-webkit-credentials-auto-fill-button {
+  display: none !important;
 }

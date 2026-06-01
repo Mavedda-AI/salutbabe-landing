@@ -454,7 +454,6 @@
     "hero_card3_organic_desc": "Pour l'avenir",
     "ranking_popular_week": "Populaires cette semaine"
   },
-
   "cart": {
     "total": "Total",
     "checkout": "Finaliser la commande",
@@ -497,5 +496,15 @@
     "terms": "Conditions",
     "how_to_sell": "Comment vendre ?",
     "blog": "Blog"
+  },
+  "maintenance": {
+    "title": "Waiting for Server Connection",
+    "desc": "Temporary maintenance work is being carried out on our systems. The connection is being checked automatically in the background.",
+    "while_waiting": "While waiting, here's Salutbabe:",
+    "feature_1": "Direct and 100% secure mother-to-mother shopping.",
+    "feature_2": "Zero commission! Your sales revenue goes directly to your account.",
+    "feature_3": "Advantageous PTT Cargo integration all over the country.",
+    "feature_4": "Contribute to your family budget and nature with your baby's outgrown clothes.",
+    "scanning": "SCANNING SYSTEM STATUS..."
   }
 }
