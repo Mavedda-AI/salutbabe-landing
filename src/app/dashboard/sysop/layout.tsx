@@ -132,7 +132,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }
 
   const userType = user?.userType || [];
-  console.log("Logged in User Role:", userType);
   const isAdmin = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
 
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);

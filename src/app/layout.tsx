@@ -6,6 +6,7 @@ import {ServerHealthProvider} from '@/context/ServerHealthContext';
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://salutbabe.com'),
   title: 'salutbabe | Premium Vinted Style',
   description: 'Anneden Anneye Güvenli Alışveriş – Safe Mother-to-Mother Shopping for Baby & Kids Clothing',
   keywords: ['salutbabe', 'ikinci el bebek kıyafeti', 'anne alışveriş', 'second hand baby clothes', 'kids fashion', 'sustainable fashion', 'vinted', 'bebek giyim'],
