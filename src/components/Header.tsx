@@ -68,7 +68,7 @@ export default function Header() {
               </span>
             )}
           </button>
-          <Link href="https://www.salutbabe.com/login" className={styles.signupButton}>{t("widgets.header_seller_panel")}</Link>
+          <Link href="/login" className={styles.signupButton}>{t("widgets.header_seller_panel")}</Link>
           <Link href="/register" className={styles.loginLink}>{t("widgets.header_register")}</Link>
         </div>
       </div>
