@@ -5,6 +5,7 @@ import styles from './PDP.module.css';
 import {ArrowLeft01Icon, FavouriteIcon, MoreVerticalIcon, Share01Icon, Tick02Icon} from 'hugeicons-react';
 import Link from 'next/link';
 import {apiUrl} from '@/lib/api';
+import {useCart} from '@/context/CartContext';
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = use(params);
@@ -13,6 +14,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [purchased, setPurchased] = useState(false);
+  const { addToCart, setIsCartOpen } = useCart();
 
   useEffect(() => {
     let isMounted = true;
@@ -57,9 +59,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const handleBuy = () => {
     setPurchased(true);
-    setTimeout(() => {
-      alert("Tebrikler! Ürün başarıyla sepetinize eklendi ve sipariş adımlarına geçildi. (Demo)");
-    }, 300);
+    addToCart({
+      listingID: product.listingID,
+      title: product.title,
+      price: parseFloat(product.price || 0),
+      primaryImage: imageUrl,
+      brand: { name: brandName }
+    });
+    setIsCartOpen(true);
   };
 
   return (
