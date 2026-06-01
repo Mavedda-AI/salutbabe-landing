@@ -489,7 +489,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
             <button 
               onClick={() => {
-                const langs: ('tr' | 'en' | 'fr')[] = ['tr', 'en', 'fr'];
+                const langs: ('tr' | 'en' | 'fr' | 'de')[] = ['tr', 'en', 'fr', 'de'];
                 const nextIdx = (langs.indexOf(language) + 1) % langs.length;
                 setLanguage(langs[nextIdx]);
               }}
@@ -505,7 +505,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
                </div>
                {!isSidebarCollapsed && (
                  <span className="text-[12px] font-bold">
-                   {language === 'tr' ? 'Türkçe' : language === 'en' ? 'English' : 'Français'}
+                   {language === 'tr' ? 'Türkçe' : language === 'en' ? 'English' : language === 'de' ? 'Deutsch' : 'Français'}
                  </span>
                )}
             </button>
