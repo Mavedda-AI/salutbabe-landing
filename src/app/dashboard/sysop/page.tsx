@@ -59,7 +59,8 @@ export default function SysopDashboard() {
     {
       label: t('dashboard.sysop.stats_active_users'),
       value: stats?.totalUsers || 0,
-      textColor: "text-blue-500"
+      textColor: "text-blue-500",
+      link: "/dashboard/sysop/user-management"
     },
     {
       label: t('dashboard.sysop.stats_total_stores'),
@@ -82,6 +83,12 @@ export default function SysopDashboard() {
     );
   }
 
+  const handleCardClick = (link?: string) => {
+    if (link) {
+      window.location.href = link;
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Stats Grid */}
@@ -89,7 +96,9 @@ export default function SysopDashboard() {
         {statCards.map((card, i) => (
           <div
             key={i}
+            onClick={() => handleCardClick(card.link)}
             className={`p-6 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1
+              ${card.link ? 'cursor-pointer' : ''}
               ${theme === 'light' 
                 ? 'bg-surface border-border-color shadow-sm hover:border-primary/20' 
                 : 'bg-[#121214]/80 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}
