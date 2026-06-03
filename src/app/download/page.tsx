@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppleIcon, PlayStoreIcon, QrCodeIcon } from 'hugeicons-react';
+import {AppleIcon, PlayStoreIcon, QrCodeIcon} from 'hugeicons-react';
 
 export const metadata = {
   title: 'Download SalutBabe | App Store & Google Play',
@@ -68,7 +68,7 @@ export default function DownloadPage() {
             href="#" 
             className="w-full sm:w-1/2 flex items-center justify-center gap-4 bg-black text-white px-6 py-4 rounded-xl hover:bg-gray-800 transition-colors duration-300"
           >
-            <AppleIcon size={32} className="text-white" variant="solid" />
+            <AppleIcon size={32} className="text-white" />
             <div className="text-left text-white">
               <div className="text-[10px] uppercase tracking-widest text-gray-300 mb-0.5">Download on the</div>
               <div className="text-lg font-semibold leading-none text-white">App Store</div>
@@ -79,7 +79,7 @@ export default function DownloadPage() {
             href="#" 
             className="w-full sm:w-1/2 flex items-center justify-center gap-4 bg-gray-50 text-black border border-gray-200 px-6 py-4 rounded-xl hover:bg-gray-100 transition-colors duration-300"
           >
-            <PlayStoreIcon size={32} className="text-black" variant="solid" />
+            <PlayStoreIcon size={32} className="text-black" />
             <div className="text-left text-black">
               <div className="text-[10px] uppercase tracking-widest text-gray-500 mb-0.5">GET IT ON</div>
               <div className="text-lg font-semibold leading-none text-black">Google Play</div>
