@@ -22,16 +22,44 @@ export default function DownloadPage() {
         </div>
 
         {/* Minimal Typography Header */}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-black text-center tracking-tight mb-8 leading-[1.1]">
-          Sürdürülebilir bebek <br />
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-black text-center tracking-tight mb-6 leading-[1.15]">
+          Bebek ve çocuk modasına <br />
           <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-500">
-            modasına katılın.
+            ikinci bir şans.
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-400 text-center max-w-2xl mx-auto mb-16 font-light leading-relaxed">
-          SalutBabe ile kullanmadığınız bebek eşyalarına ikinci bir şans verin veya ihtiyacınız olanları güvenle keşfedin. iOS ve Android'de yayında.
+        <p className="text-base md:text-lg text-gray-500 text-center max-w-2xl mx-auto mb-16 font-light leading-relaxed">
+          SalutBabe ile kullanmadığınız bebek ve çocuk kıyafetlerini satın, bütçenize katkı sağlayın. <br className="hidden md:block"/> Üstelik canlı yayın odalarına katılarak etkileşimli alışverişin tadını çıkarın.
         </p>
+
+        {/* Features Highlights (Minimal Grid) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl mx-auto mb-16">
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 border border-gray-100/50 hover:bg-gray-100 transition-colors">
+            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white text-gray-800 mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 10.5 5.5-5.5a2 2 0 0 1 2.8 0l4.2 4.2a2 2 0 0 1 0 2.8l-5.5 5.5a2 2 0 0 1-2.8 0l-4.2-4.2a2 2 0 0 1 0-2.8Z"/><path d="m14 6 5.5 5.5a2 2 0 0 1 0 2.8l-2.5 2.5"/></svg>
+            </div>
+            <h3 className="text-gray-900 font-semibold mb-2">2. El Kıyafetler</h3>
+            <p className="text-sm text-gray-500">Bebek ve çocuk kıyafetlerini güvenle alıp satın.</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 border border-gray-100/50 hover:bg-gray-100 transition-colors">
+            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white text-gray-800 mb-4 shadow-sm relative">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M10 9l5 3-5 3v-6Z"/></svg>
+              <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-ping"></div>
+            </div>
+            <h3 className="text-gray-900 font-semibold mb-2">Canlı Odalar</h3>
+            <p className="text-sm text-gray-500">Canlı yayınlarda ürünleri anında inceleyip, soru sorun.</p>
+          </div>
+
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 border border-gray-100/50 hover:bg-gray-100 transition-colors">
+            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white text-gray-800 mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3 className="text-gray-900 font-semibold mb-2">Güvenli Ödeme</h3>
+            <p className="text-sm text-gray-500">Tüm alışverişlerinizde %100 güvenli ödeme altyapısı.</p>
+          </div>
+        </div>
 
         {/* Action Area: App Store & Play Store */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-xl mx-auto mb-20">
