@@ -65,7 +65,9 @@ export default function DownloadPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-xl mx-auto mb-20">
           
           <a 
-            href="#" 
+            href="https://apps.apple.com/tr/app/salutbabe/id6759988511" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-1/2 flex items-center justify-center gap-4 bg-black text-white px-6 py-4 rounded-xl hover:bg-gray-800 transition-colors duration-300"
           >
             <AppleIcon size={32} className="text-white" />
@@ -76,7 +78,9 @@ export default function DownloadPage() {
           </a>
 
           <a 
-            href="#" 
+            href="https://play.google.com/store/apps/details?id=com.salutbabe&hl=tr" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-1/2 flex items-center justify-center gap-4 bg-gray-50 text-black border border-gray-200 px-6 py-4 rounded-xl hover:bg-gray-100 transition-colors duration-300"
           >
             <PlayStoreIcon size={32} className="text-black" />
