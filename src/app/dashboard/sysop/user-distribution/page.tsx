@@ -6,11 +6,11 @@ import {FilterTabs, SearchInput} from '@/app/dashboard/components/ui/FilterBar';
 import {DataTable} from '@/app/dashboard/components/ui/DataTable';
 import {StatusBadge} from '@/app/dashboard/components/ui/StatusBadge';
 import {
-  ShoppingBag01Icon as ShoppingBagIcon,
-  ShoppingCart01Icon as ShoppingCartIcon,
-  Time01Icon as ClockIcon,
-  UserMultipleIcon as UserGroupIcon
-} from '@hugeicons/core-free-icons';
+    ShoppingBag01Icon as ShoppingBagIcon,
+    ShoppingCart01Icon as ShoppingCartIcon,
+    Time01Icon as ClockIcon,
+    UserMultipleIcon as UserGroupIcon
+} from 'hugeicons-react';
 
 export default function UserDistributionPage() {
   const [activeTab, setActiveTab] = useState('sellers');
