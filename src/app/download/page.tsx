@@ -38,23 +38,23 @@ export default function DownloadPage() {
           
           <a 
             href="#" 
-            className="w-full sm:w-1/2 flex items-center justify-center gap-3 bg-black text-white px-6 py-4 rounded-xl hover:bg-gray-800 transition-colors duration-300"
+            className="w-full sm:w-1/2 flex items-center justify-center gap-4 bg-black text-white px-6 py-4 rounded-xl hover:bg-gray-800 transition-colors duration-300"
           >
-            <AppleIcon size={24} className="text-white" />
-            <div className="text-left">
-              <div className="text-[9px] uppercase tracking-widest opacity-70 mb-0.5">Download on the</div>
-              <div className="text-base font-semibold leading-none">App Store</div>
+            <AppleIcon size={32} className="text-white" variant="solid" />
+            <div className="text-left text-white">
+              <div className="text-[10px] uppercase tracking-widest text-gray-300 mb-0.5">Download on the</div>
+              <div className="text-lg font-semibold leading-none text-white">App Store</div>
             </div>
           </a>
 
           <a 
             href="#" 
-            className="w-full sm:w-1/2 flex items-center justify-center gap-3 bg-gray-50 text-black border border-gray-200 px-6 py-4 rounded-xl hover:bg-gray-100 transition-colors duration-300"
+            className="w-full sm:w-1/2 flex items-center justify-center gap-4 bg-gray-50 text-black border border-gray-200 px-6 py-4 rounded-xl hover:bg-gray-100 transition-colors duration-300"
           >
-            <PlayStoreIcon size={24} className="text-black" />
-            <div className="text-left">
-              <div className="text-[9px] uppercase tracking-widest text-gray-500 mb-0.5">GET IT ON</div>
-              <div className="text-base font-semibold leading-none">Google Play</div>
+            <PlayStoreIcon size={32} className="text-black" variant="solid" />
+            <div className="text-left text-black">
+              <div className="text-[10px] uppercase tracking-widest text-gray-500 mb-0.5">GET IT ON</div>
+              <div className="text-lg font-semibold leading-none text-black">Google Play</div>
             </div>
           </a>
           
