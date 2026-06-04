@@ -2,6 +2,14 @@ import type {NextConfig} from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ['firebase'],
+  async rewrites() {
+    return [
+      {
+        source: '/api/proxy/:path*',
+        destination: 'https://api.salutbabe.com/:path*'
+      }
+    ];
+  },
   images: {
     remotePatterns: [
       {

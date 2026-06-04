@@ -29,9 +29,9 @@ export function FinanceView() {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
           </div>
           <div>
-            <h3 className="text-[13px] font-black text-[#111827]">Mali Eşik Uyarısı: 350.000 TL Limitine Yaklaşan Satıcılar</h3>
+            <h3 className="text-[13px] font-black text-[#111827]">Mali Eşik Uyarısı</h3>
             <p className="text-[11px] font-medium text-gray-500 mt-0.5">
-              <span className="font-bold text-[#FF383C]">3 satıcının</span> yıllık satış hacmi "Esnaf Muaflığı" sınırını (%85 oranında) aşmak üzere. Olası vergi cezalarını önlemek için satıcıları uyarın.
+              Gerçek veriler bağlandığında mali eşik uyarıları burada görünecek.
             </p>
           </div>
         </div>
@@ -47,13 +47,13 @@ export function FinanceView() {
             <h3 className="text-[11px] font-bold text-gray-500">HAVUZ (EMANET) HESAP</h3>
             <svg className={`w-3.5 h-3.5 text-gray-400 ml-auto transition-transform ${expandedCard === 'escrow' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
           </div>
-          <h2 className="text-[24px] font-black text-[#111827] tracking-tight">₺1,248,500</h2>
+          <h2 className="text-[24px] font-black text-[#111827] tracking-tight">-</h2>
           
           {expandedCard === 'escrow' && (
             <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bloke Süresi</span><span className="text-[12px] font-black text-gray-900">14 Gün</span></div>
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Çözülme</span><span className="text-[12px] font-black text-green-600">3.2 Gün</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Bloke Süresi</span><span className="text-[12px] font-black text-gray-900">-</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Ort. Çözülme</span><span className="text-[12px] font-black text-green-600">-</span></div>
               </div>
               <button onClick={() => router.push('/dashboard/sysop/finance-management/escrow')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                 DETAYLARI GÖRÜNTÜLE
@@ -72,15 +72,15 @@ export function FinanceView() {
             <svg className={`w-3.5 h-3.5 text-gray-400 ml-auto transition-transform ${expandedCard === 'payouts' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
           </div>
           <div className="flex items-baseline gap-2">
-             <h2 className="text-[24px] font-black text-orange-500 tracking-tight">₺342,100</h2>
+             <h2 className="text-[24px] font-black text-orange-500 tracking-tight">-</h2>
           </div>
           <p className="text-[10px] font-bold text-gray-400 mt-1">Siparişi tamamlanmış, ödeme bekleyen</p>
 
           {expandedCard === 'payouts' && (
             <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Satıcı Sayısı</span><span className="text-[12px] font-black text-gray-900">412</span></div>
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kilitli (Dispute)</span><span className="text-[12px] font-black text-[#FF383C]">₺12,500</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Satıcı Sayısı</span><span className="text-[12px] font-black text-gray-900">-</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Kilitli (Dispute)</span><span className="text-[12px] font-black text-[#FF383C]">-</span></div>
               </div>
               <button onClick={() => router.push('/dashboard/sysop/finance-management/payouts')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                 DETAYLARI GÖRÜNTÜLE
@@ -95,15 +95,15 @@ export function FinanceView() {
             <svg className={`w-3.5 h-3.5 text-gray-400 ml-auto transition-transform ${expandedCard === 'failed' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
           </div>
           <div className="flex items-baseline gap-2">
-             <h2 className="text-[24px] font-black text-red-500 tracking-tight">₺18,450</h2>
-             <span className="text-[11px] font-bold bg-red-50 text-red-600 px-1.5 py-0.5 rounded">14 Kişi</span>
+             <h2 className="text-[24px] font-black text-red-500 tracking-tight">-</h2>
+             <span className="text-[11px] font-bold bg-red-50 text-red-600 px-1.5 py-0.5 rounded">-</span>
           </div>
           <p className="text-[10px] font-bold text-gray-400 mt-1">IBAN hatası nedeniyle dönen EFT'ler</p>
 
           {expandedCard === 'failed' && (
             <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">En Sık Hata</span><span className="text-[12px] font-black text-gray-900">İsim Uyuşmazlığı</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">En Sık Hata</span><span className="text-[12px] font-black text-gray-900">-</span></div>
               </div>
               <button onClick={() => router.push('/dashboard/sysop/finance-management/failed-payouts')} className="w-full py-2.5 rounded-[10px] bg-red-500 text-white text-[10px] font-black tracking-widest hover:bg-red-600 transition-colors">
                 MÜDAHALE ET
@@ -117,13 +117,13 @@ export function FinanceView() {
             <h3 className="text-[11px] font-bold text-gray-500">GİB FATURA KUYRUĞU</h3>
             <svg className={`w-3.5 h-3.5 text-gray-400 ml-auto transition-transform ${expandedCard === 'invoices' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
           </div>
-          <h2 className="text-[24px] font-black text-[#111827] tracking-tight">32 Bekleyen</h2>
-          <p className="text-[10px] font-bold text-gray-400 mt-1">Hata veren (1300 dönmeyen): <span className="text-red-500">2</span></p>
+          <h2 className="text-[24px] font-black text-[#111827] tracking-tight">-</h2>
+          <p className="text-[10px] font-bold text-gray-400 mt-1">Hata veren: <span className="text-red-500">-</span></p>
 
           {expandedCard === 'invoices' && (
             <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in" onClick={(e) => e.stopPropagation()}>
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Riskli (&lt; 7 Gün)</span><span className="text-[12px] font-black text-[#FF383C]">1 Fatura</span></div>
+                <div className="flex justify-between items-center"><span className="text-[11px] font-bold text-gray-500">Riskli (&lt; 7 Gün)</span><span className="text-[12px] font-black text-[#FF383C]">-</span></div>
               </div>
               <button onClick={() => router.push('/dashboard/sysop/finance-management/invoices')} className="w-full py-2.5 rounded-[10px] bg-[#111827] text-white text-[10px] font-black tracking-widest hover:bg-black transition-colors">
                 DETAYLARI GÖRÜNTÜLE
@@ -142,12 +142,10 @@ export function FinanceView() {
           <div onClick={e => e.stopPropagation()} className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 bg-red-50"><h3 className="text-[16px] font-black text-red-700"><HugeiconsIcon icon={Alert02Icon} size={18} className="inline-block text-red-700" /> Mali Eşik Uyarısı — 350.000 TL</h3></div>
             <div className="p-6 space-y-3">
-              {[{name: 'Elif Boutique', total: '₺312,400', pct: '%89'}, {name: 'Urban Style TR', total: '₺298,000', pct: '%85'}, {name: 'Bella Moda', total: '₺295,500', pct: '%84'}].map((s, i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                  <div><p className="text-[13px] font-bold text-gray-900">{s.name}</p><p className="text-[10px] text-gray-500">Yıllık Satış: {s.total}</p></div>
-                  <span className="text-[12px] font-black text-red-600">{s.pct}</span>
-                </div>
-              ))}
+              {/* Gerçek veriler bağlandığında satıcı listesi burada görünecek */}
+              <div className="p-4 text-center">
+                <p className="text-[12px] font-medium text-gray-500">Henüz veri yok.</p>
+              </div>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex gap-3">
               <button onClick={() => setWarnModal(false)} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-gray-800 font-bold text-[12px]">Kapat</button>

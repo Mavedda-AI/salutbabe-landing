@@ -13,18 +13,8 @@ const quickReplies: QuickReply[] = [
   { id: 'size', label: 'Beden bilgisi ekle', emoji: '📏' },
 ];
 
-const initialProducts: Product[] = [
-  { id: 'PRD-9921', name: 'Ev Yapımı Köy Salçası (1kg)', category: 'Organik', seller: 'Ayşe T.', price: '₺250', image: 'https://images.unsplash.com/photo-1608570515752-2457e514ca7b?w=300&h=300&fit=crop', date: '10dk', desc: 'Doğal, katkısız ev yapımı biber salçası.', status: 'pending' },
-  { id: 'PRD-9922', name: 'Amigurumi Tavşan', category: 'El Yapımı', seller: 'Zeynep H.', price: '₺450', image: 'https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=300&h=300&fit=crop', date: '25dk', desc: 'Anti-alerjik iplik ile örülmüş uyku arkadaşı.', status: 'pending' },
-  { id: 'PRD-9923', name: 'Organik Çam Balı (500g)', category: 'Organik', seller: 'Fatma A.', price: '₺380', image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=300&h=300&fit=crop', date: '42dk', desc: 'Muğla yöresi saf çam balı.', status: 'pending' },
-  { id: 'PRD-9924', name: 'Bebek Tulum Takımı 0-3 Ay', category: 'Giyim', seller: 'Elif K.', price: '₺180', image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=300&h=300&fit=crop', date: '1sa', desc: '%100 organik pamuk tulum seti.', status: 'pending' },
-  { id: 'PRD-9925', name: 'Makrome Emzik Askısı', category: 'El Yapımı', seller: 'Merve T.', price: '₺120', image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=300&fit=crop', date: '1.5sa', desc: 'Ahşap boncuklu özel üretim emzik askısı.', status: 'pending' },
-  { id: 'PRD-9926', name: 'Keçi Sütü Sabunu 3lü', category: 'Bakım', seller: 'Hatice B.', price: '₺95', image: 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=300&h=300&fit=crop', date: '2sa', desc: 'Bebek cildine uygun parfümsüz sabun.', status: 'pending' },
-  { id: 'PRD-9927', name: 'Köy Yumurtası (30lu)', category: 'Organik', seller: 'Süheyla D.', price: '₺210', image: 'https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?w=300&h=300&fit=crop', date: '3sa', desc: 'Gezen tavuk, günlük toplanan yumurta.', status: 'pending' },
-  { id: 'PRD-9928', name: 'Nakışlı Battaniye', category: 'El Yapımı', seller: 'Gülşah M.', price: '₺550', image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=300&h=300&fit=crop', date: '4sa', desc: 'İsme özel %100 pamuk el işi battaniye.', status: 'pending' },
-  { id: 'PRD-9929', name: 'Bebek Şampuanı Doğal', category: 'Bakım', seller: 'Seda Y.', price: '₺85', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop', date: '4.5sa', desc: 'Göz yakmayan doğal bebek şampuanı.', status: 'pending' },
-  { id: 'PRD-9930', name: 'Ahşap Diş Kaşıyıcı', category: 'El Yapımı', seller: 'Büşra K.', price: '₺75', image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300&h=300&fit=crop', date: '5sa', desc: 'Doğal kayın ağacından güvenli diş kaşıyıcı.', status: 'pending' },
-];
+// Gerçek veriler backend API'den gelecek
+const initialProducts: Product[] = [];
 
 export function ModerationView() {
   const [products, setProducts] = useState<Product[]>(initialProducts);
