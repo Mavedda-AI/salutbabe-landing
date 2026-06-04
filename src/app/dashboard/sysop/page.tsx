@@ -445,7 +445,7 @@ export default function SysopDashboard() {
                 </h3>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{dashboardStats?.activeUsers != null ? dashboardStats.activeUsers.toLocaleString('tr-TR') : 'Henüz veri yok'}</h2>
+                <h2 className={textValue}>{dashboardStats?.activeUsers != null ? dashboardStats.activeUsers.toLocaleString('tr-TR') : (dashboardStats?.totalUsers != null ? dashboardStats.totalUsers.toLocaleString('tr-TR') : 'Henüz veri yok')}</h2>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>-</span>
