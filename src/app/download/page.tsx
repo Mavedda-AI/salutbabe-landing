@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppleIcon, PlayStoreIcon, StarIcon, Video01Icon, ShoppingBag01Icon, FavouriteIcon } from 'hugeicons-react';
+import {AppleIcon, FavouriteIcon, PlayStoreIcon, ShoppingBag01Icon, StarIcon, Video01Icon} from 'hugeicons-react';
 
 export const metadata = {
   title: 'Download SalutBabe | App Store & Google Play',
@@ -167,7 +167,7 @@ export default function DownloadPage() {
             </div>
             
             <div className="absolute bottom-[10%] right-[15%] lg:right-4 text-amber-400 z-10 animate-bounce" style={{ animationDuration: '2.5s' }}>
-              <StarIcon size={24} variant="solid" className="rotate-[-15deg]" />
+              <StarIcon size={24} className="rotate-[-15deg] fill-current" />
             </div>
 
           </div>
