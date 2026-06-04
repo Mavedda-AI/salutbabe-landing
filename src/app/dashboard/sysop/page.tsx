@@ -1,12 +1,12 @@
 'use client';
 import {HugeiconsIcon} from '@hugeicons/react';
 import {
-    Alert02Icon,
-    RunningShoesIcon,
-    Shirt01Icon,
-    ShoppingBag01Icon,
-    StarIcon,
-    SunglassesIcon
+  Alert02Icon,
+  RunningShoesIcon,
+  Shirt01Icon,
+  ShoppingBag01Icon,
+  StarIcon,
+  SunglassesIcon
 } from '@hugeicons/core-free-icons';
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
@@ -258,7 +258,7 @@ export default function SysopDashboard() {
           </div>
           
           {/* ROW 1: 4 STAT CARDS */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
             <div onClick={() => setExpandedCard(expandedCard === 'gmv' ? null : 'gmv')} className={`${cardClass} p-4 md:p-5 relative cursor-pointer group transition-all ${expandedCard === 'gmv' ? 'ring-2 ring-gray-900 shadow-xl' : 'hover:border-gray-300'}`}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className={textTitle}>
