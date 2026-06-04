@@ -303,7 +303,7 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 ml-auto shrink-0 transition-transform ${expandedCard === 'payout' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </div>
               <div className="mt-auto">
-                <h2 className={textValue}>{dashboardStats?.netRevenue != null ? `₺${dashboardStats.netRevenue.toLocaleString('tr-TR')}` : '-'}</h2>
+                <h2 className={textValue}>{dashboardStats?.netRevenue != null ? `₺${dashboardStats.netRevenue.toLocaleString('tr-TR')}` : 'Henüz veri yok'}</h2>
                 <div className="flex justify-between items-center mt-3">
                   <span className={badgeRed}>-</span>
                   <span className={`text-[11px] font-bold ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>vs geçen ay</span>
@@ -415,7 +415,7 @@ export default function SysopDashboard() {
                 <svg className={`w-4 h-4 text-gray-300 shrink-0 transition-transform ${expandedCard === 'rooms' ? 'rotate-180 text-gray-900' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{dashboardStats?.activeRooms != null ? dashboardStats.activeRooms.toLocaleString('tr-TR') : '-'}</h2>
+                <h2 className={textValue}>{dashboardStats?.activeRooms != null ? dashboardStats.activeRooms.toLocaleString('tr-TR') : 'Henüz veri yok'}</h2>
                 <span className={`text-[12px] font-bold text-gray-500`}>Oda</span>
               </div>
               <div className="flex items-center gap-2">
@@ -445,7 +445,7 @@ export default function SysopDashboard() {
                 </h3>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
-                <h2 className={textValue}>{dashboardStats?.activeUsers != null ? dashboardStats.activeUsers.toLocaleString('tr-TR') : '-'}</h2>
+                <h2 className={textValue}>{dashboardStats?.activeUsers != null ? dashboardStats.activeUsers.toLocaleString('tr-TR') : 'Henüz veri yok'}</h2>
               </div>
               <div className="flex items-center gap-2">
                 <span className={badgeGreen}>-</span>
@@ -484,6 +484,23 @@ export default function SysopDashboard() {
               <div className="flex items-center gap-2">
                 <span className={badgeRed}>-</span>
                 <span className={`text-[10px] font-medium text-gray-400`}>İşlem bekliyor</span>
+              </div>
+            </div>
+
+            {/* NEW CARD: TOPLAM İLAN */}
+            <div className={`${cardClass} p-4 md:p-5 relative cursor-pointer transition-all hover:border-gray-300`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={textTitle}>
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                  <span className="truncate">TOPLAM İLAN</span>
+                </h3>
+              </div>
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
+                <h2 className={textValue}>{dashboardStats?.totalListings != null ? dashboardStats.totalListings.toLocaleString('tr-TR') : '-'}</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={badgeGreen}>-</span>
+                <span className={`text-[10px] font-medium text-gray-400`}>Yayında</span>
               </div>
             </div>
 
