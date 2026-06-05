@@ -385,7 +385,9 @@
       "add_rate": "Add New Tier",
       "no_companies": "No shipping companies added yet.",
       "delete_confirm": "Are you sure you want to delete this shipping company?",
-      "upload_logo": "Upload Logo"
+      "upload_logo": "Upload Logo",
+      "logo_desc": "Company logo appears on invoices and tracking screens. Use a transparent PNG for best results.",
+      "no_logo": "NO LOGO"
     },
     "stores": {
       "title": "Store Management",

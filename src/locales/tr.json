@@ -375,7 +375,9 @@
       "no_companies": "Henüz hiç kargo şirketi eklenmemiş.",
       "delete_confirm": "Bu kargo şirketini silmek istediğinize emin misiniz?",
       "upload_logo": "Logo Yükle",
-      "table_actions": "İşlemler"
+      "table_actions": "İşlemler",
+      "logo_desc": "Şirket logosu faturalarda ve kargo takip ekranlarında görünür. En iyi sonuç için şeffaf PNG kullanın.",
+      "no_logo": "LOGO YOK"
     },
     "stores": {
       "title": "Mağaza Yönetimi",

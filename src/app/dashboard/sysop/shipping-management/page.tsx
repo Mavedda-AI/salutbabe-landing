@@ -322,11 +322,11 @@ export default function ShippingManagementPage() {
                        {currentCompany.logo ? (
                          <img src={currentCompany.logo.startsWith('http') ? currentCompany.logo : apiUrl(`/uploads/shipping/${currentCompany.logo}`)} className="w-full h-full object-contain" />
                        ) : (
-                         <span className="text-[10px] opacity-20 uppercase font-black tracking-widest">NO LOGO</span>
+                        <span className="text-[10px] opacity-20 uppercase font-black tracking-widest">{t('dashboard.shipping.no_logo')}</span>
                        )}
                     </div>
                     <div className="flex-1">
-                      <p className="text-[12px] text-text-secondary font-bold opacity-60 leading-relaxed">Şirket logosu faturalarda ve kargo takip ekranlarında görünür. En iyi sonuç için şeffaf PNG kullanın.</p>
+                      <p className="text-[12px] text-text-secondary font-bold opacity-60 leading-relaxed">{t('dashboard.shipping.logo_desc')}</p>
                     </div>
                   </div>
                 </div>

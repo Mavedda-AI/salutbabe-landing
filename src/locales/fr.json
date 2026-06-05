@@ -365,7 +365,9 @@
       "no_companies": "Aucune compagnie maritime ajoutée pour le moment.",
       "delete_confirm": "Êtes-vous sûr de vouloir supprimer cette compagnie maritime ?",
       "upload_logo": "Charger le Logo",
-      "table_actions": "Actions"
+      "table_actions": "Actions",
+      "logo_desc": "Le logo de l'entreprise apparaît sur les factures et le suivi. Utilisez un PNG transparent pour un meilleur résultat.",
+      "no_logo": "PAS DE LOGO"
     },
     "stores": {
       "title": "Gestion des Magasins",
