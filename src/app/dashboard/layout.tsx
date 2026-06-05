@@ -22,6 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [autoRefresh, setAutoRefresh] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ message: string, visible: boolean, type: 'warning' | 'success' | 'error' }>({
     message: '',
@@ -117,6 +118,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       return () => clearInterval(interval);
     }
   }, [isAuthenticated]);
+
+  // Global Auto Refresh Event Emitter
+  useEffect(() => {
+    let interval: any;
+    if (autoRefresh) {
+      interval = setInterval(() => {
+        window.dispatchEvent(new CustomEvent('auto-refresh-triggered'));
+      }, 10000);
+    }
+    return () => clearInterval(interval);
+  }, [autoRefresh]);
 
   const handleLogout = async () => {
     try {
@@ -565,6 +577,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <div className="flex items-center gap-5 relative">
+            {/* Auto Refresh Switch */}
+            <div className="hidden sm:flex items-center gap-2 mr-2 bg-white dark:bg-[#1A1D27] py-2 px-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 transition-all hover:border-[#FF6B00]/30">
+              <span className="text-[12px] font-bold text-gray-500 dark:text-gray-400">Oto Yenile</span>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  className="sr-only peer" 
+                  checked={autoRefresh}
+                  onChange={(e) => setAutoRefresh(e.target.checked)}
+                />
+                <div className="w-8 h-4 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#12141C] border border-gray-300 dark:border-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-[#FF6B00] peer-checked:border-[#FF6B00]"></div>
+              </label>
+            </div>
+
             {/* Notification Bell */}
             <div className="relative">
               <button 

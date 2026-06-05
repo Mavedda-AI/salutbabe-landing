@@ -5,26 +5,26 @@ import {useAuthStore} from "../../../store/useAuthStore";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import {apiUrl} from "../../../lib/api";
 import {
-    Area,
-    AreaChart,
-    CartesianGrid,
-    Cell,
-    Legend,
-    Pie,
-    PieChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from "recharts";
 import {
-    Alert01Icon,
-    Cancel01Icon,
-    ShoppingBag02Icon,
-    Store01Icon,
-    Tick02Icon,
-    UserGroupIcon,
-    Wallet01Icon
+  Alert01Icon,
+  Cancel01Icon,
+  ShoppingBag02Icon,
+  Store01Icon,
+  Tick02Icon,
+  UserGroupIcon,
+  Wallet01Icon
 } from "hugeicons-react";
 
 export default function SysopDashboard() {
@@ -53,6 +53,14 @@ export default function SysopDashboard() {
       }
     };
     fetchDashboardData();
+
+    // Listen for global auto refresh event
+    const handleAutoRefresh = () => {
+      fetchDashboardData();
+    };
+    
+    window.addEventListener('auto-refresh-triggered', handleAutoRefresh as EventListener);
+    return () => window.removeEventListener('auto-refresh-triggered', handleAutoRefresh as EventListener);
   }, []);
 
   if (loading) {
