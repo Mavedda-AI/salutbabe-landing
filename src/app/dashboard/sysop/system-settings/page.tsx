@@ -248,7 +248,7 @@ export default function SystemSettingsPage() {
                     </button>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div className="space-y-1">
                       <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Hedef</label>
                       <select 
@@ -289,6 +289,20 @@ export default function SystemSettingsPage() {
                         onChange={(e) => {
                           const updated = [...settings.systemCommissions.systemCommissions];
                           updated[idx].value = parseFloat(e.target.value);
+                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        }}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-text-secondary/30 uppercase tracking-widest ml-1">Grup (Zorunlu Değil)</label>
+                      <input 
+                        type="text"
+                        placeholder="Örn: BUYER_PROTECTION"
+                        className={`w-full h-10 px-3 rounded-xl border-none text-[12px] font-bold outline-none ${theme === 'light' ? 'bg-white' : 'bg-white/10'}`}
+                        value={comm.displayGroup || ''}
+                        onChange={(e) => {
+                          const updated = [...settings.systemCommissions.systemCommissions];
+                          updated[idx].displayGroup = e.target.value || null;
                           setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
                         }}
                       />
@@ -414,6 +428,7 @@ export default function SystemSettingsPage() {
                     target: 'customer',
                     type: 'percentage',
                     value: 0,
+                    displayGroup: null,
                     mergeWithBuyerProtection: true,
                     displayedName: { tr: '', en: '', fr: '' }
                   };
