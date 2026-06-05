@@ -290,17 +290,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           bg-white/70 dark:bg-[#12141C]/80 backdrop-blur-3xl border-r border-white/20 dark:border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.03)] dark:shadow-none`}
       >
         {/* Sidebar Header / Logo */}
-        <div className="relative flex items-center justify-center h-24 p-6 shrink-0">
+        <div className="relative flex items-center justify-center h-24 p-6 shrink-0 group/logo">
           {!isSidebarCollapsed ? (
             <>
               <Link href={dashboardItem.href || '#'} className="flex items-center justify-center group">
-                 <img src="/logo-salutbabe.png" alt="Logo" className={`h-8 w-auto transition-transform duration-300 group-hover:scale-105 ${theme === 'light' ? 'brightness-0' : 'brightness-0 invert'}`} />
+                 <img src="/logo-text.png" alt="Logo" className="h-8 w-auto transition-transform duration-300 group-hover:scale-105 brightness-0 dark:brightness-0 dark:invert" />
               </Link>
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
-                className="absolute top-1/2 -translate-y-1/2 -right-3 w-6 h-6 bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-[#FF6B00] shadow-sm transition-all hover:scale-110 hidden lg:flex"
+                className="absolute top-4 right-4 w-6 h-6 bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-md flex items-center justify-center text-gray-400 hover:text-[#FF6B00] shadow-sm transition-all hover:scale-110 hidden lg:flex"
+                title="Daralt"
               >
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
               </button>
               {/* Mobile Close Button */}
               <button 
@@ -313,17 +314,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           ) : (
             <button 
               onClick={() => setIsSidebarCollapsed(false)}
-              className="relative w-12 h-12 flex items-center justify-center group/expand rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+              className="relative w-12 h-12 flex items-center justify-center group/expand rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors overflow-hidden"
+              title="Genişlet"
             >
               <img 
                 src={theme === 'light' ? "/logo-favicon-dark.png" : "/logo-favicon.png"} 
                 alt="Logo" 
-                className="w-8 h-8 rounded-md object-contain transition-all duration-300 group-hover/expand:scale-110" 
+                className="w-8 h-8 rounded-md object-contain transition-all duration-300 group-hover/expand:scale-110 group-hover/expand:opacity-30" 
               />
-              <div className="absolute inset-y-0 -right-3 w-6 h-full flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transition-opacity">
-                 <div className="w-6 h-6 bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-[#FF6B00] shadow-sm">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                 </div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transition-all duration-300 bg-black/10 dark:bg-white/10 backdrop-blur-[2px]">
+                 <svg className="w-5 h-5 text-gray-700 dark:text-white drop-shadow-md translate-x-1 group-hover/expand:translate-x-0 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </div>
             </button>
           )}
@@ -483,16 +483,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="p-4 mt-auto">
           <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent opacity-50 mb-4"></div>
           
-          <div className={`flex ${isSidebarCollapsed ? 'flex-col items-center gap-3' : 'items-center justify-around'} bg-gray-100/50 dark:bg-[#1A1D27]/50 rounded-2xl p-2`}>
+          <div className="flex flex-col gap-1 bg-[#F5F7FA] dark:bg-[#1A1D27]/50 rounded-2xl p-2">
             {/* Theme Toggle */}
             <button 
               onClick={toggleTheme}
-              className="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-[#222533] shadow-sm text-gray-500 hover:text-[#FF6B00] transition-all hover:scale-110 group"
+              className={`flex items-center ${isSidebarCollapsed ? 'justify-center p-3' : 'px-4 py-3'} w-full rounded-xl hover:bg-white dark:hover:bg-[#222533] text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] transition-all group`}
               title="Toggle Theme"
             >
-              <div className="group-hover:rotate-12 transition-transform duration-300">
-                {theme === 'dark' ? '☀️' : '🌙'}
+              <div className="flex-shrink-0 group-hover:rotate-12 transition-transform duration-300">
+                {theme === 'dark' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                )}
               </div>
+              {!isSidebarCollapsed && (
+                <span className="ml-3 text-[14px] font-medium">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+              )}
             </button>
 
             {/* Language Toggle */}
@@ -502,10 +509,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 const nextIdx = (langs.indexOf(language) + 1) % langs.length;
                 setLanguage(langs[nextIdx]);
               }}
-              className="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-[#222533] shadow-sm text-gray-500 hover:text-[#5FC8C0] transition-all hover:scale-110 font-black text-xs uppercase"
+              className={`flex items-center ${isSidebarCollapsed ? 'justify-center p-3' : 'px-4 py-3'} w-full rounded-xl hover:bg-white dark:hover:bg-[#222533] text-gray-600 dark:text-gray-300 hover:text-[#5FC8C0] transition-all group`}
               title="Toggle Language"
             >
-              {language}
+              <div className="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
+              </div>
+              {!isSidebarCollapsed && (
+                <span className="ml-3 text-[14px] font-medium">
+                  {language === 'tr' ? 'Türkçe' : language === 'en' ? 'English' : language === 'fr' ? 'Français' : 'Deutsch'}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -684,8 +698,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
 
         {/* Sleek Mini Footer */}
-        <footer className="py-4 px-6 border-t border-gray-200/50 dark:border-white/5 bg-white/50 dark:bg-[#12141C]/50 backdrop-blur-md sticky bottom-0 z-50">
-          <div className="flex items-center justify-between max-w-[1600px] mx-auto">
+        <footer className="py-2.5 px-6 border-t border-gray-200/50 dark:border-white/5 bg-white/50 dark:bg-[#12141C]/50 backdrop-blur-md sticky bottom-0 z-50">
+          <div className="flex items-center justify-center max-w-[1600px] mx-auto relative h-6">
             <div className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest flex items-center gap-2">
               <span>{new Date().getFullYear()} ©</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0] bg-[length:200%_auto] animate-[brandShift_3s_ease-in-out_infinite] font-black text-[13px] lowercase tracking-normal drop-shadow-sm">
@@ -693,10 +707,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </span>
             </div>
             
-            <div className="flex items-center gap-4">
-              <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse"></span>
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest hidden sm:block">All Systems Operational</span>
-              
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center">
               <div className="group relative ml-2">
                 <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 transition-all cursor-help">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
