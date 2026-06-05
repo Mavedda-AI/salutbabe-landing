@@ -12,20 +12,6 @@ def walk(d):
 sysop_dir = '/Users/hidirektor/WebstormProjects/salutbabe-landing/src/app/dashboard/sysop'
 files = walk(sysop_dir)
 
-def replace_ternary(match):
-    light_classes = match.group(2)
-    dark_classes = match.group(4)
-    
-    d_classes = []
-    for c in dark_classes.split():
-        if not c: continue
-        if c.startswith('dark:'):
-            d_classes.append(c)
-        else:
-            d_classes.append('dark:' + c)
-            
-    return "'" + light_classes + " " + " ".join(d_classes) + "'"
-
 def replace_bracket(match):
     light_classes = match.group(2)
     dark_classes = match.group(4)
@@ -41,7 +27,7 @@ def replace_bracket(match):
     return "'" + light_classes + " " + " ".join(d_classes) + "'"
 
 # Pattern 3: className={theme === 'light' ? 'A' : 'B'}
-pattern3 = re.compile(r"\{theme === ['\"]light['\"]\s*\?\s*(['\"`])([^'\"`]+)\1\s*:\s*(['\"`])([^'\"`]+)\3\}")
+pattern3 = re.compile(r"className=\{theme === ['\"]light['\"]\s*\?\s*(['\"`])([^'\"`]+)\1\s*:\s*(['\"`])([^'\"`]+)\3\}")
 # Pattern 4: : theme === 'light' ? 'A' : 'B'
 pattern4 = re.compile(r":\s*theme === ['\"]light['\"]\s*\?\s*(['\"`])([^'\"`]+)\1\s*:\s*(['\"`])([^'\"`]+)\3")
 
@@ -56,10 +42,10 @@ for f in files:
     original_content = content
     
     # className={theme === ...} -> className={'...'}
-    content = pattern3.sub(replace_bracket, content)
+    content = pattern3.sub(lambda m: "className={" + replace_bracket(m) + "}", content)
     
     # : theme === ... -> : '...'
-    content = pattern4.sub(lambda m: ": " + replace_inner(m), content)
+    content = pattern4.sub(lambda m: ": " + replace_bracket(m), content)
     
     content = content.replace('dark:bg-surface', 'dark:bg-[#12141C]')
     content = content.replace('dark:bg-[#121214]/60', 'dark:bg-[#12141C]/60')

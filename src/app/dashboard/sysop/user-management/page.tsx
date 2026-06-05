@@ -206,7 +206,7 @@ export default function AdminUsersPage() {
              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
                ${viewMode === 'list' 
                  ? 'bg-primary text-white shadow-lg shadow-primary/20' 
-                 : theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+                 : 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white'}`}>
              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
            </button>
            <button 
@@ -214,7 +214,7 @@ export default function AdminUsersPage() {
              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all 
                ${viewMode === 'grid' 
                  ? 'bg-primary text-white shadow-lg shadow-primary/20' 
-                 : theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+                 : 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white'}`}>
              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
            </button>
          </div>
@@ -533,7 +533,7 @@ export default function AdminUsersPage() {
                 <label key={role} className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all group
                   ${roleInput.includes(role) 
                     ? 'bg-primary/10 border-primary shadow-[0_0_20px_rgba(95,200,192,0.1)]' 
-                    : theme === 'light' ? 'bg-gray-50 border-transparent hover:border-primary/20' : 'bg-white/5 border-transparent hover:border-white/10'}`}>
+                    : 'bg-gray-50 border-transparent hover:border-primary/20 dark:bg-white/5 dark:border-transparent dark:hover:border-white/10'}`}>
                   <span className={`text-[14px] font-black transition-colors ${roleInput.includes(role) ? 'text-primary' : 'text-text-primary'}`}>{t('dashboard.role_' + role.toLowerCase())}</span>
                   <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
                     ${roleInput.includes(role) ? 'bg-primary border-primary' : 'border-text-secondary/20 group-hover:border-primary/50'}`}>
