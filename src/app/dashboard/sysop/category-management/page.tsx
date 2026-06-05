@@ -106,18 +106,18 @@ export default function AdminCategories() {
 
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
-      <div className={`p-6 md:p-8 rounded-[2.5rem] border flex flex-col md:flex-row justify-between items-center gap-6 ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5 shadow-2xl'}`}>
+      <div className={`p-6 md:p-8 rounded-[2.5rem] border flex flex-col md:flex-row justify-between items-center gap-6 bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <h1 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight">{t('dashboard.sysop.cat_mgmt')}</h1>
-        <div className={`flex gap-2 p-1.5 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`}>
+        <div className={`flex gap-2 p-1.5 rounded-2xl bg-gray-100 dark:bg-white/5`}>
           <button 
             onClick={() => setView("categories")}
-            className={`px-6 py-2.5 rounded-xl text-[13px] font-black transition-all ${view === "categories" ? (theme === 'light' ? 'bg-white text-primary shadow-sm' : 'bg-[#1a1a1f] text-primary shadow-md') : 'text-text-secondary hover:text-text-primary'}`}
+            className={`px-6 py-2.5 rounded-xl text-[13px] font-black transition-all ${view === "categories" ? 'bg-white text-primary shadow-sm dark:bg-[#1A1D27] dark:text-primary dark:shadow-md' : 'text-text-secondary hover:text-text-primary'}`}
           >
             {t('dashboard.sysop.categories')}
           </button>
           <button 
             onClick={() => setView("attributes")}
-            className={`px-6 py-2.5 rounded-xl text-[13px] font-black transition-all ${view === "attributes" ? (theme === 'light' ? 'bg-white text-primary shadow-sm' : 'bg-[#1a1a1f] text-primary shadow-md') : 'text-text-secondary hover:text-text-primary'}`}
+            className={`px-6 py-2.5 rounded-xl text-[13px] font-black transition-all ${view === "attributes" ? 'bg-white text-primary shadow-sm dark:bg-[#1A1D27] dark:text-primary dark:shadow-md' : 'text-text-secondary hover:text-text-primary'}`}
           >
             {t('dashboard.sysop.attributes')}
           </button>
@@ -126,7 +126,7 @@ export default function AdminCategories() {
 
       {view === "categories" ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5'}`}>
+          <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5`}>
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
                 <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
@@ -138,7 +138,7 @@ export default function AdminCategories() {
               </thead>
               <tbody className="divide-y divide-border-color dark:divide-white/5">
                 {categories.map(cat => (
-                  <tr key={cat.categoryID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                  <tr key={cat.categoryID} className={`transition-colors hover:bg-gray-50 dark:hover:bg-white/5`}>
                     <td className="p-6 font-black text-text-primary text-[14px]">
                       {cat.displayedName?.tr || cat.name}
                     </td>
@@ -155,17 +155,17 @@ export default function AdminCategories() {
             </table>
           </div>
           
-          <div className={`rounded-[2.5rem] p-8 border h-fit ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+          <div className={`rounded-[2.5rem] p-8 border h-fit bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
              <h2 className="text-xl font-black mb-2 text-text-primary">{t('dashboard.sysop.add_category')}</h2>
              <p className="text-[13px] font-bold text-text-secondary mb-8">{t('dashboard.sysop.add_category_desc')}</p>
              <div className="space-y-6">
                <div className="group">
                  <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">Name (TR)</label>
-                 <input className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} placeholder="e.g. Ayakkabı" />
+                 <input className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border bg-white border-transparent focus:border-primary/30 shadow-sm dark:bg-[#1A1D27] dark:border-transparent dark:focus:border-white/20`} placeholder="e.g. Ayakkabı" />
                </div>
                <div className="group">
                  <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">Slug</label>
-                 <input className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} placeholder="e.g. ayakkabi" />
+                 <input className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border bg-white border-transparent focus:border-primary/30 shadow-sm dark:bg-[#1A1D27] dark:border-transparent dark:focus:border-white/20`} placeholder="e.g. ayakkabi" />
                </div>
                <button className="w-full h-14 bg-primary text-white font-black rounded-2xl shadow-lg shadow-primary/30 hover:scale-[1.02] transition-all text-[14px] uppercase tracking-widest mt-4">
                  {t('dashboard.sysop.btn_save')}
@@ -175,7 +175,7 @@ export default function AdminCategories() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5'}`}>
+          <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5`}>
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
                 <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
@@ -187,7 +187,7 @@ export default function AdminCategories() {
               </thead>
               <tbody className="divide-y divide-border-color dark:divide-white/5">
                 {attributes.map(attr => (
-                  <tr key={attr.attributeID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                  <tr key={attr.attributeID} className={`transition-colors hover:bg-gray-50 dark:hover:bg-white/5`}>
                     <td className="p-6">
                       <div className="font-black text-text-primary text-[14px] mb-1">{attr.displayedName?.tr || attr.nameKey}</div>
                       <div className="text-[11px] font-mono font-bold text-text-secondary/60">{attr.nameKey}</div>
@@ -219,7 +219,7 @@ export default function AdminCategories() {
             </table>
           </div>
 
-          <div className={`rounded-[2.5rem] p-8 border h-fit ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+          <div className={`rounded-[2.5rem] p-8 border h-fit bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
              <h2 className="text-xl font-black mb-8 text-text-primary">{editingAttribute ? t('dashboard.sysop.edit_attribute') : t('dashboard.sysop.add_attribute')}</h2>
              <div className="space-y-6">
                <div className="group">
@@ -227,7 +227,7 @@ export default function AdminCategories() {
                  <input 
                    value={attrNameKey}
                    onChange={(e) => setAttrNameKey(e.target.value)}
-                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} 
+                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border bg-white border-transparent focus:border-primary/30 shadow-sm dark:bg-[#1A1D27] dark:border-transparent dark:focus:border-white/20`} 
                    placeholder="e.g. color" 
                  />
                </div>
@@ -237,7 +237,7 @@ export default function AdminCategories() {
                    <input 
                      value={attrDisplayNameTr}
                      onChange={(e) => setAttrDisplayNameTr(e.target.value)}
-                     className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} 
+                     className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border bg-white border-transparent focus:border-primary/30 shadow-sm dark:bg-[#1A1D27] dark:border-transparent dark:focus:border-white/20`} 
                      placeholder="Renk" 
                    />
                  </div>
@@ -246,7 +246,7 @@ export default function AdminCategories() {
                    <input 
                      value={attrDisplayNameEn}
                      onChange={(e) => setAttrDisplayNameEn(e.target.value)}
-                     className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} 
+                     className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border bg-white border-transparent focus:border-primary/30 shadow-sm dark:bg-[#1A1D27] dark:border-transparent dark:focus:border-white/20`} 
                      placeholder="Color" 
                    />
                  </div>
@@ -256,7 +256,7 @@ export default function AdminCategories() {
                  <select 
                    value={attrType}
                    onChange={(e) => setAttrType(e.target.value)}
-                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border appearance-none ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`}
+                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border appearance-none bg-white border-transparent focus:border-primary/30 shadow-sm dark:bg-[#1A1D27] dark:border-transparent dark:focus:border-white/20`}
                  >
                    <option value="select">Select (Single)</option>
                    <option value="multiselect">Multiselect</option>
@@ -268,7 +268,7 @@ export default function AdminCategories() {
                  <select 
                    value={attrMobileComponent}
                    onChange={(e) => setAttrMobileComponent(e.target.value)}
-                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black text-primary transition-all border appearance-none ${theme === 'light' ? 'bg-primary/10 border-primary/20 shadow-sm' : 'bg-primary/20 border-primary/20'}`}
+                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black text-primary transition-all border appearance-none bg-primary/10 border-primary/20 shadow-sm dark:bg-primary/20 dark:border-primary/20`}
                  >
                    <option value="dropdown">Default Dropdown</option>
                    <option value="horizontal_list">Horizontal Chips</option>
@@ -281,7 +281,7 @@ export default function AdminCategories() {
                  {editingAttribute && (
                    <button 
                      onClick={() => { setEditingAttribute(null); resetAttrForm(); }}
-                     className={`flex-1 h-14 rounded-2xl text-[13px] font-black transition-all uppercase tracking-widest ${theme === 'light' ? 'bg-gray-200 text-text-primary hover:bg-gray-300' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                     className={`flex-1 h-14 rounded-2xl text-[13px] font-black transition-all uppercase tracking-widest bg-gray-200 text-text-primary hover:bg-gray-300 dark:bg-white/10 dark:text-white dark:hover:bg-white/20`}
                    >
                      {t('dashboard.sysop.btn_cancel')}
                    </button>

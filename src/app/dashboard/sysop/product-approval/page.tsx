@@ -100,8 +100,8 @@ export default function ProductApprovalPage() {
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : listings.length === 0 ? (
-        <div className={`p-12 text-center border-2 border-dashed rounded-[2.5rem] transition-all ${theme === 'light' ? 'border-border-color bg-gray-50/50' : 'border-white/5 bg-white/[0.02]'}`}>
-          <div className={`w-20 h-20 mx-auto mb-6 rounded-3xl flex items-center justify-center ${theme === 'light' ? 'bg-primary/10 text-primary' : 'bg-primary/20 text-primary shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
+        <div className={`p-12 text-center border-2 border-dashed rounded-[2.5rem] transition-all border-border-color bg-gray-50/50 dark:border-white/5 dark:bg-white/[0.02]`}>
+          <div className={`w-20 h-20 mx-auto mb-6 rounded-3xl flex items-center justify-center bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary dark:shadow-[0_0_30px_rgba(95,200,192,0.1)]`}>
             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -112,7 +112,7 @@ export default function ProductApprovalPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {listings.map(listing => (
-            <div key={listing.listingID} className={`flex flex-col overflow-hidden rounded-[2.5rem] border transition-all duration-300 hover:-translate-y-1 ${theme === 'light' ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+            <div key={listing.listingID} className={`flex flex-col overflow-hidden rounded-[2.5rem] border transition-all duration-300 hover:-translate-y-1 bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20 dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl dark:hover:bg-[#121214] dark:hover:border-white/10`}>
               <div className="relative aspect-[4/3] bg-gray-100 dark:bg-black/20">
                 <img 
                   src={getMediaUrl(listing.images?.[0]?.imageUrl || listing.imagePaths?.[0])} 
@@ -127,7 +127,7 @@ export default function ProductApprovalPage() {
               <div className="p-6 flex flex-col flex-1 gap-4">
                 {/* Seller Info */}
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[14px] font-black shrink-0 ${theme === 'light' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-primary/20 text-primary border border-primary/20 shadow-[0_0_15px_rgba(95,200,192,0.1)]'}`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[14px] font-black shrink-0 bg-primary/10 text-primary border border-primary/20 dark:bg-primary/20 dark:text-primary dark:border dark:border-primary/20 dark:shadow-[0_0_15px_rgba(95,200,192,0.1)]`}>
                     {listing.seller?.userName?.[0] || 'U'}
                   </div>
                   <div className="flex flex-col overflow-hidden">
@@ -153,14 +153,14 @@ export default function ProductApprovalPage() {
 
                 {/* Details Badges */}
                 <div className="flex flex-wrap gap-2">
-                  <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.condition || t('dashboard.sysop.condition_new')}</span>
-                  {listing.size && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.size}</span>}
-                  {listing.gender && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.gender}</span>}
-                  {listing.category && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.category?.name || t('dashboard.sysop.category')}</span>}
+                  <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-gray-100 text-text-secondary dark:bg-white/5 dark:text-text-secondary`}>{listing.condition || t('dashboard.sysop.condition_new')}</span>
+                  {listing.size && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-gray-100 text-text-secondary dark:bg-white/5 dark:text-text-secondary`}>{listing.size}</span>}
+                  {listing.gender && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-gray-100 text-text-secondary dark:bg-white/5 dark:text-text-secondary`}>{listing.gender}</span>}
+                  {listing.category && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-gray-100 text-text-secondary dark:bg-white/5 dark:text-text-secondary`}>{listing.category?.name || t('dashboard.sysop.category')}</span>}
                 </div>
 
                 {/* Shipping Info */}
-                <div className={`p-4 rounded-2xl flex flex-col mt-auto mb-2 border ${theme === 'light' ? 'bg-blue-50/50 border-blue-100' : 'bg-blue-500/5 border-blue-500/10'}`}>
+                <div className={`p-4 rounded-2xl flex flex-col mt-auto mb-2 border bg-blue-50/50 border-blue-100 dark:bg-blue-500/5 dark:border-blue-500/10`}>
                   <span className="text-[10px] font-black text-blue-500 dark:text-blue-400 uppercase tracking-[0.15em] mb-1.5">{t('dashboard.sysop.shipping_info')}</span>
                   <span className="text-[13px] font-black text-text-primary">
                     {listing.shippingPayer === 'seller' ? t('dashboard.sysop.shipping_seller_pays') : `${t('dashboard.sysop.shipping_buyer_pays')} — ${listing.shippingPrice ? `${listing.shippingPrice} TL` : t('dashboard.sysop.price_unknown')}`}
@@ -180,7 +180,7 @@ export default function ProductApprovalPage() {
                 <div className="flex gap-3 pt-4 border-t border-border-color">
                   <button 
                     onClick={() => handleReject(listing.listingID)}
-                    className={`flex-1 h-12 rounded-2xl text-[13px] font-black transition-all uppercase tracking-widest ${theme === 'light' ? 'bg-red-50 text-red-500 hover:bg-red-100' : 'bg-red-500/10 text-red-500 hover:bg-red-500/20'}`}
+                    className={`flex-1 h-12 rounded-2xl text-[13px] font-black transition-all uppercase tracking-widest bg-red-50 text-red-500 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-500 dark:hover:bg-red-500/20`}
                   >
                     {t('dashboard.sysop.btn_reject')}
                   </button>

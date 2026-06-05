@@ -180,7 +180,7 @@ export default function ShippingManagementPage() {
         </button>
       </div>
 
-      <div className={`rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
+      <div className={`rounded-[2.5rem] border overflow-x-auto bg-white border-gray-100 shadow-xl shadow-gray-200/50 dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <table className="w-full text-left border-collapse min-w-[700px]">
           <thead>
             <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
@@ -198,7 +198,7 @@ export default function ShippingManagementPage() {
               </tr>
             ) : (
               companies.map((company) => (
-                <tr key={company.companyID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                <tr key={company.companyID} className={`transition-colors hover:bg-gray-50 dark:hover:bg-white/5`}>
                   <td className="px-8 py-5">
                     <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center overflow-hidden border border-border-color">
                       {company.logo ? (
@@ -246,7 +246,7 @@ export default function ShippingManagementPage() {
       {isModalOpen && currentCompany && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-xl animate-fade-in" onClick={() => setIsModalOpen(false)}></div>
-          <div className={`relative w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col rounded-[2.5rem] border animate-zoom-in ${theme === 'light' ? 'bg-white border-gray-100 shadow-2xl' : 'bg-surface border-white/5 shadow-2xl'}`}>
+          <div className={`relative w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col rounded-[2.5rem] border animate-zoom-in bg-white border-gray-100 shadow-2xl dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
             <div className="p-8 border-b border-border-color flex items-center justify-between shrink-0">
               <h3 className="text-xl font-black text-text-primary">{currentCompany.companyID ? t('dashboard.shipping.edit_company') : t('dashboard.shipping.add_company')}</h3>
               <button onClick={() => setIsModalOpen(false)} className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
@@ -262,7 +262,7 @@ export default function ShippingManagementPage() {
                     type="text" 
                     value={currentCompany.name}
                     onChange={e => setCurrentCompany({...currentCompany, name: e.target.value})}
-                    className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} 
+                    className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border bg-gray-50 border-transparent focus:bg-white focus:border-primary/30 dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`} 
                   />
                 </div>
                 <div className="space-y-2">
@@ -271,7 +271,7 @@ export default function ShippingManagementPage() {
                     type="text" 
                     value={currentCompany.website}
                     onChange={e => setCurrentCompany({...currentCompany, website: e.target.value})}
-                    className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`} 
+                    className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border bg-gray-50 border-transparent focus:bg-white focus:border-primary/30 dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`} 
                   />
                 </div>
               </div>
@@ -282,7 +282,7 @@ export default function ShippingManagementPage() {
                   <select 
                     value={currentCompany.source}
                     onChange={e => setCurrentCompany({...currentCompany, source: e.target.value as any})}
-                    className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border appearance-none ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`}
+                    className={`w-full h-14 px-6 rounded-2xl outline-none font-black transition-all border appearance-none bg-gray-50 border-transparent focus:bg-white focus:border-primary/30 dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`}
                   >
                     <option value="SYSTEM">{t('dashboard.shipping.source_system')}</option>
                     <option value="USER_BASED">{t('dashboard.shipping.source_seller')}</option>
@@ -349,7 +349,7 @@ export default function ShippingManagementPage() {
                             placeholder={t('dashboard.shipping.min_desi')}
                             value={rate.desiMin}
                             onChange={e => updateRate(idx, 'desiMin', parseFloat(e.target.value))}
-                            className={`w-full h-12 px-5 rounded-xl outline-none font-black text-[13px] border ${theme === 'light' ? 'bg-gray-50 border-transparent' : 'bg-white/5 border-transparent'}`} 
+                            className={`w-full h-12 px-5 rounded-xl outline-none font-black text-[13px] border bg-gray-50 border-transparent dark:bg-white/5 dark:border-transparent`} 
                           />
                           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-30 uppercase tracking-widest">MIN</span>
                         </div>
@@ -359,7 +359,7 @@ export default function ShippingManagementPage() {
                             placeholder={t('dashboard.shipping.max_desi')}
                             value={rate.desiMax}
                             onChange={e => updateRate(idx, 'desiMax', parseFloat(e.target.value))}
-                            className={`w-full h-12 px-5 rounded-xl outline-none font-black text-[13px] border ${theme === 'light' ? 'bg-gray-50 border-transparent' : 'bg-white/5 border-transparent'}`} 
+                            className={`w-full h-12 px-5 rounded-xl outline-none font-black text-[13px] border bg-gray-50 border-transparent dark:bg-white/5 dark:border-transparent`} 
                           />
                           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-30 uppercase tracking-widest">MAX</span>
                         </div>
@@ -369,7 +369,7 @@ export default function ShippingManagementPage() {
                             placeholder={t('dashboard.shipping.price')}
                             value={rate.price}
                             onChange={e => updateRate(idx, 'price', parseFloat(e.target.value))}
-                            className={`w-full h-12 px-5 rounded-xl outline-none font-black text-[13px] border ${theme === 'light' ? 'bg-gray-50 border-transparent' : 'bg-white/5 border-transparent'}`} 
+                            className={`w-full h-12 px-5 rounded-xl outline-none font-black text-[13px] border bg-gray-50 border-transparent dark:bg-white/5 dark:border-transparent`} 
                           />
                           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-primary">₺</span>
                         </div>

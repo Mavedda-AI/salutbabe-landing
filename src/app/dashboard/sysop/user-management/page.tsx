@@ -138,32 +138,32 @@ export default function AdminUsersPage() {
     <div className="flex flex-col gap-6 animate-pulse">
       {/* Search & Filters Bar Skeleton */}
       <div className={`p-4 rounded-[2rem] border flex flex-wrap md:flex-nowrap items-center gap-4
-        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
-        <div className={`w-full md:flex-1 h-12 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        bg-white border-border-color shadow-sm dark:bg-[#12141C]/60 dark:border-white/5`}>
+        <div className={`w-full md:flex-1 h-12 rounded-2xl bg-gray-100 dark:bg-white/5`} />
         <div className="flex flex-wrap items-center gap-2">
-           {[1, 2, 3].map(i => <div key={i} className={`w-20 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />)}
+           {[1, 2, 3].map(i => <div key={i} className={`w-20 h-10 rounded-xl bg-gray-100 dark:bg-white/5`} />)}
         </div>
-        <div className={`hidden md:block w-[1px] h-8 ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+        <div className={`hidden md:block w-[1px] h-8 bg-gray-100 dark:bg-white/5`} />
         <div className="flex items-center gap-2 ml-auto">
-           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-           <div className={`w-10 h-10 rounded-xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+           <div className={`w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5`} />
+           <div className={`w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5`} />
         </div>
       </div>
 
       {/* User Cards Skeleton */}
       {[1, 2, 3, 4].map(i => (
         <div key={i} className={`p-8 rounded-[2.5rem] border flex items-center gap-8
-          ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 border-white/5'}`}>
-          <div className={`w-20 h-20 rounded-[2rem] ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          bg-white border-border-color shadow-sm dark:bg-[#12141C]/60 dark:border-white/5`}>
+          <div className={`w-20 h-20 rounded-[2rem] bg-gray-100 dark:bg-white/5`} />
           <div className="flex-1 space-y-2">
-            <div className={`w-48 h-5 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-            <div className={`w-32 h-3 rounded-full ${theme === 'light' ? 'bg-gray-50' : 'bg-white/[0.02]'}`} />
+            <div className={`w-48 h-5 rounded-full bg-gray-100 dark:bg-white/5`} />
+            <div className={`w-32 h-3 rounded-full bg-gray-50 dark:bg-white/[0.02]`} />
           </div>
           <div className="hidden lg:flex flex-col gap-2 w-48">
-            <div className={`w-full h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
-            <div className={`w-full h-4 rounded-full ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+            <div className={`w-full h-4 rounded-full bg-gray-100 dark:bg-white/5`} />
+            <div className={`w-full h-4 rounded-full bg-gray-100 dark:bg-white/5`} />
           </div>
-          <div className={`w-32 h-10 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`} />
+          <div className={`w-32 h-10 rounded-2xl bg-gray-100 dark:bg-white/5`} />
         </div>
       ))}
     </div>
@@ -175,7 +175,7 @@ export default function AdminUsersPage() {
     <div className="flex flex-col gap-6">
       {/* Search & Filters Bar */}
       <div className={`p-4 rounded-[2rem] border flex flex-col lg:flex-row items-center gap-4 transition-all duration-300
-        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+        bg-white border-border-color shadow-sm dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl`}>
         <div className="w-full lg:flex-1 relative group">
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary/40 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -184,7 +184,7 @@ export default function AdminUsersPage() {
             type="text" 
             placeholder={t('dashboard.search_placeholder')}
             className={`w-full h-12 pl-12 pr-4 rounded-2xl outline-none text-[13px] font-bold transition-all
-              ${theme === 'light' ? 'bg-gray-50 focus:bg-white border border-transparent focus:border-primary/20' : 'bg-white/5 focus:bg-white/10 border border-transparent focus:border-white/10'}`}
+              bg-gray-50 focus:bg-white border border-transparent focus:border-primary/20 dark:bg-white/5 dark:focus:bg-white/10 dark:border dark:border-transparent dark:focus:border-white/10`}
           />
         </div>
         
@@ -192,7 +192,7 @@ export default function AdminUsersPage() {
           <div className="flex flex-wrap items-center gap-2">
             {['ADMIN', 'SELLER', 'USER'].map(filter => (
               <button key={filter} className={`px-4 h-10 rounded-xl text-[11px] font-black tracking-wider transition-all
-                ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary' : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'}`}>
+                bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white`}>
                 {t('dashboard.role_' + filter.toLowerCase())}
               </button>
             ))}
@@ -236,11 +236,11 @@ export default function AdminUsersPage() {
                 <div className="lg:col-span-3 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-4 lg:gap-6 text-center sm:text-left">
                   <div className="relative">
                     <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center font-black text-2xl transition-all duration-500 group-hover:rotate-6
-                      ${theme === 'light' ? 'bg-primary/10 text-primary border-2 border-primary/20' : 'bg-primary/20 text-primary border-2 border-primary/20 shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
+                      bg-primary/10 text-primary border-2 border-primary/20 dark:bg-primary/20 dark:text-primary dark:border-2 dark:border-primary/20 dark:shadow-[0_0_30px_rgba(95,200,192,0.1)]`}>
                       {user.userName?.[0] || user.eMail[0].toUpperCase()}
                     </div>
                     <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-4 flex items-center justify-center
-                      ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
+                      bg-white border-white dark:bg-[#121214] dark:border-[#121214]`}>
                       <div className={`w-2.5 h-2.5 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'}`} />
                     </div>
                   </div>
@@ -303,7 +303,7 @@ export default function AdminUsersPage() {
                         setPendingBalanceInput(user.pendingBalance?.toString() || "0");
                       }}
                       className={`flex items-center justify-between px-5 py-3 rounded-2xl text-[12px] font-black transition-all group/btn
-                        ${theme === 'light' ? 'bg-gray-50 text-text-primary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-primary hover:bg-primary hover:text-white shadow-lg'}`}
+                        bg-gray-50 text-text-primary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-primary dark:hover:bg-primary dark:hover:text-white dark:shadow-lg`}
                     >
                       <span>{t('dashboard.btn_balance')}</span>
                       <svg className="w-4 h-4 opacity-40 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -316,7 +316,7 @@ export default function AdminUsersPage() {
                           setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
                         }}
                         className={`flex items-center justify-center p-3 rounded-2xl transition-all
-                          ${theme === 'light' ? 'bg-gray-50 text-blue-500 hover:bg-blue-500 hover:text-white' : 'bg-white/5 text-blue-500 hover:bg-blue-500 hover:text-white'}`}
+                          bg-gray-50 text-blue-500 hover:bg-blue-500 hover:text-white dark:bg-white/5 dark:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white`}
                       >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                       </button>
@@ -346,11 +346,11 @@ export default function AdminUsersPage() {
               {/* Profile Header */}
               <div className="relative mb-6">
                 <div className={`w-28 h-28 rounded-[2.5rem] flex items-center justify-center font-black text-3xl transition-all duration-500 group-hover:rotate-6
-                  ${theme === 'light' ? 'bg-primary/10 text-primary border-4 border-white shadow-xl' : 'bg-primary/20 text-primary border-4 border-[#121214] shadow-2xl shadow-primary/10'}`}>
+                  bg-primary/10 text-primary border-4 border-white shadow-xl dark:bg-primary/20 dark:text-primary dark:border-4 dark:border-[#121214] dark:shadow-2xl dark:shadow-primary/10`}>
                   {user.userName?.[0] || user.eMail[0].toUpperCase()}
                 </div>
                 <div className={`absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-4 flex items-center justify-center
-                  ${theme === 'light' ? 'bg-white border-white' : 'bg-[#121214] border-[#121214]'}`}>
+                  bg-white border-white dark:bg-[#121214] dark:border-[#121214]`}>
                   <div className={`w-3 h-3 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]'}`} />
                 </div>
               </div>
@@ -373,7 +373,7 @@ export default function AdminUsersPage() {
 
               {/* Stats / Balance */}
               <div className={`w-full p-6 rounded-[2rem] mb-8 flex justify-center items-center gap-6
-                ${theme === 'light' ? 'bg-gray-50' : 'bg-white/5'}`}>
+                bg-gray-50 dark:bg-white/5`}>
                  <div className="text-center">
                     <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.table_balance')}</p>
                     <div className="flex items-center gap-1 justify-center">
@@ -403,7 +403,7 @@ export default function AdminUsersPage() {
                      setPendingBalanceInput(user.pendingBalance?.toString() || "0");
                    }}
                    className={`h-12 rounded-2xl flex items-center justify-center transition-all
-                     ${theme === 'light' ? 'bg-primary text-white shadow-lg' : 'bg-primary text-white shadow-lg'}`}>
+                     bg-primary text-white shadow-lg dark:bg-primary dark:text-white dark:shadow-lg`}>
                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" /></svg>
                  </button>
                  <button 
@@ -412,7 +412,7 @@ export default function AdminUsersPage() {
                      setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
                    }}
                    className={`h-12 rounded-2xl flex items-center justify-center transition-all
-                     ${theme === 'light' ? 'bg-gray-100 text-blue-500' : 'bg-white/5 text-blue-500'}`}>
+                     bg-gray-100 text-blue-500 dark:bg-white/5 dark:text-blue-500`}>
                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                  </button>
                  <button 
@@ -430,7 +430,7 @@ export default function AdminUsersPage() {
 
         {users.length === 0 && (
           <div className={`p-20 text-center rounded-[3rem] border-2 border-dashed
-            ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+            bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
             <div className="w-16 h-16 rounded-full bg-text-secondary/5 flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-text-secondary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
             </div>
@@ -441,20 +441,20 @@ export default function AdminUsersPage() {
 
       {/* Pagination Bar */}
       <div className={`p-4 rounded-[2rem] border flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-300
-        ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl'}`}>
+        bg-white border-border-color shadow-sm dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl`}>
         <div className="flex items-center gap-4">
            <div className={`px-4 py-2 rounded-xl text-[11px] font-black tracking-wider
-             ${theme === 'light' ? 'bg-gray-50 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>
+             bg-gray-50 text-text-secondary dark:bg-white/5 dark:text-text-secondary`}>
              {t('dashboard.admin_users_total').replace('{count}', users.length.toString())}
            </div>
         </div>
 
         <div className="flex items-center gap-2">
-           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-secondary hover:bg-primary hover:text-white'}`}>
+           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-gray-50 text-text-secondary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-secondary dark:hover:bg-primary dark:hover:text-white`}>
              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
            </button>
            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[12px] font-black bg-primary text-white shadow-lg shadow-primary/20`}>1</div>
-           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-gray-50 text-text-secondary hover:bg-primary hover:text-white' : 'bg-white/5 text-text-secondary hover:bg-primary hover:text-white'}`}>
+           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-gray-50 text-text-secondary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-secondary dark:hover:bg-primary dark:hover:text-white`}>
              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
            </button>
         </div>
@@ -462,7 +462,7 @@ export default function AdminUsersPage() {
         <div className="flex items-center gap-3">
            <span className="text-[11px] font-black text-text-secondary/40 uppercase tracking-widest">{t('dashboard.show_label')}:</span>
            <select className={`px-4 h-10 rounded-xl text-[11px] font-black outline-none transition-all
-             ${theme === 'light' ? 'bg-gray-50 text-text-primary focus:bg-white border border-transparent focus:border-primary/20' : 'bg-white/5 text-text-primary focus:bg-white/10 border border-transparent focus:border-white/10'}`}>
+             bg-gray-50 text-text-primary focus:bg-white border border-transparent focus:border-primary/20 dark:bg-white/5 dark:text-text-primary dark:focus:bg-white/10 dark:border dark:border-transparent dark:focus:border-white/10`}>
              <option>10</option>
              <option>20</option>
              <option>50</option>
@@ -474,7 +474,7 @@ export default function AdminUsersPage() {
       {editingUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
           <div className={`rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl animate-scale-in border
-            ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#18181B] border-white/5'}`}>
+            bg-white border-border-color dark:bg-[#18181B] dark:border-white/5`}>
             <h3 className="text-2xl font-black text-text-primary mb-2 tracking-tight">{t('dashboard.modal_update_balance')}</h3>
             <p className="text-[13px] font-bold text-text-secondary/60 mb-8">{t('dashboard.modal_update_balance_desc').replace('{name}', editingUser.userName)}</p>
             
@@ -487,7 +487,7 @@ export default function AdminUsersPage() {
                     value={balanceInput} 
                     onChange={(e) => setBalanceInput(e.target.value)}
                     className={`w-full h-14 pl-6 pr-12 rounded-2xl outline-none text-[16px] font-black transition-all border
-                      ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-primary/30 shadow-inner' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`}
+                      bg-gray-50 border-transparent focus:bg-white focus:border-primary/30 shadow-inner dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`}
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-primary text-[15px]">₺</span>
                 </div>
@@ -500,7 +500,7 @@ export default function AdminUsersPage() {
                     value={pendingBalanceInput} 
                     onChange={(e) => setPendingBalanceInput(e.target.value)}
                     className={`w-full h-14 pl-6 pr-12 rounded-2xl outline-none text-[16px] font-black transition-all border
-                      ${theme === 'light' ? 'bg-gray-50 border-transparent focus:bg-white focus:border-orange-400/30 shadow-inner' : 'bg-white/5 border-transparent focus:bg-white/10 focus:border-white/20'}`}
+                      bg-gray-50 border-transparent focus:bg-white focus:border-orange-400/30 shadow-inner dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`}
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-orange-400 text-[15px]">₺</span>
                 </div>
@@ -509,7 +509,7 @@ export default function AdminUsersPage() {
                 <button 
                   onClick={() => setEditingUser(null)}
                   className={`flex-1 h-14 rounded-2xl font-black text-[14px] transition-all
-                    ${theme === 'light' ? 'bg-gray-100 text-text-primary hover:bg-gray-200' : 'bg-white/5 text-text-primary hover:bg-white/10'}`}
+                    bg-gray-100 text-text-primary hover:bg-gray-200 dark:bg-white/5 dark:text-text-primary dark:hover:bg-white/10`}
                 >
                   {t('dashboard.btn_cancel')}
                 </button>
@@ -528,7 +528,7 @@ export default function AdminUsersPage() {
       {editingRoleUser && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
           <div className={`rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl animate-scale-in border
-            ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#18181B] border-white/5'}`}>
+            bg-white border-border-color dark:bg-[#18181B] dark:border-white/5`}>
             <h3 className="text-2xl font-black text-text-primary mb-2 tracking-tight">{t('dashboard.modal_update_role')}</h3>
             <p className="text-[13px] font-bold text-text-secondary/60 mb-8">{t('dashboard.modal_update_role_desc').replace('{name}', editingRoleUser.userName)}</p>
             
@@ -558,7 +558,7 @@ export default function AdminUsersPage() {
                 <button 
                   onClick={() => setEditingRoleUser(null)}
                   className={`flex-1 h-14 rounded-2xl font-black text-[14px] transition-all
-                    ${theme === 'light' ? 'bg-gray-100 text-text-primary hover:bg-gray-200' : 'bg-white/5 text-text-primary hover:bg-white/10'}`}
+                    bg-gray-100 text-text-primary hover:bg-gray-200 dark:bg-white/5 dark:text-text-primary dark:hover:bg-white/10`}
                 >
                   {t('dashboard.btn_cancel')}
                 </button>

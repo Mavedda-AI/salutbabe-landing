@@ -76,7 +76,7 @@ export default function StoreManagementPage() {
   return (
     <div className="space-y-8 animate-fade-in">
 
-      <div className={`rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-gray-100 shadow-xl shadow-gray-200/50' : 'bg-surface border-white/5 shadow-2xl'}`}>
+      <div className={`rounded-[2.5rem] border overflow-x-auto bg-white border-gray-100 shadow-xl shadow-gray-200/50 dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <table className="w-full text-left border-collapse min-w-[700px]">
           <thead>
             <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
@@ -88,7 +88,7 @@ export default function StoreManagementPage() {
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {stores.map((store) => (
-              <tr key={store.storeID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+              <tr key={store.storeID} className={`transition-colors hover:bg-gray-50 dark:hover:bg-white/5`}>
                 <td className="px-8 py-5">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center overflow-hidden border border-border-color shrink-0">

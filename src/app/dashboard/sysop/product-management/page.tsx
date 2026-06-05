@@ -56,7 +56,7 @@ export default function AdminListings() {
     <div className="flex flex-col gap-8 animate-fade-in">
       <h1 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight px-2">{t('dashboard.sysop.manage_listings')}</h1>
       
-      <div className={`rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5 shadow-2xl'}`}>
+      <div className={`rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
             <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
@@ -69,7 +69,7 @@ export default function AdminListings() {
           </thead>
           <tbody className="divide-y divide-border-color dark:divide-white/5">
             {listings.map(listing => (
-              <tr key={listing.listingID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+              <tr key={listing.listingID} className={`transition-colors hover:bg-gray-50 dark:hover:bg-white/5`}>
                 <td className="p-6 font-black text-text-primary text-[14px]">
                   {listing.title}
                 </td>
@@ -115,10 +115,10 @@ export default function AdminListings() {
       {selectedListing && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 animate-fade-in">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedListing(null)}></div>
-          <div className={`relative rounded-[2.5rem] shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden border ${theme === 'light' ? 'bg-white border-border-color' : 'bg-[#18181B] border-white/5'}`}>
-            <div className={`p-6 md:p-8 flex items-center justify-between border-b ${theme === 'light' ? 'border-border-color' : 'border-white/5'}`}>
+          <div className={`relative rounded-[2.5rem] shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden border bg-white border-border-color dark:bg-[#18181B] dark:border-white/5`}>
+            <div className={`p-6 md:p-8 flex items-center justify-between border-b border-border-color dark:border-white/5`}>
               <h3 className="text-2xl font-black text-text-primary tracking-tight">{t('dashboard.sysop.listing_details')}</h3>
-              <button onClick={() => setSelectedListing(null)} className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${theme === 'light' ? 'bg-gray-100 text-text-secondary hover:bg-gray-200' : 'bg-white/5 text-text-secondary hover:bg-white/10'}`}>
+              <button onClick={() => setSelectedListing(null)} className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all bg-gray-100 text-text-secondary hover:bg-gray-200 dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10`}>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -165,7 +165,7 @@ export default function AdminListings() {
                    </div>
                    <div>
                      <h4 className="text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] mb-2">{t('dashboard.sysop.detail_commissions')}</h4>
-                     <div className={`text-[12px] text-text-secondary p-4 rounded-2xl border max-h-32 overflow-y-auto ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+                     <div className={`text-[12px] text-text-secondary p-4 rounded-2xl border max-h-32 overflow-y-auto bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
                        {selectedListing.appliedCommissions && selectedListing.appliedCommissions.length > 0 ? (
                          selectedListing.appliedCommissions.map((group: any, idx: number) => (
                             <div key={idx} className="mb-3 last:mb-0">
@@ -191,7 +191,7 @@ export default function AdminListings() {
                   <h4 className="text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] mb-4">{t('dashboard.sysop.detail_photos')}</h4>
                   <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
                     {selectedListing.photos.map((photo: any, idx: number) => (
-                      <div key={idx} className={`w-32 h-32 rounded-2xl overflow-hidden shrink-0 border ${theme === 'light' ? 'border-border-color bg-gray-50' : 'border-white/5 bg-white/5'}`}>
+                      <div key={idx} className={`w-32 h-32 rounded-2xl overflow-hidden shrink-0 border border-border-color bg-gray-50 dark:border-white/5 dark:bg-white/5`}>
                         <img src={typeof photo === 'string' ? photo : photo.url} alt={`Photo ${idx}`} className="w-full h-full object-cover" />
                       </div>
                     ))}
@@ -200,12 +200,12 @@ export default function AdminListings() {
               )}
             </div>
 
-            <div className={`p-6 border-t flex items-center justify-end gap-3 ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+            <div className={`p-6 border-t flex items-center justify-end gap-3 bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
                {selectedListing.status === 'PENDING' && (
                  <>
                    <button 
                     onClick={() => { updateStatus(selectedListing.listingID, 'REJECTED'); setSelectedListing({...selectedListing, status: 'REJECTED'}); }} 
-                    className={`px-8 h-12 rounded-2xl font-black text-[13px] uppercase tracking-widest transition-all ${theme === 'light' ? 'text-red-600 bg-red-100 hover:bg-red-200' : 'text-red-500 bg-red-500/10 hover:bg-red-500/20'}`}
+                    className={`px-8 h-12 rounded-2xl font-black text-[13px] uppercase tracking-widest transition-all text-red-600 bg-red-100 hover:bg-red-200 dark:text-red-500 dark:bg-red-500/10 dark:hover:bg-red-500/20`}
                    >
                      {t('dashboard.sysop.btn_reject')}
                    </button>
@@ -220,7 +220,7 @@ export default function AdminListings() {
                {selectedListing.status === 'ACTIVE' && (
                  <button 
                   onClick={() => { updateStatus(selectedListing.listingID, 'PASSIVE'); setSelectedListing({...selectedListing, status: 'PASSIVE'}); }} 
-                  className={`px-8 h-12 rounded-2xl font-black text-[13px] uppercase tracking-widest transition-all ${theme === 'light' ? 'text-text-secondary bg-gray-200 hover:bg-gray-300' : 'text-text-primary bg-white/10 hover:bg-white/20'}`}
+                  className={`px-8 h-12 rounded-2xl font-black text-[13px] uppercase tracking-widest transition-all text-text-secondary bg-gray-200 hover:bg-gray-300 dark:text-text-primary dark:bg-white/10 dark:hover:bg-white/20`}
                  >
                    {t('dashboard.sysop.btn_deactivate')}
                  </button>
