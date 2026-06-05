@@ -22,6 +22,14 @@ export default function SystemSettingsPage() {
   const [showRawJson, setShowRawJson] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [initialSettings, setInitialSettings] = useState<any>(null);
+  const [isDirty, setIsDirty] = useState(false);
+
+  useEffect(() => {
+    if (initialSettings && settings) {
+      setIsDirty(JSON.stringify(initialSettings) !== JSON.stringify(settings));
+    }
+  }, [settings, initialSettings]);
 
   useEffect(() => {
     fetchSettings();
@@ -42,12 +50,15 @@ export default function SystemSettingsPage() {
           payload.systemCommissions = payload.systemCommissions.systemCommissions || [];
         }
         setSettings(payload);
+        setInitialSettings(payload);
       } else {
         setSettings({});
+        setInitialSettings({});
       }
     } catch (err) {
       console.error(err);
       setSettings({});
+      setInitialSettings({});
     } finally {
       setLoading(false);
     }
@@ -78,12 +89,13 @@ export default function SystemSettingsPage() {
       if (data.request?.requestResult) {
         // Optional: show a nice toast instead of alert if a toast system exists
         alert(t('dashboard.settings_updated') || "Sistem ayarları başarıyla güncellendi.");
+        setInitialSettings(settings);
       } else {
         alert(data.request?.resultMessage || "Güncelleme sırasında bir hata oluştu.");
       }
     } catch (err) {
       console.error(err);
-      alert("Sunucuyla bağlantı kurulamadı.");
+      alert("Ayarlar güncellenirken bir hata oluştu.");
     } finally {
       setSaving(false);
     }
@@ -149,30 +161,32 @@ export default function SystemSettingsPage() {
             );
           })}
           
-          <div className="mt-4">
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#FF6B00] hover:bg-[#e66000] text-white rounded-2xl font-black text-[14px] shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-            >
-              {saving ? (
-                <>
-                  <svg className="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  <span>Kaydediliyor...</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                  </svg>
-                  <span>Değişiklikleri Kaydet</span>
-                </>
-              )}
-            </button>
-          </div>
+          {isDirty && (
+            <div className="mt-4 animate-fade-in-up">
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#FF6B00] hover:bg-[#e66000] text-white rounded-2xl font-black text-[14px] shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              >
+                {saving ? (
+                  <>
+                    <svg className="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Kaydediliyor...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                    </svg>
+                    <span>Değişiklikleri Kaydet</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Content Area */}
@@ -598,6 +612,7 @@ export default function SystemSettingsPage() {
                       <input type="checkbox" name="maintenanceMode" checked={settings.maintenanceMode || false} onChange={handleInputChange} className="sr-only peer" />
                       <div className="w-12 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-red-500"></div>
                     </label>
+                  </div>
                 </div>
               </div>
             </div>
