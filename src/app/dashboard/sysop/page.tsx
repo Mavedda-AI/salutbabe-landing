@@ -104,7 +104,7 @@ export default function SysopDashboard() {
                 <h3 className="text-3xl font-black text-gray-900 dark:text-white">{kpi.value}</h3>
               </div>
               <div className={`p-3 rounded-2xl bg-gradient-to-br ${kpi.color} text-white shadow-lg ${kpi.shadow}`}>
-                <kpi.icon size={24} variant="stroke" />
+                <kpi.icon size={24} />
               </div>
             </div>
           </div>
@@ -274,11 +274,11 @@ export default function SysopDashboard() {
                   {action.image ? (
                     <img src={action.image} alt={action.title} className="w-full h-full object-cover" />
                   ) : action.actionType === 'store' ? (
-                    <Store01Icon size={22} variant="stroke" />
+                    <Store01Icon size={22} />
                   ) : action.actionType === 'order' ? (
-                    <ShoppingBag02Icon size={22} variant="stroke" />
+                    <ShoppingBag02Icon size={22} />
                   ) : (
-                    <Alert01Icon size={22} variant="stroke" />
+                    <Alert01Icon size={22} />
                   )}
                 </div>
 
@@ -302,13 +302,13 @@ export default function SysopDashboard() {
                     className="p-2 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-500/30 rounded-xl transition-all hover:scale-105 tooltip tooltip-top" 
                     data-tip="Onayla"
                   >
-                    <Tick02Icon size={20} variant="stroke" />
+                    <Tick02Icon size={20} />
                   </button>
                   <button 
                     className="p-2 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/30 rounded-xl transition-all hover:scale-105 tooltip tooltip-top" 
                     data-tip="Reddet"
                   >
-                    <Cancel01Icon size={20} variant="stroke" />
+                    <Cancel01Icon size={20} />
                   </button>
                 </div>
               </div>
