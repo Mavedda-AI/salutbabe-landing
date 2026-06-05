@@ -5,26 +5,26 @@ import {useAuthStore} from "../../../store/useAuthStore";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import {apiUrl} from "../../../lib/api";
 import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
+    Area,
+    AreaChart,
+    CartesianGrid,
+    Cell,
+    Legend,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
 } from "recharts";
 import {
-  Alert01Icon,
-  Cancel01Icon,
-  ShoppingBag02Icon,
-  Store01Icon,
-  Tick02Icon,
-  UserGroupIcon,
-  Wallet01Icon
+    Alert01Icon,
+    Cancel01Icon,
+    ShoppingBag02Icon,
+    Store01Icon,
+    Tick02Icon,
+    UserGroupIcon,
+    Wallet01Icon
 } from "hugeicons-react";
 
 export default function SysopDashboard() {
@@ -95,7 +95,7 @@ export default function SysopDashboard() {
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {kpis.map((kpi, idx) => (
+        {kpis.map((kpi: any, idx: number) => (
           <div key={idx} className="bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${kpi.color} opacity-10 rounded-bl-[100px] group-hover:scale-125 transition-transform duration-700 ease-out`}></div>
             <div className="flex justify-between items-start relative z-10">
@@ -235,7 +235,7 @@ export default function SysopDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {filteredOrders.length > 0 ? filteredOrders.map((order, idx) => (
+                {filteredOrders.length > 0 ? filteredOrders.map((order: any, idx: number) => (
                   <tr key={idx} className="border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/20 transition-colors">
                     <td className="pl-0 font-medium text-gray-900 dark:text-white">{order.id}</td>
                     <td className="text-gray-600 dark:text-gray-300">{order.customer}</td>
