@@ -43,8 +43,8 @@ export default function SysopDashboard() {
           }
         });
         const json = await res.json();
-        if (json.success) {
-          setDashboardData(json.data);
+        if (json.request?.requestResult) {
+          setDashboardData(json.payload);
         }
       } catch (err) {
         console.error("Dashboard data fetch error:", err);

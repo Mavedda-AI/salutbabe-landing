@@ -5,10 +5,9 @@ import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {apiUrl} from "../../../../lib/api";
 
 export default function SystemSettingsPage() {
-  const { t } = useThemeLanguage();
+  const { t, theme } = useThemeLanguage();
+  const [activeTab, setActiveTab] = useState("marketplace");
   const [settings, setSettings] = useState<any>({
-    sellerCommissionRate: 0,
-    buyerServiceFee: 0,
     minWithdrawalLimit: 0,
     maxListingImages: 0,
     autoApproveProducts: false,
@@ -73,7 +72,8 @@ export default function SystemSettingsPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        alert(t('dashboard.settings_updated') || "Sistem ayarları güncellendi");
+        // Optional: show a nice toast instead of alert if a toast system exists
+        alert(t('dashboard.settings_updated') || "Sistem ayarları başarıyla güncellendi.");
       } else {
         alert(data.request?.resultMessage || "Güncelleme sırasında bir hata oluştu.");
       }
@@ -85,409 +85,494 @@ export default function SystemSettingsPage() {
     }
   };
 
-  const LoadingSkeleton = () => (
-    <div className="max-w-6xl mx-auto flex flex-col gap-6 pb-20 pt-6 animate-pulse px-4 lg:px-8">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-white dark:bg-[#1A1D27] p-6 lg:p-8 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800" />
-            <div className="w-48 h-6 bg-gray-100 dark:bg-gray-800 rounded-full" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="h-12 bg-gray-50 dark:bg-[#12141C] rounded-xl" />
-            <div className="h-12 bg-gray-50 dark:bg-[#12141C] rounded-xl" />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  const tabs = [
+    { id: "marketplace", label: "Pazaryeri & Komisyon", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>, desc: "Komisyon oranları ve gelişmiş kural yapılandırmaları" },
+    { id: "limits", label: "Limitler & Otomasyon", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>, desc: "Para çekme limitleri ve otomatik ürün onayı" },
+    { id: "mobile", label: "Mobil Uygulama", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>, desc: "Uygulama versiyonları ve zorunlu güncellemeler" },
+    { id: "support", label: "Bakım & Destek", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>, desc: "İletişim kanalları ve bakım modu yönetimi" },
+  ];
 
-  if (loading) return <LoadingSkeleton />;
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto p-4 lg:p-8 flex gap-8 animate-pulse">
+        <div className="w-1/4 hidden lg:block space-y-4">
+          <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full" />
+          <div className="h-12 bg-gray-100 dark:bg-gray-800/50 rounded-2xl w-full" />
+          <div className="h-12 bg-gray-100 dark:bg-gray-800/50 rounded-2xl w-full" />
+        </div>
+        <div className="w-full lg:w-3/4 space-y-8">
+          <div className="h-40 bg-gray-100 dark:bg-[#1A1D27] rounded-[2rem] w-full" />
+          <div className="h-64 bg-gray-100 dark:bg-[#1A1D27] rounded-[2rem] w-full" />
+        </div>
+      </div>
+    );
+  }
+
   if (!settings) return null;
 
-  const SettingSection = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
-    <div className="bg-white dark:bg-[#1A1D27] p-6 lg:p-8 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-6 group">
-      <div className="flex items-center gap-4">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF6B00]/10 to-[#FF8B30]/10 border border-[#FF6B00]/20 flex items-center justify-center text-[#FF6B00] transition-transform duration-300 group-hover:scale-110">
-          {icon}
-        </div>
-        <div>
-          <h3 className="text-lg font-black text-[#1A2332] dark:text-white tracking-tight">{title}</h3>
-          <div className="w-8 h-1.5 bg-gradient-to-r from-[#FF6B00] to-[#5FC8C0] rounded-full mt-1.5 opacity-50 group-hover:w-16 transition-all duration-500" />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {children}
-      </div>
-    </div>
-  );
-
   return (
-    <form onSubmit={handleSubmit} className="max-w-6xl mx-auto flex flex-col gap-6 pb-32 pt-6 px-4 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 pb-32">
 
-      {/* Floating Modern Save Button */}
-      <button 
-        type="submit"
-        disabled={saving}
-        className="fixed bottom-8 right-8 lg:bottom-10 lg:right-10 z-[100] h-16 px-8 rounded-2xl bg-gradient-to-r from-[#FF6B00] to-[#FF8B30] text-white font-black text-[14px] shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:-translate-y-1 active:translate-y-0 transition-all flex items-center gap-3 group disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
-      >
-        <div className="flex flex-col items-start leading-none">
-          <span className="text-[10px] opacity-80 uppercase tracking-widest mb-1">{t('dashboard.sysop.nav_settings') || 'Ayarlar'}</span>
-          <span>{saving ? t('auth.loading')?.toUpperCase() || 'KAYDEDİLİYOR...' : t('dashboard.btn_save')?.toUpperCase() || 'KAYDET'}</span>
+
+      <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        {/* Sidebar Navigation */}
+        <div className="w-full lg:w-[280px] shrink-0 flex flex-col gap-2">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex flex-col items-start p-4 rounded-2xl transition-all duration-300 text-left border ${
+                  isActive 
+                    ? "bg-white dark:bg-[#1A1D27] border-[#FF6B00]/30 shadow-[0_10px_30px_rgba(255,107,0,0.1)] translate-x-2" 
+                    : "border-transparent hover:bg-white/50 dark:hover:bg-white/5 text-gray-500 hover:text-[#1A2332] dark:hover:text-white"
+                }`}
+              >
+                <div className={`flex items-center gap-3 font-bold text-[14px] ${isActive ? "text-[#FF6B00]" : ""}`}>
+                  <div className={`p-2 rounded-xl transition-colors ${isActive ? "bg-[#FF6B00]/10 text-[#FF6B00]" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}>
+                    {tab.icon}
+                  </div>
+                  {tab.label}
+                </div>
+                {isActive && (
+                  <p className="text-[12px] font-medium text-gray-500 mt-3 leading-relaxed ml-1 animate-fade-in-up">
+                    {tab.desc}
+                  </p>
+                )}
+              </button>
+            );
+          })}
         </div>
-        {saving ? (
-          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-        ) : (
-          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center group-hover:rotate-12 transition-transform">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-          </div>
-        )}
-      </button>
 
-      {/* Marketplace Fees */}
-      <SettingSection title={t('dashboard.settings_marketplace_title') || "Pazaryeri Komisyon ve Ücretler"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM4.637 7.123A7.959 7.959 0 0112 4c1.868 0 3.593.639 4.977 1.714" /></svg>}>
-        <div className="flex flex-col gap-6 md:col-span-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_seller_comm') || 'Satıcı Komisyon Oranı (%)'}</label>
-              <div className="relative">
-                <input 
-                  type="number" 
-                  name="sellerCommissionRate"
-                  value={settings.sellerCommissionRate || 0} 
-                  onChange={handleInputChange}
-                  className="w-full h-12 px-4 pr-10 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" 
-                />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-[#FF6B00]">%</span>
-              </div>
-            </div>
+        {/* Content Area */}
+        <div className="w-full flex-1 min-w-0 transition-all duration-500">
+          
+          {/* PAZARYERI TAB */}
+          <div className={`${activeTab === 'marketplace' ? 'block animate-fade-in' : 'hidden'}`}>
+            <div className="space-y-8">
 
-            <div className="space-y-2">
-              <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_buyer_fee') || 'Alıcı Hizmet Bedeli (Sabit)'}</label>
-              <div className="relative">
-                <input 
-                  type="number" 
-                  name="buyerServiceFee"
-                  value={settings.buyerServiceFee || 0} 
-                  onChange={handleInputChange}
-                  className="w-full h-12 px-4 pr-10 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" 
-                />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-[#FF6B00]">₺</span>
-              </div>
-            </div>
-          </div>
 
-          <div className="h-px bg-gray-100 dark:bg-gray-800 w-full" />
+              {/* Detailed Commissions Card */}
+              <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#5FC8C0] to-[#3B82F6] opacity-50 group-hover:opacity-100 transition-opacity" />
+                
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-[#1A2332] dark:text-white">Gelişmiş Komisyon Yapısı</h3>
+                    <p className="text-[13px] font-medium text-gray-500 mt-1">VPOS, Özel Kategori veya Kademeli oranlar (Tiered) yapılandırın.</p>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => setShowRawJson(!showRawJson)}
+                    className="px-5 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 dark:bg-[#12141C] dark:hover:bg-white/5 border border-gray-200 dark:border-gray-800 text-[12px] font-bold text-gray-700 dark:text-gray-300 transition-all shrink-0"
+                  >
+                    {showRawJson ? 'Görsel Arayüze Dön' : 'JSON Olarak Düzenle'}
+                  </button>
+                </div>
 
-          {/* Detailed Commissions Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-[14px] font-bold text-[#1A2332] dark:text-white">Detaylı Komisyon Yapısı</h3>
-              <p className="text-[12px] font-medium text-gray-500 mt-1">Gelişmiş komisyon yapılandırması (JSON / Görsel)</p>
-            </div>
-            <button 
-              type="button"
-              onClick={() => setShowRawJson(!showRawJson)}
-              className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[12px] font-bold text-gray-700 dark:text-gray-300 transition-colors shrink-0"
-            >
-              {showRawJson ? 'Görsel Düzenleyici' : 'Raw JSON Düzenle'}
-            </button>
-          </div>
+                {showRawJson ? (
+                  <div className="relative group/textarea">
+                    <textarea
+                      className="w-full h-96 p-6 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-gray-300 focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] transition-all resize-y"
+                      value={JSON.stringify(settings.systemCommissions || {}, null, 2)}
+                      onChange={(e) => {
+                        try {
+                          const parsed = JSON.parse(e.target.value);
+                          setSettings({ ...settings, systemCommissions: parsed });
+                        } catch (err) {}
+                      }}
+                    />
+                    <div className="absolute bottom-4 right-4 text-[10px] text-gray-400 font-mono pointer-events-none">Format: JSON Array</div>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {(settings.systemCommissions?.systemCommissions || []).map((comm: any, idx: number) => (
+                      <div key={idx} className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-6 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
+                        {/* Row 1: Code & Actions */}
+                        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800/80 pb-4">
+                          <div className="flex items-center gap-4 w-full">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B00] to-[#FF8B30] text-white flex items-center justify-center font-black text-[14px] shadow-sm shrink-0">
+                              {idx + 1}
+                            </div>
+                            <input 
+                              className="bg-transparent border-none font-bold text-[16px] p-0 focus:ring-0 w-full text-[#1A2332] dark:text-white placeholder-gray-400 outline-none"
+                              value={comm.code}
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].code = e.target.value;
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                              placeholder="Kural Kodu (Örn: VIRTUAL_POS)"
+                            />
+                          </div>
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              const updated = settings.systemCommissions.systemCommissions.filter((_: any, i: number) => i !== idx);
+                              setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                            }}
+                            className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0 group/del"
+                            title="Bu kuralı sil"
+                          >
+                            <svg className="w-5 h-5 transition-transform group-hover/del:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          </button>
+                        </div>
 
-          {showRawJson ? (
-            <textarea
-              className="w-full h-96 p-4 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-gray-300 focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]"
-              value={JSON.stringify(settings.systemCommissions || {}, null, 2)}
-              onChange={(e) => {
-                try {
-                  const parsed = JSON.parse(e.target.value);
-                  setSettings({ ...settings, systemCommissions: parsed });
-                } catch (err) {}
-              }}
-            />
-          ) : (
-            <div className="space-y-4">
-              {(settings.systemCommissions?.systemCommissions || []).map((comm: any, idx: number) => (
-                <div key={idx} className="p-5 rounded-2xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-[#12141C]/50 space-y-4">
-                  <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-8 h-8 rounded-lg bg-[#FF6B00]/10 text-[#FF6B00] flex items-center justify-center font-bold text-[13px] shrink-0">
-                        {idx + 1}
+                        {/* Row 2: Basic Config */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+                          <div className="space-y-1.5">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Hedef Kitle</label>
+                            <select 
+                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
+                              value={comm.target}
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].target = e.target.value;
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                            >
+                              <option value="customer">Alıcı (Customer)</option>
+                              <option value="seller">Satıcı (Seller)</option>
+                            </select>
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Hesaplama Tipi</label>
+                            <select 
+                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
+                              value={comm.type}
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].type = e.target.value;
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                            >
+                              <option value="percentage">Yüzde (%)</option>
+                              <option value="fixed">Sabit Miktar (TL)</option>
+                              <option value="tiered_percentage">Kademeli Yüzde (Tiered)</option>
+                            </select>
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Temel Oran / Değer</label>
+                            <input 
+                              type="number"
+                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
+                              value={comm.value}
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].value = parseFloat(e.target.value);
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                            />
+                          </div>
+                          <div className="space-y-1.5 flex flex-col justify-center">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400 mb-1">Koruma ile Birleştir</label>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                              <input 
+                                type="checkbox"
+                                checked={comm.mergeWithBuyerProtection}
+                                onChange={(e) => {
+                                  const updated = [...settings.systemCommissions.systemCommissions];
+                                  updated[idx].mergeWithBuyerProtection = e.target.checked;
+                                  setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                }}
+                                className="sr-only peer"
+                              />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#FF6B00]"></div>
+                              <span className="ml-3 text-[12px] font-medium text-gray-500">{comm.mergeWithBuyerProtection ? 'Aktif' : 'Pasif'}</span>
+                            </label>
+                          </div>
+                        </div>
+
+                        {/* Row 3: Display Names */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+                          <div className="space-y-1.5">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İsim (Türkçe)</label>
+                            <input 
+                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
+                              value={comm.displayedName?.tr || ''}
+                              placeholder="Örn: Alıcı Koruması"
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].displayedName = { ...updated[idx].displayedName, tr: e.target.value };
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                            />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İsim (İngilizce)</label>
+                            <input 
+                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
+                              value={comm.displayedName?.en || ''}
+                              placeholder="Buyer Protection"
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].displayedName = { ...updated[idx].displayedName, en: e.target.value };
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                            />
+                          </div>
+                          <div className="space-y-1.5 md:col-span-2">
+                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Fatura Grubu (Optional)</label>
+                            <input 
+                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
+                              value={comm.displayGroup || ''}
+                              placeholder="Örn: BUYER_PROTECTION_GROUP"
+                              onChange={(e) => {
+                                const updated = [...settings.systemCommissions.systemCommissions];
+                                updated[idx].displayGroup = e.target.value || null;
+                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Tiered Config */}
+                        {comm.type === 'tiered_percentage' && (
+                          <div className="p-5 rounded-2xl border border-dashed border-[#FF6B00]/30 bg-[#FF6B00]/5 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[13px] font-black text-[#FF6B00]">Kademeli Oranlar (Tiers)</span>
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  const updated = [...settings.systemCommissions.systemCommissions];
+                                  updated[idx].tiers = [...(updated[idx].tiers || []), { min: 0, max: null, value: 0 }];
+                                  setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                }}
+                                className="text-[12px] font-bold px-4 py-2 bg-white dark:bg-[#1A1D27] text-[#FF6B00] rounded-lg shadow-sm hover:scale-105 transition-transform"
+                              >
+                                + Kademe Ekle
+                              </button>
+                            </div>
+                            <div className="space-y-3">
+                              {(comm.tiers || []).map((tier: any, tIdx: number) => (
+                                <div key={tIdx} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-4 items-end bg-white dark:bg-[#1A1D27] p-4 rounded-xl border border-gray-100 dark:border-gray-800/80 shadow-sm">
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-semibold text-gray-500">Min Tutar (₺)</label>
+                                    <input type="number" className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.min} onChange={(e) => {
+                                      const updated = [...settings.systemCommissions.systemCommissions];
+                                      updated[idx].tiers[tIdx].min = parseFloat(e.target.value);
+                                      setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                    }}/>
+                                  </div>
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-semibold text-gray-500">Max Tutar (₺)</label>
+                                    <input type="number" placeholder="Sınırsız ise boş bırakın" className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.max || ''} onChange={(e) => {
+                                      const updated = [...settings.systemCommissions.systemCommissions];
+                                      updated[idx].tiers[tIdx].max = e.target.value === '' ? null : parseFloat(e.target.value);
+                                      setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                    }}/>
+                                  </div>
+                                  <div className="space-y-1.5">
+                                    <label className="text-[11px] font-semibold text-gray-500">Oran (%)</label>
+                                    <input type="number" className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.value} onChange={(e) => {
+                                      const updated = [...settings.systemCommissions.systemCommissions];
+                                      updated[idx].tiers[tIdx].value = parseFloat(e.target.value);
+                                      setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                    }}/>
+                                  </div>
+                                  <button type="button" onClick={() => {
+                                    const updated = [...settings.systemCommissions.systemCommissions];
+                                    updated[idx].tiers = updated[idx].tiers.filter((_: any, i: number) => i !== tIdx);
+                                    setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                  }} className="w-10 h-10 text-red-500 bg-red-50 dark:bg-red-500/10 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center transition-colors">
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      <input 
-                        className="bg-transparent border-none font-bold text-[14px] p-0 focus:ring-0 w-full text-[#1A2332] dark:text-white placeholder-gray-400 dark:placeholder-gray-600 outline-none"
-                        value={comm.code}
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].code = e.target.value;
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                        placeholder="Komisyon Kodu (Örn: VIRTUAL_POS)"
-                      />
-                    </div>
+                    ))}
+
                     <button 
                       type="button"
                       onClick={() => {
-                        const updated = settings.systemCommissions.systemCommissions.filter((_: any, i: number) => i !== idx);
+                        const newComm = {
+                          code: 'YENI_KURAL',
+                          target: 'customer',
+                          type: 'percentage',
+                          value: 0,
+                          displayGroup: null,
+                          mergeWithBuyerProtection: true,
+                          displayedName: { tr: '', en: '', fr: '' }
+                        };
+                        const updated = [...(settings.systemCommissions?.systemCommissions || []), newComm];
                         setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
                       }}
-                      className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20 flex items-center justify-center transition-colors shrink-0"
+                      className="w-full py-5 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-[#FF6B00] dark:hover:border-[#FF6B00] bg-white dark:bg-[#1A1D27] text-gray-500 dark:text-gray-400 hover:text-[#FF6B00] text-[14px] font-bold transition-all hover:bg-[#FF6B00]/5 flex items-center justify-center gap-2"
                     >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+                      Yeni Komisyon Kuralı Ekle
                     </button>
                   </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Hedef</label>
-                      <select 
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                        value={comm.target}
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].target = e.target.value;
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                      >
-                        <option value="customer">Alıcı (Customer)</option>
-                        <option value="seller">Satıcı (Seller)</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Tip</label>
-                      <select 
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                        value={comm.type}
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].type = e.target.value;
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                      >
-                        <option value="percentage">Yüzde (%)</option>
-                        <option value="fixed">Sabit (TL)</option>
-                        <option value="tiered_percentage">Kademeli Yüzde</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Değer / Oran</label>
-                      <input 
-                        type="number"
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                        value={comm.value}
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].value = parseFloat(e.target.value);
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                      />
-                    </div>
-                    <div className="space-y-1.5 flex flex-col justify-center">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Koruma ile Birleştir</label>
-                      <label className="relative inline-flex items-center cursor-pointer mt-1">
-                        <input 
-                          type="checkbox"
-                          checked={comm.mergeWithBuyerProtection}
-                          onChange={(e) => {
-                            const updated = [...settings.systemCommissions.systemCommissions];
-                            updated[idx].mergeWithBuyerProtection = e.target.checked;
-                            setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                          }}
-                          className="sr-only peer"
-                        />
-                        <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#FF6B00]"></div>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Görünen Ad (TR)</label>
-                      <input 
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                        value={comm.displayedName?.tr || ''}
-                        placeholder="Örn: Alıcı Koruması"
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].displayedName = { ...updated[idx].displayedName, tr: e.target.value };
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Görünen Ad (EN)</label>
-                      <input 
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                        value={comm.displayedName?.en || ''}
-                        placeholder="e.g. Buyer Protection"
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].displayedName = { ...updated[idx].displayedName, en: e.target.value };
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400">Grup (İsteğe Bağlı)</label>
-                      <input 
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                        value={comm.displayGroup || ''}
-                        placeholder="Örn: BUYER_PROTECTION"
-                        onChange={(e) => {
-                          const updated = [...settings.systemCommissions.systemCommissions];
-                          updated[idx].displayGroup = e.target.value || null;
-                          setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {comm.type === 'tiered_percentage' && (
-                    <div className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] space-y-4 mt-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[12px] font-bold text-[#1A2332] dark:text-white">Kademeler (Tiers)</span>
-                        <button 
-                          type="button"
-                          onClick={() => {
-                            const updated = [...settings.systemCommissions.systemCommissions];
-                            updated[idx].tiers = [...(updated[idx].tiers || []), { min: 0, max: null, value: 0 }];
-                            setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                          }}
-                          className="text-[12px] font-bold text-[#FF6B00] hover:text-[#FF8B30] transition-colors"
-                        >
-                          + Kademe Ekle
-                        </button>
-                      </div>
-                      <div className="space-y-3">
-                        {(comm.tiers || []).map((tier: any, tIdx: number) => (
-                          <div key={tIdx} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-3 items-end">
-                            <div className="space-y-1.5">
-                              <label className="text-[10px] font-bold text-gray-500 dark:text-gray-400">Min</label>
-                              <input type="number" className="w-full h-9 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.min} onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].tiers[tIdx].min = parseFloat(e.target.value);
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}/>
-                            </div>
-                            <div className="space-y-1.5">
-                              <label className="text-[10px] font-bold text-gray-500 dark:text-gray-400">Max</label>
-                              <input type="number" className="w-full h-9 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.max || ''} onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].tiers[tIdx].max = e.target.value === '' ? null : parseFloat(e.target.value);
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}/>
-                            </div>
-                            <div className="space-y-1.5">
-                              <label className="text-[10px] font-bold text-gray-500 dark:text-gray-400">Oran (%)</label>
-                              <input type="number" className="w-full h-9 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] font-semibold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.value} onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].tiers[tIdx].value = parseFloat(e.target.value);
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}/>
-                            </div>
-                            <button type="button" onClick={() => {
-                              const updated = [...settings.systemCommissions.systemCommissions];
-                              updated[idx].tiers = updated[idx].tiers.filter((_: any, i: number) => i !== tIdx);
-                              setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                            }} className="w-9 h-9 text-red-500 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 rounded-lg flex items-center justify-center transition-colors">
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-              <button 
-                type="button"
-                onClick={() => {
-                  const newComm = {
-                    code: 'YENI_KOMISYON',
-                    target: 'customer',
-                    type: 'percentage',
-                    value: 0,
-                    displayGroup: null,
-                    mergeWithBuyerProtection: true,
-                    displayedName: { tr: '', en: '', fr: '' }
-                  };
-                  const updated = [...(settings.systemCommissions?.systemCommissions || []), newComm];
-                  setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                }}
-                className="w-full py-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-[#FF6B00] dark:hover:border-[#FF6B00] text-gray-500 dark:text-gray-400 hover:text-[#FF6B00] text-[13px] font-bold transition-colors"
-              >
-                + Yeni Komisyon Ekle
-              </button>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-      </SettingSection>
+          </div>
 
-      {/* Limits & Logic */}
-      <SettingSection title={t('dashboard.settings_limits_title') || "Limitler ve Otomasyon"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}>
-        <div className="space-y-2">
-          <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_min_withdraw') || 'Min. Çekim Tutarı'}</label>
-          <input type="number" name="minWithdrawalLimit" value={settings.minWithdrawalLimit || 0} onChange={handleInputChange} className="w-full h-12 px-4 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_max_images') || 'Max Ürün Görsel Sayısı'}</label>
-          <input type="number" name="maxListingImages" value={settings.maxListingImages || 0} onChange={handleInputChange} className="w-full h-12 px-4 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" />
-        </div>
-        <div className="md:col-span-2 flex items-center justify-between p-5 rounded-2xl bg-[#FF6B00]/5 border border-[#FF6B00]/20">
-           <div>
-             <h4 className="text-[14px] font-bold text-[#1A2332] dark:text-white">{t('dashboard.settings_auto_approve') || 'Ürünleri Otomatik Onayla'}</h4>
-             <p className="text-[12px] font-medium text-gray-500 mt-1">{t('dashboard.settings_auto_approve_desc') || 'Yüklenen ürünler admin onayı olmadan otomatik yayınlanır'}</p>
-           </div>
-           <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
-            <input type="checkbox" name="autoApproveProducts" checked={settings.autoApproveProducts || false} onChange={handleInputChange} className="sr-only peer" />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#FF6B00]"></div>
-          </label>
-        </div>
-      </SettingSection>
+          {/* LIMITS TAB */}
+          <div className={`${activeTab === 'limits' ? 'block animate-fade-in' : 'hidden'}`}>
+            <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-500 to-indigo-500 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <h3 className="text-xl font-bold text-[#1A2332] dark:text-white mb-6">Operasyonel Limitler</h3>
+              
+              <div className="grid grid-cols-1 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Min. Çekim Tutarı</label>
+                    <div className="relative group/input">
+                      <input 
+                        type="number" 
+                        name="minWithdrawalLimit"
+                        value={settings.minWithdrawalLimit || 0} 
+                        onChange={handleInputChange}
+                        className="w-full h-14 pl-5 pr-12 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500" 
+                      />
+                      <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-gray-400 group-focus-within/input:text-purple-500 transition-colors">₺</span>
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-1">Satıcıların bakiyelerinden bankaya çekebilecekleri minimum tutar.</p>
+                  </div>
 
-      {/* App Versions */}
-      <SettingSection title={t('dashboard.settings_app_versions_title') || "Uygulama Versiyon Kontrolü"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>}>
-        <div className="space-y-2">
-          <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_android_ver') || 'Android Sürümü'}</label>
-          <input type="text" name="appVersionAndroid" value={settings.appVersionAndroid || ""} onChange={handleInputChange} className="w-full h-12 px-4 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_ios_ver') || 'iOS Sürümü'}</label>
-          <input type="text" name="appVersionIos" value={settings.appVersionIos || ""} onChange={handleInputChange} className="w-full h-12 px-4 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" />
-        </div>
-        <div className="md:col-span-2 flex items-center justify-between p-5 rounded-2xl bg-red-500/5 border border-red-500/20">
-           <div>
-             <h4 className="text-[14px] font-bold text-[#1A2332] dark:text-white">{t('dashboard.settings_force_update') || 'Zorunlu Güncelleme'}</h4>
-             <p className="text-[12px] font-medium text-gray-500 mt-1">{t('dashboard.settings_force_update_desc') || 'Kullanıcıların uygulamayı güncellemelerini zorunlu kılar'}</p>
-           </div>
-           <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
-            <input type="checkbox" name="forceUpdate" checked={settings.forceUpdate || false} onChange={handleInputChange} className="sr-only peer" />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-500"></div>
-          </label>
-        </div>
-      </SettingSection>
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Max Ürün Görsel Sayısı</label>
+                    <div className="relative group/input">
+                      <input 
+                        type="number" 
+                        name="maxListingImages"
+                        value={settings.maxListingImages || 0} 
+                        onChange={handleInputChange}
+                        className="w-full h-14 px-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500" 
+                      />
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-1">İlan oluşturulurken eklenebilecek maksimum fotoğraf adedi.</p>
+                  </div>
+                </div>
 
-      {/* Maintenance & Support */}
-      <SettingSection title={t('dashboard.settings_support_title') || "Bakım ve Destek"} icon={<svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}>
-        <div className="space-y-2">
-          <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_support_email') || 'Destek E-Posta'}</label>
-          <input type="email" name="supportEmail" value={settings.supportEmail || ""} onChange={handleInputChange} className="w-full h-12 px-4 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" />
+                <div className="flex items-center justify-between p-6 rounded-2xl bg-purple-500/5 border border-purple-500/20">
+                  <div>
+                    <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">Otomatik Ürün Onayı</h4>
+                    <p className="text-[13px] font-medium text-gray-500 mt-1">Yüklenen ürünler yöneticiler onaylamadan direkt olarak canlıya alınır. Güvenilir mağazalar için önerilir.</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+                    <input type="checkbox" name="autoApproveProducts" checked={settings.autoApproveProducts || false} onChange={handleInputChange} className="sr-only peer" />
+                    <div className="w-12 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-purple-500"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* MOBILE TAB */}
+          <div className={`${activeTab === 'mobile' ? 'block animate-fade-in' : 'hidden'}`}>
+            <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-cyan-400 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <h3 className="text-xl font-bold text-[#1A2332] dark:text-white mb-6">Sürüm & Güvenlik</h3>
+              
+              <div className="grid grid-cols-1 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Android Versiyonu</label>
+                    <div className="relative group/input">
+                      <input 
+                        type="text" 
+                        name="appVersionAndroid"
+                        value={settings.appVersionAndroid || ""} 
+                        onChange={handleInputChange}
+                        placeholder="1.0.0"
+                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500" 
+                      />
+                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414Z" /><path d="M15.4299 8.24354L17.2625 5.06821C17.4338 4.77154 17.3319 4.39162 17.0353 4.22031C16.7386 4.04899 16.3587 4.15093 16.1874 4.4476L14.3079 7.70347C12.8711 7.04279 11.2384 7.04279 9.80164 7.70347L7.92215 4.4476C7.75084 4.15093 7.37092 4.04899 7.07425 4.22031C6.77758 4.39162 6.67565 4.77154 6.84696 5.06821L8.67957 8.24354C4.19504 10.7412 1.4878 15.3484 1.2583 20.4725H22.8512C22.6217 15.3484 19.9145 10.7412 15.4299 8.24354ZM6.64367 16.5369C5.87784 16.5369 5.25708 15.9161 5.25708 15.1503C5.25708 14.3844 5.87784 13.7637 6.64367 13.7637C7.40951 13.7637 8.03027 14.3844 8.03027 15.1503C8.03027 15.9161 7.40951 16.5369 6.64367 16.5369ZM17.4658 16.5369C16.6999 16.5369 16.0792 15.9161 16.0792 15.1503C16.0792 14.3844 16.6999 13.7637 17.4658 13.7637C18.2316 13.7637 18.8524 14.3844 18.8524 15.1503C18.8524 15.9161 18.2316 16.5369 17.4658 16.5369Z"/></svg>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">iOS Versiyonu</label>
+                    <div className="relative group/input">
+                      <input 
+                        type="text" 
+                        name="appVersionIos"
+                        value={settings.appVersionIos || ""} 
+                        onChange={handleInputChange}
+                        placeholder="1.0.0"
+                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500" 
+                      />
+                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5746 12.0298C16.5541 9.07639 18.9868 7.64016 19.0988 7.57018C17.7288 5.56901 15.5413 5.25143 14.8194 5.20173C13.2386 5.04277 11.6881 6.13682 10.875 6.13682C10.0514 6.13682 8.7844 5.21208 7.46654 5.23253C5.74836 5.26305 4.1524 6.23259 3.26629 7.7816C1.45524 10.9254 2.8028 15.5714 4.56272 18.1139C5.4208 19.3444 6.4221 20.7341 7.74012 20.6833C8.99684 20.6324 9.48398 19.8631 11.0028 19.8631C12.5113 19.8631 12.9568 20.6833 14.2855 20.6528C15.6548 20.6528 16.5132 19.4261 17.3609 18.1749C18.3512 16.7302 18.7567 15.3161 18.7874 15.245C18.7567 15.2244 16.5951 14.4042 16.5746 12.0298ZM13.8869 3.52841C14.5866 2.68725 15.063 1.50813 14.9304 0.339233C13.9264 0.379815 12.6588 1.00511 11.9383 1.84627C11.3001 2.58557 10.7416 3.79555 10.9038 4.9442C12.0203 5.0357 13.1873 4.36971 13.8869 3.52841Z"/></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-6 rounded-2xl bg-blue-500/5 border border-blue-500/20">
+                  <div>
+                    <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">Zorunlu Güncelleme Dayatması</h4>
+                    <p className="text-[13px] font-medium text-gray-500 mt-1">Eğer aktif edilirse, kullanıcılar uygulamayı en güncel sürüme yükseltmeden giriş yapamazlar.</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+                    <input type="checkbox" name="forceUpdate" checked={settings.forceUpdate || false} onChange={handleInputChange} className="sr-only peer" />
+                    <div className="w-12 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SUPPORT TAB */}
+          <div className={`${activeTab === 'support' ? 'block animate-fade-in' : 'hidden'}`}>
+            <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-emerald-400 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <h3 className="text-xl font-bold text-[#1A2332] dark:text-white mb-6">Bakım & Destek Masası</h3>
+              
+              <div className="grid grid-cols-1 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Destek E-Posta Adresi</label>
+                    <div className="relative group/input">
+                      <input 
+                        type="email" 
+                        name="supportEmail"
+                        value={settings.supportEmail || ""} 
+                        onChange={handleInputChange}
+                        placeholder="destek@salutbabe.com"
+                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500" 
+                      />
+                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-teal-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Destek Telefon Numarası</label>
+                    <div className="relative group/input">
+                      <input 
+                        type="text" 
+                        name="supportPhone"
+                        value={settings.supportPhone || ""} 
+                        onChange={handleInputChange}
+                        placeholder="+90 850 123 45 67"
+                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500" 
+                      />
+                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-teal-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-2xl bg-red-500/5 border border-red-500/20 gap-4">
+                  <div>
+                    <h4 className="text-[15px] font-bold text-red-500 dark:text-red-400">🔥 Bakım Modunu Etkinleştir</h4>
+                    <p className="text-[13px] font-medium text-gray-500 mt-1 max-w-lg">Sistem bakıma alınır. Uygulama ve web üzerinden erişim kesilir ve kullanıcılara "Bakım Çalışması" ekranı gösterilir.</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input type="checkbox" name="maintenanceMode" checked={settings.maintenanceMode || false} onChange={handleInputChange} className="sr-only peer" />
+                    <div className="w-12 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-red-500"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
         </div>
-        <div className="space-y-2">
-          <label className="text-[12px] font-bold text-gray-600 dark:text-gray-400 ml-1">{t('dashboard.settings_support_phone') || 'Destek Telefonu'}</label>
-          <input type="text" name="supportPhone" value={settings.supportPhone || ""} onChange={handleInputChange} className="w-full h-12 px-4 rounded-xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#1A1D27] focus:border-[#FF6B00] dark:focus:border-[#FF6B00]" />
-        </div>
-        <div className="md:col-span-2 flex items-center justify-between p-5 rounded-2xl bg-orange-500/5 border border-orange-500/20">
-           <div>
-             <h4 className="text-[14px] font-bold text-[#1A2332] dark:text-white">{t('dashboard.settings_maintenance') || 'Bakım Modu'}</h4>
-             <p className="text-[12px] font-medium text-gray-500 mt-1">{t('dashboard.settings_maintenance_desc') || 'Sistemi bakım moduna alır, normal kullanıcılar giriş yapamaz'}</p>
-           </div>
-           <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
-            <input type="checkbox" name="maintenanceMode" checked={settings.maintenanceMode || false} onChange={handleInputChange} className="sr-only peer" />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-500"></div>
-          </label>
-        </div>
-      </SettingSection>
-    </form>
+      </form>
+    </div>
   );
 }
