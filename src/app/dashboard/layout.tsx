@@ -704,7 +704,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <footer className="shrink-0 py-2.5 px-6 border-t border-gray-200/50 dark:border-white/5 bg-white/50 dark:bg-[#12141C]/50 backdrop-blur-md relative z-50">
           <div className="flex items-center justify-center max-w-[1600px] mx-auto relative h-6">
             <div className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest flex items-center gap-2">
-              <span>{new Date().getFullYear()} ©</span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0] bg-[length:200%_auto] animate-[brandShift_3s_ease-in-out_infinite] font-black text-[13px] lowercase tracking-normal drop-shadow-sm">
                 salutbabe
               </span>
