@@ -200,27 +200,46 @@ export default function SystemSettingsPage() {
                             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#2563EB] text-white flex items-center justify-center font-black text-[14px] shadow-sm shrink-0">
                               {gIdx + 1}
                             </div>
-                            <div className="flex-1 grid grid-cols-2 gap-4">
-                                <input 
-                                  className="bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
-                                  value={group.groupName?.tr || ''}
-                                  onChange={(e) => {
-                                    const updated = [...settings.systemCommissions];
-                                    updated[gIdx].groupName = { ...updated[gIdx].groupName, tr: e.target.value };
-                                    setSettings({ ...settings, systemCommissions: updated });
-                                  }}
-                                  placeholder="Grup Adı (TR) Örn: Alıcı Koruması"
-                                />
-                                <input 
-                                  className="bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
-                                  value={group.groupId || ''}
-                                  onChange={(e) => {
-                                    const updated = [...settings.systemCommissions];
-                                    updated[gIdx].groupId = e.target.value;
-                                    setSettings({ ...settings, systemCommissions: updated });
-                                  }}
-                                  placeholder="Grup ID (Örn: BUYER_PROTECTION)"
-                                />
+                            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="space-y-1.5">
+                                  <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Türkçe İsim</label>
+                                  <input 
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    value={group.groupName?.tr || ''}
+                                    onChange={(e) => {
+                                      const updated = [...settings.systemCommissions];
+                                      updated[gIdx].groupName = { ...updated[gIdx].groupName, tr: e.target.value };
+                                      setSettings({ ...settings, systemCommissions: updated });
+                                    }}
+                                    placeholder="Örn: Alıcı Koruması"
+                                  />
+                                </div>
+                                <div className="space-y-1.5">
+                                  <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İngilizce İsim</label>
+                                  <input 
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    value={group.groupName?.en || ''}
+                                    onChange={(e) => {
+                                      const updated = [...settings.systemCommissions];
+                                      updated[gIdx].groupName = { ...updated[gIdx].groupName, en: e.target.value };
+                                      setSettings({ ...settings, systemCommissions: updated });
+                                    }}
+                                    placeholder="Örn: Buyer Protection"
+                                  />
+                                </div>
+                                <div className="space-y-1.5">
+                                  <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Fransızca İsim</label>
+                                  <input 
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    value={group.groupName?.fr || ''}
+                                    onChange={(e) => {
+                                      const updated = [...settings.systemCommissions];
+                                      updated[gIdx].groupName = { ...updated[gIdx].groupName, fr: e.target.value };
+                                      setSettings({ ...settings, systemCommissions: updated });
+                                    }}
+                                    placeholder="Örn: Protection Acheteur"
+                                  />
+                                </div>
                             </div>
                           </div>
                           <button 
@@ -235,20 +254,6 @@ export default function SystemSettingsPage() {
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                           </button>
                         </div>
-                        
-                           <div className="space-y-1.5 flex flex-col justify-center">
-                              <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İngilizce İsim</label>
-                              <input 
-                                className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#3B82F6]/20 focus:border-[#3B82F6] transition-all"
-                                value={group.groupName?.en || ''}
-                                onChange={(e) => {
-                                  const updated = [...settings.systemCommissions];
-                                  updated[gIdx].groupName = { ...updated[gIdx].groupName, en: e.target.value };
-                                  setSettings({ ...settings, systemCommissions: updated });
-                                }}
-                                placeholder="Grup Adı (EN) Örn: Buyer Protection"
-                              />
-                           </div>
                         {/* Rules inside Group */}
                         <div className="pl-6 md:pl-10 space-y-4 border-l-2 border-gray-100 dark:border-gray-800/80">
                           <h4 className="text-[13px] font-bold text-[#1A2332] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
@@ -256,16 +261,7 @@ export default function SystemSettingsPage() {
                           {(group.items || []).map((rule: any, rIdx: number) => (
                             <div key={rIdx} className="p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-4 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
                               <div className="flex items-center gap-4">
-                                <input 
-                                  className="w-full bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[13px] text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
-                                  value={rule.code}
-                                  onChange={(e) => {
-                                    const updated = [...settings.systemCommissions];
-                                    updated[gIdx].items[rIdx].code = e.target.value;
-                                    setSettings({ ...settings, systemCommissions: updated });
-                                  }}
-                                  placeholder="Kural Kodu (Örn: VPOS_FEE)"
-                                />
+                                <div className="flex-1"></div>
                                 <button 
                                   type="button"
                                   onClick={() => {
