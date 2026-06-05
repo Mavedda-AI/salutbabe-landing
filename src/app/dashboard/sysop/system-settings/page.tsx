@@ -249,8 +249,6 @@ export default function SystemSettingsPage() {
                                 placeholder="Grup Adı (EN) Örn: Buyer Protection"
                               />
                            </div>
-                        </div>
-
                         {/* Rules inside Group */}
                         <div className="pl-6 md:pl-10 space-y-4 border-l-2 border-gray-100 dark:border-gray-800/80">
                           <h4 className="text-[13px] font-bold text-[#1A2332] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
