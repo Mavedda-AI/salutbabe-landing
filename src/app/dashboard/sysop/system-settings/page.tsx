@@ -70,7 +70,7 @@ export default function SystemSettingsPage() {
     const { name, value, type, checked } = e.target;
     setSettings((prev: any) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : (type === 'number' ? parseFloat(value) : value)
+      [name]: type === 'checkbox' ? checked : (type === 'number' ? (value === '' ? '' : parseFloat(value)) : value)
     }));
   };
 
@@ -353,7 +353,7 @@ export default function SystemSettingsPage() {
                                     value={rule.value}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
-                                      updated[gIdx].items[rIdx].value = parseFloat(e.target.value) || 0;
+                                      updated[gIdx].items[rIdx].value = e.target.value === '' ? '' : parseFloat(e.target.value);
                                       setSettings({ ...settings, systemCommissions: updated });
                                     }}
                                   />
@@ -383,7 +383,7 @@ export default function SystemSettingsPage() {
                                         <div>
                                           <input type="number" placeholder="Min" className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] outline-none" value={tier.min} onChange={(e) => {
                                             const updated = [...settings.systemCommissions];
-                                            updated[gIdx].items[rIdx].tiers[tIdx].min = parseFloat(e.target.value) || 0;
+                                            updated[gIdx].items[rIdx].tiers[tIdx].min = e.target.value === '' ? '' : parseFloat(e.target.value);
                                             setSettings({ ...settings, systemCommissions: updated });
                                           }}/>
                                         </div>
@@ -397,7 +397,7 @@ export default function SystemSettingsPage() {
                                         <div>
                                           <input type="number" placeholder="%" className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] outline-none" value={tier.value} onChange={(e) => {
                                             const updated = [...settings.systemCommissions];
-                                            updated[gIdx].items[rIdx].tiers[tIdx].value = parseFloat(e.target.value) || 0;
+                                            updated[gIdx].items[rIdx].tiers[tIdx].value = e.target.value === '' ? '' : parseFloat(e.target.value);
                                             setSettings({ ...settings, systemCommissions: updated });
                                           }}/>
                                         </div>
