@@ -672,10 +672,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <div className={`absolute right-0 top-[calc(100%+8px)] w-64 bg-white dark:bg-[#1A1D27] border border-gray-100 dark:border-gray-800 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition-all duration-300 transform origin-top-right z-[110] overflow-hidden 
                 ${isProfileMenuOpen ? 'opacity-100 visible scale-100 translate-y-0' : 'opacity-0 invisible scale-95 -translate-y-2'}`}>
                  
-                 <div className="relative p-6 bg-gradient-to-br from-[#FF6B00]/10 to-[#5FC8C0]/10 border-b border-gray-100 dark:border-gray-800">
-
-                    <p className="text-[16px] font-black text-[#1A2332] dark:text-white truncate relative z-10">{user?.userName || user?.name} {user?.userSurname || ''}</p>
-                    <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.eMail || user?.userEmail || user?.email || user?.accountCredentials?.eMail || 'demo@salutbabe.com'}</p>
+                 <div className="relative p-6 bg-gradient-to-br from-[#FF6B00]/10 to-[#5FC8C0]/10 border-b border-gray-100 dark:border-gray-800 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-white dark:border-[#12141C] shadow-sm bg-white dark:bg-[#1A1D27]">
+                       {user?.profilePhotoUrl || user?.profilePhoto || user?.avatar ? (
+                         <img 
+                           src={(user.profilePhotoUrl || user.profilePhoto || user.avatar)?.startsWith('http') ? (user.profilePhotoUrl || user.profilePhoto || user.avatar) : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl || user.profilePhoto || user.avatar}`} 
+                           alt="Profile" 
+                           className="w-full h-full object-cover" 
+                           onError={(e) => {
+                             const target = e.target as HTMLImageElement;
+                             target.src = "/logo-favicon.png";
+                           }}
+                         />
+                       ) : (
+                         <img src="/logo-favicon.png" alt="Profile" className="w-full h-full object-contain p-1" />
+                       )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[16px] font-black text-[#1A2332] dark:text-white truncate relative z-10">{user?.userName || user?.name} {user?.userSurname || ''}</p>
+                      <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.eMail || user?.userEmail || user?.email || user?.accountCredentials?.eMail || 'demo@salutbabe.com'}</p>
+                    </div>
                  </div>
                  
                  <div className="p-2">
