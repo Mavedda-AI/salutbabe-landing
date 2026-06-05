@@ -2,8 +2,13 @@
 
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../../../lib/api";
+import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {useToast} from "../../../../context/ToastContext";
 
 export default function AdminCategories() {
+  const { t, theme } = useThemeLanguage();
+  const { showToast } = useToast();
+  
   const [categories, setCategories] = useState<any[]>([]);
   const [attributes, setAttributes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +35,7 @@ export default function AdminCategories() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("auth_token") || localStorage.getItem("token");
       const headers = { 
         Authorization: `Bearer ${token}`,
         "X-Device-Type": "web"
@@ -55,7 +60,7 @@ export default function AdminCategories() {
 
   const handleSaveAttribute = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("auth_token") || localStorage.getItem("token");
       const method = editingAttribute ? "PUT" : "POST";
       const url = editingAttribute 
         ? apiUrl(`/admin/attributes/${editingAttribute.attributeID}`)
@@ -76,12 +81,16 @@ export default function AdminCategories() {
       });
 
       if (res.ok) {
+        showToast(t('dashboard.success'), "success");
         setEditingAttribute(null);
         resetAttrForm();
         fetchData();
+      } else {
+        showToast(t('dashboard.error'), "error");
       }
     } catch (e) {
       console.error(e);
+      showToast(t('dashboard.error'), "error");
     }
   };
 
@@ -93,52 +102,52 @@ export default function AdminCategories() {
     setAttrMobileComponent("dropdown");
   };
 
-  if (loading) return <div className="p-8 font-bold text-slate-500">Loading Categories & Attributes...</div>;
+  if (loading) return <div className="p-12 text-center text-[14px] font-black tracking-widest uppercase text-text-secondary animate-pulse">{t('dashboard.sysop.loading_data')}</div>;
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-black text-slate-900">Category & Attribute Management</h1>
-        <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
+    <div className="flex flex-col gap-8 animate-fade-in">
+      <div className={`p-6 md:p-8 rounded-[2.5rem] border flex flex-col md:flex-row justify-between items-center gap-6 ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5 shadow-2xl'}`}>
+        <h1 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight">{t('dashboard.sysop.cat_mgmt')}</h1>
+        <div className={`flex gap-2 p-1.5 rounded-2xl ${theme === 'light' ? 'bg-gray-100' : 'bg-white/5'}`}>
           <button 
             onClick={() => setView("categories")}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${view === "categories" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+            className={`px-6 py-2.5 rounded-xl text-[13px] font-black transition-all ${view === "categories" ? (theme === 'light' ? 'bg-white text-primary shadow-sm' : 'bg-[#1a1a1f] text-primary shadow-md') : 'text-text-secondary hover:text-text-primary'}`}
           >
-            Categories
+            {t('dashboard.sysop.categories')}
           </button>
           <button 
             onClick={() => setView("attributes")}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${view === "attributes" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+            className={`px-6 py-2.5 rounded-xl text-[13px] font-black transition-all ${view === "attributes" ? (theme === 'light' ? 'bg-white text-primary shadow-sm' : 'bg-[#1a1a1f] text-primary shadow-md') : 'text-text-secondary hover:text-text-primary'}`}
           >
-            Attributes
+            {t('dashboard.sysop.attributes')}
           </button>
         </div>
       </div>
 
       {view === "categories" ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+          <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5'}`}>
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Category</th>
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Parent</th>
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Slug</th>
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</th>
+                <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.cat_name')}</th>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.cat_parent')}</th>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.cat_slug')}</th>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] text-right">{t('dashboard.sysop.cat_actions')}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-border-color dark:divide-white/5">
                 {categories.map(cat => (
-                  <tr key={cat.categoryID} className="border-b border-slate-50 hover:bg-slate-50/50">
-                    <td className="p-4 font-bold text-slate-900">
+                  <tr key={cat.categoryID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                    <td className="p-6 font-black text-text-primary text-[14px]">
                       {cat.displayedName?.tr || cat.name}
                     </td>
-                    <td className="p-4 text-slate-500 text-sm">
+                    <td className="p-6 text-[13px] font-bold text-text-secondary">
                       {cat.parent?.displayedName?.tr || "-"}
                     </td>
-                    <td className="p-4 text-slate-500 font-mono text-xs">{cat.slug}</td>
-                    <td className="p-4">
-                      <button className="text-xs font-bold text-indigo-500 hover:underline">Edit</button>
+                    <td className="p-6 text-[12px] font-mono font-bold text-text-secondary/60 bg-black/5 dark:bg-white/5 rounded-lg w-fit inline-block mt-4 ml-6 mb-4">{cat.slug}</td>
+                    <td className="p-6 text-right">
+                      <button className="text-[12px] font-black text-primary hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_edit')}</button>
                     </td>
                   </tr>
                 ))}
@@ -146,48 +155,50 @@ export default function AdminCategories() {
             </table>
           </div>
           
-          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit">
-             <h2 className="text-xl font-black mb-4">Add Category</h2>
-             <p className="text-slate-500 text-sm mb-4">Create a new category for products.</p>
-             <div className="space-y-4">
-               <div>
-                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name (TR)</label>
-                 <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. Ayakkabı" />
+          <div className={`rounded-[2.5rem] p-8 border h-fit ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+             <h2 className="text-xl font-black mb-2 text-text-primary">{t('dashboard.sysop.add_category')}</h2>
+             <p className="text-[13px] font-bold text-text-secondary mb-8">{t('dashboard.sysop.add_category_desc')}</p>
+             <div className="space-y-6">
+               <div className="group">
+                 <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">Name (TR)</label>
+                 <input className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} placeholder="e.g. Ayakkabı" />
                </div>
-               <div>
-                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Slug</label>
-                 <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. ayakkabi" />
+               <div className="group">
+                 <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">Slug</label>
+                 <input className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} placeholder="e.g. ayakkabi" />
                </div>
-               <button className="w-full bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-colors">Save Category</button>
+               <button className="w-full h-14 bg-primary text-white font-black rounded-2xl shadow-lg shadow-primary/30 hover:scale-[1.02] transition-all text-[14px] uppercase tracking-widest mt-4">
+                 {t('dashboard.sysop.btn_save')}
+               </button>
              </div>
           </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+          <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto ${theme === 'light' ? 'bg-white border-border-color shadow-sm' : 'bg-surface border-white/5'}`}>
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Attribute</th>
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Mobile Component</th>
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Type</th>
-                  <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</th>
+                <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.attributes')}</th>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.attr_mobile_comp')}</th>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.attr_type')}</th>
+                  <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] text-right">{t('dashboard.sysop.cat_actions')}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-border-color dark:divide-white/5">
                 {attributes.map(attr => (
-                  <tr key={attr.attributeID} className="border-b border-slate-50 hover:bg-slate-50/50">
-                    <td className="p-4">
-                      <div className="font-bold text-slate-900">{attr.displayedName?.tr || attr.nameKey}</div>
-                      <div className="text-xs text-slate-400 font-mono">{attr.nameKey}</div>
+                  <tr key={attr.attributeID} className={`transition-colors ${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                    <td className="p-6">
+                      <div className="font-black text-text-primary text-[14px] mb-1">{attr.displayedName?.tr || attr.nameKey}</div>
+                      <div className="text-[11px] font-mono font-bold text-text-secondary/60">{attr.nameKey}</div>
                     </td>
-                    <td className="p-4">
-                       <span className="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-[10px] font-black uppercase tracking-tighter">
+                    <td className="p-6">
+                       <span className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-xl text-[10px] font-black uppercase tracking-wider">
                          {attr.mobileComponent || 'dropdown'}
                        </span>
                     </td>
-                    <td className="p-4 text-slate-600 text-sm">{attr.type}</td>
-                    <td className="p-4 flex gap-2">
+                    <td className="p-6 text-[13px] font-bold text-text-secondary uppercase tracking-widest">{attr.type}</td>
+                    <td className="p-6 flex justify-end gap-2">
                       <button 
                         onClick={() => {
                           setEditingAttribute(attr);
@@ -197,9 +208,9 @@ export default function AdminCategories() {
                           setAttrType(attr.type);
                           setAttrMobileComponent(attr.mobileComponent || "dropdown");
                         }}
-                        className="text-xs font-bold text-indigo-500 hover:underline"
+                        className="text-[12px] mt-4 font-black text-primary hover:underline uppercase tracking-widest"
                       >
-                        Edit
+                        {t('dashboard.sysop.btn_edit')}
                       </button>
                     </td>
                   </tr>
@@ -208,80 +219,79 @@ export default function AdminCategories() {
             </table>
           </div>
 
-          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 h-fit">
-             <h2 className="text-xl font-black mb-4">{editingAttribute ? 'Edit Attribute' : 'Add Attribute'}</h2>
-             <div className="space-y-4">
-               <div>
-                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name Key (Technical)</label>
+          <div className={`rounded-[2.5rem] p-8 border h-fit ${theme === 'light' ? 'bg-gray-50 border-border-color' : 'bg-white/5 border-white/5'}`}>
+             <h2 className="text-xl font-black mb-8 text-text-primary">{editingAttribute ? t('dashboard.sysop.edit_attribute') : t('dashboard.sysop.add_attribute')}</h2>
+             <div className="space-y-6">
+               <div className="group">
+                 <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">{t('dashboard.sysop.attr_name_key')}</label>
                  <input 
                    value={attrNameKey}
                    onChange={(e) => setAttrNameKey(e.target.value)}
-                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} 
                    placeholder="e.g. color" 
                  />
                </div>
-               <div className="grid grid-cols-2 gap-2">
-                 <div>
-                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name (TR)</label>
+               <div className="grid grid-cols-2 gap-4">
+                 <div className="group">
+                   <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">Name (TR)</label>
                    <input 
                      value={attrDisplayNameTr}
                      onChange={(e) => setAttrDisplayNameTr(e.target.value)}
-                     className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                     className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} 
                      placeholder="Renk" 
                    />
                  </div>
-                 <div>
-                   <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Name (EN)</label>
+                 <div className="group">
+                   <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">Name (EN)</label>
                    <input 
                      value={attrDisplayNameEn}
                      onChange={(e) => setAttrDisplayNameEn(e.target.value)}
-                     className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                     className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`} 
                      placeholder="Color" 
                    />
                  </div>
                </div>
-               <div>
-                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Type</label>
+               <div className="group">
+                 <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">{t('dashboard.sysop.attr_type')}</label>
                  <select 
                    value={attrType}
                    onChange={(e) => setAttrType(e.target.value)}
-                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black transition-all border appearance-none ${theme === 'light' ? 'bg-white border-transparent focus:border-primary/30 shadow-sm' : 'bg-[#1a1a1f] border-transparent focus:border-white/20'}`}
                  >
                    <option value="select">Select (Single)</option>
                    <option value="multiselect">Multiselect</option>
                    <option value="text">Text Input</option>
                  </select>
                </div>
-               <div>
-                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1 text-indigo-600">Mobile UI Component</label>
+               <div className="group">
+                 <label className="block text-[11px] font-black text-primary uppercase tracking-[0.2em] mb-3">{t('dashboard.sysop.attr_mobile_comp')}</label>
                  <select 
                    value={attrMobileComponent}
                    onChange={(e) => setAttrMobileComponent(e.target.value)}
-                   className="w-full bg-white border border-indigo-200 rounded-xl px-4 py-2 text-sm font-bold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm shadow-indigo-100"
+                   className={`w-full h-14 px-6 rounded-2xl outline-none text-[14px] font-black text-primary transition-all border appearance-none ${theme === 'light' ? 'bg-primary/10 border-primary/20 shadow-sm' : 'bg-primary/20 border-primary/20'}`}
                  >
                    <option value="dropdown">Default Dropdown</option>
                    <option value="horizontal_list">Horizontal Chips</option>
                    <option value="grid">Grid Selection</option>
-                   <option value="color_picker">Color Palette (Hex Selection)</option>
+                   <option value="color_picker">Color Palette</option>
                    <option value="size_selector">Size Grid</option>
                  </select>
-                 <p className="mt-1 text-[10px] text-slate-400 leading-tight">Determines how this attribute renders in the mobile app listing form.</p>
                </div>
-               <div className="flex gap-2">
-                 <button 
-                  onClick={handleSaveAttribute}
-                  className="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100"
-                 >
-                   {editingAttribute ? 'Update' : 'Create'} Attribute
-                 </button>
+               <div className="flex gap-4 pt-4">
                  {editingAttribute && (
                    <button 
                      onClick={() => { setEditingAttribute(null); resetAttrForm(); }}
-                     className="bg-slate-200 text-slate-700 font-bold px-4 rounded-xl hover:bg-slate-300 transition-colors"
+                     className={`flex-1 h-14 rounded-2xl text-[13px] font-black transition-all uppercase tracking-widest ${theme === 'light' ? 'bg-gray-200 text-text-primary hover:bg-gray-300' : 'bg-white/10 text-white hover:bg-white/20'}`}
                    >
-                     Cancel
+                     {t('dashboard.sysop.btn_cancel')}
                    </button>
                  )}
+                 <button 
+                  onClick={handleSaveAttribute}
+                  className="flex-1 h-14 bg-primary text-white font-black rounded-2xl shadow-lg shadow-primary/30 hover:scale-[1.02] transition-all text-[13px] uppercase tracking-widest"
+                 >
+                   {editingAttribute ? t('dashboard.sysop.btn_save') : t('dashboard.sysop.btn_save')}
+                 </button>
                </div>
              </div>
           </div>
