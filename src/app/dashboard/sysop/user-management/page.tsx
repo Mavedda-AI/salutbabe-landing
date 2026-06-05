@@ -3,9 +3,11 @@
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../../../lib/api";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {useToast} from "../../../../context/ToastContext";
 
 export default function AdminUsersPage() {
   const { t, theme, language } = useThemeLanguage();
+  const { showToast } = useToast();
   
   const formatBalance = (amount: number) => {
     return new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : language === 'fr' ? 'fr-FR' : 'en-US', {
@@ -65,15 +67,15 @@ export default function AdminUsersPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        alert(t('dashboard.success') || "Başarılı");
+        showToast(t('dashboard.success'), "success");
         setEditingUser(null);
         fetchUsers();
       } else {
-        alert(t('dashboard.error') || "Hata oluştu");
+        showToast(t('dashboard.error'), "error");
       }
     } catch (e) {
       console.error(e);
-      alert(t('dashboard.error') || "Hata oluştu");
+      showToast(t('dashboard.error'), "error");
     }
   };
 
@@ -112,15 +114,15 @@ export default function AdminUsersPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        alert(t('dashboard.success') || "Başarılı");
+        showToast(t('dashboard.success'), "success");
         setEditingRoleUser(null);
         fetchUsers();
       } else {
-        alert(t('dashboard.error') || "Hata oluştu");
+        showToast(t('dashboard.error'), "error");
       }
     } catch (e) {
       console.error(e);
-      alert(t('dashboard.error') || "Hata oluştu");
+      showToast(t('dashboard.error'), "error");
     }
   };
 
@@ -180,7 +182,7 @@ export default function AdminUsersPage() {
           </svg>
           <input 
             type="text" 
-            placeholder={t('dashboard.search_placeholder') || "Kullanıcı ara..."}
+            placeholder={t('dashboard.search_placeholder')}
             className={`w-full h-12 pl-12 pr-4 rounded-2xl outline-none text-[13px] font-bold transition-all
               ${theme === 'light' ? 'bg-gray-50 focus:bg-white border border-transparent focus:border-primary/20' : 'bg-white/5 focus:bg-white/10 border border-transparent focus:border-white/10'}`}
           />
@@ -458,7 +460,7 @@ export default function AdminUsersPage() {
         </div>
 
         <div className="flex items-center gap-3">
-           <span className="text-[11px] font-black text-text-secondary/40 uppercase tracking-widest">{t('dashboard.show_label') || "GÖSTER"}:</span>
+           <span className="text-[11px] font-black text-text-secondary/40 uppercase tracking-widest">{t('dashboard.show_label')}:</span>
            <select className={`px-4 h-10 rounded-xl text-[11px] font-black outline-none transition-all
              ${theme === 'light' ? 'bg-gray-50 text-text-primary focus:bg-white border border-transparent focus:border-primary/20' : 'bg-white/5 text-text-primary focus:bg-white/10 border border-transparent focus:border-white/10'}`}>
              <option>10</option>
