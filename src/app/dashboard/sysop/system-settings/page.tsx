@@ -105,8 +105,6 @@ export default function SystemSettingsPage() {
   const tabs = [
     { id: "marketplace", label: "Pazaryeri & Komisyon", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>, desc: "Komisyon oranları ve gelişmiş kural yapılandırmaları" },
     { id: "limits", label: "Limitler & Otomasyon", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>, desc: "Para çekme limitleri ve otomatik ürün onayı" },
-    { id: "mobile", label: "Mobil Uygulama", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>, desc: "Uygulama versiyonları ve zorunlu güncellemeler" },
-    { id: "support", label: "Bakım & Destek", icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>, desc: "İletişim kanalları ve bakım modu yönetimi" },
   ];
 
   if (loading) {
@@ -511,113 +509,7 @@ export default function SystemSettingsPage() {
               </div>
             </div>
           </div>
-
-          {/* MOBILE TAB */}
-          <div className={`${activeTab === 'mobile' ? 'block animate-fade-in' : 'hidden'}`}>
-            <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-cyan-400 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <h3 className="text-xl font-bold text-[#1A2332] dark:text-white mb-6">Sürüm & Güvenlik</h3>
-              
-              <div className="grid grid-cols-1 gap-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Android Versiyonu</label>
-                    <div className="relative group/input">
-                      <input 
-                        type="text" 
-                        name="appVersionAndroid"
-                        value={settings.appVersionAndroid || ""} 
-                        onChange={handleInputChange}
-                        placeholder="1.0.0"
-                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500" 
-                      />
-                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414C17.523 15.3414 17.523 15.3414 17.523 15.3414Z" /><path d="M15.4299 8.24354L17.2625 5.06821C17.4338 4.77154 17.3319 4.39162 17.0353 4.22031C16.7386 4.04899 16.3587 4.15093 16.1874 4.4476L14.3079 7.70347C12.8711 7.04279 11.2384 7.04279 9.80164 7.70347L7.92215 4.4476C7.75084 4.15093 7.37092 4.04899 7.07425 4.22031C6.77758 4.39162 6.67565 4.77154 6.84696 5.06821L8.67957 8.24354C4.19504 10.7412 1.4878 15.3484 1.2583 20.4725H22.8512C22.6217 15.3484 19.9145 10.7412 15.4299 8.24354ZM6.64367 16.5369C5.87784 16.5369 5.25708 15.9161 5.25708 15.1503C5.25708 14.3844 5.87784 13.7637 6.64367 13.7637C7.40951 13.7637 8.03027 14.3844 8.03027 15.1503C8.03027 15.9161 7.40951 16.5369 6.64367 16.5369ZM17.4658 16.5369C16.6999 16.5369 16.0792 15.9161 16.0792 15.1503C16.0792 14.3844 16.6999 13.7637 17.4658 13.7637C18.2316 13.7637 18.8524 14.3844 18.8524 15.1503C18.8524 15.9161 18.2316 16.5369 17.4658 16.5369Z"/></svg>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">iOS Versiyonu</label>
-                    <div className="relative group/input">
-                      <input 
-                        type="text" 
-                        name="appVersionIos"
-                        value={settings.appVersionIos || ""} 
-                        onChange={handleInputChange}
-                        placeholder="1.0.0"
-                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500" 
-                      />
-                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5746 12.0298C16.5541 9.07639 18.9868 7.64016 19.0988 7.57018C17.7288 5.56901 15.5413 5.25143 14.8194 5.20173C13.2386 5.04277 11.6881 6.13682 10.875 6.13682C10.0514 6.13682 8.7844 5.21208 7.46654 5.23253C5.74836 5.26305 4.1524 6.23259 3.26629 7.7816C1.45524 10.9254 2.8028 15.5714 4.56272 18.1139C5.4208 19.3444 6.4221 20.7341 7.74012 20.6833C8.99684 20.6324 9.48398 19.8631 11.0028 19.8631C12.5113 19.8631 12.9568 20.6833 14.2855 20.6528C15.6548 20.6528 16.5132 19.4261 17.3609 18.1749C18.3512 16.7302 18.7567 15.3161 18.7874 15.245C18.7567 15.2244 16.5951 14.4042 16.5746 12.0298ZM13.8869 3.52841C14.5866 2.68725 15.063 1.50813 14.9304 0.339233C13.9264 0.379815 12.6588 1.00511 11.9383 1.84627C11.3001 2.58557 10.7416 3.79555 10.9038 4.9442C12.0203 5.0357 13.1873 4.36971 13.8869 3.52841Z"/></svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-6 rounded-2xl bg-blue-500/5 border border-blue-500/20">
-                  <div>
-                    <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">Zorunlu Güncelleme Dayatması</h4>
-                    <p className="text-[13px] font-medium text-gray-500 mt-1">Eğer aktif edilirse, kullanıcılar uygulamayı en güncel sürüme yükseltmeden giriş yapamazlar.</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
-                    <input type="checkbox" name="forceUpdate" checked={settings.forceUpdate || false} onChange={handleInputChange} className="sr-only peer" />
-                    <div className="w-12 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* SUPPORT TAB */}
-          <div className={`${activeTab === 'support' ? 'block animate-fade-in' : 'hidden'}`}>
-            <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-emerald-400 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <h3 className="text-xl font-bold text-[#1A2332] dark:text-white mb-6">Bakım & Destek Masası</h3>
-              
-              <div className="grid grid-cols-1 gap-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Destek E-Posta Adresi</label>
-                    <div className="relative group/input">
-                      <input 
-                        type="email" 
-                        name="supportEmail"
-                        value={settings.supportEmail || ""} 
-                        onChange={handleInputChange}
-                        placeholder="destek@salutbabe.com"
-                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500" 
-                      />
-                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-teal-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[13px] font-bold text-gray-600 dark:text-gray-400">Destek Telefon Numarası</label>
-                    <div className="relative group/input">
-                      <input 
-                        type="text" 
-                        name="supportPhone"
-                        value={settings.supportPhone || ""} 
-                        onChange={handleInputChange}
-                        placeholder="+90 850 123 45 67"
-                        className="w-full h-14 pl-12 pr-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500" 
-                      />
-                      <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within/input:text-teal-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                    </div>
-                  </div>
-                </div>
-
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-2xl bg-red-500/5 border border-red-500/20 gap-4">
-                    <div>
-                      <h4 className="text-[15px] font-bold text-red-500 dark:text-red-400">🔥 Bakım Modunu Etkinleştir</h4>
-                      <p className="text-[13px] font-medium text-gray-500 mt-1 max-w-lg">Sistem bakıma alınır. Uygulama ve web üzerinden erişim kesilir ve kullanıcılara "Bakım Çalışması" ekranı gösterilir.</p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                      <input type="checkbox" name="maintenanceMode" checked={settings.maintenanceMode || false} onChange={handleInputChange} className="sr-only peer" />
-                      <div className="w-12 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-red-500"></div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
       </form>
     </div>
   );
