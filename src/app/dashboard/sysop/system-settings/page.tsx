@@ -17,7 +17,7 @@ export default function SystemSettingsPage() {
     maintenanceMode: false,
     supportEmail: '',
     supportPhone: '',
-    systemCommissions: { systemCommissions: [] }
+    systemCommissions: []
   });
   const [showRawJson, setShowRawJson] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,11 @@ export default function SystemSettingsPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        setSettings(data.payload || {});
+        const payload = data.payload || {};
+        if (payload.systemCommissions && !Array.isArray(payload.systemCommissions)) {
+          payload.systemCommissions = payload.systemCommissions.systemCommissions || [];
+        }
+        setSettings(payload);
       } else {
         setSettings({});
       }
@@ -176,7 +180,7 @@ export default function SystemSettingsPage() {
                   <div className="relative group/textarea">
                     <textarea
                       className="w-full h-96 p-6 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-gray-300 focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] transition-all resize-y"
-                      value={JSON.stringify(settings.systemCommissions || {}, null, 2)}
+                      value={JSON.stringify(settings.systemCommissions || [], null, 2)}
                       onChange={(e) => {
                         try {
                           const parsed = JSON.parse(e.target.value);
@@ -188,224 +192,237 @@ export default function SystemSettingsPage() {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {(settings.systemCommissions?.systemCommissions || []).map((comm: any, idx: number) => (
-                      <div key={idx} className="p-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-6 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
-                        {/* Row 1: Code & Actions */}
+                    {(settings.systemCommissions || []).map((group: any, gIdx: number) => (
+                      <div key={gIdx} className="p-6 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1A1D27] space-y-6">
+                        {/* Group Header */}
                         <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800/80 pb-4">
                           <div className="flex items-center gap-4 w-full">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF6B00] to-[#FF8B30] text-white flex items-center justify-center font-black text-[14px] shadow-sm shrink-0">
-                              {idx + 1}
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#2563EB] text-white flex items-center justify-center font-black text-[14px] shadow-sm shrink-0">
+                              {gIdx + 1}
                             </div>
-                            <input 
-                              className="bg-transparent border-none font-bold text-[16px] p-0 focus:ring-0 w-full text-[#1A2332] dark:text-white placeholder-gray-400 outline-none"
-                              value={comm.code}
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].code = e.target.value;
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                              placeholder="Kural Kodu (Örn: VIRTUAL_POS)"
-                            />
+                            <div className="flex-1 grid grid-cols-2 gap-4">
+                                <input 
+                                  className="bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                  value={group.groupName?.tr || ''}
+                                  onChange={(e) => {
+                                    const updated = [...settings.systemCommissions];
+                                    updated[gIdx].groupName = { ...updated[gIdx].groupName, tr: e.target.value };
+                                    setSettings({ ...settings, systemCommissions: updated });
+                                  }}
+                                  placeholder="Grup Adı (TR) Örn: Alıcı Koruması"
+                                />
+                                <input 
+                                  className="bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                  value={group.groupId || ''}
+                                  onChange={(e) => {
+                                    const updated = [...settings.systemCommissions];
+                                    updated[gIdx].groupId = e.target.value;
+                                    setSettings({ ...settings, systemCommissions: updated });
+                                  }}
+                                  placeholder="Grup ID (Örn: BUYER_PROTECTION)"
+                                />
+                            </div>
                           </div>
                           <button 
                             type="button"
                             onClick={() => {
-                              const updated = settings.systemCommissions.systemCommissions.filter((_: any, i: number) => i !== idx);
-                              setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                              const updated = settings.systemCommissions.filter((_: any, i: number) => i !== gIdx);
+                              setSettings({ ...settings, systemCommissions: updated });
                             }}
-                            className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0 group/del"
-                            title="Bu kuralı sil"
+                            className="ml-4 w-10 h-10 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0"
+                            title="Grubu Sil"
                           >
-                            <svg className="w-5 h-5 transition-transform group-hover/del:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                           </button>
                         </div>
-
-                        {/* Row 2: Basic Config */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-                          <div className="space-y-1.5">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Hedef Kitle</label>
-                            <select 
-                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
-                              value={comm.target}
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].target = e.target.value;
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                            >
-                              <option value="customer">Alıcı (Customer)</option>
-                              <option value="seller">Satıcı (Seller)</option>
-                            </select>
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Hesaplama Tipi</label>
-                            <select 
-                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
-                              value={comm.type}
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].type = e.target.value;
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                            >
-                              <option value="percentage">Yüzde (%)</option>
-                              <option value="fixed">Sabit Miktar (TL)</option>
-                              <option value="tiered_percentage">Kademeli Yüzde (Tiered)</option>
-                            </select>
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Temel Oran / Değer</label>
-                            <input 
-                              type="number"
-                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
-                              value={comm.value}
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].value = parseFloat(e.target.value);
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-1.5 flex flex-col justify-center">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400 mb-1">Koruma ile Birleştir</label>
-                            <label className="relative inline-flex items-center cursor-pointer">
+                        
+                        {/* Group Target Settings */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                           <div className="space-y-1.5">
+                             <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Hedef Kitle (Kimden Kesilecek?)</label>
+                             <select 
+                               className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#3B82F6]/20 focus:border-[#3B82F6] transition-all"
+                               value={group.target || 'customer'}
+                               onChange={(e) => {
+                                 const updated = [...settings.systemCommissions];
+                                 updated[gIdx].target = e.target.value;
+                                 setSettings({ ...settings, systemCommissions: updated });
+                               }}
+                             >
+                               <option value="customer">Alıcı (Customer)</option>
+                               <option value="seller">Satıcı (Seller)</option>
+                             </select>
+                           </div>
+                           <div className="space-y-1.5 flex flex-col justify-center">
+                              <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İngilizce İsim</label>
                               <input 
-                                type="checkbox"
-                                checked={comm.mergeWithBuyerProtection}
+                                className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#3B82F6]/20 focus:border-[#3B82F6] transition-all"
+                                value={group.groupName?.en || ''}
                                 onChange={(e) => {
-                                  const updated = [...settings.systemCommissions.systemCommissions];
-                                  updated[idx].mergeWithBuyerProtection = e.target.checked;
-                                  setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                                  const updated = [...settings.systemCommissions];
+                                  updated[gIdx].groupName = { ...updated[gIdx].groupName, en: e.target.value };
+                                  setSettings({ ...settings, systemCommissions: updated });
                                 }}
-                                className="sr-only peer"
+                                placeholder="Grup Adı (EN) Örn: Buyer Protection"
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#FF6B00]"></div>
-                              <span className="ml-3 text-[12px] font-medium text-gray-500">{comm.mergeWithBuyerProtection ? 'Aktif' : 'Pasif'}</span>
-                            </label>
-                          </div>
+                           </div>
                         </div>
 
-                        {/* Row 3: Display Names */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-                          <div className="space-y-1.5">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İsim (Türkçe)</label>
-                            <input 
-                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
-                              value={comm.displayedName?.tr || ''}
-                              placeholder="Örn: Alıcı Koruması"
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].displayedName = { ...updated[idx].displayedName, tr: e.target.value };
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İsim (İngilizce)</label>
-                            <input 
-                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
-                              value={comm.displayedName?.en || ''}
-                              placeholder="Buyer Protection"
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].displayedName = { ...updated[idx].displayedName, en: e.target.value };
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-1.5 md:col-span-2">
-                            <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Fatura Grubu (Optional)</label>
-                            <input 
-                              className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#FF6B00]/20 focus:border-[#FF6B00] transition-all"
-                              value={comm.displayGroup || ''}
-                              placeholder="Örn: BUYER_PROTECTION_GROUP"
-                              onChange={(e) => {
-                                const updated = [...settings.systemCommissions.systemCommissions];
-                                updated[idx].displayGroup = e.target.value || null;
-                                setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        {/* Tiered Config */}
-                        {comm.type === 'tiered_percentage' && (
-                          <div className="p-5 rounded-2xl border border-dashed border-[#FF6B00]/30 bg-[#FF6B00]/5 space-y-4">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[13px] font-black text-[#FF6B00]">Kademeli Oranlar (Tiers)</span>
-                              <button 
-                                type="button"
-                                onClick={() => {
-                                  const updated = [...settings.systemCommissions.systemCommissions];
-                                  updated[idx].tiers = [...(updated[idx].tiers || []), { min: 0, max: null, value: 0 }];
-                                  setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                                }}
-                                className="text-[12px] font-bold px-4 py-2 bg-white dark:bg-[#1A1D27] text-[#FF6B00] rounded-lg shadow-sm hover:scale-105 transition-transform"
-                              >
-                                + Kademe Ekle
-                              </button>
-                            </div>
-                            <div className="space-y-3">
-                              {(comm.tiers || []).map((tier: any, tIdx: number) => (
-                                <div key={tIdx} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-4 items-end bg-white dark:bg-[#1A1D27] p-4 rounded-xl border border-gray-100 dark:border-gray-800/80 shadow-sm">
-                                  <div className="space-y-1.5">
-                                    <label className="text-[11px] font-semibold text-gray-500">Min Tutar (₺)</label>
-                                    <input type="number" className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.min} onChange={(e) => {
-                                      const updated = [...settings.systemCommissions.systemCommissions];
-                                      updated[idx].tiers[tIdx].min = parseFloat(e.target.value);
-                                      setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                                    }}/>
-                                  </div>
-                                  <div className="space-y-1.5">
-                                    <label className="text-[11px] font-semibold text-gray-500">Max Tutar (₺)</label>
-                                    <input type="number" placeholder="Sınırsız ise boş bırakın" className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.max || ''} onChange={(e) => {
-                                      const updated = [...settings.systemCommissions.systemCommissions];
-                                      updated[idx].tiers[tIdx].max = e.target.value === '' ? null : parseFloat(e.target.value);
-                                      setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                                    }}/>
-                                  </div>
-                                  <div className="space-y-1.5">
-                                    <label className="text-[11px] font-semibold text-gray-500">Oran (%)</label>
-                                    <input type="number" className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]" value={tier.value} onChange={(e) => {
-                                      const updated = [...settings.systemCommissions.systemCommissions];
-                                      updated[idx].tiers[tIdx].value = parseFloat(e.target.value);
-                                      setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                                    }}/>
-                                  </div>
-                                  <button type="button" onClick={() => {
-                                    const updated = [...settings.systemCommissions.systemCommissions];
-                                    updated[idx].tiers = updated[idx].tiers.filter((_: any, i: number) => i !== tIdx);
-                                    setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
-                                  }} className="w-10 h-10 text-red-500 bg-red-50 dark:bg-red-500/10 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center transition-colors">
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                                  </button>
+                        {/* Rules inside Group */}
+                        <div className="pl-6 md:pl-10 space-y-4 border-l-2 border-gray-100 dark:border-gray-800/80">
+                          <h4 className="text-[13px] font-bold text-[#1A2332] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
+                          
+                          {(group.items || []).map((rule: any, rIdx: number) => (
+                            <div key={rIdx} className="p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-4 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
+                              <div className="flex items-center gap-4">
+                                <input 
+                                  className="w-full bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[13px] text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                  value={rule.code}
+                                  onChange={(e) => {
+                                    const updated = [...settings.systemCommissions];
+                                    updated[gIdx].items[rIdx].code = e.target.value;
+                                    setSettings({ ...settings, systemCommissions: updated });
+                                  }}
+                                  placeholder="Kural Kodu (Örn: VPOS_FEE)"
+                                />
+                                <button 
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = [...settings.systemCommissions];
+                                    updated[gIdx].items = updated[gIdx].items.filter((_: any, i: number) => i !== rIdx);
+                                    setSettings({ ...settings, systemCommissions: updated });
+                                  }}
+                                  className="w-9 h-9 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0"
+                                >
+                                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-semibold text-gray-500">Hesaplama Tipi</label>
+                                  <select 
+                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                    value={rule.type}
+                                    onChange={(e) => {
+                                      const updated = [...settings.systemCommissions];
+                                      updated[gIdx].items[rIdx].type = e.target.value;
+                                      setSettings({ ...settings, systemCommissions: updated });
+                                    }}
+                                  >
+                                    <option value="percentage">Yüzde (%)</option>
+                                    <option value="fixed">Sabit Miktar (TL)</option>
+                                    <option value="tiered_percentage">Kademeli Yüzde (Tiered)</option>
+                                  </select>
                                 </div>
-                              ))}
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-semibold text-gray-500">Temel Oran / Değer</label>
+                                  <input 
+                                    type="number"
+                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                    value={rule.value}
+                                    onChange={(e) => {
+                                      const updated = [...settings.systemCommissions];
+                                      updated[gIdx].items[rIdx].value = parseFloat(e.target.value) || 0;
+                                      setSettings({ ...settings, systemCommissions: updated });
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                              
+                              {/* Tiers for rule */}
+                              {rule.type === 'tiered_percentage' && (
+                                <div className="mt-4 p-4 rounded-xl border border-dashed border-[#FF6B00]/30 bg-[#FF6B00]/5 space-y-3">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-[12px] font-black text-[#FF6B00]">Kademeli Oranlar (Tiers)</span>
+                                    <button 
+                                      type="button"
+                                      onClick={() => {
+                                        const updated = [...settings.systemCommissions];
+                                        updated[gIdx].items[rIdx].tiers = [...(updated[gIdx].items[rIdx].tiers || []), { min: 0, max: null, value: 0 }];
+                                        setSettings({ ...settings, systemCommissions: updated });
+                                      }}
+                                      className="text-[11px] font-bold px-3 py-1.5 bg-white dark:bg-[#1A1D27] text-[#FF6B00] rounded-md shadow-sm hover:scale-105 transition-transform"
+                                    >
+                                      + Kademe
+                                    </button>
+                                  </div>
+                                  <div className="space-y-2">
+                                    {(rule.tiers || []).map((tier: any, tIdx: number) => (
+                                      <div key={tIdx} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-end bg-white dark:bg-[#1A1D27] p-3 rounded-lg border border-gray-100 dark:border-gray-800/80">
+                                        <div>
+                                          <input type="number" placeholder="Min" className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] outline-none" value={tier.min} onChange={(e) => {
+                                            const updated = [...settings.systemCommissions];
+                                            updated[gIdx].items[rIdx].tiers[tIdx].min = parseFloat(e.target.value) || 0;
+                                            setSettings({ ...settings, systemCommissions: updated });
+                                          }}/>
+                                        </div>
+                                        <div>
+                                          <input type="number" placeholder="Max" className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] outline-none" value={tier.max || ''} onChange={(e) => {
+                                            const updated = [...settings.systemCommissions];
+                                            updated[gIdx].items[rIdx].tiers[tIdx].max = e.target.value === '' ? null : parseFloat(e.target.value);
+                                            setSettings({ ...settings, systemCommissions: updated });
+                                          }}/>
+                                        </div>
+                                        <div>
+                                          <input type="number" placeholder="%" className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] outline-none" value={tier.value} onChange={(e) => {
+                                            const updated = [...settings.systemCommissions];
+                                            updated[gIdx].items[rIdx].tiers[tIdx].value = parseFloat(e.target.value) || 0;
+                                            setSettings({ ...settings, systemCommissions: updated });
+                                          }}/>
+                                        </div>
+                                        <button type="button" onClick={() => {
+                                          const updated = [...settings.systemCommissions];
+                                          updated[gIdx].items[rIdx].tiers = updated[gIdx].items[rIdx].tiers.filter((_: any, i: number) => i !== tIdx);
+                                          setSettings({ ...settings, systemCommissions: updated });
+                                        }} className="w-8 h-8 text-red-500 bg-red-50 dark:bg-red-500/10 rounded flex items-center justify-center">
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                          </div>
-                        )}
+                          ))}
+
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              const newRule = {
+                                code: 'YENI_KURAL',
+                                type: 'percentage',
+                                value: 0
+                              };
+                              const updated = [...settings.systemCommissions];
+                              updated[gIdx].items = [...(updated[gIdx].items || []), newRule];
+                              setSettings({ ...settings, systemCommissions: updated });
+                            }}
+                            className="w-full py-3 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-transparent text-gray-500 hover:text-[#FF6B00] hover:border-[#FF6B00] text-[13px] font-bold transition-all flex items-center justify-center gap-2"
+                          >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+                            Bu Gruba Yeni Kural Ekle
+                          </button>
+                        </div>
                       </div>
                     ))}
 
                     <button 
                       type="button"
                       onClick={() => {
-                        const newComm = {
-                          code: 'YENI_KURAL',
+                        const newGroup = {
+                          groupId: 'YENI_GRUP',
+                          groupName: { tr: '', en: '' },
                           target: 'customer',
-                          type: 'percentage',
-                          value: 0,
-                          displayGroup: null,
-                          mergeWithBuyerProtection: true,
-                          displayedName: { tr: '', en: '', fr: '' }
+                          items: []
                         };
-                        const updated = [...(settings.systemCommissions?.systemCommissions || []), newComm];
-                        setSettings({ ...settings, systemCommissions: { ...settings.systemCommissions, systemCommissions: updated } });
+                        const updated = [...(settings.systemCommissions || []), newGroup];
+                        setSettings({ ...settings, systemCommissions: updated });
                       }}
-                      className="w-full py-5 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-[#FF6B00] dark:hover:border-[#FF6B00] bg-white dark:bg-[#1A1D27] text-gray-500 dark:text-gray-400 hover:text-[#FF6B00] text-[14px] font-bold transition-all hover:bg-[#FF6B00]/5 flex items-center justify-center gap-2"
+                      className="w-full py-5 rounded-2xl border-2 border-dashed border-[#3B82F6]/30 bg-[#3B82F6]/5 text-[#3B82F6] hover:bg-[#3B82F6]/10 text-[14px] font-bold transition-all flex items-center justify-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-                      Yeni Komisyon Kuralı Ekle
+                      Yeni Komisyon Grubu Oluştur
                     </button>
                   </div>
                 )}
