@@ -721,12 +721,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                  </div>
                  
                  <div className="p-2">
-                   {/* Company Map */}
-                   <Link href="/dashboard/common/map" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group">
-                      <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22V2m0 5H6l-2 2 2 2h6m0 4h6l2-2-2-2h-6" /></svg>
-                      {t('dashboard.company_map') || 'Company Map'}
-                   </Link>
-
                    <Link href="/dashboard/common/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group">
                       <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                       {t('dashboard.edit_profile') || 'Edit Profile'}
