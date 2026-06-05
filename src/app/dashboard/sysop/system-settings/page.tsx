@@ -236,23 +236,6 @@ export default function SystemSettingsPage() {
                           </button>
                         </div>
                         
-                        {/* Group Target Settings */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                           <div className="space-y-1.5">
-                             <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Hedef Kitle (Kimden Kesilecek?)</label>
-                             <select 
-                               className="w-full h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[13px] font-bold text-[#1A2332] dark:text-white outline-none focus:ring-2 focus:ring-[#3B82F6]/20 focus:border-[#3B82F6] transition-all"
-                               value={group.target || 'customer'}
-                               onChange={(e) => {
-                                 const updated = [...settings.systemCommissions];
-                                 updated[gIdx].target = e.target.value;
-                                 setSettings({ ...settings, systemCommissions: updated });
-                               }}
-                             >
-                               <option value="customer">Alıcı (Customer)</option>
-                               <option value="seller">Satıcı (Seller)</option>
-                             </select>
-                           </div>
                            <div className="space-y-1.5 flex flex-col justify-center">
                               <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İngilizce İsim</label>
                               <input 
@@ -298,7 +281,22 @@ export default function SystemSettingsPage() {
                                 </button>
                               </div>
                               
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-semibold text-gray-500">Hedef (Kimden?)</label>
+                                  <select 
+                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                    value={rule.target || 'customer'}
+                                    onChange={(e) => {
+                                      const updated = [...settings.systemCommissions];
+                                      updated[gIdx].items[rIdx].target = e.target.value;
+                                      setSettings({ ...settings, systemCommissions: updated });
+                                    }}
+                                  >
+                                    <option value="customer">Alıcı</option>
+                                    <option value="seller">Satıcı</option>
+                                  </select>
+                                </div>
                                 <div className="space-y-1">
                                   <label className="text-[11px] font-semibold text-gray-500">Hesaplama Tipi</label>
                                   <select 
@@ -391,6 +389,7 @@ export default function SystemSettingsPage() {
                             onClick={() => {
                               const newRule = {
                                 code: 'YENI_KURAL',
+                                target: 'customer',
                                 type: 'percentage',
                                 value: 0
                               };
@@ -413,7 +412,6 @@ export default function SystemSettingsPage() {
                         const newGroup = {
                           groupId: 'YENI_GRUP',
                           groupName: { tr: '', en: '' },
-                          target: 'customer',
                           items: []
                         };
                         const updated = [...(settings.systemCommissions || []), newGroup];
