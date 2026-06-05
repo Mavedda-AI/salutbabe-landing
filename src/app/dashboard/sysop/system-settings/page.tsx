@@ -259,21 +259,19 @@ export default function SystemSettingsPage() {
                           <h4 className="text-[13px] font-bold text-[#1A2332] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
                           
                           {(group.items || []).map((rule: any, rIdx: number) => (
-                            <div key={rIdx} className="p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-4 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
-                              <div className="flex items-center gap-4">
-                                <div className="flex-1"></div>
-                                <button 
-                                  type="button"
-                                  onClick={() => {
-                                    const updated = [...settings.systemCommissions];
-                                    updated[gIdx].items = updated[gIdx].items.filter((_: any, i: number) => i !== rIdx);
-                                    setSettings({ ...settings, systemCommissions: updated });
-                                  }}
-                                  className="w-9 h-9 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0"
-                                >
-                                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                                </button>
-                              </div>
+                            <div key={rIdx} className="relative p-4 pt-8 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-4 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  const updated = [...settings.systemCommissions];
+                                  updated[gIdx].items = updated[gIdx].items.filter((_: any, i: number) => i !== rIdx);
+                                  setSettings({ ...settings, systemCommissions: updated });
+                                }}
+                                className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0"
+                                title="Kuralı Sil"
+                              >
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                              </button>
                               
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div className="space-y-1">
