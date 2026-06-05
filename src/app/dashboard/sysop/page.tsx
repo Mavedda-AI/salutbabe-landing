@@ -179,7 +179,7 @@ export default function SysopDashboard() {
                   dataKey="value"
                   stroke="none"
                 >
-                  {orderStatusData.map((entry, index) => {
+                  {orderStatusData.map((entry: any, index: number) => {
                     const gradientId = index === 0 ? "url(#colorCompleted)" : 
                                        index === 1 ? "url(#colorShipping)" : 
                                        index === 2 ? "url(#colorPreparing)" : "url(#colorCancelled)";
