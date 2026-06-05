@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useAuthStore} from "../../../store/useAuthStore";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
+import {apiUrl} from "../../../lib/api";
 import {
     Area,
     AreaChart,
@@ -26,72 +27,58 @@ import {
     Wallet01Icon
 } from "hugeicons-react";
 
-// Mock Data
-const revenueData = [
-  { name: "1 Haz", revenue: 4000, orders: 24 },
-  { name: "5 Haz", revenue: 3000, orders: 18 },
-  { name: "10 Haz", revenue: 5000, orders: 32 },
-  { name: "15 Haz", revenue: 8780, orders: 45 },
-  { name: "20 Haz", revenue: 6890, orders: 38 },
-  { name: "25 Haz", revenue: 9390, orders: 50 },
-  { name: "30 Haz", revenue: 11490, orders: 60 },
-];
-
-const orderStatusData = [
-  { name: "Tamamlanan", value: 400, color: "#10b981" },
-  { name: "Kargoda", value: 300, color: "#3b82f6" },
-  { name: "Hazırlanıyor", value: 200, color: "#f59e0b" },
-  { name: "İptal/İade", value: 50, color: "#ef4444" },
-];
-
-const recentOrders = [
-  { id: "#ORD-8901", customer: "Ahmet Yılmaz", date: "2026-06-05", amount: "₺1,250", status: "Tamamlandı", statusColor: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400" },
-  { id: "#ORD-8902", customer: "Ayşe Kaya", date: "2026-06-05", amount: "₺840", status: "Kargoda", statusColor: "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400" },
-  { id: "#ORD-8903", customer: "Mehmet Demir", date: "2026-06-04", amount: "₺3,450", status: "Hazırlanıyor", statusColor: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400" },
-  { id: "#ORD-8904", customer: "Elif Şahin", date: "2026-06-03", amount: "₺420", status: "İptal", statusColor: "bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400" },
-];
-
-const pendingActions = [
-  { 
-    id: 1, 
-    type: "Ürün Onayı", 
-    title: "iPhone 15 Pro Max", 
-    subtitle: "Satıcı: Gürgençler", 
-    price: "₺74.999", 
-    image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-blue-titanium-select?wid=256&hei=256&fmt=jpeg&qlt=95&.v=1692846360609", 
-    date: "10 dk önce",
-    actionType: "product"
-  },
-  { 
-    id: 2, 
-    type: "Mağaza Onayı", 
-    title: "TeknoMarket", 
-    subtitle: "Kategori: Elektronik", 
-    date: "1 saat önce",
-    actionType: "store",
-    icon: Store01Icon
-  },
-  { 
-    id: 3, 
-    type: "İade Talebi", 
-    title: "Sipariş: #ORD-8850", 
-    subtitle: "Neden: Kusurlu Ürün", 
-    price: "₺1.250",
-    date: "3 saat önce",
-    actionType: "order",
-    icon: ShoppingBag02Icon
-  },
-];
-
 export default function SysopDashboard() {
   const { user } = useAuthStore();
   const { t } = useThemeLanguage();
+  const [orderFilter, setOrderFilter] = useState("Tümü");
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const res = await fetch(apiUrl("/admin/sysop-dashboard"), {
+          headers: {
+            Authorization: `Bearer ${useAuthStore.getState().token}`
+          }
+        });
+        const json = await res.json();
+        if (json.success) {
+          setDashboardData(json.data);
+        }
+      } catch (err) {
+        console.error("Dashboard data fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[500px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  const { kpis: backendKpis, charts, recentOrders, pendingActions } = dashboardData || {};
+
+  const revenueData = charts?.revenueTrend || [];
+  const orderStatusData = charts?.orderStatuses || [];
+  const actualRecentOrders = recentOrders || [];
+  const actualPendingActions = pendingActions || [];
+
+  const filteredOrders = orderFilter === "Tümü" 
+    ? actualRecentOrders 
+    : actualRecentOrders.filter((order: any) => order.status === orderFilter);
 
   const kpis = [
-    { label: "Aylık Gelir", value: "₺142.500", icon: Wallet01Icon, color: "from-purple-500 to-fuchsia-400", shadow: "shadow-purple-500/20" },
-    { label: "Aktif Siparişler", value: "1,204", icon: ShoppingBag02Icon, color: "from-blue-500 to-cyan-400", shadow: "shadow-blue-500/20" },
-    { label: "Toplam Kullanıcı", value: "48.2K", icon: UserGroupIcon, color: "from-green-500 to-emerald-400", shadow: "shadow-green-500/20" },
-    { label: "Onay Bekleyen", value: "32", icon: Alert01Icon, color: "from-orange-500 to-amber-400", shadow: "shadow-orange-500/20" },
+    { label: "Aylık Gelir", value: `₺${backendKpis?.revenue?.toLocaleString('tr-TR') || 0}`, icon: Wallet01Icon, color: "from-purple-500 to-fuchsia-400", shadow: "shadow-purple-500/20" },
+    { label: "Aktif Siparişler", value: backendKpis?.activeOrders?.toString() || "0", icon: ShoppingBag02Icon, color: "from-blue-500 to-cyan-400", shadow: "shadow-blue-500/20" },
+    { label: "Toplam Kullanıcı", value: backendKpis?.totalUsers?.toString() || "0", icon: UserGroupIcon, color: "from-green-500 to-emerald-400", shadow: "shadow-green-500/20" },
+    { label: "Onay Bekleyen", value: backendKpis?.pendingApprovals?.toString() || "0", icon: Alert01Icon, color: "from-orange-500 to-amber-400", shadow: "shadow-orange-500/20" },
   ];
 
   return (
@@ -210,12 +197,25 @@ export default function SysopDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Recent Orders Table */}
-        <div className="lg:col-span-2 bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
+        <div className="lg:col-span-2 bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">Son Siparişler</h2>
-            <button className="text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400">Tümünü Gör</button>
+            <div className="flex items-center gap-3">
+              <select 
+                className="select select-sm select-bordered bg-white dark:bg-[#12141C] text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none"
+                value={orderFilter}
+                onChange={(e) => setOrderFilter(e.target.value)}
+              >
+                <option value="Tümü">Tüm Durumlar</option>
+                <option value="Tamamlandı">Tamamlandı</option>
+                <option value="Kargoda">Kargoda</option>
+                <option value="Hazırlanıyor">Hazırlanıyor</option>
+                <option value="İptal">İptal</option>
+              </select>
+              <button className="text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 hidden sm:block">Tümünü Gör</button>
+            </div>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto flex-1">
             <table className="table w-full">
               <thead>
                 <tr className="border-b border-gray-100 dark:border-gray-800 text-gray-500 dark:text-gray-400">
@@ -227,7 +227,7 @@ export default function SysopDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {recentOrders.map((order, idx) => (
+                {filteredOrders.length > 0 ? filteredOrders.map((order, idx) => (
                   <tr key={idx} className="border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/20 transition-colors">
                     <td className="pl-0 font-medium text-gray-900 dark:text-white">{order.id}</td>
                     <td className="text-gray-600 dark:text-gray-300">{order.customer}</td>
@@ -239,7 +239,13 @@ export default function SysopDashboard() {
                       </span>
                     </td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={5} className="text-center py-8 text-gray-500 dark:text-gray-400">
+                      Bu duruma ait sipariş bulunamadı.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -249,18 +255,20 @@ export default function SysopDashboard() {
         <div className="bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">Acil Aksiyonlar</h2>
-            <span className="bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-lg">3 Bekleyen</span>
+            <span className="bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-lg">{actualPendingActions.length} Bekleyen</span>
           </div>
           <div className="space-y-4">
-            {pendingActions.map((action) => (
+            {actualPendingActions.map((action: any) => (
               <div key={action.id} className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-[#12141C] border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-500/30 transition-colors group">
                 
                 {/* Thumbnail / Icon */}
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center border border-orange-200/50 dark:border-orange-500/10">
                   {action.image ? (
                     <img src={action.image} alt={action.title} className="w-full h-full object-cover" />
-                  ) : action.icon ? (
-                    <action.icon size={22} variant="stroke" />
+                  ) : action.actionType === 'store' ? (
+                    <Store01Icon size={22} variant="stroke" />
+                  ) : action.actionType === 'order' ? (
+                    <ShoppingBag02Icon size={22} variant="stroke" />
                   ) : (
                     <Alert01Icon size={22} variant="stroke" />
                   )}
