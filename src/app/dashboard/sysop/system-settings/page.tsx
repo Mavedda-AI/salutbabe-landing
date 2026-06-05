@@ -52,7 +52,7 @@ export default function SystemSettingsPage() {
           payload.systemCommissions = payload.systemCommissions.systemCommissions || [];
         }
         setSettings(payload);
-        setInitialSettings(payload);
+        setInitialSettings(JSON.parse(JSON.stringify(payload)));
       } else {
         setSettings({});
         setInitialSettings({});
@@ -90,7 +90,7 @@ export default function SystemSettingsPage() {
       const data = await res.json();
       if (data.request?.requestResult) {
         showToast(t('dashboard.settings_updated') || "Sistem ayarları başarıyla güncellendi.", "success");
-        setInitialSettings(settings);
+        setInitialSettings(JSON.parse(JSON.stringify(settings)));
       } else {
         showToast(data.request?.resultMessage || "Güncelleme sırasında bir hata oluştu.", "error");
       }
