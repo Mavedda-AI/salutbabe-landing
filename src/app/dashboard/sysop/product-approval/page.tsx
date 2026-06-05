@@ -49,18 +49,18 @@ export default function ProductApprovalPage() {
       const data = await res.json();
       if (data.request?.requestResult) {
         setListings(prev => prev.filter(l => l.listingID !== listingID));
-        showToast("İlan başarıyla onaylandı.", "success");
+        showToast(t('dashboard.sysop.approve_success'), "success");
       } else {
-        showToast("Onaylama başarısız: " + (data.request?.requestMessage || "Bilinmeyen hata"), "error");
+        showToast(t('dashboard.sysop.approve_failed') + " " + (data.request?.requestMessage || t('dashboard.sysop.unknown_error')), "error");
       }
     } catch (e) {
       console.error(e);
-      showToast("Bir hata oluştu", "error");
+      showToast(t('dashboard.sysop.error_occurred'), "error");
     }
   };
 
   const handleReject = async (listingID: string) => {
-    const reason = window.prompt("Reddetme sebebini girin (isteğe bağlı):");
+    const reason = window.prompt(t('dashboard.sysop.prompt_reject_reason'));
     if (reason === null) return; // User cancelled
     try {
       const token = localStorage.getItem("auth_token");
@@ -76,13 +76,13 @@ export default function ProductApprovalPage() {
       const data = await res.json();
       if (data.request?.requestResult) {
         setListings(prev => prev.filter(l => l.listingID !== listingID));
-        showToast("İlan başarıyla reddedildi.", "success");
+        showToast(t('dashboard.sysop.reject_success'), "success");
       } else {
-        showToast("Reddetme başarısız: " + (data.request?.requestMessage || "Bilinmeyen hata"), "error");
+        showToast(t('dashboard.sysop.reject_failed') + " " + (data.request?.requestMessage || t('dashboard.sysop.unknown_error')), "error");
       }
     } catch (e) {
       console.error(e);
-      showToast("Bir hata oluştu", "error");
+      showToast(t('dashboard.sysop.error_occurred'), "error");
     }
   };
 
@@ -100,19 +100,19 @@ export default function ProductApprovalPage() {
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : listings.length === 0 ? (
-        <div className="p-12 text-center border-2 border-dashed border-border-color rounded-2xl">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <div className={`p-12 text-center border-2 border-dashed rounded-[2.5rem] transition-all ${theme === 'light' ? 'border-border-color bg-gray-50/50' : 'border-white/5 bg-white/[0.02]'}`}>
+          <div className={`w-20 h-20 mx-auto mb-6 rounded-3xl flex items-center justify-center ${theme === 'light' ? 'bg-primary/10 text-primary' : 'bg-primary/20 text-primary shadow-[0_0_30px_rgba(95,200,192,0.1)]'}`}>
+            <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-lg font-black text-text-primary mb-2">Onay Bekleyen İlan Yok</h3>
-          <p className="text-[13px] text-text-secondary font-medium">Şu anda onayınızı bekleyen yeni bir ürün ilanı bulunmuyor.</p>
+          <h3 className="text-xl font-black text-text-primary mb-2 tracking-tight">{t('dashboard.sysop.no_pending_listings')}</h3>
+          <p className="text-[14px] text-text-secondary font-bold">{t('dashboard.sysop.no_pending_listings_desc')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {listings.map(listing => (
-            <div key={listing.listingID} className={`flex flex-col overflow-hidden rounded-2xl border ${theme === 'light' ? 'bg-white border-border-color' : 'bg-surface border-white/5'} shadow-sm hover:shadow-md transition-shadow`}>
+            <div key={listing.listingID} className={`flex flex-col overflow-hidden rounded-[2.5rem] border transition-all duration-300 hover:-translate-y-1 ${theme === 'light' ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
               <div className="relative aspect-[4/3] bg-gray-100 dark:bg-black/20">
                 <img 
                   src={getMediaUrl(listing.images?.[0]?.imageUrl || listing.imagePaths?.[0])} 
@@ -120,75 +120,75 @@ export default function ProductApprovalPage() {
                   className="w-full h-full object-cover"
                   onError={(e) => { (e.target as HTMLImageElement).src = '/logo-favicon.png'; }}
                 />
-                <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-[12px] font-black px-3 py-1 rounded-full shadow-lg border border-white/10">
+                <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white text-[13px] font-black px-4 py-1.5 rounded-full shadow-lg border border-white/10">
                   {listing.price} TL
                 </div>
               </div>
-              <div className="p-5 flex flex-col flex-1 gap-3">
+              <div className="p-6 flex flex-col flex-1 gap-4">
                 {/* Seller Info */}
-                <div className="flex items-center gap-3 mb-1">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-[12px] font-black text-primary border border-primary/20 shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[14px] font-black shrink-0 ${theme === 'light' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-primary/20 text-primary border border-primary/20 shadow-[0_0_15px_rgba(95,200,192,0.1)]'}`}>
                     {listing.seller?.userName?.[0] || 'U'}
                   </div>
                   <div className="flex flex-col overflow-hidden">
-                    <span className="text-[13px] font-black text-text-primary truncate">
+                    <span className="text-[14px] font-black text-text-primary truncate">
                       {listing.seller?.userName} {listing.seller?.userSurname}
                     </span>
-                    <span className="text-[10px] font-bold text-text-secondary/60 uppercase tracking-widest truncate">
-                      {listing.seller?.eMail || 'Kullanıcı'}
+                    <span className="text-[11px] font-bold text-text-secondary/60 uppercase tracking-widest truncate">
+                      {listing.seller?.eMail || t('dashboard.sysop.anonymous')}
                     </span>
                   </div>
                 </div>
 
                 {/* Brand & Title */}
                 <div>
-                  <div className="text-[11px] font-black text-primary uppercase tracking-widest mb-0.5">{listing.brand?.name || 'Markasız'}</div>
-                  <h3 className="text-[15px] font-bold text-text-primary line-clamp-1">{listing.title}</h3>
+                  <div className="text-[11px] font-black text-primary uppercase tracking-widest mb-1">{listing.brand?.name || t('dashboard.sysop.no_brand')}</div>
+                  <h3 className="text-[16px] font-bold text-text-primary line-clamp-1">{listing.title}</h3>
                 </div>
 
                 {/* Description */}
-                <p className="text-[12px] text-text-secondary line-clamp-2 leading-relaxed">
-                  {listing.description || 'İlan açıklaması girilmemiş.'}
+                <p className="text-[13px] font-medium text-text-secondary line-clamp-2 leading-relaxed">
+                  {listing.description || t('dashboard.sysop.no_desc')}
                 </p>
 
                 {/* Details Badges */}
-                <div className="flex flex-wrap gap-2 mt-1">
-                  <span className="px-2.5 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-[10px] font-black text-text-secondary uppercase tracking-wider">{listing.condition || 'YENİ'}</span>
-                  {listing.size && <span className="px-2.5 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-[10px] font-black text-text-secondary uppercase tracking-wider">{listing.size}</span>}
-                  {listing.gender && <span className="px-2.5 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-[10px] font-black text-text-secondary uppercase tracking-wider">{listing.gender}</span>}
-                  {listing.category && <span className="px-2.5 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-[10px] font-black text-text-secondary uppercase tracking-wider">{listing.category?.name || 'Kategori'}</span>}
+                <div className="flex flex-wrap gap-2">
+                  <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.condition || t('dashboard.sysop.condition_new')}</span>
+                  {listing.size && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.size}</span>}
+                  {listing.gender && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.gender}</span>}
+                  {listing.category && <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider ${theme === 'light' ? 'bg-gray-100 text-text-secondary' : 'bg-white/5 text-text-secondary'}`}>{listing.category?.name || t('dashboard.sysop.category')}</span>}
                 </div>
 
                 {/* Shipping Info */}
-                <div className="p-3 bg-blue-50/50 dark:bg-blue-500/5 rounded-xl flex flex-col mt-auto mb-2 border border-blue-100 dark:border-blue-500/10">
-                  <span className="text-[10px] font-black text-blue-500 dark:text-blue-400 uppercase tracking-[0.15em] mb-1">Kargo Teslimat Bilgisi</span>
-                  <span className="text-[12px] font-bold text-text-primary">
-                    {listing.shippingPayer === 'seller' ? 'Satıcı Öder (Ücretsiz Kargo)' : `Alıcı Öder — ${listing.shippingPrice ? `${listing.shippingPrice} TL` : 'Fiyat Belirsiz'}`}
+                <div className={`p-4 rounded-2xl flex flex-col mt-auto mb-2 border ${theme === 'light' ? 'bg-blue-50/50 border-blue-100' : 'bg-blue-500/5 border-blue-500/10'}`}>
+                  <span className="text-[10px] font-black text-blue-500 dark:text-blue-400 uppercase tracking-[0.15em] mb-1.5">{t('dashboard.sysop.shipping_info')}</span>
+                  <span className="text-[13px] font-black text-text-primary">
+                    {listing.shippingPayer === 'seller' ? t('dashboard.sysop.shipping_seller_pays') : `${t('dashboard.sysop.shipping_buyer_pays')} — ${listing.shippingPrice ? `${listing.shippingPrice} TL` : t('dashboard.sysop.price_unknown')}`}
                   </span>
                   {listing.shippingCompany && (
-                    <span className="text-[11px] font-medium text-text-secondary mt-1">
-                      Kargo Firması: <span className="font-bold text-text-primary">{listing.shippingCompany.name}</span>
+                    <span className="text-[12px] font-medium text-text-secondary mt-1">
+                      {t('dashboard.sysop.shipping_company')} <span className="font-bold text-text-primary">{listing.shippingCompany.name}</span>
                     </span>
                   )}
                   {listing.packageSize && (
-                    <span className="text-[10px] text-text-secondary/60 mt-0.5">
-                      Paket Boyutu: {listing.packageSize} Desi
+                    <span className="text-[11px] font-bold text-text-secondary/60 mt-1">
+                      {t('dashboard.sysop.package_size')} {listing.packageSize} {t('dashboard.sysop.desi')}
                     </span>
                   )}
                 </div>
 
-                <div className="flex gap-3 pt-2 border-t border-border-color">
+                <div className="flex gap-3 pt-4 border-t border-border-color">
                   <button 
                     onClick={() => handleReject(listing.listingID)}
-                    className="flex-1 py-3 rounded-xl text-[13px] font-black border-2 border-red-100 text-red-500 hover:bg-red-50 hover:border-red-200 active:scale-95 transition-all uppercase tracking-widest"
+                    className={`flex-1 h-12 rounded-2xl text-[13px] font-black transition-all uppercase tracking-widest ${theme === 'light' ? 'bg-red-50 text-red-500 hover:bg-red-100' : 'bg-red-500/10 text-red-500 hover:bg-red-500/20'}`}
                   >
-                    Reddet
+                    {t('dashboard.sysop.btn_reject')}
                   </button>
                   <button 
                     onClick={() => handleApprove(listing.listingID)}
-                    className="flex-1 py-3 rounded-xl text-[13px] font-black bg-green-500 text-white hover:bg-green-600 active:scale-95 shadow-lg shadow-green-500/20 transition-all uppercase tracking-widest"
+                    className="flex-1 h-12 rounded-2xl text-[13px] font-black bg-green-500 text-white hover:bg-green-600 active:scale-95 shadow-lg shadow-green-500/20 transition-all uppercase tracking-widest"
                   >
-                    Onayla
+                    {t('dashboard.sysop.btn_approve')}
                   </button>
                 </div>
               </div>
