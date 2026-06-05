@@ -578,8 +578,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           <div className="flex items-center gap-5 relative">
             {/* Auto Refresh Switch */}
-            <div className="hidden sm:flex items-center gap-2 mr-2 bg-white dark:bg-[#1A1D27] py-2 px-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 transition-all hover:border-[#FF6B00]/30">
-              <span className="text-[12px] font-bold text-gray-500 dark:text-gray-400">Oto Yenile</span>
+            <div className="hidden sm:flex items-center gap-3 mr-2 bg-white dark:bg-[#1A1D27] h-11 px-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 transition-all hover:shadow-md hover:-translate-y-0.5 group">
+              <span className="text-[13px] font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">Oto Yenile</span>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input 
                   type="checkbox" 
@@ -587,7 +587,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   checked={autoRefresh}
                   onChange={(e) => setAutoRefresh(e.target.checked)}
                 />
-                <div className="w-8 h-4 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#12141C] border border-gray-300 dark:border-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-[#FF6B00] peer-checked:border-[#FF6B00]"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#12141C] shadow-inner peer-checked:after:translate-x-full peer-checked:after:border-transparent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#FF6B00] peer-checked:to-[#FF8B30] peer-checked:border-none"></div>
               </label>
             </div>
 
