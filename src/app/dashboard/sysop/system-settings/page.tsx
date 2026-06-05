@@ -2,10 +2,12 @@
 
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {useToast} from "../../../../context/ToastContext";
 import {apiUrl} from "../../../../lib/api";
 
 export default function SystemSettingsPage() {
   const { t, theme } = useThemeLanguage();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState("marketplace");
   const [settings, setSettings] = useState<any>({
     minWithdrawalLimit: 0,
@@ -87,15 +89,14 @@ export default function SystemSettingsPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        // Optional: show a nice toast instead of alert if a toast system exists
-        alert(t('dashboard.settings_updated') || "Sistem ayarları başarıyla güncellendi.");
+        showToast(t('dashboard.settings_updated') || "Sistem ayarları başarıyla güncellendi.", "success");
         setInitialSettings(settings);
       } else {
-        alert(data.request?.resultMessage || "Güncelleme sırasında bir hata oluştu.");
+        showToast(data.request?.resultMessage || "Güncelleme sırasında bir hata oluştu.", "error");
       }
     } catch (err) {
       console.error(err);
-      alert("Ayarlar güncellenirken bir hata oluştu.");
+      showToast("Ayarlar güncellenirken bir hata oluştu.", "error");
     } finally {
       setSaving(false);
     }

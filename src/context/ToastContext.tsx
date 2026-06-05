@@ -38,12 +38,12 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       {/* Toast Container */}
       <style>{`
         @keyframes toastIn {
-          from { opacity: 0; transform: translateX(100%); }
+          from { opacity: 0; transform: translateX(-100%); }
           to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
       <div style={{
-        position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
+        position: 'fixed', top: '24px', left: '24px', zIndex: 9999,
         display: 'flex', flexDirection: 'column', gap: '12px', pointerEvents: 'none'
       }}>
         {toasts.map((toast) => {
