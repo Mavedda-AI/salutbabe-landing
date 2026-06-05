@@ -148,6 +148,26 @@ export default function AdminListings() {
                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Condition</h4>
                      <p className="text-sm text-slate-600">{selectedListing.condition || '-'}</p>
                    </div>
+                   <div>
+                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Applied Commissions (Snapshot)</h4>
+                     <div className="text-sm text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100 max-h-32 overflow-y-auto">
+                       {selectedListing.appliedCommissions && selectedListing.appliedCommissions.length > 0 ? (
+                         selectedListing.appliedCommissions.map((group: any, idx: number) => (
+                            <div key={idx} className="mb-2 last:mb-0">
+                               <div className="font-bold text-slate-800">{group.groupName} ({group.target === 'buyer' ? 'Alıcı' : 'Satıcı'})</div>
+                               {group.items?.map((rule: any, ruleIdx: number) => (
+                                  <div key={ruleIdx} className="text-xs text-slate-500 flex justify-between ml-2">
+                                     <span>{rule.name}</span>
+                                     <span>{rule.type === 'percentage' ? `%${rule.value}` : rule.type === 'fixed' ? `₺${rule.value}` : 'Kademeli'}</span>
+                                  </div>
+                               ))}
+                            </div>
+                         ))
+                       ) : (
+                         <span className="italic text-slate-400">Güncel sistem komisyonlarına tabi (Eski ilan)</span>
+                       )}
+                     </div>
+                   </div>
                 </div>
               </div>
 
