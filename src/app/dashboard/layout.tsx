@@ -274,7 +274,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA] dark:bg-[#0B0C10] text-[#1A2332] dark:text-[#E2E8F0] flex transition-colors duration-500 font-sans selection:bg-[#FF6B00]/20">
+    <div className="h-screen overflow-hidden bg-[#F5F7FA] dark:bg-[#0B0C10] text-[#1A2332] dark:text-[#E2E8F0] flex transition-colors duration-500 font-sans selection:bg-[#FF6B00]/20">
       
       {/* Mobile Sidebar Backdrop */}
       {isMobileSidebarOpen && (
@@ -526,10 +526,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Area */}
-      <div className={`flex-1 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isSidebarCollapsed ? 'lg:pl-[88px]' : 'lg:pl-[280px]'} pl-0 min-h-screen relative w-full overflow-x-hidden`}>
+      <div className={`flex-1 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isSidebarCollapsed ? 'lg:pl-[88px]' : 'lg:pl-[280px]'} pl-0 h-screen relative w-full overflow-hidden`}>
         
         {/* Dynamic Header */}
-        <header className="h-20 bg-white/70 dark:bg-[#12141C]/70 backdrop-blur-2xl border-b border-gray-200/50 dark:border-white/5 sticky top-0 z-[100] px-4 lg:px-8 flex items-center justify-between w-full shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
+        <header className="shrink-0 h-20 bg-white/70 dark:bg-[#12141C]/70 backdrop-blur-2xl border-b border-gray-200/50 dark:border-white/5 relative z-[100] px-4 lg:px-8 flex items-center justify-between w-full shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
           <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF6B00]/20 to-transparent"></div>
           
           <div className="flex items-center gap-4">
@@ -539,9 +539,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
-            <div className="flex flex-col justify-center relative">
-               <h1 className="text-xl lg:text-2xl font-black text-[#1A2332] dark:text-white leading-tight tracking-tight relative z-10">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
-               <p className="text-[12px] font-bold text-gray-500 dark:text-gray-400 hidden sm:block relative z-10">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-10 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-full hidden sm:block shadow-[0_0_10px_rgba(255,107,0,0.3)]"></div>
+              <div className="flex flex-col justify-center relative">
+                 <h1 className="text-xl lg:text-2xl font-black text-[#1A2332] dark:text-white leading-tight tracking-tight relative z-10">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+                 <p className="text-[12px] font-bold text-gray-500 dark:text-gray-400 hidden sm:block relative z-10">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
+              </div>
             </div>
           </div>
 
@@ -684,7 +687,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </header>
 
         {/* Dynamic Main Content */}
-        <main className="flex-1 p-4 lg:p-8 animate-in slide-in-from-bottom-4 fade-in duration-500 relative z-0 w-full">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-8 animate-in slide-in-from-bottom-4 fade-in duration-500 relative z-0 w-full">
           <div className="max-w-[1600px] mx-auto w-full h-full relative">
             {/* Background Glows for Aesthetic */}
             <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#FF6B00]/5 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
@@ -698,7 +701,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
 
         {/* Sleek Mini Footer */}
-        <footer className="py-2.5 px-6 border-t border-gray-200/50 dark:border-white/5 bg-white/50 dark:bg-[#12141C]/50 backdrop-blur-md sticky bottom-0 z-50">
+        <footer className="shrink-0 py-2.5 px-6 border-t border-gray-200/50 dark:border-white/5 bg-white/50 dark:bg-[#12141C]/50 backdrop-blur-md relative z-50">
           <div className="flex items-center justify-center max-w-[1600px] mx-auto relative h-6">
             <div className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest flex items-center gap-2">
               <span>{new Date().getFullYear()} ©</span>
