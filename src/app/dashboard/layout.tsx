@@ -118,9 +118,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [isAuthenticated]);
 
-  const handleLogout = () => {
-    logout();
-    window.location.href = "/";
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      if (token) {
+        await fetch(apiUrl("/auth/sign-out"), {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ closeAllSessions: false })
+        });
+      }
+    } catch (e) {
+      console.error("Logout request failed:", e);
+    } finally {
+      logout();
+      window.location.href = "/";
+    }
   };
 
   interface NavItem {

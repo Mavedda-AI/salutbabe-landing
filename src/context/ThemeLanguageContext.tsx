@@ -45,9 +45,22 @@ export const ThemeLanguageProvider = ({ children }: { children: React.ReactNode 
     if (userStr) {
       try {
         const user = JSON.parse(userStr);
-        // Backend stores preferences in userPreferences object (mobile parity)
-        if (user.userPreferences?.language) initialLang = user.userPreferences.language.toLowerCase() as Language;
-        if (user.userPreferences?.theme) initialTheme = user.userPreferences.theme.toLowerCase() as Theme;
+        // Backend stores preferences directly or in userPreferences object (mobile parity)
+        const langSource = user.defaultLanguage || user.userPreferences?.defaultLanguage || user.language;
+        if (langSource) {
+          const lang = String(langSource).toUpperCase();
+          if (lang === 'TURKISH' || lang === 'TR') initialLang = 'tr';
+          else if (lang === 'ENGLISH' || lang === 'EN') initialLang = 'en';
+          else if (lang === 'FRENCH' || lang === 'FR') initialLang = 'fr';
+          else if (lang === 'GERMAN' || lang === 'DE') initialLang = 'de';
+        }
+        
+        const themeSource = user.defaultTheme || user.userPreferences?.defaultTheme || user.theme;
+        if (themeSource) {
+          const themePref = String(themeSource).toUpperCase();
+          if (themePref === 'DARK') initialTheme = 'dark';
+          else if (themePref === 'LIGHT') initialTheme = 'light';
+        }
       } catch (e) {}
     } else {
       // If not logged in, use local storage or browser defaults
