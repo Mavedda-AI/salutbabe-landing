@@ -635,9 +635,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </div>
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FF6B00] to-[#5FC8C0] p-[2px] shadow-sm">
                    <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-black border-2 border-white dark:border-[#12141C]">
-                     {user?.profilePhotoUrl || user?.avatar ? (
+                     {user?.profilePhotoUrl || user?.profilePhoto || user?.avatar ? (
                        <img 
-                         src={(user.profilePhotoUrl || user.avatar)?.startsWith('http') ? (user.profilePhotoUrl || user.avatar) : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl || user.avatar}`} 
+                         src={(user.profilePhotoUrl || user.profilePhoto || user.avatar)?.startsWith('http') ? (user.profilePhotoUrl || user.profilePhoto || user.avatar) : `${API_BASE_URL}/uploads/profiles/${user.profilePhotoUrl || user.profilePhoto || user.avatar}`} 
                          alt="Profile" 
                          className="w-full h-full object-cover" 
                          onError={(e) => {
@@ -659,7 +659,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                  <div className="relative p-6 bg-gradient-to-br from-[#FF6B00]/10 to-[#5FC8C0]/10 border-b border-gray-100 dark:border-gray-800">
 
                     <p className="text-[16px] font-black text-[#1A2332] dark:text-white truncate relative z-10">{user?.userName || user?.name} {user?.userSurname || ''}</p>
-                    <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.userEmail || user?.email || 'demo@salutbabe.com'}</p>
+                    <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.userEmail || user?.email || user?.accountCredentials?.eMail || 'demo@salutbabe.com'}</p>
                  </div>
                  
                  <div className="p-2">
