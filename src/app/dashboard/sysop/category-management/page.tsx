@@ -129,7 +129,7 @@ export default function AdminCategories() {
           <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5`}>
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
-                <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
+                <tr className='bg-gray-50/50 border-b border-border-color dark:bg-white/5 dark:border-b dark:border-white/5'>
                   <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.cat_name')}</th>
                   <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.cat_parent')}</th>
                   <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.cat_slug')}</th>
@@ -178,7 +178,7 @@ export default function AdminCategories() {
           <div className={`lg:col-span-2 rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5`}>
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
-                <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
+                <tr className='bg-gray-50/50 border-b border-border-color dark:bg-white/5 dark:border-b dark:border-white/5'>
                   <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.attributes')}</th>
                   <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.attr_mobile_comp')}</th>
                   <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.attr_type')}</th>

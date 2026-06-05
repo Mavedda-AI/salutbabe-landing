@@ -59,7 +59,7 @@ export default function AdminListings() {
       <div className={`rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
-            <tr className={theme === 'light' ? 'bg-gray-50/50 border-b border-border-color' : 'bg-white/5 border-b border-white/5'}>
+            <tr className='bg-gray-50/50 border-b border-border-color dark:bg-white/5 dark:border-b dark:border-white/5'>
               <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.table_listing')}</th>
               <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.table_seller')}</th>
               <th className="p-6 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.sysop.table_price')}</th>

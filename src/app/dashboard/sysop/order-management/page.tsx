@@ -71,7 +71,7 @@ export default function OrderManagementPage() {
       <div className={`rounded-[2.5rem] border overflow-x-auto bg-white border-gray-100 shadow-xl shadow-gray-200/50 dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <table className="w-full text-left border-collapse min-w-[800px]">
           <thead>
-            <tr className={theme === 'light' ? 'bg-gray-50/50' : 'bg-white/5'}>
+            <tr className='bg-gray-50/50 dark:bg-white/5'>
               <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_order_id')}</th>
               <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_buyer')}</th>
               <th className="px-8 py-5 text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em]">{t('dashboard.orders.table_seller')}</th>

@@ -227,9 +227,7 @@ export default function AdminUsersPage() {
           viewMode === 'list' ? (
             /* List View Card */
             <div key={user.userID} className={`p-6 lg:p-8 rounded-[2.5rem] border transition-all duration-500 group hover:scale-[1.01]
-              ${theme === 'light' 
-                ? 'bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20' 
-                : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+              bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20 dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl dark:hover:bg-[#121214] dark:hover:border-white/10`}>
               
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
                 {/* User Info Section */}
@@ -240,7 +238,7 @@ export default function AdminUsersPage() {
                       {user.userName?.[0] || user.eMail[0].toUpperCase()}
                     </div>
                     <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-4 flex items-center justify-center
-                      bg-white border-white dark:bg-[#121214] dark:border-[#121214]`}>
+                      bg-white border-white dark:bg-[#12141C] dark:border-[#121214]`}>
                       <div className={`w-2.5 h-2.5 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'}`} />
                     </div>
                   </div>
@@ -339,9 +337,7 @@ export default function AdminUsersPage() {
           ) : (
             /* Grid View Card */
             <div key={user.userID} className={`p-8 rounded-[3rem] border transition-all duration-500 group hover:scale-[1.02] flex flex-col items-center text-center
-              ${theme === 'light' 
-                ? 'bg-white border-border-color shadow-sm hover:shadow-2xl hover:border-primary/20' 
-                : 'bg-[#121214]/60 backdrop-blur-xl border-white/5 shadow-2xl hover:bg-[#121214] hover:border-white/10'}`}>
+              bg-white border-border-color shadow-sm hover:shadow-2xl hover:border-primary/20 dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl dark:hover:bg-[#121214] dark:hover:border-white/10`}>
               
               {/* Profile Header */}
               <div className="relative mb-6">
@@ -350,7 +346,7 @@ export default function AdminUsersPage() {
                   {user.userName?.[0] || user.eMail[0].toUpperCase()}
                 </div>
                 <div className={`absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-4 flex items-center justify-center
-                  bg-white border-white dark:bg-[#121214] dark:border-[#121214]`}>
+                  bg-white border-white dark:bg-[#12141C] dark:border-[#121214]`}>
                   <div className={`w-3 h-3 rounded-full ${user.isActive ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]'}`} />
                 </div>
               </div>
