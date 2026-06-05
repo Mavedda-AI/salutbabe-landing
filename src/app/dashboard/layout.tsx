@@ -675,37 +675,42 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                  <div className="relative p-6 bg-gradient-to-br from-[#FF6B00]/10 to-[#5FC8C0]/10 border-b border-gray-100 dark:border-gray-800">
 
                     <p className="text-[16px] font-black text-[#1A2332] dark:text-white truncate relative z-10">{user?.userName || user?.name} {user?.userSurname || ''}</p>
-                    <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.userEmail || user?.email || user?.accountCredentials?.eMail || 'demo@salutbabe.com'}</p>
+                    <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.eMail || user?.userEmail || user?.email || user?.accountCredentials?.eMail || 'demo@salutbabe.com'}</p>
                  </div>
                  
                  <div className="p-2">
+                   {/* Company Map */}
+                   <Link href="/dashboard/common/map" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group">
+                      <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22V2m0 5H6l-2 2 2 2h6m0 4h6l2-2-2-2h-6" /></svg>
+                      {t('dashboard.company_map') || 'Company Map'}
+                   </Link>
 
                    <Link href="/dashboard/common/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group">
                       <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                      Edit Profile
+                      {t('dashboard.edit_profile') || 'Edit Profile'}
                    </Link>
                    
                    <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group text-left">
                       <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                      Restart Walkthrough
+                      {t('dashboard.restart_walkthrough') || 'Restart Walkthrough'}
                    </button>
 
                    <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group text-left">
                       <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                      What's New
+                      {t('dashboard.whats_new') || "What's New"}
                    </button>
 
                    <div className="h-px bg-gray-200 dark:bg-white/10 my-2 mx-2"></div>
 
                    <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-red-500 dark:hover:text-white transition-all group text-left">
                       <svg className="w-5 h-5 text-gray-400 group-hover:text-red-500 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                      Çıkış Yap
+                      {t('dashboard.logout') || 'Çıkış Yap'}
                    </button>
 
                    <div className="h-px bg-gray-200 dark:bg-white/10 my-2 mx-2"></div>
 
                    <div className="py-2">
-                     <p className="text-center text-[12px] font-bold text-gray-500 dark:text-gray-400 mb-3">Follow Us</p>
+                     <p className="text-center text-[12px] font-bold text-gray-500 dark:text-gray-400 mb-3">{t('dashboard.follow_us') || 'Follow Us'}</p>
                      <div className="flex items-center justify-center gap-3">
                        <a href="#" className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#252B3C] border border-transparent dark:border-white/5 flex items-center justify-center text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#323644] transition-all shadow-sm">
                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
