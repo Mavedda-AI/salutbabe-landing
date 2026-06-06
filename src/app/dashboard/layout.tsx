@@ -625,15 +625,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </div>
                     
                     <div className="flex-1 overflow-y-auto">
-                      {notifications.length === 0 ? (
-                        <div className="p-8 text-center flex flex-col items-center justify-center">
-                          <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800/50 rounded-full flex items-center justify-center mb-3">
-                            <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
-                          </div>
-                          <span className="text-[13px] font-bold text-gray-400">Bildirim bulunmuyor</span>
-                        </div>
-                      ) : (
-                        notifications.map((notif: any) => (
+                      {(() => {
+                        const unreadNotifs = notifications.filter((n: any) => !n.isRead);
+                        if (unreadNotifs.length === 0) {
+                          return (
+                            <div className="p-8 text-center flex flex-col items-center justify-center">
+                              <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800/50 rounded-full flex items-center justify-center mb-3">
+                                <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
+                              </div>
+                              <span className="text-[13px] font-bold text-gray-400">Okunmamış bildirim bulunmuyor</span>
+                            </div>
+                          );
+                        }
+                        return unreadNotifs.map((notif: any) => (
                           <div 
                             key={notif.userNotificationID || notif.id || Math.random()} 
                             onClick={() => !notif.isRead && handleMarkAsRead(notif.userNotificationID || notif.id)}
@@ -657,8 +661,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               <div className="absolute right-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-[#FF6B00] rounded-full shadow-[0_0_8px_rgba(255,107,0,0.6)]"></div>
                             )}
                           </div>
-                        ))
-                      )}
+                        ));
+                      })()}
                     </div>
                   </div>
                 </>
