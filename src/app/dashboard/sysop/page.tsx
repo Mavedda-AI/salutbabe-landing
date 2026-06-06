@@ -193,7 +193,7 @@ export default function SysopDashboard() {
                 <Legend 
                   iconType="circle" 
                   wrapperStyle={{ fontSize: '13px', paddingTop: '10px' }}
-                  formatter={(value) => <span className="text-gray-600 dark:text-gray-300 font-medium ml-1">{value}</span>}
+                  formatter={(value, entry: any) => <span className="text-gray-600 dark:text-gray-300 font-medium ml-1">{value} ({entry.payload?.value})</span>}
                 />
               </PieChart>
             </ResponsiveContainer>

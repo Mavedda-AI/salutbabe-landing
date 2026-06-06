@@ -726,10 +726,7 @@ export default function ShippingManagementPage() {
               {/* Section 4: Advanced Rates */}
               {activeTab === 'RATES' && (
               <div className="space-y-4 animate-fade-in">
-                <div className="flex items-center justify-between mb-4">
-                   <div className="flex items-center gap-2">
-                     <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">4. Fiyatlandırma (Desi Baremleri)</h4>
-                   </div>
+                <div className="flex items-center justify-end mb-4">
                    <button 
                      onClick={addRate} 
                      className="h-9 px-4 rounded-lg bg-gray-100 dark:bg-white/5 text-[#1A2332] dark:text-white font-semibold text-[13px] hover:bg-[#FF6B00] hover:text-white transition-all flex items-center gap-2 shadow-sm"
