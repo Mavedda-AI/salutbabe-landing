@@ -24,6 +24,7 @@ interface ShippingCompany {
   logo: string;
   isActive: boolean;
   source: 'SYSTEM' | 'USER_BASED';
+  apiCredentials?: any;
   rates: ShippingRate[];
 }
 
@@ -46,7 +47,13 @@ export default function ShippingManagementPage() {
       });
       const data = await res.json();
       if (data.payload) {
-        setCompanies(data.payload);
+        const sortedPayload = data.payload.map((c: ShippingCompany) => {
+          if (c.rates) {
+             c.rates.sort((a, b) => a.desiMin - b.desiMin);
+          }
+          return c;
+        });
+        setCompanies(sortedPayload);
       }
     } catch (e) {
       console.error(e);
@@ -60,7 +67,14 @@ export default function ShippingManagementPage() {
   }, []);
 
   const handleEdit = (company: ShippingCompany) => {
-    setCurrentCompany(JSON.parse(JSON.stringify(company)));
+    const copy = JSON.parse(JSON.stringify(company));
+    if (copy.rates) {
+      copy.rates.sort((a: any, b: any) => a.desiMin - b.desiMin);
+    }
+    if (!copy.apiCredentials) {
+      copy.apiCredentials = { activeEnvironment: 'dev', dev: {}, prod: {} };
+    }
+    setCurrentCompany(copy);
     setIsModalOpen(true);
   };
 
@@ -70,6 +84,7 @@ export default function ShippingManagementPage() {
       website: '',
       source: 'SYSTEM',
       isActive: true,
+      apiCredentials: { activeEnvironment: 'dev', dev: {}, prod: {} },
       rates: []
     });
     setIsModalOpen(true);
@@ -200,7 +215,19 @@ export default function ShippingManagementPage() {
     setCurrentCompany({ ...currentCompany, rates });
   };
 
-  if (loading) return <div className="p-8 text-center">{t('dashboard.sysop.loading_data') || 'Yükleniyor...'}</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-[400px] gap-6 animate-fade-in">
+      <div className="relative flex items-center justify-center">
+         <div className="absolute inset-0 w-16 h-16 border-4 border-gray-100 dark:border-white/5 rounded-full"></div>
+         <div className="w-16 h-16 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
+         <div className="absolute w-6 h-6 bg-[#FF6B00]/20 rounded-full animate-pulse"></div>
+      </div>
+      <div className="flex flex-col items-center gap-1">
+         <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#1A2332] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
+         <span className="text-[11px] font-bold text-gray-400">Kargo verileri hazırlanıyor...</span>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-8 animate-fade-in relative">
@@ -213,12 +240,13 @@ export default function ShippingManagementPage() {
         </div>
         <button 
           onClick={handleAdd}
-          className="h-14 px-8 bg-gradient-to-r from-[#FF6B00] to-[#FF8B30] text-white font-black rounded-2xl shadow-lg shadow-[#FF6B00]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 shrink-0"
+          className="group relative h-14 px-8 bg-gradient-to-r from-[#FF6B00] to-[#FF8B30] text-white font-black rounded-2xl shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:shadow-[0_15px_40px_rgba(255,107,0,0.5)] hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-3 shrink-0 overflow-hidden"
         >
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+          <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+          <div className="relative w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+             <svg className="w-5 h-5 transition-transform group-hover:rotate-180 duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
           </div>
-          {t('dashboard.shipping.add_company') || 'Yeni Şirket Ekle'}
+          <span className="relative">{t('dashboard.shipping.add_company') || 'Yeni Şirket Ekle'}</span>
         </button>
       </div>
 
@@ -237,13 +265,23 @@ export default function ShippingManagementPage() {
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {companies.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-bold opacity-60 uppercase tracking-widest">Henüz kargo şirketi eklenmemiş.</td>
+                <td colSpan={5} className="px-8 py-32 text-center relative overflow-hidden">
+                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-white/[0.02]"></div>
+                   <div className="relative flex flex-col items-center justify-center gap-4">
+                     <div className="w-20 h-20 rounded-full bg-gray-50 dark:bg-white/5 border-2 border-dashed border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-300 dark:text-gray-600 mb-2 shadow-inner">
+                       <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                     </div>
+                     <span className="text-[13px] font-black text-gray-500 uppercase tracking-widest">Henüz Sistemde Kargo Şirketi Yok</span>
+                     <p className="text-[12px] font-bold text-gray-400 max-w-sm">Gönderim seçenekleri sunabilmek için sağ üst köşeden yeni bir kargo şirketi ve desi baremleri ekleyin.</p>
+                   </div>
+                </td>
               </tr>
             ) : (
               companies.map((company) => (
                 <tr key={company.companyID} className={`transition-all hover:bg-gray-50/50 dark:hover:bg-white/5 group`}>
                   <td className="px-8 py-6">
-                    <div className="w-16 h-16 rounded-[1.25rem] bg-white dark:bg-[#0B0C10] shadow-sm border border-gray-100 dark:border-white/10 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+                    <div className="relative w-16 h-16 rounded-[1.25rem] bg-white dark:bg-[#0B0C10] shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_2px_4px_rgba(255,255,255,0.02)] border border-gray-100 dark:border-white/10 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_10px_20px_rgba(0,0,0,0.05)] dark:group-hover:shadow-[0_10px_20px_rgba(255,255,255,0.02)]">
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-transparent dark:from-white/10 z-10 pointer-events-none"></div>
                       {company.logo ? (
                         <img src={company.logo.startsWith('http') ? company.logo : apiUrl(`/uploads/shipping/${company.logo}`)} alt={company.name} className="w-full h-full object-contain p-2" />
                       ) : (
@@ -272,7 +310,10 @@ export default function ShippingManagementPage() {
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${company.isActive ? 'bg-[#34C759] shadow-[0_0_12px_rgba(52,199,89,0.6)]' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                      <div className="relative flex items-center justify-center w-3 h-3">
+                         <div className={`absolute inset-0 rounded-full ${company.isActive ? 'bg-[#34C759] animate-ping opacity-30' : 'hidden'}`}></div>
+                         <div className={`relative w-2.5 h-2.5 rounded-full ${company.isActive ? 'bg-[#34C759] shadow-[0_0_12px_rgba(52,199,89,0.8)]' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                      </div>
                       <span className={`text-[12px] font-black uppercase tracking-widest ${company.isActive ? 'text-[#34C759]' : 'text-gray-400'}`}>
                         {company.isActive ? 'AKTİF KULLANIMDA' : 'PASİF'}
                       </span>
@@ -280,10 +321,10 @@ export default function ShippingManagementPage() {
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <button onClick={() => handleEdit(company)} className="w-11 h-11 rounded-xl bg-gray-50 dark:bg-white/5 text-gray-500 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 dark:hover:bg-[#FF6B00]/20 border border-gray-100 dark:border-white/10 transition-all flex items-center justify-center" title="Düzenle">
+                      <button onClick={() => handleEdit(company)} className="w-11 h-11 rounded-[0.85rem] bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 dark:hover:bg-[#FF6B00]/20 border border-transparent hover:border-[#FF6B00]/20 transition-all flex items-center justify-center shadow-sm" title="Düzenle">
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                       </button>
-                      <button onClick={() => handleDelete(company.companyID)} className="w-11 h-11 rounded-xl bg-gray-50 dark:bg-white/5 text-gray-500 hover:bg-red-500 hover:text-white border border-gray-100 dark:border-white/10 hover:border-red-500 transition-all flex items-center justify-center shadow-sm" title="Sil">
+                      <button onClick={() => handleDelete(company.companyID)} className="w-11 h-11 rounded-[0.85rem] bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-400 border border-transparent hover:border-red-500/20 transition-all flex items-center justify-center shadow-sm" title="Sil">
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                       </button>
                     </div>
@@ -338,7 +379,7 @@ export default function ShippingManagementPage() {
                       placeholder="Örn: Yurtiçi Kargo"
                       value={currentCompany.name}
                       onChange={e => setCurrentCompany({...currentCompany, name: e.target.value})}
-                      className="w-full h-14 px-6 rounded-2xl outline-none font-black text-[15px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] dark:focus:border-[#FF6B00] shadow-sm" 
+                      className="w-full h-14 px-6 rounded-2xl outline-none font-black text-[15px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-4 focus:ring-[#FF6B00]/10 dark:focus:ring-[#FF6B00]/20 shadow-sm" 
                     />
                   </div>
                   <div className="space-y-3">
@@ -348,22 +389,31 @@ export default function ShippingManagementPage() {
                       placeholder="Örn: https://www.yurticikargo.com"
                       value={currentCompany.website}
                       onChange={e => setCurrentCompany({...currentCompany, website: e.target.value})}
-                      className="w-full h-14 px-6 rounded-2xl outline-none font-black text-[15px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] dark:focus:border-[#FF6B00] shadow-sm" 
+                      className="w-full h-14 px-6 rounded-2xl outline-none font-black text-[15px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-4 focus:ring-[#FF6B00]/10 dark:focus:ring-[#FF6B00]/20 shadow-sm" 
                     />
                   </div>
 
                   <div className="space-y-3">
                     <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Tedarikçi Tipi (Kaynak)</label>
-                    <div className="relative">
-                      <select 
-                        value={currentCompany.source}
-                        onChange={e => setCurrentCompany({...currentCompany, source: e.target.value as any})}
-                        className="w-full h-14 px-6 rounded-2xl outline-none font-black text-[15px] transition-all border appearance-none bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] dark:focus:border-[#FF6B00] shadow-sm cursor-pointer"
+                    <div className="flex items-center gap-2 p-1.5 h-14 bg-white dark:bg-[#0B0C10] rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm relative z-0">
+                      <button 
+                        onClick={() => setCurrentCompany({...currentCompany, source: 'SYSTEM'})}
+                        className={`flex-1 h-full rounded-xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 relative z-10 ${currentCompany.source === 'SYSTEM' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
                       >
-                        <option value="SYSTEM">SİSTEM (Tüm satıcılar kullanabilir)</option>
-                        <option value="USER_BASED">KULLANICI (Sadece satıcıya özel)</option>
-                      </select>
-                      <svg className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        {currentCompany.source === 'SYSTEM' && (
+                          <div className="absolute inset-0 bg-blue-50 dark:bg-blue-500/10 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] -z-10 animate-fade-in"></div>
+                        )}
+                        SİSTEM (GLOBAL)
+                      </button>
+                      <button 
+                        onClick={() => setCurrentCompany({...currentCompany, source: 'USER_BASED'})}
+                        className={`flex-1 h-full rounded-xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 relative z-10 ${currentCompany.source === 'USER_BASED' ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                      >
+                        {currentCompany.source === 'USER_BASED' && (
+                          <div className="absolute inset-0 bg-purple-50 dark:bg-purple-500/10 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] -z-10 animate-fade-in"></div>
+                        )}
+                        KULLANICI (ÖZEL)
+                      </button>
                     </div>
                   </div>
                   <div className="space-y-3">
@@ -426,12 +476,128 @@ export default function ShippingManagementPage() {
                 </div>
               )}
 
-              {/* Section 3: Advanced Rates */}
+              {/* Section 3: API Credentials */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                   <div className="w-8 h-8 rounded-full bg-purple-500/10 text-purple-600 flex items-center justify-center">
+                     <span className="font-black text-[14px]">3</span>
+                   </div>
+                   <h4 className="text-[16px] font-black text-[#1A2332] dark:text-white uppercase tracking-widest">API Entegrasyon Bilgileri</h4>
+                </div>
+
+                <div className="p-6 rounded-3xl border border-gray-100 dark:border-white/10 bg-gray-50/30 dark:bg-white/[0.02] space-y-6">
+                   <div className="flex items-center justify-between">
+                     <div>
+                       <h5 className="text-[14px] font-black text-[#1A2332] dark:text-white">Çalışma Ortamı</h5>
+                       <p className="text-[11px] font-bold text-gray-500 uppercase mt-0.5">İşlemlerin Hangi Ortamda Yapılacağını Seçin</p>
+                     </div>
+                     <div className="flex items-center gap-2 p-1 bg-white dark:bg-[#0B0C10] rounded-xl border border-gray-200 dark:border-white/10 shadow-sm">
+                        <button 
+                          onClick={() => {
+                            const creds = currentCompany.apiCredentials || { dev: {}, prod: {} };
+                            setCurrentCompany({...currentCompany, apiCredentials: { ...creds, activeEnvironment: 'dev' }});
+                          }}
+                          className={`px-6 h-10 rounded-lg font-black text-[11px] uppercase tracking-widest transition-all ${currentCompany.apiCredentials?.activeEnvironment === 'dev' ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
+                          TEST (DEV)
+                        </button>
+                        <button 
+                          onClick={() => {
+                            const creds = currentCompany.apiCredentials || { dev: {}, prod: {} };
+                            setCurrentCompany({...currentCompany, apiCredentials: { ...creds, activeEnvironment: 'prod' }});
+                          }}
+                          className={`px-6 h-10 rounded-lg font-black text-[11px] uppercase tracking-widest transition-all ${currentCompany.apiCredentials?.activeEnvironment === 'prod' ? 'bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
+                          CANLI (PROD)
+                        </button>
+                     </div>
+                   </div>
+
+                   <div className="space-y-4 pt-6 border-t border-gray-100 dark:border-white/10">
+                     {currentCompany.name?.toLowerCase().includes('ptt') ? (
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         {['PTT_KULLANICI', 'PTT_MUSTERI_ID', 'PTT_SIFRE'].map(key => (
+                           <div key={key} className="space-y-2">
+                             <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">{key.replace(/_/g, ' ')}</label>
+                             <input 
+                               type="text" 
+                               value={currentCompany.apiCredentials?.[currentCompany.apiCredentials?.activeEnvironment || 'dev']?.[key] || ''}
+                               onChange={e => {
+                                 const env = currentCompany.apiCredentials?.activeEnvironment || 'dev';
+                                 const creds = currentCompany.apiCredentials || { dev: {}, prod: {} };
+                                 setCurrentCompany({
+                                   ...currentCompany, 
+                                   apiCredentials: {
+                                     ...creds,
+                                     [env]: { ...creds[env], [key]: e.target.value }
+                                   }
+                                 });
+                               }}
+                               className="w-full h-12 px-4 rounded-xl outline-none font-black text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm" 
+                             />
+                           </div>
+                         ))}
+                       </div>
+                     ) : currentCompany.name?.toLowerCase().includes('dhl') ? (
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         {['DHL_ACCOUNT_NUMBER', 'DHL_API_KEY', 'DHL_API_PASSWORD', 'DHL_API_SECRET'].map(key => (
+                           <div key={key} className="space-y-2">
+                             <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">{key.replace(/_/g, ' ')}</label>
+                             <input 
+                               type="text" 
+                               value={currentCompany.apiCredentials?.[currentCompany.apiCredentials?.activeEnvironment || 'dev']?.[key] || ''}
+                               onChange={e => {
+                                 const env = currentCompany.apiCredentials?.activeEnvironment || 'dev';
+                                 const creds = currentCompany.apiCredentials || { dev: {}, prod: {} };
+                                 setCurrentCompany({
+                                   ...currentCompany, 
+                                   apiCredentials: {
+                                     ...creds,
+                                     [env]: { ...creds[env], [key]: e.target.value }
+                                   }
+                                 });
+                               }}
+                               className="w-full h-12 px-4 rounded-xl outline-none font-black text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm" 
+                             />
+                           </div>
+                         ))}
+                       </div>
+                     ) : (
+                       <div className="space-y-2">
+                         <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">JSON Konfigürasyonu ({currentCompany.apiCredentials?.activeEnvironment?.toUpperCase() || 'DEV'})</label>
+                         <textarea 
+                           value={JSON.stringify(currentCompany.apiCredentials?.[currentCompany.apiCredentials?.activeEnvironment || 'dev'] || {}, null, 2)}
+                           onChange={e => {
+                             try {
+                               const parsed = JSON.parse(e.target.value);
+                               const env = currentCompany.apiCredentials?.activeEnvironment || 'dev';
+                               const creds = currentCompany.apiCredentials || { dev: {}, prod: {} };
+                               setCurrentCompany({
+                                 ...currentCompany, 
+                                 apiCredentials: {
+                                   ...creds,
+                                   [env]: parsed
+                                 }
+                               });
+                             } catch(err) {
+                               // Ignore invalid JSON while typing
+                             }
+                           }}
+                           className="w-full h-32 p-4 rounded-xl outline-none font-mono text-[12px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm"
+                           placeholder='{"API_KEY": "value"}'
+                         ></textarea>
+                       </div>
+                     )}
+                   </div>
+                </div>
+              </div>
+
+              {/* Section 4: Advanced Rates */}
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                    <div className="flex items-center gap-3">
                      <div className="w-8 h-8 rounded-full bg-[#FF9EBE]/20 text-[#FF9EBE] flex items-center justify-center">
-                       <span className="font-black text-[14px]">3</span>
+                       <span className="font-black text-[14px]">4</span>
                      </div>
                      <h4 className="text-[16px] font-black text-[#1A2332] dark:text-white uppercase tracking-widest">Fiyatlandırma (Desi Baremleri)</h4>
                    </div>
@@ -450,10 +616,10 @@ export default function ShippingManagementPage() {
                       
                       <button 
                          onClick={() => removeRate(idx)} 
-                         className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:scale-110 hover:shadow-lg transition-transform z-10"
+                         className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white dark:bg-[#12141C] border border-gray-200 dark:border-white/10 text-gray-400 flex items-center justify-center hover:bg-red-50 hover:text-red-500 hover:border-red-500/30 dark:hover:bg-red-500/10 dark:hover:text-red-400 transition-all z-10 shadow-sm group"
                          title="Baremi Sil"
                       >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        <svg className="w-4 h-4 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                       </button>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -467,7 +633,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.desiMin}
                                  onChange={e => updateRate(idx, 'desiMin', parseFloat(e.target.value))}
-                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[16px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-[#FF6B00] shadow-inner" 
+                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[16px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-inner" 
                                />
                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400">DS</span>
                              </div>
@@ -479,7 +645,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.desiMax}
                                  onChange={e => updateRate(idx, 'desiMax', parseFloat(e.target.value))}
-                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[16px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-[#FF6B00] shadow-inner" 
+                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[16px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-inner" 
                                />
                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400">DS</span>
                              </div>
@@ -495,7 +661,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.originalPrice || 0}
                                  onChange={e => updateRate(idx, 'originalPrice', parseFloat(e.target.value))}
-                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[16px] transition-all border bg-blue-50/50 dark:bg-blue-500/5 border-blue-100 dark:border-blue-500/20 focus:border-blue-500 text-blue-700 dark:text-blue-400 shadow-inner" 
+                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[16px] transition-all border bg-blue-50/50 dark:bg-blue-500/5 border-blue-100 dark:border-blue-500/20 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-blue-700 dark:text-blue-400 shadow-inner" 
                                />
                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[12px] font-black text-blue-400">₺</span>
                              </div>
@@ -507,7 +673,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.vatRate !== undefined ? rate.vatRate : 20}
                                  onChange={e => updateRate(idx, 'vatRate', parseFloat(e.target.value))}
-                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-gray-400 shadow-inner" 
+                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-gray-400 focus:ring-2 focus:ring-gray-400/20 shadow-inner" 
                                />
                                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 text-right leading-tight border-l border-gray-200 dark:border-gray-700 pl-2">
                                   +{rate.vat || 0} ₺<br/>(Tutar)
@@ -521,7 +687,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.ephRate !== undefined ? rate.ephRate : 2.35}
                                  onChange={e => updateRate(idx, 'ephRate', parseFloat(e.target.value))}
-                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-gray-400 shadow-inner" 
+                                 className="w-full h-12 px-4 rounded-xl outline-none font-black text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-gray-400 focus:ring-2 focus:ring-gray-400/20 shadow-inner" 
                                />
                                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-gray-400 text-right leading-tight border-l border-gray-200 dark:border-gray-700 pl-2">
                                   +{rate.ephAmount || 0} ₺<br/>(Tutar)
@@ -548,10 +714,13 @@ export default function ShippingManagementPage() {
                   ))}
                   
                   {(!currentCompany.rates || currentCompany.rates.length === 0) && (
-                    <div className="p-10 border-2 border-dashed border-gray-200 dark:border-white/10 rounded-3xl flex flex-col items-center justify-center text-center opacity-70">
-                       <svg className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                       <p className="text-[13px] font-black text-gray-500 uppercase tracking-widest">Hiç barem eklenmemiş.</p>
-                       <p className="text-[12px] font-bold text-gray-400 mt-1 max-w-sm">Gönderim sağlanabilmesi için ağırlık (desi) sınırlarını ve fiyatlarını belirlemelisiniz.</p>
+                    <div className="relative p-10 border-2 border-dashed border-gray-200 dark:border-white/10 rounded-[2rem] flex flex-col items-center justify-center text-center overflow-hidden group">
+                       <div className="absolute inset-0 bg-gray-50/50 dark:bg-white/[0.02] group-hover:bg-gray-100/50 dark:group-hover:bg-white/[0.04] transition-colors"></div>
+                       <div className="w-16 h-16 rounded-2xl bg-white dark:bg-[#1A2332] border border-gray-100 dark:border-white/10 shadow-sm flex items-center justify-center text-gray-400 mb-4 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 relative z-10">
+                         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                       </div>
+                       <p className="text-[13px] font-black text-[#1A2332] dark:text-white uppercase tracking-widest relative z-10">Hiç Barem Eklenmemiş</p>
+                       <p className="text-[12px] font-bold text-gray-500 mt-1.5 max-w-sm relative z-10">Gönderim sağlanabilmesi için lütfen üstteki butonu kullanarak ağırlık sınırlarını (desi) ve fiyatlarını belirleyin.</p>
                     </div>
                   )}
                 </div>
