@@ -257,7 +257,7 @@ export default function ShippingManagementPage() {
     <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-8 pt-24 font-sans">
       <div className="max-w-7xl mx-auto">
         {/* Advanced Filter Bar (Image 2 Match) */}
-        <div className="w-full flex flex-wrap xl:flex-nowrap items-center gap-3 p-2 mb-8 bg-white dark:bg-[#1E2336] border border-gray-200 dark:border-[#2A314A] rounded-[20px] shadow-sm">
+        <div className="w-full flex flex-wrap xl:flex-nowrap items-center gap-3 p-2 mb-6 bg-white/80 dark:bg-[#12141C]/80 backdrop-blur-2xl border border-gray-200 dark:border-white/5 rounded-3xl shadow-sm">
           
           {/* Search */}
           <div className="flex-1 min-w-[280px] flex items-center h-12 px-4 rounded-xl bg-gray-50/50 dark:bg-transparent">
@@ -271,13 +271,13 @@ export default function ShippingManagementPage() {
              />
           </div>
 
-          <div className="hidden xl:block w-[1px] h-8 bg-gray-200 dark:bg-[#2A314A] shrink-0"></div>
+          <div className="hidden xl:block w-[1px] h-8 bg-gray-200 dark:bg-white/10 shrink-0"></div>
 
           {/* Filters */}
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0 px-2 xl:px-0">
              {/* Status Dropdown */}
-             <div className="flex flex-col justify-center h-12 px-4 rounded-xl border border-gray-200 dark:border-[#2A314A] bg-white dark:bg-[#151929] min-w-[120px] relative group cursor-pointer hover:border-gray-300 dark:hover:border-white/20 transition-all">
-                <span className="text-[10px] font-semibold text-gray-400 dark:text-[#64748B] uppercase tracking-wider mb-0.5">Durum</span>
+             <div className="flex flex-col justify-center h-12 px-4 rounded-2xl border border-gray-200 dark:border-white/5 bg-white dark:bg-white/5 min-w-[120px] relative group cursor-pointer hover:border-gray-300 dark:hover:border-white/20 transition-all">
+                <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-0.5">Durum</span>
                 <select 
                    value={filterStatus}
                    onChange={e => setFilterStatus(e.target.value)}
@@ -293,8 +293,8 @@ export default function ShippingManagementPage() {
              </div>
 
              {/* Source Dropdown */}
-             <div className="flex flex-col justify-center h-12 px-4 rounded-xl border border-gray-200 dark:border-[#2A314A] bg-white dark:bg-[#151929] min-w-[130px] relative group cursor-pointer hover:border-gray-300 dark:hover:border-white/20 transition-all">
-                <span className="text-[10px] font-semibold text-gray-400 dark:text-[#64748B] uppercase tracking-wider mb-0.5">Tedarikçi</span>
+             <div className="flex flex-col justify-center h-12 px-4 rounded-2xl border border-gray-200 dark:border-white/5 bg-white dark:bg-white/5 min-w-[130px] relative group cursor-pointer hover:border-gray-300 dark:hover:border-white/20 transition-all">
+                <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-0.5">Tedarikçi</span>
                 <select 
                    value={filterSource}
                    onChange={e => setFilterSource(e.target.value as any)}
@@ -309,43 +309,43 @@ export default function ShippingManagementPage() {
                 </div>
              </div>
 
-             <div className="w-[1px] h-8 bg-gray-200 dark:bg-[#2A314A] mx-2 shrink-0"></div>
+             <div className="w-[1px] h-8 bg-gray-200 dark:bg-white/10 mx-2 shrink-0"></div>
 
              {/* Sort Segmented */}
-             <div className="flex items-center p-1 rounded-xl border border-gray-200 dark:border-[#2A314A] bg-gray-50 dark:bg-[#151929] shrink-0">
+             <div className="flex items-center p-1 rounded-2xl border border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5 shrink-0">
                <button 
                  onClick={() => setSortOrder('LATEST')}
-                 className={`px-4 h-10 rounded-lg text-[13px] font-bold transition-all ${sortOrder === 'LATEST' ? 'bg-white dark:bg-[#252A40] text-gray-800 dark:text-white shadow-sm' : 'text-gray-500 dark:text-[#64748B] hover:text-gray-700 dark:hover:text-gray-300'}`}
+                 className={`px-4 h-10 rounded-xl text-[13px] font-bold transition-all ${sortOrder === 'LATEST' ? 'bg-white dark:bg-white/10 text-gray-800 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
                >
                  A-Z
                </button>
                <button 
                  onClick={() => setSortOrder('OLDEST')}
-                 className={`px-4 h-10 rounded-lg text-[13px] font-bold transition-all ${sortOrder === 'OLDEST' ? 'bg-white dark:bg-[#252A40] text-gray-800 dark:text-white shadow-sm' : 'text-gray-500 dark:text-[#64748B] hover:text-gray-700 dark:hover:text-gray-300'}`}
+                 className={`px-4 h-10 rounded-xl text-[13px] font-bold transition-all ${sortOrder === 'OLDEST' ? 'bg-white dark:bg-white/10 text-gray-800 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
                >
                  Z-A
                </button>
              </div>
 
-             <div className="w-[1px] h-8 bg-gray-200 dark:bg-[#2A314A] mx-2 shrink-0"></div>
+             <div className="w-[1px] h-8 bg-gray-200 dark:bg-white/10 mx-2 shrink-0"></div>
 
              {/* View Segmented */}
-             <div className="flex items-center p-1 rounded-xl border border-gray-200 dark:border-[#2A314A] bg-gray-50 dark:bg-[#151929] shrink-0">
+             <div className="flex items-center p-1 rounded-2xl border border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5 shrink-0">
                <button 
                  onClick={() => setViewMode('LIST')}
-                 className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${viewMode === 'LIST' ? 'bg-white dark:bg-[#252A40] text-gray-800 dark:text-white shadow-sm' : 'text-gray-400 dark:text-[#64748B] hover:text-gray-600 dark:hover:text-gray-300'}`}
+                 className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${viewMode === 'LIST' ? 'bg-white dark:bg-white/10 text-gray-800 dark:text-white shadow-sm' : 'text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
                >
                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
                </button>
                <button 
                  onClick={() => setViewMode('GRID')}
-                 className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${viewMode === 'GRID' ? 'bg-white dark:bg-[#252A40] text-gray-800 dark:text-white shadow-sm' : 'text-gray-400 dark:text-[#64748B] hover:text-gray-600 dark:hover:text-gray-300'}`}
+                 className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${viewMode === 'GRID' ? 'bg-white dark:bg-white/10 text-gray-800 dark:text-white shadow-sm' : 'text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
                >
                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                </button>
              </div>
 
-             <div className="w-[1px] h-8 bg-gray-200 dark:bg-[#2A314A] mx-2 shrink-0"></div>
+             <div className="w-[1px] h-8 bg-gray-200 dark:bg-white/10 mx-2 shrink-0"></div>
 
              {/* Clear */}
              <button 
@@ -359,7 +359,7 @@ export default function ShippingManagementPage() {
              {/* Create Button */}
              <button 
                 onClick={handleAdd}
-                className="h-12 px-6 shrink-0 rounded-xl bg-gray-900 dark:bg-[#343B54] hover:bg-black dark:hover:bg-[#404866] border border-transparent dark:border-[#424A6A] text-white font-bold text-[13px] shadow-sm flex items-center justify-center transition-all ml-1"
+                className="h-12 px-6 shrink-0 rounded-2xl bg-[#FF6B00] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
              >
                 Yeni Ekle
              </button>
