@@ -40,6 +40,7 @@ export default function ShippingManagementPage() {
   const [viewMode, setViewMode] = useState('LIST');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCompany, setCurrentCompany] = useState<Partial<ShippingCompany> | null>(null);
+  const [activeTab, setActiveTab] = useState<'BASIC' | 'API' | 'RATES'>('BASIC');
   const [saving, setSaving] = useState(false);
 
   const fetchCompanies = async () => {
@@ -81,6 +82,7 @@ export default function ShippingManagementPage() {
       copy.apiCredentials = { activeEnvironment: 'dev', dev: {}, prod: {} };
     }
     setCurrentCompany(copy);
+    setActiveTab('BASIC');
     setIsModalOpen(true);
   };
 
@@ -94,6 +96,7 @@ export default function ShippingManagementPage() {
       trackingUrl: '',
       rates: []
     });
+    setActiveTab('BASIC');
     setIsModalOpen(true);
   };
 
@@ -256,7 +259,9 @@ export default function ShippingManagementPage() {
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-8 pt-24 font-sans">
       <div className="max-w-7xl mx-auto">
-        {/* Advanced Filter Bar (Image 2 Match) */}
+        {!isModalOpen ? (
+          <div className="space-y-6 animate-fade-in">
+            {/* Advanced Filter Bar (Image 2 Match) */}
         <div className="w-full flex flex-wrap xl:flex-nowrap items-center gap-3 p-2 mb-6 bg-white/80 dark:bg-[#12141C]/80 backdrop-blur-2xl border border-gray-200 dark:border-white/5 rounded-3xl shadow-sm">
           
           {/* Search */}
@@ -460,38 +465,59 @@ export default function ShippingManagementPage() {
           </tbody>
         </table>
       </div>
-
-      {/* Advanced Senior-Level Modal */}
-      {isModalOpen && currentCompany && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-6 lg:p-8 font-sans">
-          <div className="fixed inset-0 bg-[#0B0C10]/80 backdrop-blur-xl animate-fade-in" onClick={() => setIsModalOpen(false)}></div>
-          
-          <div className="relative w-full max-w-5xl max-h-[95vh] flex flex-col rounded-[2.5rem] border animate-zoom-in bg-white dark:bg-[#12141C] border-gray-200 dark:border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.2)] dark:shadow-2xl overflow-hidden">
+      </div>
+      ) : (
+        /* Inline Detail View (Formerly Modal) */
+        currentCompany && (
+          <div className="w-full flex flex-col rounded-[2rem] border animate-zoom-in bg-white dark:bg-[#12141C] border-gray-200 dark:border-white/10 shadow-sm overflow-hidden mb-8">
             
             {/* Modal Header */}
             <div className="px-6 py-5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#12141C] relative">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0]"></div>
-              <div>
-                 <h3 className="text-xl font-bold text-[#1A2332] dark:text-white tracking-tight">
-                   {currentCompany.companyID ? 'Kargo Şirketini Düzenle' : 'Yeni Kargo Şirketi Ekle'}
-                 </h3>
-                 <p className="text-[13px] font-medium text-gray-500 mt-0.5">
-                   {currentCompany.companyID ? `ID: ${currentCompany.companyID.split('-')[0]}...` : 'Tüm alanları doldurun'}
-                 </p>
+              <div className="flex items-center gap-4">
+                 <button onClick={() => setIsModalOpen(false)} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] dark:hover:text-[#FF6B00] hover:bg-white dark:hover:bg-white/10 hover:border-[#FF6B00]/30 transition-all shadow-sm">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Geri Dön
+                 </button>
+                 <div>
+                   <h3 className="text-xl font-bold text-[#1A2332] dark:text-white tracking-tight">
+                     {currentCompany.companyID ? 'Kargo Şirketini Düzenle' : 'Yeni Kargo Şirketi Ekle'}
+                   </h3>
+                   <p className="text-[13px] font-medium text-gray-500 mt-0.5">
+                     {currentCompany.companyID ? `ID: ${currentCompany.companyID.split('-')[0]}...` : 'Tüm alanları doldurun'}
+                   </p>
+                 </div>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-500 hover:text-[#FF6B00] transition-colors shadow-sm">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex items-center px-6 pt-4 gap-2 bg-white dark:bg-[#12141C] border-b border-gray-100 dark:border-white/10">
+               <button 
+                  onClick={() => setActiveTab('BASIC')}
+                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'BASIC' ? 'border-[#FF6B00] text-[#FF6B00]' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+               >
+                  Temel Bilgiler & Logo
+               </button>
+               <button 
+                  onClick={() => setActiveTab('API')}
+                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'API' ? 'border-[#FF6B00] text-[#FF6B00]' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+               >
+                  API Bilgileri
+               </button>
+               <button 
+                  onClick={() => setActiveTab('RATES')}
+                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'RATES' ? 'border-[#FF6B00] text-[#FF6B00]' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+               >
+                  Fiyat Baremleri
+               </button>
             </div>
 
             {/* Modal Body */}
             <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar relative">
               
               {/* Section 1: Basic Information */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-2 mb-4">
-                   <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">1. Temel Bilgiler</h4>
-                </div>
+              {activeTab === 'BASIC' && (
+              <div className="space-y-6 animate-fade-in">
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-8 border-b border-gray-100 dark:border-white/10">
                   <div className="space-y-1.5">
@@ -561,13 +587,15 @@ export default function ShippingManagementPage() {
                       </button>
                     </div>
                   </div>
+                </div>
               </div>
+              )}
 
               {/* Logo Area */}
-              {currentCompany.companyID && (
-                <div className="space-y-6 pb-8 border-b border-gray-100 dark:border-white/10">
+              {currentCompany.companyID && activeTab === 'BASIC' && (
+                <div className="space-y-6 pb-8 border-b border-gray-100 dark:border-white/10 animate-fade-in">
                   <div className="flex items-center gap-2 mb-2">
-                     <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">2. Marka Logosu</h4>
+                     <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">Marka Logosu</h4>
                   </div>
                   
                   <div className="flex items-center gap-6">
@@ -590,10 +618,8 @@ export default function ShippingManagementPage() {
                 </div>
               )}
 
-                <div className="space-y-6 pb-8 border-b border-gray-100 dark:border-white/10">
-                  <div className="flex items-center gap-2 mb-4">
-                     <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">3. API Bilgileri</h4>
-                  </div>
+              {activeTab === 'API' && (
+                <div className="space-y-6 pb-8 border-gray-100 dark:border-white/10 animate-fade-in">
 
                   <div className="space-y-5">
                     <div className="flex items-center gap-1 p-1 bg-gray-50/50 dark:bg-[#0B0C10] rounded-xl border border-gray-200 dark:border-white/10 w-max relative z-0">
@@ -695,9 +721,11 @@ export default function ShippingManagementPage() {
                     </div>
                   </div>
                 </div>
+              )}
 
               {/* Section 4: Advanced Rates */}
-              <div className="space-y-4">
+              {activeTab === 'RATES' && (
+              <div className="space-y-4 animate-fade-in">
                 <div className="flex items-center justify-between mb-4">
                    <div className="flex items-center gap-2">
                      <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">4. Fiyatlandırma (Desi Baremleri)</h4>
@@ -820,20 +848,21 @@ export default function ShippingManagementPage() {
                   )}
                 </div>
               </div>
+              )}
             </div>
 
             {/* Modal Footer */}
             <div className="px-6 py-4 border-t border-gray-100 dark:border-white/10 bg-white dark:bg-[#12141C] flex items-center justify-end gap-3 shrink-0 relative z-20">
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="h-11 px-6 rounded-xl font-medium text-[13px] text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 transition-all"
+                className="h-11 px-6 rounded-xl font-semibold text-[13px] text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all"
               >
                 İptal
               </button>
               <button 
                 onClick={handleSave}
                 disabled={saving}
-                className="h-11 px-8 rounded-xl bg-[#1A2332] dark:bg-white text-white dark:text-[#1A2332] font-semibold text-[13px] hover:bg-[#2A3441] dark:hover:bg-gray-100 transition-all disabled:opacity-50 flex items-center justify-center min-w-[140px] shadow-sm"
+                className="h-11 px-8 rounded-xl bg-[#FF6B00] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
               >
                 {saving ? (
                   <div className="w-5 h-5 border-2 border-white/30 dark:border-black/30 border-t-white dark:border-t-black rounded-full animate-spin"></div>
@@ -847,8 +876,7 @@ export default function ShippingManagementPage() {
             </div>
 
           </div>
-        </div>
-        </div>
+        )
       )}
       </div>
     </div>
