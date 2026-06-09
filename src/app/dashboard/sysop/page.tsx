@@ -27,19 +27,6 @@ export default function FounderOS() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#050505] text-gray-900 dark:text-white font-sans overflow-x-hidden transition-colors">
       
-      {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-[#050505]/80 backdrop-blur-3xl border-b border-gray-200 dark:border-white/5 h-12 flex items-center px-4 lg:px-8 justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-6 h-6 rounded bg-gradient-to-br from-fuchsia-500 to-blue-500 flex items-center justify-center font-black text-white text-[10px]">
-            SB
-          </div>
-          <h1 className="text-xs font-bold tracking-widest uppercase text-gray-900 dark:text-white/90">Kurucu İşletim Sistemi <span className="text-gray-500 dark:text-white/30 font-medium">v1.0</span></h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
-          <span className="text-[9px] font-bold text-gray-500 dark:text-white/40 uppercase tracking-widest">Sistem Çevrimiçi</span>
-        </div>
-      </header>
 
       {/* Main Command Center */}
       <main className="max-w-[1600px] mx-auto p-4 lg:p-8 xl:p-12">
