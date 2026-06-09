@@ -33,32 +33,29 @@ export default function AlertCenter() {
       <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-2 px-2">Akıllı Uyarılar</h3>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {alerts.map((alert: any, idx: number) => (
-          <div key={idx} className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-3xl p-6 group relative overflow-hidden flex flex-col gap-4 hover:border-gray-300 dark:hover:border-white/10 transition-colors">
+          <div key={idx} className="bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 rounded-2xl p-4 group relative overflow-hidden flex items-center justify-between gap-4 hover:border-gray-300 dark:hover:border-white/10 transition-colors shadow-sm">
             {/* Glow */}
-            <div className={`absolute top-0 right-0 w-32 h-32 blur-[60px] opacity-20 pointer-events-none rounded-full ${alert.type === 'CRITICAL' ? 'bg-red-500' : 'bg-orange-500'}`} />
+            <div className={`absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-10 pointer-events-none rounded-full ${alert.type === 'CRITICAL' ? 'bg-red-500' : 'bg-orange-500'}`} />
             
-            <div className="flex items-center justify-between z-10">
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-orange-500/10 border-orange-500/20 text-orange-500'}`}>
-                  <Alert02Icon size={20} />
-                </div>
-                <h4 className="text-base font-bold text-gray-900 dark:text-white">{alert.text}</h4>
+            <div className="flex items-center gap-3 z-10 flex-1 min-w-0">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center border shrink-0 ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-orange-500/10 border-orange-500/20 text-orange-500'}`}>
+                <Alert02Icon size={16} />
               </div>
-              <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-orange-500/10 border-orange-500/20 text-orange-500'}`}>
+              <div className="flex flex-col truncate">
+                <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">{alert.text}</h4>
+                <span className="text-[10px] font-medium text-gray-500 dark:text-white/40 truncate">Sistem otomatik uyarısı</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 z-10 shrink-0">
+              <span className={`hidden sm:inline-flex text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded border ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-orange-500/10 border-orange-500/20 text-orange-500'}`}>
                 {alert.badge || alert.type}
               </span>
+              <button className="h-8 px-3 rounded-lg bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-900 dark:text-white font-bold text-xs transition-colors border border-gray-200 dark:border-white/5 flex items-center justify-center gap-1.5">
+                <span>İncele</span>
+                <ArrowRight02Icon size={14} />
+              </button>
             </div>
-
-            <div className="space-y-3 z-10 text-sm mt-2">
-              <div className="flex flex-col gap-1">
-                <span className="text-gray-500 dark:text-white/40 text-[10px] uppercase font-bold tracking-wider">Durum</span>
-                <span className="text-gray-900 dark:text-white/90 font-medium">Bu otomatik bir sistem uyarısıdır.</span>
-              </div>
-            </div>
-
-            <button className="w-full mt-2 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-900 dark:text-white font-bold text-sm transition-colors border border-gray-200 dark:border-white/5 flex items-center justify-center gap-2 z-10">
-              Aksiyon Al <ArrowRight02Icon size={16} />
-            </button>
           </div>
         ))}
       </div>

@@ -13,7 +13,7 @@ export default function FounderSummary() {
   );
 
   return (
-    <div className="relative overflow-hidden rounded-[2.5rem] bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 shadow-xl dark:shadow-2xl p-8 lg:p-10 mb-8 isolate group transition-colors">
+    <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 shadow-sm p-5 lg:p-6 mb-6 isolate group transition-colors">
       {/* Background Glows */}
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-fuchsia-500/10 blur-[100px] rounded-full pointer-events-none transition-all duration-1000 group-hover:bg-fuchsia-500/20" />
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none transition-all duration-1000 group-hover:bg-blue-500/20" />
@@ -22,7 +22,7 @@ export default function FounderSummary() {
 
         
         <div className="flex-1">
-          <h2 className="text-sm font-bold text-gray-500 dark:text-white/50 uppercase tracking-[0.2em] mb-3">Sistem Raporu</h2>
+          <h2 className="text-xs font-bold text-gray-500 dark:text-white/50 uppercase tracking-widest mb-2">Sistem Raporu</h2>
           {isLoading ? (
             <div className="space-y-3 animate-pulse">
               <div className="h-6 bg-gray-200 dark:bg-white/10 rounded w-3/4"></div>
@@ -31,7 +31,7 @@ export default function FounderSummary() {
           ) : error || !data?.payload ? (
             <p className="text-xl font-medium text-gray-500 dark:text-white/50">Sistem verilerine şu anda ulaşılamıyor. Lütfen veritabanı bağlantısını kontrol edin.</p>
           ) : (
-            <p className="text-xl md:text-2xl lg:text-[28px] font-medium leading-relaxed text-gray-700 dark:text-white/90">
+            <p className="text-sm md:text-base font-medium leading-relaxed text-gray-700 dark:text-white/90">
               <span className="text-gray-900 dark:text-white font-black">Toplam {data.payload.totalUsers || 0} kullanıcı</span> platformda kayıtlı.
               Toplam ciro <span className="text-emerald-600 dark:text-green-400 font-bold">{(data.payload.totalRevenue || 0).toLocaleString()} ₺</span> seviyesinde ve anlık <span className="text-emerald-600 dark:text-green-400 font-bold">{data.payload.activeUsers || 0}</span> kullanıcı aktif (DAU). 
               İncelenmesi gereken <span className="text-amber-600 dark:text-orange-400 font-bold">{data.payload.pendingListings || 0} ilan</span> var. 
