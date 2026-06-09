@@ -92,8 +92,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         })
       ]);
 
-      const data = await listRes.json();
-      const countData = await countRes.json();
+      let data: any = {};
+      let countData: any = {};
+
+      if (listRes.ok && listRes.headers.get('content-type')?.includes('application/json')) {
+        data = await listRes.json();
+      }
+      if (countRes.ok && countRes.headers.get('content-type')?.includes('application/json')) {
+        countData = await countRes.json();
+      }
 
       if (data.request?.requestResult) {
         const rows = data.payload?.notifications || data.payload?.rows || [];
