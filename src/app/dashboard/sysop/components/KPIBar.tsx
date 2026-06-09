@@ -310,7 +310,7 @@ function DAUAccordion({ token }: { token: string }) {
   return (
     <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#050505]">
       <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <UserGroupIcon size={18} className="text-blue-500" /> Şu An Aktif Olan Kullanıcılar (DAU)
+        <UserGroupIcon size={18} className="text-blue-500" /> Son 24 Saatte Aktif Olan Kullanıcılar (DAU)
       </h4>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
