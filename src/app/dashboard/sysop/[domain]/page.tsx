@@ -286,9 +286,9 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
               <div key={idx} className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-2xl p-6 flex flex-col h-full relative overflow-hidden group hover:border-gray-300 dark:hover:border-white/10 transition-colors shadow-sm dark:shadow-none">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gray-100 dark:bg-white/5 rounded-full blur-3xl -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="text-xs font-bold text-gray-400 dark:text-white/40 uppercase tracking-widest mb-4 z-10 relative">{kpi.l}</span>
-                <div className="flex flex-col items-start gap-2 mt-auto z-10 relative">
-                  <span className="text-3xl font-black tracking-tighter text-gray-900 dark:text-white">{kpi.v}</span>
-                  <span className="text-[11px] font-bold whitespace-nowrap text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-100 dark:border-transparent px-2.5 py-1 rounded-md">{kpi.t}</span>
+                <div className="flex items-end justify-between gap-4 mt-auto z-10 relative">
+                  <span className="text-3xl font-black tracking-tighter text-gray-900 dark:text-white truncate">{kpi.v}</span>
+                  <span className="text-[11px] font-bold whitespace-nowrap flex-shrink-0 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-100 dark:border-transparent px-2.5 py-1 rounded-md">{kpi.t}</span>
                 </div>
               </div>
             ))
