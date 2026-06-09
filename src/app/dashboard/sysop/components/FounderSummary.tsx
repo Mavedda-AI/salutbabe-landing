@@ -1,5 +1,4 @@
 import React from 'react';
-import {SparklesIcon} from 'hugeicons-react';
 import useSWR from 'swr';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
@@ -20,12 +19,10 @@ export default function FounderSummary() {
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none transition-all duration-1000 group-hover:bg-blue-500/20" />
       
       <div className="flex flex-col lg:flex-row gap-8 items-start lg:items-center relative z-10">
-        <div className="w-16 h-16 rounded-3xl bg-gray-100 dark:bg-gradient-to-br dark:from-white/10 dark:to-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center shrink-0 shadow-sm dark:shadow-lg backdrop-blur-xl transition-colors">
-          <SparklesIcon size={28} className="text-gray-900 dark:text-white" />
-        </div>
+
         
         <div className="flex-1">
-          <h2 className="text-sm font-bold text-gray-500 dark:text-white/50 uppercase tracking-[0.2em] mb-3">Yapay Zeka Kurucu Özeti</h2>
+          <h2 className="text-sm font-bold text-gray-500 dark:text-white/50 uppercase tracking-[0.2em] mb-3">Sistem Raporu</h2>
           {isLoading ? (
             <div className="space-y-3 animate-pulse">
               <div className="h-6 bg-gray-200 dark:bg-white/10 rounded w-3/4"></div>
