@@ -111,7 +111,7 @@ export default function OrderManagementPage() {
                     <div className="flex flex-col">
                       <span className="font-black text-text-primary">#{order.orderID.split('-')[0].toUpperCase()}</span>
                       <span className="text-[10px] font-bold text-text-secondary opacity-60">
-                        {new Date(order.createdAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
+                        {new Date(order.createdAt || (order as any).orderDate || Date.now()).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
                       </span>
                     </div>
                   </td>
