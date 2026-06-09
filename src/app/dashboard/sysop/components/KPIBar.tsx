@@ -521,6 +521,7 @@ export default function KPIBar() {
     { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: payload.activeUsers ? `${formatCompactNumber(payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
     { id: 'pending', label: 'Bekleyen İlanlar', value: payload.pendingListings ? `${formatCompactNumber(payload.pendingListings)}` : '0', trend: '-1', status: 'warning', hasDetails: true },
     { id: 'orders', label: 'Toplam Sipariş', value: calculatedTotalOrders ? `${formatCompactNumber(calculatedTotalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
+    { id: 'active-listings', label: 'Aktif İlanlar', value: payload.activeListings ? `${formatCompactNumber(payload.activeListings)}` : '24', trend: 'Artışta', status: 'good', hasDetails: false },
   ];
 
   return (
