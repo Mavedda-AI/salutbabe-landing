@@ -361,7 +361,7 @@ function CargoPendingAccordion({ token }: { token: string }) {
             <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
               <th className="pb-3 font-medium">Satış ID</th>
               <th className="pb-3 font-medium">Tahmini Kargo Firması</th>
-              <th className="pb-3 font-medium text-right">Tahmini Gider (85 ₺/Desi)</th>
+              <th className="pb-3 font-medium text-right">Kargo Gideri (₺)</th>
             </tr>
           </thead>
           <tbody>
@@ -372,8 +372,8 @@ function CargoPendingAccordion({ token }: { token: string }) {
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <td className="py-3 text-gray-900 dark:text-white font-medium">#{order.orderID?.split('-')[0] || order.id || 'Bilinmiyor'}</td>
-                <td className="py-3 text-gray-500 dark:text-white/60">Yurtiçi Kargo</td>
-                <td className="py-3 text-amber-600 dark:text-amber-400 font-bold text-right">-85 ₺</td>
+                <td className="py-3 text-gray-500 dark:text-white/60">{order.shippingCompany || order.shippingProvider || 'Bilinmeyen Kargo'}</td>
+                <td className="py-3 text-amber-600 dark:text-amber-400 font-bold text-right">-{Number(order.shippingPrice || order.shippingCost || 0).toLocaleString('tr-TR')} ₺</td>
               </tr>
             ))}
           </tbody>
@@ -510,12 +510,13 @@ export default function KPIBar() {
   const calculatedActiveOrders = payload.activeOrders || activeOrdersArr.length;
   const calculatedTotalOrders = payload.totalOrders || orders.length;
   const calculatedTotalUsers = payload.totalUsers || payload.users?.length || 0;
+  const calculatedCargoPending = payload.totalCargoCost || activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.shippingPrice || order.shippingCost || 0), 0);
 
   const kpis = [
     { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: calculatedRevenue ? `${formatCompactNumber(calculatedRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
     { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: calculatedPendingRevenue ? `${formatCompactNumber(calculatedPendingRevenue)} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
     { id: 'transfer-pending', label: 'Aktarılacak Ödemeler', value: calculatedTransferPending ? `${formatCompactNumber(calculatedTransferPending)} ₺` : '0 ₺', trend: 'Öncelikli', status: 'excellent', hasDetails: true },
-    { id: 'cargo-pending', label: 'Kargoya Ödenecek Tutar', value: calculatedActiveOrders ? `${formatCompactNumber(calculatedActiveOrders * 85)} ₺` : '0 ₺', trend: 'Gider', status: 'warning', hasDetails: true },
+    { id: 'cargo-pending', label: 'Kargoya Ödenecek Tutar', value: calculatedCargoPending ? `${formatCompactNumber(calculatedCargoPending)} ₺` : '0 ₺', trend: 'Gider', status: 'warning', hasDetails: true },
     { id: 'commission', label: 'Komisyon', value: calculatedTotalCommission ? `${formatCompactNumber(calculatedTotalCommission)} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
     { id: 'users', label: 'Toplam Kullanıcı', value: calculatedTotalUsers ? `${formatCompactNumber(calculatedTotalUsers)}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
     { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: payload.activeUsers ? `${formatCompactNumber(payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
