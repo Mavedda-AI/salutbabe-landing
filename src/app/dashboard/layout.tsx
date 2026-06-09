@@ -1,6 +1,33 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+
+import {
+  Alert01Icon,
+  ArrowDown01Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  BulbIcon,
+  Cancel01Icon,
+  CheckmarkBadge01Icon,
+  DashboardCircleIcon,
+  GlobalIcon,
+  InboxIcon,
+  InformationCircleIcon,
+  Logout01Icon,
+  Menu01Icon,
+  Moon01Icon,
+  Notification03Icon,
+  PencilEdit01Icon,
+  RefreshIcon,
+  Settings01Icon,
+  ShoppingCart01Icon,
+  Store01Icon,
+  Sun01Icon,
+  TickDouble01Icon,
+  UserGroupIcon
+} from 'hugeicons-react';
+
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
@@ -209,24 +236,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       href: '/dashboard/sysop', 
       desc: t('dashboard.nav_dashboard_desc') || 'Genel Bakış',
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M10 3H3V10H10V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 3H14V10H21V3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 14H14V21H21V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M10 14H3V21H10V14Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <DashboardCircleIcon size={24} />
       )
     },
     { 
       label: t('dashboard.sysop.nav_users') || 'Users', 
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M17 16V18C17 19.1046 16.1046 20 15 20H5C3.89543 20 3 19.1046 3 18V16C3 13.7909 4.79086 12 7 12H13C15.2091 12 17 13.7909 17 16Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M10 12C12.2091 12 14 10.2091 14 8C14 5.79086 12.2091 4 10 4C7.79086 4 6 5.79086 6 8C6 10.2091 7.79086 12 10 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 16V18C21 18.5523 20.5523 19 20 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M18 12C19.6569 12 21 13.3431 21 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M15 4.5C16.3807 4.5 17.5 5.61929 17.5 7C17.5 8.38071 16.3807 9.5 15 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <UserGroupIcon size={24} />
       ),
       submenus: [
         { label: t('dashboard.sysop.nav_user_mgmt') || 'User Management', href: '/dashboard/sysop/user-management' },
@@ -236,11 +252,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { 
       label: t('dashboard.sysop.nav_orders') || 'Orders', 
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 8.5C3 7.11929 4.11929 6 5.5 6H18.5C19.8807 6 21 7.11929 21 8.5V17.5C21 19.9853 18.9853 22 16.5 22H7.5C5.01472 22 3 19.9853 3 17.5V8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M8 6V4.5C8 3.11929 9.11929 2 10.5 2H13.5C14.8807 2 16 3.11929 16 4.5V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3 10H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <ShoppingCart01Icon size={24} />
       ),
       submenus: [
         { label: t('dashboard.sysop.nav_order_mgmt') || 'Order Management', href: '/dashboard/sysop/order-management' },
@@ -250,11 +262,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { 
       label: t('dashboard.sysop.nav_products') || 'Products', 
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 22V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 7L12 12L3 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <Store01Icon size={24} />
       ),
       submenus: [
         { label: t('dashboard.sysop.nav_products') || 'Product Management', href: '/dashboard/sysop/product-management' },
@@ -267,10 +275,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       label: t('dashboard.sysop.nav_settings') || 'Settings', 
       href: '/dashboard/sysop/system-settings',
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
+        <Settings01Icon size={24} />
       )
     },
   ];
@@ -338,14 +343,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className="absolute top-4 right-4 w-6 h-6 bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-md flex items-center justify-center text-gray-400 hover:text-[#FF6B00] shadow-sm transition-all hover:scale-110 hidden lg:flex"
                 title="Daralt"
               >
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                <ArrowLeft01Icon size={14} />
               </button>
               {/* Mobile Close Button */}
               <button 
                 onClick={() => setIsMobileSidebarOpen(false)}
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 dark:hover:text-white lg:hidden p-1 rounded-md"
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                <Cancel01Icon size={24} />
               </button>
             </>
           ) : (
@@ -360,7 +365,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className="w-8 h-8 rounded-md object-contain transition-all duration-300 group-hover/expand:scale-110 group-hover/expand:opacity-30" 
               />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/expand:opacity-100 transition-all duration-300 bg-black/10 dark:bg-white/10 backdrop-blur-[2px]">
-                 <svg className="w-5 h-5 text-gray-700 dark:text-white drop-shadow-md translate-x-1 group-hover/expand:translate-x-0 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                 <ArrowRight01Icon size={20} className="text-gray-700 dark:text-white drop-shadow-md translate-x-1 group-hover/expand:translate-x-0 transition-transform" />
               </div>
             </button>
           )}
@@ -397,7 +402,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
                 ${pathname === dashboardItem.href ? 'text-[#FF6B00] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                 {dashboardItem.icon || (
-                  <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                  <Menu01Icon className="w-full h-full" />
                 )}
               </div>
             </div>
@@ -448,9 +453,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         )}
                       </div>
                       {!isSidebarCollapsed && (
-                        <svg className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <ArrowDown01Icon size={16} className={`text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
                       )}
                     </button>
                     
@@ -529,9 +532,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             >
               <div className="flex-shrink-0 group-hover:rotate-12 transition-transform duration-300">
                 {theme === 'dark' ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                  <Sun01Icon size={20} />
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                  <Moon01Icon size={20} />
                 )}
               </div>
               {!isSidebarCollapsed && (
@@ -550,7 +553,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               title="Toggle Language"
             >
               <div className="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
+                <GlobalIcon size={20} />
               </div>
               {!isSidebarCollapsed && (
                 <span className="ml-3 text-[14px] font-medium">
@@ -574,7 +577,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               onClick={() => setIsMobileSidebarOpen(true)}
               className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-[#1A1D27] shadow-sm text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+              <Menu01Icon size={24} />
             </button>
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-10 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-full hidden sm:block shadow-[0_0_10px_rgba(255,107,0,0.3)]"></div>
@@ -606,9 +609,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                 className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-white dark:bg-[#1A1D27] shadow-sm border border-gray-100 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:text-[#FF6B00] transition-all hover:shadow-md hover:-translate-y-0.5 group"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8" className={`transition-transform origin-top ${unreadCount > 0 ? 'animate-[bell_2s_ease-in-out_infinite]' : 'group-hover:rotate-12'}`}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
+                <Notification03Icon size={22} className={`transition-transform origin-top ${unreadCount > 0 ? 'animate-[bell_2s_ease-in-out_infinite]' : 'group-hover:rotate-12'}`} />
                 {unreadCount > 0 && (
                   <>
                     <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gradient-to-br from-[#FF6B00] to-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-[#1A1D27] shadow-sm z-10">
@@ -629,7 +630,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <p className="text-[12px] font-medium text-gray-500 mt-0.5">{unreadCount} Okunmamış</p>
                       </div>
                       <button onClick={handleMarkAllAsRead} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-[#FF6B00] transition-colors" title="Tümünü Okundu İşaretle">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        <CheckmarkBadge01Icon size={16} />
                       </button>
                     </div>
                     
@@ -640,7 +641,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                           return (
                             <div className="p-8 text-center flex flex-col items-center justify-center">
                               <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800/50 rounded-full flex items-center justify-center mb-3">
-                                <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
+                                <InboxIcon size={32} className="text-gray-300 dark:text-gray-600" />
                               </div>
                               <span className="text-[13px] font-bold text-gray-400">Okunmamış bildirim bulunmuyor</span>
                             </div>
@@ -654,7 +655,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                           >
                             <div className="flex-shrink-0 mt-1">
                               <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${!notif.isRead ? 'bg-gradient-to-br from-[#FF6B00] to-[#FF9EBE] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                                <ArrowRight01Icon size={20} />
                               </div>
                             </div>
                             <div>
@@ -720,24 +721,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                  
                  <div className="p-2">
                    <Link href="/dashboard/common/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group">
-                      <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                      <PencilEdit01Icon size={20} className="text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" />
                       {t('dashboard.edit_profile') || 'Edit Profile'}
                    </Link>
                    
                    <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group text-left">
-                      <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                      <RefreshIcon size={20} className="text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" />
                       {t('dashboard.restart_walkthrough') || 'Restart Walkthrough'}
                    </button>
 
                    <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group text-left">
-                      <svg className="w-5 h-5 text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                      <BulbIcon size={20} className="text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" />
                       {t('dashboard.whats_new') || "What's New"}
                    </button>
 
                    <div className="h-px bg-gray-200 dark:bg-white/10 my-2 mx-2"></div>
 
                    <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-red-500 dark:hover:text-white transition-all group text-left">
-                      <svg className="w-5 h-5 text-gray-400 group-hover:text-red-500 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                      <Logout01Icon size={20} className="text-gray-400 group-hover:text-red-500 dark:group-hover:text-white" />
                       {t('dashboard.logout') || 'Çıkış Yap'}
                    </button>
 
@@ -792,7 +793,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center">
               <div className="group relative ml-2">
                 <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 transition-all cursor-help">
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <InformationCircleIcon size={14} />
                 </div>
                 <div className="absolute bottom-full right-0 mb-3 px-3 py-2 bg-gray-900 text-white text-[11px] font-bold rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap shadow-xl transform group-hover:-translate-y-1">
                   Dashboard Build v2.0 <br/>
@@ -816,9 +817,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm
                ${toast.type === 'warning' ? 'bg-orange-500 text-white' : 'bg-green-500 text-white'}`}>
                {toast.type === 'warning' ? (
-                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                 <Alert01Icon size={24} />
                ) : (
-                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                 <TickDouble01Icon size={24} />
                )}
              </div>
              <div className="flex-1 pr-4">
@@ -826,7 +827,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <p className="text-[13px] font-medium opacity-90 mt-1">{toast.message}</p>
              </div>
              <button onClick={() => setToast(prev => ({ ...prev, visible: false }))} className="w-8 h-8 rounded-full flex items-center justify-center text-inherit opacity-50 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/10 transition-all">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                <Cancel01Icon size={16} />
              </button>
            </div>
         </div>
