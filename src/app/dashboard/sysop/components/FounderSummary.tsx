@@ -13,7 +13,7 @@ export default function FounderSummary() {
   );
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 shadow-sm p-5 lg:p-6 mb-6 isolate group transition-colors">
+    <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 shadow-sm p-5 lg:p-6 mb-4 isolate group transition-colors">
       {/* Background Glows */}
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-fuchsia-500/10 blur-[100px] rounded-full pointer-events-none transition-all duration-1000 group-hover:bg-fuchsia-500/20" />
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none transition-all duration-1000 group-hover:bg-blue-500/20" />

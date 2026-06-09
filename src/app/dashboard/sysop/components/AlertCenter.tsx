@@ -30,7 +30,7 @@ export default function AlertCenter() {
   }
 
   return (
-    <div className="flex flex-col gap-4 mb-8">
+    <div className="flex flex-col gap-4">
       <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-2 px-2">Akıllı Uyarılar</h3>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {alerts.map((alert: any, idx: number) => (
