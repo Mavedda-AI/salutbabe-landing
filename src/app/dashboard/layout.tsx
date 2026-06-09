@@ -186,6 +186,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (!implementedRoutes.includes(href)) {
       e.preventDefault();
       showToast(t('dashboard.under_construction') || "Bu özellik yapım aşamasındadır.", 'warning');
+      return;
+    }
+
+    // Automatically close the mobile sidebar upon successful navigation
+    if (window.innerWidth < 1024) { // 1024px is the lg breakpoint
+      setIsMobileSidebarOpen(false);
+    } else {
+      // Just in case it's open
+      setIsMobileSidebarOpen(false);
     }
   };
 

@@ -4,15 +4,15 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-    ArrowDown01Icon,
-    BankIcon,
-    CheckmarkBadge01Icon,
-    PercentCircleIcon,
-    ShoppingCart01Icon,
-    Tag01Icon,
-    UserCircleIcon,
-    UserGroupIcon,
-    Wallet01Icon
+  ArrowDown01Icon,
+  BankIcon,
+  CheckmarkBadge01Icon,
+  PercentCircleIcon,
+  ShoppingCart01Icon,
+  Tag01Icon,
+  UserCircleIcon,
+  UserGroupIcon,
+  Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -356,6 +356,12 @@ export default function KPIBar() {
     token ? [apiUrl('/admin/dashboard'), token] : null,
     ([url, token]) => fetcher(url, token)
   );
+  
+  // Fetch orders specifically to compute financial stats if they are missing
+  const { data: ordersData } = useSWR(
+    token ? [apiUrl('/admin/orders'), token] : null,
+    ([url, token]) => fetcher(url, token)
+  );
 
   const MOCK_MODE = false;
   const data = MOCK_MODE ? {
@@ -382,19 +388,31 @@ export default function KPIBar() {
     if (num >= 1000) {
       return (num / 1000).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + 'B';
     }
-    return num.toLocaleString('tr-TR');
+    return num.toLocaleString('tr-TR', { maximumFractionDigits: 2 }); // Added fraction digits for exact order amounts
   };
 
+  // Compute dynamic fallbacks if the backend doesn't provide aggregated KPIs
+  const payload = data?.payload || {};
+  const orders = payload.orders || ordersData?.payload?.orders || [];
+  
+  const calculatedRevenue = payload.totalRevenue || orders.reduce((acc: number, order: any) => acc + (order.totalAmount || 0), 0);
+  const activeOrdersArr = orders.filter((o: any) => o.status === 'PROCESSING' || o.status === 'PENDING' || o.status === 'SHIPPED');
+  const calculatedPendingRevenue = payload.pendingRevenue || activeOrdersArr.reduce((acc: number, order: any) => acc + (order.totalAmount || 0), 0);
+  const calculatedCommission = payload.pendingCommission || calculatedPendingRevenue * 0.15; // 15% commission rate
+  const calculatedActiveOrders = payload.activeOrders || activeOrdersArr.length;
+  const calculatedTotalOrders = payload.totalOrders || orders.length;
+  const calculatedTotalUsers = payload.totalUsers || payload.users?.length || 0;
+
   const kpis = [
-    { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: data?.payload?.totalRevenue ? `${formatCompactNumber(data.payload.totalRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
-    { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: data?.payload?.pendingRevenue ? `${formatCompactNumber(data.payload.pendingRevenue)} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
-    { id: 'transfer-pending', label: 'Aktarılacak Ödemeler', value: data?.payload?.totalRevenue ? `${formatCompactNumber(data.payload.totalRevenue * 0.85)} ₺` : '0 ₺', trend: 'Öncelikli', status: 'excellent', hasDetails: false },
-    { id: 'cargo-pending', label: 'Kargoya Ödenecek Tutar', value: data?.payload?.activeOrders ? `${formatCompactNumber(data.payload.activeOrders * 85)} ₺` : '0 ₺', trend: 'Gider', status: 'warning', hasDetails: false },
-    { id: 'commission-pending', label: 'Bekleyen Komisyon', value: data?.payload?.pendingCommission ? `${formatCompactNumber(data.payload.pendingCommission)} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
-    { id: 'users', label: 'Toplam Kullanıcı', value: data?.payload?.totalUsers ? `${formatCompactNumber(data.payload.totalUsers)}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
-    { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: data?.payload?.activeUsers ? `${formatCompactNumber(data.payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
-    { id: 'pending', label: 'Bekleyen İlanlar', value: data?.payload?.pendingListings ? `${formatCompactNumber(data.payload.pendingListings)}` : '0', trend: '-1', status: 'warning', hasDetails: true },
-    { id: 'orders', label: 'Toplam Sipariş', value: data?.payload?.totalOrders ? `${formatCompactNumber(data.payload.totalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
+    { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: calculatedRevenue ? `${formatCompactNumber(calculatedRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
+    { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: calculatedPendingRevenue ? `${formatCompactNumber(calculatedPendingRevenue)} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
+    { id: 'transfer-pending', label: 'Aktarılacak Ödemeler', value: calculatedRevenue ? `${formatCompactNumber(calculatedRevenue * 0.85)} ₺` : '0 ₺', trend: 'Öncelikli', status: 'excellent', hasDetails: false },
+    { id: 'cargo-pending', label: 'Kargoya Ödenecek Tutar', value: calculatedActiveOrders ? `${formatCompactNumber(calculatedActiveOrders * 85)} ₺` : '0 ₺', trend: 'Gider', status: 'warning', hasDetails: false },
+    { id: 'commission-pending', label: 'Bekleyen Komisyon', value: calculatedCommission ? `${formatCompactNumber(calculatedCommission)} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
+    { id: 'users', label: 'Toplam Kullanıcı', value: calculatedTotalUsers ? `${formatCompactNumber(calculatedTotalUsers)}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
+    { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: payload.activeUsers ? `${formatCompactNumber(payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
+    { id: 'pending', label: 'Bekleyen İlanlar', value: payload.pendingListings ? `${formatCompactNumber(payload.pendingListings)}` : '0', trend: '-1', status: 'warning', hasDetails: true },
+    { id: 'orders', label: 'Toplam Sipariş', value: calculatedTotalOrders ? `${formatCompactNumber(calculatedTotalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
   ];
 
   return (
