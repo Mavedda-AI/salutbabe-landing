@@ -168,7 +168,7 @@ export default function TaskCenter() {
                   )}
                   {task.id === 'cargo' && (
                     <span className="text-indigo-500 ml-2">
-                      {formatCompactNumber((activeOrdersArr.length * 85) || 0)} ₺
+                      {formatCompactNumber(activeOrdersArr.reduce((acc: number, o: any) => acc + Number(o.shippingPrice || o.shippingCost || 0), 0))} ₺
                     </span>
                   )}
                 </span>
@@ -207,6 +207,7 @@ export default function TaskCenter() {
                     <div className="flex justify-between items-center bg-indigo-50 dark:bg-indigo-500/10 px-2 py-1.5 rounded">
                       <span className="text-indigo-700 dark:text-indigo-400">Kargo Firması Ödemeleri</span>
                       <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCompactNumber(activeOrdersArr.length * 85)} ₺</span>
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCompactNumber(activeOrdersArr.reduce((acc: number, o: any) => acc + Number(o.shippingPrice || o.shippingCost || 0), 0))} ₺</span>
                     </div>
                     <div className="flex justify-between items-center bg-gray-100 dark:bg-white/10 px-2 py-1.5 rounded mt-1 border border-gray-200 dark:border-white/20">
                       <span className="font-bold text-gray-900 dark:text-white">TOPLAM ÇIKIŞ HAKEDİŞİ</span>
@@ -217,38 +218,33 @@ export default function TaskCenter() {
                 ) : task.id === 'cargo' ? (
                   <div className="flex flex-col gap-1.5 mt-1">
                     <span className="font-bold text-gray-900 dark:text-white mb-1">Kargo Operasyon Raporu:</span>
-                    <div className="flex justify-between items-center bg-blue-50 dark:bg-blue-500/10 px-2 py-1.5 rounded">
-                      <div className="flex flex-col">
-                        <span className="text-blue-700 dark:text-blue-400 font-bold">Yurtiçi Kargo</span>
-                        <span className="text-[9px] text-blue-600/70">%45 Hacim</span>
-                      </div>
-                      <span className="font-bold text-blue-600 dark:text-blue-400">{formatCompactNumber((data?.payload?.kpis?.activeOrders || 0) * 85 * 0.45)} ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-indigo-50 dark:bg-indigo-500/10 px-2 py-1.5 rounded">
-                      <div className="flex flex-col">
-                        <span className="text-indigo-700 dark:text-indigo-400 font-bold">Aras Kargo</span>
-                        <span className="text-[9px] text-indigo-600/70">%30 Hacim</span>
-                      </div>
-                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCompactNumber((data?.payload?.kpis?.activeOrders || 0) * 85 * 0.30)} ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-amber-50 dark:bg-amber-500/10 px-2 py-1.5 rounded">
-                      <div className="flex flex-col">
-                        <span className="text-amber-700 dark:text-amber-400 font-bold">MNG Kargo</span>
-                        <span className="text-[9px] text-amber-600/70">%15 Hacim</span>
-                      </div>
-                      <span className="font-bold text-amber-600 dark:text-amber-400">{formatCompactNumber((data?.payload?.kpis?.activeOrders || 0) * 85 * 0.15)} ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-gray-100 dark:bg-white/10 px-2 py-1.5 rounded">
-                      <div className="flex flex-col">
-                        <span className="text-gray-700 dark:text-gray-400 font-bold">PTT & Diğer</span>
-                        <span className="text-[9px] text-gray-500/70">%10 Hacim</span>
-                      </div>
-                      <span className="font-bold text-gray-600 dark:text-gray-400">{formatCompactNumber((data?.payload?.kpis?.activeOrders || 0) * 85 * 0.10)} ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center mt-1 pt-1.5 border-t border-gray-200 dark:border-white/10">
-                      <span className="font-bold text-gray-900 dark:text-white">TOPLAM LOJİSTİK GİDERİ</span>
-                      <span className="font-black text-gray-900 dark:text-white">{formatCompactNumber(activeOrdersArr.length * 85)} ₺</span>
-                    </div>
+                    {activeOrdersArr.length > 0 ? (() => {
+                      const splits: Record<string, number> = {};
+                      activeOrdersArr.forEach((o: any) => {
+                         const company = o.shippingCompany || o.shippingProvider || 'Diğer Kargo';
+                         splits[company] = (splits[company] || 0) + Number(o.shippingPrice || o.shippingCost || 0);
+                      });
+                      const totalCargo = Object.values(splits).reduce((a,b) => a+b, 0);
+                      return (
+                        <>
+                          {Object.entries(splits).map(([company, amount], i) => (
+                            <div key={i} className="flex justify-between items-center bg-gray-50 dark:bg-white/5 px-2 py-1.5 rounded border border-gray-100 dark:border-white/10">
+                              <div className="flex flex-col">
+                                <span className="text-gray-700 dark:text-gray-300 font-bold">{company}</span>
+                                {totalCargo > 0 && <span className="text-[9px] text-gray-500/70">% {Math.round((amount / totalCargo) * 100)} Hacim</span>}
+                              </div>
+                              <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCompactNumber(amount)} ₺</span>
+                            </div>
+                          ))}
+                          <div className="flex justify-between items-center mt-1 pt-1.5 border-t border-gray-200 dark:border-white/10">
+                            <span className="font-bold text-gray-900 dark:text-white">TOPLAM LOJİSTİK GİDERİ</span>
+                            <span className="font-black text-gray-900 dark:text-white">{formatCompactNumber(totalCargo)} ₺</span>
+                          </div>
+                        </>
+                      );
+                    })() : (
+                       <div className="text-gray-400 dark:text-white/40 italic py-2">Kargo işlemi bulunmuyor.</div>
+                    )}
                     <span className="text-[9px] mt-1 text-gray-400">Bu tutar, aktif siparişlerin desi hesaplamaları üzerinden tahmini olarak belirlenmiş olup kargo firmalarıyla yapılacak mutabakat sonrası netleşecektir.</span>
                   </div>
                 ) : task.id === 'approval' ? (
