@@ -75,8 +75,25 @@ export default function TaskCenter() {
             {/* Accordion Detayı */}
             {expandedTask === idx && (
               <div className="px-3 pb-3 pt-1 text-[11px] text-gray-600 dark:text-white/60 leading-relaxed border-t border-gray-100 dark:border-white/5 mx-1 mt-1">
-                Sistem bu görevi <strong>{task.impact}</strong> öncelik seviyesinde belirledi. 
-                Bu problem <strong>{task.area}</strong> süreçlerinde doğrudan gecikmelere sebep olabilir. Hızlıca detay sayfasına giderek aksiyon almanız önerilir.
+                {task.id === 2 && data?.payload?.charts?.orderStatuses ? (
+                  <div className="flex flex-col gap-1.5 mt-1">
+                    <span className="font-bold text-gray-900 dark:text-white mb-1">Bekleyen Fatura Durumları:</span>
+                    {data.payload.charts.orderStatuses
+                      .filter((s: any) => !['İptal', 'İade'].includes(s.name))
+                      .map((s: any, i: number) => (
+                      <div key={i} className="flex justify-between items-center bg-gray-100 dark:bg-white/5 px-2 py-1.5 rounded">
+                        <span>{s.name} Siparişler</span>
+                        <span className="font-bold text-blue-600 dark:text-blue-400">{s.value} adet</span>
+                      </div>
+                    ))}
+                    <span className="text-[9px] mt-1 text-gray-400">Not: İptal ve İade edilen siparişler fatura kuyruğuna dahil edilmez.</span>
+                  </div>
+                ) : (
+                  <>
+                    Sistem bu görevi <strong>{task.impact}</strong> öncelik seviyesinde belirledi. 
+                    Bu problem <strong>{task.area}</strong> süreçlerinde doğrudan gecikmelere sebep olabilir. Hızlıca detay sayfasına giderek aksiyon almanız önerilir.
+                  </>
+                )}
               </div>
             )}
           </div>
