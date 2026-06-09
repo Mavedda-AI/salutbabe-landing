@@ -568,15 +568,15 @@ export default function KPIBar() {
       {/* Expanded Accordion Area */}
       <div className={`grid transition-all duration-500 ease-in-out ${expandedKpi ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
         <div className="overflow-hidden">
-          {expandedKpi === 'users' && <UserListAccordion token={token} />}
-          {expandedKpi === 'orders' && <OrderListAccordion token={token} />}
-          {expandedKpi === 'pending' && <ListingListAccordion token={token} />}
-          {expandedKpi === 'revenue-daily' && <RevenueDailyAccordion token={token} />}
-          {expandedKpi === 'revenue-pending' && <PendingRevenueAccordion token={token} />}
-          {expandedKpi === 'transfer-pending' && <TransferPendingAccordion token={token} />}
-          {expandedKpi === 'cargo-pending' && <CargoPendingAccordion token={token} />}
-          {expandedKpi === 'commission' && <CommissionAccordion token={token} />}
-          {expandedKpi === 'dau' && <DAUAccordion token={token} />}
+          {expandedKpi === 'users' && <UserListAccordion token={token || ''} />}
+          {expandedKpi === 'orders' && <OrderListAccordion token={token || ''} />}
+          {expandedKpi === 'pending' && <ListingListAccordion token={token || ''} />}
+          {expandedKpi === 'revenue-daily' && <RevenueDailyAccordion token={token || ''} />}
+          {expandedKpi === 'revenue-pending' && <PendingRevenueAccordion token={token || ''} />}
+          {expandedKpi === 'transfer-pending' && <TransferPendingAccordion token={token || ''} />}
+          {expandedKpi === 'cargo-pending' && <CargoPendingAccordion token={token || ''} />}
+          {expandedKpi === 'commission' && <CommissionAccordion token={token || ''} />}
+          {expandedKpi === 'dau' && <DAUAccordion token={token || ''} />}
         </div>
       </div>
     </div>
