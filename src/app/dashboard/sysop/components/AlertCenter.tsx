@@ -30,16 +30,14 @@ export default function AlertCenter() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-2 px-2">Uyarılar</h3>
-      <div className="grid grid-cols-1 gap-4">
+    <div className="flex flex-col gap-2">
+      <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-1 px-2">Uyarılar</h3>
+      <div className="flex flex-col gap-1">
         {alerts.map((alert: any, idx: number) => (
-          <div key={idx} className="bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 rounded-2xl group relative overflow-hidden flex flex-col transition-colors shadow-sm">
-            {/* Glow */}
-            <div className={`absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-10 pointer-events-none rounded-full ${alert.type === 'CRITICAL' ? 'bg-red-500' : 'bg-orange-500'}`} />
+          <div key={idx} className="group relative overflow-hidden flex flex-col transition-colors border-b border-gray-100 dark:border-white/5 last:border-0">
             
             <div 
-              className="py-2 px-3 flex items-center justify-between gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer z-10"
+              className="py-2 px-1 flex items-center justify-between gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer z-10"
               onClick={() => setExpandedAlert(expandedAlert === idx ? null : idx)}
             >
               <div className={`w-6 h-6 rounded flex items-center justify-center border shrink-0 ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-orange-500/10 border-orange-500/20 text-orange-500'}`}>
