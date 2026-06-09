@@ -6,6 +6,7 @@ import {useRouter} from "next/navigation";
 import FounderSummary from './components/FounderSummary';
 import AlertCenter from './components/AlertCenter';
 import KPIBar from './components/KPIBar';
+import DashboardCharts from './components/DashboardCharts';
 import ExecutiveAccordion from './components/ExecutiveAccordion';
 import TaskCenter from './components/TaskCenter';
 
@@ -56,6 +57,9 @@ export default function FounderOS() {
 
         {/* Executive KPI Bar */}
         <KPIBar />
+
+        {/* Real-time Recharts Analytics */}
+        <DashboardCharts />
 
         {/* Layer 2-10: Domains via Accordion */}
         <div className="max-w-5xl mx-auto">
