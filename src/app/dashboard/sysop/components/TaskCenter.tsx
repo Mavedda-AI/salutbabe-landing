@@ -58,8 +58,8 @@ export default function TaskCenter() {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 rounded-2xl p-5 lg:p-6 flex flex-col h-full shadow-sm transition-colors">
-      <div className="flex items-center gap-3 mb-4">
+    <div className="flex flex-col h-full">
+      <div className="flex items-center gap-3 mb-4 px-1 lg:px-0">
         <div className="p-2 bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 rounded-lg">
           <Task01Icon size={16} />
         </div>
@@ -68,7 +68,7 @@ export default function TaskCenter() {
       
       <div className="flex flex-col gap-2 flex-1">
         {tasks.map((task, idx) => (
-          <div key={task.id} className="flex flex-col bg-gray-50 dark:bg-[#121214] border border-gray-100 dark:border-white/5 rounded-xl transition-colors group">
+          <div key={task.id} className="flex flex-col bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 shadow-sm rounded-xl transition-colors group">
             <div 
               className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#1A1D27] rounded-xl"
               onClick={() => setExpandedTask(expandedTask === idx ? null : idx)}
