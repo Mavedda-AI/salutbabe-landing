@@ -25,6 +25,7 @@ const fetcher = (url: string, token: string) => fetch(url, { headers: { Authoriz
 export default function DomainDetailPage({ params }: { params: Promise<{ domain: string }> }) {
   const unwrappedParams = use(params);
   const domainKey = unwrappedParams.domain as string;
+  console.log("REQUESTED DOMAIN:", domainKey);
   const staticData = domainDetails[domainKey];
 
   const token = useAuthStore((state) => state.token);
