@@ -8,7 +8,9 @@ import {useAuthStore} from '../../../../store/useAuthStore';
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
 const tasks = [
+  { id: 6, title: 'Aktarılacak ödemeler', impact: 'Kritik', area: 'Finans', domain: 'financial' },
   { id: 1, title: 'Başarısız ödemeleri incele', impact: 'Yüksek', area: 'Finans', domain: 'financial' },
+  { id: 7, title: 'Kargoya ödenecek tutar', impact: 'Orta', area: 'Operasyon', domain: 'marketplace' },
   { id: 2, title: 'Bekleyen faturaları kes', impact: 'Yüksek', area: 'Muhasebe', domain: 'accounting' },
   { id: 3, title: 'İçerik üreticisi ödemesini onayla', impact: 'Orta', area: 'Pazaryeri', domain: 'marketplace' },
   { id: 4, title: 'Ayrılma oranındaki artışı araştır', impact: 'Yüksek', area: 'Büyüme', domain: 'growth' },
@@ -49,6 +51,16 @@ export default function TaskCenter() {
                   {task.id === 3 && data?.payload?.kpis?.pendingApprovals !== undefined && (
                     <span className="text-amber-500 ml-1">({data.payload.kpis.pendingApprovals})</span>
                   )}
+                  {task.id === 6 && data?.payload?.kpis?.revenue !== undefined && (
+                    <span className="text-emerald-500 ml-2">
+                      {((data.payload.kpis.revenue * 0.85) || 0).toLocaleString('tr-TR', {style: 'currency', currency: 'TRY'})}
+                    </span>
+                  )}
+                  {task.id === 7 && data?.payload?.kpis?.activeOrders !== undefined && (
+                    <span className="text-indigo-500 ml-2">
+                      {((data.payload.kpis.activeOrders * 85) || 0).toLocaleString('tr-TR', {style: 'currency', currency: 'TRY'})}
+                    </span>
+                  )}
                 </span>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className={`text-[8px] uppercase font-black tracking-wider px-2 py-0.5 rounded border ${
@@ -75,7 +87,11 @@ export default function TaskCenter() {
             {/* Accordion Detayı */}
             {expandedTask === idx && (
               <div className="px-3 pb-3 pt-1 text-[11px] text-gray-600 dark:text-white/60 leading-relaxed border-t border-gray-100 dark:border-white/5 mx-1 mt-1">
-                {task.id === 2 && data?.payload?.charts?.orderStatuses ? (
+                {task.id === 6 ? (
+                   <>Sistemdeki toplam cirodan (satışlar) platform komisyonu ve kargo bedelleri düşüldükten sonra satıcıların cüzdanlarına aktarılması bekleyen toplam tutardır. <strong>Finans</strong> departmanı bu tutarı periyodik olarak onaylar.</>
+                ) : task.id === 7 ? (
+                   <>Aktif sipariş sayısına bağlı olarak kargo firmalarına ödenmesi gereken tahmini tutardır. <strong>Operasyon</strong> maliyetlerini doğrudan etkiler.</>
+                ) : task.id === 2 && data?.payload?.charts?.orderStatuses ? (
                   <div className="flex flex-col gap-1.5 mt-1">
                     <span className="font-bold text-gray-900 dark:text-white mb-1">Bekleyen Fatura Durumları:</span>
                     {data.payload.charts.orderStatuses
