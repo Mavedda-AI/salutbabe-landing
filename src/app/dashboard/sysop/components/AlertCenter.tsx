@@ -19,7 +19,7 @@ export default function AlertCenter() {
   if (isLoading) {
     return (
       <div className="mb-12">
-        <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-4 px-2">Akıllı Uyarılar</h3>
+        <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-4 px-2">Uyarılar</h3>
         <div className="h-32 bg-gray-100 dark:bg-white/5 animate-pulse rounded-3xl" />
       </div>
     );
@@ -31,23 +31,22 @@ export default function AlertCenter() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-2 px-2">Akıllı Uyarılar</h3>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <h3 className="text-xs font-black text-gray-900/40 dark:text-white/40 uppercase tracking-[0.2em] mb-2 px-2">Uyarılar</h3>
+      <div className="grid grid-cols-1 gap-4">
         {alerts.map((alert: any, idx: number) => (
           <div key={idx} className="bg-white dark:bg-[#0C0C0E] border border-gray-200 dark:border-white/5 rounded-2xl group relative overflow-hidden flex flex-col transition-colors shadow-sm">
             {/* Glow */}
             <div className={`absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-10 pointer-events-none rounded-full ${alert.type === 'CRITICAL' ? 'bg-red-500' : 'bg-orange-500'}`} />
             
             <div 
-              className="p-3 flex items-center justify-between gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer z-10"
+              className="py-2 px-3 flex items-center justify-between gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer z-10"
               onClick={() => setExpandedAlert(expandedAlert === idx ? null : idx)}
             >
               <div className={`w-6 h-6 rounded flex items-center justify-center border shrink-0 ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-orange-500/10 border-orange-500/20 text-orange-500'}`}>
                 <Alert02Icon size={12} />
               </div>
-              <div className="flex flex-col truncate flex-1">
+              <div className="truncate flex-1">
                 <h4 className="text-xs font-bold text-gray-900 dark:text-white truncate">{alert.text}</h4>
-                <span className="text-[9px] font-medium text-gray-500 dark:text-white/40 truncate mt-0.5">Sistem otomatik uyarısı</span>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
