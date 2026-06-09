@@ -34,7 +34,9 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
     ([url, token]) => fetcher(url, token)
   );
 
-  const kpis = data?.data?.stats?.kpis || staticData?.kpis || [];
+  const kpis = data?.payload?.stats?.kpis || staticData?.kpis || [];
+  const columns = data?.payload?.stats?.columns || [];
+  const details = data?.payload?.stats?.details || [];
 
   if (!staticData) {
     return (
@@ -96,13 +98,44 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
           )}
         </div>
 
-        {/* Big Chart Area Placeholder */}
-          <div className="flex-1 border border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center text-white/20">
+        {/* Big Chart Area / Data Table */}
+        {details.length > 0 ? (
+          <div className="flex-1 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm whitespace-nowrap">
+                <thead>
+                  <tr className="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10 text-gray-500 dark:text-white/40 font-medium">
+                    {columns.map((col: string, i: number) => (
+                      <th key={i} className="px-6 py-4">{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+                  {details.map((row: any, i: number) => (
+                    <tr key={i} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group cursor-pointer">
+                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{row.col1}</td>
+                      <td className="px-6 py-4 text-gray-500 dark:text-white/60">{row.col2}</td>
+                      <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.col3}</td>
+                      <td className="px-6 py-4">
+                        <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60">
+                          {row.col4}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-gray-400 dark:text-white/40 text-right">{row.col5}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 border border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center text-white/20 py-20">
             <AnalyticsUpIcon size={48} className="mb-4 opacity-50" />
             <span className="font-bold uppercase tracking-widest text-sm">Grafik Verileri Yükleniyor...</span>
             <span className="text-xs mt-2 max-w-sm text-center">Bu alan Recharts kullanılarak gerçek zamanlı veya mock verilerle doldurulacaktır. İlgili alana ait Trendler, Anomali Tespitleri ve Tahminlemeler (Forecast) burada gösterilecektir.</span>
           </div>
-        </div>
+        )}
+      </div>
 
     </div>
   );
