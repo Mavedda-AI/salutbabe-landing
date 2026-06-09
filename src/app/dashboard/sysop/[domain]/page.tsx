@@ -95,7 +95,11 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
     
     invoiceOrders.forEach((o: any) => {
       const orderAmount = Number(o.totalAmount || 0);
-      const commissionTotal = orderAmount * 0.15; // 15% Platform commission
+      const shippingPrice = Number(o.shippingPrice || o.shippingCost || 0);
+      
+      // Platform commission is usually taken from the product price, not including shipping
+      const productAmount = Math.max(0, orderAmount - shippingPrice);
+      const commissionTotal = productAmount * 0.15; // 15% Platform commission
       const kdvRate = 0.20; // 20% KDV for services in Turkey
       
       const commBaseAmount = commissionTotal / (1 + kdvRate);
@@ -118,7 +122,6 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
         orderData: o
       });
 
-      const shippingPrice = Number(o.shippingPrice || 85);
       if (shippingPrice > 0) {
         const shippingPayer = o.shippingPayer || 'buyer';
         const shipBaseAmount = shippingPrice / (1 + kdvRate);
