@@ -4,15 +4,15 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-    ArrowDown01Icon,
-    BankIcon,
-    CheckmarkBadge01Icon,
-    PercentCircleIcon,
-    ShoppingCart01Icon,
-    Tag01Icon,
-    UserCircleIcon,
-    UserGroupIcon,
-    Wallet01Icon
+  ArrowDown01Icon,
+  BankIcon,
+  CheckmarkBadge01Icon,
+  PercentCircleIcon,
+  ShoppingCart01Icon,
+  Tag01Icon,
+  UserCircleIcon,
+  UserGroupIcon,
+  Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -201,17 +201,17 @@ function RevenueDailyAccordion({ token }: { token: string }) {
   );
 }
 
-function RevenueMonthlyAccordion({ token }: { token: string }) {
+function PendingRevenueAccordion({ token }: { token: string }) {
   const router = useRouter();
   const { data, isLoading } = useSWR(token ? [apiUrl('/admin/orders'), token] : null, ([url, t]) => fetcher(url, t));
   const orders = data?.payload?.orders || [];
 
-  if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Aylık İşlemler Yükleniyor...</div>;
+  if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Bekleyen İşlemler Yükleniyor...</div>;
 
   return (
     <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#050505]">
       <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <BankIcon size={18} className="text-blue-500" /> Bu Ayki Performans İşlemleri
+        <BankIcon size={18} className="text-blue-500" /> Tahsil Edilmeyi Bekleyen İşlemler
       </h4>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
@@ -219,7 +219,7 @@ function RevenueMonthlyAccordion({ token }: { token: string }) {
             <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
               <th className="pb-3 font-medium">İşlem Tarihi</th>
               <th className="pb-3 font-medium">Satıcı İşlemi</th>
-              <th className="pb-3 font-medium text-right">Platform Hacmi</th>
+              <th className="pb-3 font-medium text-right">Bekleyen Hacim</th>
             </tr>
           </thead>
           <tbody>
@@ -241,7 +241,7 @@ function RevenueMonthlyAccordion({ token }: { token: string }) {
   );
 }
 
-function CommissionAccordion({ token }: { token: string }) {
+function PendingCommissionAccordion({ token }: { token: string }) {
   const router = useRouter();
   const { data, isLoading } = useSWR(token ? [apiUrl('/admin/orders'), token] : null, ([url, t]) => fetcher(url, t));
   const orders = data?.payload?.orders || [];
@@ -251,7 +251,7 @@ function CommissionAccordion({ token }: { token: string }) {
   return (
     <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#050505]">
       <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <PercentCircleIcon size={18} className="text-fuchsia-500" /> Platform Komisyon Kesintileri
+        <PercentCircleIcon size={18} className="text-fuchsia-500" /> Bekleyen Komisyon Kesintileri
       </h4>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
@@ -360,9 +360,9 @@ export default function KPIBar() {
   const [expandedKpi, setExpandedKpi] = useState<string | null>(null);
 
   const kpis = [
-    { id: 'revenue-daily', label: 'Bugünkü Ciro', value: data?.payload?.totalRevenue ? `${data.payload.totalRevenue.toLocaleString()} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
-    { id: 'revenue-monthly', label: 'Aylık Ciro (Tahmini)', value: data?.payload?.totalRevenue ? `${(data.payload.totalRevenue * 30).toLocaleString()} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
-    { id: 'commission', label: 'Platform Komisyonu', value: data?.payload?.netRevenue ? `${data.payload.netRevenue.toLocaleString()} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
+    { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: data?.payload?.totalRevenue ? `${data.payload.totalRevenue.toLocaleString()} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
+    { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: data?.payload?.pendingRevenue ? `${data.payload.pendingRevenue.toLocaleString()} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
+    { id: 'commission-pending', label: 'Bekleyen Komisyon', value: data?.payload?.pendingCommission ? `${data.payload.pendingCommission.toLocaleString()} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
     { id: 'users', label: 'Toplam Kullanıcı', value: data?.payload?.totalUsers ? `${data.payload.totalUsers.toLocaleString()}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
     { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: data?.payload?.activeUsers ? `${data.payload.activeUsers.toLocaleString()}` : '0', trend: '+%3', status: 'good', hasDetails: true },
     { id: 'pending', label: 'Bekleyen İlanlar', value: data?.payload?.pendingListings ? `${data.payload.pendingListings}` : '0', trend: '-1', status: 'warning', hasDetails: true },
@@ -418,8 +418,8 @@ export default function KPIBar() {
           {expandedKpi === 'orders' && <OrderListAccordion token={token} />}
           {expandedKpi === 'pending' && <ListingListAccordion token={token} />}
           {expandedKpi === 'revenue-daily' && <RevenueDailyAccordion token={token} />}
-          {expandedKpi === 'revenue-monthly' && <RevenueMonthlyAccordion token={token} />}
-          {expandedKpi === 'commission' && <CommissionAccordion token={token} />}
+          {expandedKpi === 'revenue-pending' && <PendingRevenueAccordion token={token} />}
+          {expandedKpi === 'commission-pending' && <PendingCommissionAccordion token={token} />}
           {expandedKpi === 'dau' && <DAUAccordion token={token} />}
         </div>
       </div>

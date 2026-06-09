@@ -103,8 +103,6 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
           </div>
         </div>
 
-      </main>
-
     </div>
   );
 }
