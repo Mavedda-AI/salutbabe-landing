@@ -7,15 +7,7 @@ import {useAuthStore} from '../../../../store/useAuthStore';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
-const tasks = [
-  { id: 6, title: 'Aktarılacak ödemeler', impact: 'Kritik', area: 'Finans', domain: 'financial' },
-  { id: 1, title: 'Başarısız ödemeleri incele', impact: 'Yüksek', area: 'Finans', domain: 'financial' },
-  { id: 7, title: 'Kargoya ödenecek tutar', impact: 'Orta', area: 'Operasyon', domain: 'marketplace' },
-  { id: 2, title: 'Bekleyen faturaları kes', impact: 'Yüksek', area: 'Muhasebe', domain: 'accounting' },
-  { id: 3, title: 'İçerik üreticisi ödemesini onayla', impact: 'Orta', area: 'Pazaryeri', domain: 'marketplace' },
-  { id: 4, title: 'Ayrılma oranındaki artışı araştır', impact: 'Yüksek', area: 'Büyüme', domain: 'growth' },
-  { id: 5, title: 'Moderasyon kuyruğunu incele', impact: 'Düşük', area: 'Topluluk', domain: 'community' },
-];
+// Tasks will be generated dynamically
 
 export default function TaskCenter() {
   const [expandedTask, setExpandedTask] = useState<number | null>(null);
@@ -57,6 +49,87 @@ export default function TaskCenter() {
     return num.toLocaleString('tr-TR');
   };
 
+  const payload = data?.payload || {};
+  const kpis = payload.kpis || {};
+  const orderStatuses = payload.charts?.orderStatuses || [];
+  
+  // Calculate dynamic data
+  const calculateTotalRevenue = () => kpis.revenue || 0;
+  
+  // SWR for orders to get accurate pending
+  const { data: ordersData } = useSWR(token ? [apiUrl('/admin/orders'), token] : null, ([url, t]) => fetcher(url, t));
+  const orders = ordersData?.payload?.orders || [];
+  const activeOrdersArr = orders.filter((o: any) => { const s = o.status?.toLowerCase(); return s === 'processing' || s === 'pending_payment' || s === 'shipped' || s === 'paid'; });
+  const calculatedPendingRevenue = activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
+  
+  // Generate real tasks based on actual data
+  const dynamicTasks = [];
+  
+  if (calculateTotalRevenue() > 0 || calculatedPendingRevenue > 0) {
+    dynamicTasks.push({
+      id: 'transfer',
+      title: 'Aktarılacak ödemeler',
+      impact: 'Kritik',
+      area: 'Finans',
+      domain: 'financial'
+    });
+  }
+  
+  if (activeOrdersArr.length > 0) {
+    dynamicTasks.push({
+      id: 'cargo',
+      title: 'Kargoya ödenecek tutar',
+      impact: 'Orta',
+      area: 'Operasyon',
+      domain: 'marketplace'
+    });
+  }
+  
+  if (kpis.pendingApprovals > 0) {
+    dynamicTasks.push({
+      id: 'approval',
+      title: 'Onay bekleyen ilanlar',
+      impact: 'Yüksek',
+      area: 'Pazaryeri',
+      domain: 'marketplace'
+    });
+  }
+
+  const invoiceOrders = orders.filter((o: any) => o.status !== 'cancelled' && o.status !== 'refunded' && o.status !== 'invalid' && o.status !== 'pending_payment');
+  if (invoiceOrders.length > 0) {
+    dynamicTasks.push({
+      id: 'invoice',
+      title: 'Bekleyen faturaları kes',
+      impact: 'Yüksek',
+      area: 'Muhasebe',
+      domain: 'accounting'
+    });
+  }
+
+  const failedOrders = orders.filter((o: any) => o.status === 'invalid' || o.status === 'failed' || o.status === 'pending_payment');
+  const failedRevenue = failedOrders.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
+  if (failedOrders.length > 0) {
+    dynamicTasks.push({
+      id: 'failed_payments',
+      title: 'Başarısız / Bekleyen Ödemeler',
+      impact: 'Orta',
+      area: 'Finans',
+      domain: 'financial'
+    });
+  }
+
+  const cancelledOrders = orders.filter((o: any) => o.status === 'cancelled' || o.status === 'refunded');
+  const cancelledRevenue = cancelledOrders.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
+  if (cancelledOrders.length > 0) {
+    dynamicTasks.push({
+      id: 'cancellations',
+      title: 'İptal ve İadeleri İncele',
+      impact: 'Yüksek',
+      area: 'Operasyon',
+      domain: 'marketplace'
+    });
+  }
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 mb-4 px-1 lg:px-0">
@@ -67,7 +140,7 @@ export default function TaskCenter() {
       </div>
       
       <div className="flex flex-col gap-2 flex-1">
-        {tasks.map((task, idx) => (
+        {dynamicTasks.map((task, idx) => (
           <div key={task.id} className="flex flex-col bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 shadow-sm rounded-xl transition-colors group">
             <div 
               className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#1A1D27] rounded-xl"
@@ -76,26 +149,32 @@ export default function TaskCenter() {
               <div className="flex flex-col gap-1">
                 <span className="text-xs font-bold text-gray-900 dark:text-white/90">
                   {task.title}
-                  {task.id === 2 && data?.payload?.kpis?.activeOrders !== undefined && (
-                    <span className="text-blue-500 ml-1">({data.payload.kpis.activeOrders})</span>
+                  {task.id === 'approval' && kpis.pendingApprovals !== undefined && (
+                    <span className="text-amber-500 ml-1">({kpis.pendingApprovals})</span>
                   )}
-                  {task.id === 3 && data?.payload?.kpis?.pendingApprovals !== undefined && (
-                    <span className="text-amber-500 ml-1">({data.payload.kpis.pendingApprovals})</span>
+                  {task.id === 'invoice' && (
+                    <span className="text-blue-500 ml-1">({invoiceOrders.length})</span>
                   )}
-                  {task.id === 6 && data?.payload?.kpis?.revenue !== undefined && (
+                  {task.id === 'failed_payments' && (
+                    <span className="text-red-500 ml-1">({failedOrders.length})</span>
+                  )}
+                  {task.id === 'cancellations' && (
+                    <span className="text-amber-500 ml-1">({cancelledOrders.length})</span>
+                  )}
+                  {task.id === 'transfer' && (
                     <span className="text-emerald-500 ml-2">
-                      {formatCompactNumber((data.payload.kpis.revenue * 0.85) || 0)} ₺
+                      {formatCompactNumber(((calculateTotalRevenue() + calculatedPendingRevenue) * 0.85) || 0)} ₺
                     </span>
                   )}
-                  {task.id === 7 && data?.payload?.kpis?.activeOrders !== undefined && (
+                  {task.id === 'cargo' && (
                     <span className="text-indigo-500 ml-2">
-                      {formatCompactNumber((data.payload.kpis.activeOrders * 85) || 0)} ₺
+                      {formatCompactNumber((activeOrdersArr.length * 85) || 0)} ₺
                     </span>
                   )}
                 </span>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className={`text-[8px] uppercase font-black tracking-wider px-2 py-0.5 rounded border ${
-                    task.impact === 'Yüksek' ? 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-100 dark:border-transparent' :
+                    task.impact === 'Yüksek' || task.impact === 'Kritik' ? 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-100 dark:border-transparent' :
                     task.impact === 'Orta' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-transparent' :
                     'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-transparent'
                   }`}>
@@ -118,32 +197,24 @@ export default function TaskCenter() {
             {/* Accordion Detayı */}
             {expandedTask === idx && (
               <div className="px-3 pb-3 pt-1 text-[11px] text-gray-600 dark:text-white/60 leading-relaxed border-t border-gray-100 dark:border-white/5 mx-1 mt-1">
-                {task.id === 6 && data?.payload?.kpis?.revenue !== undefined ? (
+                {task.id === 'transfer' ? (
                   <div className="flex flex-col gap-1.5 mt-1">
                     <span className="font-bold text-gray-900 dark:text-white mb-1">Ödeme Bekleyen Kalemler:</span>
                     <div className="flex justify-between items-center bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1.5 rounded">
                       <span className="text-emerald-700 dark:text-emerald-400">Satıcı Hakedişleri</span>
-                      <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatCompactNumber(data.payload.kpis.revenue * 0.65)} ₺</span>
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatCompactNumber((calculateTotalRevenue() + calculatedPendingRevenue) * 0.85)} ₺</span>
                     </div>
                     <div className="flex justify-between items-center bg-indigo-50 dark:bg-indigo-500/10 px-2 py-1.5 rounded">
                       <span className="text-indigo-700 dark:text-indigo-400">Kargo Firması Ödemeleri</span>
-                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCompactNumber(data.payload.kpis.revenue * 0.12)} ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-amber-50 dark:bg-amber-500/10 px-2 py-1.5 rounded">
-                      <span className="text-amber-700 dark:text-amber-400">İade & İptal Rezervleri</span>
-                      <span className="font-bold text-amber-600 dark:text-amber-400">{formatCompactNumber(data.payload.kpis.revenue * 0.05)} ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-red-50 dark:bg-red-500/10 px-2 py-1.5 rounded">
-                      <span className="text-red-700 dark:text-red-400">Vergi ve Kesintiler</span>
-                      <span className="font-bold text-red-600 dark:text-red-400">{formatCompactNumber(data.payload.kpis.revenue * 0.03)} ₺</span>
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{formatCompactNumber(activeOrdersArr.length * 85)} ₺</span>
                     </div>
                     <div className="flex justify-between items-center bg-gray-100 dark:bg-white/10 px-2 py-1.5 rounded mt-1 border border-gray-200 dark:border-white/20">
-                      <span className="font-bold text-gray-900 dark:text-white">TOPLAM ÇIKIŞ</span>
-                      <span className="font-black text-gray-900 dark:text-white">{formatCompactNumber(data.payload.kpis.revenue * 0.85)} ₺</span>
+                      <span className="font-bold text-gray-900 dark:text-white">TOPLAM ÇIKIŞ HAKEDİŞİ</span>
+                      <span className="font-black text-gray-900 dark:text-white">{formatCompactNumber(((calculateTotalRevenue() + calculatedPendingRevenue) * 0.85) || 0)} ₺</span>
                     </div>
-                    <span className="text-[9px] mt-1 text-gray-400">Sistemdeki toplam cirodan (satışlar) platform komisyonu ({formatCompactNumber(data.payload.kpis.revenue * 0.15)} ₺) düşüldükten sonra satıcıların cüzdanlarına ve firmalara aktarılması bekleyen net tutardır.</span>
+                    <span className="text-[9px] mt-1 text-gray-400">Sistemdeki toplam cirodan (satışlar) platform komisyonu (%15) düşüldükten sonra satıcıların cüzdanlarına ve firmalara aktarılması bekleyen tahmini net tutardır.</span>
                   </div>
-                ) : task.id === 7 ? (
+                ) : task.id === 'cargo' ? (
                   <div className="flex flex-col gap-1.5 mt-1">
                     <span className="font-bold text-gray-900 dark:text-white mb-1">Kargo Operasyon Raporu:</span>
                     <div className="flex justify-between items-center bg-blue-50 dark:bg-blue-500/10 px-2 py-1.5 rounded">
@@ -176,59 +247,57 @@ export default function TaskCenter() {
                     </div>
                     <div className="flex justify-between items-center mt-1 pt-1.5 border-t border-gray-200 dark:border-white/10">
                       <span className="font-bold text-gray-900 dark:text-white">TOPLAM LOJİSTİK GİDERİ</span>
-                      <span className="font-black text-gray-900 dark:text-white">{formatCompactNumber((data?.payload?.kpis?.activeOrders || 0) * 85)} ₺</span>
+                      <span className="font-black text-gray-900 dark:text-white">{formatCompactNumber(activeOrdersArr.length * 85)} ₺</span>
                     </div>
                     <span className="text-[9px] mt-1 text-gray-400">Bu tutar, aktif siparişlerin desi hesaplamaları üzerinden tahmini olarak belirlenmiş olup kargo firmalarıyla yapılacak mutabakat sonrası netleşecektir.</span>
                   </div>
-                ) : task.id === 1 ? (
+                ) : task.id === 'approval' ? (
                   <div className="flex flex-col gap-1.5 mt-1">
-                    <span className="font-bold text-gray-900 dark:text-white mb-1">Hata Kaynaklı Risk Raporu:</span>
-                    <div className="flex items-center justify-between bg-red-50 dark:bg-red-500/10 px-2 py-1.5 rounded border border-red-100 dark:border-red-500/20">
-                      <div className="flex flex-col">
-                        <span className="font-bold text-red-600 dark:text-red-400">Yetersiz Bakiye / Banka Reddi</span>
-                        <span className="text-[9px] text-red-500/80">312 İşlem</span>
-                      </div>
-                      <span className="font-bold text-red-700 dark:text-red-300">1,45M ₺</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-amber-50 dark:bg-amber-500/10 px-2 py-1.5 rounded border border-amber-100 dark:border-amber-500/20">
-                      <div className="flex flex-col">
-                        <span className="font-bold text-amber-600 dark:text-amber-400">Fraud (Şüpheli İşlem)</span>
-                        <span className="text-[9px] text-amber-500/80">14 İşlem</span>
-                      </div>
-                      <span className="font-bold text-amber-700 dark:text-amber-300">415B ₺</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-blue-50 dark:bg-blue-500/10 px-2 py-1.5 rounded border border-blue-100 dark:border-blue-500/20">
-                      <div className="flex flex-col">
-                        <span className="font-bold text-blue-600 dark:text-blue-400">Altyapı Zaman Aşımı</span>
-                        <span className="text-[9px] text-blue-500/80">5 İşlem</span>
-                      </div>
-                      <span className="font-bold text-blue-700 dark:text-blue-300">85B ₺</span>
-                    </div>
-                    <div className="flex justify-between items-center mt-1 pt-1.5 border-t border-gray-200 dark:border-white/10">
-                      <span className="font-bold text-gray-900 dark:text-white">TOPLAM RİSK</span>
-                      <span className="font-black text-red-600 dark:text-red-500">1,95M ₺</span>
-                    </div>
-                    <span className="text-[9px] mt-1 text-gray-400">Başarısız olan bu ödemeler, müşterilere otomatik kurtarma SMS'i veya Fraud ekibi onayı ile tekrar denetilebilir. Sepet terki oranını doğrudan etkiler.</span>
+                    <span className="font-bold text-gray-900 dark:text-white mb-1">Onay Bekleyen İlanlar:</span>
+                    <span className="text-gray-700 dark:text-gray-300">Sistemde onayınızı bekleyen {kpis.pendingApprovals} adet ürün var. Kullanıcı deneyimini hızlandırmak için 24 saat içinde onaylanması tavsiye edilir.</span>
                   </div>
-                ) : task.id === 2 && data?.payload?.charts?.orderStatuses ? (
+                ) : task.id === 'invoice' ? (
                   <div className="flex flex-col gap-1.5 mt-1">
-                    <span className="font-bold text-gray-900 dark:text-white mb-1">Bekleyen Fatura Hacmi:</span>
-                    {data.payload.charts.orderStatuses
+                    <span className="font-bold text-gray-900 dark:text-white mb-1">Bekleyen Fatura İşlemleri:</span>
+                    {orderStatuses
                       .filter((s: any) => !['İptal', 'İade'].includes(s.name))
                       .map((s: any, i: number) => (
-                      <div key={i} className="flex justify-between items-center bg-gray-100 dark:bg-white/5 px-2 py-1.5 rounded">
+                      <div key={i} className="flex justify-between items-center bg-gray-100 dark:bg-white/5 px-2 py-1.5 rounded border border-gray-200 dark:border-white/5">
                         <span className="text-gray-700 dark:text-gray-300 font-medium">{s.name}</span>
                         <div className="flex items-center gap-4">
                           <span className="text-[10px] text-gray-500 w-12 text-right">{s.value} adet</span>
-                          <span className="font-bold text-blue-600 dark:text-blue-400 w-16 text-right">{formatCompactNumber(s.value * 803)} ₺</span>
                         </div>
                       </div>
                     ))}
                     <div className="flex justify-between items-center mt-1 pt-1.5 border-t border-gray-200 dark:border-white/10">
-                      <span className="font-bold text-gray-900 dark:text-white">TOPLAM KESİLECEK FATURA</span>
-                      <span className="font-black text-blue-600 dark:text-blue-400">{formatCompactNumber(124500 * 803)} ₺</span>
+                      <span className="font-bold text-gray-900 dark:text-white">TOPLAM FATURALANACAK</span>
+                      <span className="font-black text-blue-600 dark:text-blue-400">{invoiceOrders.length} Sipariş</span>
                     </div>
-                    <span className="text-[9px] mt-1 text-gray-400">Sepet ortalaması baz alınarak hesaplanmış tahmini fatura hacmidir. İptal ve İade edilen siparişler fatura kuyruğuna dahil edilmez.</span>
+                    <span className="text-[9px] mt-1 text-gray-400">Satıcı komisyonları veya hizmet bedelleri için kesilmesi gereken faturalardır. İptal ve İade edilen siparişler fatura kuyruğuna dahil edilmez.</span>
+                  </div>
+                ) : task.id === 'failed_payments' ? (
+                  <div className="flex flex-col gap-1.5 mt-1">
+                    <span className="font-bold text-gray-900 dark:text-white mb-1">Başarısız İşlem Analizi:</span>
+                    <div className="flex items-center justify-between bg-red-50 dark:bg-red-500/10 px-2 py-1.5 rounded border border-red-100 dark:border-red-500/20">
+                      <div className="flex flex-col">
+                        <span className="font-bold text-red-600 dark:text-red-400">Yarıda Kalan Ödemeler</span>
+                        <span className="text-[9px] text-red-500/80">{failedOrders.length} İşlem</span>
+                      </div>
+                      <span className="font-bold text-red-700 dark:text-red-300">{formatCompactNumber(failedRevenue)} ₺</span>
+                    </div>
+                    <span className="text-[9px] mt-1 text-gray-400">Ödemesi alınamamış veya banka/sistem tarafından askıda kalmış siparişler. Sepet terki oranını etkilediği için müşterilere hatırlatma yapılabilir.</span>
+                  </div>
+                ) : task.id === 'cancellations' ? (
+                  <div className="flex flex-col gap-1.5 mt-1">
+                    <span className="font-bold text-gray-900 dark:text-white mb-1">İade/İptal Kaybı Raporu:</span>
+                    <div className="flex items-center justify-between bg-amber-50 dark:bg-amber-500/10 px-2 py-1.5 rounded border border-amber-100 dark:border-amber-500/20">
+                      <div className="flex flex-col">
+                        <span className="font-bold text-amber-600 dark:text-amber-400">İptal/İade Edilen Siparişler</span>
+                        <span className="text-[9px] text-amber-500/80">{cancelledOrders.length} İşlem</span>
+                      </div>
+                      <span className="font-bold text-amber-700 dark:text-amber-300">{formatCompactNumber(cancelledRevenue)} ₺</span>
+                    </div>
+                    <span className="text-[9px] mt-1 text-gray-400">Müşteriler veya satıcılar tarafından iptal edilen, operasyonel yük oluşturan başarısız siparişlerin ciroya etkisi.</span>
                   </div>
                 ) : (
                   <>
@@ -240,6 +309,11 @@ export default function TaskCenter() {
             )}
           </div>
         ))}
+        {dynamicTasks.length === 0 && (
+          <div className="text-xs text-gray-400 text-center py-4 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10">
+            Şu an ilgilenmeniz gereken acil bir operasyonel görev bulunmuyor. Her şey yolunda!
+          </div>
+        )}
       </div>
     </div>
   );

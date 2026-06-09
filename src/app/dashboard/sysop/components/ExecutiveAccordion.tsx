@@ -3,6 +3,11 @@
 import React, {useState} from 'react';
 import {ArrowDown01Icon, ArrowRight01Icon, UserGroupIcon} from 'hugeicons-react';
 import Link from 'next/link';
+import useSWR from 'swr';
+import {apiUrl} from '../../../../lib/api';
+import {useAuthStore} from '../../../../store/useAuthStore';
+
+const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
 const BankIcon = (props: any) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5-10-5zm0 10v10m-8-5v5m16-5v5"/></svg>;
 const DocumentValidationIcon = (props: any) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>;
@@ -13,24 +18,63 @@ const Server01Icon = (props: any) => <svg viewBox="0 0 24 24" fill="none" stroke
 const Globe02Icon = (props: any) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>;
 const Brain01Icon = (props: any) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M12 2a5 5 0 00-5 5v2a5 5 0 00-5 5v3a5 5 0 005 5h10a5 5 0 005-5v-3a5 5 0 00-5-5V7a5 5 0 00-5-5z"/></svg>;
 
-const domains = [
-  { id: 'financial', title: 'Finansal Kontrol Merkezi', icon: BankIcon, status: 'good', metrics: ['Nakit: 38.2M ₺', 'Ciro: 450k ₺', 'Kar: %28'] },
-  { id: 'accounting', title: 'Muhasebe ve Vergi', icon: DocumentValidationIcon, status: 'warning', metrics: ['KDV Ödemesi: 3g', 'Bekleyen: 120k ₺'] },
-  { id: 'growth', title: 'Büyüme Merkezi', icon: ChartLineData01Icon, status: 'excellent', metrics: ['Yeni: 243', 'CAC: 42 ₺', 'LTV: 1400 ₺'] },
-  { id: 'community', title: 'Topluluk Merkezi', icon: UserGroupIcon, status: 'good', metrics: ['Gönderi: 1.2k', 'Toksisite: %0.1'] },
-  { id: 'marketplace', title: 'Pazaryeri Operasyonları', icon: Store01Icon, status: 'good', metrics: ['Sipariş: 84', 'GMV: 42k ₺'] },
-  { id: 'creator', title: 'İçerik Üretici ve Uzman', icon: StarIcon, status: 'excellent', metrics: ['Ödemeler: 8k ₺', 'Aktif: 42'] },
-  { id: 'infrastructure', title: 'Altyapı Merkezi', icon: Server01Icon, status: 'good', metrics: ['Kesintisiz: %99.9', 'API: 42ms'] },
-  { id: 'map', title: 'Küresel Harita', icon: Globe02Icon, status: 'good', metrics: ['Aktif Bölge: 14'] },
-  { id: 'ai', title: 'Yapay Zeka Operasyonları', icon: Brain01Icon, status: 'warning', metrics: ['İstek: 14k', 'Gecikme: 1.2s'] },
-];
+// Domains will be calculated dynamically inside the component.
 
 export default function ExecutiveAccordion() {
   const [expanded, setExpanded] = useState<string | null>('financial');
+  const token = useAuthStore((state) => state.token);
+  const { data } = useSWR(
+    token ? [apiUrl('/admin/sysop-dashboard'), token] : null,
+    ([url, t]) => fetcher(url, t)
+  );
+
+  const payload = data?.payload || {};
+  const kpis = payload.kpis || {};
+  const orderStatuses = payload.charts?.orderStatuses || [];
+  
+  // Real dynamic domains
+  const dynamicDomains = [
+    { 
+      id: 'financial', 
+      title: 'Finansal Kontrol Merkezi', 
+      icon: BankIcon, 
+      status: 'good', 
+      metrics: [`Ciro: ${kpis.revenue ? (kpis.revenue).toLocaleString('tr-TR') : '0'} ₺`, `Aktif Sipariş: ${kpis.activeOrders || 0}`] 
+    },
+    { 
+      id: 'marketplace', 
+      title: 'Pazaryeri Operasyonları', 
+      icon: Store01Icon, 
+      status: kpis.pendingApprovals > 0 ? 'warning' : 'good', 
+      metrics: [`Onay Bekleyen İlan: ${kpis.pendingApprovals || 0}`] 
+    },
+    { 
+      id: 'community', 
+      title: 'Kullanıcı ve Topluluk', 
+      icon: UserGroupIcon, 
+      status: 'excellent', 
+      metrics: [`Toplam Kullanıcı: ${kpis.totalUsers ? (kpis.totalUsers).toLocaleString('tr-TR') : '0'}`] 
+    },
+    // The rest are infrastructure/future concepts, we can keep them but without fake numbers
+    { 
+      id: 'accounting', 
+      title: 'Muhasebe ve Vergi', 
+      icon: DocumentValidationIcon, 
+      status: 'good', 
+      metrics: ['Sistem aktif'] 
+    },
+    { 
+      id: 'infrastructure', 
+      title: 'Altyapı Merkezi', 
+      icon: Server01Icon, 
+      status: 'excellent', 
+      metrics: ['Sistem Sağlıklı'] 
+    }
+  ];
 
   return (
     <div className="flex flex-col gap-4">
-      {domains.map((domain) => {
+      {dynamicDomains.map((domain) => {
         const isExpanded = expanded === domain.id;
         const Icon = domain.icon;
 

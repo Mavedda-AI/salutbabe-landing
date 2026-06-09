@@ -35,6 +35,11 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
     ([url, token]) => fetcher(url, token)
   );
 
+  const { data: ordersData } = useSWR(
+    token && domainKey === 'accounting' ? [apiUrl('/admin/orders'), token] : null,
+    ([url, t]) => fetcher(url, t)
+  );
+
   const MOCK_MODE = false;
   let mockData: any = null;
 
@@ -78,6 +83,83 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
         }
       }
     };
+  } else if (domainKey === 'accounting') {
+    const orders = ordersData?.payload?.orders || [];
+    const invoiceOrders = orders.filter((o: any) => { const s = o.status?.toLowerCase(); return s !== 'cancelled' && s !== 'refunded' && s !== 'invalid' && s !== 'pending_payment'; });
+    
+    let totalKdv = 0;
+    let totalBase = 0;
+    let totalInvoiceAmount = 0;
+
+    const detailsList: any[] = [];
+    
+    invoiceOrders.forEach((o: any) => {
+      const orderAmount = Number(o.totalAmount || 0);
+      const commissionTotal = orderAmount * 0.15; // 15% Platform commission
+      const kdvRate = 0.20; // 20% KDV for services in Turkey
+      
+      const commBaseAmount = commissionTotal / (1 + kdvRate);
+      const commKdvAmount = commissionTotal - commBaseAmount;
+
+      totalKdv += commKdvAmount;
+      totalBase += commBaseAmount;
+      totalInvoiceAmount += commissionTotal;
+
+      const dateStr = new Date(Number(o.orderDate || Date.now())).toLocaleDateString('tr-TR');
+      const timeStr = new Date(Number(o.orderDate || Date.now())).toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+
+      detailsList.push({
+        col1: `#ORD-${(o.orderID || '000').split('-')[0]} (Komisyon)`,
+        col2: `${commBaseAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+        col3: `${commKdvAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+        col4: `${commissionTotal.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+        col5: 'TASLAK',
+        col6: `${dateStr} ${timeStr}`,
+        orderData: o
+      });
+
+      const shippingPrice = Number(o.shippingPrice || 85);
+      if (shippingPrice > 0) {
+        const shippingPayer = o.shippingPayer || 'buyer';
+        const shipBaseAmount = shippingPrice / (1 + kdvRate);
+        const shipKdvAmount = shippingPrice - shipBaseAmount;
+
+        totalKdv += shipKdvAmount;
+        totalBase += shipBaseAmount;
+        totalInvoiceAmount += shippingPrice;
+
+        const payerText = shippingPayer === 'seller' ? 'Satıcı Öder' : shippingPayer === 'buyer' ? 'Alıcı Öder' : 'Ortak';
+
+        detailsList.push({
+          col1: `#SHP-${(o.orderID || '000').split('-')[0]} (Kargo - ${payerText})`,
+          col2: `${shipBaseAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+          col3: `${shipKdvAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+          col4: `${shippingPrice.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+          col5: 'TASLAK',
+          col6: `${dateStr} ${timeStr}`,
+          orderData: o
+        });
+      }
+    });
+
+    const currentDay = new Date().getDate();
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    const estimatedKdv = totalKdv > 0 ? (totalKdv / currentDay) * daysInMonth : 0;
+
+    mockData = {
+      payload: {
+        stats: {
+          estimatedKdv,
+          kpis: [
+            { l: 'Bekleyen E-Fatura Toplamı', v: `${totalInvoiceAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`, t: `${invoiceOrders.length} İşlem` },
+            { l: 'Hesaplanan Toplam KDV (%20)', v: `${totalKdv.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`, t: 'Ödenecek Vergi' },
+            { l: 'Net Hizmet Matrahı', v: `${totalBase.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`, t: 'Platform Net Karı' },
+          ],
+          columns: ['Sipariş ID', 'Komisyon Matrahı', 'Hesaplanan KDV', 'Fatura Toplamı', 'E-Fatura Durumu', 'Sipariş Tarihi'],
+          details: detailsList
+        }
+      }
+    };
   }
 
   const kpis = mockData?.payload?.stats?.kpis || data?.payload?.stats?.kpis || staticData?.kpis || [];
@@ -85,27 +167,57 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   const details = mockData?.payload?.stats?.details || data?.payload?.stats?.details || [];
 
   const [actionableDetails, setActionableDetails] = useState<any[]>([]);
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
   useEffect(() => {
-    if (details.length > 0 && actionableDetails.length === 0) {
-      setActionableDetails(details);
+    setActionableDetails(details);
+    setSelectedRows([]);
+  }, [JSON.stringify(details), domainKey]);
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setSelectedRows(actionableDetails.map((_, i) => i));
+    } else {
+      setSelectedRows([]);
     }
-  }, [details, domainKey]);
+  };
+
+  const handleSelectRow = (i: number) => {
+    setSelectedRows(prev => prev.includes(i) ? prev.filter(idx => idx !== i) : [...prev, i]);
+  };
 
   const handlePay = (index: number) => {
     const newData = [...actionableDetails];
-    newData[index].col4 = 'ÖDENDİ';
+    newData[index].col5 = domainKey === 'accounting' ? 'KESİLDİ' : 'ÖDENDİ';
+    if(domainKey !== 'accounting') newData[index].col4 = 'ÖDENDİ';
     setActionableDetails(newData);
   };
 
   const handlePayAll = () => {
-    const newData = actionableDetails.map(item => {
-      if (item.col4 === 'BEKLİYOR' || item.col4 === 'TASLAK') {
-        return { ...item, col4: 'ÖDENDİ' };
-      }
-      return item;
-    });
-    setActionableDetails(newData);
+    if (selectedRows.length > 0) {
+      const newData = [...actionableDetails];
+      selectedRows.forEach(i => {
+        if (domainKey === 'accounting' && newData[i].col5 === 'TASLAK') {
+          newData[i].col5 = 'KESİLDİ';
+        }
+        if (newData[i].col4 === 'BEKLİYOR' || newData[i].col4 === 'TASLAK') {
+          newData[i].col4 = 'ÖDENDİ';
+        }
+      });
+      setActionableDetails(newData);
+      setSelectedRows([]);
+    } else {
+      const newData = actionableDetails.map(item => {
+        if (domainKey === 'accounting' && item.col5 === 'TASLAK') {
+          return { ...item, col5: 'KESİLDİ' };
+        }
+        if (item.col4 === 'BEKLİYOR' || item.col4 === 'TASLAK') {
+          return { ...item, col4: 'ÖDENDİ' };
+        }
+        return item;
+      });
+      setActionableDetails(newData);
+    }
   };
 
   if (!staticData) {
@@ -123,48 +235,60 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#050505] text-gray-900 dark:text-white font-sans p-6 lg:p-12 transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#050505] text-gray-900 dark:text-white font-sans p-4 lg:p-8 transition-colors">
       
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-        <div className="flex items-center gap-6">
-          <Link href="/dashboard/sysop" className="w-12 h-12 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center group hover:bg-gray-100 dark:hover:bg-white/10 transition-colors shadow-sm dark:shadow-none">
-            <ArrowLeft01Icon size={20} className="text-gray-500 dark:text-white/60 group-hover:text-gray-900 dark:group-hover:text-white" />
-          </Link>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{staticData.title}</h1>
-            <p className="text-xs font-medium text-gray-500 dark:text-white/40 mt-0.5">{staticData.desc}</p>
+      <div className="max-w-[1600px] mx-auto">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 lg:mb-12">
+          <div className="flex items-center gap-6">
+            <Link href="/dashboard/sysop" className="w-12 h-12 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center group hover:bg-gray-100 dark:hover:bg-white/10 transition-colors shadow-sm dark:shadow-none">
+              <ArrowLeft01Icon size={20} className="text-gray-500 dark:text-white/60 group-hover:text-gray-900 dark:group-hover:text-white" />
+            </Link>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{staticData.title}</h1>
+              <p className="text-xs font-medium text-gray-500 dark:text-white/40 mt-0.5">{staticData.desc}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <button className="h-10 px-4 rounded-xl border border-gray-200 dark:border-white/10 flex items-center gap-2 text-xs font-bold text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors bg-white dark:bg-transparent shadow-sm dark:shadow-none">
+              <Download01Icon size={16} /> Rapor İndir
+            </button>
+            <button 
+              className="h-10 px-4 rounded-xl text-white flex items-center gap-2 text-xs font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+              style={{ backgroundColor: '#2563eb', color: '#ffffff' }}
+            >
+              <AnalyticsUpIcon size={16} /> AI Optimize Et
+            </button>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="h-10 px-4 rounded-xl border border-gray-200 dark:border-white/10 flex items-center gap-2 text-xs font-bold text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors bg-white dark:bg-transparent shadow-sm dark:shadow-none">
-            <Download01Icon size={16} /> Rapor İndir
-          </button>
-          <button 
-            className="h-10 px-4 rounded-xl text-white flex items-center gap-2 text-xs font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95"
-            style={{ backgroundColor: '#2563eb', color: '#ffffff' }}
-          >
-            <AnalyticsUpIcon size={16} /> AI Optimize Et
-          </button>
-        </div>
-      </div>
-      
-      <div className="max-w-7xl">
         
+        <div className="w-full">
+        
+        {domainKey === 'accounting' && mockData?.payload?.stats?.estimatedKdv !== undefined && (
+          <div className="mb-6 bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 rounded-2xl p-4 flex items-center gap-4 text-sm text-blue-800 dark:text-blue-300 shadow-sm dark:shadow-none">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-500/20 flex-shrink-0">
+              <AnalyticsUpIcon size={16} className="text-blue-600 dark:text-blue-400" />
+            </span>
+            <p>
+              <strong>Yapay Zeka Projeksiyonu:</strong> Mevcut sipariş ivmeniz analiz edildiğinde, bu ay sonu oluşacak toplam tahmini KDV yükümlülüğünüz <strong>{mockData.payload.stats.estimatedKdv.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺</strong> olarak öngörülmektedir.
+            </p>
+          </div>
+        )}
+
         {/* KPI Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {isLoading ? (
             Array.from({ length: 3 }).map((_, idx) => (
-              <div key={idx} className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-3xl p-8 h-32 animate-pulse shadow-sm dark:shadow-none" />
+              <div key={idx} className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-2xl p-6 h-32 animate-pulse shadow-sm dark:shadow-none" />
             ))
           ) : (
             kpis.map((kpi: any, idx: number) => (
-              <div key={idx} className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-3xl p-8 flex flex-col gap-4 relative overflow-hidden group hover:border-gray-300 dark:hover:border-white/10 transition-colors shadow-sm dark:shadow-none">
+              <div key={idx} className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-2xl p-6 flex flex-col h-full relative overflow-hidden group hover:border-gray-300 dark:hover:border-white/10 transition-colors shadow-sm dark:shadow-none">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gray-100 dark:bg-white/5 rounded-full blur-3xl -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="text-xs font-bold text-gray-400 dark:text-white/40 uppercase tracking-widest">{kpi.l}</span>
-                <div className="flex items-end justify-between z-10">
-                  <span className="text-4xl font-black tracking-tighter text-gray-900 dark:text-white">{kpi.v}</span>
-                  <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-100 dark:border-transparent px-3 py-1 rounded-lg">{kpi.t}</span>
+                <span className="text-xs font-bold text-gray-400 dark:text-white/40 uppercase tracking-widest mb-4 z-10 relative">{kpi.l}</span>
+                <div className="flex flex-col items-start gap-2 mt-auto z-10 relative">
+                  <span className="text-3xl font-black tracking-tighter text-gray-900 dark:text-white">{kpi.v}</span>
+                  <span className="text-[11px] font-bold whitespace-nowrap text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-100 dark:border-transparent px-2.5 py-1 rounded-md">{kpi.t}</span>
                 </div>
               </div>
             ))
@@ -176,54 +300,94 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
           <div className="flex-1 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-2xl overflow-hidden shadow-sm dark:shadow-none mt-12">
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-white/10">
               <h3 className="font-bold text-gray-900 dark:text-white">
-                {domainKey === 'financial' ? 'Son Finansal Çıkış İşlemleri' : domainKey === 'risk' ? 'Son Risk ve Hata Kayıtları' : 'Detaylı İşlem Tablosu'}
+                {domainKey === 'financial' ? 'Son Finansal Çıkış İşlemleri' : domainKey === 'risk' ? 'Son Risk ve Hata Kayıtları' : domainKey === 'accounting' ? 'E-Fatura Onay Kuyruğu' : 'Detaylı İşlem Tablosu'}
               </h3>
-              {domainKey === 'financial' && actionableDetails.some(r => r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK') && (
+              {(domainKey === 'financial' && actionableDetails.some(r => r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK')) || (domainKey === 'accounting' && actionableDetails.some(r => r.col5 === 'TASLAK')) ? (
                 <button 
                   onClick={handlePayAll}
                   className="px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
                   style={{ backgroundColor: '#059669', color: '#ffffff' }}
                 >
-                  Tümünü Öde / Onayla
+                  {selectedRows.length > 0 
+                    ? `Seçilenleri ${domainKey === 'accounting' ? 'Resmileştir' : 'Öde / Onayla'} (${selectedRows.length})` 
+                    : (domainKey === 'accounting' ? 'Tüm Faturaları Resmileştir' : 'Tümünü Öde / Onayla')}
                 </button>
-              )}
+              ) : null}
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm whitespace-nowrap">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10 text-gray-500 dark:text-white/40 font-medium">
+                    {(domainKey === 'financial' || domainKey === 'accounting') && (
+                      <th className="px-6 py-4 w-12">
+                        <input 
+                          type="checkbox" 
+                          checked={selectedRows.length === actionableDetails.length && actionableDetails.length > 0}
+                          onChange={handleSelectAll}
+                          className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                        />
+                      </th>
+                    )}
                     {columns.map((col: string, i: number) => (
                       <th key={i} className="px-6 py-4">{col}</th>
                     ))}
-                    {domainKey === 'financial' && <th className="px-6 py-4 text-right">Aksiyon</th>}
+                    {domainKey === 'accounting' ? <th className="px-6 py-4 text-right">Aksiyon</th> : domainKey === 'financial' ? <th className="px-6 py-4 text-right">Aksiyon</th> : null}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-white/5">
                   {actionableDetails.map((row: any, i: number) => (
-                    <tr key={i} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                    <tr key={i} className={`hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group ${selectedRows.includes(i) ? 'bg-emerald-50/30 dark:bg-emerald-500/5' : ''}`}>
+                      {(domainKey === 'financial' || domainKey === 'accounting') && (
+                        <td className="px-6 py-4">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedRows.includes(i)}
+                            onChange={() => handleSelectRow(i)}
+                            className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                          />
+                        </td>
+                      )}
                       <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{row.col1}</td>
                       <td className="px-6 py-4 text-gray-500 dark:text-white/60">{row.col2}</td>
                       <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.col3}</td>
                       <td className="px-6 py-4">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          row.col4.includes('ONAYLANDI') || row.col4.includes('ÖDENDİ') || row.col4.includes('Düşük') ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 
-                          row.col4.includes('BEKLİYOR') || row.col4.includes('Orta') ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' : 
-                          row.col4.includes('YÜKSEK') ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' :
-                          'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60'
-                        }`}>
-                          {row.col4}
-                        </span>
+                        {domainKey === 'accounting' ? (
+                          <span className="font-black text-gray-900 dark:text-white">{row.col4}</span>
+                        ) : (
+                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            row.col4.includes('ONAYLANDI') || row.col4.includes('ÖDENDİ') || row.col4.includes('Düşük') ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 
+                            row.col4.includes('BEKLİYOR') || row.col4.includes('Orta') ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' : 
+                            row.col4.includes('YÜKSEK') ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' :
+                            'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60'
+                          }`}>
+                            {row.col4}
+                          </span>
+                        )}
                       </td>
-                      <td className="px-6 py-4 text-gray-400 dark:text-white/40 text-right">{row.col5}</td>
-                      {domainKey === 'financial' && (
+                      <td className="px-6 py-4">
+                        {domainKey === 'accounting' ? (
+                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            row.col5 === 'KESİLDİ' ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400'
+                          }`}>
+                            {row.col5}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 dark:text-white/40 text-right">{row.col5}</span>
+                        )}
+                      </td>
+                      {domainKey === 'accounting' ? (
+                        <td className="px-6 py-4 text-gray-400 dark:text-white/40 text-right">{row.col6}</td>
+                      ) : null}
+                      
+                      {(domainKey === 'financial' || domainKey === 'accounting') && (
                         <td className="px-6 py-4 text-right">
-                          {(row.col4 === 'BEKLİYOR' || row.col4 === 'TASLAK') ? (
+                          {(row.col4 === 'BEKLİYOR' || row.col4 === 'TASLAK' || row.col5 === 'TASLAK') ? (
                             <button 
                               onClick={(e) => { e.stopPropagation(); handlePay(i); }}
                               className="px-4 py-1.5 rounded-lg text-[10px] font-bold transition-all shadow-sm uppercase tracking-wider active:scale-95"
                               style={{ backgroundColor: '#10b981', color: '#ffffff' }}
                             >
-                              ÖDE
+                              {domainKey === 'accounting' ? 'Resmileştir' : 'ÖDE'}
                             </button>
                           ) : (
                             <span className="text-[10px] text-emerald-600 dark:text-emerald-500 font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">Tamamlandı</span>
@@ -244,7 +408,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
           </div>
         )}
       </div>
-
+      </div>
     </div>
   );
 }
