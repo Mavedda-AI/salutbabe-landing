@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import Link from "next/link";
 import {useAuthStore} from "../../../store/useAuthStore";
 import {useThemeLanguage} from "../../../context/ThemeLanguageContext";
 import {apiUrl} from "../../../lib/api";
@@ -33,6 +34,41 @@ export default function SysopDashboard() {
   const [orderFilter, setOrderFilter] = useState("Tümü");
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  // Users Modal State
+  const [showUsersModal, setShowUsersModal] = useState(false);
+  const [modalUsers, setModalUsers] = useState<any[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+
+  const fetchModalUsers = async () => {
+    setLoadingUsers(true);
+    try {
+      const res = await fetch(apiUrl("/admin/users"), {
+        headers: {
+          Authorization: `Bearer ${useAuthStore.getState().token}`,
+          "X-Device-Type": "web",
+        }
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        // Sadece aktif kullanıcıları veya tümünü gösterebiliriz. 
+        // Kullanıcı "aktif kullanıcılar" dediği için isActive olanları filtreleyelim.
+        const allUsers = data.payload?.users || [];
+        const activeOnly = allUsers.filter((u: any) => u.isActive === true);
+        setModalUsers(activeOnly);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showUsersModal) {
+      fetchModalUsers();
+    }
+  }, [showUsersModal]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -85,7 +121,7 @@ export default function SysopDashboard() {
   const kpis = [
     { label: "Aylık Gelir", value: `₺${backendKpis?.revenue?.toLocaleString('tr-TR') || 0}`, icon: Wallet01Icon, color: "from-purple-500 to-fuchsia-400", shadow: "shadow-purple-500/20" },
     { label: "Aktif Siparişler", value: backendKpis?.activeOrders?.toString() || "0", icon: ShoppingBag02Icon, color: "from-blue-500 to-cyan-400", shadow: "shadow-blue-500/20" },
-    { label: "Toplam Kullanıcı", value: backendKpis?.totalUsers?.toString() || "0", icon: UserGroupIcon, color: "from-green-500 to-emerald-400", shadow: "shadow-green-500/20" },
+    { label: "Toplam Kullanıcı", value: backendKpis?.totalUsers?.toString() || "0", icon: UserGroupIcon, color: "from-green-500 to-emerald-400", shadow: "shadow-green-500/20", onClick: () => setShowUsersModal(true) },
     { label: "Onay Bekleyen", value: backendKpis?.pendingApprovals?.toString() || "0", icon: Alert01Icon, color: "from-orange-500 to-amber-400", shadow: "shadow-orange-500/20" },
   ];
 
@@ -95,20 +131,44 @@ export default function SysopDashboard() {
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {kpis.map((kpi: any, idx: number) => (
-          <div key={idx} className="bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-            <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${kpi.color} opacity-10 rounded-bl-[100px] group-hover:scale-125 transition-transform duration-700 ease-out`}></div>
-            <div className="flex justify-between items-start relative z-10">
-              <div>
-                <p className="text-[14px] font-semibold text-gray-500 dark:text-gray-400 mb-1">{kpi.label}</p>
-                <h3 className="text-3xl font-black text-gray-900 dark:text-white">{kpi.value}</h3>
+        {kpis.map((kpi: any, idx: number) => {
+          const content = (
+            <>
+              <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${kpi.color} opacity-10 rounded-bl-[100px] group-hover:scale-125 transition-transform duration-700 ease-out`}></div>
+              <div className="flex justify-between items-start relative z-10">
+                <div>
+                  <p className="text-[14px] font-semibold text-gray-500 dark:text-gray-400 mb-1">{kpi.label}</p>
+                  <h3 className="text-3xl font-black text-gray-900 dark:text-white">{kpi.value}</h3>
+                </div>
+                <div className={`p-3 rounded-2xl bg-gradient-to-br ${kpi.color} text-white shadow-lg ${kpi.shadow}`}>
+                  <kpi.icon size={24} />
+                </div>
               </div>
-              <div className={`p-3 rounded-2xl bg-gradient-to-br ${kpi.color} text-white shadow-lg ${kpi.shadow}`}>
-                <kpi.icon size={24} />
+            </>
+          );
+
+          if (kpi.href) {
+            return (
+              <Link href={kpi.href} key={idx} className="bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 block cursor-pointer">
+                {content}
+              </Link>
+            );
+          }
+
+          if (kpi.onClick) {
+            return (
+              <div onClick={kpi.onClick} key={idx} className="bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 block cursor-pointer">
+                {content}
               </div>
+            );
+          }
+
+          return (
+            <div key={idx} className="bg-white dark:bg-[#1A1D27] p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+              {content}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Charts Section */}
@@ -320,6 +380,93 @@ export default function SysopDashboard() {
         </div>
 
       </div>
+
+      {/* Active Users Modal */}
+      {showUsersModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-[#1A1D27] w-full max-w-4xl max-h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100 dark:border-gray-800 animate-in zoom-in-95 duration-300">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 rounded-2xl">
+                  <UserGroupIcon size={24} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-black text-gray-900 dark:text-white">Aktif Kullanıcılar</h2>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Şu anda sistemde aktif olan kullanıcıların listesi</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowUsersModal(false)}
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors text-gray-500"
+              >
+                <Cancel01Icon size={24} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-1 overflow-y-auto p-6 bg-gray-50/50 dark:bg-black/20">
+              {loadingUsers ? (
+                <div className="flex flex-col items-center justify-center h-48 gap-4">
+                  <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-green-500"></div>
+                  <p className="text-gray-500 dark:text-gray-400 font-medium">Kullanıcılar yükleniyor...</p>
+                </div>
+              ) : modalUsers.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {modalUsers.map((user: any) => (
+                    <div key={user.userID} className="bg-white dark:bg-[#12141C] p-5 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col gap-4 hover:border-green-500/30 transition-colors group">
+                      <div className="flex items-center gap-4">
+                        <div className="relative">
+                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-green-500/30 group-hover:scale-110 transition-transform">
+                            {user.userName?.[0] || user.eMail[0].toUpperCase()}
+                          </div>
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white dark:border-[#12141C] bg-green-500"></div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-base font-bold text-gray-900 dark:text-white truncate">
+                            {user.userName} {user.userSurname}
+                          </h4>
+                          <p className="text-xs font-bold text-green-500 truncate">@{user.userNickname || "anonim"}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                          <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                          <span className="truncate">{user.eMail}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold px-2 py-1 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 rounded-lg">
+                            {(Array.isArray(user.userType) ? user.userType[0] : user.userType) || 'USER'}
+                          </span>
+                          <span className="text-sm font-black text-gray-900 dark:text-white">
+                            ₺{user.balance?.toLocaleString('tr-TR') || 0}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-48 text-center">
+                  <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4 text-gray-400">
+                    <UserGroupIcon size={32} />
+                  </div>
+                  <p className="text-gray-900 dark:text-white font-bold text-lg">Aktif Kullanıcı Bulunamadı</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Şu anda sistemde listelenecek aktif kullanıcı yok.</p>
+                </div>
+              )}
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-[#1A1D27] flex justify-end">
+              <Link href="/dashboard/sysop/user-management" className="px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-500/20 transition-all hover:scale-105 active:scale-95" onClick={() => setShowUsersModal(false)}>
+                Tüm Kullanıcıları Yönet
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
