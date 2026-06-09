@@ -4,15 +4,15 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-  ArrowDown01Icon,
-  BankIcon,
-  CheckmarkBadge01Icon,
-  PercentCircleIcon,
-  ShoppingCart01Icon,
-  Tag01Icon,
-  UserCircleIcon,
-  UserGroupIcon,
-  Wallet01Icon
+    ArrowDown01Icon,
+    BankIcon,
+    CheckmarkBadge01Icon,
+    PercentCircleIcon,
+    ShoppingCart01Icon,
+    Tag01Icon,
+    UserCircleIcon,
+    UserGroupIcon,
+    Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -352,26 +352,54 @@ function DAUAccordion({ token }: { token: string }) {
 
 export default function KPIBar() {
   const token = useAuthStore((state) => state.token);
-  const { data, isLoading } = useSWR(
+  const { data: realData, isLoading } = useSWR(
     token ? [apiUrl('/admin/dashboard'), token] : null,
     ([url, token]) => fetcher(url, token)
   );
 
+  const MOCK_MODE = false;
+  const data = MOCK_MODE ? {
+    payload: {
+      totalRevenue: 100000000,
+      pendingRevenue: 15000000,
+      pendingCommission: 2250000,
+      totalUsers: 1854000,
+      activeUsers: 34000,
+      pendingListings: 420,
+      totalOrders: 412500,
+      users: realData?.payload?.users || [],
+      orders: realData?.payload?.orders || [],
+      listings: realData?.payload?.listings || []
+    }
+  } : realData;
+
   const [expandedKpi, setExpandedKpi] = useState<string | null>(null);
 
+  const formatCompactNumber = (num: number) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + 'M';
+    }
+    if (num >= 1000) {
+      return (num / 1000).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + 'B';
+    }
+    return num.toLocaleString('tr-TR');
+  };
+
   const kpis = [
-    { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: data?.payload?.totalRevenue ? `${data.payload.totalRevenue.toLocaleString()} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
-    { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: data?.payload?.pendingRevenue ? `${data.payload.pendingRevenue.toLocaleString()} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
-    { id: 'commission-pending', label: 'Bekleyen Komisyon', value: data?.payload?.pendingCommission ? `${data.payload.pendingCommission.toLocaleString()} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
-    { id: 'users', label: 'Toplam Kullanıcı', value: data?.payload?.totalUsers ? `${data.payload.totalUsers.toLocaleString()}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
-    { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: data?.payload?.activeUsers ? `${data.payload.activeUsers.toLocaleString()}` : '0', trend: '+%3', status: 'good', hasDetails: true },
-    { id: 'pending', label: 'Bekleyen İlanlar', value: data?.payload?.pendingListings ? `${data.payload.pendingListings}` : '0', trend: '-1', status: 'warning', hasDetails: true },
-    { id: 'orders', label: 'Toplam Sipariş', value: data?.payload?.totalOrders ? `${data.payload.totalOrders.toLocaleString()}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
+    { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: data?.payload?.totalRevenue ? `${formatCompactNumber(data.payload.totalRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
+    { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: data?.payload?.pendingRevenue ? `${formatCompactNumber(data.payload.pendingRevenue)} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
+    { id: 'transfer-pending', label: 'Aktarılacak Ödemeler', value: data?.payload?.totalRevenue ? `${formatCompactNumber(data.payload.totalRevenue * 0.85)} ₺` : '0 ₺', trend: 'Öncelikli', status: 'excellent', hasDetails: false },
+    { id: 'cargo-pending', label: 'Kargoya Ödenecek Tutar', value: data?.payload?.activeOrders ? `${formatCompactNumber(data.payload.activeOrders * 85)} ₺` : '0 ₺', trend: 'Gider', status: 'warning', hasDetails: false },
+    { id: 'commission-pending', label: 'Bekleyen Komisyon', value: data?.payload?.pendingCommission ? `${formatCompactNumber(data.payload.pendingCommission)} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
+    { id: 'users', label: 'Toplam Kullanıcı', value: data?.payload?.totalUsers ? `${formatCompactNumber(data.payload.totalUsers)}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
+    { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: data?.payload?.activeUsers ? `${formatCompactNumber(data.payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
+    { id: 'pending', label: 'Bekleyen İlanlar', value: data?.payload?.pendingListings ? `${formatCompactNumber(data.payload.pendingListings)}` : '0', trend: '-1', status: 'warning', hasDetails: true },
+    { id: 'orders', label: 'Toplam Sipariş', value: data?.payload?.totalOrders ? `${formatCompactNumber(data.payload.totalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
   ];
 
   return (
     <div className="bg-white dark:bg-[#0A0A0B] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 mb-10 shadow-sm dark:shadow-xl transition-colors">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-px bg-gray-200 dark:bg-white/10">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-px bg-gray-200 dark:bg-white/10">
         {kpis.map((kpi) => (
           <div 
             key={kpi.id} 
