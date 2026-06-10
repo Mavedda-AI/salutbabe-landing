@@ -24,7 +24,7 @@ export default function SharedPaymentPage() {
   useEffect(() => {
     if (!id) return;
     
-    fetch(`https://api.salutbabe.com/v1/common/shared-link/data/${id}`)
+    fetch(`https://api.salutbabe.com/v1/common/shared-link/get-share-data/${id}`)
       .then(res => res.json())
       .then(res => {
         if (!res.requestHeader.requestResult) {
