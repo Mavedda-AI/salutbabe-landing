@@ -250,6 +250,9 @@ export default function TrackingPage() {
          <div className="w-10 h-10 border-4 border-gray-200 border-t-[#8854C0] rounded-full animate-spin"></div>
       </div>
     }>
+      <div className="absolute top-0 left-0 w-full p-6 z-30 flex justify-center pointer-events-none">
+        <img src="/logo-text.png" alt="salutbabe" className="h-6 object-contain opacity-90 filter drop-shadow-sm" />
+      </div>
       <TrackingContent />
     </Suspense>
   );
