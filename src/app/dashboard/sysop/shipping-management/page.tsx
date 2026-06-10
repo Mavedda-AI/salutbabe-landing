@@ -646,7 +646,7 @@ export default function ShippingManagementPage() {
                     <div className="pt-2">
                       {currentCompany.name?.toLowerCase().includes('ptt') ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {['PTT_KULLANICI', 'PTT_MUSTERI_ID', 'PTT_SIFRE'].map(key => (
+                          {['PTT_MUSTERI_ID', 'PTT_SIFRE'].map(key => (
                             <div key={key} className="space-y-1.5">
                               <label className="text-[13px] font-medium text-gray-700 dark:text-gray-300 ml-1">{key.replace(/_/g, ' ')}</label>
                               <input 
