@@ -196,7 +196,7 @@ function TrackingContent() {
                     const parsed = parseDateTime(event.date);
                     
                     const textContent = event.status || event.description || 'Kargo Hareketi';
-                    const hasDetail = event.description && event.description !== event.status;
+                    const hasDetail = event.description && event.description !== textContent;
                     
                     return (
                        <div key={i} className="flex relative min-h-[5rem]">
