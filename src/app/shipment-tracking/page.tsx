@@ -22,6 +22,7 @@ interface TrackingData {
   gonderen?: string;
   destination?: string;
   weight?: string;
+  teslimAlan?: string;
 }
 
 function parseDateTime(dateStr: string) {
@@ -174,6 +175,12 @@ function TrackingContent() {
               <p className="text-xs text-gray-400 font-medium mb-1.5">Durum</p>
               <p className={`text-sm font-bold ${statusColor}`}>{statusText}</p>
            </div>
+           {data.teslimAlan && (
+               <div>
+                  <p className="text-xs text-gray-400 font-medium mb-1.5">Teslim Alan</p>
+                  <p className="text-sm font-bold text-emerald-600 truncate" title={data.teslimAlan}>{data.teslimAlan}</p>
+               </div>
+           )}
         </div>
 
         <div className="h-px bg-gray-100 w-full mb-8"></div>
