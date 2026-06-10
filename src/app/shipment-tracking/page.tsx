@@ -143,15 +143,6 @@ function TrackingContent() {
                 <p className="text-sm text-gray-500 font-medium mt-0.5">{company.toUpperCase()} Kargo</p>
              </div>
           </div>
-          
-          <div className="flex gap-2">
-             <button className="w-10 h-10 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors">
-                <Share className="w-4 h-4" />
-             </button>
-             <button className="w-10 h-10 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors">
-                <Phone className="w-4 h-4" />
-             </button>
-          </div>
         </div>
 
         {/* Info Grid */}
