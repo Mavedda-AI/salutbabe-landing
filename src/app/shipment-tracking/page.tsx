@@ -49,6 +49,7 @@ function TrackingContent() {
   const searchParams = useSearchParams();
   const trackingNumber = searchParams.get('trackingNumber') || searchParams.get('code');
   const company = searchParams.get('company') || 'ptt'; // defaulting to ptt for backward compatibility
+  const showGoBack = searchParams.get('showGoBack') === 'true';
   
   const [data, setData] = useState<TrackingData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -119,13 +120,15 @@ function TrackingContent() {
       
       {/* Top Navigation */}
       <div className="w-full max-w-xl flex justify-between items-center px-4 pt-6 z-10">
-         <button className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-         </button>
+         {showGoBack ? (
+            <button className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors">
+               <ArrowLeft className="w-5 h-5" />
+            </button>
+         ) : (
+            <div className="w-10 h-10" />
+         )}
          <img src="/logo-text.png" alt="salutbabe" className="h-6 object-contain opacity-90 filter drop-shadow-sm" />
-         <button className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors">
-            <MoreHorizontal className="w-5 h-5" />
-         </button>
+         <div className="w-10 h-10" />
       </div>
 
       {/* Main Card */}
