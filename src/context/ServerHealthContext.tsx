@@ -42,8 +42,9 @@ export const ServerHealthProvider = ({ children }: { children: React.ReactNode }
       const isDashboard = pathname.startsWith('/dashboard');
       const isLanding = pathname === '/';
       const isAuth = pathname === '/login' || pathname === '/register';
+      const isShipmentTracking = pathname.startsWith('/shipment-tracking');
       
-      if (!isDashboard && !isLanding && !isAuth) {
+      if (!isDashboard && !isLanding && !isAuth && !isShipmentTracking) {
         router.push('/');
       }
     }
