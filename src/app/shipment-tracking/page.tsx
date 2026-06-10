@@ -23,6 +23,7 @@ interface TrackingData {
   destination?: string;
   weight?: string;
   teslimAlan?: string;
+  rawXml?: string;
 }
 
 function parseDateTime(dateStr: string) {
@@ -68,7 +69,70 @@ function TrackingContent() {
         if (!response.ok) {
           throw new Error('Kargo bilgisi bulunamadı.');
         }
-        const result = await response.json();
+        let result = await response.json();
+        
+        if (result.rawXml) {
+           const parser = new DOMParser();
+           const xmlDoc = parser.parseFromString(result.rawXml, "text/xml");
+           
+           const getTagText = (tagName: string) => {
+              const elements = xmlDoc.getElementsByTagNameNS("*", tagName);
+              if (elements && elements.length > 0) return elements[0].textContent || '';
+              const fallback = Array.from(xmlDoc.getElementsByTagName(tagName)).concat(Array.from(xmlDoc.getElementsByTagName(`ax23:${tagName}`)));
+              if (fallback.length > 0) return fallback[0].textContent || '';
+              return '';
+           };
+           
+           const teslimAlan = getTagText('TESALAN');
+           if (teslimAlan) result.teslimAlan = teslimAlan;
+           
+           const alici = getTagText('ALICI');
+           if (alici) result.alici = alici;
+           
+           const gonderen = getTagText('GONDEREN');
+           if (gonderen) result.gonderen = gonderen;
+           
+           const vmerk = getTagText('VMERK');
+           if (vmerk) result.destination = vmerk;
+           
+           const gr = getTagText('GR');
+           if (gr) result.weight = gr;
+           
+           const donguElements = xmlDoc.getElementsByTagNameNS("*", "dongu");
+           let elementsToUse = Array.from(donguElements);
+           if (elementsToUse.length === 0) {
+              elementsToUse = Array.from(xmlDoc.getElementsByTagName("dongu")).concat(Array.from(xmlDoc.getElementsByTagName("ax23:dongu")));
+           }
+           
+           if (elementsToUse.length > 0) {
+               const history = elementsToUse.map(el => {
+                   const getChildText = (tag: string) => {
+                      const child = Array.from(el.childNodes).find((c: any) => c.nodeName === tag || c.nodeName.includes(`:${tag}`));
+                      return child ? child.textContent || '' : '';
+                   };
+                   
+                   const siraNo = parseInt(getChildText('siraNo') || '0', 10);
+                   const islem = getChildText('ISLEM');
+                   const imerk = getChildText('IMERK');
+                   const itarih = getChildText('ITARIH');
+                   const isaat = getChildText('ISAAT');
+                   
+                   return {
+                       siraNo,
+                       status: islem,
+                       location: imerk,
+                       date: `${itarih} ${isaat}`.trim(),
+                       description: islem
+                   };
+               }).sort((a, b) => a.siraNo - b.siraNo);
+               
+               result.history = history;
+               if (history.length > 0) {
+                   result.status = history[history.length - 1].status;
+               }
+           }
+        }
+        
         setData(result);
       } catch (err: any) {
         setError(err.message || 'Kargo bilgisi alınamadı.');
