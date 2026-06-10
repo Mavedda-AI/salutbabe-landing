@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { apiUrl } from '@/lib/api';
-import { Share, Phone, MapPin, Package, ArrowLeft, MoreHorizontal } from 'lucide-react';
+import React, {Suspense, useEffect, useState} from 'react';
+import {useSearchParams} from 'next/navigation';
+import {apiUrl} from '@/lib/api';
+import {ArrowLeft, MapPin, MoreHorizontal, Package, Phone, Share} from 'lucide-react';
 
 interface TrackingEvent {
   status: string;
@@ -18,6 +18,10 @@ interface TrackingData {
   description: string;
   history: TrackingEvent[];
   timestamp: string;
+  alici?: string;
+  gonderen?: string;
+  destination?: string;
+  weight?: string;
 }
 
 function parseDateTime(dateStr: string) {
@@ -109,38 +113,21 @@ function TrackingContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] relative flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F8F9FA] relative flex flex-col font-sans items-center">
       
-      {/* Map Placeholder Background */}
-      <div className="absolute top-0 left-0 right-0 h-[45vh] bg-[#E8EAEE] overflow-hidden">
-        {/* Fake Map Pattern */}
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#9CA3AF 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-        
-        {/* Nav Buttons over map */}
-        <div className="absolute top-6 left-4 right-4 flex justify-between z-10">
-           <button className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-gray-700">
-              <ArrowLeft className="w-5 h-5" />
-           </button>
-           <button className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-gray-700">
-              <MoreHorizontal className="w-5 h-5" />
-           </button>
-        </div>
-
-        {/* Fake Map Route Line */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm h-32">
-          <svg width="100%" height="100%" viewBox="0 0 200 100" preserveAspectRatio="none">
-             <path d="M 40,80 Q 100,20 160,40" fill="none" stroke="#8854C0" strokeWidth="2" strokeDasharray="4,4" />
-             <circle cx="40" cy="80" r="4" fill="#8854C0" />
-             <circle cx="160" cy="40" r="4" fill="#60A5FA" />
-          </svg>
-        </div>
+      {/* Top Navigation */}
+      <div className="w-full max-w-xl flex justify-between items-center px-4 pt-6 z-10">
+         <button className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+         </button>
+         <h2 className="font-bold text-gray-900">Kargo Takibi</h2>
+         <button className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors">
+            <MoreHorizontal className="w-5 h-5" />
+         </button>
       </div>
 
-      {/* Main Card (Pull up over map) */}
-      <div className="relative z-20 mt-[35vh] bg-white rounded-t-[2.5rem] flex-1 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] px-6 pt-8 pb-12">
-        
-        {/* Handle bar for bottom sheet look */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-gray-200 rounded-full"></div>
+      {/* Main Card */}
+      <div className="w-full max-w-xl bg-white rounded-3xl mt-6 flex-1 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 px-6 pt-8 pb-12 mb-8">
 
         {/* Header Section */}
         <div className="flex items-center justify-between mb-8 mt-2">
@@ -168,14 +155,29 @@ function TrackingContent() {
         {/* Info Grid */}
         <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-8">
            <div>
+              <p className="text-xs text-gray-400 font-medium mb-1.5">Gönderen</p>
+              <p className="text-sm font-bold text-gray-900 truncate" title={data.gonderen || 'Bilinmiyor'}>{data.gonderen || 'Bilinmiyor'}</p>
+           </div>
+           <div>
+              <p className="text-xs text-gray-400 font-medium mb-1.5">Alıcı</p>
+              <p className="text-sm font-bold text-gray-900 truncate" title={data.alici || 'Bilinmiyor'}>{data.alici || 'Bilinmiyor'}</p>
+           </div>
+           <div>
+              <p className="text-xs text-gray-400 font-medium mb-1.5">Varış Merkezi</p>
+              <p className="text-sm font-bold text-gray-900 truncate" title={data.destination || 'Belirsiz'}>{data.destination || 'Belirsiz'}</p>
+           </div>
+           <div>
+              <p className="text-xs text-gray-400 font-medium mb-1.5">Ağırlık / Desi</p>
+              <p className="text-sm font-bold text-gray-900">{data.weight || '-'}</p>
+           </div>
+           <div>
               <p className="text-xs text-gray-400 font-medium mb-1.5">Tahmini Teslimat</p>
-              <p className="text-sm font-bold text-gray-900">{estimatedDelivery}</p>
+              <p className="text-sm font-bold text-[#8854C0]">{estimatedDelivery}</p>
            </div>
            <div>
               <p className="text-xs text-gray-400 font-medium mb-1.5">Durum</p>
               <p className={`text-sm font-bold ${statusColor}`}>{statusText}</p>
            </div>
-           {/* In public API we don't have sender/receiver addresses, so we skip From/To to keep it clean, or put placeholders. Let's omit them to keep real data only. */}
         </div>
 
         <div className="h-px bg-gray-100 w-full mb-8"></div>
