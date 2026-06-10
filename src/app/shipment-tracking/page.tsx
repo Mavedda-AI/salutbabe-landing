@@ -47,20 +47,22 @@ function parseDateTime(dateStr: string) {
 
 function TrackingContent() {
   const searchParams = useSearchParams();
-  const code = searchParams.get('code');
+  const trackingNumber = searchParams.get('trackingNumber') || searchParams.get('code');
+  const company = searchParams.get('company') || 'ptt'; // defaulting to ptt for backward compatibility
+  
   const [data, setData] = useState<TrackingData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!code) {
+    if (!trackingNumber) {
       setLoading(false);
       return;
     }
 
     const fetchTracking = async () => {
       try {
-        const response = await fetch(apiUrl(`/order/public-tracking/${code}`));
+        const response = await fetch(apiUrl(`/order/public-tracking/${trackingNumber}`));
         if (!response.ok) {
           throw new Error('Kargo bilgisi bulunamadı.');
         }
@@ -74,9 +76,9 @@ function TrackingContent() {
     };
 
     fetchTracking();
-  }, [code]);
+  }, [trackingNumber, company]);
 
-  if (!code || error || !data) {
+  if (!trackingNumber || error || !data) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F9FA] p-4 text-center">
         <Package className="w-16 h-16 text-gray-300 mb-4" />
@@ -134,11 +136,11 @@ function TrackingContent() {
           <div className="flex items-center gap-4">
              {/* Logo Box */}
              <div className="w-14 h-14 bg-[#FDE68A] rounded-2xl flex items-center justify-center shadow-sm">
-                <span className="font-black text-[#92400E] text-xl tracking-tighter">PTT</span>
+                <span className="font-black text-[#92400E] text-xl tracking-tighter">{company.toUpperCase()}</span>
              </div>
              <div>
-                <h1 className="text-xl font-bold text-gray-900 tracking-tight">#{data.barno || code}</h1>
-                <p className="text-sm text-gray-500 font-medium mt-0.5">PTT Kargo</p>
+                <h1 className="text-xl font-bold text-gray-900 tracking-tight">#{data.barno || trackingNumber}</h1>
+                <p className="text-sm text-gray-500 font-medium mt-0.5">{company.toUpperCase()} Kargo</p>
              </div>
           </div>
           
