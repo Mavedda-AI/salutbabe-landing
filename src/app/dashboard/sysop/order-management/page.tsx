@@ -12,6 +12,7 @@ interface Order {
   updatedAt?: string;
   deliveredAt?: string | number;
   shippedAt?: string | number;
+  deliveryConfirmedAt?: string | number;
   buyer: {
     userName: string;
     userSurname: string;
@@ -142,6 +143,19 @@ export default function OrderManagementPage() {
                           {order.status?.toLowerCase() === 'delivered' ? 'Teslim:' : 'Güncel:'} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                         )}
+                        {order.deliveryConfirmedAt ? (
+                        <span className="text-gray-900 dark:text-white opacity-80">
+                          Alıcı Onay: {new Date(Number(order.deliveryConfirmedAt)).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(Number(order.deliveryConfirmedAt)).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        ) : order.status?.toLowerCase() === 'completed' ? (
+                        <span className="text-gray-900 dark:text-white opacity-80">
+                          Alıcı Onay: <span className="opacity-60 italic">Otomatik / Sistem</span>
+                        </span>
+                        ) : order.status?.toLowerCase() === 'delivered' ? (
+                        <span className="text-gray-900 dark:text-white opacity-80">
+                          Alıcı Onay: <span className="opacity-60 italic">Bekleniyor</span>
+                        </span>
+                        ) : null}
                       </div>
                     </div>
                   </td>

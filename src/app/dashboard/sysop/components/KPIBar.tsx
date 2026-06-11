@@ -36,12 +36,22 @@ const formatDatesDual = (createdAt: any, updatedAt: any, status?: string, delive
         <span>{updatedDate.toLocaleDateString('tr-TR')} {updatedDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
       )}
-      {deliveryConfirmedAt && (
-      <div className="flex gap-1 text-fuchsia-600 dark:text-fuchsia-400 font-medium">
-        <span>Onay:</span>
-        <span>{new Date(deliveryConfirmedAt).toLocaleDateString('tr-TR')} {new Date(deliveryConfirmedAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+      {deliveryConfirmedAt ? (
+      <div className="flex gap-1 text-gray-900 dark:text-white font-medium">
+        <span>Alıcı Onay:</span>
+        <span>{new Date(Number(deliveryConfirmedAt)).toLocaleDateString('tr-TR')} {new Date(Number(deliveryConfirmedAt)).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
-      )}
+      ) : status?.toLowerCase() === 'completed' ? (
+      <div className="flex gap-1 text-gray-900 dark:text-white font-medium">
+        <span>Alıcı Onay:</span>
+        <span className="opacity-60 italic">Otomatik / Sistem</span>
+      </div>
+      ) : isDelivered ? (
+      <div className="flex gap-1 text-gray-900 dark:text-white font-medium">
+        <span>Alıcı Onay:</span>
+        <span className="opacity-60 italic">Bekleniyor</span>
+      </div>
+      ) : null}
     </div>
   );
 };
@@ -288,7 +298,7 @@ function PendingRevenueAccordion({ token }: { token: string }) {
                 onClick={() => router.push('/dashboard/sysop/order-management')}
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.deliveredAt || order.shippedAt || order.updatedAt || order.orderDate || order.createdAt)}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDatesDual(order.orderDate || order.createdAt, order.deliveredAt || order.shippedAt || order.updatedAt, order.status, order.deliveryConfirmedAt)}</td>
                 <td className="py-3 text-gray-900 dark:text-white font-medium">{order.seller?.userName || 'Sistem İşlemi'}</td>
                 <td className="py-3 text-blue-600 dark:text-blue-400 font-bold text-right">{order.totalAmount} ₺</td>
               </tr>
