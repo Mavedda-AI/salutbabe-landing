@@ -93,35 +93,54 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
 
     const detailsList: any[] = [];
     
+    // Günlük KDV birikimini tutacağımız harita (Zaman Serisi Analizi için)
+    const dailyKdvMap: Record<number, number> = {};
+    
     invoiceOrders.forEach((o: any) => {
       const orderAmount = Number(o.totalAmount || 0);
       const shippingPrice = Number(o.shippingPrice || o.shippingCost || 0);
       
-      // Platform commission is usually taken from the product price, not including shipping
       const productAmount = Math.max(0, orderAmount - shippingPrice);
-      const commissionTotal = productAmount * 0.15; // 15% Platform commission
-      const kdvRate = 0.20; // 20% KDV for services in Turkey
       
-      const commBaseAmount = commissionTotal / (1 + kdvRate);
-      const commKdvAmount = commissionTotal - commBaseAmount;
+      // Floating point hatalarını önlemek için değerleri kuruş (integer) cinsinden hesaplıyoruz
+      const commissionTotalCents = Math.round(productAmount * 0.15 * 100);
+      const kdvRate = 0.20; 
+      
+      const commBaseAmountCents = Math.round(commissionTotalCents / (1 + kdvRate));
+      const commKdvAmountCents = commissionTotalCents - commBaseAmountCents;
 
-      totalKdv += commKdvAmount;
-      totalBase += commBaseAmount;
-      totalInvoiceAmount += commissionTotal;
+      totalKdv += commKdvAmountCents;
+      totalBase += commBaseAmountCents;
+      totalInvoiceAmount += commissionTotalCents;
 
-      const dateStr = new Date(Number(o.orderDate || Date.now())).toLocaleDateString('tr-TR');
-      const timeStr = new Date(Number(o.orderDate || Date.now())).toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+      const orderTimestamp = Number(o.orderDate || Date.now());
+      const dateObj = new Date(orderTimestamp);
+      const dateStr = dateObj.toLocaleDateString('tr-TR');
+      const timeStr = dateObj.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+      const dayOfMonth = dateObj.getDate();
 
-      const tcNo = o.buyer?.tc || '11111111111';
-      const email = o.buyer?.email || o.eMail || 'belirtilmemis@email.com';
-      const address = o.buyer?.address || o.shippingAddress?.fullAddress || 'Adres bilgisi yok';
+      // Günlük KDV toplamını kuruş cinsinden biriktiriyoruz
+      dailyKdvMap[dayOfMonth] = (dailyKdvMap[dayOfMonth] || 0) + commKdvAmountCents;
+
+      const tcNo = o.buyer?.tc || o.buyer?.tcKimlikNo || '11111111111';
+      const email = o.buyer?.eMail || o.buyer?.email || o.eMail || 'belirtilmemis@email.com';
+      
+      let addressStr = 'Adres bilgisi yok';
+      if (o.shippingAddress) {
+         addressStr = `${o.shippingAddress.addressName || ''} ${o.shippingAddress.addressDescription || o.shippingAddress.streetName || ''} ${o.shippingAddress.cityName || ''} ${o.shippingAddress.stateName || ''}`.trim() || 'Adres bilgisi yok';
+      } else if (o.shippingAddressSnapshot) {
+         addressStr = `${o.shippingAddressSnapshot.addressLine1 || o.shippingAddressSnapshot.streetName || ''} ${o.shippingAddressSnapshot.city || o.shippingAddressSnapshot.cityName || ''} ${o.shippingAddressSnapshot.district || o.shippingAddressSnapshot.stateName || ''}`.trim() || 'Adres bilgisi yok';
+      } else if (o.buyer?.address) {
+         addressStr = o.buyer.address;
+      }
+      const address = addressStr;
 
       detailsList.push({
         col1: `#ORD-${(o.orderID || '000').split('-')[0]} (Komisyon)`,
         col2: { tc: tcNo, email, address },
-        col3: `${commBaseAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
-        col4: `${commKdvAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
-        col5: `${commissionTotal.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+        col3: `${(commBaseAmountCents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`,
+        col4: `${(commKdvAmountCents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`,
+        col5: `${(commissionTotalCents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`,
         col6: 'TASLAK',
         col7: `${dateStr} ${timeStr}`,
         orderData: o
@@ -129,21 +148,24 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
 
       if (shippingPrice > 0) {
         const shippingPayer = o.shippingPayer || 'buyer';
-        const shipBaseAmount = shippingPrice / (1 + kdvRate);
-        const shipKdvAmount = shippingPrice - shipBaseAmount;
+        const shippingPriceCents = Math.round(shippingPrice * 100);
+        const shipBaseAmountCents = Math.round(shippingPriceCents / (1 + kdvRate));
+        const shipKdvAmountCents = shippingPriceCents - shipBaseAmountCents;
 
-        totalKdv += shipKdvAmount;
-        totalBase += shipBaseAmount;
-        totalInvoiceAmount += shippingPrice;
+        totalKdv += shipKdvAmountCents;
+        totalBase += shipBaseAmountCents;
+        totalInvoiceAmount += shippingPriceCents;
+        
+        dailyKdvMap[dayOfMonth] = (dailyKdvMap[dayOfMonth] || 0) + shipKdvAmountCents;
 
         const payerText = shippingPayer === 'seller' ? 'Satıcı Öder' : shippingPayer === 'buyer' ? 'Alıcı Öder' : 'Ortak';
 
         detailsList.push({
           col1: `#SHP-${(o.orderID || '000').split('-')[0]} (Kargo - ${payerText})`,
           col2: { tc: tcNo, email, address },
-          col3: `${shipBaseAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
-          col4: `${shipKdvAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
-          col5: `${shippingPrice.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`,
+          col3: `${(shipBaseAmountCents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`,
+          col4: `${(shipKdvAmountCents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`,
+          col5: `${(shippingPriceCents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`,
           col6: 'TASLAK',
           col7: `${dateStr} ${timeStr}`,
           orderData: o
@@ -153,16 +175,54 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
 
     const currentDay = new Date().getDate();
     const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-    const estimatedKdv = totalKdv > 0 ? (totalKdv / currentDay) * daysInMonth : 0;
+    
+    // Analitik Matematik: En Küçük Kareler Yöntemi (Least Squares Linear Regression)
+    // Zaman Serisi: x = Gün (1'den currentDay'e kadar), y = O güne kadar Kümülatif KDV Toplamı
+    let estimatedKdv = 0;
+    
+    const xValues: number[] = [];
+    const yValues: number[] = [];
+    let cumulativeKdvCents = 0;
+    
+    for (let day = 1; day <= currentDay; day++) {
+      cumulativeKdvCents += dailyKdvMap[day] || 0;
+      // Sadece KDV olan günleri veya mevcut güne kadar olan tüm günleri hesaba katabiliriz
+      // Analitik olarak en sağlıklı sonuç için tüm geçen günleri dahil ediyoruz.
+      xValues.push(day);
+      yValues.push(cumulativeKdvCents / 100);
+    }
+
+    const n = xValues.length;
+    if (n > 1 && cumulativeKdvCents > 0) {
+      const sumX = xValues.reduce((a, b) => a + b, 0);
+      const sumY = yValues.reduce((a, b) => a + b, 0);
+      const sumXY = xValues.reduce((sum, x, i) => sum + (x * yValues[i]), 0);
+      const sumXX = xValues.reduce((sum, x) => sum + (x * x), 0);
+
+      // Eğim (m) = (n * Σ(xy) - Σx * Σy) / (n * Σ(x^2) - (Σx)^2)
+      const m = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+      
+      // Kesişim (b) = (Σy - m * Σx) / n
+      const b = (sumY - m * sumX) / n;
+
+      // Ay sonu projeksiyonu: y = m * x + b (x = daysInMonth)
+      const projectedValue = (m * daysInMonth) + b;
+      
+      // Tahmin mantıklı olmalı (negatif olamaz, mevcut tolamdan küçük olamaz)
+      estimatedKdv = Math.max(projectedValue, totalKdv / 100);
+    } else {
+      // Yeterli veri yoksa basit orantı
+      estimatedKdv = totalKdv > 0 ? ((totalKdv / 100) / currentDay) * daysInMonth : 0;
+    }
 
     mockData = {
       payload: {
         stats: {
           estimatedKdv,
           kpis: [
-            { l: 'Bekleyen E-Fatura Toplamı', v: `${totalInvoiceAmount.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`, t: `${invoiceOrders.length} İşlem` },
-            { l: 'Hesaplanan Toplam KDV (%20)', v: `${totalKdv.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`, t: 'Ödenecek Vergi' },
-            { l: 'Net Hizmet Matrahı', v: `${totalBase.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺`, t: 'Platform Net Karı' },
+            { l: 'Bekleyen E-Fatura Toplamı', v: `${(totalInvoiceAmount / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`, t: `${invoiceOrders.length} İşlem` },
+            { l: 'Hesaplanan Toplam KDV (%20)', v: `${(totalKdv / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`, t: 'Ödenecek Vergi' },
+            { l: 'Net Hizmet Matrahı', v: `${(totalBase / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺`, t: 'Platform Net Karı' },
           ],
           columns: ['Sipariş ID', 'Müşteri Bilgileri', 'Matrah', 'KDV', 'Fatura Toplamı', 'Durum', 'Sipariş Tarihi'],
           details: detailsList
@@ -178,20 +238,31 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   const [actionableDetails, setActionableDetails] = useState<any[]>([]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState<string>("Bekleyenler");
 
-  const filteredDetails = actionableDetails.filter(row => 
-    Object.values(row).some(val => {
+  const filteredDetails = actionableDetails.filter(row => {
+    // 1. Sekme (Tab) Filtresi
+    if (domainKey === 'accounting') {
+      if (activeTab === "Bekleyenler" && row.col6 !== 'TASLAK') return false;
+      if (activeTab === "Tamamlananlar" && row.col6 !== 'KESİLDİ') return false;
+    } else if (domainKey === 'financial') {
+      if (activeTab === "Bekleyenler" && (row.col4 === 'ÖDENDİ' || row.col4 === 'ONAYLANDI')) return false;
+      if (activeTab === "Tamamlananlar" && (row.col4 !== 'ÖDENDİ' && row.col4 !== 'ONAYLANDI')) return false;
+    }
+
+    // 2. Arama Filtresi
+    return Object.values(row).some(val => {
       if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
         return JSON.stringify(val).toLowerCase().includes(searchQuery.toLowerCase());
       }
       return String(val).toLowerCase().includes(searchQuery.toLowerCase());
-    })
-  );
+    });
+  });
 
   useEffect(() => {
     setActionableDetails(details);
     setSelectedRows([]);
-  }, [JSON.stringify(details), domainKey]);
+  }, [ordersData, data, domainKey]); // JSON.stringify(details) yerine doğrudan API referanslarını dinliyoruz.
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -206,6 +277,13 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   };
 
   const handlePay = (id: string) => {
+    const isAccounting = domainKey === 'accounting';
+    const msg = isAccounting 
+        ? "Bu faturayı resmileştirmek (kesmek) istediğinize emin misiniz? Bu işlem yasal olarak bağlayıcıdır ve geri alınamaz." 
+        : "Bu işlemi onaylamak/ödemek istediğinize emin misiniz?";
+    
+    if (!window.confirm(msg)) return;
+
     const newData = [...actionableDetails];
     const index = newData.findIndex(r => r.col1 === id);
     if (index !== -1) {
@@ -217,6 +295,18 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   };
 
   const handlePayAll = () => {
+    const isAccounting = domainKey === 'accounting';
+    const count = selectedRows.length > 0 
+      ? selectedRows.length 
+      : actionableDetails.filter(r => isAccounting ? r.col6 === 'TASLAK' : (r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK')).length;
+    
+    if (count === 0) return;
+
+    const actionText = isAccounting ? "fatura resmileştirilecektir" : "işlem onaylanacaktır/ödenecektir";
+    const msg = `⚠️ DİKKAT!\n\nToplam ${count} adet ${actionText}.\n\nBu işlem geri alınamaz. Onaylıyor musunuz?`;
+    
+    if (!window.confirm(msg)) return;
+
     if (selectedRows.length > 0) {
       const newData = actionableDetails.map(item => {
         if (selectedRows.includes(item.col1)) {
@@ -322,9 +412,27 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
         {details.length > 0 ? (
           <div className="flex-1 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/5 rounded-xl overflow-hidden shadow-sm dark:shadow-none mt-2">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-4 py-3 border-b border-gray-200 dark:border-white/10">
-              <h3 className="font-bold text-gray-900 dark:text-white">
-                {domainKey === 'financial' ? 'Son Finansal Çıkış İşlemleri' : domainKey === 'risk' ? 'Son Risk ve Hata Kayıtları' : domainKey === 'accounting' ? 'E-Fatura Onay Kuyruğu' : 'Detaylı İşlem Tablosu'}
-              </h3>
+              <div className="flex items-center gap-4">
+                <h3 className="font-bold text-gray-900 dark:text-white">
+                  {domainKey === 'financial' ? 'Son Finansal Çıkış İşlemleri' : domainKey === 'risk' ? 'Son Risk ve Hata Kayıtları' : domainKey === 'accounting' ? 'E-Fatura Onay Kuyruğu' : 'Detaylı İşlem Tablosu'}
+                </h3>
+                {(domainKey === 'accounting' || domainKey === 'financial') && (
+                  <div className="flex items-center bg-gray-100 dark:bg-white/5 rounded-lg p-1">
+                    <button 
+                      onClick={() => setActiveTab('Bekleyenler')} 
+                      className={`px-3 py-1.5 text-[11px] font-bold rounded-md transition-all ${activeTab === 'Bekleyenler' ? 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-white/40 hover:text-gray-700 dark:hover:text-white/60'}`}
+                    >
+                      {domainKey === 'accounting' ? 'Taslaklar' : 'Bekleyenler'}
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab('Tamamlananlar')} 
+                      className={`px-3 py-1.5 text-[11px] font-bold rounded-md transition-all ${activeTab === 'Tamamlananlar' ? 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-white/40 hover:text-gray-700 dark:hover:text-white/60'}`}
+                    >
+                      {domainKey === 'accounting' ? 'Kesilen Faturalar' : 'Tamamlananlar'}
+                    </button>
+                  </div>
+                )}
+              </div>
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <div className="relative flex-1 sm:w-64">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -338,7 +446,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
                     className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl pl-9 pr-4 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-gray-900 dark:text-white"
                   />
                 </div>
-                {(domainKey === 'financial' && actionableDetails.some(r => r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK')) || (domainKey === 'accounting' && actionableDetails.some(r => r.col6 === 'TASLAK')) ? (
+                {activeTab === 'Bekleyenler' && ((domainKey === 'financial' && actionableDetails.some(r => r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK')) || (domainKey === 'accounting' && actionableDetails.some(r => r.col6 === 'TASLAK'))) ? (
                   <button 
                     onClick={handlePayAll}
                     className="px-4 py-1.5 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/20 active:scale-95 whitespace-nowrap"
