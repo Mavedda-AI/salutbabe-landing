@@ -118,6 +118,7 @@ export default function CategoryManagementPage() {
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [togglingAttr, setTogglingAttr] = useState<{ catId: string; attrId: string } | null>(null);
 
   /* ───────────────────── Data Fetching ───────────────────── */
 
@@ -849,8 +850,6 @@ export default function CategoryManagementPage() {
   }
 
   /* ═══════════════════ Attribute Toggle (Inline) ═══════════════════ */
-  const [togglingAttr, setTogglingAttr] = useState<{ catId: string; attrId: string } | null>(null);
-
   const toggleCategoryAttribute = async (catId: string, attrId: string, isCurrentlyAssigned: boolean) => {
     try {
       setTogglingAttr({ catId, attrId });
