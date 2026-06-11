@@ -304,7 +304,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   useEffect(() => {
     setActionableDetails(details);
     setSelectedRows([]);
-  }, [ordersData, data, domainKey]); // JSON.stringify(details) yerine doğrudan API referanslarını dinliyoruz.
+  }, [ordersData, data, domainKey, timeframe]); // timeframe değiştiğinde de tabloyu yenile
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
