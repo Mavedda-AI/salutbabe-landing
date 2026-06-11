@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useState, useMemo, useCallback} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {apiUrl} from "../../../../lib/api";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {useToast} from "../../../../context/ToastContext";
@@ -97,7 +97,11 @@ export default function CategoryManagementPage() {
   // Tree
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
-  // Category form
+  // Drag and Drop
+  const [draggedCatId, setDraggedCatId] = useState<string | null>(null);
+  const [dragOverCatId, setDragOverCatId] = useState<string | null>(null);
+  const [dropPosition, setDropPosition] = useState<'before' | 'inside' | 'after' | null>(null);
+  const [isReordering, setIsReordering] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Partial<Category> | null>(null);
   const [catFormOpen, setCatFormOpen] = useState(false);
 
@@ -422,6 +426,134 @@ export default function CategoryManagementPage() {
 
   const filteredRoots = useMemo(() => filterTree(rootCategories, searchQuery), [rootCategories, searchQuery, filterTree]);
 
+  /* ───────────────────── Drag & Drop ───────────────────── */
+
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    e.dataTransfer.setData('text/plain', id);
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggedCatId(id);
+  };
+
+  const handleDragOver = (e: React.DragEvent, id: string) => {
+    e.preventDefault();
+    if (draggedCatId === id || !draggedCatId) return;
+
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const height = rect.height;
+
+    let position: 'before' | 'inside' | 'after' = 'inside';
+    if (y < height * 0.25) position = 'before';
+    else if (y > height * 0.75) position = 'after';
+    
+    setDragOverCatId(id);
+    setDropPosition(position);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverCatId(null);
+    setDropPosition(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedCatId(null);
+    setDragOverCatId(null);
+    setDropPosition(null);
+  };
+
+  const handleDrop = async (e: React.DragEvent, targetId: string) => {
+    e.preventDefault();
+    
+    // Calculate position synchronously
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const height = rect.height;
+
+    let calcPosition: 'before' | 'inside' | 'after' = 'inside';
+    if (y < height * 0.25) calcPosition = 'before';
+    else if (y > height * 0.75) calcPosition = 'after';
+
+    if (!draggedCatId || draggedCatId === targetId) {
+      handleDragEnd();
+      return;
+    }
+
+    setIsReordering(true);
+    try {
+      const sourceCat = flatCategories.find(c => c.categoryID === draggedCatId);
+      const targetCat = flatCategories.find(c => c.categoryID === targetId);
+
+      if (!sourceCat || !targetCat) return;
+
+      // Prevent dropping a category inside its own descendant
+      let currentParent = targetCat.parentCategoryID;
+      while (currentParent) {
+        if (currentParent === draggedCatId) {
+          showToast("Bir kategoriyi kendi alt kategorisinin içine taşıyamazsınız", "error");
+          handleDragEnd();
+          setIsReordering(false);
+          return;
+        }
+        const p = flatCategories.find(c => c.categoryID === currentParent);
+        currentParent = p ? p.parentCategoryID : null;
+      }
+
+      let newParentId = sourceCat.parentCategoryID;
+      let targetSiblings: Category[] = [];
+
+      if (calcPosition === 'inside') {
+        newParentId = targetId;
+        targetSiblings = targetCat.children || [];
+      } else {
+        newParentId = targetCat.parentCategoryID;
+        targetSiblings = newParentId 
+          ? (flatCategories.find(c => c.categoryID === newParentId)?.children || [])
+          : rootCategories;
+      }
+
+      let newSiblings = targetSiblings.filter(c => c.categoryID !== draggedCatId);
+
+      if (calcPosition === 'inside') {
+        newSiblings.push(sourceCat);
+      } else {
+        const targetIndex = newSiblings.findIndex(c => c.categoryID === targetId);
+        if (calcPosition === 'before') {
+          newSiblings.splice(targetIndex !== -1 ? targetIndex : 0, 0, sourceCat);
+        } else {
+          newSiblings.splice(targetIndex !== -1 ? targetIndex + 1 : newSiblings.length, 0, sourceCat);
+        }
+      }
+
+      const updates = newSiblings.map((c, index) => ({
+        id: c.categoryID,
+        parentCategoryID: newParentId || null,
+        displayOrder: index
+      }));
+
+      const res = await fetch(apiUrl('/admin/categories/reorder'), {
+        method: 'PUT',
+        headers: getHeaders(true),
+        body: JSON.stringify({ updates })
+      });
+
+      if (res.ok) {
+        showToast("Kategoriler yeniden sıralandı", "success");
+        await fetchData();
+        if (calcPosition === 'inside') setExpanded(new Set([...Array.from(expanded), targetId]));
+      } else {
+        const errData = await res.json().catch(() => null);
+        console.error("Backend Error:", errData);
+        showToast(errData?.message || "Sıralama güncellenemedi", "error");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("Sıralama hatası", "error");
+    } finally {
+      setIsReordering(false);
+      handleDragEnd();
+    }
+  };
+
   /* ───────────────────── Loading ───────────────────── */
 
   if (loading) return (
@@ -718,12 +850,28 @@ export default function CategoryManagementPage() {
     const displayName = cat.displayedName?.tr || cat.name;
     const isDeleting = deleting === cat.categoryID;
 
+    const isDragging = draggedCatId === cat.categoryID;
+    const isDragOver = dragOverCatId === cat.categoryID;
+    let dragClasses = "";
+    if (isDragOver && dropPosition) {
+      if (dropPosition === 'before') dragClasses = "border-t-2 border-t-[#FF6B00]";
+      else if (dropPosition === 'after') dragClasses = "border-b-2 border-b-[#FF6B00]";
+      else if (dropPosition === 'inside') dragClasses = "bg-[#FF6B00]/10 border border-[#FF6B00]/30 scale-[1.02] shadow-sm z-10";
+    }
+
     return (
-      <div key={cat.categoryID}>
-        <div className={`flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group ${level > 0 ? 'ml-8 border-l-2 border-gray-200 dark:border-white/10 pl-5' : ''} ${level > 1 ? 'ml-16' : ''}`}>
+      <div key={cat.categoryID} className="relative">
+        <div 
+          draggable={!searchQuery}
+          onDragStart={(e) => handleDragStart(e, cat.categoryID)}
+          onDragOver={(e) => handleDragOver(e, cat.categoryID)}
+          onDragLeave={handleDragLeave}
+          onDrop={(e) => handleDrop(e, cat.categoryID)}
+          className={`flex items-center gap-3 p-3 rounded-xl transition-all group ${!searchQuery ? 'cursor-grab active:cursor-grabbing' : ''} ${dragClasses} ${isDragging ? 'opacity-40 grayscale scale-95 border border-dashed border-gray-300 dark:border-white/20' : 'hover:bg-gray-50 dark:hover:bg-white/5'} ${level > 0 ? 'ml-8 border-l-2 border-gray-200 dark:border-white/10 pl-5' : ''} ${level > 1 ? 'ml-16' : ''}`}
+        >
 
           {/* Expand/Collapse */}
-          <button onClick={() => hasChildren && toggleExpand(cat.categoryID)} className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-all ${hasChildren ? 'hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 cursor-pointer' : 'text-gray-300 dark:text-white/10 cursor-default'}`}>
+          <button onClick={(e) => { e.stopPropagation(); hasChildren && toggleExpand(cat.categoryID); }} className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-all ${hasChildren ? 'hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 cursor-pointer' : 'text-gray-300 dark:text-white/10 cursor-default'}`}>
             <svg className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
 
