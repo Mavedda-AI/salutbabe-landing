@@ -3,29 +3,29 @@
 import React, {useEffect, useState} from "react";
 
 import {
-  Alert01Icon,
-  ArrowDown01Icon,
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  BulbIcon,
-  Cancel01Icon,
-  CheckmarkBadge01Icon,
-  DashboardCircleIcon,
-  GlobalIcon,
-  InboxIcon,
-  InformationCircleIcon,
-  Logout01Icon,
-  Menu01Icon,
-  Moon01Icon,
-  Notification03Icon,
-  PencilEdit01Icon,
-  RefreshIcon,
-  Settings01Icon,
-  ShoppingCart01Icon,
-  Store01Icon,
-  Sun01Icon,
-  TickDouble01Icon,
-  UserGroupIcon
+    Alert01Icon,
+    ArrowDown01Icon,
+    ArrowLeft01Icon,
+    ArrowRight01Icon,
+    BulbIcon,
+    Cancel01Icon,
+    CheckmarkBadge01Icon,
+    DashboardCircleIcon,
+    GlobalIcon,
+    InboxIcon,
+    InformationCircleIcon,
+    Logout01Icon,
+    Menu01Icon,
+    Moon01Icon,
+    Notification03Icon,
+    PencilEdit01Icon,
+    RefreshIcon,
+    Settings01Icon,
+    ShoppingCart01Icon,
+    Store01Icon,
+    Sun01Icon,
+    TickDouble01Icon,
+    UserGroupIcon
 } from 'hugeicons-react';
 
 import Link from "next/link";
@@ -318,7 +318,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
       <div className="min-h-screen bg-[#171923] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#FF6B00]/30 border-t-[#FF6B00] rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-[#54E6D4]/30 border-t-[#54E6D4] rounded-full animate-spin"></div>
           <span className="text-white/70 font-medium tracking-widest uppercase text-sm animate-pulse">Loading...</span>
         </div>
       </div>
@@ -326,7 +326,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-[#F5F7FA] dark:bg-[#0B0C10] text-[#1A2332] dark:text-[#E2E8F0] flex transition-colors duration-500 font-sans selection:bg-[#FF6B00]/20">
+    <div className="h-screen overflow-hidden bg-[#F5F7FA] dark:bg-[#0B0C10] text-[#101516] dark:text-[#E2E8F0] flex transition-colors duration-500 font-sans selection:bg-[#54E6D4]/20">
       
       {/* Mobile Sidebar Backdrop */}
       {isMobileSidebarOpen && (
@@ -350,7 +350,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </Link>
               <button 
                 onClick={() => setIsSidebarCollapsed(true)}
-                className="absolute top-4 right-4 w-6 h-6 bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-md flex items-center justify-center text-gray-400 hover:text-[#FF6B00] shadow-sm transition-all hover:scale-110 hidden lg:flex"
+                className="absolute top-4 right-4 w-6 h-6 bg-white dark:bg-[#1A1D27] border border-gray-200 dark:border-gray-800 rounded-md flex items-center justify-center text-gray-400 hover:text-[#54E6D4] shadow-sm transition-all hover:scale-110 hidden lg:flex"
                 title="Daralt"
               >
                 <ArrowLeft01Icon size={14} />
@@ -401,16 +401,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           >
             {/* Active Glow Gradient */}
             {pathname === dashboardItem.href && (
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#54E6D4]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
             )}
             {/* Active Left Indicator */}
             {pathname === dashboardItem.href && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full"></div>
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-r-full"></div>
             )}
 
             <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
               <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
-                ${pathname === dashboardItem.href ? 'text-[#FF6B00] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
+                ${pathname === dashboardItem.href ? 'text-[#54E6D4] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                 {dashboardItem.icon || (
                   <Menu01Icon className="w-full h-full" />
                 )}
@@ -418,7 +418,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
             {!isSidebarCollapsed && (
               <span className={`font-bold text-[14px] whitespace-nowrap overflow-hidden text-ellipsis transition-colors
-                ${pathname === dashboardItem.href ? 'text-[#1A2332] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                ${pathname === dashboardItem.href ? 'text-[#101516] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
                 {dashboardItem.label}
               </span>
             )}
@@ -443,21 +443,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         }`}
                     >
                       {isActive && !isExpanded && (
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#54E6D4]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
                       )}
                       {isActive && !isExpanded && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full"></div>
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-r-full"></div>
                       )}
 
                       <div className="flex items-center gap-4">
                         <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
                           <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
-                            ${isActive ? 'text-[#FF6B00] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
+                            ${isActive ? 'text-[#54E6D4] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                             {item.icon}
                           </div>
                         </div>
                         {!isSidebarCollapsed && (
-                          <span className={`font-bold text-[14px] whitespace-nowrap transition-colors ${isActive ? 'text-[#1A2332] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                          <span className={`font-bold text-[14px] whitespace-nowrap transition-colors ${isActive ? 'text-[#101516] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
                             {item.label}
                           </span>
                         )}
@@ -481,11 +481,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 href={sub.href}
                                 onClick={(e) => handleNavClick(e, sub.href || '#')}
                                 className={`block relative pl-6 py-2 text-[13px] font-bold transition-all duration-200 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 outline-none focus:outline-none focus:ring-0
-                                  ${isSubActive ? 'text-[#FF6B00]' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
+                                  ${isSubActive ? 'text-[#54E6D4]' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
                               >
                                 {/* Active Dot indicator */}
                                 <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border-2 transition-all duration-300
-                                  ${isSubActive ? 'bg-[#FF6B00] border-[#FF6B00] -ml-[3.5px] shadow-[0_0_8px_rgba(255,107,0,0.5)]' : 'bg-white dark:bg-[#12141C] border-gray-300 dark:border-gray-700 -ml-[3.5px]'}`}></div>
+                                  ${isSubActive ? 'bg-[#54E6D4] border-[#54E6D4] -ml-[3.5px] shadow-[0_0_8px_rgba(255,107,0,0.5)]' : 'bg-white dark:bg-[#12141C] border-gray-300 dark:border-gray-700 -ml-[3.5px]'}`}></div>
                                 {sub.label}
                               </Link>
                             )
@@ -505,20 +505,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       }`}
                   >
                     {isActive && (
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#54E6D4]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
                     )}
                     {isActive && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full"></div>
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-r-full"></div>
                     )}
                     <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
                       <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
-                        ${isActive ? 'text-[#FF6B00] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
+                        ${isActive ? 'text-[#54E6D4] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                         {item.icon}
                       </div>
                     </div>
                     {!isSidebarCollapsed && (
                       <span className={`font-bold text-[14px] whitespace-nowrap overflow-hidden text-ellipsis transition-colors
-                        ${isActive ? 'text-[#1A2332] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                        ${isActive ? 'text-[#101516] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
                         {item.label}
                       </span>
                     )}
@@ -537,7 +537,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Theme Toggle */}
             <button 
               onClick={toggleTheme}
-              className={`flex items-center ${isSidebarCollapsed ? 'justify-center p-3' : 'px-4 py-3'} w-full rounded-xl hover:bg-white dark:hover:bg-[#222533] text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] transition-all group`}
+              className={`flex items-center ${isSidebarCollapsed ? 'justify-center p-3' : 'px-4 py-3'} w-full rounded-xl hover:bg-white dark:hover:bg-[#222533] text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] transition-all group`}
               title="Toggle Theme"
             >
               <div className="flex-shrink-0 group-hover:rotate-12 transition-transform duration-300">
@@ -580,19 +580,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         
         {/* Dynamic Header */}
         <header className="shrink-0 h-20 bg-white/70 dark:bg-[#12141C]/70 backdrop-blur-2xl border-b border-gray-200/50 dark:border-white/5 relative z-[100] px-4 lg:px-8 flex items-center justify-between w-full shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF6B00]/20 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#54E6D4]/20 to-transparent"></div>
           
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsMobileSidebarOpen(true)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-[#1A1D27] shadow-sm text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] transition-colors"
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-[#1A1D27] shadow-sm text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] transition-colors"
             >
               <Menu01Icon size={24} />
             </button>
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-10 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-full hidden sm:block shadow-[0_0_10px_rgba(255,107,0,0.3)]"></div>
+              <div className="w-1.5 h-10 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-full hidden sm:block shadow-[0_0_10px_rgba(255,107,0,0.3)]"></div>
               <div className="flex flex-col justify-center relative">
-                 <h1 className="text-xl lg:text-2xl font-black text-[#1A2332] dark:text-white leading-tight tracking-tight relative z-10">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+                 <h1 className="text-xl lg:text-2xl font-black text-[#101516] dark:text-white leading-tight tracking-tight relative z-10">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
                  <p className="text-[12px] font-bold text-gray-500 dark:text-gray-400 hidden sm:block relative z-10">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
               </div>
             </div>
@@ -609,7 +609,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   checked={autoRefresh}
                   onChange={(e) => setAutoRefresh(e.target.checked)}
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#12141C] shadow-inner peer-checked:after:translate-x-full peer-checked:after:border-transparent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#FF6B00] peer-checked:to-[#FF8B30] peer-checked:border-none"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#12141C] shadow-inner peer-checked:after:translate-x-full peer-checked:after:border-transparent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#54E6D4] peer-checked:to-[#FF8B30] peer-checked:border-none"></div>
               </label>
             </div>
 
@@ -617,15 +617,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="relative">
               <button 
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-white dark:bg-[#1A1D27] shadow-sm border border-gray-100 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:text-[#FF6B00] transition-all hover:shadow-md hover:-translate-y-0.5 group"
+                className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-white dark:bg-[#1A1D27] shadow-sm border border-gray-100 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:text-[#54E6D4] transition-all hover:shadow-md hover:-translate-y-0.5 group"
               >
                 <Notification03Icon size={22} className={`transition-transform origin-top ${unreadCount > 0 ? 'animate-[bell_2s_ease-in-out_infinite]' : 'group-hover:rotate-12'}`} />
                 {unreadCount > 0 && (
                   <>
-                    <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gradient-to-br from-[#FF6B00] to-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-[#1A1D27] shadow-sm z-10">
+                    <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gradient-to-br from-[#54E6D4] to-[#FF3B30] text-[10px] font-black text-white rounded-full flex items-center justify-center border-2 border-white dark:border-[#1A1D27] shadow-sm z-10">
                       {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
-                    <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#FF6B00] rounded-full animate-ping opacity-75"></span>
+                    <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#54E6D4] rounded-full animate-ping opacity-75"></span>
                   </>
                 )}
               </button>
@@ -636,10 +636,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <div className="absolute right-0 top-[calc(100%+12px)] w-80 bg-white dark:bg-[#12141C] border border-gray-100 dark:border-gray-800 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col max-h-[450px] animate-in slide-in-from-top-4 fade-in duration-300">
                     <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-black/20">
                       <div>
-                        <h3 className="text-[15px] font-black text-[#1A2332] dark:text-white">{t('dashboard.notifications_title') || 'Bildirimler'}</h3>
+                        <h3 className="text-[15px] font-black text-[#101516] dark:text-white">{t('dashboard.notifications_title') || 'Bildirimler'}</h3>
                         <p className="text-[12px] font-medium text-gray-500 mt-0.5">{unreadCount} Okunmamış</p>
                       </div>
-                      <button onClick={handleMarkAllAsRead} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-[#FF6B00] transition-colors" title="Tümünü Okundu İşaretle">
+                      <button onClick={handleMarkAllAsRead} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-[#54E6D4] transition-colors" title="Tümünü Okundu İşaretle">
                         <CheckmarkBadge01Icon size={16} />
                       </button>
                     </div>
@@ -664,12 +664,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             className="p-4 border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors relative cursor-pointer flex gap-4 group"
                           >
                             <div className="flex-shrink-0 mt-1">
-                              <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${!notif.isRead ? 'bg-gradient-to-br from-[#FF6B00] to-[#FF9EBE] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${!notif.isRead ? 'bg-gradient-to-br from-[#54E6D4] to-[#FF9EBE] text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
                                 <ArrowRight01Icon size={20} />
                               </div>
                             </div>
                             <div>
-                              <h4 className={`text-[13px] font-bold mb-0.5 ${!notif.isRead ? 'text-[#1A2332] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                              <h4 className={`text-[13px] font-bold mb-0.5 ${!notif.isRead ? 'text-[#101516] dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
                                 {notif.title || notif.notification?.notificationTitle || notif.notification?.title || 'Bildirim'}
                               </h4>
                               <p className="text-[12px] text-gray-500 leading-snug mb-1.5">{notif.body || notif.message || notif.notification?.notificationContent || notif.notification?.body || ''}</p>
@@ -678,7 +678,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               </span>
                             </div>
                             {!notif.isRead && (
-                              <div className="absolute right-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-[#FF6B00] rounded-full shadow-[0_0_8px_rgba(255,107,0,0.6)]"></div>
+                              <div className="absolute right-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-[#54E6D4] rounded-full shadow-[0_0_8px_rgba(255,107,0,0.6)]"></div>
                             )}
                           </div>
                         ));
@@ -696,10 +696,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className="flex items-center gap-3 cursor-pointer p-1.5 rounded-full hover:bg-white dark:hover:bg-[#1A1D27] transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-800"
               >
                 <div className="hidden md:flex flex-col items-end mr-1">
-                  <span className="text-[13px] font-black text-[#1A2332] dark:text-white leading-tight">{user?.userName || user?.name || 'User'} {user?.userSurname || ''}</span>
+                  <span className="text-[13px] font-black text-[#101516] dark:text-white leading-tight">{user?.userName || user?.name || 'User'} {user?.userSurname || ''}</span>
                   <span className="text-[11px] font-bold text-gray-400">{isAdmin ? 'Admin' : 'Member'}</span>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FF6B00] to-[#5FC8C0] p-[2px] shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#54E6D4] to-[#5FC8C0] p-[2px] shadow-sm">
                    <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-black border-2 border-white dark:border-[#12141C]">
                      {user?.profilePhotoUrl || user?.profilePhoto || user?.avatar ? (
                        <img 
@@ -722,26 +722,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <div className={`absolute right-0 top-[calc(100%+8px)] w-64 bg-white dark:bg-[#1A1D27] border border-gray-100 dark:border-gray-800 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition-all duration-300 transform origin-top-right z-[110] overflow-hidden 
                 ${isProfileMenuOpen ? 'opacity-100 visible scale-100 translate-y-0' : 'opacity-0 invisible scale-95 -translate-y-2'}`}>
                  
-                 <div className="relative p-6 bg-gradient-to-br from-[#FF6B00]/10 to-[#5FC8C0]/10 border-b border-gray-100 dark:border-gray-800 flex items-center gap-4">
+                 <div className="relative p-6 bg-gradient-to-br from-[#54E6D4]/10 to-[#5FC8C0]/10 border-b border-gray-100 dark:border-gray-800 flex items-center gap-4">
                     <div className="min-w-0">
-                      <p className="text-[16px] font-black text-[#1A2332] dark:text-white truncate relative z-10">{user?.userName || user?.name} {user?.userSurname || ''}</p>
+                      <p className="text-[16px] font-black text-[#101516] dark:text-white truncate relative z-10">{user?.userName || user?.name} {user?.userSurname || ''}</p>
                       <p className="text-[12px] font-bold text-gray-500 truncate mt-1 relative z-10">{user?.eMail || user?.userEmail || user?.email || user?.accountCredentials?.eMail || 'demo@salutbabe.com'}</p>
                     </div>
                  </div>
                  
                  <div className="p-2">
-                   <Link href="/dashboard/common/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group">
-                      <PencilEdit01Icon size={20} className="text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" />
+                   <Link href="/dashboard/common/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#54E6D4] dark:hover:text-white transition-all group">
+                      <PencilEdit01Icon size={20} className="text-gray-400 group-hover:text-[#54E6D4] dark:group-hover:text-white" />
                       {t('dashboard.edit_profile') || 'Edit Profile'}
                    </Link>
                    
-                   <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group text-left">
-                      <RefreshIcon size={20} className="text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" />
+                   <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#54E6D4] dark:hover:text-white transition-all group text-left">
+                      <RefreshIcon size={20} className="text-gray-400 group-hover:text-[#54E6D4] dark:group-hover:text-white" />
                       {t('dashboard.restart_walkthrough') || 'Restart Walkthrough'}
                    </button>
 
-                   <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#FF6B00] dark:hover:text-white transition-all group text-left">
-                      <BulbIcon size={20} className="text-gray-400 group-hover:text-[#FF6B00] dark:group-hover:text-white" />
+                   <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-[#54E6D4] dark:hover:text-white transition-all group text-left">
+                      <BulbIcon size={20} className="text-gray-400 group-hover:text-[#54E6D4] dark:group-hover:text-white" />
                       {t('dashboard.whats_new') || "What's New"}
                    </button>
 
@@ -781,7 +781,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-8 animate-in slide-in-from-bottom-4 fade-in duration-500 relative z-0 w-full">
           <div className="max-w-[1600px] mx-auto w-full h-full relative">
             {/* Background Glows for Aesthetic */}
-            <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#FF6B00]/5 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
+            <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#54E6D4]/5 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
             <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-[#5FC8C0]/5 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
             
             {/* Content Render */}
@@ -795,14 +795,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <footer className="shrink-0 py-2.5 px-6 border-t border-gray-200/50 dark:border-white/5 bg-white/50 dark:bg-[#12141C]/50 backdrop-blur-md relative z-50">
           <div className="flex items-center justify-center max-w-[1600px] mx-auto relative h-6">
             <div className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest flex items-center gap-2">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0] bg-[length:200%_auto] animate-[brandShift_3s_ease-in-out_infinite] font-black text-[13px] lowercase tracking-normal drop-shadow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#54E6D4] via-[#FF9EBE] to-[#5FC8C0] bg-[length:200%_auto] animate-[brandShift_3s_ease-in-out_infinite] font-black text-[13px] lowercase tracking-normal drop-shadow-sm">
                 salutbabe
               </span>
             </div>
             
             <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center">
               <div className="group relative ml-2">
-                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 transition-all cursor-help">
+                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-[#54E6D4] hover:bg-[#54E6D4]/10 transition-all cursor-help">
                   <InformationCircleIcon size={14} />
                 </div>
                 <div className="absolute bottom-full right-0 mb-3 px-3 py-2 bg-gray-900 text-white text-[11px] font-bold rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap shadow-xl transform group-hover:-translate-y-1">
