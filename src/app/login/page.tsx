@@ -37,8 +37,8 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <label className="absolute top-0 -translate-y-1/2 left-4 px-1.5 bg-[#171923] z-20 pointer-events-none">
-        <span className="relative block text-[11px] font-bold tracking-wider text-[#8F95B2]">
+      <label className="absolute top-0 -translate-y-1/2 left-4 px-1.5 bg-white dark:bg-[#12141C] z-20 pointer-events-none">
+        <span className="relative block text-[11px] font-bold tracking-wider text-gray-500 dark:text-[#8F95B2]">
           {label}
           
           {/* Overlay text that receives the gradient and is masked by the exact mouse position */}
@@ -55,7 +55,7 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
         </span>
       </label>
       
-      <div className="relative rounded-xl bg-[#222533] z-10 overflow-hidden">
+      <div className="relative rounded-xl bg-gray-100 dark:bg-[#222533] z-10 overflow-hidden">
         {/* Dynamic Gradient Glow */}
         <div 
           className="absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none"
@@ -68,10 +68,10 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
         />
 
         {/* Inner background blocking glow except 1px border */}
-        <div className="absolute inset-[1px] bg-[#222533] rounded-xl z-0 transition-colors group-focus-within:bg-[#1C1F2B]" />
+        <div className="absolute inset-[1px] bg-white dark:bg-[#222533] rounded-xl z-0 transition-colors group-focus-within:bg-gray-50 dark:group-focus-within:bg-[#1C1F2B]" />
         
         {/* Flex Layout for Input + Icons to prevent Safari native overlap */}
-        <div className="relative z-10 w-full h-14 border border-transparent focus-within:border-blue-500/50 rounded-xl px-5 flex items-center transition-all">
+        <div className="relative z-10 w-full h-14 border border-gray-200 dark:border-transparent focus-within:border-[#FF6B00]/50 rounded-xl px-5 flex items-center transition-all">
           <input
             type={renderedType}
             value={value}
@@ -83,7 +83,7 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
             onClick={updateCapsLock}
             style={{ WebkitTextSecurity: isPasswordMasked ? "disc" : "none" }}
             {...props}
-            className="flex-1 w-full bg-transparent text-white placeholder-[#4A506B] outline-none h-full"
+            className="flex-1 w-full bg-transparent text-[#1A2332] dark:text-white placeholder-gray-400 dark:placeholder-[#4A506B] outline-none h-full"
           />
           <div className="flex items-center gap-2 ml-2 shrink-0">
             {capsLockActive && (
@@ -330,41 +330,41 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="min-h-screen flex w-full font-sans bg-[#171923] text-white">
+    <main className="min-h-screen flex w-full font-sans bg-gray-50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white">
       
       {/* Left Promotional Side (Hidden on Mobile) */}
       <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-end overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           <img src="/images/login-promo.png" alt="Promo" className="w-full h-full object-cover" />
           {/* Subtle gradient to blend with the dark background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#171923]/80 via-[#171923]/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-50/80 via-gray-50/40 dark:from-[#0B0C10]/80 dark:via-[#0B0C10]/40 to-transparent"></div>
         </div>
         
         {/* Glassmorphic overlay card at the bottom */}
-        <div className="relative z-10 m-12 p-8 rounded-[32px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center justify-between">
+        <div className="relative z-10 m-12 p-8 rounded-[32px] bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl flex items-center justify-between">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-[10px]">
+              <div className="w-6 h-6 rounded-full border border-[#1A2332]/20 dark:border-white/30 flex items-center justify-center text-[10px] text-[#1A2332] dark:text-white">
                 ✓
               </div>
-              <span className="text-xs font-bold tracking-[0.2em] text-white/70 uppercase">
+              <span className="text-xs font-bold tracking-[0.2em] text-[#1A2332]/70 dark:text-white/70 uppercase">
                 {t('auth.secure_shopping') || 'GÜVENLİ ALIŞVERİŞ'}
               </span>
             </div>
             
-            <h2 className="text-xl font-bold text-white mb-2">
+            <h2 className="text-xl font-bold text-[#1A2332] dark:text-white mb-2">
               {t('auth.promo_title') || 'Anneden anneye, güvenle.'}
             </h2>
-            <h3 className="text-xl font-bold text-blue-400 mb-2">
+            <h3 className="text-xl font-bold text-[#FF6B00] mb-2">
               {t('auth.promo_subtitle') || 'Sıfır Komisyon Avantajı'}
             </h3>
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-[#1A2332]/70 dark:text-white/60">
               {t('auth.promo_desc') || 'Bebeğinizin küçülenlerini değerlendirin, ihtiyacınız olanlara ulaşın.'}
             </p>
           </div>
           
-          <button className="bg-blue-500 hover:bg-blue-600 transition-colors px-6 py-3 rounded-full flex items-center gap-3 font-bold text-sm shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-            <span className="w-6 h-6 rounded-full bg-white text-blue-500 flex items-center justify-center text-lg leading-none">
+          <button className="bg-[#FF6B00] hover:bg-[#E65A00] transition-colors px-6 py-3 rounded-full flex items-center gap-3 font-bold text-sm text-white shadow-[0_0_20px_rgba(255,107,0,0.3)]">
+            <span className="w-6 h-6 rounded-full bg-white text-[#FF6B00] flex items-center justify-center text-lg leading-none">
               →
             </span>
             {t('auth.discover') || 'KEŞFET'}
@@ -373,27 +373,27 @@ const LoginPage = () => {
       </div>
 
       {/* Right Login Side */}
-      <div className="w-full lg:w-[45%] flex items-center justify-center p-8 sm:p-16 relative bg-[#171923] overflow-y-auto">
+      <div className="w-full lg:w-[45%] flex items-center justify-center p-8 sm:p-16 relative bg-white dark:bg-[#12141C] overflow-y-auto">
         <div className="w-full max-w-[400px] mx-auto">
           {/* Header */}
           <div className="mb-10 text-center">
             <h1 className="text-3xl font-black tracking-tight mb-3">
               {t('auth.welcome_back') || 'Welcome Back to'} <span className="text-[#FF6B00]">salutbabe</span>
             </h1>
-            <p className="text-[#8F95B2] font-medium text-sm">
+            <p className="text-gray-500 dark:text-[#8F95B2] font-medium text-sm">
               {t('auth.signin_desc') || 'Sign in to continue your journey'}
             </p>
           </div>
 
           {/* Email / Phone Toggle */}
-          <div className="flex bg-[#1B1D27] rounded-[24px] p-1.5 max-w-[260px] mx-auto mb-10 border border-[#2A2E3D]/50 shadow-inner">
-            <button type="button" className="flex-1 bg-[#3A3F55] text-white rounded-[20px] py-2.5 text-[15px] font-bold shadow-lg ring-1 ring-white/10">
+          <div className="flex bg-gray-100 dark:bg-[#1B1D27] rounded-[24px] p-1.5 max-w-[260px] mx-auto mb-10 border border-gray-200 dark:border-[#2A2E3D]/50 shadow-inner">
+            <button type="button" className="flex-1 bg-white dark:bg-[#3A3F55] text-[#1A2332] dark:text-white rounded-[20px] py-2.5 text-[15px] font-bold shadow-sm ring-1 ring-black/5 dark:ring-white/10">
               {t('auth.email_toggle') || 'Email'}
             </button>
             <button 
               type="button" 
               onClick={() => showToast(t('auth.coming_soon') || 'Yakında eklenecek!', 'info')}
-              className="flex-1 text-[#6F768E] hover:text-white/80 transition-colors rounded-[20px] py-2.5 text-[15px] font-bold"
+              className="flex-1 text-gray-500 dark:text-[#6F768E] hover:text-[#1A2332] dark:hover:text-white/80 transition-colors rounded-[20px] py-2.5 text-[15px] font-bold"
             >
               {t('auth.phone_toggle') || 'Phone'}
             </button>
@@ -442,11 +442,11 @@ const LoginPage = () => {
             {/* Extras: Remember Me & Forgot Password */}
             <div className="flex items-center justify-between px-1">
               <label className="cursor-pointer flex items-center gap-3">
-                <input type="checkbox" className="checkbox checkbox-sm rounded bg-[#222533] border-[#4A506B] checked:bg-blue-500 checked:border-blue-500" />
-                <span className="text-sm text-[#8F95B2] font-medium">{t('auth.remember_me') || "Remember Me"}</span>
+                <input type="checkbox" className="checkbox checkbox-sm rounded bg-gray-50 dark:bg-[#222533] border-gray-300 dark:border-[#4A506B] checked:bg-[#FF6B00] checked:border-[#FF6B00]" />
+                <span className="text-sm text-gray-600 dark:text-[#8F95B2] font-medium">{t('auth.remember_me') || "Remember Me"}</span>
               </label>
               
-              <button type="button" className="text-sm text-blue-500 font-bold hover:text-blue-400 transition-colors">
+              <button type="button" className="text-sm text-[#FF6B00] font-bold hover:text-[#E65A00] transition-colors">
                 {t('auth.forgot_password') || "Forgot Password?"}
               </button>
             </div>
@@ -454,7 +454,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading !== null}
-              className="w-full h-14 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all"
+              className="w-full h-14 bg-[#FF6B00] hover:bg-[#E65A00] text-white rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_25px_rgba(255,107,0,0.4)] transition-all"
             >
               {loading === "email" ? (
                 <div className="flex items-center justify-center gap-2">
@@ -471,7 +471,7 @@ const LoginPage = () => {
               type="button"
               onClick={handleGoogleLogin}
               disabled={loading !== null}
-              className="w-full h-14 bg-[#222533] hover:bg-[#2A2E40] border border-[#2A2E40] hover:border-[#4A506B]/50 text-white rounded-xl font-bold text-[15px] transition-all flex items-center justify-center gap-3"
+              className="w-full h-14 bg-white dark:bg-[#222533] hover:bg-gray-50 dark:hover:bg-[#2A2E40] border border-gray-200 dark:border-[#2A2E40] text-[#1A2332] dark:text-white rounded-xl font-bold text-[15px] transition-all flex items-center justify-center gap-3"
             >
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                 <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -485,9 +485,9 @@ const LoginPage = () => {
 
           {/* Footer */}
           <div className="mt-12 text-center">
-            <p className="text-[13px] text-[#8F95B2] font-medium">
+            <p className="text-[13px] text-gray-500 dark:text-[#8F95B2] font-medium">
               {t('auth.no_account') || "Don't Have an Account?"}{" "}
-              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-[#3B82F6] font-bold hover:underline underline-offset-4 ml-1">
+              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-[#FF6B00] font-bold hover:underline underline-offset-4 ml-1">
                 {t('auth.create_one') || "Create One"}
               </button>
             </p>
@@ -497,17 +497,17 @@ const LoginPage = () => {
 
       {/* REGISTRATION POPUP MODAL */}
       <dialog className={`modal ${showSignupPopup ? 'modal-open' : ''}`}>
-        <div className="modal-box p-8 sm:p-10 rounded-3xl max-w-lg bg-[#171923] border border-[#222533] text-white">
+        <div className="modal-box p-8 sm:p-10 rounded-3xl max-w-lg bg-white dark:bg-[#171923] border border-gray-200 dark:border-[#222533] text-[#1A2332] dark:text-white">
           <button
             onClick={() => setShowSignupPopup(false)}
-            className="btn btn-sm btn-circle btn-ghost absolute right-5 top-5 text-[#8F95B2] hover:text-white"
+            className="btn btn-sm btn-circle btn-ghost absolute right-5 top-5 text-gray-400 dark:text-[#8F95B2] hover:text-[#1A2332] dark:hover:text-white"
           >
             ✕
           </button>
           
           <div className="text-center mb-10 mt-2">
-            <h2 className="text-3xl font-black mb-3 text-white">{t('auth.create_account') || "Create Account"}</h2>
-            <p className="text-[15px] text-[#8F95B2] font-medium">{t('auth.signup_desc') || "Join us to continue your journey."}</p>
+            <h2 className="text-3xl font-black mb-3 text-[#1A2332] dark:text-white">{t('auth.create_account') || "Create Account"}</h2>
+            <p className="text-[15px] text-gray-500 dark:text-[#8F95B2] font-medium">{t('auth.signup_desc') || "Join us to continue your journey."}</p>
           </div>
 
           <form onSubmit={handleEmailRegister} className="flex flex-col gap-6">
@@ -569,7 +569,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading !== null}
-              className="w-full h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all"
+              className="w-full h-14 bg-[#FF6B00] hover:bg-[#E65A00] text-white rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_20px_rgba(255,107,0,0.3)] transition-all"
             >
               {loading === "register" ? (
                 <div className="flex items-center justify-center gap-2">

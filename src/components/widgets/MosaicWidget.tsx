@@ -112,7 +112,7 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
              });
            });
 
-           newTabs.push({ key: "Diğer", label: t('home.tab_other') });
+
 
            setDynamicFilterTabs(newTabs);
            setDynamicSubCategories(subCatsDict);

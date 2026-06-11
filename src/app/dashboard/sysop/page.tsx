@@ -17,9 +17,13 @@ export default function FounderOS() {
   useEffect(() => {
     const state = useAuthStore.getState();
     const userType = state.user?.userType;
-    const isSysop = Array.isArray(userType) ? userType.includes("SYSOP") : userType === "SYSOP";
+    const isSysop = Array.isArray(userType) ? userType.includes("SYSOP") || userType.includes("ADMIN") : userType === "SYSOP" || userType === "ADMIN";
     
-    if (!state.isAuthenticated || !isSysop) {
+    const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
+    const userEmail = state.user?.email || state.user?.eMail || "";
+    const isWhitelisted = allowedEmails.includes(userEmail.toLowerCase());
+    
+    if (!state.isAuthenticated || (!isSysop && !isWhitelisted)) {
       router.push("/login");
     }
   }, [router]);
