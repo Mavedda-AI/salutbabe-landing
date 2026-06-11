@@ -4,16 +4,16 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-    ArrowDown01Icon,
-    BankIcon,
-    Calendar01Icon,
-    CheckmarkBadge01Icon,
-    PercentCircleIcon,
-    ShoppingCart01Icon,
-    Tag01Icon,
-    UserCircleIcon,
-    UserGroupIcon,
-    Wallet01Icon
+  ArrowDown01Icon,
+  BankIcon,
+  Calendar01Icon,
+  CheckmarkBadge01Icon,
+  PercentCircleIcon,
+  ShoppingCart01Icon,
+  Tag01Icon,
+  UserCircleIcon,
+  UserGroupIcon,
+  Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -136,7 +136,7 @@ function OrderListAccordion({ token }: { token: string }) {
                     {translateStatus(order.status)}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.orderDate || order.createdAt)}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.deliveredAt || order.shippedAt || order.updatedAt || order.orderDate || order.createdAt)}</td>
               </tr>
             ))}
           </tbody>
@@ -182,7 +182,7 @@ function ListingListAccordion({ token }: { token: string }) {
                     {translateStatus(listing.status)}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(listing.createdAt)}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(listing.updatedAt || listing.createdAt)}</td>
               </tr>
             ))}
           </tbody>
@@ -260,7 +260,7 @@ function PendingRevenueAccordion({ token }: { token: string }) {
                 onClick={() => router.push('/dashboard/sysop/order-management')}
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.orderDate || order.createdAt)}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.deliveredAt || order.shippedAt || order.updatedAt || order.orderDate || order.createdAt)}</td>
                 <td className="py-3 text-gray-900 dark:text-white font-medium">{order.seller?.userName || 'Sistem İşlemi'}</td>
                 <td className="py-3 text-blue-600 dark:text-blue-400 font-bold text-right">{order.totalAmount} ₺</td>
               </tr>
