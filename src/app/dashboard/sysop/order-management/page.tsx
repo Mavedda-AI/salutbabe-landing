@@ -131,13 +131,18 @@ export default function OrderManagementPage() {
                   className={`transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 ${isExpanded ? 'bg-gray-50 dark:bg-white/5' : ''}`}
                 >
                   <td className="px-8 py-5">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-0.5">
                       <span className="font-black text-text-primary">#{order.orderID.split('-')[0].toUpperCase()}</span>
-                      <span className="text-[10px] font-bold text-text-secondary opacity-60 mt-0.5">
-                        {new Date(displayDate).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
-                        {' '}
-                        {new Date(displayDate).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
-                      </span>
+                      <div className="flex flex-col gap-0.5 mt-0.5 text-[10px] font-bold">
+                        <span className="text-text-secondary opacity-60">
+                          Sipariş: {new Date(order.orderDate || order.createdAt || Date.now()).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.orderDate || order.createdAt || Date.now()).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        {(order.deliveredAt || order.shippedAt || (order.updatedAt && Math.abs(new Date(order.updatedAt).getTime() - new Date(order.createdAt).getTime()) > 60000)) && (
+                        <span className={order.status?.toLowerCase() === 'delivered' ? "text-emerald-500 opacity-80" : "text-blue-500 opacity-80"}>
+                          {order.status?.toLowerCase() === 'delivered' ? 'Teslim:' : 'Güncel:'} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        )}
+                      </div>
                     </div>
                   </td>
                   <td className="px-8 py-5">

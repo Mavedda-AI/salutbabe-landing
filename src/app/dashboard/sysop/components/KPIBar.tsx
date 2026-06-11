@@ -18,11 +18,39 @@ import {
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
+const formatDatesDual = (createdAt: any, updatedAt: any, status?: string, deliveryConfirmedAt?: any) => {
+  if (!createdAt) return '-';
+  const createdDate = new Date(createdAt);
+  const updatedDate = updatedAt ? new Date(updatedAt) : null;
+  const isDelivered = status?.toLowerCase() === 'delivered';
+  
+  return (
+    <div className="flex flex-col gap-0.5 text-[10px] whitespace-nowrap">
+      <div className="opacity-60 flex gap-1">
+        <span>Sipariş:</span>
+        <span>{createdDate.toLocaleDateString('tr-TR')} {createdDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+      </div>
+      {updatedDate && Math.abs(createdDate.getTime() - updatedDate.getTime()) > 60000 && (
+      <div className={`flex gap-1 ${isDelivered ? 'text-emerald-600 dark:text-emerald-400 font-medium' : 'text-blue-600 dark:text-blue-400 font-medium'}`}>
+        <span>{isDelivered ? 'Teslim:' : 'Güncel:'}</span>
+        <span>{updatedDate.toLocaleDateString('tr-TR')} {updatedDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+      </div>
+      )}
+      {deliveryConfirmedAt && (
+      <div className="flex gap-1 text-fuchsia-600 dark:text-fuchsia-400 font-medium">
+        <span>Onay:</span>
+        <span>{new Date(deliveryConfirmedAt).toLocaleDateString('tr-TR')} {new Date(deliveryConfirmedAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+      </div>
+      )}
+    </div>
+  );
+};
+
 const formatDateAndTime = (dateInput: any) => {
   if (!dateInput) return '-';
   const date = new Date(dateInput);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col whitespace-nowrap">
       <span>{date.toLocaleDateString('tr-TR')}</span>
       <span className="text-[10px] opacity-60 mt-0.5">{date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
     </div>
@@ -136,7 +164,7 @@ function OrderListAccordion({ token }: { token: string }) {
                     {translateStatus(order.status)}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.deliveredAt || order.shippedAt || order.updatedAt || order.orderDate || order.createdAt)}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDatesDual(order.orderDate || order.createdAt, order.deliveredAt || order.shippedAt || order.updatedAt, order.status, order.deliveryConfirmedAt)}</td>
               </tr>
             ))}
           </tbody>
