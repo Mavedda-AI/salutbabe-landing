@@ -66,13 +66,15 @@ export const useAuthStore = create<AuthState>()(
         // Read from legacy/direct localStorage keys to ensure sync if login was done outside store
         const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
         const userStr = localStorage.getItem('user');
-        if (token && userStr) {
-          try {
-            const user = JSON.parse(userStr);
-            set({ user, token, isAuthenticated: true });
-          } catch (e) {
-            set({ user: null, token: null, isAuthenticated: false });
+        
+        if (token) {
+          let user = null;
+          if (userStr) {
+            try {
+              user = JSON.parse(userStr);
+            } catch (e) {}
           }
+          set({ user, token, isAuthenticated: true });
         }
       }
     }),
