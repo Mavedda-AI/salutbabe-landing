@@ -543,7 +543,8 @@ export default function CategoryManagementPage() {
       } else {
         const errData = await res.json().catch(() => null);
         console.error("Backend Error:", errData);
-        showToast(errData?.message || "Sıralama güncellenemedi", "error");
+        const errMsg = errData?.request?.resultMessage || errData?.message || "Sıralama güncellenemedi";
+        showToast(errMsg, "error");
       }
     } catch (err) {
       console.error(err);
