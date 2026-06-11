@@ -1,11 +1,13 @@
 "use client";
 
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
 import {auth, signInWithGoogle} from "../../lib/firebase";
 import {OAuthProvider, signInWithPopup} from "firebase/auth";
 import {apiUrl} from "../../lib/api";
+import {useAuthStore} from "../../store/useAuthStore";
+import {useRouter} from "next/navigation";
 
 const GlowInput = ({ label, type = "text", value, onChange, placeholder, required, icon, ...props }: any) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -110,6 +112,32 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState<"google" | "email" | "register" | null>(null);
+  
+  const { isAuthenticated, user, hydrateStore } = useAuthStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    hydrateStore();
+  }, [hydrateStore]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const userType = user?.userType;
+      const isAdmin = Array.isArray(userType) 
+        ? (userType.includes("SYSOP") || userType.includes("ADMIN"))
+        : (userType === "SYSOP" || userType === "ADMIN");
+      
+      const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
+      const userEmail = user?.email || user?.eMail || "";
+      const isWhitelisted = allowedEmails.includes(userEmail.toLowerCase());
+
+      if (isAdmin || isWhitelisted) {
+        router.push("/dashboard/sysop");
+      } else {
+        router.push("/dashboard/common");
+      }
+    }
+  }, [isAuthenticated, user, router]);
 
   // Registration states
   const [showSignupPopup, setShowSignupPopup] = useState(false);
@@ -176,7 +204,7 @@ const LoginPage = () => {
       if (isAdmin || isWhitelisted) {
         window.location.href = "/dashboard/sysop";
       } else {
-        window.location.href = "/";
+        window.location.href = "/dashboard/common";
       }
       return;
     }
