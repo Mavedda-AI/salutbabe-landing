@@ -141,7 +141,7 @@ export default function OrderManagementPage() {
                         </span>
                         {(order.deliveredAt || order.shippedAt || (order.updatedAt && Math.abs(new Date(order.updatedAt).getTime() - new Date(order.createdAt).getTime()) > 60000)) && (
                         <span className={order.status?.toLowerCase() === 'delivered' ? "text-emerald-500 opacity-80" : "text-blue-500 opacity-80"}>
-                          {order.status?.toLowerCase() === 'delivered' ? 'Teslim:' : 'Güncel:'} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+                          {order.status?.toLowerCase() === 'delivered' ? 'Teslim:' : 'Güncel:'} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt || Date.now()).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt || Date.now()).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                         )}
                         {order.deliveryConfirmedAt ? (
