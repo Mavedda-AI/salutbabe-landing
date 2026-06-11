@@ -184,7 +184,7 @@ export default function TaskCenter() {
                 </div>
               </div>
               <div 
-                className="text-gray-300 dark:text-white/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all p-2 -mr-2"
+                className="text-gray-400 dark:text-white/50 hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-400 transition-all p-2 -mr-1 rounded-lg flex items-center justify-center"
                 onClick={(e) => {
                   e.stopPropagation();
                   router.push(`/dashboard/sysop/${task.domain}`);
