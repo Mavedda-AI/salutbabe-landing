@@ -8,6 +8,7 @@ interface Order {
   orderID: string;
   totalAmount: number;
   status: string;
+  orderDate?: string;
   createdAt: string;
   updatedAt?: string;
   deliveredAt?: string | number;
