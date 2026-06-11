@@ -8,7 +8,7 @@ import {apiUrl} from "../../../../lib/api";
 interface Brand {
   brandID: string;
   name: string;
-  slug: string;
+
   domain?: string;
   logoUrl?: string;
   isPopular: boolean;
@@ -18,13 +18,7 @@ interface Brand {
 
 const LOGO_DEV_TOKEN = "pk_abc123";
 
-const generateSlug = (text: string) => {
-  return text.toLowerCase()
-    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
-    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-    .replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
-};
+
 
 const hashColor = (str: string): string => {
   let hash = 0;
@@ -83,7 +77,7 @@ export default function AdminBrandsPage() {
   const handleAdd = () => {
     setCurrentBrand({
       name: '',
-      slug: '',
+
       domain: '',
       isPopular: false,
       isActive: true,
@@ -120,7 +114,6 @@ export default function AdminBrandsPage() {
         },
         body: JSON.stringify({
           name: currentBrand.name,
-          slug: currentBrand.slug,
           domain: currentBrand.domain || undefined,
           isPopular: currentBrand.isPopular,
           isActive: currentBrand.isActive,
@@ -219,7 +212,6 @@ export default function AdminBrandsPage() {
     const q = searchQuery.toLowerCase();
     const matchesSearch = !searchQuery ? true : (
       brand.name.toLowerCase().includes(q) ||
-      brand.slug.toLowerCase().includes(q) ||
       (brand.domain && brand.domain.toLowerCase().includes(q))
     );
     const matchesStatus = filterStatus === 'ALL' ? true : (filterStatus === 'ACTIVE' ? brand.isActive : !brand.isActive);
@@ -450,11 +442,10 @@ export default function AdminBrandsPage() {
                           </div>
                         </td>
 
-                        {/* Brand Name + Slug */}
+
                         <td className="px-6 py-4">
                           <div className="flex flex-col gap-1">
                             <span className="text-[14px] font-semibold text-[#101516] dark:text-white leading-tight">{brand.name}</span>
-                            <span className="text-[12px] font-mono font-medium text-gray-400 dark:text-gray-500 truncate max-w-[250px]">{brand.slug}</span>
                             {brand.listingCount !== undefined && (
                               <div className="mt-0.5">
                                 <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20">
@@ -609,25 +600,13 @@ export default function AdminBrandsPage() {
                           setCurrentBrand({
                             ...currentBrand,
                             name,
-                            slug: generateSlug(name),
                           });
                         }}
                         className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
                       />
                     </div>
 
-                    {/* Slug */}
-                    <div className="space-y-1.5">
-                      <label className="text-[13px] font-medium text-gray-700 dark:text-gray-300 ml-1">Slug</label>
-                      <input
-                        type="text"
-                        placeholder="otomatik-olusturulur"
-                        value={currentBrand.slug || ''}
-                        onChange={e => setCurrentBrand({ ...currentBrand, slug: e.target.value })}
-                        className="w-full h-11 px-4 rounded-xl outline-none font-mono font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
-                      />
-                      <p className="text-[11px] font-medium text-gray-400 ml-1">İsim girildiğinde otomatik oluşturulur, elle de düzenlenebilir.</p>
-                    </div>
+
 
                     {/* Domain */}
                     <div className="space-y-1.5 lg:col-span-2">
