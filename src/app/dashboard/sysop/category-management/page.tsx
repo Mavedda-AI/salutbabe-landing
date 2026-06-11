@@ -19,7 +19,7 @@ interface Category {
   allowOutfit: boolean;
   children?: Category[];
   parent?: Category;
-  categoryAttributes?: CategoryAttributeMapping[];
+  attributes?: CategoryAttributeMapping[];
 }
 
 interface Attribute {
@@ -848,6 +848,45 @@ export default function CategoryManagementPage() {
     );
   }
 
+  /* ═══════════════════ Attribute Toggle (Inline) ═══════════════════ */
+  const [togglingAttr, setTogglingAttr] = useState<{ catId: string; attrId: string } | null>(null);
+
+  const toggleCategoryAttribute = async (catId: string, attrId: string, isCurrentlyAssigned: boolean) => {
+    try {
+      setTogglingAttr({ catId, attrId });
+      if (isCurrentlyAssigned) {
+        // Remove with cascade
+        const res = await fetch(apiUrl(`/admin/categories/${catId}/attributes/${attrId}?cascade=true`), {
+          method: 'DELETE',
+          headers: getHeaders(true)
+        });
+        if (res.ok) {
+          showToast("Özellik kaldırıldı", "success");
+        } else {
+          showToast("Özellik kaldırılamadı", "error");
+        }
+      } else {
+        // Assign with cascade
+        const res = await fetch(apiUrl(`/admin/categories/${catId}/attributes`), {
+          method: 'POST',
+          headers: getHeaders(true),
+          body: JSON.stringify({ attributeID: attrId, isRequired: false, sortOrder: 0, cascade: true })
+        });
+        if (res.ok) {
+          showToast("Özellik atandı", "success");
+        } else {
+          showToast("Özellik atanamadı", "error");
+        }
+      }
+      await fetchData(); // Refresh tree
+    } catch (e) {
+      console.error(e);
+      showToast("Bir hata oluştu", "error");
+    } finally {
+      setTogglingAttr(null);
+    }
+  };
+
   /* ═══════════════════ Tree Node Renderer ═══════════════════ */
 
   const renderTreeNode = (cat: Category, level: number = 0): React.ReactNode => {
@@ -912,6 +951,34 @@ export default function CategoryManagementPage() {
                 <span className="text-[10px] font-medium text-gray-400">{cat.children!.length} alt</span>
               )}
             </div>
+            
+            {/* Inline Attributes List */}
+            {attributes.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+                {attributes.map(attr => {
+                  const isAssigned = cat.attributes?.some(ca => ca.attributeID === attr.attributeID);
+                  const isToggling = togglingAttr?.catId === cat.categoryID && togglingAttr?.attrId === attr.attributeID;
+                  
+                  return (
+                    <button
+                      key={attr.attributeID}
+                      disabled={isToggling}
+                      onClick={(e) => { e.stopPropagation(); toggleCategoryAttribute(cat.categoryID, attr.attributeID, !!isAssigned); }}
+                      className={`px-2 py-1 rounded-md text-[10px] font-semibold transition-all border flex items-center gap-1.5
+                        ${isAssigned 
+                          ? 'bg-[#54E6D4]/10 text-[#54E6D4] border-[#54E6D4]/30 hover:bg-[#54E6D4] hover:text-white' 
+                          : 'bg-gray-50 dark:bg-white/5 text-gray-400 border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-600 dark:hover:text-gray-300'}
+                        ${isToggling ? 'opacity-50 cursor-wait' : ''}
+                      `}
+                      title={isAssigned ? "Kaldırmak için tıklayın" : "Eklemek için tıklayın"}
+                    >
+                      {isToggling && <div className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin shrink-0"></div>}
+                      {attr.displayedName?.tr || attr.nameKey}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Actions */}

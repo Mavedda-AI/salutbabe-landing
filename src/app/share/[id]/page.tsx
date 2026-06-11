@@ -27,8 +27,9 @@ export default function SharedPaymentPage() {
     fetch(`https://api.salutbabe.com/v1/common/shared-link/get-share-data/${id}`)
       .then(res => res.json())
       .then(res => {
-        if (!res.requestHeader.requestResult) {
-          throw new Error(res.requestHeader.resultMessage || 'Link bulunamadı');
+        const header = res.requestHeader || res.request;
+        if (!header || !header.requestResult) {
+          throw new Error(header?.resultMessage || 'Link bulunamadı');
         }
         setData(res.payload);
         if (res.payload.orders) {
@@ -87,8 +88,9 @@ export default function SharedPaymentPage() {
       });
 
       const resData = await response.json();
-      if (!resData.requestHeader.requestResult) {
-        throw new Error(resData.requestHeader.resultMessage || 'Ödeme başlatılamadı');
+      const header = resData.requestHeader || resData.request;
+      if (!header || !header.requestResult) {
+        throw new Error(header?.resultMessage || 'Ödeme başlatılamadı');
       }
 
       // Redirect to 3D Secure

@@ -3,37 +3,37 @@
 @source "../";
 
 @theme {
-  /* Salutbabe Light Mode Colors */
-  --color-salut-light-bg: #FAF9F6;
+  /* Salutbabe Modern Luxe Light Mode Colors */
+  --color-salut-light-bg: #FFFFFF;
   --color-salut-light-surface: #FFFFFF;
-  --color-salut-light-text: #1F2A2F;
-  --color-salut-light-border: #E8EDEB;
+  --color-salut-light-text: #121212;
+  --color-salut-light-border: #F5F5F5;
 
-  /* Salutbabe Dark Mode Colors */
-  --color-salut-dark-bg: #171923;
-  --color-salut-dark-surface: #222533;
+  /* Salutbabe Modern Luxe Dark Mode Colors */
+  --color-salut-dark-bg: #121212;
+  --color-salut-dark-surface: #1E1E1E;
   --color-salut-dark-text: #FFFFFF;
-  --color-salut-dark-border: #2A2E3D;
+  --color-salut-dark-border: #2C2C2C;
 
   /* Brand Core Colors (Gradient Ready) */
-  --color-salut-orange: #FF6B00;
-  --color-salut-pink: #FF9EBE;
-  --color-salut-teal: #5FC8C0;
-  --color-salut-babyblue: #A1D4E8;
+  --color-salut-orange: #D4A373;
+  --color-salut-pink: #E5989B;
+  --color-salut-teal: #CCD5AE;
+  --color-salut-babyblue: #9CA986;
 
-  --color-primary: #5FC8C0;
-  --color-secondary: #FF9EBE;
-  --color-accent: #7EDB9E;
-  --color-background: #FAF9F6;
+  --color-primary: #4A3B32;
+  --color-secondary: #D4A373;
+  --color-accent: #CCD5AE;
+  --color-background: #FFFFFF;
   --color-surface: #FFFFFF;
-  --color-text-primary: #1F2A2F;
-  --color-text-secondary: #5A6A72;
-  --color-border-color: #E8EDEB;
+  --color-text-primary: #121212;
+  --color-text-secondary: #4A3B32;
+  --color-border-color: #F5F5F5;
   
   --color-warning: #FFB74D;
-  --color-error: #FF6B6B;
-  --color-info: #5E9ED6;
-  --color-baby-blue: #A1D4E8;
+  --color-error: #E07A5F;
+  --color-info: #9CA986;
+  --color-baby-blue: #9CA986;
   
   --font-inter: 'Inter', sans-serif;
 }
@@ -56,14 +56,14 @@
 }
 
 :root {
-  --primary-dark: #2D2D2D;
+  --primary-dark: #4A3B32;
   --input-bg: #F5F5F5;
   --background: #FFFFFF;
   --text-primary: #121212;
-  --text-secondary: #666666;
-  --accent-pink: #FFF0F3;
-  --accent-beige: #F7F4F2;
-  --accent-blue: #E8F4F8;
+  --text-secondary: #4A3B32;
+  --accent-pink: #E5989B;
+  --accent-beige: #FEFAE0;
+  --accent-blue: #CCD5AE;
   
   /* Pixel-Perfect Flutter Values */
   --global-radius: 16px;
@@ -71,7 +71,7 @@
   --badge-radius: 16px;
   --font-family: 'Fellix', 'Inter', sans-serif;
   
-  --price-red: #D32F2F;
+  --price-red: #E07A5F;
   --stat-grey: #757575; /* grey[600] */
   --old-price-grey: #BDBDBD; /* grey[400] */
 
@@ -80,27 +80,14 @@
   --shadow-bottom-bar: 0px -6px 14px rgba(0, 0, 0, 0.08);
 
   /* Eco Banner */
-  --eco-gradient-start: #A3E635;
-  --eco-gradient-end: #D9F99D;
-  --eco-border: rgba(5, 150, 105, 0.2);
+  --eco-gradient-start: #CCD5AE;
+  --eco-gradient-end: #E9EDC9;
+  --eco-border: rgba(204, 213, 174, 0.6);
   
   /* Badges */
-  --badge-fast-reply: #10B981;
-  --badge-unread: #E53935;
+  --badge-fast-reply: #9CA986;
+  --badge-unread: #E07A5F;
 }
-
-/* Dark mode is temporarily disabled to force Light Mode
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #121212;
-    --text-primary: #FFFFFF;
-    --text-secondary: #A0A0A0;
-    --input-bg: #2D2D2D;
-    --primary-dark: #FFFFFF;
-  }
-}
-*/
-
 
 body {
   background-color: var(--background);
@@ -115,8 +102,6 @@ a {
   text-decoration: none;
 }
 
-
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -128,10 +113,11 @@ input::-webkit-caps-lock-indicator,
 input::-webkit-credentials-auto-fill-button {
   display: none !important;
 }
+
 .dark {
-  --color-surface: #12141C;
-  --color-background: #0A0A0B;
+  --color-surface: #1E1E1E;
+  --color-background: #121212;
   --color-text-primary: #FFFFFF;
-  --color-text-secondary: #A0A0A0;
-  --color-border-color: #2A2E3D;
+  --color-text-secondary: #C48F5A;
+  --color-border-color: #2C2C2C;
 }
