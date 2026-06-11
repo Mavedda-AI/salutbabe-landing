@@ -3,29 +3,29 @@
 import React, {useEffect, useState} from "react";
 
 import {
-  Alert01Icon,
-  ArrowDown01Icon,
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  BulbIcon,
-  Cancel01Icon,
-  CheckmarkBadge01Icon,
-  DashboardCircleIcon,
-  GlobalIcon,
-  InboxIcon,
-  InformationCircleIcon,
-  Logout01Icon,
-  Menu01Icon,
-  Moon01Icon,
-  Notification03Icon,
-  PencilEdit01Icon,
-  RefreshIcon,
-  Settings01Icon,
-  ShoppingCart01Icon,
-  Store01Icon,
-  Sun01Icon,
-  TickDouble01Icon,
-  UserGroupIcon
+    Alert01Icon,
+    ArrowDown01Icon,
+    ArrowLeft01Icon,
+    ArrowRight01Icon,
+    BulbIcon,
+    Cancel01Icon,
+    CheckmarkBadge01Icon,
+    DashboardCircleIcon,
+    GlobalIcon,
+    InboxIcon,
+    InformationCircleIcon,
+    Logout01Icon,
+    Menu01Icon,
+    Moon01Icon,
+    Notification03Icon,
+    PencilEdit01Icon,
+    RefreshIcon,
+    Settings01Icon,
+    ShoppingCart01Icon,
+    Store01Icon,
+    Sun01Icon,
+    TickDouble01Icon,
+    UserGroupIcon
 } from 'hugeicons-react';
 
 import Link from "next/link";
@@ -390,7 +390,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Link 
             href={dashboardItem.href || '#'}
             onClick={(e) => handleNavClick(e, dashboardItem.href || '#')}
-            className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden
+            className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group relative outline-none focus:outline-none focus:ring-0
               ${pathname === dashboardItem.href 
                 ? 'bg-white dark:bg-[#1A1D27] shadow-sm'
                 : 'hover:bg-white/50 dark:hover:bg-white/5'
@@ -398,11 +398,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           >
             {/* Active Glow Gradient */}
             {pathname === dashboardItem.href && (
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
             )}
             {/* Active Left Indicator */}
             {pathname === dashboardItem.href && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full shadow-[0_0_10px_rgba(255,107,0,0.5)]"></div>
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full"></div>
             )}
 
             <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
@@ -433,17 +433,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <>
                     <button 
                       onClick={() => toggleMenu(item.label)}
-                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden
+                      className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group relative outline-none focus:outline-none focus:ring-0
                         ${isActive && !isExpanded
                           ? 'bg-white dark:bg-[#1A1D27] shadow-sm'
                           : 'hover:bg-white/50 dark:hover:bg-white/5'
                         }`}
                     >
                       {isActive && !isExpanded && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
                       )}
                       {isActive && !isExpanded && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full shadow-[0_0_10px_rgba(255,107,0,0.5)]"></div>
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full"></div>
                       )}
 
                       <div className="flex items-center gap-4">
@@ -466,7 +466,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     
                     {!isSidebarCollapsed && (
                       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="pl-13 py-2 space-y-1 relative">
+                        <div className="pl-7 py-2 space-y-1 relative">
                           {/* Left guide line */}
                           <div className="absolute left-7 top-0 bottom-2 w-px bg-gray-200 dark:bg-gray-800"></div>
                           
@@ -477,12 +477,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 key={sIdx}
                                 href={sub.href}
                                 onClick={(e) => handleNavClick(e, sub.href || '#')}
-                                className={`block relative pl-6 py-2 text-[13px] font-bold transition-all duration-200 rounded-xl hover:bg-white/40 dark:hover:bg-white/5
+                                className={`block relative pl-6 py-2 text-[13px] font-bold transition-all duration-200 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 outline-none focus:outline-none focus:ring-0
                                   ${isSubActive ? 'text-[#FF6B00]' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
                               >
                                 {/* Active Dot indicator */}
                                 <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border-2 transition-all duration-300
-                                  ${isSubActive ? 'bg-[#FF6B00] border-[#FF6B00] -ml-[3px] shadow-[0_0_8px_rgba(255,107,0,0.5)]' : 'bg-white dark:bg-[#12141C] border-gray-300 dark:border-gray-700 -ml-[3px]'}`}></div>
+                                  ${isSubActive ? 'bg-[#FF6B00] border-[#FF6B00] -ml-[3.5px] shadow-[0_0_8px_rgba(255,107,0,0.5)]' : 'bg-white dark:bg-[#12141C] border-gray-300 dark:border-gray-700 -ml-[3.5px]'}`}></div>
                                 {sub.label}
                               </Link>
                             )
@@ -495,17 +495,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <Link 
                     href={item.href || '#'}
                     onClick={(e) => handleNavClick(e, item.href || '#')}
-                    className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden
+                    className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group relative outline-none focus:outline-none focus:ring-0
                       ${isActive 
                         ? 'bg-white dark:bg-[#1A1D27] shadow-sm'
                         : 'hover:bg-white/50 dark:hover:bg-white/5'
                       }`}
                   >
                     {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF6B00]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
                     )}
                     {isActive && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full shadow-[0_0_10px_rgba(255,107,0,0.5)]"></div>
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#FF6B00] to-[#5FC8C0] rounded-r-full"></div>
                     )}
                     <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
                       <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 

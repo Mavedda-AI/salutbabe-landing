@@ -130,10 +130,12 @@ export default function CategoryManagementPage() {
       ]);
       const catData = await catRes.json();
       const attrData = await attrRes.json();
+      console.log("catData", catData);
+      console.log("attrData", attrData);
       if (catData.payload) setCategories(catData.payload);
       if (attrData.payload) setAttributes(attrData.payload);
     } catch (e) {
-      console.error(e);
+      console.error("fetchData error", e);
       showToast("Veri yüklenirken hata oluştu", "error");
     } finally {
       setLoading(false);
@@ -157,7 +159,10 @@ export default function CategoryManagementPage() {
     return flat;
   }, [categories]);
 
-  const rootCategories = useMemo(() => categories.filter(c => !c.parentCategoryID), [categories]);
+  const rootCategories = useMemo(() => {
+    const roots = categories.filter(c => !c.parentCategoryID);
+    return Array.from(new Map(roots.map(r => [r.categoryID, r])).values());
+  }, [categories]);
 
   /* ───────────────────── Category CRUD ───────────────────── */
 
@@ -576,7 +581,7 @@ export default function CategoryManagementPage() {
   if (catFormOpen && editingCategory) {
     const isEdit = !!(editingCategory as Category).categoryID;
     return (
-      <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-8 pt-24 font-sans">
+      <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-6 font-sans">
         <div className="max-w-5xl mx-auto">
           <div className="w-full flex flex-col rounded-[2rem] border animate-zoom-in bg-white dark:bg-[#12141C] border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
 
@@ -715,7 +720,7 @@ export default function CategoryManagementPage() {
   if (attrFormOpen && editingAttribute) {
     const isEdit = !!(editingAttribute as Attribute).attributeID;
     return (
-      <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-8 pt-24 font-sans">
+      <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-6 font-sans">
         <div className="max-w-5xl mx-auto">
           <div className="w-full flex flex-col rounded-[2rem] border animate-zoom-in bg-white dark:bg-[#12141C] border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
 
@@ -928,10 +933,10 @@ export default function CategoryManagementPage() {
           </div>
         </div>
 
-        {/* Children */}
+        {/* Children rendering */}
         {hasChildren && isExpanded && (
-          <div className="animate-fade-in">
-            {cat.children!.map(child => renderTreeNode(child, level + 1))}
+          <div className="mt-1 flex flex-col gap-1">
+            {Array.from(new Map(cat.children!.map(c => [c.categoryID, c])).values()).map(child => renderTreeNode(child, level + 1))}
           </div>
         )}
       </div>
@@ -968,7 +973,7 @@ export default function CategoryManagementPage() {
   /* ═══════════════════ Main Layout ═══════════════════ */
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-8 pt-24 font-sans">
+    <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-6 font-sans">
       <div className="max-w-7xl mx-auto space-y-6 animate-fade-in">
 
         {/* ─── Filter Bar ─── */}

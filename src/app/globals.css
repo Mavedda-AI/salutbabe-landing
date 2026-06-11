@@ -115,12 +115,7 @@ a {
   text-decoration: none;
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-family: inherit;
-}
+
 
 .container {
   max-width: 1200px;

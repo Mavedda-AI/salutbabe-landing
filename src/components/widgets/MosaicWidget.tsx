@@ -63,30 +63,6 @@ function MosaicItem({ product, onClick }: { product: any, onClick: () => void })
   );
 }
 
-const SUB_CATEGORIES: Record<string, Record<string, string[]>> = {
-  "Anne": {
-    "Bakım & Sağlık": ["Anne Bakım", "Anne Sağlığı", "Göğüs Pedi & Kremi"],
-    "Çanta": [],
-    "Emzirme": [],
-    "Giyim": [],
-    "Pratik Çözümler": []
-  },
-  "Bebek": {
-    "Aksesuar": [],
-    "Alt Giyim": [],
-    "Araç Gereç": ["Ana Kucağı", "Bebek Arabaları", "Bebek Taşıma Gereçleri", "Beşik & Park Yatak"],
-    "Ayakkabı": [],
-    "Banyo & Bakım": []
-  },
-  "Çocuk": {
-    "Aksesuar": [],
-    "Alt Giyim": [],
-    "Ayakkabı": ["Bot", "Çizme", "Deniz Ayakkabısı", "Sandalet", "Spor Ayakkabı"],
-    "Çocuk Odası": [],
-    "Dış Giyim": []
-  }
-};
-
 export default function MosaicWidget({ activeCategory = "Tümü", setActiveCategory = () => {} }: { activeCategory?: string, setActiveCategory?: (c: string) => void }) {
   const { t } = useThemeLanguage();
   const router = useRouter();
@@ -96,6 +72,58 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
   
   const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
   const [activeSubSubCategory, setActiveSubSubCategory] = useState<string | null>(null);
+
+  const [dynamicFilterTabs, setDynamicFilterTabs] = useState<{key: string, label: string}[]>([
+    { key: "Tümü", label: t('home.tab_all') },
+    { key: "Sana Özel", label: t('home.tab_foryou') }
+  ]);
+  const [dynamicSubCategories, setDynamicSubCategories] = useState<Record<string, Record<string, string[]>>>({});
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchCats = async () => {
+      try {
+        const res = await fetch(apiUrl('/listings/get-all-categories'), {
+          headers: { 'X-Device-Type': 'web' }
+        });
+        const data = await res.json();
+        if (isMounted && data?.payload) {
+           const flatCats = data.payload;
+           const roots = flatCats.filter((c: any) => !c.parentCategoryID);
+           
+           const newTabs = [
+             { key: "Tümü", label: t('home.tab_all') },
+             { key: "Sana Özel", label: t('home.tab_foryou') },
+           ];
+           
+           const subCatsDict: Record<string, Record<string, string[]>> = {};
+
+           roots.forEach((root: any) => {
+             const rootName = root.displayedName?.tr || root.name;
+             newTabs.push({ key: rootName, label: rootName });
+             
+             subCatsDict[rootName] = {};
+             
+             const children = flatCats.filter((c: any) => c.parentCategoryID === root.categoryID);
+             children.forEach((child: any) => {
+               const childName = child.displayedName?.tr || child.name;
+               const subChildren = flatCats.filter((c: any) => c.parentCategoryID === child.categoryID);
+               subCatsDict[rootName][childName] = subChildren.map((sc: any) => sc.displayedName?.tr || sc.name);
+             });
+           });
+
+           newTabs.push({ key: "Diğer", label: t('home.tab_other') });
+
+           setDynamicFilterTabs(newTabs);
+           setDynamicSubCategories(subCatsDict);
+        }
+      } catch (err) {
+        console.error("Categories fetch error", err);
+      }
+    };
+    fetchCats();
+    return () => { isMounted = false; };
+  }, [t]);
 
   const handleMainCategoryClick = (key: string) => {
     setActiveCategory(key);
@@ -107,15 +135,6 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
     setActiveSubCategory(key);
     setActiveSubSubCategory(null);
   };
-
-  const FILTER_TABS = [
-    { key: "Tümü", label: t('home.tab_all') },
-    { key: "Sana Özel", label: t('home.tab_foryou') },
-    { key: "Anne", label: t('home.tab_mom') },
-    { key: "Bebek", label: t('home.tab_baby') },
-    { key: "Çocuk", label: t('home.tab_child') },
-    { key: "Diğer", label: t('home.tab_other') }
-  ];
   
   const DROPDOWN_TABS = [
     { key: "Beden", label: t('home.tab_size') },
@@ -165,14 +184,14 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
         <h2 className={styles.sectionTitle} style={{ margin: '0 16px 16px 16px' }}>{t('home.for_you_picks')}</h2>
         
         <div className={styles.categoryFilters} style={{ margin: '0 0 8px 0', gap: '16px' }}>
-          {FILTER_TABS.map((tab) => (
+          {dynamicFilterTabs.map((tab) => (
             <span 
               key={tab.key}
               onClick={() => handleMainCategoryClick(tab.key)}
               className={`${styles.filterPill} ${activeCategory === tab.key ? styles.filterPillActive : ''}`}
             >
               {tab.label}
-              {SUB_CATEGORIES[tab.key] && <span style={{ fontSize: '10px', marginLeft: '2px', color: '#111' }}>•</span>}
+              {dynamicSubCategories[tab.key] && <span style={{ fontSize: '10px', marginLeft: '2px', color: '#111' }}>•</span>}
             </span>
           ))}
           {DROPDOWN_TABS.map((tab) => (
@@ -186,24 +205,24 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
           ))}
         </div>
 
-        {activeCategory && SUB_CATEGORIES[activeCategory] && (
+        {activeCategory && dynamicSubCategories[activeCategory] && (
           <div className={styles.subCategoryRow}>
-            {Object.keys(SUB_CATEGORIES[activeCategory]).map((sub) => (
+            {Object.keys(dynamicSubCategories[activeCategory]).map((sub) => (
               <span
                 key={sub}
                 onClick={() => handleSubCategoryClick(sub)}
                 className={`${styles.filterPill} ${activeSubCategory === sub ? styles.filterPillActive : ''}`}
               >
                 {sub}
-                {SUB_CATEGORIES[activeCategory][sub].length > 0 && <span style={{ fontSize: '10px', marginLeft: '2px', color: '#111' }}>•</span>}
+                {dynamicSubCategories[activeCategory][sub].length > 0 && <span style={{ fontSize: '10px', marginLeft: '2px', color: '#111' }}>•</span>}
               </span>
             ))}
           </div>
         )}
 
-        {activeCategory && activeSubCategory && SUB_CATEGORIES[activeCategory]?.[activeSubCategory]?.length > 0 && (
+        {activeCategory && activeSubCategory && dynamicSubCategories[activeCategory]?.[activeSubCategory]?.length > 0 && (
           <div className={styles.subCategoryRow}>
-            {SUB_CATEGORIES[activeCategory][activeSubCategory].map((subsub) => (
+            {dynamicSubCategories[activeCategory][activeSubCategory].map((subsub) => (
               <span
                 key={subsub}
                 onClick={() => setActiveSubSubCategory(subsub)}
