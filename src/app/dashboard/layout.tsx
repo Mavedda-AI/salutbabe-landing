@@ -3,29 +3,29 @@
 import React, {useEffect, useState} from "react";
 
 import {
-    Alert01Icon,
-    ArrowDown01Icon,
-    ArrowLeft01Icon,
-    ArrowRight01Icon,
-    BulbIcon,
-    Cancel01Icon,
-    CheckmarkBadge01Icon,
-    DashboardCircleIcon,
-    GlobalIcon,
-    InboxIcon,
-    InformationCircleIcon,
-    Logout01Icon,
-    Menu01Icon,
-    Moon01Icon,
-    Notification03Icon,
-    PencilEdit01Icon,
-    RefreshIcon,
-    Settings01Icon,
-    ShoppingCart01Icon,
-    Store01Icon,
-    Sun01Icon,
-    TickDouble01Icon,
-    UserGroupIcon
+  Alert01Icon,
+  ArrowDown01Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  BulbIcon,
+  Cancel01Icon,
+  CheckmarkBadge01Icon,
+  DashboardCircleIcon,
+  GlobalIcon,
+  InboxIcon,
+  InformationCircleIcon,
+  Logout01Icon,
+  Menu01Icon,
+  Moon01Icon,
+  Notification03Icon,
+  PencilEdit01Icon,
+  RefreshIcon,
+  Settings01Icon,
+  ShoppingCart01Icon,
+  Store01Icon,
+  Sun01Icon,
+  TickDouble01Icon,
+  UserGroupIcon
 } from 'hugeicons-react';
 
 import Link from "next/link";
@@ -194,8 +194,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const userType = user?.userType || [];
-  const isAdmin = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
-
+  const isAdminRole = Array.isArray(userType) ? (userType.includes("SYSOP") || userType.includes("ADMIN")) : (userType === "SYSOP" || userType === "ADMIN");
+  const allowedEmails = ["mustafamavedda@gmail.com", "cansumavedda@gmail.com", "hidirektor@gmail.com"];
+  const userEmail = user?.email || user?.eMail || "";
+  const isWhitelisted = allowedEmails.includes(userEmail.toLowerCase());
+  const isAdmin = isAdminRole || isWhitelisted;
   const toggleMenu = (label: string) => {
     setExpandedMenus(prev => 
       prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]
