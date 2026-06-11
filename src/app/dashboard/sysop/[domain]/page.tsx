@@ -42,6 +42,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
 
   const [actionableDetails, setActionableDetails] = useState<any[]>([]);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [confirmAction, setConfirmAction] = useState<{type: 'single' | 'all', id?: string} | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<string>("Bekleyenler");
   const [timeframe, setTimeframe] = useState<string>("Tümü");
@@ -166,7 +167,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
         fullName = `${o.buyer.userName || ''} ${o.buyer.userSurname || ''}`.trim();
       }
 
-      const tcNo = o.buyer?.tc || o.buyer?.tcKimlikNo || mockTcs[rIdx];
+      const tcNo = o.buyer?.tc || o.buyer?.tcKimlikNo || '11111111111';
       
       // Eğer backend'den gerçek mail veya adres geliyorsa onu kullan, yoksa gerçekçi örnek veriyi kullan
       const email = o.buyer?.eMail || o.buyer?.email || o.eMail || mockEmails[rIdx];
@@ -318,14 +319,11 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
     setSelectedRows(prev => prev.includes(id) ? prev.filter(idx => idx !== id) : [...prev, id]);
   };
 
-  const handlePay = (id: string) => {
-    const isAccounting = domainKey === 'accounting';
-    const msg = isAccounting 
-        ? "Bu faturayı resmileştirmek (kesmek) istediğinize emin misiniz? Bu işlem yasal olarak bağlayıcıdır ve geri alınamaz." 
-        : "Bu işlemi onaylamak/ödemek istediğinize emin misiniz?";
-    
-    if (!window.confirm(msg)) return;
+  const requestPay = (id: string) => {
+    setConfirmAction({ type: 'single', id });
+  };
 
+  const executePay = (id: string) => {
     const newData = [...actionableDetails];
     const index = newData.findIndex(r => r.col1 === id);
     if (index !== -1) {
@@ -334,21 +332,20 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
       else newData[index].col4 = 'ÖDENDİ';
       setActionableDetails(newData);
     }
+    setConfirmAction(null);
   };
 
-  const handlePayAll = () => {
+  const requestPayAll = () => {
     const isAccounting = domainKey === 'accounting';
     const count = selectedRows.length > 0 
       ? selectedRows.length 
       : actionableDetails.filter(r => isAccounting ? r.col6 === 'TASLAK' : (r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK')).length;
     
     if (count === 0) return;
+    setConfirmAction({ type: 'all' });
+  };
 
-    const actionText = isAccounting ? "fatura resmileştirilecektir" : "işlem onaylanacaktır/ödenecektir";
-    const msg = `⚠️ DİKKAT!\n\nToplam ${count} adet ${actionText}.\n\nBu işlem geri alınamaz. Onaylıyor musunuz?`;
-    
-    if (!window.confirm(msg)) return;
-
+  const executePayAll = () => {
     if (selectedRows.length > 0) {
       const newData = actionableDetails.map(item => {
         if (selectedRows.includes(item.col1)) {
@@ -373,6 +370,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
       });
       setActionableDetails(newData);
     }
+    setConfirmAction(null);
   };
 
   if (!staticData) {
@@ -506,15 +504,23 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
                   />
                 </div>
                 {activeTab === 'Bekleyenler' && ((domainKey === 'financial' && actionableDetails.some(r => r.col4 === 'BEKLİYOR' || r.col4 === 'TASLAK')) || (domainKey === 'accounting' && actionableDetails.some(r => r.col6 === 'TASLAK'))) ? (
-                  <button 
-                    onClick={handlePayAll}
-                    className="px-4 py-1.5 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/20 active:scale-95 whitespace-nowrap"
-                    style={{ backgroundColor: '#059669', color: '#ffffff' }}
-                  >
-                    {selectedRows.length > 0 
-                      ? `Seçilenleri ${domainKey === 'accounting' ? 'Resmileştir' : 'Öde / Onayla'} (${selectedRows.length})` 
-                      : (domainKey === 'accounting' ? 'Tüm Faturaları Resmileştir' : 'Tümünü Öde / Onayla')}
-                  </button>
+                  confirmAction?.type === 'all' ? (
+                    <div className="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 px-3 py-1.5 rounded-xl border border-red-200 dark:border-red-500/20 shadow-sm animate-in fade-in slide-in-from-right-4 duration-300">
+                      <span className="text-[11px] font-bold text-red-600 dark:text-red-400 mr-2 whitespace-nowrap">Tümünü Onaylıyor musunuz?</span>
+                      <button onClick={executePayAll} className="px-3 py-1 bg-red-500 text-white rounded text-[10px] font-bold hover:bg-red-600 shadow-sm">EVET</button>
+                      <button onClick={() => setConfirmAction(null)} className="px-3 py-1 bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-white rounded text-[10px] font-bold hover:bg-gray-300 dark:hover:bg-white/20">İPTAL</button>
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={requestPayAll}
+                      className="px-4 py-1.5 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/20 active:scale-95 whitespace-nowrap"
+                      style={{ backgroundColor: '#059669', color: '#ffffff' }}
+                    >
+                      {selectedRows.length > 0 
+                        ? `Seçilenleri ${domainKey === 'accounting' ? 'Resmileştir' : 'Öde / Onayla'} (${selectedRows.length})` 
+                        : (domainKey === 'accounting' ? 'Tüm Faturaları Resmileştir' : 'Tümünü Öde / Onayla')}
+                    </button>
+                  )
                 ) : null}
               </div>
             </div>
@@ -602,13 +608,21 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
                       {(domainKey === 'financial' || domainKey === 'accounting') && (
                         <td className="px-3 py-1.5 text-right">
                           {(row.col4 === 'BEKLİYOR' || row.col4 === 'TASLAK' || row.col6 === 'TASLAK') ? (
-                            <button 
-                              onClick={(e) => { e.stopPropagation(); handlePay(row.col1); }}
-                              className="px-3 py-1 rounded text-[9px] font-bold transition-all shadow-sm uppercase tracking-wider active:scale-95"
-                              style={{ backgroundColor: '#10b981', color: '#ffffff' }}
-                            >
-                              {domainKey === 'accounting' ? 'Resmileştir' : 'ÖDE'}
-                            </button>
+                            confirmAction?.type === 'single' && confirmAction.id === row.col1 ? (
+                              <div className="flex items-center justify-end gap-1.5 animate-in fade-in slide-in-from-right-4 duration-300">
+                                <span className="text-[9px] font-bold text-red-500 dark:text-red-400 mr-1">Emin misiniz?</span>
+                                <button onClick={(e) => { e.stopPropagation(); executePay(row.col1); }} className="px-2 py-1 bg-red-500 text-white rounded text-[9px] font-bold hover:bg-red-600 shadow-sm">EVET</button>
+                                <button onClick={(e) => { e.stopPropagation(); setConfirmAction(null); }} className="px-2 py-1 bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-white rounded text-[9px] font-bold hover:bg-gray-300 dark:hover:bg-white/20">İPTAL</button>
+                              </div>
+                            ) : (
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); requestPay(row.col1); }}
+                                className="px-3 py-1 rounded text-[9px] font-bold transition-all shadow-sm uppercase tracking-wider active:scale-95"
+                                style={{ backgroundColor: '#10b981', color: '#ffffff' }}
+                              >
+                                {domainKey === 'accounting' ? 'Resmileştir' : 'ÖDE'}
+                              </button>
+                            )
                           ) : (
                             <span className="text-[9px] text-emerald-600 dark:text-emerald-500 font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded">Tamamlandı</span>
                           )}

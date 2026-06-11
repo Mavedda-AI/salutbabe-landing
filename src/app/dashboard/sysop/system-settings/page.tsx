@@ -141,12 +141,12 @@ export default function SystemSettingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex flex-col items-start p-4 rounded-2xl transition-all duration-300 text-left border ${
                   isActive 
-                    ? "bg-white dark:bg-[#1A1D27] border-[#FF6B00]/30 shadow-[0_10px_30px_rgba(255,107,0,0.1)] translate-x-2" 
-                    : "border-transparent hover:bg-white/50 dark:hover:bg-white/5 text-gray-500 hover:text-[#1A2332] dark:hover:text-white"
+                    ? "bg-white dark:bg-[#1A1D27] border-[#54E6D4]/30 shadow-[0_10px_30px_rgba(255,107,0,0.1)] translate-x-2" 
+                    : "border-transparent hover:bg-white/50 dark:hover:bg-white/5 text-gray-500 hover:text-[#101516] dark:hover:text-white"
                 }`}
               >
-                <div className={`flex items-center gap-3 font-bold text-[14px] ${isActive ? "text-[#FF6B00]" : ""}`}>
-                  <div className={`p-2 rounded-xl transition-colors ${isActive ? "bg-[#FF6B00]/10 text-[#FF6B00]" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}>
+                <div className={`flex items-center gap-3 font-bold text-[14px] ${isActive ? "text-[#54E6D4]" : ""}`}>
+                  <div className={`p-2 rounded-xl transition-colors ${isActive ? "bg-[#54E6D4]/10 text-[#54E6D4]" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}>
                     {tab.icon}
                   </div>
                   {tab.label}
@@ -165,7 +165,7 @@ export default function SystemSettingsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#FF6B00] hover:bg-[#e66000] text-white rounded-2xl font-black text-[14px] shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#54E6D4] hover:bg-[#e66000] text-white rounded-2xl font-black text-[14px] shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
                 {saving ? (
                   <>
@@ -202,7 +202,7 @@ export default function SystemSettingsPage() {
                 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                   <div>
-                    <h3 className="text-xl font-bold text-[#1A2332] dark:text-white">Gelişmiş Komisyon Yapısı</h3>
+                    <h3 className="text-xl font-bold text-[#101516] dark:text-white">Gelişmiş Komisyon Yapısı</h3>
                     <p className="text-[13px] font-medium text-gray-500 mt-1">VPOS, Özel Kategori veya Kademeli oranlar (Tiered) yapılandırın.</p>
                   </div>
                   <button 
@@ -217,7 +217,7 @@ export default function SystemSettingsPage() {
                 {showRawJson ? (
                   <div className="relative group/textarea">
                     <textarea
-                      className="w-full h-96 p-6 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-gray-300 focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-[#FF6B00]/10 focus:border-[#FF6B00] transition-all resize-y"
+                      className="w-full h-96 p-6 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#101516] dark:text-gray-300 focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-[#54E6D4]/10 focus:border-[#54E6D4] transition-all resize-y"
                       value={JSON.stringify(settings.systemCommissions || [], null, 2)}
                       onChange={(e) => {
                         try {
@@ -242,7 +242,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1.5">
                                   <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Türkçe İsim</label>
                                   <input 
-                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#101516] dark:text-white outline-none focus:border-[#3B82F6]"
                                     value={group.groupName?.tr || ''}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -255,7 +255,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1.5">
                                   <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İngilizce İsim</label>
                                   <input 
-                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#101516] dark:text-white outline-none focus:border-[#3B82F6]"
                                     value={group.groupName?.en || ''}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -268,7 +268,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1.5">
                                   <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Fransızca İsim</label>
                                   <input 
-                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#1A2332] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#101516] dark:text-white outline-none focus:border-[#3B82F6]"
                                     value={group.groupName?.fr || ''}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -294,7 +294,7 @@ export default function SystemSettingsPage() {
                         </div>
                         {/* Rules inside Group */}
                         <div className="pl-6 md:pl-10 space-y-4 border-l-2 border-gray-100 dark:border-gray-800/80">
-                          <h4 className="text-[13px] font-bold text-[#1A2332] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
+                          <h4 className="text-[13px] font-bold text-[#101516] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
                           
                           {(group.items || []).map((rule: any, rIdx: number) => (
                             <div key={rIdx} className="relative p-4 pt-8 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-4 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
@@ -315,7 +315,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1">
                                   <label className="text-[11px] font-semibold text-gray-500">Hedef (Kimden?)</label>
                                   <select 
-                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-[#54E6D4]"
                                     value={rule.target || 'customer'}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -330,7 +330,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1">
                                   <label className="text-[11px] font-semibold text-gray-500">Hesaplama Tipi</label>
                                   <select 
-                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-[#54E6D4]"
                                     value={rule.type}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -347,7 +347,7 @@ export default function SystemSettingsPage() {
                                   <label className="text-[11px] font-semibold text-gray-500">Temel Oran / Değer</label>
                                   <input 
                                     type="number"
-                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#1A2332] dark:text-white outline-none focus:border-[#FF6B00]"
+                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-[#54E6D4]"
                                     value={rule.value}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -360,9 +360,9 @@ export default function SystemSettingsPage() {
                               
                               {/* Tiers for rule */}
                               {rule.type === 'tiered_percentage' && (
-                                <div className="mt-4 p-4 rounded-xl border border-dashed border-[#FF6B00]/30 bg-[#FF6B00]/5 space-y-3">
+                                <div className="mt-4 p-4 rounded-xl border border-dashed border-[#54E6D4]/30 bg-[#54E6D4]/5 space-y-3">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-[12px] font-black text-[#FF6B00]">Kademeli Oranlar (Tiers)</span>
+                                    <span className="text-[12px] font-black text-[#54E6D4]">Kademeli Oranlar (Tiers)</span>
                                     <button 
                                       type="button"
                                       onClick={() => {
@@ -370,7 +370,7 @@ export default function SystemSettingsPage() {
                                         updated[gIdx].items[rIdx].tiers = [...(updated[gIdx].items[rIdx].tiers || []), { min: 0, max: null, value: 0 }];
                                         setSettings({ ...settings, systemCommissions: updated });
                                       }}
-                                      className="text-[11px] font-bold px-3 py-1.5 bg-white dark:bg-[#1A1D27] text-[#FF6B00] rounded-md shadow-sm hover:scale-105 transition-transform"
+                                      className="text-[11px] font-bold px-3 py-1.5 bg-white dark:bg-[#1A1D27] text-[#54E6D4] rounded-md shadow-sm hover:scale-105 transition-transform"
                                     >
                                       + Kademe
                                     </button>
@@ -427,7 +427,7 @@ export default function SystemSettingsPage() {
                               updated[gIdx].items = [...(updated[gIdx].items || []), newRule];
                               setSettings({ ...settings, systemCommissions: updated });
                             }}
-                            className="w-full py-3 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-transparent text-gray-500 hover:text-[#FF6B00] hover:border-[#FF6B00] text-[13px] font-bold transition-all flex items-center justify-center gap-2"
+                            className="w-full py-3 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-transparent text-gray-500 hover:text-[#54E6D4] hover:border-[#54E6D4] text-[13px] font-bold transition-all flex items-center justify-center gap-2"
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
                             Bu Gruba Yeni Kural Ekle
@@ -462,7 +462,7 @@ export default function SystemSettingsPage() {
           <div className={`${activeTab === 'limits' ? 'block animate-fade-in' : 'hidden'}`}>
             <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-500 to-indigo-500 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <h3 className="text-xl font-bold text-[#1A2332] dark:text-white mb-6">Operasyonel Limitler</h3>
+              <h3 className="text-xl font-bold text-[#101516] dark:text-white mb-6">Operasyonel Limitler</h3>
               
               <div className="grid grid-cols-1 gap-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -474,7 +474,7 @@ export default function SystemSettingsPage() {
                         name="minWithdrawalLimit"
                         value={settings.minWithdrawalLimit || 0} 
                         onChange={handleInputChange}
-                        className="w-full h-14 pl-5 pr-12 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500" 
+                        className="w-full h-14 pl-5 pr-12 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#101516] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500" 
                       />
                       <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-gray-400 group-focus-within/input:text-purple-500 transition-colors">₺</span>
                     </div>
@@ -489,7 +489,7 @@ export default function SystemSettingsPage() {
                         name="maxListingImages"
                         value={settings.maxListingImages || 0} 
                         onChange={handleInputChange}
-                        className="w-full h-14 px-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#1A2332] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500" 
+                        className="w-full h-14 px-5 rounded-2xl outline-none font-bold transition-all border border-gray-200 dark:border-gray-800/80 bg-gray-50 dark:bg-[#12141C] text-[#101516] dark:text-white focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500" 
                       />
                     </div>
                     <p className="text-[11px] text-gray-400 mt-1">İlan oluşturulurken eklenebilecek maksimum fotoğraf adedi.</p>
@@ -498,7 +498,7 @@ export default function SystemSettingsPage() {
 
                 <div className="flex items-center justify-between p-6 rounded-2xl bg-purple-500/5 border border-purple-500/20">
                   <div>
-                    <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">Otomatik Ürün Onayı</h4>
+                    <h4 className="text-[15px] font-bold text-[#101516] dark:text-white">Otomatik Ürün Onayı</h4>
                     <p className="text-[13px] font-medium text-gray-500 mt-1">Yüklenen ürünler yöneticiler onaylamadan direkt olarak canlıya alınır. Güvenilir mağazalar için önerilir.</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-4">

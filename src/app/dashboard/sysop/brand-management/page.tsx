@@ -32,7 +32,7 @@ const hashColor = (str: string): string => {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
   const colors = [
-    '#FF6B00', '#5FC8C0', '#6366F1', '#EC4899', '#F59E0B',
+    '#54E6D4', '#5FC8C0', '#6366F1', '#EC4899', '#F59E0B',
     '#10B981', '#8B5CF6', '#EF4444', '#3B82F6', '#14B8A6',
   ];
   return colors[Math.abs(hash) % colors.length];
@@ -235,18 +235,18 @@ export default function AdminBrandsPage() {
     <div className="flex flex-col items-center justify-center min-h-[400px] gap-6 animate-fade-in">
       <div className="relative flex items-center justify-center">
         <div className="absolute inset-0 w-16 h-16 border-4 border-gray-100 dark:border-white/5 rounded-full"></div>
-        <div className="w-16 h-16 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
-        <div className="absolute w-6 h-6 bg-[#FF6B00]/20 rounded-full animate-pulse"></div>
+        <div className="w-16 h-16 border-4 border-[#54E6D4] border-t-transparent rounded-full animate-spin"></div>
+        <div className="absolute w-6 h-6 bg-[#54E6D4]/20 rounded-full animate-pulse"></div>
       </div>
       <div className="flex flex-col items-center gap-1">
-        <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#1A2332] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
+        <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#101516] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
         <span className="text-[11px] font-bold text-gray-400">Marka verileri hazırlanıyor...</span>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-8 pt-24 font-sans">
+    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-4 md:p-8 pt-24 font-sans">
       <div className="max-w-7xl mx-auto">
         {!isModalOpen ? (
           <div className="space-y-6 animate-fade-in">
@@ -256,15 +256,15 @@ export default function AdminBrandsPage() {
               {/* Total Brands */}
               <div className="relative overflow-hidden rounded-2xl border bg-white/80 dark:bg-[#12141C]/80 backdrop-blur-2xl border-gray-200 dark:border-white/5 shadow-sm p-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#FF6B00]/10 dark:bg-[#FF6B00]/20 flex items-center justify-center shrink-0">
-                    <svg className="w-6 h-6 text-[#FF6B00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <div className="w-12 h-12 rounded-xl bg-[#54E6D4]/10 dark:bg-[#54E6D4]/20 flex items-center justify-center shrink-0">
+                    <svg className="w-6 h-6 text-[#54E6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.659A2.25 2.25 0 009.568 3z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
                     </svg>
                   </div>
                   <div>
                     <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Toplam Marka</p>
-                    <p className="text-2xl font-black text-[#1A2332] dark:text-white leading-tight">{totalBrands}</p>
+                    <p className="text-2xl font-black text-[#101516] dark:text-white leading-tight">{totalBrands}</p>
                   </div>
                 </div>
               </div>
@@ -279,7 +279,7 @@ export default function AdminBrandsPage() {
                   </div>
                   <div>
                     <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Popüler</p>
-                    <p className="text-2xl font-black text-[#1A2332] dark:text-white leading-tight">{popularCount}</p>
+                    <p className="text-2xl font-black text-[#101516] dark:text-white leading-tight">{popularCount}</p>
                   </div>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default function AdminBrandsPage() {
                   </div>
                   <div>
                     <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Aktif</p>
-                    <p className="text-2xl font-black text-[#1A2332] dark:text-white leading-tight">{activeCount}</p>
+                    <p className="text-2xl font-black text-[#101516] dark:text-white leading-tight">{activeCount}</p>
                   </div>
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function AdminBrandsPage() {
                 {/* Create Button */}
                 <button
                   onClick={handleAdd}
-                  className="h-12 px-6 shrink-0 rounded-2xl bg-[#FF6B00] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
+                  className="h-12 px-6 shrink-0 rounded-2xl bg-[#54E6D4] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
                 >
                   Yeni Ekle
                 </button>
@@ -426,7 +426,7 @@ export default function AdminBrandsPage() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 6h.008v.008H6V6z" />
                             </svg>
                           </div>
-                          <h3 className="text-lg font-black text-[#1A2332] dark:text-white mb-2">Marka Bulunamadı</h3>
+                          <h3 className="text-lg font-black text-[#101516] dark:text-white mb-2">Marka Bulunamadı</h3>
                           <p className="text-sm font-medium text-gray-500 max-w-[300px] mb-6">Arama kriterlerinize uyan veya sistemde kayıtlı marka bulunamadı.</p>
                         </div>
                       </td>
@@ -453,7 +453,7 @@ export default function AdminBrandsPage() {
                         {/* Brand Name + Slug */}
                         <td className="px-6 py-4">
                           <div className="flex flex-col gap-1">
-                            <span className="text-[14px] font-semibold text-[#1A2332] dark:text-white leading-tight">{brand.name}</span>
+                            <span className="text-[14px] font-semibold text-[#101516] dark:text-white leading-tight">{brand.name}</span>
                             <span className="text-[12px] font-mono font-medium text-gray-400 dark:text-gray-500 truncate max-w-[250px]">{brand.slug}</span>
                             {brand.listingCount !== undefined && (
                               <div className="mt-0.5">
@@ -511,7 +511,7 @@ export default function AdminBrandsPage() {
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <button
                               onClick={() => handleEdit(brand)}
-                              className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 dark:hover:bg-[#FF6B00]/20 border border-transparent hover:border-[#FF6B00]/20 transition-all flex items-center justify-center shadow-sm"
+                              className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#54E6D4] hover:bg-[#54E6D4]/10 dark:hover:bg-[#54E6D4]/20 border border-transparent hover:border-[#54E6D4]/20 transition-all flex items-center justify-center shadow-sm"
                               title="Düzenle"
                             >
                               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
@@ -539,17 +539,17 @@ export default function AdminBrandsPage() {
 
               {/* Header */}
               <div className="px-6 py-5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#12141C] relative">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0]"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#54E6D4] via-[#FF9EBE] to-[#5FC8C0]"></div>
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] dark:hover:text-[#FF6B00] hover:bg-white dark:hover:bg-white/10 hover:border-[#FF6B00]/30 transition-all shadow-sm"
+                    className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] dark:hover:text-[#54E6D4] hover:bg-white dark:hover:bg-white/10 hover:border-[#54E6D4]/30 transition-all shadow-sm"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                     Geri Dön
                   </button>
                   <div>
-                    <h3 className="text-xl font-bold text-[#1A2332] dark:text-white tracking-tight">
+                    <h3 className="text-xl font-bold text-[#101516] dark:text-white tracking-tight">
                       {currentBrand.brandID ? 'Markayı Düzenle' : 'Yeni Marka Ekle'}
                     </h3>
                     <p className="text-[13px] font-medium text-gray-500 mt-0.5">
@@ -583,7 +583,7 @@ export default function AdminBrandsPage() {
                       )}
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white mb-1">Logo Önizleme</h4>
+                      <h4 className="text-[15px] font-bold text-[#101516] dark:text-white mb-1">Logo Önizleme</h4>
                       <p className="text-[12px] text-gray-500">
                         {currentBrand.domain
                           ? 'Logo, domain alanından otomatik olarak çekilir.'
@@ -612,7 +612,7 @@ export default function AdminBrandsPage() {
                             slug: generateSlug(name),
                           });
                         }}
-                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm"
+                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
                       />
                     </div>
 
@@ -624,7 +624,7 @@ export default function AdminBrandsPage() {
                         placeholder="otomatik-olusturulur"
                         value={currentBrand.slug || ''}
                         onChange={e => setCurrentBrand({ ...currentBrand, slug: e.target.value })}
-                        className="w-full h-11 px-4 rounded-xl outline-none font-mono font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm"
+                        className="w-full h-11 px-4 rounded-xl outline-none font-mono font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
                       />
                       <p className="text-[11px] font-medium text-gray-400 ml-1">İsim girildiğinde otomatik oluşturulur, elle de düzenlenebilir.</p>
                     </div>
@@ -640,10 +640,10 @@ export default function AdminBrandsPage() {
                           setCurrentBrand({ ...currentBrand, domain: e.target.value });
                           setLogoError(false);
                         }}
-                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm"
+                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
                       />
                       <p className="text-[11px] font-medium text-gray-400 ml-1">
-                        Logo için marka web sitesi (örn: <span className="text-[#FF6B00]">nike.com</span>)
+                        Logo için marka web sitesi (örn: <span className="text-[#54E6D4]">nike.com</span>)
                       </p>
                     </div>
                   </div>
@@ -703,7 +703,7 @@ export default function AdminBrandsPage() {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="h-11 px-8 rounded-xl bg-[#FF6B00] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
+                  className="h-11 px-8 rounded-xl bg-[#54E6D4] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
                 >
                   {saving ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

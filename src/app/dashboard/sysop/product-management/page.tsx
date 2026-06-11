@@ -82,7 +82,7 @@ export default function AdminListings() {
                 <td className="p-6">
                   <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border
                     ${listing.status === 'ACTIVE' ? 'bg-success/10 text-success border-success/20' : 
-                      listing.status === 'PENDING' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
+                      listing.status === 'PENDING' ? 'bg-[#54E6D4]/ text-[#54E6D4] border-[#54E6D4]/' : 
                       'bg-gray-100 text-text-secondary border-transparent dark:bg-white/10 dark:text-white'}`}>
                     {listing.status === 'ACTIVE' ? t('dashboard.sysop.status_active') : listing.status === 'PENDING' ? t('dashboard.sysop.status_pending') : listing.status === 'REJECTED' ? t('dashboard.sysop.status_rejected') : t('dashboard.sysop.status_passive')}
                   </span>
@@ -148,7 +148,7 @@ export default function AdminListings() {
                      <h4 className="text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] mb-2">{t('dashboard.sysop.detail_status')}</h4>
                      <span className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest border
                        ${selectedListing.status === 'ACTIVE' ? 'bg-success/10 text-success border-success/20' : 
-                         selectedListing.status === 'PENDING' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
+                         selectedListing.status === 'PENDING' ? 'bg-[#54E6D4]/ text-[#54E6D4] border-[#54E6D4]/' : 
                          'bg-gray-100 text-text-secondary border-transparent dark:bg-white/10 dark:text-white'}`}>
                         {selectedListing.status === 'ACTIVE' ? t('dashboard.sysop.status_active') : selectedListing.status === 'PENDING' ? t('dashboard.sysop.status_pending') : selectedListing.status === 'REJECTED' ? t('dashboard.sysop.status_rejected') : t('dashboard.sysop.status_passive')}
                      </span>

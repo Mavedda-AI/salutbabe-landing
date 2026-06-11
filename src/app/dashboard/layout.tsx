@@ -3,29 +3,29 @@
 import React, {useEffect, useState} from "react";
 
 import {
-    Alert01Icon,
-    ArrowDown01Icon,
-    ArrowLeft01Icon,
-    ArrowRight01Icon,
-    BulbIcon,
-    Cancel01Icon,
-    CheckmarkBadge01Icon,
-    DashboardCircleIcon,
-    GlobalIcon,
-    InboxIcon,
-    InformationCircleIcon,
-    Logout01Icon,
-    Menu01Icon,
-    Moon01Icon,
-    Notification03Icon,
-    PencilEdit01Icon,
-    RefreshIcon,
-    Settings01Icon,
-    ShoppingCart01Icon,
-    Store01Icon,
-    Sun01Icon,
-    TickDouble01Icon,
-    UserGroupIcon
+  Alert01Icon,
+  ArrowDown01Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  BulbIcon,
+  Cancel01Icon,
+  CheckmarkBadge01Icon,
+  DashboardCircleIcon,
+  GlobalIcon,
+  InboxIcon,
+  InformationCircleIcon,
+  Logout01Icon,
+  Menu01Icon,
+  Moon01Icon,
+  Notification03Icon,
+  PencilEdit01Icon,
+  RefreshIcon,
+  Settings01Icon,
+  ShoppingCart01Icon,
+  Store01Icon,
+  Sun01Icon,
+  TickDouble01Icon,
+  UserGroupIcon
 } from 'hugeicons-react';
 
 import Link from "next/link";
@@ -821,11 +821,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="fixed bottom-10 right-10 z-[999] animate-in slide-in-from-right-10 fade-in duration-300">
            <div className={`flex items-center gap-4 px-6 py-4 rounded-3xl border shadow-2xl backdrop-blur-xl min-w-[320px] max-w-md
              ${toast.type === 'warning' 
-               ? 'bg-orange-50/90 dark:bg-[#2A1F16]/90 border-orange-200 dark:border-orange-500/20 text-orange-800 dark:text-orange-400 shadow-orange-500/10' 
+               ? 'bg-[#54E6D4]/ dark:bg-[#2A1F16]/90 border-[#54E6D4] dark:border-[#54E6D4]/ text-[#54E6D4] dark:text-[#54E6D4] shadow-orange-500/10' 
                : 'bg-green-50/90 dark:bg-[#162A1F]/90 border-green-200 dark:border-green-500/20 text-green-800 dark:text-green-400 shadow-green-500/10'
              }`}>
              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm
-               ${toast.type === 'warning' ? 'bg-orange-500 text-white' : 'bg-green-500 text-white'}`}>
+               ${toast.type === 'warning' ? 'bg-[#54E6D4] text-white' : 'bg-green-500 text-white'}`}>
                {toast.type === 'warning' ? (
                  <Alert01Icon size={24} />
                ) : (

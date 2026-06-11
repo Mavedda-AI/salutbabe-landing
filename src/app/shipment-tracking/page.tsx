@@ -3,7 +3,7 @@
 import React, {Suspense, useEffect, useState} from 'react';
 import {useSearchParams} from 'next/navigation';
 import {apiUrl} from '@/lib/api';
-import {ArrowLeft, MapPin, MoreHorizontal, Package, Phone, Share} from 'lucide-react';
+import {ArrowLeft, MapPin, Package} from 'lucide-react';
 
 interface TrackingEvent {
   status: string;
@@ -83,7 +83,7 @@ function TrackingContent() {
               return '';
            };
            
-           const teslimAlan = getTagText('TESALAN');
+           const teslimAlan = getTagText('TESLALAN') || getTagText('TESALAN');
            if (teslimAlan) result.teslimAlan = teslimAlan;
            
            const alici = getTagText('ALICI');
@@ -98,11 +98,12 @@ function TrackingContent() {
            const gr = getTagText('GR');
            if (gr) result.weight = gr;
            
-           const donguElements = xmlDoc.getElementsByTagNameNS("*", "dongu");
-           let elementsToUse = Array.from(donguElements);
-           if (elementsToUse.length === 0) {
-              elementsToUse = Array.from(xmlDoc.getElementsByTagName("dongu")).concat(Array.from(xmlDoc.getElementsByTagName("ax23:dongu")));
-           }
+           let elementsToUse = [
+              ...Array.from(xmlDoc.getElementsByTagName("dongu")),
+              ...Array.from(xmlDoc.getElementsByTagName("ax23:dongu")),
+              ...Array.from(xmlDoc.getElementsByTagNameNS("*", "dongu"))
+           ];
+           elementsToUse = Array.from(new Set(elementsToUse));
            
            if (elementsToUse.length > 0) {
                const history = elementsToUse.map(el => {
@@ -181,7 +182,7 @@ function TrackingContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] relative flex flex-col font-sans items-center">
+    <div className="h-screen overflow-y-auto bg-[#F8F9FA] relative flex flex-col font-sans items-center">
       
       {/* Top Navigation */}
       <div className="w-full max-w-xl flex justify-between items-center px-4 pt-6 z-10">

@@ -66,7 +66,7 @@ const getHeaders = (json = false) => {
   return h;
 };
 
-const INPUT = "w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/20 shadow-sm text-[#1A2332] dark:text-white";
+const INPUT = "w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm text-[#101516] dark:text-white";
 const LABEL = "text-[13px] font-medium text-gray-700 dark:text-gray-300 ml-1";
 
 const typeBadge = (type: string) => {
@@ -566,11 +566,11 @@ export default function CategoryManagementPage() {
     <div className="flex flex-col items-center justify-center min-h-[400px] gap-6 animate-fade-in">
       <div className="relative flex items-center justify-center">
         <div className="absolute inset-0 w-16 h-16 border-4 border-gray-100 dark:border-white/5 rounded-full"></div>
-        <div className="w-16 h-16 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
-        <div className="absolute w-6 h-6 bg-[#FF6B00]/20 rounded-full animate-pulse"></div>
+        <div className="w-16 h-16 border-4 border-[#54E6D4] border-t-transparent rounded-full animate-spin"></div>
+        <div className="absolute w-6 h-6 bg-[#54E6D4]/20 rounded-full animate-pulse"></div>
       </div>
       <div className="flex flex-col items-center gap-1">
-        <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#1A2332] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
+        <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#101516] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
         <span className="text-[11px] font-bold text-gray-400">Kategori verileri hazırlanıyor...</span>
       </div>
     </div>
@@ -581,20 +581,20 @@ export default function CategoryManagementPage() {
   if (catFormOpen && editingCategory) {
     const isEdit = !!(editingCategory as Category).categoryID;
     return (
-      <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-6 font-sans">
+      <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-4 md:p-6 font-sans">
         <div className="max-w-5xl mx-auto">
           <div className="w-full flex flex-col rounded-[2rem] border animate-zoom-in bg-white dark:bg-[#12141C] border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
 
             {/* Header */}
             <div className="px-6 py-5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#12141C] relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0]"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#54E6D4] via-[#FF9EBE] to-[#5FC8C0]"></div>
               <div className="flex items-center gap-4">
-                <button onClick={() => { setCatFormOpen(false); setEditingCategory(null); }} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] dark:hover:text-[#FF6B00] hover:bg-white dark:hover:bg-white/10 hover:border-[#FF6B00]/30 transition-all shadow-sm">
+                <button onClick={() => { setCatFormOpen(false); setEditingCategory(null); }} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] dark:hover:text-[#54E6D4] hover:bg-white dark:hover:bg-white/10 hover:border-[#54E6D4]/30 transition-all shadow-sm">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                   Geri Dön
                 </button>
                 <div>
-                  <h3 className="text-xl font-bold text-[#1A2332] dark:text-white tracking-tight">
+                  <h3 className="text-xl font-bold text-[#101516] dark:text-white tracking-tight">
                     {isEdit ? 'Kategori Düzenle' : 'Yeni Kategori Ekle'}
                   </h3>
                   <p className="text-[13px] font-medium text-gray-500 mt-0.5">
@@ -683,7 +683,7 @@ export default function CategoryManagementPage() {
                   <div className="space-y-1.5">
                     <label className={LABEL}>Kombin İzni</label>
                     <div className="flex items-center gap-1 p-1 h-11 bg-gray-50/50 dark:bg-[#0B0C10] rounded-xl border border-gray-200 dark:border-white/10">
-                      <button onClick={() => setEditingCategory({...editingCategory, allowOutfit: true})} className={`flex-1 h-full rounded-lg font-semibold text-[13px] transition-all duration-300 ${editingCategory.allowOutfit ? 'bg-white dark:bg-white/10 shadow-sm text-[#FF6B00]' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}>
+                      <button onClick={() => setEditingCategory({...editingCategory, allowOutfit: true})} className={`flex-1 h-full rounded-lg font-semibold text-[13px] transition-all duration-300 ${editingCategory.allowOutfit ? 'bg-white dark:bg-white/10 shadow-sm text-[#54E6D4]' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}>
                         Evet
                       </button>
                       <button onClick={() => setEditingCategory({...editingCategory, allowOutfit: false})} className={`flex-1 h-full rounded-lg font-semibold text-[13px] transition-all duration-300 ${!editingCategory.allowOutfit ? 'bg-white dark:bg-white/10 shadow-sm text-gray-700 dark:text-gray-300' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}>
@@ -700,7 +700,7 @@ export default function CategoryManagementPage() {
               <button onClick={() => { setCatFormOpen(false); setEditingCategory(null); }} className="h-11 px-6 rounded-xl font-semibold text-[13px] text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
                 İptal
               </button>
-              <button onClick={handleSaveCategory} disabled={saving} className="h-11 px-8 rounded-xl bg-[#FF6B00] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]">
+              <button onClick={handleSaveCategory} disabled={saving} className="h-11 px-8 rounded-xl bg-[#54E6D4] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]">
                 {saving ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : (
                   <span className="flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -720,20 +720,20 @@ export default function CategoryManagementPage() {
   if (attrFormOpen && editingAttribute) {
     const isEdit = !!(editingAttribute as Attribute).attributeID;
     return (
-      <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-6 font-sans">
+      <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-4 md:p-6 font-sans">
         <div className="max-w-5xl mx-auto">
           <div className="w-full flex flex-col rounded-[2rem] border animate-zoom-in bg-white dark:bg-[#12141C] border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
 
             {/* Header */}
             <div className="px-6 py-5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#12141C] relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0]"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#54E6D4] via-[#FF9EBE] to-[#5FC8C0]"></div>
               <div className="flex items-center gap-4">
-                <button onClick={() => { setAttrFormOpen(false); setEditingAttribute(null); }} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#FF6B00] dark:hover:text-[#FF6B00] hover:bg-white dark:hover:bg-white/10 hover:border-[#FF6B00]/30 transition-all shadow-sm">
+                <button onClick={() => { setAttrFormOpen(false); setEditingAttribute(null); }} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] dark:hover:text-[#54E6D4] hover:bg-white dark:hover:bg-white/10 hover:border-[#54E6D4]/30 transition-all shadow-sm">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                   Geri Dön
                 </button>
                 <div>
-                  <h3 className="text-xl font-bold text-[#1A2332] dark:text-white tracking-tight">
+                  <h3 className="text-xl font-bold text-[#101516] dark:text-white tracking-tight">
                     {isEdit ? 'Özelliği Düzenle' : 'Yeni Özellik Ekle'}
                   </h3>
                   <p className="text-[13px] font-medium text-gray-500 mt-0.5">
@@ -784,7 +784,7 @@ export default function CategoryManagementPage() {
                 {/* Values management */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-[15px] font-bold text-[#1A2332] dark:text-white">Değerler</h4>
+                    <h4 className="text-[15px] font-bold text-[#101516] dark:text-white">Değerler</h4>
                     <span className="text-[12px] font-medium text-gray-400">{editingAttribute.values?.length || 0} değer</span>
                   </div>
 
@@ -796,7 +796,7 @@ export default function CategoryManagementPage() {
                           <div className="w-7 h-7 rounded-lg border border-gray-200 dark:border-white/20 shrink-0" style={{ backgroundColor: v.metaData.hexCode }}></div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <span className="text-[13px] font-semibold text-[#1A2332] dark:text-white">{v.displayedValue?.tr || v.valueKey}</span>
+                          <span className="text-[13px] font-semibold text-[#101516] dark:text-white">{v.displayedValue?.tr || v.valueKey}</span>
                           <span className="text-[11px] font-mono text-gray-400 ml-2">{v.valueKey}</span>
                         </div>
                         <span className="text-[11px] font-medium text-gray-400">#{v.order}</span>
@@ -819,7 +819,7 @@ export default function CategoryManagementPage() {
                         {newValue.hexCode && <div className="w-11 h-11 rounded-xl border border-gray-200 dark:border-white/10 shrink-0" style={{ backgroundColor: newValue.hexCode }}></div>}
                       </div>
                     </div>
-                    <button onClick={addValueToAttr} disabled={!newValue.valueKey} className="h-9 px-4 rounded-lg bg-gray-100 dark:bg-white/5 text-[#1A2332] dark:text-white font-semibold text-[13px] hover:bg-[#FF6B00] hover:text-white transition-all flex items-center gap-2 shadow-sm disabled:opacity-40">
+                    <button onClick={addValueToAttr} disabled={!newValue.valueKey} className="h-9 px-4 rounded-lg bg-gray-100 dark:bg-white/5 text-[#101516] dark:text-white font-semibold text-[13px] hover:bg-[#54E6D4] hover:text-white transition-all flex items-center gap-2 shadow-sm disabled:opacity-40">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
                       Değer Ekle
                     </button>
@@ -833,7 +833,7 @@ export default function CategoryManagementPage() {
               <button onClick={() => { setAttrFormOpen(false); setEditingAttribute(null); }} className="h-11 px-6 rounded-xl font-semibold text-[13px] text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
                 İptal
               </button>
-              <button onClick={handleSaveAttribute} disabled={saving} className="h-11 px-8 rounded-xl bg-[#FF6B00] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]">
+              <button onClick={handleSaveAttribute} disabled={saving} className="h-11 px-8 rounded-xl bg-[#54E6D4] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]">
                 {saving ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : (
                   <span className="flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -860,9 +860,9 @@ export default function CategoryManagementPage() {
     const isDragOver = dragOverCatId === cat.categoryID;
     let dragClasses = "";
     if (isDragOver && dropPosition) {
-      if (dropPosition === 'before') dragClasses = "border-t-2 border-t-[#FF6B00]";
-      else if (dropPosition === 'after') dragClasses = "border-b-2 border-b-[#FF6B00]";
-      else if (dropPosition === 'inside') dragClasses = "bg-[#FF6B00]/10 border border-[#FF6B00]/30 scale-[1.02] shadow-sm z-10";
+      if (dropPosition === 'before') dragClasses = "border-t-2 border-t-[#54E6D4]";
+      else if (dropPosition === 'after') dragClasses = "border-b-2 border-b-[#54E6D4]";
+      else if (dropPosition === 'inside') dragClasses = "bg-[#54E6D4]/10 border border-[#54E6D4]/30 scale-[1.02] shadow-sm z-10";
     }
 
     return (
@@ -882,18 +882,18 @@ export default function CategoryManagementPage() {
           </button>
 
           {/* Icon placeholder */}
-          <div className="w-9 h-9 rounded-xl bg-[#FF6B00]/10 dark:bg-[#FF6B00]/20 flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-[#54E6D4]/10 dark:bg-[#54E6D4]/20 flex items-center justify-center shrink-0">
             {cat.icon ? (
-              <span className="text-[11px] font-bold text-[#FF6B00]">{cat.icon.slice(0, 2).toUpperCase()}</span>
+              <span className="text-[11px] font-bold text-[#54E6D4]">{cat.icon.slice(0, 2).toUpperCase()}</span>
             ) : (
-              <svg className="w-4 h-4 text-[#FF6B00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+              <svg className="w-4 h-4 text-[#54E6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
             )}
           </div>
 
           {/* Name & Slug */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-[14px] font-semibold text-[#1A2332] dark:text-white truncate">{displayName}</span>
+              <span className="text-[14px] font-semibold text-[#101516] dark:text-white truncate">{displayName}</span>
               {/* Active badge */}
               <div className="flex items-center gap-1.5 shrink-0">
                 <div className="relative flex items-center justify-center w-2.5 h-2.5">
@@ -916,7 +916,7 @@ export default function CategoryManagementPage() {
 
           {/* Actions */}
           <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
-            <button onClick={() => openCategoryForm(cat)} className="w-8 h-8 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 dark:hover:bg-[#FF6B00]/20 border border-transparent hover:border-[#FF6B00]/20 transition-all flex items-center justify-center" title="Düzenle">
+            <button onClick={() => openCategoryForm(cat)} className="w-8 h-8 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#54E6D4] hover:bg-[#54E6D4]/10 dark:hover:bg-[#54E6D4]/20 border border-transparent hover:border-[#54E6D4]/20 transition-all flex items-center justify-center" title="Düzenle">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
             </button>
             <button onClick={() => openCategoryForm(undefined, cat.categoryID)} className="w-8 h-8 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#5FC8C0] hover:bg-[#5FC8C0]/10 dark:hover:bg-[#5FC8C0]/20 border border-transparent hover:border-[#5FC8C0]/20 transition-all flex items-center justify-center" title="Alt Kategori Ekle">
@@ -952,14 +952,14 @@ export default function CategoryManagementPage() {
 
     return (
       <div key={cat.categoryID}>
-        <button onClick={() => fetchCatAttrs(cat.categoryID)} className={`w-full flex items-center gap-2 p-2.5 rounded-xl text-left transition-all ${isSelected ? 'bg-[#FF6B00]/10 border border-[#FF6B00]/20' : 'hover:bg-gray-50 dark:hover:bg-white/5 border border-transparent'} ${level > 0 ? 'ml-5' : ''}`}>
+        <button onClick={() => fetchCatAttrs(cat.categoryID)} className={`w-full flex items-center gap-2 p-2.5 rounded-xl text-left transition-all ${isSelected ? 'bg-[#54E6D4]/10 border border-[#54E6D4]/20' : 'hover:bg-gray-50 dark:hover:bg-white/5 border border-transparent'} ${level > 0 ? 'ml-5' : ''}`}>
           {hasChildren && (
             <button onClick={(e) => { e.stopPropagation(); toggleExpand(cat.categoryID); }} className="w-5 h-5 flex items-center justify-center shrink-0">
               <svg className={`w-3 h-3 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             </button>
           )}
           {!hasChildren && <div className="w-5 shrink-0"></div>}
-          <span className={`text-[13px] font-semibold truncate ${isSelected ? 'text-[#FF6B00]' : 'text-[#1A2332] dark:text-white'}`}>
+          <span className={`text-[13px] font-semibold truncate ${isSelected ? 'text-[#54E6D4]' : 'text-[#101516] dark:text-white'}`}>
             {cat.displayedName?.tr || cat.name}
           </span>
         </button>
@@ -973,7 +973,7 @@ export default function CategoryManagementPage() {
   /* ═══════════════════ Main Layout ═══════════════════ */
 
   return (
-    <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#1A2332] dark:text-white p-4 md:p-6 font-sans">
+    <div className="h-full bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-4 md:p-6 font-sans">
       <div className="max-w-7xl mx-auto space-y-6 animate-fade-in">
 
         {/* ─── Filter Bar ─── */}
@@ -994,7 +994,7 @@ export default function CategoryManagementPage() {
               { key: "attributes" as TabKey, label: "Özellikler" },
               { key: "mapping" as TabKey, label: "Eşleştirme" },
             ]).map(tab => (
-              <button key={tab.key} onClick={() => setActiveTab(tab.key)} className={`px-4 h-10 rounded-xl text-[13px] font-bold transition-all ${activeTab === tab.key ? 'bg-white dark:bg-white/10 text-[#FF6B00] shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}>
+              <button key={tab.key} onClick={() => setActiveTab(tab.key)} className={`px-4 h-10 rounded-xl text-[13px] font-bold transition-all ${activeTab === tab.key ? 'bg-white dark:bg-white/10 text-[#54E6D4] shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}>
                 {tab.label}
               </button>
             ))}
@@ -1009,13 +1009,13 @@ export default function CategoryManagementPage() {
 
           {/* CTA */}
           {activeTab === "tree" && (
-            <button onClick={() => openCategoryForm()} className="h-12 px-6 shrink-0 rounded-2xl bg-[#FF6B00] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all gap-2">
+            <button onClick={() => openCategoryForm()} className="h-12 px-6 shrink-0 rounded-2xl bg-[#54E6D4] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all gap-2">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
               Yeni Ana Kategori
             </button>
           )}
           {activeTab === "attributes" && (
-            <button onClick={() => openAttrForm()} className="h-12 px-6 shrink-0 rounded-2xl bg-[#FF6B00] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all gap-2">
+            <button onClick={() => openAttrForm()} className="h-12 px-6 shrink-0 rounded-2xl bg-[#54E6D4] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all gap-2">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
               Yeni Özellik
             </button>
@@ -1032,8 +1032,8 @@ export default function CategoryManagementPage() {
           <div className="rounded-3xl border overflow-hidden bg-white/80 dark:bg-[#12141C]/80 backdrop-blur-2xl border-white/20 dark:border-white/5 shadow-sm">
             <div className="px-6 py-4 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#FF6B00]/10 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-[#FF6B00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
+                <div className="w-8 h-8 rounded-lg bg-[#54E6D4]/10 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-[#54E6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
                 </div>
                 <span className="text-[12px] font-medium text-gray-500 uppercase tracking-wider">Kategori Hiyerarşisi</span>
               </div>
@@ -1045,7 +1045,7 @@ export default function CategoryManagementPage() {
                   <div className="w-20 h-20 rounded-full bg-gray-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 flex items-center justify-center mb-4">
                     <svg className="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
                   </div>
-                  <h3 className="text-lg font-black text-[#1A2332] dark:text-white mb-2">Kategori Bulunamadı</h3>
+                  <h3 className="text-lg font-black text-[#101516] dark:text-white mb-2">Kategori Bulunamadı</h3>
                   <p className="text-sm font-medium text-gray-500 max-w-[300px]">Arama kriterlerinize uyan kategori bulunamadı.</p>
                 </div>
               ) : (
@@ -1084,7 +1084,7 @@ export default function CategoryManagementPage() {
                         <tr className="transition-all hover:bg-gray-50/50 dark:hover:bg-white/5 group">
                           <td className="px-6 py-4">
                             <div className="flex flex-col gap-0.5">
-                              <span className="text-[14px] font-semibold text-[#1A2332] dark:text-white">{attr.displayedName?.tr || attr.nameKey}</span>
+                              <span className="text-[14px] font-semibold text-[#101516] dark:text-white">{attr.displayedName?.tr || attr.nameKey}</span>
                               <span className="text-[11px] font-mono font-medium text-gray-400">{attr.nameKey}</span>
                             </div>
                           </td>
@@ -1094,7 +1094,7 @@ export default function CategoryManagementPage() {
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border bg-[#FF6B00]/10 text-[#FF6B00] border-[#FF6B00]/20">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border bg-[#54E6D4]/10 text-[#54E6D4] border-[#54E6D4]/20">
                               {attr.mobileComponent || 'dropdown'}
                             </span>
                           </td>
@@ -1114,7 +1114,7 @@ export default function CategoryManagementPage() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <button onClick={() => openAttrForm(attr)} className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#FF6B00] hover:bg-[#FF6B00]/10 dark:hover:bg-[#FF6B00]/20 border border-transparent hover:border-[#FF6B00]/20 transition-all flex items-center justify-center shadow-sm" title="Düzenle">
+                              <button onClick={() => openAttrForm(attr)} className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#54E6D4] hover:bg-[#54E6D4]/10 dark:hover:bg-[#54E6D4]/20 border border-transparent hover:border-[#54E6D4]/20 transition-all flex items-center justify-center shadow-sm" title="Düzenle">
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                               </button>
                               <button onClick={() => handleDeleteAttribute(attr.attributeID)} disabled={deleting === attr.attributeID} className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-400 border border-transparent hover:border-red-500/20 transition-all flex items-center justify-center shadow-sm disabled:opacity-30" title="Sil">
@@ -1130,13 +1130,13 @@ export default function CategoryManagementPage() {
                         {isAttrExpanded && attr.values && attr.values.length > 0 && (
                           <tr>
                             <td colSpan={5} className="px-6 py-0">
-                              <div className="py-4 pl-4 border-l-2 border-[#FF6B00]/20 ml-2 space-y-2 animate-fade-in">
+                              <div className="py-4 pl-4 border-l-2 border-[#54E6D4]/20 ml-2 space-y-2 animate-fade-in">
                                 {attr.values.map(v => (
                                   <div key={v.valueID} className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-gray-50/50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/5">
                                     {v.metaData?.hexCode && (
                                       <div className="w-6 h-6 rounded-md border border-gray-200 dark:border-white/20 shrink-0" style={{ backgroundColor: v.metaData.hexCode }}></div>
                                     )}
-                                    <span className="text-[13px] font-semibold text-[#1A2332] dark:text-white">{v.displayedValue?.tr || v.valueKey}</span>
+                                    <span className="text-[13px] font-semibold text-[#101516] dark:text-white">{v.displayedValue?.tr || v.valueKey}</span>
                                     <span className="text-[11px] font-mono text-gray-400">{v.valueKey}</span>
                                     <span className="text-[10px] font-medium text-gray-400 ml-auto">Sıra: {v.order}</span>
                                     {v.metaData?.hexCode && (
@@ -1181,12 +1181,12 @@ export default function CategoryManagementPage() {
                   <div className="w-16 h-16 rounded-full bg-gray-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 flex items-center justify-center mb-4">
                     <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
                   </div>
-                  <h3 className="text-lg font-bold text-[#1A2332] dark:text-white mb-1">Kategori Seçin</h3>
+                  <h3 className="text-lg font-bold text-[#101516] dark:text-white mb-1">Kategori Seçin</h3>
                   <p className="text-sm font-medium text-gray-500">Soldan bir kategori seçerek özellik eşleştirmesi yapın</p>
                 </div>
               ) : mappingLoading ? (
                 <div className="rounded-3xl border bg-white/80 dark:bg-[#12141C]/80 backdrop-blur-2xl border-white/20 dark:border-white/5 shadow-sm py-16 flex items-center justify-center">
-                  <div className="w-8 h-8 border-3 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-8 h-8 border-3 border-[#54E6D4] border-t-transparent rounded-full animate-spin"></div>
                 </div>
               ) : (
                 <>
@@ -1206,7 +1206,7 @@ export default function CategoryManagementPage() {
                         catAttrs.map(ca => (
                           <div key={ca.mappingID} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/5 group">
                             <div className="flex-1 min-w-0">
-                              <span className="text-[13px] font-semibold text-[#1A2332] dark:text-white">{ca.attribute?.displayedName?.tr || ca.attribute?.nameKey || ca.attributeID}</span>
+                              <span className="text-[13px] font-semibold text-[#101516] dark:text-white">{ca.attribute?.displayedName?.tr || ca.attribute?.nameKey || ca.attributeID}</span>
                               {ca.attribute?.nameKey && <span className="text-[11px] font-mono text-gray-400 ml-2">{ca.attribute.nameKey}</span>}
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
@@ -1239,7 +1239,7 @@ export default function CategoryManagementPage() {
                         unassignedAttrs.map(attr => (
                           <div key={attr.attributeID} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 border border-transparent hover:border-gray-100 dark:hover:border-white/5 transition-all group">
                             <div className="flex-1 min-w-0">
-                              <span className="text-[13px] font-semibold text-[#1A2332] dark:text-white">{attr.displayedName?.tr || attr.nameKey}</span>
+                              <span className="text-[13px] font-semibold text-[#101516] dark:text-white">{attr.displayedName?.tr || attr.nameKey}</span>
                               <span className="text-[11px] font-mono text-gray-400 ml-2">{attr.nameKey}</span>
                               <span className={`ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border ${typeBadge(attr.type)}`}>{attr.type}</span>
                             </div>
@@ -1247,7 +1247,7 @@ export default function CategoryManagementPage() {
                               <button onClick={() => assignAttr(attr.attributeID, false)} className="h-8 px-3 rounded-lg bg-gray-100 dark:bg-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-300 hover:bg-[#5FC8C0]/10 hover:text-[#5FC8C0] transition-all border border-transparent hover:border-[#5FC8C0]/20">
                                 Opsiyonel
                               </button>
-                              <button onClick={() => assignAttr(attr.attributeID, true)} className="h-8 px-3 rounded-lg bg-[#FF6B00]/10 text-[11px] font-bold text-[#FF6B00] hover:bg-[#FF6B00] hover:text-white transition-all border border-[#FF6B00]/20">
+                              <button onClick={() => assignAttr(attr.attributeID, true)} className="h-8 px-3 rounded-lg bg-[#54E6D4]/10 text-[11px] font-bold text-[#54E6D4] hover:bg-[#54E6D4] hover:text-white transition-all border border-[#54E6D4]/20">
                                 Zorunlu
                               </button>
                             </div>

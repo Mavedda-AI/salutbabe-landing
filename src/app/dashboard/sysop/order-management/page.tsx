@@ -9,6 +9,9 @@ interface Order {
   totalAmount: number;
   status: string;
   createdAt: string;
+  updatedAt?: string;
+  deliveredAt?: string | number;
+  shippedAt?: string | number;
   buyer: {
     userName: string;
     userSurname: string;
@@ -32,6 +35,25 @@ interface Order {
     };
   }[];
 }
+
+const translateStatus = (status: string) => {
+  if (!status) return 'BİLİNMİYOR';
+  switch (status.toLowerCase()) {
+    case 'processing': return 'İşleniyor';
+    case 'delivered': return 'Teslim Edildi';
+    case 'shipped': return 'Kargoya Verildi';
+    case 'completed': return 'Tamamlandı';
+    case 'cancelled': return 'İptal Edildi';
+    case 'pending_payment': return 'Ödeme Bekleniyor';
+    case 'paid': return 'Ödendi';
+    case 'refunded': return 'İade Edildi';
+    case 'pending': return 'Bekliyor';
+    case 'approved': return 'Onaylandı';
+    case 'rejected': return 'Reddedildi';
+    case 'active': return 'Aktif';
+    default: return status;
+  }
+};
 
 export default function OrderManagementPage() {
   const { theme, t, language } = useThemeLanguage();
@@ -96,10 +118,11 @@ export default function OrderManagementPage() {
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {orders.map((order) => {
               const isExpanded = expandedOrderId === order.orderID;
-              const shippingFee = Number(order.shippingPrice || order.shippingCost || 85);
-              const productTotal = Math.max(0, Number(order.totalAmount) - shippingFee);
+              const productTotal = order.items?.reduce((acc, item) => acc + (Number(item.subtotal) || (Number(item.priceAtTime) * Number(item.quantity))), 0) || 0;
+              const shippingFee = Number(order.shippingPrice || order.shippingCost) || Math.max(0, Number(order.totalAmount) - productTotal);
               const commission = productTotal * 0.15;
               const sellerNet = productTotal - commission;
+              const displayDate = order.deliveredAt || order.shippedAt || order.updatedAt || order.createdAt || (order as any).orderDate || Date.now();
 
               return (
               <React.Fragment key={order.orderID}>
@@ -110,8 +133,10 @@ export default function OrderManagementPage() {
                   <td className="px-8 py-5">
                     <div className="flex flex-col">
                       <span className="font-black text-text-primary">#{order.orderID.split('-')[0].toUpperCase()}</span>
-                      <span className="text-[10px] font-bold text-text-secondary opacity-60">
-                        {new Date(order.createdAt || (order as any).orderDate || Date.now()).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
+                      <span className="text-[10px] font-bold text-text-secondary opacity-60 mt-0.5">
+                        {new Date(displayDate).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}
+                        {' '}
+                        {new Date(displayDate).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                   </td>
@@ -132,7 +157,7 @@ export default function OrderManagementPage() {
                   </td>
                   <td className="px-8 py-5">
                     <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${getStatusColor(order.status)}`}>
-                      {order.status}
+                      {translateStatus(order.status)}
                     </span>
                   </td>
                   <td className="px-8 py-5 text-right">

@@ -4,18 +4,49 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-  ArrowDown01Icon,
-  BankIcon,
-  CheckmarkBadge01Icon,
-  PercentCircleIcon,
-  ShoppingCart01Icon,
-  Tag01Icon,
-  UserCircleIcon,
-  UserGroupIcon,
-  Wallet01Icon
+    ArrowDown01Icon,
+    BankIcon,
+    Calendar01Icon,
+    CheckmarkBadge01Icon,
+    PercentCircleIcon,
+    ShoppingCart01Icon,
+    Tag01Icon,
+    UserCircleIcon,
+    UserGroupIcon,
+    Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
+
+const formatDateAndTime = (dateInput: any) => {
+  if (!dateInput) return '-';
+  const date = new Date(dateInput);
+  return (
+    <div className="flex flex-col">
+      <span>{date.toLocaleDateString('tr-TR')}</span>
+      <span className="text-[10px] opacity-60 mt-0.5">{date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+    </div>
+  );
+};
+
+const translateStatus = (status: string) => {
+  if (!status) return 'BİLİNMİYOR';
+  switch (status.toLowerCase()) {
+    case 'processing': return 'İşleniyor';
+    case 'delivered': return 'Teslim Edildi';
+    case 'shipped': return 'Kargoya Verildi';
+    case 'completed': return 'Tamamlandı';
+    case 'cancelled': return 'İptal Edildi';
+    case 'pending_payment': return 'Ödeme Bekleniyor';
+    case 'paid': return 'Ödendi';
+    case 'refunded': return 'İade Edildi';
+    case 'pending': return 'Bekliyor';
+    case 'approved': return 'Onaylandı';
+    case 'rejected': return 'Reddedildi';
+    case 'active': return 'Aktif';
+    default: return status;
+  }
+};
 
 function UserListAccordion({ token }: { token: string }) {
   const router = useRouter();
@@ -102,10 +133,10 @@ function OrderListAccordion({ token }: { token: string }) {
                 <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold">{order.totalAmount} ₺</td>
                 <td className="py-3">
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60">
-                    {order.status}
+                    {translateStatus(order.status)}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{new Date(order.orderDate || order.createdAt).toLocaleDateString('tr-TR')}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.orderDate || order.createdAt)}</td>
               </tr>
             ))}
           </tbody>
@@ -148,10 +179,10 @@ function ListingListAccordion({ token }: { token: string }) {
                 <td className="py-3 text-gray-500 dark:text-white/60">{listing.price} ₺</td>
                 <td className="py-3">
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${listing.status === 'PENDING' ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'}`}>
-                    {listing.status}
+                    {translateStatus(listing.status)}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{new Date(listing.createdAt).toLocaleDateString('tr-TR')}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(listing.createdAt)}</td>
               </tr>
             ))}
           </tbody>
@@ -229,7 +260,7 @@ function PendingRevenueAccordion({ token }: { token: string }) {
                 onClick={() => router.push('/dashboard/sysop/order-management')}
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
-                <td className="py-3 text-gray-400 dark:text-white/40">{new Date(order.orderDate || order.createdAt).toLocaleDateString('tr-TR')}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40">{formatDateAndTime(order.orderDate || order.createdAt)}</td>
                 <td className="py-3 text-gray-900 dark:text-white font-medium">{order.seller?.userName || 'Sistem İşlemi'}</td>
                 <td className="py-3 text-blue-600 dark:text-blue-400 font-bold text-right">{order.totalAmount} ₺</td>
               </tr>
@@ -480,6 +511,7 @@ export default function KPIBar() {
   } : realData;
 
   const [expandedKpi, setExpandedKpi] = useState<string | null>(null);
+  const [timeframe, setTimeframe] = useState<string>("Tümü");
 
   const formatCompactNumber = (num: number) => {
     if (num >= 1000000) {
@@ -493,24 +525,48 @@ export default function KPIBar() {
 
   // Compute dynamic fallbacks if the backend doesn't provide aggregated KPIs
   const payload = data?.payload || {};
-  const orders = payload.orders || ordersData?.payload?.orders || [];
-  
+  const rawOrders = payload.orders || ordersData?.payload?.orders || [];
+  const rawUsers = payload.users || [];
+  const rawListings = payload.listings || [];
+
+  const filterByTimeframe = (items: any[], dateField1: string, dateField2?: string) => {
+    if (timeframe === 'Tümü') return items;
+    const now = new Date();
+    return items.filter(item => {
+      const dateVal = item[dateField1] || (dateField2 ? item[dateField2] : null);
+      if (!dateVal) return false;
+      const itemDate = new Date(dateVal);
+      const diffDays = (now.getTime() - itemDate.getTime()) / (1000 * 60 * 60 * 24);
+      if (timeframe === 'Günlük') return diffDays <= 1;
+      if (timeframe === 'Haftalık') return diffDays <= 7;
+      if (timeframe === 'Aylık') return diffDays <= 30;
+      if (timeframe === 'Yıllık') return diffDays <= 365;
+      return true;
+    });
+  };
+
+  const orders = filterByTimeframe(rawOrders, 'orderDate', 'createdAt');
+  const users = filterByTimeframe(rawUsers, 'createdAt');
+  const listings = filterByTimeframe(rawListings, 'createdAt');
+
   // Sadece tamamlanmış siparişler gerçekleşen ciroya yansır
   const completedOrders = orders.filter((o: any) => { const s = o.status?.toLowerCase(); return s === 'delivered' || s === 'completed'; });
   const activeOrdersArr = orders.filter((o: any) => { const s = o.status?.toLowerCase(); return s === 'processing' || s === 'pending_payment' || s === 'shipped' || s === 'paid'; });
   
-  const calculatedRevenue = payload.totalRevenue || completedOrders.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
-  const calculatedPendingRevenue = payload.pendingRevenue || activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
+  const useCalculated = timeframe !== 'Tümü' || !payload.totalRevenue;
+
+  const calculatedRevenue = (!useCalculated && payload.totalRevenue) ? payload.totalRevenue : completedOrders.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
+  const calculatedPendingRevenue = (!useCalculated && payload.pendingRevenue) ? payload.pendingRevenue : activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.totalAmount || 0), 0);
   
   const calculatedRealizedCommission = calculatedRevenue * 0.15; // 15% commission rate
   const calculatedPendingCommission = calculatedPendingRevenue * 0.15;
-  const calculatedTotalCommission = payload.totalCommission || (calculatedRealizedCommission + calculatedPendingCommission);
+  const calculatedTotalCommission = (!useCalculated && payload.totalCommission) ? payload.totalCommission : (calculatedRealizedCommission + calculatedPendingCommission);
   
   const calculatedTransferPending = (calculatedRevenue + calculatedPendingRevenue) * 0.85; // Aktarılacak ödemeler toplamı
-  const calculatedActiveOrders = payload.activeOrders || activeOrdersArr.length;
-  const calculatedTotalOrders = payload.totalOrders || orders.length;
-  const calculatedTotalUsers = payload.totalUsers || payload.users?.length || 0;
-  const calculatedCargoPending = payload.totalCargoCost || activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.shippingPrice || order.shippingCost || 0), 0);
+  const calculatedActiveOrders = (!useCalculated && payload.activeOrders) ? payload.activeOrders : activeOrdersArr.length;
+  const calculatedTotalOrders = (!useCalculated && payload.totalOrders) ? payload.totalOrders : orders.length;
+  const calculatedTotalUsers = (!useCalculated && payload.totalUsers) ? payload.totalUsers : (users.length || payload.users?.length || 0);
+  const calculatedCargoPending = (!useCalculated && payload.totalCargoCost) ? payload.totalCargoCost : activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.shippingPrice || order.shippingCost || 0), 0);
 
   const kpis = [
     { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: calculatedRevenue ? `${formatCompactNumber(calculatedRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
@@ -527,6 +583,23 @@ export default function KPIBar() {
 
   return (
     <div className="bg-white dark:bg-[#0A0A0B] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 mb-10 shadow-sm dark:shadow-xl transition-colors">
+      <div className="flex justify-end items-center bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10 px-4 py-2">
+        <div className="relative flex items-center bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 rounded-lg px-2 shadow-sm transition-colors hover:border-[#54E6D4]/50 group cursor-pointer">
+          <Calendar01Icon size={14} className="text-gray-400 dark:text-white/40 group-hover:text-[#54E6D4] transition-colors" />
+          <select 
+            value={timeframe} 
+            onChange={(e) => setTimeframe(e.target.value)}
+            className="appearance-none bg-transparent pl-2 pr-6 py-1.5 text-xs font-bold text-gray-700 dark:text-white/80 focus:outline-none cursor-pointer"
+          >
+            <option value="Tümü">Tümü</option>
+            <option value="Yıllık">Yıllık</option>
+            <option value="Aylık">Aylık</option>
+            <option value="Haftalık">Haftalık</option>
+            <option value="Günlük">Günlük</option>
+          </select>
+          <ArrowDown01Icon size={12} className="absolute right-2 text-gray-400 group-hover:text-[#54E6D4] pointer-events-none transition-colors" />
+        </div>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-px bg-gray-200 dark:bg-white/10">
         {kpis.map((kpi) => (
           <div 
