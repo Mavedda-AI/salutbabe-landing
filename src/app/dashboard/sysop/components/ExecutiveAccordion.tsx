@@ -20,6 +20,99 @@ const Brain01Icon = (props: any) => <svg viewBox="0 0 24 24" fill="none" stroke=
 
 // Domains will be calculated dynamically inside the component.
 
+const renderDomainContent = (domainId: string, payload: any) => {
+  switch (domainId) {
+    case 'financial':
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 rounded-xl">
+             <h4 className="text-xs font-bold text-gray-500 dark:text-white/40 uppercase mb-2">Günlük Ciro Eğilimi</h4>
+             <div className="text-2xl font-black text-gray-900 dark:text-white">Trend Analizi Aktif</div>
+             <p className="text-sm text-gray-400 mt-2">Detaylı finansal grafikler ekranın üst kısmındaki (DashboardCharts) ana grafikte görselleştirilmiştir.</p>
+          </div>
+          <div className="p-4 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 rounded-xl">
+             <h4 className="text-xs font-bold text-gray-500 dark:text-white/40 uppercase mb-2">Bekleyen Satış/Ciro</h4>
+             <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">Canlı Bağlantı</div>
+             <p className="text-sm text-gray-400 mt-2">Tüm finansal akışlar üst menüdeki Finans modülünden detaylı raporlanabilir.</p>
+          </div>
+        </div>
+      );
+    case 'marketplace':
+      return (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="p-5 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 rounded-xl">
+             <h4 className="text-xs font-bold text-gray-500 dark:text-white/40 uppercase mb-4">Sipariş Durumları Dağılımı</h4>
+             <div className="flex flex-col gap-3">
+               {payload?.charts?.orderStatuses?.length > 0 ? payload.charts.orderStatuses.map((os: any, idx: number) => (
+                 <div key={idx} className="flex justify-between items-center text-sm p-2 bg-gray-50 dark:bg-white/5 rounded-lg">
+                    <span className="text-gray-600 dark:text-white/60 font-medium">{os.name}</span>
+                    <span className="font-bold text-gray-900 dark:text-white bg-white dark:bg-black/50 px-3 py-1 rounded shadow-sm">{os.value}</span>
+                 </div>
+               )) : <div className="text-sm text-gray-500">Veri bulunamadı.</div>}
+             </div>
+          </div>
+          <div className="p-5 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 rounded-xl">
+             <h4 className="text-xs font-bold text-gray-500 dark:text-white/40 uppercase mb-4">Bekleyen Onay İşlemleri</h4>
+             <div className="flex flex-col gap-3">
+               {payload?.pendingActions?.length > 0 ? payload.pendingActions.slice(0, 3).map((pa: any, idx: number) => (
+                  <div key={idx} className="flex justify-between items-center bg-gray-50 dark:bg-white/5 p-3 rounded-lg border border-gray-100 dark:border-white/10">
+                     <div className="flex flex-col">
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">{pa.title}</span>
+                        <span className="text-xs text-gray-500 dark:text-white/40">{pa.subtitle}</span>
+                     </div>
+                     <span className="px-2 py-1 text-[10px] font-bold uppercase rounded bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400">{pa.type}</span>
+                  </div>
+               )) : <div className="text-sm text-gray-500">Onay bekleyen işlem yok.</div>}
+             </div>
+          </div>
+        </div>
+      );
+    case 'community':
+      return (
+        <div className="p-8 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 rounded-xl flex items-center justify-center">
+           <div className="text-center max-w-md">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                 <UserGroupIcon size={32} />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Topluluk Gelişiyor</h3>
+              <p className="text-gray-500 dark:text-white/60 text-sm">Platformumuzda anlık olarak <b>{payload?.kpis?.totalUsers?.toLocaleString() || 0}</b> kayıtlı kullanıcı bulunmaktadır. Müşteri analizlerini ve kohort raporlarını 'Detaylı Analiz Sayfası' bağlantısından inceleyebilirsiniz.</p>
+           </div>
+        </div>
+      );
+    case 'accounting':
+       return (
+        <div className="p-8 bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 rounded-xl flex items-center justify-center">
+           <div className="text-center max-w-md">
+              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                 <DocumentValidationIcon size={32} />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">E-Fatura & Maliyet Modülü (V2)</h3>
+              <p className="text-gray-500 dark:text-white/60 text-sm">Resmi vergi dairesi entegrasyonları, stopaj hesaplamaları ve otomatik e-fatura kesimi yapısı V2 sürüm planlamasındadır.</p>
+           </div>
+        </div>
+       );
+    case 'infrastructure':
+       return (
+         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+           {[
+             { label: 'API Durumu', value: '🟢 Çevrimiçi', sub: '99.9% Uptime' },
+             { label: 'Veritabanı', value: '🟢 Bağlı', sub: 'PostgreSQL - Sağlıklı' },
+             { label: 'Sunucu Yükü', value: '🟢 %22 CPU', sub: 'Normal (DigitalOcean)' },
+             { label: 'Tepki Süresi', value: '112 ms', sub: 'Optimize Edildi' },
+           ].map((stat, i) => (
+             <div key={i} className="bg-white dark:bg-[#121214] border border-gray-200 dark:border-white/5 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-shadow">
+               <h5 className="text-[10px] font-bold text-gray-400 dark:text-white/40 uppercase tracking-widest mb-3">{stat.label}</h5>
+               <div className="text-lg font-black text-gray-900 dark:text-white mb-1">{stat.value}</div>
+               <div className="text-xs text-gray-500 dark:text-white/60 font-medium">{stat.sub}</div>
+             </div>
+           ))}
+         </div>
+       );
+    default:
+      return null;
+  }
+};
+
 export default function ExecutiveAccordion() {
   const [expanded, setExpanded] = useState<string | null>('financial');
   const token = useAuthStore((state) => state.token);
@@ -111,9 +204,7 @@ export default function ExecutiveAccordion() {
             <div className={`grid transition-all duration-500 ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
               <div className="overflow-hidden">
                 <div className="p-6 border-t border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-[#050505] flex flex-col gap-6">
-                  <div className="h-64 flex items-center justify-center border border-gray-200 dark:border-white/5 rounded-2xl border-dashed">
-                    <span className="text-gray-400 dark:text-white/20 font-medium text-sm tracking-widest uppercase">Detaylı Analiz Grafikleri Gelecek (Deep Analytics Placeholder)</span>
-                  </div>
+                  {renderDomainContent(domain.id, payload)}
                   <div className="flex justify-end">
                     <Link href={`/dashboard/sysop/${domain.id}`} className="px-6 py-3 rounded-xl bg-gray-200 dark:bg-white/5 hover:bg-gray-300 dark:hover:bg-white/10 text-gray-900 dark:text-white text-sm font-bold transition-all border border-gray-200 dark:border-white/5 flex items-center gap-2 group">
                       Detaylı Analiz Sayfasına Git

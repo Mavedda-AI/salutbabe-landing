@@ -90,6 +90,138 @@ const translateStatus = (status: string) => {
   }
 };
 
+function ReportListAccordion({ token }: { token: string }) {
+  const router = useRouter();
+  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/reports?status=pending'), token] : null, ([url, t]) => fetcher(url, t));
+  const reports = data?.payload?.reports || [];
+
+  if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Şikayetler Yükleniyor...</div>;
+
+  return (
+    <div className="bg-white dark:bg-[#0A0A0B] border-t border-gray-200 dark:border-white/10 p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <CheckmarkBadge01Icon size={18} className="text-red-500" />
+        <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">İncelenmeyi Bekleyen Şikayetler</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
+              <th className="pb-3 font-medium">Şikayet Eden</th>
+              <th className="pb-3 font-medium">Tip / Hedef</th>
+              <th className="pb-3 font-medium">Sebep</th>
+              <th className="pb-3 font-medium text-right">Tarih</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reports.length === 0 ? (
+               <tr><td colSpan={4} className="py-4 text-center text-gray-500">Şikayet bulunmuyor. Harika!</td></tr>
+            ) : reports.map((r: any, idx: number) => (
+              <tr key={idx} className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer">
+                <td className="py-3 text-gray-900 dark:text-white font-medium">
+                  {r.reporter?.userName || 'Bilinmiyor'} {r.reporter?.userSurname || ''}
+                </td>
+                <td className="py-3 text-gray-500 dark:text-white/60">
+                  <span className="uppercase text-xs font-bold text-gray-400">{r.targetType}</span>
+                  <div className="text-[10px] truncate max-w-[150px]">{r.listing?.title || r.targetID}</div>
+                </td>
+                <td className="py-3 text-red-500 font-medium">{r.reason}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40 text-right">{formatDateAndTime(r.createdAt)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function WithdrawalListAccordion({ token }: { token: string }) {
+  const router = useRouter();
+  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/withdrawals'), token] : null, ([url, t]) => fetcher(url, t));
+  const withdrawals = data?.payload?.withdrawals || [];
+
+  if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Para Çekme Talepleri Yükleniyor...</div>;
+
+  return (
+    <div className="bg-white dark:bg-[#0A0A0B] border-t border-gray-200 dark:border-white/10 p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <Wallet01Icon size={18} className="text-emerald-500" />
+        <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Bekleyen Para Çekme Talepleri</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
+              <th className="pb-3 font-medium">Kullanıcı</th>
+              <th className="pb-3 font-medium">Tutar</th>
+              <th className="pb-3 font-medium">Durum</th>
+              <th className="pb-3 font-medium text-right">Tarih</th>
+            </tr>
+          </thead>
+          <tbody>
+            {withdrawals.length === 0 ? (
+               <tr><td colSpan={4} className="py-4 text-center text-gray-500">Bekleyen talep yok.</td></tr>
+            ) : withdrawals.map((w: any, idx: number) => (
+              <tr key={idx} className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer">
+                <td className="py-3 text-gray-900 dark:text-white font-medium">
+                  {w.user?.userName || 'Bilinmiyor'} {w.user?.userSurname || ''}
+                </td>
+                <td className="py-3 text-gray-900 dark:text-white font-bold">{w.amount} ₺</td>
+                <td className="py-3 text-amber-500 font-medium">Ödeme Bekliyor</td>
+                <td className="py-3 text-gray-400 dark:text-white/40 text-right">{formatDateAndTime(w.createdAt)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function SupportTicketListAccordion({ token }: { token: string }) {
+  const router = useRouter();
+  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/support-tickets?status=open'), token] : null, ([url, t]) => fetcher(url, t));
+  const tickets = data?.payload?.tickets || [];
+
+  if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Destek Talepleri Yükleniyor...</div>;
+
+  return (
+    <div className="bg-white dark:bg-[#0A0A0B] border-t border-gray-200 dark:border-white/10 p-6">
+      <div className="flex items-center gap-3 mb-6">
+        <UserGroupIcon size={18} className="text-blue-500" />
+        <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Açık Destek Talepleri</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
+              <th className="pb-3 font-medium">Kullanıcı</th>
+              <th className="pb-3 font-medium">Kategori</th>
+              <th className="pb-3 font-medium">Konu</th>
+              <th className="pb-3 font-medium text-right">Tarih</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tickets.length === 0 ? (
+               <tr><td colSpan={4} className="py-4 text-center text-gray-500">Tüm talepler yanıtlanmış. Mükemmel!</td></tr>
+            ) : tickets.map((t: any, idx: number) => (
+              <tr key={idx} className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer">
+                <td className="py-3 text-gray-900 dark:text-white font-medium">
+                  {t.owner?.userName || 'Bilinmiyor'} {t.owner?.userSurname || ''}
+                </td>
+                <td className="py-3 text-gray-500 dark:text-white/60">{t.ticketCategory}</td>
+                <td className="py-3 text-gray-900 dark:text-white font-medium">{t.ticketTitle}</td>
+                <td className="py-3 text-gray-400 dark:text-white/40 text-right">{formatDateAndTime(t.ticketTime)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function UserListAccordion({ token }: { token: string }) {
   const router = useRouter();
   const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users'), token] : null, ([url, t]) => fetcher(url, t));
@@ -743,18 +875,23 @@ export default function KPIBar() {
   );
   const fetchedActiveCount = activeListingsData?.payload?.total || payload.activeListings || 0;
 
+  const pendingWithdrawalsCount = payload.pendingWithdrawalsCount || 0;
+  const openSupportTicketsCount = payload.openSupportTicketsCount || 0;
+
   const kpis = [
     { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: calculatedRevenue ? `${formatCompactNumber(calculatedRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
     { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: calculatedPendingRevenue ? `${formatCompactNumber(calculatedPendingRevenue)} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
     { id: 'transfer-pending', label: 'Aktarılacak Ödemeler', value: calculatedTransferPending ? `${formatCompactNumber(calculatedTransferPending)} ₺` : '0 ₺', trend: 'Öncelikli', status: 'excellent', hasDetails: true },
+    { id: 'withdrawals', label: 'Para Çekme Talepleri', value: pendingWithdrawalsCount ? `${formatCompactNumber(pendingWithdrawalsCount)}` : '0', trend: pendingWithdrawalsCount > 0 ? 'Öncelikli' : 'Yok', status: pendingWithdrawalsCount > 0 ? 'warning' : 'good', hasDetails: true },
     { id: 'cargo-pending', label: 'Kargoya Ödenecek Tutar', value: calculatedCargoPending ? `${formatCompactNumber(calculatedCargoPending)} ₺` : '0 ₺', trend: 'Gider', status: 'warning', hasDetails: true },
     { id: 'commission', label: 'Komisyon', value: calculatedTotalCommission ? `${formatCompactNumber(calculatedTotalCommission)} ₺` : '0 ₺', trend: '+%4', status: 'good', hasDetails: true },
     { id: 'users', label: 'Toplam Kullanıcı', value: calculatedTotalUsers ? `${formatCompactNumber(calculatedTotalUsers)}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
     { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: payload.activeUsers ? `${formatCompactNumber(payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
     { id: 'pending', label: 'Bekleyen İlanlar', value: payload.pendingListings ? `${formatCompactNumber(payload.pendingListings)}` : '0', trend: '-1', status: 'warning', hasDetails: true },
-    { id: 'reports', label: 'Şikayet Edilen Ürünler', value: reportsCount ? `${formatCompactNumber(reportsCount)}` : '0', trend: reportsCount > 0 ? 'İncele' : 'Yok', status: reportsCount > 0 ? 'warning' : 'good', hasDetails: false },
+    { id: 'reports', label: 'Şikayet Edilen Ürünler', value: reportsCount ? `${formatCompactNumber(reportsCount)}` : '0', trend: reportsCount > 0 ? 'İncele' : 'Yok', status: reportsCount > 0 ? 'warning' : 'good', hasDetails: true },
     { id: 'orders', label: 'Toplam Sipariş', value: calculatedTotalOrders ? `${formatCompactNumber(calculatedTotalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
     { id: 'active-listings', label: 'Aktif İlanlar', value: fetchedActiveCount ? `${formatCompactNumber(fetchedActiveCount)}` : '0', trend: 'Artışta', status: 'good', hasDetails: true },
+    { id: 'support-tickets', label: 'Destek Talepleri', value: openSupportTicketsCount ? `${formatCompactNumber(openSupportTicketsCount)}` : '0', trend: openSupportTicketsCount > 0 ? 'Yanıtla' : 'Yok', status: openSupportTicketsCount > 0 ? 'warning' : 'good', hasDetails: true },
   ];
 
   return (
@@ -820,6 +957,10 @@ export default function KPIBar() {
       <div className={`grid transition-all duration-500 ease-in-out ${expandedKpi ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
         <div className="overflow-hidden">
           {expandedKpi === 'users' && <UserListAccordion token={token || ''} />}
+          {expandedKpi === 'dau' && <DAUAccordion token={token || ''} />}
+          {expandedKpi === 'reports' && <ReportListAccordion token={token || ''} />}
+          {expandedKpi === 'withdrawals' && <WithdrawalListAccordion token={token || ''} />}
+          {expandedKpi === 'support-tickets' && <SupportTicketListAccordion token={token || ''} />}
           {expandedKpi === 'orders' && <OrderListAccordion token={token || ''} />}
           {expandedKpi === 'pending' && <ListingListAccordion token={token || ''} />}
           {expandedKpi === 'active-listings' && <ActiveListingListAccordion token={token || ''} />}
