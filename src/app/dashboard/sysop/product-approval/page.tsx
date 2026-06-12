@@ -292,7 +292,7 @@ export default function ProductApprovalPage() {
             }
 
             if (isAnimatingOut) {
-               const dir = actionState.direction === 'right' ? 1 : -1;
+               const dir = actionState?.direction === 'right' ? 1 : -1;
                transform = `translateX(${dir * 120}%) rotate(${dir * 10}deg)`;
                opacity = 0;
             }
