@@ -332,7 +332,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-[#F5F7FA] dark:bg-[#0B0C10] text-[#101516] dark:text-[#E2E8F0] flex transition-colors duration-500 font-sans selection:bg-[#54E6D4]/20">
+    <div className="h-screen overflow-hidden bg-[#FEFEFE] dark:bg-[#0B0C10] text-[#101516] dark:text-[#E2E8F0] flex transition-colors duration-500 font-sans selection:bg-black/10 dark:selection:bg-white/10">
       
       {/* Mobile Sidebar Backdrop */}
       {isMobileSidebarOpen && (
@@ -345,7 +345,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main Sidebar (Glassmorphism & Glow Effects) */}
       <aside 
         className={`fixed inset-y-0 left-0 z-[200] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:translate-x-0 ${isMobileSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} ${isSidebarCollapsed ? 'lg:w-[88px]' : 'lg:w-[280px] w-[280px]'}
-          bg-white/70 dark:bg-[#12141C]/80 backdrop-blur-3xl border-r border-white/20 dark:border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.03)] dark:shadow-none`}
+          bg-[#FEFEFE] dark:bg-[#12141C] border-r border-gray-200 dark:border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.03)] dark:shadow-none`}
       >
         {/* Sidebar Header / Logo */}
         <div className="relative flex items-center justify-center h-24 p-6 shrink-0 group/logo">
@@ -407,16 +407,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           >
             {/* Active Glow Gradient */}
             {pathname === dashboardItem.href && (
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#54E6D4]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 pointer-events-none"></div>
             )}
             {/* Active Left Indicator */}
             {pathname === dashboardItem.href && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-r-full"></div>
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-black dark:bg-white rounded-r-full"></div>
             )}
 
             <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
               <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
-                ${pathname === dashboardItem.href ? 'text-[#54E6D4] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
+                ${pathname === dashboardItem.href ? 'text-black dark:text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                 {dashboardItem.icon || (
                   <Menu01Icon className="w-full h-full" />
                 )}
@@ -449,16 +449,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         }`}
                     >
                       {isActive && !isExpanded && (
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#54E6D4]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 pointer-events-none"></div>
                       )}
                       {isActive && !isExpanded && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-r-full"></div>
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-black dark:bg-white rounded-r-full"></div>
                       )}
 
                       <div className="flex items-center gap-4">
                         <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
                           <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
-                            ${isActive ? 'text-[#54E6D4] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
+                            ${isActive ? 'text-black dark:text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                             {item.icon}
                           </div>
                         </div>
@@ -487,11 +487,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 href={sub.href}
                                 onClick={(e) => handleNavClick(e, sub.href || '#')}
                                 className={`block relative pl-6 py-2 text-[13px] font-bold transition-all duration-200 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 outline-none focus:outline-none focus:ring-0
-                                  ${isSubActive ? 'text-[#54E6D4]' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
+                                  ${isSubActive ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
                               >
                                 {/* Active Dot indicator */}
                                 <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border-2 transition-all duration-300
-                                  ${isSubActive ? 'bg-[#54E6D4] border-[#54E6D4] -ml-[3.5px] shadow-[0_0_8px_rgba(255,107,0,0.5)]' : 'bg-white dark:bg-[#12141C] border-gray-300 dark:border-gray-700 -ml-[3.5px]'}`}></div>
+                                  ${isSubActive ? 'bg-black dark:bg-white border-black dark:border-white -ml-[3.5px]' : 'bg-white dark:bg-[#12141C] border-gray-300 dark:border-gray-700 -ml-[3.5px]'}`}></div>
                                 {sub.label}
                               </Link>
                             )
@@ -511,14 +511,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       }`}
                   >
                     {isActive && (
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#54E6D4]/10 via-[#FF9EBE]/5 to-transparent pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 pointer-events-none"></div>
                     )}
                     {isActive && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-r-full"></div>
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-black dark:bg-white rounded-r-full"></div>
                     )}
                     <div className={`flex-shrink-0 ${isSidebarCollapsed ? 'mx-auto' : ''}`}>
                       <div className={`w-6 h-6 rounded flex items-center justify-center transition-transform duration-300 group-hover:scale-110 
-                        ${isActive ? 'text-[#54E6D4] drop-shadow-[0_0_8px_rgba(255,107,0,0.3)]' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
+                        ${isActive ? 'text-black dark:text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300'}`}>
                         {item.icon}
                       </div>
                     </div>
