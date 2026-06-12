@@ -65,7 +65,7 @@ export default function DashboardCharts() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10 items-start">
       
       {/* Revenue Trend Area Chart */}
       <div className="lg:col-span-2 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-5 lg:p-6 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
