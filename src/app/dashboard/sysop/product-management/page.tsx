@@ -81,23 +81,23 @@ export default function AdminListings() {
                 </td>
                 <td className="p-6">
                   <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border
-                    ${listing.status === 'ACTIVE' ? 'bg-success/10 text-success border-success/20' : 
-                      listing.status === 'PENDING' ? 'bg-[#54E6D4]/ text-[#54E6D4] border-[#54E6D4]/' : 
+                    ${(listing.status === 'ACTIVE' || listing.status === 'active') ? 'bg-success/10 text-success border-success/20' : 
+                      (listing.status === 'PENDING' || listing.status === 'pending_approval') ? 'bg-[#54E6D4]/10 text-[#54E6D4] border-[#54E6D4]/20' : 
                       'bg-gray-100 text-text-secondary border-transparent dark:bg-white/10 dark:text-white'}`}>
-                    {listing.status === 'ACTIVE' ? t('dashboard.sysop.status_active') : listing.status === 'PENDING' ? t('dashboard.sysop.status_pending') : listing.status === 'REJECTED' ? t('dashboard.sysop.status_rejected') : t('dashboard.sysop.status_passive')}
+                    {(listing.status === 'ACTIVE' || listing.status === 'active') ? t('dashboard.sysop.status_active') : (listing.status === 'PENDING' || listing.status === 'pending_approval') ? t('dashboard.sysop.status_pending') : (listing.status === 'REJECTED' || listing.status === 'rejected') ? t('dashboard.sysop.status_rejected') : t('dashboard.sysop.status_passive')}
                   </span>
                 </td>
                 <td className="p-6 flex justify-end gap-3">
-                  {listing.status === 'PENDING' && (
+                  {(listing.status === 'PENDING' || listing.status === 'pending_approval') && (
                     <>
                       <button onClick={() => updateStatus(listing.listingID, 'ACTIVE')} className="text-[12px] font-black text-success hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_approve')}</button>
                       <button onClick={() => updateStatus(listing.listingID, 'REJECTED')} className="text-[12px] font-black text-red-500 hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_reject')}</button>
                     </>
                   )}
-                  {listing.status === 'ACTIVE' && (
+                  {(listing.status === 'ACTIVE' || listing.status === 'active') && (
                     <button onClick={() => updateStatus(listing.listingID, 'PASSIVE')} className="text-[12px] font-black text-text-secondary hover:text-text-primary hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_deactivate')}</button>
                   )}
-                  {listing.status === 'PASSIVE' && (
+                  {(listing.status !== 'ACTIVE' && listing.status !== 'active' && listing.status !== 'PENDING' && listing.status !== 'pending_approval') && (
                     <button onClick={() => updateStatus(listing.listingID, 'ACTIVE')} className="text-[12px] font-black text-success hover:underline uppercase tracking-widest">AKTİFLEŞTİR</button>
                   )}
                   <button onClick={() => setSelectedListing(listing)} className="text-[12px] font-black text-primary hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_view_details')}</button>
