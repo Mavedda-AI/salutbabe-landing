@@ -59,6 +59,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   });
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const pendingListingCount = useAdminStore(state => state.pendingListingCount);
+  const layoutMode = useAdminStore(state => state.layoutMode);
+  const setLayoutMode = useAdminStore(state => state.setLayoutMode);
 
   const showToast = (message: string, type: 'warning' | 'success' | 'error' = 'warning') => {
     setToast({ message, visible: true, type });
@@ -605,6 +607,35 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                    {pathname === '/dashboard/sysop/product-approval' && pendingListingCount !== null && pendingListingCount > 0 && (
                      <div className="flex items-center justify-center h-6 px-2.5 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 text-[13px] font-black z-10">
                        {pendingListingCount}
+                     </div>
+                   )}
+                   
+                   {/* Layout Switcher for Product Approval */}
+                   {pathname === '/dashboard/sysop/product-approval' && (
+                     <div className="flex items-center gap-1.5 ml-2 sm:ml-6 bg-gray-100/50 dark:bg-[#1A1D27] p-1 rounded-xl border border-gray-200/50 dark:border-gray-800">
+                       <button
+                         onClick={() => setLayoutMode('grid')}
+                         className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${layoutMode === 'grid' ? 'bg-white dark:bg-[#2A2E3D] shadow-sm text-gray-900 dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                         title="4 Kartlı Görünüm"
+                       >
+                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                       </button>
+                       <div className="w-[1px] h-4 bg-gray-200 dark:bg-gray-700"></div>
+                       <button
+                         onClick={() => setLayoutMode('double')}
+                         className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${layoutMode === 'double' ? 'bg-white dark:bg-[#2A2E3D] shadow-sm text-gray-900 dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                         title="2 Kartlı Görünüm"
+                       >
+                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="6" height="16" rx="1"/><rect x="14" y="4" width="6" height="16" rx="1"/></svg>
+                       </button>
+                       <div className="w-[1px] h-4 bg-gray-200 dark:bg-gray-700"></div>
+                       <button
+                         onClick={() => setLayoutMode('single')}
+                         className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${layoutMode === 'single' ? 'bg-white dark:bg-[#2A2E3D] shadow-sm text-gray-900 dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                         title="Tek Kart (Tinder) Görünüm"
+                       >
+                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="12" height="16" rx="2"/></svg>
+                       </button>
                      </div>
                    )}
                  </div>
