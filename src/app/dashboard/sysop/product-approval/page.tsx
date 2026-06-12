@@ -296,7 +296,7 @@ export default function ProductApprovalPage() {
             {/* Quick Replies */}
             <div className="flex flex-wrap gap-2 mb-4">
               {[
-                "Görseller çok karanlık veya bulanık, lütfen daha net fotoğraflar yükleyin.",
+                "Ürün görseli net gözükmüyor, lütfen daha anlaşılır bir fotoğraf yükleyin.",
                 "Ürün açıklaması yetersiz. Lütfen ürünün durumunu ve detaylarını daha net belirtin.",
                 "Fiyat piyasa ortalamasının çok üzerinde, lütfen fiyatı gözden geçirin.",
                 "Bu marka veya kategoride ürün kabul edemiyoruz.",
