@@ -151,16 +151,16 @@ export default function DashboardCharts() {
             </div>
           </div>
 
-          <div className="h-40 w-full relative z-10">
+          <div className="h-56 w-full relative z-10">
             {orderStatuses.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={orderStatuses}
                     cx="50%"
-                    cy="40%"
-                    innerRadius={45}
-                    outerRadius={60}
+                    cy="45%"
+                    innerRadius={55}
+                    outerRadius={75}
                     paddingAngle={5}
                     dataKey="value"
                     stroke="none"
