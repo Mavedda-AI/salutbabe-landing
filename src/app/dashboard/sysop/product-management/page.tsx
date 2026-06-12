@@ -9,6 +9,15 @@ export default function AdminListings() {
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedListing, setSelectedListing] = useState<any>(null);
+  const [currentTab, setCurrentTab] = useState<'ALL' | 'ACTIVE' | 'PENDING' | 'PASSIVE'>('ALL');
+
+  const filteredListings = listings.filter(l => {
+    if (currentTab === 'ALL') return true;
+    if (currentTab === 'ACTIVE') return l.status === 'ACTIVE' || l.status === 'active';
+    if (currentTab === 'PENDING') return l.status === 'PENDING' || l.status === 'pending_approval';
+    if (currentTab === 'PASSIVE') return l.status !== 'ACTIVE' && l.status !== 'active' && l.status !== 'PENDING' && l.status !== 'pending_approval';
+    return true;
+  });
 
   useEffect(() => {
     fetchListings();
@@ -54,7 +63,26 @@ export default function AdminListings() {
 
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight px-2">{t('dashboard.sysop.manage_listings')}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
+        <h1 className="text-2xl md:text-3xl font-black text-text-primary tracking-tight">{t('dashboard.sysop.manage_listings')}</h1>
+        
+        {/* Tab Switcher */}
+        <div className="flex bg-gray-100/50 dark:bg-[#1A1D27] p-1.5 rounded-2xl border border-gray-200/50 dark:border-white/5 overflow-x-auto">
+          {['ALL', 'ACTIVE', 'PENDING', 'PASSIVE'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setCurrentTab(tab as any)}
+              className={`px-4 py-2 text-[12px] font-black uppercase tracking-widest rounded-xl transition-all whitespace-nowrap ${
+                currentTab === tab 
+                  ? 'bg-white dark:bg-[#2A2E3D] text-gray-900 dark:text-white shadow-sm' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              {tab === 'ALL' ? 'Tümü' : tab === 'ACTIVE' ? 'Aktif' : tab === 'PENDING' ? 'Bekleyenler' : 'Pasif İlanlar'}
+            </button>
+          ))}
+        </div>
+      </div>
       
       <div className={`rounded-[2.5rem] border overflow-x-auto bg-white border-border-color shadow-sm dark:bg-[#12141C] dark:border-white/5 dark:shadow-2xl`}>
         <table className="w-full text-left border-collapse min-w-[600px]">
@@ -68,7 +96,13 @@ export default function AdminListings() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border-color dark:divide-white/5">
-            {listings.map(listing => (
+            {filteredListings.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="p-12 text-center text-[13px] font-bold text-gray-400 dark:text-white/40">
+                  Bu sekmede ilan bulunamadı.
+                </td>
+              </tr>
+            ) : filteredListings.map(listing => (
               <tr key={listing.listingID} className={`transition-colors hover:bg-gray-50 dark:hover:bg-white/5`}>
                 <td className="p-6 font-black text-text-primary text-[14px]">
                   {listing.title}
