@@ -115,12 +115,12 @@ export default function ProductApprovalPage() {
             <div key={listing.listingID} className="flex flex-col sm:flex-row overflow-hidden rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#12141C] shadow-sm hover:shadow-lg transition-all duration-300">
               
               {/* Image Section */}
-              <div className="relative h-56 sm:h-auto sm:w-64 shrink-0 p-3 bg-gray-50 dark:bg-black/20">
-                <div className="w-full h-full relative rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5">
+              <div className="relative h-64 sm:h-auto sm:w-64 shrink-0 p-3 bg-gray-50 dark:bg-black/20">
+                <div className="w-full h-full relative rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 bg-gray-100/50 dark:bg-[#0B0C10]">
                   <img 
                     src={getMediaUrl(listing.images?.[0]?.imageUrl || listing.imagePaths?.[0])} 
                     alt={listing.title} 
-                    className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    className="absolute inset-0 w-full h-full object-contain hover:scale-105 transition-transform duration-500"
                     onError={(e) => { (e.target as HTMLImageElement).src = '/logo-favicon.png'; }}
                   />
                   <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md text-white text-[12px] font-black px-3 py-1.5 rounded-xl">
