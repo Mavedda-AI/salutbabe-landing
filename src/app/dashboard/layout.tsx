@@ -90,11 +90,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       const [listRes, countRes] = await Promise.all([
         fetch(apiUrl("/notifications?page=1&limit=20"), {
           headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
-        }),
+        }).catch(() => null),
         fetch(apiUrl("/notifications/unread-count"), {
           headers: { "Authorization": `Bearer ${token}`, "X-Device-Type": "web" }
-        })
+        }).catch(() => null)
       ]);
+
+      if (!listRes || !countRes) return; // Silent return if backend is unreachable
 
       let data: any = {};
       let countData: any = {};

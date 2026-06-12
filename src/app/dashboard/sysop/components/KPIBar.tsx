@@ -875,6 +875,12 @@ export default function KPIBar() {
   );
   const fetchedActiveCount = activeListingsData?.payload?.total || payload.activeListings || 0;
 
+  const { data: passiveListingsData } = useSWR(
+    token ? [apiUrl('/admin/listings?status=passive&limit=1'), token] : null,
+    ([url, t]) => fetcher(url, t)
+  );
+  const fetchedPassiveCount = passiveListingsData?.payload?.total || 0;
+
   const pendingWithdrawalsCount = payload.pendingWithdrawalsCount || 0;
   const openSupportTicketsCount = payload.openSupportTicketsCount || 0;
 
@@ -891,7 +897,8 @@ export default function KPIBar() {
     { id: 'reports', label: 'Şikayet Edilen Ürünler', value: reportsCount ? `${formatCompactNumber(reportsCount)}` : '0', trend: reportsCount > 0 ? 'İncele' : 'Yok', status: reportsCount > 0 ? 'warning' : 'good', hasDetails: true },
     { id: 'orders', label: 'Toplam Sipariş', value: calculatedTotalOrders ? `${formatCompactNumber(calculatedTotalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
     { id: 'active-listings', label: 'Aktif İlanlar', value: fetchedActiveCount ? `${formatCompactNumber(fetchedActiveCount)}` : '0', trend: 'Artışta', status: 'good', hasDetails: true },
-    { id: 'support-tickets', label: 'Destek Talepleri', value: openSupportTicketsCount ? `${formatCompactNumber(openSupportTicketsCount)}` : '0', trend: openSupportTicketsCount > 0 ? 'Yanıtla' : 'Yok', status: openSupportTicketsCount > 0 ? 'warning' : 'good', hasDetails: true },
+    { id: 'passive-listings', label: 'Pasif İlanlar', value: fetchedPassiveCount ? `${formatCompactNumber(fetchedPassiveCount)}` : '0', trend: 'Bekliyor', status: 'warning', hasDetails: true },
+    { id: 'support-tickets', label: 'Destek Talepleri', value: openSupportTicketsCount ? `${formatCompactNumber(openSupportTicketsCount)}` : '0', trend: openSupportTicketsCount > 0 ? 'Yanıtla' : 'Yok', status: openSupportTicketsCount > 0 ? 'warning', hasDetails: true },
   ];
 
   return (

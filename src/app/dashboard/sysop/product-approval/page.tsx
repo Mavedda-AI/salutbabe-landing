@@ -36,7 +36,10 @@ export default function ProductApprovalPage() {
           "Authorization": `Bearer ${token}`,
           "X-Device-Type": "web"
         }
-      });
+      }).catch(() => null);
+      
+      if (!res) return; // Silent exit
+      
       const data = await res.json();
       if (data.request?.requestResult) {
         setListings(data.payload?.products || data.payload?.rows || []);

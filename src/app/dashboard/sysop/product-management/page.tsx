@@ -97,6 +97,9 @@ export default function AdminListings() {
                   {listing.status === 'ACTIVE' && (
                     <button onClick={() => updateStatus(listing.listingID, 'PASSIVE')} className="text-[12px] font-black text-text-secondary hover:text-text-primary hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_deactivate')}</button>
                   )}
+                  {listing.status === 'PASSIVE' && (
+                    <button onClick={() => updateStatus(listing.listingID, 'ACTIVE')} className="text-[12px] font-black text-success hover:underline uppercase tracking-widest">AKTİFLEŞTİR</button>
+                  )}
                   <button onClick={() => setSelectedListing(listing)} className="text-[12px] font-black text-primary hover:underline uppercase tracking-widest">{t('dashboard.sysop.btn_view_details')}</button>
                 </td>
               </tr>
