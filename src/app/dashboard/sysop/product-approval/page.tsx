@@ -13,6 +13,9 @@ export default function ProductApprovalPage() {
   const [loading, setLoading] = useState(true);
   const [actionState, setActionState] = useState<{ id: string, direction: 'left' | 'right' } | null>(null);
 
+  const [rejectModal, setRejectModal] = useState<{ isOpen: boolean, listingID: string | null }>({ isOpen: false, listingID: null });
+  const [rejectReason, setRejectReason] = useState("");
+
   const setPendingListingCount = useAdminStore(state => state.setPendingListingCount);
   const layoutMode = useAdminStore(state => state.layoutMode);
 
@@ -75,11 +78,17 @@ export default function ProductApprovalPage() {
     }, 350); // wait for CSS slide animation
   };
 
-  const handleReject = async (listingID: string) => {
+  const handleRejectClick = (listingID: string) => {
     if (actionState) return;
-    const reason = window.prompt(t('dashboard.sysop.prompt_reject_reason'));
-    if (reason === null) return;
+    setRejectModal({ isOpen: true, listingID });
+    setRejectReason("");
+  };
+
+  const confirmReject = async () => {
+    if (!rejectModal.listingID || !rejectReason.trim() || actionState) return;
+    const listingID = rejectModal.listingID;
     
+    setRejectModal({ isOpen: false, listingID: null });
     setActionState({ id: listingID, direction: 'left' });
     
     setTimeout(async () => {
@@ -92,7 +101,7 @@ export default function ProductApprovalPage() {
             "X-Device-Type": "web",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ reason })
+          body: JSON.stringify({ reason: rejectReason })
         });
         const data = await res.json();
         if (data.request?.requestResult) {
@@ -170,9 +179,9 @@ export default function ProductApprovalPage() {
           {listing.category && <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300">{listing.category?.name || t('dashboard.sysop.category')}</span>}
         </div>
 
-        <div className="mt-auto flex gap-3">
+                    <div className="mt-auto flex gap-3">
           <button 
-            onClick={() => handleReject(listing.listingID)}
+            onClick={() => handleRejectClick(listing.listingID)}
             className="flex-1 h-11 rounded-xl text-[12px] font-black transition-all uppercase tracking-widest border-2 border-gray-200 text-gray-600 hover:border-red-500 hover:text-red-500 hover:bg-red-50 dark:border-gray-800 dark:text-gray-400 dark:hover:border-red-500 dark:hover:text-red-400 dark:hover:bg-red-500/10"
           >
             {t('dashboard.sysop.btn_reject')}
@@ -259,6 +268,41 @@ export default function ProductApprovalPage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Reject Modal */}
+      {rejectModal.isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 w-full max-w-md shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
+            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">İlanı Reddet</h3>
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-6">
+              Kullanıcıya ilanın neden reddedildiğine dair bir mesaj gönderilecek. Örneğin: "Lütfen görsellerinizi daha net bir ışıkta çekip güncelleyin."
+            </p>
+            
+            <textarea
+              className="w-full h-32 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#1A1D27] text-gray-900 dark:text-white text-sm font-medium outline-none focus:border-red-500 dark:focus:border-red-500 transition-colors resize-none mb-6"
+              placeholder="Reddetme sebebini buraya yazın..."
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+            />
+            
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setRejectModal({ isOpen: false, listingID: null })}
+                className="flex-1 h-12 rounded-xl text-[13px] font-black text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-[#1A1D27] hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors uppercase tracking-widest"
+              >
+                İptal
+              </button>
+              <button 
+                onClick={confirmReject}
+                disabled={!rejectReason.trim()}
+                className="flex-1 h-12 rounded-xl text-[13px] font-black text-white bg-red-500 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors uppercase tracking-widest shadow-lg shadow-red-500/20"
+              >
+                Reddet ve Gönder
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
