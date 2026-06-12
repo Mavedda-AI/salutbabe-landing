@@ -111,9 +111,14 @@ export default function ProductApprovalPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {listings.map(listing => (
-            <div key={listing.listingID} className="flex flex-col sm:flex-row overflow-hidden rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#12141C] shadow-sm hover:shadow-lg transition-all duration-300">
+          {listings.map((listing, index) => (
+            <div key={listing.listingID} className="relative flex flex-col sm:flex-row overflow-hidden rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#12141C] shadow-sm hover:shadow-lg transition-all duration-300">
               
+              {/* Index Badge */}
+              <div className="absolute top-0 right-0 bg-gray-900 dark:bg-white text-white dark:text-black text-[11px] font-black px-3 py-1 rounded-bl-2xl z-10 shadow-sm border-b border-l border-gray-900 dark:border-white">
+                #{index + 1}
+              </div>
+
               {/* Image Section */}
               <div className="relative h-64 sm:h-auto sm:w-64 shrink-0 p-3 bg-gray-50 dark:bg-black/20">
                 <div className="w-full h-full relative rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 bg-gray-100/50 dark:bg-[#0B0C10]">
