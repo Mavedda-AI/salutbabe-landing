@@ -33,6 +33,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {API_BASE_URL, apiUrl} from "../../lib/api";
 import {useAuthStore} from "../../store/useAuthStore";
+import {useAdminStore} from "../../store/useAdminStore";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -57,6 +58,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     type: 'warning'
   });
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const pendingListingCount = useAdminStore(state => state.pendingListingCount);
 
   const showToast = (message: string, type: 'warning' | 'success' | 'error' = 'warning') => {
     setToast({ message, visible: true, type });
@@ -598,7 +600,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-10 bg-gradient-to-b from-[#54E6D4] to-[#5FC8C0] rounded-full hidden sm:block shadow-[0_0_10px_rgba(255,107,0,0.3)]"></div>
               <div className="flex flex-col justify-center relative">
-                 <h1 className="text-xl lg:text-2xl font-black text-[#101516] dark:text-white leading-tight tracking-tight relative z-10">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+                 <div className="flex items-center gap-3">
+                   <h1 className="text-xl lg:text-2xl font-black text-[#101516] dark:text-white leading-tight tracking-tight relative z-10">{activeMenu?.label || t('dashboard.nav_dashboard')}</h1>
+                   {pathname === '/dashboard/sysop/product-approval' && pendingListingCount !== null && pendingListingCount > 0 && (
+                     <div className="flex items-center justify-center h-6 px-2.5 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 text-[13px] font-black z-10">
+                       {pendingListingCount}
+                     </div>
+                   )}
+                 </div>
                  <p className="text-[12px] font-bold text-gray-500 dark:text-gray-400 hidden sm:block relative z-10">{activeMenu?.desc || t('dashboard.sysop.default_desc')}</p>
               </div>
             </div>
