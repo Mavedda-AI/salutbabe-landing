@@ -16,6 +16,7 @@ import {
     YAxis
 } from 'recharts';
 import {AnalyticsUpIcon as ChartPieIcon, ChartLineData01Icon} from 'hugeicons-react';
+import DisputesBox from './DisputesBox';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
@@ -135,55 +136,59 @@ export default function DashboardCharts() {
         </div>
       </div>
 
-      {/* Order Statuses Pie Chart */}
-      <div className="lg:col-span-1 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-5 lg:p-6 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-        
-        <div className="flex items-center gap-3 mb-4 relative z-10">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-            <ChartPieIcon size={20} />
+      {/* Order Statuses Pie Chart & Disputes */}
+      <div className="lg:col-span-1 flex flex-col gap-8">
+        <div className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-5 lg:p-6 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+          
+          <div className="flex items-center gap-3 mb-4 relative z-10">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+              <ChartPieIcon size={20} />
+            </div>
+            <div>
+              <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Sipariş Dağılımı</h3>
+              <p className="text-xs font-medium text-gray-500 dark:text-white/40">Durumlara göre oranlar</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Sipariş Dağılımı</h3>
-            <p className="text-xs font-medium text-gray-500 dark:text-white/40">Durumlara göre oranlar</p>
+
+          <div className="h-40 w-full relative z-10">
+            {orderStatuses.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={orderStatuses}
+                    cx="50%"
+                    cy="40%"
+                    innerRadius={45}
+                    outerRadius={60}
+                    paddingAngle={5}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    {orderStatuses.map((entry: any, index: number) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip content={<CustomTooltip />} />
+                  <Legend 
+                    verticalAlign="bottom" 
+                    height={24} 
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(value) => <span className="text-xs font-bold text-gray-600 dark:text-white/60 ml-1">{value}</span>}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 dark:text-white/20">
+                <ChartPieIcon size={32} className="mb-4 opacity-50" />
+                <p className="text-sm font-medium">Yeterli veri bulunmuyor</p>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="h-40 w-full relative z-10">
-          {orderStatuses.length > 0 ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={orderStatuses}
-                  cx="50%"
-                  cy="40%"
-                  innerRadius={45}
-                  outerRadius={60}
-                  paddingAngle={5}
-                  dataKey="value"
-                  stroke="none"
-                >
-                  {orderStatuses.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <RechartsTooltip content={<CustomTooltip />} />
-                <Legend 
-                  verticalAlign="bottom" 
-                  height={24} 
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(value) => <span className="text-xs font-bold text-gray-600 dark:text-white/60 ml-1">{value}</span>}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 dark:text-white/20">
-              <ChartPieIcon size={32} className="mb-4 opacity-50" />
-              <p className="text-sm font-medium">Yeterli veri bulunmuyor</p>
-            </div>
-          )}
-        </div>
+        <DisputesBox />
       </div>
 
     </div>

@@ -6,7 +6,6 @@ import {useRouter} from "next/navigation";
 import FounderSummary from './components/FounderSummary';
 import AlertCenter from './components/AlertCenter';
 import ReportedProductsBox from './components/ReportedProductsBox';
-import DisputesBox from './components/DisputesBox';
 import KPIBar from './components/KPIBar';
 import DashboardCharts from './components/DashboardCharts';
 import ExecutiveAccordion from './components/ExecutiveAccordion';
@@ -42,9 +41,8 @@ export default function FounderOS() {
           <div className="lg:col-span-2">
             <FounderSummary />
             <AlertCenter />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <div className="grid grid-cols-1 gap-6 items-start">
               <ReportedProductsBox />
-              <DisputesBox />
             </div>
           </div>
           <div className="lg:col-span-1">
