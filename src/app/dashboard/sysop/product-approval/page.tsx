@@ -119,11 +119,6 @@ export default function ProductApprovalPage() {
 
   const renderCardInner = (listing: any, index: number, isGrid: boolean) => (
     <>
-      {/* Index Badge */}
-      <div className="absolute top-0 right-0 bg-gray-900 dark:bg-white text-white dark:text-black text-[11px] font-black px-3 py-1 rounded-bl-2xl z-10 shadow-sm border-b border-l border-gray-900 dark:border-white">
-        {listings.length} İlandan #{index + 1}
-      </div>
-
       {/* Image Section */}
       <div className={`relative ${isGrid ? 'h-56 w-full' : 'h-64 sm:h-auto sm:w-64'} shrink-0 p-3 bg-gray-50 dark:bg-black/20`}>
         <div className="w-full h-full relative rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 bg-gray-100/50 dark:bg-[#0B0C10]">
