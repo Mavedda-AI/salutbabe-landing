@@ -8,6 +8,7 @@ import {
   BankIcon,
   Calendar01Icon,
   CheckmarkBadge01Icon,
+  Image01Icon,
   PercentCircleIcon,
   ShoppingCart01Icon,
   Tag01Icon,
@@ -81,7 +82,10 @@ const translateStatus = (status: string) => {
     case 'pending': return 'Bekliyor';
     case 'approved': return 'Onaylandı';
     case 'rejected': return 'Reddedildi';
+    case 'rejected': return 'Reddedildi';
     case 'active': return 'Aktif';
+    case 'under_review': return 'İncelemede';
+    case 'draft': return 'Taslak';
     default: return status;
   }
 };
@@ -214,7 +218,16 @@ function ListingListAccordion({ token }: { token: string }) {
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
-                  <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      {listing.images?.[0]?.imageURL ? (
+                        <img src={listing.images[0].imageURL} alt={listing.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <Image01Icon size={16} className="text-gray-400" />
+                      )}
+                    </div>
+                    <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
+                  </div>
                 </td>
                 <td className="py-3 text-gray-500 dark:text-white/60 whitespace-nowrap px-4">{listing.price} ₺</td>
                 <td className="py-3 px-4 whitespace-nowrap">
@@ -232,9 +245,54 @@ function ListingListAccordion({ token }: { token: string }) {
   );
 }
 
+function ListingActionToggle({ listingId, currentStatus, token, onUpdate }: { listingId: string, currentStatus: string, token: string, onUpdate: () => void }) {
+  const [confirming, setConfirming] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleToggle = async (newStatus: string) => {
+    setLoading(true);
+    try {
+      await fetch(apiUrl(`/admin/listings/${listingId}/status`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ status: newStatus })
+      });
+      onUpdate();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+      setConfirming(false);
+    }
+  };
+
+  const isActive = currentStatus === 'active';
+
+  if (confirming) {
+    return (
+      <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+        <span className="text-xs text-gray-500 font-medium">Emin misiniz?</span>
+        <button disabled={loading} onClick={() => handleToggle(isActive ? 'under_review' : 'active')} className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] rounded font-bold transition-colors">Evet</button>
+        <button disabled={loading} onClick={() => setConfirming(false)} className="px-2 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-[10px] rounded font-bold transition-colors">İptal</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+      <button 
+        onClick={() => setConfirming(true)}
+        className={`px-3 py-1 rounded-full text-[10px] font-bold transition-colors ${isActive ? 'bg-red-50 dark:bg-red-500/10 text-red-600 hover:bg-red-100' : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 hover:bg-emerald-100'}`}
+      >
+        {isActive ? 'Pasife Al' : 'Aktif Et'}
+      </button>
+    </div>
+  );
+}
+
 function ActiveListingListAccordion({ token }: { token: string }) {
   const router = useRouter();
-  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/listings?status=active'), token] : null, ([url, t]) => fetcher(url, t));
+  const { data, isLoading, mutate } = useSWR(token ? [apiUrl('/admin/listings?status=active'), token] : null, ([url, t]) => fetcher(url, t));
   const listings = data?.payload?.listings || [];
 
   if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Aktif İlanlar Yükleniyor...</div>;
@@ -255,6 +313,7 @@ function ActiveListingListAccordion({ token }: { token: string }) {
               <th className="pb-3 font-medium whitespace-nowrap px-4">Fiyat</th>
               <th className="pb-3 font-medium whitespace-nowrap px-4">Durum</th>
               <th className="pb-3 font-medium whitespace-nowrap pl-4">Tarih</th>
+              <th className="pb-3 font-medium whitespace-nowrap pl-4 text-right">İşlem</th>
             </tr>
           </thead>
           <tbody>
@@ -265,15 +324,27 @@ function ActiveListingListAccordion({ token }: { token: string }) {
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
-                  <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      {listing.images?.[0]?.imageURL ? (
+                        <img src={listing.images[0].imageURL} alt={listing.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <Image01Icon size={16} className="text-gray-400" />
+                      )}
+                    </div>
+                    <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
+                  </div>
                 </td>
                 <td className="py-3 text-gray-500 dark:text-white/60 whitespace-nowrap px-4">{listing.price} ₺</td>
                 <td className="py-3 px-4 whitespace-nowrap">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400`}>
-                    AKTİF
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${listing.status === 'active' ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-gray-500/20 text-gray-600 dark:text-gray-400'}`}>
+                    {translateStatus(listing.status)}
                   </span>
                 </td>
                 <td className="py-3 text-gray-400 dark:text-white/40 whitespace-nowrap pl-4">{formatDateAndTime(listing.updatedAt || listing.createdAt)}</td>
+                <td className="py-3 whitespace-nowrap pl-4 text-right">
+                  <ListingActionToggle listingId={listing.listingID} currentStatus={listing.status} token={token} onUpdate={() => mutate()} />
+                </td>
               </tr>
             ))}
           </tbody>
