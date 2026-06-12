@@ -113,7 +113,7 @@ export default function ProductApprovalPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {listings.map(listing => (
             <div key={listing.listingID} className={`flex flex-col overflow-hidden rounded-[2.5rem] border transition-all duration-300 hover:-translate-y-1 bg-white border-border-color shadow-sm hover:shadow-xl hover:border-primary/20 dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl dark:hover:bg-[#121214] dark:hover:border-white/10`}>
-              <div className="relative aspect-[4/3] bg-gray-100 dark:bg-black/20">
+              <div className="relative h-48 sm:h-56 w-full bg-gray-100 dark:bg-black/20 shrink-0">
                 <img 
                   src={getMediaUrl(listing.images?.[0]?.imageUrl || listing.imagePaths?.[0])} 
                   alt={listing.title} 
