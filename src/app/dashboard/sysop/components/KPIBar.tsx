@@ -4,16 +4,16 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-  ArrowDown01Icon,
-  BankIcon,
-  Calendar01Icon,
-  CheckmarkBadge01Icon,
-  PercentCircleIcon,
-  ShoppingCart01Icon,
-  Tag01Icon,
-  UserCircleIcon,
-  UserGroupIcon,
-  Wallet01Icon
+    ArrowDown01Icon,
+    BankIcon,
+    Calendar01Icon,
+    CheckmarkBadge01Icon,
+    PercentCircleIcon,
+    ShoppingCart01Icon,
+    Tag01Icon,
+    UserCircleIcon,
+    UserGroupIcon,
+    Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -526,9 +526,13 @@ export default function KPIBar() {
     ([url, token]) => fetcher(url, token)
   );
   
-  // Fetch orders specifically to compute financial stats if they are missing
   const { data: ordersData } = useSWR(
     token ? [apiUrl('/admin/orders'), token] : null,
+    ([url, token]) => fetcher(url, token)
+  );
+
+  const { data: reportsData } = useSWR(
+    token ? [apiUrl('/admin/reports'), token] : null,
     ([url, token]) => fetcher(url, token)
   );
 
@@ -606,6 +610,8 @@ export default function KPIBar() {
   const calculatedTotalUsers = (!useCalculated && payload.totalUsers) ? payload.totalUsers : (users.length || payload.users?.length || 0);
   const calculatedCargoPending = (!useCalculated && payload.totalCargoCost) ? payload.totalCargoCost : activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.shippingPrice || order.shippingCost || 0), 0);
 
+  const reportsCount = reportsData?.payload?.total || reportsData?.payload?.reports?.length || 0;
+
   const kpis = [
     { id: 'revenue-daily', label: 'Gerçekleşen Ciro', value: calculatedRevenue ? `${formatCompactNumber(calculatedRevenue)} ₺` : '0 ₺', trend: '+%11', status: 'excellent', hasDetails: true },
     { id: 'revenue-pending', label: 'Tahmini Bekleyen Ciro', value: calculatedPendingRevenue ? `${formatCompactNumber(calculatedPendingRevenue)} ₺` : '0 ₺', trend: '+%8', status: 'good', hasDetails: true },
@@ -615,6 +621,7 @@ export default function KPIBar() {
     { id: 'users', label: 'Toplam Kullanıcı', value: calculatedTotalUsers ? `${formatCompactNumber(calculatedTotalUsers)}` : '0', trend: '+%1.2', status: 'good', hasDetails: true },
     { id: 'dau', label: 'Aktif Kullanıcı (DAU)', value: payload.activeUsers ? `${formatCompactNumber(payload.activeUsers)}` : '0', trend: '+%3', status: 'good', hasDetails: true },
     { id: 'pending', label: 'Bekleyen İlanlar', value: payload.pendingListings ? `${formatCompactNumber(payload.pendingListings)}` : '0', trend: '-1', status: 'warning', hasDetails: true },
+    { id: 'reports', label: 'Şikayet Edilen Ürünler', value: reportsCount ? `${formatCompactNumber(reportsCount)}` : '0', trend: reportsCount > 0 ? 'İncele' : 'Yok', status: reportsCount > 0 ? 'warning' : 'good', hasDetails: false },
     { id: 'orders', label: 'Toplam Sipariş', value: calculatedTotalOrders ? `${formatCompactNumber(calculatedTotalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
     { id: 'active-listings', label: 'Aktif İlanlar', value: payload.activeListings ? `${formatCompactNumber(payload.activeListings)}` : '0', trend: 'Artışta', status: 'good', hasDetails: false },
   ];

@@ -67,10 +67,10 @@ export default function DashboardCharts() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
       
       {/* Revenue Trend Area Chart */}
-      <div className="lg:col-span-2 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-6 lg:p-8 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
+      <div className="lg:col-span-2 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-5 lg:p-6 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
         
-        <div className="flex items-center justify-between mb-8 relative z-10">
+        <div className="flex items-center justify-between mb-4 relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
               <ChartLineData01Icon size={20} />
@@ -87,7 +87,7 @@ export default function DashboardCharts() {
           </select>
         </div>
 
-        <div className="h-72 w-full relative z-10">
+        <div className="h-48 w-full relative z-10">
           {revenueTrend.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={revenueTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -136,10 +136,10 @@ export default function DashboardCharts() {
       </div>
 
       {/* Order Statuses Pie Chart */}
-      <div className="lg:col-span-1 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-6 lg:p-8 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
+      <div className="lg:col-span-1 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-white/10 rounded-3xl p-5 lg:p-6 shadow-sm dark:shadow-xl transition-colors relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
         
-        <div className="flex items-center gap-3 mb-8 relative z-10">
+        <div className="flex items-center gap-3 mb-4 relative z-10">
           <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
             <ChartPieIcon size={20} />
           </div>
@@ -149,16 +149,16 @@ export default function DashboardCharts() {
           </div>
         </div>
 
-        <div className="h-64 w-full relative z-10">
+        <div className="h-40 w-full relative z-10">
           {orderStatuses.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={orderStatuses}
                   cx="50%"
-                  cy="45%"
-                  innerRadius={60}
-                  outerRadius={80}
+                  cy="40%"
+                  innerRadius={45}
+                  outerRadius={60}
                   paddingAngle={5}
                   dataKey="value"
                   stroke="none"
@@ -170,7 +170,7 @@ export default function DashboardCharts() {
                 <RechartsTooltip content={<CustomTooltip />} />
                 <Legend 
                   verticalAlign="bottom" 
-                  height={36} 
+                  height={24} 
                   iconType="circle"
                   iconSize={8}
                   formatter={(value) => <span className="text-xs font-bold text-gray-600 dark:text-white/60 ml-1">{value}</span>}
@@ -179,7 +179,7 @@ export default function DashboardCharts() {
             </ResponsiveContainer>
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 dark:text-white/20">
-              <ChartPieIcon size={48} className="mb-4 opacity-50" />
+              <ChartPieIcon size={32} className="mb-4 opacity-50" />
               <p className="text-sm font-medium">Yeterli veri bulunmuyor</p>
             </div>
           )}
