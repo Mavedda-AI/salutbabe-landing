@@ -289,9 +289,28 @@ export default function ProductApprovalPage() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 w-full max-w-md shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
             <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">İlanı Reddet</h3>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-6">
-              Kullanıcıya ilanın neden reddedildiğine dair bir mesaj gönderilecek. Örneğin: "Lütfen görsellerinizi daha net bir ışıkta çekip güncelleyin."
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+              Kullanıcıya ilanın neden reddedildiğine dair bir mesaj gönderilecek.
             </p>
+
+            {/* Quick Replies */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {[
+                "Görseller çok karanlık veya bulanık, lütfen daha net fotoğraflar yükleyin.",
+                "Ürün açıklaması yetersiz. Lütfen ürünün durumunu ve detaylarını daha net belirtin.",
+                "Fiyat piyasa ortalamasının çok üzerinde, lütfen fiyatı gözden geçirin.",
+                "Bu marka veya kategoride ürün kabul edemiyoruz.",
+                "Lütfen ürünün orijinal olduğuna dair kanıt/fatura ekleyin."
+              ].map((reply, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setRejectReason(reply)}
+                  className="px-3 py-1.5 text-[11px] font-bold rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#1A1D27] text-gray-600 dark:text-gray-400 hover:border-red-500 hover:text-red-500 dark:hover:border-red-500 dark:hover:text-red-400 transition-colors text-left"
+                >
+                  {reply}
+                </button>
+              ))}
+            </div>
             
             <textarea
               className="w-full h-32 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#1A1D27] text-gray-900 dark:text-white text-sm font-medium outline-none focus:border-red-500 dark:focus:border-red-500 transition-colors resize-none mb-6"
