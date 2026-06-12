@@ -249,6 +249,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <DashboardCircleIcon size={24} />
       )
     },
+    {
+      label: t('dashboard.sysop.nav_product_approval') || 'Product Approval',
+      href: '/dashboard/sysop/product-approval',
+      icon: (
+        <CheckmarkBadge01Icon size={24} />
+      )
+    },
     { 
       label: t('dashboard.sysop.nav_users') || 'Users', 
       icon: (
@@ -276,7 +283,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       ),
       submenus: [
         { label: t('dashboard.sysop.nav_products') || 'Product Management', href: '/dashboard/sysop/product-management' },
-        { label: t('dashboard.sysop.nav_product_approval') || 'Product Approval', href: '/dashboard/sysop/product-approval' },
         { label: t('dashboard.sysop.nav_categories') || 'Categories', href: '/dashboard/sysop/category-management' },
         { label: t('dashboard.sysop.nav_brands') || 'Brands', href: '/dashboard/sysop/brand-management' }
       ] 
