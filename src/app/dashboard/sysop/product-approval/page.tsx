@@ -126,6 +126,19 @@ export default function ProductApprovalPage() {
     return `${API_BASE_URL}/${cleaned}`;
   };
 
+  const translateCondition = (condition: string | undefined | null) => {
+    if (!condition) return t('dashboard.sysop.condition_new') || 'YENİ';
+    const lower = condition.toLowerCase();
+    switch (lower) {
+      case 'new_with_tags': return 'YENİ ETİKETLİ';
+      case 'new_without_tags': return 'YENİ ETİKETSİZ';
+      case 'very_good': return 'ÇOK İYİ';
+      case 'good': return 'İYİ';
+      case 'satisfactory': return 'KULLANILMIŞ';
+      default: return condition.replace(/_/g, ' ');
+    }
+  };
+
   const renderCardInner = (listing: any, index: number, isGrid: boolean) => (
     <>
       {/* Image Section */}
@@ -173,7 +186,7 @@ export default function ProductApprovalPage() {
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300">{listing.condition || t('dashboard.sysop.condition_new')}</span>
+          <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300">{translateCondition(listing.condition)}</span>
           {listing.size && <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300">{listing.size}</span>}
           {listing.gender && <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300">{listing.gender}</span>}
           {listing.category && <span className="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300">{listing.category?.name || t('dashboard.sysop.category')}</span>}
