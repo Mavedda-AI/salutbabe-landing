@@ -898,7 +898,7 @@ export default function KPIBar() {
     { id: 'orders', label: 'Toplam Sipariş', value: calculatedTotalOrders ? `${formatCompactNumber(calculatedTotalOrders)}` : '0', trend: '+12', status: 'excellent', hasDetails: true },
     { id: 'active-listings', label: 'Aktif İlanlar', value: fetchedActiveCount ? `${formatCompactNumber(fetchedActiveCount)}` : '0', trend: 'Artışta', status: 'good', hasDetails: true },
     { id: 'passive-listings', label: 'Pasif İlanlar', value: fetchedPassiveCount ? `${formatCompactNumber(fetchedPassiveCount)}` : '0', trend: 'Bekliyor', status: 'warning', hasDetails: true },
-    { id: 'support-tickets', label: 'Destek Talepleri', value: openSupportTicketsCount ? `${formatCompactNumber(openSupportTicketsCount)}` : '0', trend: openSupportTicketsCount > 0 ? 'Yanıtla' : 'Yok', status: openSupportTicketsCount > 0 ? 'warning', hasDetails: true },
+    { id: 'support-tickets', label: 'Destek Talepleri', value: openSupportTicketsCount ? `${formatCompactNumber(openSupportTicketsCount)}` : '0', trend: openSupportTicketsCount > 0 ? 'Yanıtla' : 'Yok', status: openSupportTicketsCount > 0 ? 'warning' : 'good', hasDetails: true },
   ];
 
   return (
