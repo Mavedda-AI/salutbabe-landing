@@ -3,29 +3,30 @@
 import React, {useEffect, useState} from "react";
 
 import {
-    Alert01Icon,
-    ArrowDown01Icon,
-    ArrowLeft01Icon,
-    ArrowRight01Icon,
-    BulbIcon,
-    Cancel01Icon,
-    CheckmarkBadge01Icon,
-    DashboardCircleIcon,
-    GlobalIcon,
-    InboxIcon,
-    InformationCircleIcon,
-    Logout01Icon,
-    Menu01Icon,
-    Moon01Icon,
-    Notification03Icon,
-    PencilEdit01Icon,
-    RefreshIcon,
-    Settings01Icon,
-    ShoppingCart01Icon,
-    Store01Icon,
-    Sun01Icon,
-    TickDouble01Icon,
-    UserGroupIcon
+  Alert01Icon,
+  ArrowDown01Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  BulbIcon,
+  Cancel01Icon,
+  CheckmarkBadge01Icon,
+  DashboardCircleIcon,
+  GlobalIcon,
+  InboxIcon,
+  InformationCircleIcon,
+  Leaf01Icon,
+  Logout01Icon,
+  Menu01Icon,
+  Moon01Icon,
+  Notification03Icon,
+  PencilEdit01Icon,
+  RefreshIcon,
+  Settings01Icon,
+  ShoppingCart01Icon,
+  Store01Icon,
+  Sun01Icon,
+  TickDouble01Icon,
+  UserGroupIcon
 } from 'hugeicons-react';
 
 import Link from "next/link";
@@ -223,6 +224,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       '/dashboard/sysop/category-management',
       '/dashboard/sysop/brand-management',
       '/dashboard/sysop/system-settings',
+      '/dashboard/sysop/salut-organik',
+      '/dashboard/sysop/report-management',
       '/dashboard/common/profile'
     ];
 
@@ -294,10 +297,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       ] 
     },
     { 
-      label: t('dashboard.sysop.nav_reports') || 'Şikayet Yönetimi', 
+      label: 'Şikayet Yönetimi', 
       href: '/dashboard/sysop/report-management',
       icon: (
         <Alert01Icon size={24} />
+      )
+    },
+    { 
+      label: 'Salut Organik', 
+      href: '/dashboard/sysop/salut-organik',
+      icon: (
+        <Leaf01Icon size={24} />
       )
     },
     { 
