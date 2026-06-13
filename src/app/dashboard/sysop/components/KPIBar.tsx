@@ -353,9 +353,10 @@ function ListingListAccordion({ token }: { token: string }) {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
                       {(() => {
-                        const imgUrl = (listing.images && listing.images[0]?.imageUrl) || (listing.photos && (typeof listing.photos[0] === 'string' ? listing.photos[0] : listing.photos[0]?.url)) || listing.image;
-                        return imgUrl && imgUrl !== 'null' && imgUrl !== 'undefined' ? (
-                          <img src={imgUrl.startsWith('http') ? imgUrl : `https://via.placeholder.com/150?text=Resim`} alt={listing.title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/150?text=Hata'; }} />
+                        const imgUrlRaw = (listing.images && listing.images[0]?.imageUrl) || (listing.photos && (typeof listing.photos[0] === 'string' ? listing.photos[0] : listing.photos[0]?.url)) || listing.image;
+                        const finalUrl = imgUrlRaw && imgUrlRaw !== 'null' && imgUrlRaw !== 'undefined' ? (imgUrlRaw.startsWith('http') || imgUrlRaw.startsWith('data:') || imgUrlRaw.startsWith('blob:') ? imgUrlRaw : apiUrl('/media/' + imgUrlRaw)) : null;
+                        return finalUrl ? (
+                          <img src={finalUrl} alt={listing.title} className="w-full h-full object-cover" />
                         ) : (
                           <Image01Icon size={16} className="text-gray-400" />
                         );
