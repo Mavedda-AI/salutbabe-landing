@@ -4,17 +4,17 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-  ArrowDown01Icon,
-  BankIcon,
-  Calendar01Icon,
-  CheckmarkBadge01Icon,
-  Image01Icon,
-  PercentCircleIcon,
-  ShoppingCart01Icon,
-  Tag01Icon,
-  UserCircleIcon,
-  UserGroupIcon,
-  Wallet01Icon
+    ArrowDown01Icon,
+    BankIcon,
+    Calendar01Icon,
+    CheckmarkBadge01Icon,
+    Image01Icon,
+    PercentCircleIcon,
+    ShoppingCart01Icon,
+    Tag01Icon,
+    UserCircleIcon,
+    UserGroupIcon,
+    Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -436,6 +436,71 @@ function ActiveListingListAccordion({ token }: { token: string }) {
       </h4>
       {listings.length === 0 ? (
         <div className="text-sm text-gray-500 dark:text-white/40 italic">Şu anda aktif ilan bulunmuyor.</div>
+      ) : (
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
+              <th className="pb-3 font-medium w-full min-w-[200px]">İlan Adı</th>
+              <th className="pb-3 font-medium whitespace-nowrap px-4">Fiyat</th>
+              <th className="pb-3 font-medium whitespace-nowrap px-4">Durum</th>
+              <th className="pb-3 font-medium whitespace-nowrap pl-4">Tarih</th>
+              <th className="pb-3 font-medium whitespace-nowrap pl-4 text-right">İşlem</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listings.slice(0, 10).map((listing: any, idx: number) => (
+              <tr 
+                key={idx} 
+                onClick={() => router.push('/dashboard/sysop/product-management')}
+                className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
+              >
+                <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      {listing.images?.[0]?.imageUrl ? (
+                        <img src={listing.images[0].imageUrl} alt={listing.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <Image01Icon size={16} className="text-gray-400" />
+                      )}
+                    </div>
+                    <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
+                  </div>
+                </td>
+                <td className="py-3 text-gray-500 dark:text-white/60 whitespace-nowrap px-4">{listing.price} ₺</td>
+                <td className="py-3 px-4 whitespace-nowrap">
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${listing.status === 'active' ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-gray-500/20 text-gray-600 dark:text-gray-400'}`}>
+                    {translateStatus(listing.status)}
+                  </span>
+                </td>
+                <td className="py-3 text-gray-400 dark:text-white/40 whitespace-nowrap pl-4">{formatDateAndTime(listing.updatedAt || listing.createdAt)}</td>
+                <td className="py-3 whitespace-nowrap pl-4 text-right">
+                  <ListingActionToggle listingId={listing.listingID} currentStatus={listing.status} token={token} onUpdate={() => mutate()} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      )}
+    </div>
+  );
+}
+
+function PassiveListingListAccordion({ token }: { token: string }) {
+  const router = useRouter();
+  const { data, isLoading, mutate } = useSWR(token ? [apiUrl('/admin/listings?status=passive'), token] : null, ([url, t]) => fetcher(url, t));
+  const listings = data?.payload?.listings || [];
+
+  if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Pasif İlanlar Yükleniyor...</div>;
+
+  return (
+    <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#050505]">
+      <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+        <Tag01Icon size={18} className="text-gray-500" /> Pasif İlanlar
+      </h4>
+      {listings.length === 0 ? (
+        <div className="text-sm text-gray-500 dark:text-white/40 italic">Şu anda pasif ilan bulunmuyor.</div>
       ) : (
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
@@ -971,6 +1036,7 @@ export default function KPIBar() {
           {expandedKpi === 'orders' && <OrderListAccordion token={token || ''} />}
           {expandedKpi === 'pending' && <ListingListAccordion token={token || ''} />}
           {expandedKpi === 'active-listings' && <ActiveListingListAccordion token={token || ''} />}
+          {expandedKpi === 'passive-listings' && <PassiveListingListAccordion token={token || ''} />}
           {expandedKpi === 'revenue-daily' && <RevenueDailyAccordion token={token || ''} />}
           {expandedKpi === 'revenue-pending' && <PendingRevenueAccordion token={token || ''} />}
           {expandedKpi === 'transfer-pending' && <TransferPendingAccordion token={token || ''} />}
