@@ -3,13 +3,23 @@
 import React, {useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {useToast} from "../../../../context/ToastContext";
-import {Cancel01Icon, Image01Icon, Leaf01Icon, Store01Icon, TickDouble01Icon, UserGroupIcon} from "hugeicons-react";
+import {
+  Cancel01Icon,
+  CheckmarkBadge01Icon,
+  Image01Icon,
+  Leaf01Icon,
+  Location01Icon,
+  Search01Icon,
+  Store01Icon,
+  TickDouble01Icon,
+  UserGroupIcon
+} from "hugeicons-react";
 
 export default function SalutOrganikManagementPage() {
   const { t } = useThemeLanguage();
   const { showToast } = useToast();
   
-  const [currentTab, setCurrentTab] = useState<'producers' | 'products' | 'campaigns'>('producers');
+  const [currentTab, setCurrentTab] = useState<'producers' | 'products' | 'campaigns' | 'lab' | 'map'>('producers');
   const [selectedProducer, setSelectedProducer] = useState<any>(null);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
@@ -70,6 +80,20 @@ export default function SalutOrganikManagementPage() {
           >
             <Image01Icon size={18} />
             Kampanya & Afiş
+          </button>
+          <button 
+            onClick={() => setCurrentTab('lab')}
+            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all whitespace-nowrap flex items-center gap-2 ${currentTab === 'lab' ? 'bg-white dark:bg-[#1A1E1F] text-gray-900 dark:text-white shadow-sm ring-1 ring-gray-200/50 dark:ring-white/10' : 'text-gray-500 dark:text-white/40 hover:text-gray-700 dark:hover:text-white/80'}`}
+          >
+            <CheckmarkBadge01Icon size={18} />
+            Laboratuvar & Doğrulama
+          </button>
+          <button 
+            onClick={() => setCurrentTab('map')}
+            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all whitespace-nowrap flex items-center gap-2 ${currentTab === 'map' ? 'bg-white dark:bg-[#1A1E1F] text-gray-900 dark:text-white shadow-sm ring-1 ring-gray-200/50 dark:ring-white/10' : 'text-gray-500 dark:text-white/40 hover:text-gray-700 dark:hover:text-white/80'}`}
+          >
+            <Location01Icon size={18} />
+            Canlı Hasat Haritası
           </button>
         </div>
       </div>
@@ -217,6 +241,66 @@ export default function SalutOrganikManagementPage() {
                   <TickDouble01Icon size={18} />
                   Afişi Yayınla
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* LAB TABI */}
+        {currentTab === 'lab' && (
+          <div className="grid grid-cols-1 gap-6">
+            <div className="bg-white dark:bg-[#101516] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-sm flex flex-col items-center justify-center text-center py-12">
+              <div className="w-20 h-20 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
+                <CheckmarkBadge01Icon size={32} className="text-gray-500 dark:text-white/60" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Pestisit & Laboratuvar Raporları</h3>
+              <p className="text-sm text-gray-500 dark:text-white/50 max-w-lg mb-6">
+                Üreticilerin sisteme yüklediği ilaç kalıntı (pestisit) raporlarını ve sertifika bitiş tarihlerini doğrulayabileceğiniz otomasyon merkezi buraya entegre edilecektir.
+              </p>
+              <button className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl shadow-sm transition-all">
+                Laboratuvar Partneri API Bağla
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* HARİTA TABI */}
+        {currentTab === 'map' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 bg-gray-100 dark:bg-[#1A1E1F] rounded-3xl border border-gray-200 dark:border-white/10 overflow-hidden flex flex-col relative h-[500px]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
+                <Location01Icon size={48} className="text-gray-400 dark:text-white/20 mb-4" />
+                <h3 className="text-2xl font-black text-gray-400 dark:text-white/20">Harita Yükleniyor...</h3>
+              </div>
+              <div className="absolute top-4 left-4 right-4 z-20 flex gap-2">
+                <div className="flex-1 bg-white dark:bg-[#101516] rounded-2xl p-2 px-4 shadow-lg border border-gray-200 dark:border-white/10 flex items-center gap-2">
+                  <Search01Icon size={20} className="text-gray-400" />
+                  <input type="text" placeholder="Üretici veya bölge ara (Örn: Ege Bölgesi)" className="bg-transparent border-none outline-none text-sm w-full font-bold dark:text-white" />
+                </div>
+              </div>
+            </div>
+            <div className="bg-white dark:bg-[#101516] rounded-3xl p-6 border border-gray-200 dark:border-white/10 flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Bölgesel Yoğunluk</h3>
+              
+              <div className="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-gray-900 dark:text-white">Ege Bölgesi</span>
+                  <span className="text-xs font-bold px-2 py-1 bg-gray-900 text-white rounded-lg">14 Üretici</span>
+                </div>
+                <div className="text-xs text-gray-500">Zeytinyağı, İncir, Domates ağırlıklı</div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-gray-900 dark:text-white">Karadeniz Bölgesi</span>
+                  <span className="text-xs font-bold px-2 py-1 bg-gray-900 text-white rounded-lg">8 Üretici</span>
+                </div>
+                <div className="text-xs text-gray-500">Bal, Fındık, Çay ağırlıklı</div>
+              </div>
+
+              <div className="p-4 rounded-2xl border-2 border-dashed border-gray-200 dark:border-white/20 flex flex-col items-center justify-center text-center mt-auto py-8">
+                <span className="text-xs text-gray-500 font-bold mb-2">Taze Gönderim / Soğuk Zincir</span>
+                <button className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold rounded-lg w-full">Kargo Bölgelerini Çiz</button>
               </div>
             </div>
           </div>
