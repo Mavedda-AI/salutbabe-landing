@@ -4,17 +4,17 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-    ArrowDown01Icon,
-    BankIcon,
-    Calendar01Icon,
-    CheckmarkBadge01Icon,
-    Image01Icon,
-    PercentCircleIcon,
-    ShoppingCart01Icon,
-    Tag01Icon,
-    UserCircleIcon,
-    UserGroupIcon,
-    Wallet01Icon
+  ArrowDown01Icon,
+  BankIcon,
+  Calendar01Icon,
+  CheckmarkBadge01Icon,
+  Image01Icon,
+  PercentCircleIcon,
+  ShoppingCart01Icon,
+  Tag01Icon,
+  UserCircleIcon,
+  UserGroupIcon,
+  Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -517,7 +517,7 @@ function PassiveListingListAccordion({ token }: { token: string }) {
             {listings.slice(0, 10).map((listing: any, idx: number) => (
               <tr 
                 key={idx} 
-                onClick={() => router.push('/dashboard/sysop/product-management')}
+                onClick={() => router.push('/dashboard/sysop/passive-listings')}
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
