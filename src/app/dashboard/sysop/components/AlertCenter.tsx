@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {Alert02Icon, ArrowRight02Icon} from 'hugeicons-react';
 import useSWR from 'swr';
+import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
 export default function AlertCenter() {
+  const router = useRouter();
   const token = useAuthStore((state) => state.token);
   const { data, isLoading } = useSWR(
     token ? [apiUrl('/admin/dashboard'), token] : null,
@@ -64,7 +66,21 @@ export default function AlertCenter() {
                   Bu anomali, sistemdeki yapay zeka analiz motoru tarafından otomatik olarak tespit edilmiştir. İlgili modülde potansiyel bir risk veya performans düşüklüğü gözlemleniyor. Lütfen sorunu çözmek için detaylı inceleme yapın.
                 </div>
                 <div className="flex items-center gap-3">
-                  <button className="h-9 px-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold rounded-lg shadow-md hover:scale-105 transition-transform">
+                  <button 
+                    className="h-9 px-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold rounded-lg shadow-md hover:scale-105 transition-transform"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (alert.text.includes('ilan onay bekliyor')) {
+                        router.push('/dashboard/sysop/product-approval');
+                      } else if (alert.text.includes('Kargo gecikme')) {
+                        router.push('/dashboard/sysop/order-management');
+                      } else if (alert.text.includes('şikayet')) {
+                        router.push('/dashboard/sysop/report-management');
+                      } else {
+                        window.alert('Bu modül için detaylı rapor sayfası geliştirme aşamasındadır.');
+                      }
+                    }}
+                  >
                     Detaylı Rapor
                   </button>
                   <button 

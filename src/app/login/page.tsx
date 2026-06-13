@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useRef, useState, useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useThemeLanguage} from "../../context/ThemeLanguageContext";
 import {useToast} from "../../context/ToastContext";
 import {auth, signInWithGoogle} from "../../lib/firebase";
@@ -45,7 +45,7 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
           
           {/* Overlay text that receives the gradient and is masked by the exact mouse position */}
           <span 
-            className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-br from-[#FF6B00] via-[#FF9EBE] to-[#5FC8C0] transition-opacity duration-300"
+            className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-br from-gray-900 via-gray-600 to-gray-400 transition-opacity duration-300"
             style={{
               opacity: isHovered ? 1 : 0,
               WebkitMaskImage: `radial-gradient(100px circle at ${position.x - 16}px ${position.y + 8}px, black, transparent)`,
@@ -63,7 +63,7 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
           className="absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `linear-gradient(135deg, var(--color-salut-mint, #54E6D4), var(--color-salut-pink, #FF9EBE), var(--color-salut-teal, #5FC8C0))`,
+            background: `linear-gradient(135deg, white, gray-100, gray-200)`,
             WebkitMaskImage: `radial-gradient(100px circle at ${position.x}px ${position.y}px, black, transparent)`,
             maskImage: `radial-gradient(100px circle at ${position.x}px ${position.y}px, black, transparent)`
           }}
@@ -73,7 +73,7 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
         <div className="absolute inset-[1px] bg-white dark:bg-[#222533] rounded-xl z-0 transition-colors group-focus-within:bg-gray-50 dark:group-focus-within:bg-[#1C1F2B]" />
         
         {/* Flex Layout for Input + Icons to prevent Safari native overlap */}
-        <div className="relative z-10 w-full h-14 border border-gray-200 dark:border-transparent focus-within:border-[#54E6D4]/50 rounded-xl px-5 flex items-center transition-all">
+        <div className="relative z-10 w-full h-14 border border-gray-200 dark:border-transparent focus-within:border-gray-900 dark:border-white/50 rounded-xl px-5 flex items-center transition-all">
           <input
             type={renderedType}
             value={value}
@@ -89,7 +89,7 @@ const GlowInput = ({ label, type = "text", value, onChange, placeholder, require
           />
           <div className="flex items-center gap-2 ml-2 shrink-0">
             {capsLockActive && (
-              <div className="text-[#54E6D4] animate-pulse" title="Caps Lock is ON">
+              <div className="text-gray-900 dark:text-white animate-pulse" title="Caps Lock is ON">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
                   <rect x="4" y="4" width="16" height="16" rx="4" />
                   <path d="M12 16V8" />
@@ -383,7 +383,7 @@ const LoginPage = () => {
             <h2 className="text-xl font-bold text-[#1A2332] dark:text-white mb-2">
               {t('auth.promo_title') || 'Anneden anneye, güvenle.'}
             </h2>
-            <h3 className="text-xl font-bold text-[#54E6D4] mb-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
               {t('auth.promo_subtitle') || 'Sıfır Komisyon Avantajı'}
             </h3>
             <p className="text-sm text-[#1A2332]/70 dark:text-white/60">
@@ -391,8 +391,8 @@ const LoginPage = () => {
             </p>
           </div>
           
-          <button className="bg-[#54E6D4] hover:bg-[#3CD9C7] transition-colors px-6 py-3 rounded-full flex items-center gap-3 font-bold text-sm text-[#101516] shadow-[0_0_20px_rgba(84,230,212,0.3)]">
-            <span className="w-6 h-6 rounded-full bg-[#101516] text-[#54E6D4] flex items-center justify-center text-lg leading-none">
+          <button className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors px-6 py-3 rounded-full flex items-center gap-3 font-bold text-sm text-white dark:text-gray-900 shadow-[0_0_20px_rgba(0,0,0,0.1)]">
+            <span className="w-6 h-6 rounded-full bg-[#101516] text-gray-900 dark:text-white flex items-center justify-center text-lg leading-none">
               →
             </span>
             {t('auth.discover') || 'KEŞFET'}
@@ -406,7 +406,7 @@ const LoginPage = () => {
           {/* Header */}
           <div className="mb-10 text-center">
             <h1 className="text-3xl font-black tracking-tight mb-3">
-              {t('auth.welcome_back') || 'Welcome Back to'} <span className="text-[#54E6D4]">salutbabe</span>
+              {t('auth.welcome_back') || 'Welcome Back to'} <span className="text-gray-900 dark:text-white">salutbabe</span>
             </h1>
             <p className="text-gray-500 dark:text-[#8F95B2] font-medium text-sm">
               {t('auth.signin_desc') || 'Sign in to continue your journey'}
@@ -470,11 +470,11 @@ const LoginPage = () => {
             {/* Extras: Remember Me & Forgot Password */}
             <div className="flex items-center justify-between px-1">
               <label className="cursor-pointer flex items-center gap-3">
-                <input type="checkbox" className="checkbox checkbox-sm rounded bg-gray-50 dark:bg-[#222533] border-gray-300 dark:border-[#4A506B] checked:bg-[#54E6D4] checked:border-[#54E6D4]" />
+                <input type="checkbox" className="checkbox checkbox-sm rounded bg-gray-50 dark:bg-[#222533] border-gray-300 dark:border-[#4A506B] checked:bg-gray-900 dark:bg-white checked:border-gray-900 dark:border-white" />
                 <span className="text-sm text-gray-600 dark:text-[#8F95B2] font-medium">{t('auth.remember_me') || "Remember Me"}</span>
               </label>
               
-              <button type="button" className="text-sm text-[#54E6D4] font-bold hover:text-[#3CD9C7] transition-colors">
+              <button type="button" className="text-sm text-gray-900 dark:text-white font-bold hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
                 {t('auth.forgot_password') || "Forgot Password?"}
               </button>
             </div>
@@ -482,7 +482,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading !== null}
-              className="w-full h-14 bg-[#54E6D4] hover:bg-[#3CD9C7] text-[#101516] rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_25px_rgba(84,230,212,0.4)] transition-all"
+              className="w-full h-14 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900 rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_25px_rgba(0,0,0,0.15)] transition-all"
             >
               {loading === "email" ? (
                 <div className="flex items-center justify-center gap-2">
@@ -515,7 +515,7 @@ const LoginPage = () => {
           <div className="mt-12 text-center">
             <p className="text-[13px] text-gray-500 dark:text-[#8F95B2] font-medium">
               {t('auth.no_account') || "Don't Have an Account?"}{" "}
-              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-[#54E6D4] font-bold hover:underline underline-offset-4 ml-1">
+              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-gray-900 dark:text-white font-bold hover:underline underline-offset-4 ml-1">
                 {t('auth.create_one') || "Create One"}
               </button>
             </p>
@@ -597,7 +597,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading !== null}
-              className="w-full h-14 bg-[#54E6D4] hover:bg-[#3CD9C7] text-[#101516] rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_20px_rgba(84,230,212,0.3)] transition-all"
+              className="w-full h-14 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900 rounded-xl mt-4 font-bold text-[15px] shadow-[0_0_20px_rgba(0,0,0,0.1)] transition-all"
             >
               {loading === "register" ? (
                 <div className="flex items-center justify-center gap-2">

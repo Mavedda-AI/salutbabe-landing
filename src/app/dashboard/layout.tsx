@@ -3,29 +3,29 @@
 import React, {useEffect, useState} from "react";
 
 import {
-  Alert01Icon,
-  ArrowDown01Icon,
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
-  BulbIcon,
-  Cancel01Icon,
-  CheckmarkBadge01Icon,
-  DashboardCircleIcon,
-  GlobalIcon,
-  InboxIcon,
-  InformationCircleIcon,
-  Logout01Icon,
-  Menu01Icon,
-  Moon01Icon,
-  Notification03Icon,
-  PencilEdit01Icon,
-  RefreshIcon,
-  Settings01Icon,
-  ShoppingCart01Icon,
-  Store01Icon,
-  Sun01Icon,
-  TickDouble01Icon,
-  UserGroupIcon
+    Alert01Icon,
+    ArrowDown01Icon,
+    ArrowLeft01Icon,
+    ArrowRight01Icon,
+    BulbIcon,
+    Cancel01Icon,
+    CheckmarkBadge01Icon,
+    DashboardCircleIcon,
+    GlobalIcon,
+    InboxIcon,
+    InformationCircleIcon,
+    Logout01Icon,
+    Menu01Icon,
+    Moon01Icon,
+    Notification03Icon,
+    PencilEdit01Icon,
+    RefreshIcon,
+    Settings01Icon,
+    ShoppingCart01Icon,
+    Store01Icon,
+    Sun01Icon,
+    TickDouble01Icon,
+    UserGroupIcon
 } from 'hugeicons-react';
 
 import Link from "next/link";
@@ -292,6 +292,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         { label: t('dashboard.sysop.nav_categories') || 'Categories', href: '/dashboard/sysop/category-management' },
         { label: t('dashboard.sysop.nav_brands') || 'Brands', href: '/dashboard/sysop/brand-management' }
       ] 
+    },
+    { 
+      label: t('dashboard.sysop.nav_reports') || 'Şikayet Yönetimi', 
+      href: '/dashboard/sysop/report-management',
+      icon: (
+        <Alert01Icon size={24} />
+      )
     },
     { 
       label: t('dashboard.sysop.nav_settings') || 'Settings', 
