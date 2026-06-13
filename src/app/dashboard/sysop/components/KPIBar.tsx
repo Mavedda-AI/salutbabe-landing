@@ -352,11 +352,14 @@ function ListingListAccordion({ token }: { token: string }) {
                 <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                      {listing.images?.[0]?.imageUrl ? (
-                        <img src={listing.images[0].imageUrl} alt={listing.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <Image01Icon size={16} className="text-gray-400" />
-                      )}
+                      {(() => {
+                        const imgUrl = (listing.images && listing.images[0]?.imageUrl) || (listing.photos && (typeof listing.photos[0] === 'string' ? listing.photos[0] : listing.photos[0]?.url)) || listing.image;
+                        return imgUrl && imgUrl !== 'null' && imgUrl !== 'undefined' ? (
+                          <img src={imgUrl.startsWith('http') ? imgUrl : `https://via.placeholder.com/150?text=Resim`} alt={listing.title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/150?text=Hata'; }} />
+                        ) : (
+                          <Image01Icon size={16} className="text-gray-400" />
+                        );
+                      })()}
                     </div>
                     <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
                   </div>
@@ -458,11 +461,14 @@ function ActiveListingListAccordion({ token }: { token: string }) {
                 <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                      {listing.images?.[0]?.imageUrl ? (
-                        <img src={listing.images[0].imageUrl} alt={listing.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <Image01Icon size={16} className="text-gray-400" />
-                      )}
+                      {(() => {
+                        const imgUrl = (listing.images && listing.images[0]?.imageUrl) || (listing.photos && (typeof listing.photos[0] === 'string' ? listing.photos[0] : listing.photos[0]?.url)) || listing.image;
+                        return imgUrl && imgUrl !== 'null' && imgUrl !== 'undefined' ? (
+                          <img src={imgUrl.startsWith('http') ? imgUrl : `https://via.placeholder.com/150?text=Resim`} alt={listing.title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/150?text=Hata'; }} />
+                        ) : (
+                          <Image01Icon size={16} className="text-gray-400" />
+                        );
+                      })()}
                     </div>
                     <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
                   </div>
@@ -523,11 +529,14 @@ function PassiveListingListAccordion({ token }: { token: string }) {
                 <td className="py-3 text-gray-900 dark:text-white font-medium pr-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded bg-gray-100 dark:bg-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                      {listing.images?.[0]?.imageUrl ? (
-                        <img src={listing.images[0].imageUrl} alt={listing.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <Image01Icon size={16} className="text-gray-400" />
-                      )}
+                      {(() => {
+                        const imgUrl = (listing.images && listing.images[0]?.imageUrl) || (listing.photos && (typeof listing.photos[0] === 'string' ? listing.photos[0] : listing.photos[0]?.url)) || listing.image;
+                        return imgUrl && imgUrl !== 'null' && imgUrl !== 'undefined' ? (
+                          <img src={imgUrl.startsWith('http') ? imgUrl : `https://via.placeholder.com/150?text=Resim`} alt={listing.title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/150?text=Hata'; }} />
+                        ) : (
+                          <Image01Icon size={16} className="text-gray-400" />
+                        );
+                      })()}
                     </div>
                     <div className="line-clamp-2">{listing.title || 'İsimsiz'}</div>
                   </div>
