@@ -188,7 +188,7 @@ export default function ProfilePage() {
                     <div className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-300 shadow-md flex items-center justify-center
                       ${theme === 'light' ? 'left-1' : 'left-7'}`}>
                       {theme === 'light' 
-                        ? <svg className="w-3 h-3 text-[#54E6D4]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" /></svg>
+                        ? <svg className="w-3 h-3 text-[#101516] dark:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" /></svg>
                         : <svg className="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>}
                     </div>
                   </button>
@@ -233,7 +233,7 @@ export default function ProfilePage() {
                    <h3 className="text-2xl font-black text-text-primary tracking-tight mb-2 uppercase">{t('dashboard.security_settings')}</h3>
                    <p className="text-[13px] font-bold text-text-secondary/60 italic">{t('dashboard.security_desc')}</p>
                  </div>
-                 <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center ${theme === 'light' ? 'bg-[#54E6D4]/ text-[#54E6D4]' : 'bg-[#54E6D4]/ text-[#54E6D4] border border-[#54E6D4]/ shadow-xl'}`}>
+                 <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center ${theme === 'light' ? 'bg-[#101516] dark:bg-white/ text-[#101516] dark:text-white' : 'bg-[#101516] dark:bg-white/ text-[#101516] dark:text-white border border-black dark:border-white/ shadow-xl'}`}>
                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 00-2 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                  </div>
               </div>
@@ -241,7 +241,7 @@ export default function ProfilePage() {
               <div className="flex flex-col gap-4">
                 <button className={`w-full h-16 rounded-[1.2rem] font-black text-[14px] border transition-all flex items-center justify-center gap-3 group
                   ${theme === 'light' ? 'bg-gray-50 border-gray-100 text-text-primary hover:bg-gray-100 hover:border-gray-200' : 'bg-white/5 border-white/5 text-text-primary hover:bg-white/10 hover:border-white/10 shadow-lg'}`}>
-                   <svg className="w-5 h-5 text-[#54E6D4] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+                   <svg className="w-5 h-5 text-[#101516] dark:text-white group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
                    {t('dashboard.btn_change_password')}
                 </button>
                 <div className={`p-6 rounded-2xl border ${theme === 'light' ? 'bg-red-500/5 border-red-500/10' : 'bg-red-500/10 border-red-500/10'} mt-4`}>

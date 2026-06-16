@@ -205,7 +205,7 @@ export default function AdminUsersPage() {
           <div className="flex items-center gap-2">
            <button 
              onClick={() => setShowAllDetails(!showAllDetails)}
-             className={`px-3 sm:px-4 h-10 rounded-xl text-[10px] sm:text-[11px] font-black tracking-wider transition-all shadow-sm ${showAllDetails ? 'bg-[#54E6D4] text-[#101516] shadow-[#54E6D4]/20' : 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white'}`}>
+             className={`px-3 sm:px-4 h-10 rounded-xl text-[10px] sm:text-[11px] font-black tracking-wider transition-all shadow-sm ${showAllDetails ? 'bg-[#101516] dark:bg-white text-[#101516] shadow-[#54E6D4]/20' : 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white'}`}>
              {showAllDetails ? 'DETAYLARI GİZLE' : 'TÜM DETAYLARI GÖSTER'}
            </button>
            <div className="hidden lg:block w-[1px] h-6 bg-border-color/50 dark:bg-white/5 mx-1" />
@@ -290,8 +290,8 @@ export default function AdminUsersPage() {
                      <span className="text-[11px] font-black text-primary">₺</span>
                    </div>
                    <div className="flex items-center gap-1 justify-end lg:justify-start">
-                     <div className="w-1.5 h-1.5 rounded-full bg-[#54E6D4] animate-pulse" />
-                     <span className="text-[9px] font-black text-[#54E6D4] uppercase opacity-80">{formatBalance(user.pendingBalance || 0)} ₺</span>
+                     <div className="w-1.5 h-1.5 rounded-full bg-[#101516] dark:bg-white animate-pulse" />
+                     <span className="text-[9px] font-black text-[#101516] dark:text-white uppercase opacity-80">{formatBalance(user.pendingBalance || 0)} ₺</span>
                    </div>
                 </div>
 
@@ -424,7 +424,7 @@ export default function AdminUsersPage() {
                  <div className="w-[1px] h-8 bg-text-secondary/10" />
                  <div className="text-center">
                     <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">{t('dashboard.label_pending')}</p>
-                    <div className="flex items-center gap-1 justify-center text-[#54E6D4]">
+                    <div className="flex items-center gap-1 justify-center text-[#101516] dark:text-white">
                        <span className="text-[20px] font-black">{formatBalance(user.pendingBalance || 0)}</span>
                        <span className="text-[12px] font-black">₺</span>
                     </div>
@@ -568,16 +568,16 @@ export default function AdminUsersPage() {
                 </div>
               </div>
               <div className="group">
-                <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-[#54E6D4] transition-colors">{t('dashboard.pending_balance')}</label>
+                <label className="block text-[11px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-3 group-focus-within:text-[#101516] dark:text-white transition-colors">{t('dashboard.pending_balance')}</label>
                 <div className="relative">
                   <input 
                     type="number" 
                     value={pendingBalanceInput} 
                     onChange={(e) => setPendingBalanceInput(e.target.value)}
                     className={`w-full h-14 pl-6 pr-12 rounded-2xl outline-none text-[16px] font-black transition-all border
-                      bg-gray-50 border-transparent focus:bg-white focus:border-[#54E6D4]/ shadow-inner dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`}
+                      bg-gray-50 border-transparent focus:bg-white focus:border-black dark:border-white/ shadow-inner dark:bg-white/5 dark:border-transparent dark:focus:bg-white/10 dark:focus:border-white/20`}
                   />
-                  <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-[#54E6D4] text-[15px]">₺</span>
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-[#101516] dark:text-white text-[15px]">₺</span>
                 </div>
               </div>
               <div className="flex gap-4 mt-10">

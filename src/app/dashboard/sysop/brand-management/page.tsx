@@ -227,8 +227,8 @@ export default function AdminBrandsPage() {
     <div className="flex flex-col items-center justify-center min-h-[400px] gap-6 animate-fade-in">
       <div className="relative flex items-center justify-center">
         <div className="absolute inset-0 w-16 h-16 border-4 border-gray-100 dark:border-white/5 rounded-full"></div>
-        <div className="w-16 h-16 border-4 border-[#54E6D4] border-t-transparent rounded-full animate-spin"></div>
-        <div className="absolute w-6 h-6 bg-[#54E6D4]/20 rounded-full animate-pulse"></div>
+        <div className="w-16 h-16 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
+        <div className="absolute w-6 h-6 bg-gray-200 dark:bg-white/20 rounded-full animate-pulse"></div>
       </div>
       <div className="flex flex-col items-center gap-1">
         <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#101516] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
@@ -248,8 +248,8 @@ export default function AdminBrandsPage() {
               {/* Total Brands */}
               <div className="relative overflow-hidden rounded-2xl border bg-white/80 dark:bg-[#12141C]/80 backdrop-blur-2xl border-gray-200 dark:border-white/5 shadow-sm p-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#54E6D4]/10 dark:bg-[#54E6D4]/20 flex items-center justify-center shrink-0">
-                    <svg className="w-6 h-6 text-[#54E6D4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-white/10 dark:bg-gray-200 dark:bg-white/20 flex items-center justify-center shrink-0">
+                    <svg className="w-6 h-6 text-[#101516] dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.659A2.25 2.25 0 009.568 3z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
                     </svg>
@@ -378,7 +378,7 @@ export default function AdminBrandsPage() {
                 {/* Create Button */}
                 <button
                   onClick={handleAdd}
-                  className="h-12 px-6 shrink-0 rounded-2xl bg-[#54E6D4] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
+                  className="h-12 px-6 shrink-0 rounded-2xl bg-[#101516] dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
                 >
                   Yeni Ekle
                 </button>
@@ -502,7 +502,7 @@ export default function AdminBrandsPage() {
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <button
                               onClick={() => handleEdit(brand)}
-                              className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#54E6D4] hover:bg-[#54E6D4]/10 dark:hover:bg-[#54E6D4]/20 border border-transparent hover:border-[#54E6D4]/20 transition-all flex items-center justify-center shadow-sm"
+                              className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#101516] dark:text-white hover:bg-gray-100 dark:bg-white/10 dark:hover:bg-gray-200 dark:bg-white/20 border border-transparent hover:border-black dark:border-white/20 transition-all flex items-center justify-center shadow-sm"
                               title="Düzenle"
                             >
                               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
@@ -530,11 +530,11 @@ export default function AdminBrandsPage() {
 
               {/* Header */}
               <div className="px-6 py-5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#12141C] relative">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#54E6D4] via-[#FF9EBE] to-[#5FC8C0]"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-500 dark:from-gray-600 dark:via-gray-500 dark:to-gray-700"></div>
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] dark:hover:text-[#54E6D4] hover:bg-white dark:hover:bg-white/10 hover:border-[#54E6D4]/30 transition-all shadow-sm"
+                    className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#101516] dark:text-white dark:hover:text-[#101516] dark:text-white hover:bg-white dark:hover:bg-white/10 hover:border-black dark:border-white/30 transition-all shadow-sm"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                     Geri Dön
@@ -602,7 +602,7 @@ export default function AdminBrandsPage() {
                             name,
                           });
                         }}
-                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
+                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm"
                       />
                     </div>
 
@@ -619,10 +619,10 @@ export default function AdminBrandsPage() {
                           setCurrentBrand({ ...currentBrand, domain: e.target.value });
                           setLogoError(false);
                         }}
-                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
+                        className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm"
                       />
                       <p className="text-[11px] font-medium text-gray-400 ml-1">
-                        Logo için marka web sitesi (örn: <span className="text-[#54E6D4]">nike.com</span>)
+                        Logo için marka web sitesi (örn: <span className="text-[#101516] dark:text-white">nike.com</span>)
                       </p>
                     </div>
                   </div>
@@ -682,7 +682,7 @@ export default function AdminBrandsPage() {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="h-11 px-8 rounded-xl bg-[#54E6D4] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
+                  className="h-11 px-8 rounded-xl bg-[#101516] text-white dark:bg-white dark:text-[#101516] font-bold text-[13px] hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
                 >
                   {saving ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

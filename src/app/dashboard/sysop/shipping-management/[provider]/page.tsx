@@ -102,7 +102,7 @@ export default function ProviderDetailPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: 'Toplam Kargo', value: stats.shipments.toLocaleString(), color: 'text-[#111827]', icon: <HugeiconsIcon icon={Package01Icon} size={24} className="text-[#111827]" /> },
-            { label: 'Zamanında', value: `%${stats.onTime}`, color: stats.onTime > 90 ? 'text-green-600' : 'text-[#54E6D4]', icon: <HugeiconsIcon icon={Tick01Icon} size={24} className="text-green-600" /> },
+            { label: 'Zamanında', value: `%${stats.onTime}`, color: stats.onTime > 90 ? 'text-green-600' : 'text-[#101516] dark:text-white', icon: <HugeiconsIcon icon={Tick01Icon} size={24} className="text-green-600" /> },
             { label: 'Ort. Süre', value: `${stats.avgDays} gün`, color: 'text-[#007AFF]', icon: <HugeiconsIcon icon={Timer02Icon} size={24} className="text-[#007AFF]" /> },
             { label: 'Birim Maliyet', value: stats.cost, color: 'text-[#111827]', icon: <HugeiconsIcon icon={TruckIcon} size={24} className="text-gray-600" /> },
           ].map((k, i) => (

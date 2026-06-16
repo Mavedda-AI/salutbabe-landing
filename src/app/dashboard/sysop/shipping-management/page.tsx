@@ -42,6 +42,9 @@ export default function ShippingManagementPage() {
   const [currentCompany, setCurrentCompany] = useState<Partial<ShippingCompany> | null>(null);
   const [activeTab, setActiveTab] = useState<'BASIC' | 'API' | 'RATES'>('BASIC');
   const [saving, setSaving] = useState(false);
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+  const [companyToDelete, setCompanyToDelete] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ visible: boolean; message: string; type: 'success' | 'warning' }>({ visible: false, message: "", type: "success" });
 
   const fetchCompanies = async () => {
     try {
@@ -57,6 +60,18 @@ export default function ShippingManagementPage() {
         const sortedPayload = data.payload.map((c: ShippingCompany) => {
           if (c.rates) {
              c.rates.sort((a, b) => a.desiMin - b.desiMin);
+             // Auto-recalculate math to include fixed SMS fee (0.50)
+             c.rates.forEach(r => {
+                const oPrice = Number(r.originalPrice) || 0;
+                const vRate = Number(r.vatRate) || 0;
+                const eRate = Number(r.ephRate) || 0;
+                const vat = oPrice * (vRate / 100);
+                const ephAmt = oPrice * (eRate / 100);
+                r.vat = Number(vat.toFixed(2));
+                r.ephAmount = Number(ephAmt.toFixed(2));
+                r.totalPrice = Number((oPrice + vat + ephAmt + 0.50).toFixed(2));
+                r.price = r.totalPrice;
+             });
           }
           return c;
         });
@@ -132,7 +147,6 @@ export default function ShippingManagementPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm(t('dashboard.shipping.delete_confirm') || 'Are you sure you want to delete this company?')) return;
     try {
       const token = localStorage.getItem("token");
       await fetch(apiUrl(`/admin/shipping/${id}`), {
@@ -143,8 +157,69 @@ export default function ShippingManagementPage() {
         }
       });
       fetchCompanies();
+      setToast({ visible: true, message: "Kargo şirketi silindi.", type: "success" });
+      setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2000);
     } catch (e) {
       console.error(e);
+      setToast({ visible: true, message: "Silme hatası.", type: "warning" });
+      setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2000);
+    }
+  };
+
+  const handleInlineRateUpdate = async (companyId: string, rateIdx: number, newOriginalPriceStr: string) => {
+    const newOriginalPrice = Number(newOriginalPriceStr);
+    if (isNaN(newOriginalPrice) || newOriginalPrice < 0) return;
+    
+    const companyIndex = companies.findIndex(c => c.companyID === companyId);
+    if (companyIndex === -1) return;
+    
+    const company = JSON.parse(JSON.stringify(companies[companyIndex]));
+    if (!company.rates || !company.rates[rateIdx]) return;
+    
+    const rate = company.rates[rateIdx];
+    // If the value hasn't changed, do nothing
+    if (Number(rate.originalPrice) === newOriginalPrice) return;
+
+    const vatRate = Number(rate.vatRate) || 0;
+    const ephRate = Number(rate.ephRate) || 0;
+    
+    const vat = newOriginalPrice * (vatRate / 100);
+    const ephAmount = newOriginalPrice * (ephRate / 100);
+    const smsAmount = 0.50;
+    const totalPrice = newOriginalPrice + vat + ephAmount + smsAmount;
+    
+    rate.originalPrice = Number(newOriginalPrice.toFixed(2));
+    rate.vat = Number(vat.toFixed(2));
+    rate.ephAmount = Number(ephAmount.toFixed(2));
+    rate.totalPrice = Number(totalPrice.toFixed(2));
+    rate.price = Number(totalPrice.toFixed(2));
+    
+    const newCompanies = [...companies];
+    newCompanies[companyIndex] = company;
+    setCompanies(newCompanies);
+    
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(apiUrl(`/admin/shipping/${company.companyID}`), {
+        method: "PUT",
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Device-Type": "web"
+        },
+        body: JSON.stringify(company)
+      });
+      if (res.ok) {
+        setToast({ visible: true, message: "Fiyat güncellendi.", type: "success" });
+        setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2000);
+      } else {
+        throw new Error('Failed to update');
+      }
+    } catch (e) {
+      console.error(e);
+      setToast({ visible: true, message: "Hata oluştu.", type: "warning" });
+      setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2000);
+      fetchCompanies(); // Revert
     }
   };
 
@@ -214,7 +289,8 @@ export default function ShippingManagementPage() {
        
        const vat = (originalPrice * vatRate) / 100;
        const ephAmount = (originalPrice * ephRate) / 100;
-       const totalPrice = originalPrice + vat + ephAmount;
+       const smsAmount = 0.50;
+       const totalPrice = originalPrice + vat + ephAmount + smsAmount;
        
        rates[index].vat = Number(vat.toFixed(2));
        rates[index].ephAmount = Number(ephAmount.toFixed(2));
@@ -229,8 +305,8 @@ export default function ShippingManagementPage() {
     <div className="flex flex-col items-center justify-center min-h-[400px] gap-6 animate-fade-in">
       <div className="relative flex items-center justify-center">
          <div className="absolute inset-0 w-16 h-16 border-4 border-gray-100 dark:border-white/5 rounded-full"></div>
-         <div className="w-16 h-16 border-4 border-[#54E6D4] border-t-transparent rounded-full animate-spin"></div>
-         <div className="absolute w-6 h-6 bg-[#54E6D4]/20 rounded-full animate-pulse"></div>
+         <div className="w-16 h-16 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin"></div>
+         <div className="absolute w-6 h-6 bg-gray-200 dark:bg-white/20 rounded-full animate-pulse"></div>
       </div>
       <div className="flex flex-col items-center gap-1">
          <span className="text-[14px] font-black tracking-[0.2em] uppercase text-[#101516] dark:text-white">{t('dashboard.sysop.loading_data') || 'Yükleniyor'}</span>
@@ -257,8 +333,8 @@ export default function ShippingManagementPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-4 md:p-8 pt-24 font-sans">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-2 md:p-4 pt-24 font-sans">
+      <div className="w-full mx-auto">
         {!isModalOpen ? (
           <div className="space-y-6 animate-fade-in">
             {/* Advanced Filter Bar (Image 2 Match) */}
@@ -364,7 +440,7 @@ export default function ShippingManagementPage() {
              {/* Create Button */}
              <button 
                 onClick={handleAdd}
-                className="h-12 px-6 shrink-0 rounded-2xl bg-[#54E6D4] hover:bg-[#E66000] text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
+                className="h-12 px-6 shrink-0 rounded-2xl bg-[#101516] dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white font-bold text-[13px] shadow-[0_4px_12px_rgba(255,107,0,0.3)] flex items-center justify-center transition-all ml-1"
              >
                 Yeni Ekle
              </button>
@@ -385,17 +461,18 @@ export default function ShippingManagementPage() {
         <table className="w-full text-left border-collapse min-w-[900px]">
           <thead>
             <tr className='bg-gray-50/50 dark:bg-white/5'>
-              <th className="px-6 py-4 text-[12px] font-medium text-gray-500 rounded-tl-3xl">LOGO</th>
-              <th className="px-6 py-4 text-[12px] font-medium text-gray-500">ŞİRKET DETAYLARI</th>
-              <th className="px-6 py-4 text-[12px] font-medium text-gray-500">BAREMLER</th>
-              <th className="px-6 py-4 text-[12px] font-medium text-gray-500">DURUM</th>
-              <th className="px-6 py-4 text-[12px] font-medium text-gray-500 text-right rounded-tr-3xl">İŞLEMLER</th>
+              <th className="px-4 py-3 text-[12px] font-medium text-gray-500 rounded-tl-3xl w-[80px] whitespace-nowrap">LOGO</th>
+              <th className="px-4 py-3 text-[12px] font-medium text-gray-500 w-[300px] whitespace-nowrap">ŞİRKET DETAYLARI</th>
+              <th className="px-4 py-3 text-[12px] font-medium text-gray-500 w-[220px] whitespace-nowrap">BAREMLER</th>
+              <th className="px-4 py-3 text-[12px] font-medium text-gray-500 w-[150px] whitespace-nowrap">DURUM</th>
+              <th></th>
+              <th className="px-4 py-3 text-[12px] font-medium text-gray-500 text-right rounded-tr-3xl w-[120px] whitespace-nowrap">İŞLEMLER</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-white/5">
             {filteredCompanies.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-8 py-32 text-center relative overflow-hidden">
+                <td colSpan={6} className="px-8 py-32 text-center relative overflow-hidden">
                    <div className="py-24 flex flex-col items-center justify-center text-center px-4">
                     <div className="w-20 h-20 rounded-full bg-gray-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 flex items-center justify-center mb-4">
                       <svg className="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -409,36 +486,46 @@ export default function ShippingManagementPage() {
               </tr>
             ) : (
               filteredCompanies.map((company) => (
-                <tr key={company.companyID} className={`transition-all hover:bg-gray-50/50 dark:hover:bg-white/5 group`}>
-                  <td className="px-6 py-4">
-                    <div className="relative w-12 h-12 rounded-xl bg-white dark:bg-[#0B0C10] shadow-sm border border-gray-100 dark:border-white/10 flex items-center justify-center overflow-hidden transition-all duration-300">
+                <React.Fragment key={company.companyID}>
+                <tr 
+                  className={`transition-all hover:bg-gray-50/50 dark:hover:bg-white/5 group cursor-pointer ${expandedRowId === company.companyID ? 'bg-gray-50/50 dark:bg-white/5' : ''}`}
+                  onClick={() => setExpandedRowId(expandedRowId === company.companyID ? null : company.companyID)}
+                >
+                  <td className="px-4 py-2.5">
+                    <div className="relative w-10 h-10 rounded-xl bg-white dark:bg-[#0B0C10] shadow-sm border border-gray-100 dark:border-white/10 flex items-center justify-center overflow-hidden transition-all duration-300">
                       {company.logo ? (
-                        <img src={company.logo.startsWith('http') ? company.logo : apiUrl(`/uploads/shipping/${company.logo}`)} alt={company.name} className="w-full h-full object-contain p-1.5" />
+                        <img src={company.logo.startsWith('http') ? company.logo : apiUrl(`/uploads/shipping/${company.logo}`)} alt={company.name} className="w-full h-full object-contain p-1" />
                       ) : (
-                        <span className="text-[10px] text-gray-400 font-medium">Yok</span>
+                        <span className="text-[9px] text-gray-400 font-medium">Yok</span>
                       )}
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex flex-col gap-1">
+                  <td className="px-4 py-2.5">
+                    <div className="flex flex-col gap-0.5">
                       <span className="text-[14px] font-semibold text-[#101516] dark:text-white leading-tight">{company.name}</span>
                       <span className="text-[12px] font-medium text-gray-500 truncate max-w-[250px]">{company.website || 'Web sitesi yok'}</span>
                       <div className="mt-0.5">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium uppercase tracking-wider border ${company.source === 'SYSTEM' ? 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20' : 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-500/10 dark:text-purple-400 dark:border-purple-500/20'}`}>
+                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${company.source === 'SYSTEM' ? 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20' : 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-500/10 dark:text-purple-400 dark:border-purple-500/20'}`}>
                           {company.source === 'SYSTEM' ? 'Sistem' : 'Satıcı Özel'}
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center font-semibold text-[12px] text-gray-600 dark:text-gray-300">
+                  <td className="px-4 py-2.5">
+                     <div className="flex items-center gap-2 text-left">
+                        <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center font-semibold text-[12px] text-gray-600 dark:text-gray-300 transition-all group-hover:bg-white dark:group-hover:bg-white/10">
                            {company.rates?.length || 0}
                         </div>
-                        <span className="text-[11px] font-medium text-gray-500">Kayıtlı Barem</span>
+                        <span className="text-[11px] font-medium text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 text-left transition-all leading-tight">
+                          Kayıtlı Barem <br/>
+                          <span className="text-[#101516] dark:text-white text-[9.5px] flex items-center gap-0.5 mt-0.5">
+                            İncelemek İçin Tıklayın
+                            <svg className={`w-3 h-3 transition-transform duration-300 ${expandedRowId === company.companyID ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                          </span>
+                        </span>
                      </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-2.5">
                     <div className="flex items-center gap-2">
                       <div className="relative flex items-center justify-center w-2.5 h-2.5">
                          <div className={`absolute inset-0 rounded-full ${company.isActive ? 'bg-[#34C759] animate-ping opacity-30' : 'hidden'}`}></div>
@@ -449,17 +536,75 @@ export default function ShippingManagementPage() {
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <button onClick={() => handleEdit(company)} className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#54E6D4] hover:bg-[#54E6D4]/10 dark:hover:bg-[#54E6D4]/20 border border-transparent hover:border-[#54E6D4]/20 transition-all flex items-center justify-center shadow-sm" title="Düzenle">
+                  <td></td>
+                  <td className="px-4 py-2.5">
+                    <div className="flex items-center justify-end gap-1.5 transition-opacity duration-300">
+                      <button onClick={(e) => { e.stopPropagation(); handleEdit(company); }} className="w-8 h-8 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:text-[#101516] dark:text-white hover:bg-gray-100 dark:bg-white/10 dark:hover:bg-gray-200 dark:bg-white/20 border border-transparent hover:border-black dark:border-white/20 transition-all flex items-center justify-center shadow-sm" title="Düzenle">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                       </button>
-                      <button onClick={() => handleDelete(company.companyID)} className="w-9 h-9 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-400 border border-transparent hover:border-red-500/20 transition-all flex items-center justify-center shadow-sm" title="Sil">
+                      <button onClick={(e) => { e.stopPropagation(); setCompanyToDelete(company.companyID); }} className="w-8 h-8 rounded-lg bg-gray-50/50 dark:bg-white/5 text-gray-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-400 border border-transparent hover:border-red-500/20 transition-all flex items-center justify-center shadow-sm" title="Sil">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                       </button>
                     </div>
                   </td>
                 </tr>
+                {expandedRowId === company.companyID && (
+                  <tr>
+                    <td colSpan={6} className="p-0 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.01]">
+                      <div className="p-6">
+                         <h4 className="text-[13px] font-bold text-[#101516] dark:text-white mb-4 flex items-center gap-2">
+                           <svg className="w-4 h-4 text-[#101516] dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                           Fiyat Baremleri (Desi)
+                         </h4>
+                         {company.rates && company.rates.length > 0 ? (
+                           <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-white/10">
+                             <table className="w-full text-left">
+                               <thead className="bg-white dark:bg-[#12141C]">
+                                 <tr>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-500 uppercase">Min Desi</th>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-500 uppercase">Max Desi</th>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-500 uppercase">Ham Fiyat</th>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-500 uppercase">KDV</th>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-500 uppercase">EPH</th>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-500 uppercase">SMS</th>
+                                   <th className="px-4 py-3 text-[11px] font-bold text-gray-900 dark:text-white uppercase">TOPLAM</th>
+                                 </tr>
+                               </thead>
+                               <tbody className="divide-y divide-gray-100 dark:divide-white/5 bg-white/50 dark:bg-white/[0.02]">
+                                 {company.rates.map((rate, idx) => (
+                                   <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-white/5">
+                                     <td className="px-4 py-2.5 text-[12px] font-medium text-gray-700 dark:text-gray-300">{rate.desiMin}</td>
+                                     <td className="px-4 py-2.5 text-[12px] font-medium text-gray-700 dark:text-gray-300">{rate.desiMax}</td>
+                                     <td className="px-4 py-2.5 text-[12px] font-medium text-gray-700 dark:text-gray-300">
+                                       <div className="relative w-[100px] group/input">
+                                         <input 
+                                           type="number" 
+                                           defaultValue={rate.originalPrice} 
+                                           onBlur={(e) => handleInlineRateUpdate(company.companyID!, idx, e.target.value)}
+                                           onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+                                           className="w-full bg-transparent border border-transparent hover:border-gray-200 focus:border-black dark:border-white focus:bg-white dark:hover:border-white/10 dark:focus:border-black dark:border-white dark:focus:bg-[#0B0C10] rounded-lg px-2 py-1 pr-6 outline-none transition-all font-bold text-[#101516] dark:text-white"
+                                           step="0.01"
+                                         />
+                                         <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 text-[11px] font-bold pointer-events-none transition-opacity">₺</span>
+                                       </div>
+                                     </td>
+                                     <td className="px-4 py-2.5 text-[12px] font-medium text-gray-500">{rate.vat} ₺ (%{rate.vatRate})</td>
+                                     <td className="px-4 py-2.5 text-[12px] font-medium text-gray-500">{rate.ephAmount} ₺ (%{rate.ephRate})</td>
+                                     <td className="px-4 py-2.5 text-[12px] font-medium text-gray-500">0.50 ₺</td>
+                                     <td className="px-4 py-2.5 text-[13px] font-bold text-gray-900 dark:text-white">{rate.totalPrice} ₺</td>
+                                   </tr>
+                                 ))}
+                               </tbody>
+                             </table>
+                           </div>
+                         ) : (
+                           <p className="text-[13px] text-gray-500 font-medium">Bu şirket için kaydedilmiş bir barem bulunmuyor.</p>
+                         )}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                </React.Fragment>
               ))
             )}
           </tbody>
@@ -473,9 +618,9 @@ export default function ShippingManagementPage() {
             
             {/* Modal Header */}
             <div className="px-6 py-5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#12141C] relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#54E6D4] via-[#FF9EBE] to-[#5FC8C0]"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-500 dark:from-gray-600 dark:via-gray-500 dark:to-gray-700"></div>
               <div className="flex items-center gap-4">
-                 <button onClick={() => setIsModalOpen(false)} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#54E6D4] dark:hover:text-[#54E6D4] hover:bg-white dark:hover:bg-white/10 hover:border-[#54E6D4]/30 transition-all shadow-sm">
+                 <button onClick={() => setIsModalOpen(false)} className="h-10 px-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center gap-2 text-[13px] font-bold text-gray-600 dark:text-gray-300 hover:text-[#101516] dark:text-white dark:hover:text-[#101516] dark:text-white hover:bg-white dark:hover:bg-white/10 hover:border-black dark:border-white/30 transition-all shadow-sm">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                     Geri Dön
                  </button>
@@ -494,19 +639,19 @@ export default function ShippingManagementPage() {
             <div className="flex items-center px-6 pt-4 gap-2 bg-white dark:bg-[#12141C] border-b border-gray-100 dark:border-white/10">
                <button 
                   onClick={() => setActiveTab('BASIC')}
-                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'BASIC' ? 'border-[#54E6D4] text-[#54E6D4]' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'BASIC' ? 'border-black dark:border-white text-[#101516] dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                >
                   Temel Bilgiler & Logo
                </button>
                <button 
                   onClick={() => setActiveTab('API')}
-                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'API' ? 'border-[#54E6D4] text-[#54E6D4]' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'API' ? 'border-black dark:border-white text-[#101516] dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                >
                   API Bilgileri
                </button>
                <button 
                   onClick={() => setActiveTab('RATES')}
-                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'RATES' ? 'border-[#54E6D4] text-[#54E6D4]' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                  className={`h-11 px-5 border-b-2 font-bold text-[13px] transition-all ${activeTab === 'RATES' ? 'border-black dark:border-white text-[#101516] dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                >
                   Fiyat Baremleri
                </button>
@@ -527,7 +672,7 @@ export default function ShippingManagementPage() {
                       placeholder="Örn: Yurtiçi Kargo"
                       value={currentCompany.name}
                       onChange={e => setCurrentCompany({...currentCompany, name: e.target.value})}
-                      className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm" 
+                      className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm" 
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -537,7 +682,7 @@ export default function ShippingManagementPage() {
                       placeholder="Örn: https://www.yurticikargo.com"
                       value={currentCompany.website || ''}
                       onChange={e => setCurrentCompany({...currentCompany, website: e.target.value})}
-                      className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm" 
+                      className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm" 
                     />
                   </div>
 
@@ -548,9 +693,9 @@ export default function ShippingManagementPage() {
                       placeholder="Örn: https://gonderitakip.ptt.gov.tr/Track/Verify?q={kargoNo}"
                       value={currentCompany.trackingUrl || ''}
                       onChange={e => setCurrentCompany({...currentCompany, trackingUrl: e.target.value})}
-                      className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm" 
+                      className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm" 
                     />
-                    <p className="text-[11px] font-medium text-gray-400 ml-1">Takip numarasının geleceği yere <span className="text-[#54E6D4]">{"{kargoNo}"}</span> yazabilirsiniz.</p>
+                    <p className="text-[11px] font-medium text-gray-400 ml-1">Takip numarasının geleceği yere <span className="text-[#101516] dark:text-white">{"{kargoNo}"}</span> yazabilirsiniz.</p>
                   </div>
 
                   <div className="space-y-1.5">
@@ -628,7 +773,7 @@ export default function ShippingManagementPage() {
                           const creds = currentCompany.apiCredentials || { dev: {}, prod: {} };
                           setCurrentCompany({...currentCompany, apiCredentials: { ...creds, activeEnvironment: 'dev' }});
                         }}
-                        className={`px-4 h-9 rounded-lg font-semibold text-[13px] transition-all duration-300 ${currentCompany.apiCredentials?.activeEnvironment === 'dev' ? 'bg-white dark:bg-white/10 shadow-sm text-[#54E6D4] dark:text-[#54E6D4]' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                        className={`px-4 h-9 rounded-lg font-semibold text-[13px] transition-all duration-300 ${currentCompany.apiCredentials?.activeEnvironment === 'dev' ? 'bg-white dark:bg-white/10 shadow-sm text-[#101516] dark:text-white dark:text-[#101516] dark:text-white' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
                       >
                         TEST (DEV)
                       </button>
@@ -663,7 +808,7 @@ export default function ShippingManagementPage() {
                                     }
                                   });
                                 }}
-                                className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm" 
+                                className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm" 
                               />
                             </div>
                           ))}
@@ -687,7 +832,7 @@ export default function ShippingManagementPage() {
                                     }
                                   });
                                 }}
-                                className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm" 
+                                className="w-full h-11 px-4 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm" 
                               />
                             </div>
                           ))}
@@ -713,7 +858,7 @@ export default function ShippingManagementPage() {
                                 // Ignore invalid JSON while typing
                               }
                             }}
-                            className="w-full h-32 p-4 rounded-xl outline-none font-mono text-[13px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20 shadow-sm"
+                            className="w-full h-32 p-4 rounded-xl outline-none font-mono text-[13px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 shadow-sm"
                             placeholder='{"API_KEY": "value"}'
                           ></textarea>
                         </div>
@@ -729,7 +874,7 @@ export default function ShippingManagementPage() {
                 <div className="flex items-center justify-end mb-4">
                    <button 
                      onClick={addRate} 
-                     className="h-9 px-4 rounded-lg bg-gray-100 dark:bg-white/5 text-[#101516] dark:text-white font-semibold text-[13px] hover:bg-[#54E6D4] hover:text-white transition-all flex items-center gap-2 shadow-sm"
+                     className="h-9 px-4 rounded-lg bg-gray-100 dark:bg-white/5 text-[#101516] dark:text-white font-semibold text-[13px] hover:bg-[#101516] dark:bg-white hover:text-white transition-all flex items-center gap-2 shadow-sm"
                    >
                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
                      Yeni Barem Ekle
@@ -759,7 +904,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.desiMin}
                                  onChange={e => updateRate(idx, 'desiMin', parseFloat(e.target.value))}
-                                 className="w-full h-10 px-3 rounded-xl outline-none font-medium text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20" 
+                                 className="w-full h-10 px-3 rounded-xl outline-none font-medium text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20" 
                                />
                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[12px] font-medium text-gray-400">DS</span>
                              </div>
@@ -771,7 +916,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.desiMax}
                                  onChange={e => updateRate(idx, 'desiMax', parseFloat(e.target.value))}
-                                 className="w-full h-10 px-3 rounded-xl outline-none font-medium text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20" 
+                                 className="w-full h-10 px-3 rounded-xl outline-none font-medium text-[14px] transition-all border bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20" 
                                />
                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[12px] font-medium text-gray-400">DS</span>
                              </div>
@@ -787,7 +932,7 @@ export default function ShippingManagementPage() {
                                  type="number" 
                                  value={rate.originalPrice || 0}
                                  onChange={e => updateRate(idx, 'originalPrice', parseFloat(e.target.value))}
-                                 className="w-full h-10 px-3 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-[#54E6D4] focus:ring-2 focus:ring-[#54E6D4]/20" 
+                                 className="w-full h-10 px-3 rounded-xl outline-none font-medium text-[14px] transition-all border bg-white dark:bg-[#0B0C10] border-gray-200 dark:border-white/10 focus:border-black dark:border-white focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20" 
                                />
                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[13px] font-medium text-gray-400">₺</span>
                              </div>
@@ -827,7 +972,7 @@ export default function ShippingManagementPage() {
                       {/* Summary Banner for the Rate */}
                       <div className="mt-4 pt-3 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
                          <div>
-                            <p className="text-[12px] font-medium text-gray-500">Ham Fiyat + KDV ({rate.vat}₺) + EPH ({rate.ephAmount}₺)</p>
+                            <p className="text-[12px] font-medium text-gray-500">Ham Fiyat + KDV ({rate.vat}₺) + EPH ({rate.ephAmount}₺) + SMS (0.50₺)</p>
                          </div>
                          <div className="text-right flex items-baseline gap-1 text-[#101516] dark:text-white">
                             <span className="text-xl font-bold leading-none">{rate.totalPrice || 0}</span>
@@ -859,7 +1004,7 @@ export default function ShippingManagementPage() {
               <button 
                 onClick={handleSave}
                 disabled={saving}
-                className="h-11 px-8 rounded-xl bg-[#54E6D4] text-white font-bold text-[13px] hover:bg-[#E66000] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
+                className="h-11 px-8 rounded-xl bg-[#101516] text-white dark:bg-white dark:text-[#101516] font-bold text-[13px] hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center min-w-[140px] shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
               >
                 {saving ? (
                   <div className="w-5 h-5 border-2 border-white/30 dark:border-black/30 border-t-white dark:border-t-black rounded-full animate-spin"></div>

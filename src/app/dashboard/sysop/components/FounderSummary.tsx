@@ -66,7 +66,7 @@ export default function FounderSummary() {
             <p className="text-sm md:text-base font-medium leading-relaxed text-gray-700 dark:text-white/90">
               Platformda <span className="text-gray-900 dark:text-white font-black">toplam {totalUsers} kullanıcı</span> kayıtlı (Bugün katılan: <span className="text-blue-600 dark:text-blue-400 font-bold">{newUsersToday}</span>). 
               Toplam gerçekleşen ciro <span className="text-emerald-600 dark:text-green-400 font-bold">{calculatedRevenue.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺</span> seviyesinde ve anlık <span className="text-emerald-600 dark:text-green-400 font-bold">{activeUsers}</span> kullanıcı aktif (DAU). 
-              İncelenmesi gereken <span className="text-amber-600 dark:text-[#54E6D4] font-bold">{pendingListings} ilan</span> ve satıcılara aktarılması bekleyen <span className="text-indigo-600 dark:text-indigo-400 font-bold">{calculatedTransferPending.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺</span> hakediş bulunuyor. 
+              İncelenmesi gereken <span className="text-amber-600 dark:text-[#101516] dark:text-white font-bold">{pendingListings} ilan</span> ve satıcılara aktarılması bekleyen <span className="text-indigo-600 dark:text-indigo-400 font-bold">{calculatedTransferPending.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺</span> hakediş bulunuyor. 
               <span className="text-blue-600 dark:text-blue-400 font-bold"> Sisteminiz sorunsuz çalışıyor.</span>
             </p>
           )}

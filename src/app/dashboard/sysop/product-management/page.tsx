@@ -116,7 +116,7 @@ export default function AdminListings() {
                 <td className="p-6">
                   <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border
                     ${(listing.status === 'ACTIVE' || listing.status === 'active') ? 'bg-success/10 text-success border-success/20' : 
-                      (listing.status === 'PENDING' || listing.status === 'pending_approval') ? 'bg-[#54E6D4]/10 text-[#54E6D4] border-[#54E6D4]/20' : 
+                      (listing.status === 'PENDING' || listing.status === 'pending_approval') ? 'bg-gray-100 dark:bg-white/10 text-[#101516] dark:text-white border-black dark:border-white/20' : 
                       'bg-gray-100 text-text-secondary border-transparent dark:bg-white/10 dark:text-white'}`}>
                     {(listing.status === 'ACTIVE' || listing.status === 'active') ? t('dashboard.sysop.status_active') : (listing.status === 'PENDING' || listing.status === 'pending_approval') ? t('dashboard.sysop.status_pending') : (listing.status === 'REJECTED' || listing.status === 'rejected') ? t('dashboard.sysop.status_rejected') : t('dashboard.sysop.status_passive')}
                   </span>
@@ -185,7 +185,7 @@ export default function AdminListings() {
                      <h4 className="text-[11px] font-black text-text-secondary/50 uppercase tracking-[0.2em] mb-2">{t('dashboard.sysop.detail_status')}</h4>
                      <span className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest border
                        ${selectedListing.status === 'ACTIVE' ? 'bg-success/10 text-success border-success/20' : 
-                         selectedListing.status === 'PENDING' ? 'bg-[#54E6D4]/ text-[#54E6D4] border-[#54E6D4]/' : 
+                         selectedListing.status === 'PENDING' ? 'bg-[#101516] dark:bg-white/ text-[#101516] dark:text-white border-black dark:border-white/' : 
                          'bg-gray-100 text-text-secondary border-transparent dark:bg-white/10 dark:text-white'}`}>
                         {selectedListing.status === 'ACTIVE' ? t('dashboard.sysop.status_active') : selectedListing.status === 'PENDING' ? t('dashboard.sysop.status_pending') : selectedListing.status === 'REJECTED' ? t('dashboard.sysop.status_rejected') : t('dashboard.sysop.status_passive')}
                      </span>

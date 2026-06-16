@@ -979,8 +979,8 @@ export default function KPIBar() {
   return (
     <div className="bg-white dark:bg-[#0A0A0B] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 mb-10 shadow-sm dark:shadow-xl transition-colors">
       <div className="flex justify-end items-center bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10 px-4 py-2">
-        <div className="relative flex items-center bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 rounded-lg px-2 shadow-sm transition-colors hover:border-[#54E6D4]/50 group cursor-pointer">
-          <Calendar01Icon size={14} className="text-gray-400 dark:text-white/40 group-hover:text-[#54E6D4] transition-colors" />
+        <div className="relative flex items-center bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 rounded-lg px-2 shadow-sm transition-colors hover:border-black dark:border-white/50 group cursor-pointer">
+          <Calendar01Icon size={14} className="text-gray-400 dark:text-white/40 group-hover:text-[#101516] dark:text-white transition-colors" />
           <select 
             value={timeframe} 
             onChange={(e) => setTimeframe(e.target.value)}
@@ -992,7 +992,7 @@ export default function KPIBar() {
             <option value="Haftalık">Haftalık</option>
             <option value="Günlük">Günlük</option>
           </select>
-          <ArrowDown01Icon size={12} className="absolute right-2 text-gray-400 group-hover:text-[#54E6D4] pointer-events-none transition-colors" />
+          <ArrowDown01Icon size={12} className="absolute right-2 text-gray-400 group-hover:text-[#101516] dark:text-white pointer-events-none transition-colors" />
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-px bg-gray-200 dark:bg-white/10">

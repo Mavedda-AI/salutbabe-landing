@@ -42,7 +42,7 @@ export default function AlertCenter() {
               className="py-2 px-1 flex items-center justify-between gap-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer z-10"
               onClick={() => setExpandedAlert(expandedAlert === idx ? null : idx)}
             >
-              <div className={`w-6 h-6 rounded flex items-center justify-center border shrink-0 ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-[#54E6D4]/10 border-[#54E6D4]/20 text-[#101516] dark:text-[#54E6D4]'}`}>
+              <div className={`w-6 h-6 rounded flex items-center justify-center border shrink-0 ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-gray-100 dark:bg-white/10 border-black dark:border-white/20 text-[#101516] dark:text-[#101516] dark:text-white'}`}>
                 <Alert02Icon size={12} />
               </div>
               <div className="truncate flex-1">
@@ -50,7 +50,7 @@ export default function AlertCenter() {
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className={`hidden sm:inline-flex text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-[#54E6D4]/10 border-[#54E6D4]/20 text-[#101516] dark:text-[#54E6D4]'}`}>
+                <span className={`hidden sm:inline-flex text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${alert.type === 'CRITICAL' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-gray-100 dark:bg-white/10 border-black dark:border-white/20 text-[#101516] dark:text-[#101516] dark:text-white'}`}>
                   {alert.badge || alert.type}
                 </span>
                 <div className="w-6 h-6 rounded flex items-center justify-center text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white transition-colors">
