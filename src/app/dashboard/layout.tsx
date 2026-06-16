@@ -160,6 +160,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [isAuthenticated]);
 
+  // Local Notification Listener for UX Simulation
+  useEffect(() => {
+    const handleLocalNotification = (e: any) => {
+      const newNotif = e.detail;
+      setNotifications(prev => [newNotif, ...prev]);
+      setUnreadCount(prev => prev + 1);
+      showToast(`Yeni Bildirim: ${newNotif.title}`, 'success');
+    };
+    window.addEventListener('new-local-notification', handleLocalNotification);
+    return () => window.removeEventListener('new-local-notification', handleLocalNotification);
+  }, []);
+
   // Global Auto Refresh Event Emitter
   useEffect(() => {
     let interval: any;
@@ -226,6 +238,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       '/dashboard/sysop/system-settings',
       '/dashboard/sysop/salut-organik',
       '/dashboard/sysop/report-management',
+      '/dashboard/sysop/notifications',
       '/dashboard/common/profile'
     ];
 
@@ -308,6 +321,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       href: '/dashboard/sysop/salut-organik',
       icon: (
         <Leaf01Icon size={24} />
+      )
+    },
+    {
+      label: 'Bildirim Merkezi',
+      href: '/dashboard/sysop/notifications',
+      icon: (
+        <Notification03Icon size={24} />
       )
     },
     { 

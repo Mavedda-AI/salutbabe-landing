@@ -333,7 +333,7 @@ export default function ShippingManagementPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-2 md:p-4 pt-24 font-sans">
+    <div className="min-h-screen bg-gray-50/50 dark:bg-[#0B0C10] text-[#101516] dark:text-white p-2 md:p-4 font-sans">
       <div className="w-full mx-auto">
         {!isModalOpen ? (
           <div className="space-y-6 animate-fade-in">

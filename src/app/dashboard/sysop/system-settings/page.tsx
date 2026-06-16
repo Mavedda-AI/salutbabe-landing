@@ -126,25 +126,26 @@ export default function SystemSettingsPage() {
   if (!settings) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 pb-32">
+    <div className="w-full max-w-[1600px] mx-auto px-2 lg:px-4 py-4 pb-32">
 
 
-      <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-        {/* Sidebar Navigation */}
-        <div className="w-full lg:w-[280px] shrink-0 flex flex-col gap-2">
-          {tabs.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-start p-4 rounded-2xl transition-all duration-300 text-left border ${
-                  isActive 
-                    ? "bg-white dark:bg-[#1A1D27] border-black dark:border-white/30 shadow-[0_10px_30px_rgba(255,107,0,0.1)] translate-x-2" 
-                    : "border-transparent hover:bg-white/50 dark:hover:bg-white/5 text-gray-500 hover:text-[#101516] dark:hover:text-white"
-                }`}
-              >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Top Navigation */}
+        <div className="w-full shrink-0 flex flex-col gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex flex-col items-start p-3 rounded-xl transition-all duration-300 text-left border ${
+                    isActive 
+                      ? "bg-white dark:bg-[#1A1D27] border-black dark:border-white/30 shadow-[0_4px_20px_rgba(0,0,0,0.05)] -translate-y-0.5" 
+                      : "border-transparent bg-gray-50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-gray-500 hover:text-[#101516] dark:hover:text-white"
+                  }`}
+                >
                 <div className={`flex items-center gap-3 font-bold text-[14px] ${isActive ? "text-[#101516] dark:text-white" : ""}`}>
                   <div className={`p-2 rounded-xl transition-colors ${isActive ? "bg-gray-100 dark:bg-white/10 text-[#101516] dark:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}>
                     {tab.icon}
@@ -159,33 +160,7 @@ export default function SystemSettingsPage() {
               </button>
             );
           })}
-          
-          {isDirty && (
-            <div className="mt-4 animate-fade-in-up">
-              <button
-                type="submit"
-                disabled={saving}
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#101516] dark:bg-white hover:bg-[#e66000] text-white rounded-2xl font-black text-[14px] shadow-[0_10px_30px_rgba(255,107,0,0.3)] hover:shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-              >
-                {saving ? (
-                  <>
-                    <svg className="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>Kaydediliyor...</span>
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                    </svg>
-                    <span>Değişiklikleri Kaydet</span>
-                  </>
-                )}
-              </button>
-            </div>
-          )}
+          </div>
         </div>
 
         {/* Content Area */}
@@ -197,8 +172,8 @@ export default function SystemSettingsPage() {
 
 
               {/* Detailed Commissions Card */}
-              <div className="bg-white dark:bg-[#1A1D27] rounded-[2rem] p-6 lg:p-8 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#5FC8C0] to-[#3B82F6] opacity-50 group-hover:opacity-100 transition-opacity" />
+              <div className="bg-white dark:bg-[#1A1D27] rounded-xl p-4 border border-gray-100 dark:border-gray-800/60 shadow-sm relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-gray-900 to-gray-500 dark:from-gray-100 dark:to-gray-500 opacity-50 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                   <div>
@@ -217,7 +192,7 @@ export default function SystemSettingsPage() {
                 {showRawJson ? (
                   <div className="relative group/textarea">
                     <textarea
-                      className="w-full h-96 p-6 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#101516] dark:text-gray-300 focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-[#54E6D4]/10 focus:border-black dark:border-white transition-all resize-y"
+                      className="w-full h-96 p-6 rounded-2xl outline-none font-mono text-[13px] leading-relaxed border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[#101516] dark:text-gray-300 focus:bg-white dark:focus:bg-[#161821] focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 focus:border-black dark:border-white transition-all resize-y"
                       value={JSON.stringify(settings.systemCommissions || [], null, 2)}
                       onChange={(e) => {
                         try {
@@ -231,18 +206,18 @@ export default function SystemSettingsPage() {
                 ) : (
                   <div className="space-y-6">
                     {(settings.systemCommissions || []).map((group: any, gIdx: number) => (
-                      <div key={gIdx} className="p-6 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1A1D27] space-y-6">
+                      <div key={gIdx} className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1A1D27] space-y-4">
                         {/* Group Header */}
-                        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800/80 pb-4">
-                          <div className="flex items-center gap-4 w-full">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#2563EB] text-white flex items-center justify-center font-black text-[14px] shadow-sm shrink-0">
+                        <div className="flex items-start md:items-center justify-between border-b border-gray-200 dark:border-gray-800/80 pb-3">
+                          <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">
+                            <div className="w-8 h-8 rounded-lg bg-[#101516] dark:bg-white text-white dark:text-[#101516] flex items-center justify-center font-black text-[12px] shadow-sm shrink-0">
                               {gIdx + 1}
                             </div>
-                            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2">
                                 <div className="space-y-1.5">
                                   <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Türkçe İsim</label>
                                   <input 
-                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#101516] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-2 py-1.5 font-bold text-[13px] text-[#101516] dark:text-white outline-none focus:border-black dark:focus:border-white"
                                     value={group.groupName?.tr || ''}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -255,7 +230,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1.5">
                                   <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">İngilizce İsim</label>
                                   <input 
-                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#101516] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-2 py-1.5 font-bold text-[13px] text-[#101516] dark:text-white outline-none focus:border-black dark:focus:border-white"
                                     value={group.groupName?.en || ''}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -268,7 +243,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1.5">
                                   <label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">Fransızca İsim</label>
                                   <input 
-                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 font-bold text-[14px] text-[#101516] dark:text-white outline-none focus:border-[#3B82F6]"
+                                    className="w-full bg-gray-50 dark:bg-[#12141C] border border-gray-200 dark:border-gray-800 rounded-lg px-2 py-1.5 font-bold text-[13px] text-[#101516] dark:text-white outline-none focus:border-black dark:focus:border-white"
                                     value={group.groupName?.fr || ''}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -293,11 +268,11 @@ export default function SystemSettingsPage() {
                           </button>
                         </div>
                         {/* Rules inside Group */}
-                        <div className="pl-6 md:pl-10 space-y-4 border-l-2 border-gray-100 dark:border-gray-800/80">
-                          <h4 className="text-[13px] font-bold text-[#101516] dark:text-white mb-2">Grup İçindeki Kurallar</h4>
+                        <div className="pl-3 md:pl-11 space-y-2 border-l-2 border-gray-100 dark:border-gray-800/80">
+                          <h4 className="text-[11px] font-bold text-gray-500 mb-1">Kurallar</h4>
                           
                           {(group.items || []).map((rule: any, rIdx: number) => (
-                            <div key={rIdx} className="relative p-4 pt-8 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-4 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
+                            <div key={rIdx} className="relative p-3 rounded-lg border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C]/50 space-y-2 hover:border-gray-200 dark:hover:border-gray-700 transition-colors">
                               <button 
                                 type="button"
                                 onClick={() => {
@@ -305,17 +280,17 @@ export default function SystemSettingsPage() {
                                   updated[gIdx].items = updated[gIdx].items.filter((_: any, i: number) => i !== rIdx);
                                   setSettings({ ...settings, systemCommissions: updated });
                                 }}
-                                className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0"
+                                className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all shrink-0"
                                 title="Kuralı Sil"
                               >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                               </button>
                               
-                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pr-8">
                                 <div className="space-y-1">
                                   <label className="text-[11px] font-semibold text-gray-500">Hedef (Kimden?)</label>
                                   <select 
-                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-black dark:border-white"
+                                    className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-black dark:border-white"
                                     value={rule.target || 'customer'}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -330,7 +305,7 @@ export default function SystemSettingsPage() {
                                 <div className="space-y-1">
                                   <label className="text-[11px] font-semibold text-gray-500">Hesaplama Tipi</label>
                                   <select 
-                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-black dark:border-white"
+                                    className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-black dark:border-white"
                                     value={rule.type}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -347,7 +322,7 @@ export default function SystemSettingsPage() {
                                   <label className="text-[11px] font-semibold text-gray-500">Temel Oran / Değer</label>
                                   <input 
                                     type="number"
-                                    className="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-black dark:border-white"
+                                    className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1A1D27] text-[12px] font-bold text-[#101516] dark:text-white outline-none focus:border-black dark:border-white"
                                     value={rule.value}
                                     onChange={(e) => {
                                       const updated = [...settings.systemCommissions];
@@ -377,8 +352,8 @@ export default function SystemSettingsPage() {
                                   </div>
                                   <div className="space-y-2">
                                     {(rule.tiers || []).map((tier: any, tIdx: number) => (
-                                      <div key={tIdx} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-end bg-white dark:bg-[#1A1D27] p-3 rounded-lg border border-gray-100 dark:border-gray-800/80">
-                                        <div>
+                                      <div key={tIdx} className="flex flex-wrap gap-2 items-end bg-white dark:bg-[#1A1D27] p-3 rounded-lg border border-gray-100 dark:border-gray-800/80">
+                                        <div className="flex-1 min-w-[60px]">
                                           <input type="number" placeholder="Min" className="w-full h-8 px-2 rounded border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12141C] text-[12px] outline-none" value={tier.min} onChange={(e) => {
                                             const updated = [...settings.systemCommissions];
                                             updated[gIdx].items[rIdx].tiers[tIdx].min = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -447,7 +422,7 @@ export default function SystemSettingsPage() {
                         const updated = [...(settings.systemCommissions || []), newGroup];
                         setSettings({ ...settings, systemCommissions: updated });
                       }}
-                      className="w-full py-5 rounded-2xl border-2 border-dashed border-[#3B82F6]/30 bg-[#3B82F6]/5 text-[#3B82F6] hover:bg-[#3B82F6]/10 text-[14px] font-bold transition-all flex items-center justify-center gap-2"
+                      className="w-full py-5 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 hover:bg-gray-100 dark:bg-[#12141C] dark:hover:bg-white/5 text-[#101516] dark:text-white text-[14px] font-bold transition-all flex items-center justify-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
                       Yeni Komisyon Grubu Oluştur
@@ -510,6 +485,33 @@ export default function SystemSettingsPage() {
             </div>
           </div>
         </div>
+
+        {isDirty && (
+          <div className="mt-8 animate-fade-in-up border-t border-gray-100 dark:border-white/10 pt-8">
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex items-center justify-center gap-2 w-full py-4 bg-[#101516] dark:bg-white hover:bg-black dark:hover:bg-gray-100 text-white dark:text-black rounded-2xl font-black text-[15px] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.1)] dark:hover:shadow-[0_15px_40px_rgba(255,255,255,0.2)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            >
+              {saving ? (
+                <>
+                  <svg className="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Kaydediliyor...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                  </svg>
+                  <span>Değişiklikleri Kaydet</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

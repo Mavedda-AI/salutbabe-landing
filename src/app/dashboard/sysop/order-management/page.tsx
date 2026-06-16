@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
-import {apiUrl} from "../../../../lib/api";
+import {apiUrl, API_BASE_URL} from "../../../../lib/api";
 
 interface Order {
   orderID: string;
@@ -47,6 +47,7 @@ const translateStatus = (status: string) => {
     case 'completed': return 'Tamamlandı';
     case 'cancelled': return 'İptal Edildi';
     case 'pending_payment': return 'Ödeme Bekleniyor';
+    case 'shared_for_payment': return 'Ödeme Paylaşıldı';
     case 'paid': return 'Ödendi';
     case 'refunded': return 'İade Edildi';
     case 'pending': return 'Bekliyor';
@@ -96,6 +97,7 @@ export default function OrderManagementPage() {
       case 'shipped': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
       case 'delivered': return 'bg-primary/10 text-primary border-primary/20';
       case 'cancelled': return 'bg-red-500/10 text-red-500 border-red-500/20';
+      case 'shared_for_payment': return 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20';
       default: return 'bg-gray-500/10 text-gray-500 border-gray-500/20';
     }
   };
@@ -132,20 +134,20 @@ export default function OrderManagementPage() {
                   onClick={() => setExpandedOrderId(isExpanded ? null : order.orderID)}
                   className={`transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 ${isExpanded ? 'bg-gray-50 dark:bg-white/5' : ''}`}
                 >
-                  <td className="px-8 py-5">
+                  <td className="px-6 py-4">
                     <div className="flex flex-col gap-0.5">
-                      <span className="font-black text-text-primary">#{order.orderID.split('-')[0].toUpperCase()}</span>
+                      <span className="font-black text-text-primary whitespace-nowrap">#{order.orderID.split('-')[0].toUpperCase()}</span>
                       <div className="flex flex-col gap-0.5 mt-0.5 text-[10px] font-bold">
-                        <span className="text-text-secondary opacity-60">
+                        <span className="text-text-secondary opacity-60 whitespace-nowrap">
                           Sipariş: {new Date(order.orderDate || order.createdAt || Date.now()).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.orderDate || order.createdAt || Date.now()).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                         {(order.deliveredAt || order.shippedAt || (order.updatedAt && Math.abs(new Date(order.updatedAt).getTime() - new Date(order.createdAt).getTime()) > 60000)) && (
-                        <span className={order.status?.toLowerCase() === 'delivered' ? "text-emerald-500 opacity-80" : "text-blue-500 opacity-80"}>
+                        <span className={`whitespace-nowrap ${order.status?.toLowerCase() === 'delivered' ? "text-emerald-500 opacity-80" : "text-blue-500 opacity-80"}`}>
                           {order.status?.toLowerCase() === 'delivered' ? 'Teslim:' : 'Güncel:'} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt || Date.now()).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(order.deliveredAt || order.shippedAt || order.updatedAt || Date.now()).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                         )}
                         {order.deliveryConfirmedAt ? (
-                        <span className="text-gray-900 dark:text-white opacity-80">
+                        <span className="text-gray-900 dark:text-white opacity-80 whitespace-nowrap">
                           Alıcı Onay: {new Date(Number(order.deliveryConfirmedAt)).toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')} {new Date(Number(order.deliveryConfirmedAt)).toLocaleTimeString(language === 'tr' ? 'tr-TR' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                         ) : order.status?.toLowerCase() === 'completed' ? (
@@ -160,27 +162,27 @@ export default function OrderManagementPage() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-8 py-5">
+                  <td className="px-6 py-4">
                      <div className="flex flex-col">
-                      <span className="font-bold text-text-primary">{order.buyer?.userName} {order.buyer?.userSurname}</span>
-                      <span className="text-[11px] font-medium text-text-secondary opacity-60">{order.buyer?.eMail}</span>
+                      <span className="font-bold text-text-primary whitespace-nowrap">{order.buyer?.userName} {order.buyer?.userSurname}</span>
+                      <span className="text-[11px] font-medium text-text-secondary opacity-60 whitespace-nowrap">{order.buyer?.eMail}</span>
                     </div>
                   </td>
-                  <td className="px-8 py-5">
+                  <td className="px-6 py-4">
                      <div className="flex flex-col">
-                      <span className="font-bold text-text-primary">{order.seller?.userName} {order.seller?.userSurname}</span>
-                      <span className="text-[11px] font-medium text-text-secondary opacity-60">{order.seller?.eMail}</span>
+                      <span className="font-bold text-text-primary whitespace-nowrap">{order.seller?.userName} {order.seller?.userSurname}</span>
+                      <span className="text-[11px] font-medium text-text-secondary opacity-60 whitespace-nowrap">{order.seller?.eMail}</span>
                     </div>
                   </td>
-                  <td className="px-8 py-5">
-                    <span className="font-black text-primary">{parseFloat(order.totalAmount.toString()).toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')} ₺</span>
+                  <td className="px-6 py-4">
+                    <span className="font-black text-primary whitespace-nowrap">{parseFloat(order.totalAmount.toString()).toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')} ₺</span>
                   </td>
-                  <td className="px-8 py-5">
-                    <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${getStatusColor(order.status)}`}>
+                  <td className="px-6 py-4">
+                    <span className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border whitespace-nowrap ${getStatusColor(order.status)}`}>
                       {translateStatus(order.status)}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-6 py-4 text-right">
                      <button className={`p-2.5 rounded-xl transition-all ${isExpanded ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 dark:bg-white/5 text-text-secondary hover:text-primary hover:bg-primary/10'}`}>
                         {isExpanded ? (
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
@@ -202,8 +204,18 @@ export default function OrderManagementPage() {
                             <div className="space-y-3">
                               {order.items.map((item, idx) => (
                                 <div key={item.itemID || idx} className="flex items-center gap-4 bg-white dark:bg-[#12141C] p-4 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
-                                  {item.listing?.images?.[0] ? (
-                                    <img src={item.listing.images[0].imageURL} alt="Product" className="w-16 h-16 rounded-xl object-cover bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10" />
+                                  {item.listing?.images?.[0]?.imageURL ? (
+                                    <img 
+                                      src={item.listing.images[0].imageURL.startsWith('http') ? item.listing.images[0].imageURL : `${API_BASE_URL}/uploads/listings/${item.listing.images[0].imageURL.split('/').pop()}`} 
+                                      alt="Product" 
+                                      className="w-16 h-16 rounded-xl object-cover bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10" 
+                                      onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        if (target.src !== '/logo-favicon.png') {
+                                          target.src = '/logo-favicon.png';
+                                        }
+                                      }}
+                                    />
                                   ) : (
                                     <div className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-text-secondary/40 border border-gray-200 dark:border-white/10">
                                       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
