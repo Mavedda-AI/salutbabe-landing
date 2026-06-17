@@ -227,7 +227,7 @@ const LoginPage = () => {
     showToast(msg, "info");
     
     if (msg.toLowerCase().includes('processed') || msg.toLowerCase().includes('not found')) {
-       window.location.href = "/register";
+       window.location.href = "https://www.salutbabe.com/download";
     }
   };
 
@@ -515,7 +515,7 @@ const LoginPage = () => {
           <div className="mt-12 text-center">
             <p className="text-[13px] text-gray-500 dark:text-[#8F95B2] font-medium">
               {t('auth.no_account') || "Don't Have an Account?"}{" "}
-              <button type="button" onClick={() => setShowSignupPopup(true)} className="text-gray-900 dark:text-white font-bold hover:underline underline-offset-4 ml-1">
+              <button type="button" onClick={() => window.location.href = "https://www.salutbabe.com/download"} className="text-gray-900 dark:text-white font-bold hover:underline underline-offset-4 ml-1">
                 {t('auth.create_one') || "Create One"}
               </button>
             </p>
