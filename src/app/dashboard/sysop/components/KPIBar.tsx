@@ -1060,7 +1060,6 @@ export default function KPIBar() {
           {expandedKpi === 'transfer-pending' && <TransferPendingAccordion token={token || ''} />}
           {expandedKpi === 'cargo-pending' && <CargoPendingAccordion token={token || ''} />}
           {expandedKpi === 'commission' && <CommissionAccordion token={token || ''} />}
-          {expandedKpi === 'dau' && <DAUAccordion token={token || ''} />}
         </div>
       </div>
     </div>
