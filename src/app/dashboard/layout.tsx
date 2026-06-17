@@ -239,6 +239,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       '/dashboard/sysop/salut-organik',
       '/dashboard/sysop/report-management',
       '/dashboard/sysop/notifications',
+      '/dashboard/sysop/partner',
       '/dashboard/common/profile'
     ];
 
