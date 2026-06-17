@@ -224,7 +224,7 @@ function SupportTicketListAccordion({ token }: { token: string }) {
 
 function UserListAccordion({ token }: { token: string }) {
   const router = useRouter();
-  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users'), token] : null, ([url, t]) => fetcher(url, t));
+  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users?limit=100'), token] : null, ([url, t]) => fetcher(url, t));
   const users = data?.payload?.users || [];
 
   if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Kullanıcılar Yükleniyor...</div>;
@@ -786,7 +786,7 @@ function CargoPendingAccordion({ token }: { token: string }) {
 
 function DAUAccordion({ token }: { token: string }) {
   const router = useRouter();
-  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users'), token] : null, ([url, t]) => fetcher(url, t));
+  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users?limit=100'), token] : null, ([url, t]) => fetcher(url, t));
   const users = data?.payload?.users || [];
   
   const activeSortedUsers = [...users].sort((a: any, b: any) => {
