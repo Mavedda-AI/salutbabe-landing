@@ -805,13 +805,23 @@ function DAUAccordion({ token }: { token: string }) {
 
   const timeAgo = (lastSeenAt: any) => {
     if (!lastSeenAt) return 'Hiç girmedi';
-    const diffMs = Date.now() - new Date(Number(lastSeenAt)).getTime();
+    const date = new Date(Number(lastSeenAt));
+    const timeStr = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    const diffMs = Date.now() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
-    if (diffMins < 1) return 'Şimdi';
-    if (diffMins < 60) return `${diffMins} dk önce`;
+    if (diffMins < 1) return `Şimdi (${timeStr})`;
+    if (diffMins < 60) return `${diffMins} dk önce (${timeStr})`;
     const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours} saat önce`;
-    return `${Math.floor(diffHours / 24)} gün önce`;
+    if (diffHours < 24) return `${diffHours} saat önce (${timeStr})`;
+    return `${Math.floor(diffHours / 24)} gün önce (${timeStr})`;
+  };
+
+  const formatSessionTime = (seconds?: number) => {
+    if (!seconds) return 'Bilinmiyor';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    if (h > 0) return `${h} sa ${m} dk`;
+    return `${m} dk`;
   };
 
   if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Aktif Kullanıcılar Yükleniyor...</div>;
@@ -827,6 +837,7 @@ function DAUAccordion({ token }: { token: string }) {
             <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
               <th className="pb-3 font-medium">Kullanıcı Adı</th>
               <th className="pb-3 font-medium">Durum</th>
+              <th className="pb-3 font-medium">Geçirilen Süre</th>
               <th className="pb-3 font-medium text-right">Son Etkileşim</th>
             </tr>
           </thead>
@@ -847,6 +858,9 @@ function DAUAccordion({ token }: { token: string }) {
                     <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${online ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-white/40'}`}>
                       {online ? 'Çevrimiçi' : 'Uygulama Dışı'}
                     </span>
+                  </td>
+                  <td className="py-3 text-gray-500 dark:text-white/60 font-medium">
+                    {formatSessionTime(user.totalAppSessionSeconds)}
                   </td>
                   <td className="py-3 text-gray-400 dark:text-white/40 text-right">{timeAgo(user.lastSeenAt)}</td>
                 </tr>
