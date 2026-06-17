@@ -26,8 +26,8 @@ const formatDatesDual = (createdAt: any, updatedAt: any, status?: string, delive
   const isDelivered = status?.toLowerCase() === 'delivered';
   
   return (
-    <div className="flex flex-col gap-0.5 text-[10px] whitespace-nowrap">
-      <div className="opacity-60 flex gap-1">
+    <div className="flex flex-col gap-0.5 text-xs whitespace-nowrap text-gray-600 dark:text-white/60 font-medium">
+      <div className="flex gap-1">
         <span>Sipariş:</span>
         <span>{createdDate.toLocaleDateString('tr-TR')} {createdDate.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
@@ -82,10 +82,10 @@ const translateStatus = (status: string) => {
     case 'pending': return 'Bekliyor';
     case 'approved': return 'Onaylandı';
     case 'rejected': return 'Reddedildi';
-    case 'rejected': return 'Reddedildi';
     case 'active': return 'Aktif';
     case 'under_review': return 'İncelemede';
     case 'draft': return 'Taslak';
+    case 'shared_for_payment': return 'Ödeme Linki Paylaşıldı';
     default: return status;
   }
 };
@@ -264,7 +264,7 @@ function UserListAccordion({ token }: { token: string }) {
                     {user.role || 'USER'}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{new Date(user.createdAt).toLocaleDateString('tr-TR')}</td>
+                <td className="py-3 text-gray-500 dark:text-white/60">{new Date(user.registrationDate || user.createdAt).toLocaleDateString('tr-TR')}</td>
               </tr>
             ))}
           </tbody>
@@ -310,7 +310,7 @@ function OrderListAccordion({ token }: { token: string }) {
                     {translateStatus(order.status)}
                   </span>
                 </td>
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDatesDual(order.orderDate || order.createdAt, order.deliveredAt || order.shippedAt || order.updatedAt, order.status, order.deliveryConfirmedAt)}</td>
+                <td className="py-3">{formatDatesDual(order.orderDate || order.createdAt, order.deliveredAt || order.shippedAt || order.updatedAt, order.status, order.deliveryConfirmedAt)}</td>
               </tr>
             ))}
           </tbody>
@@ -580,6 +580,7 @@ function RevenueDailyAccordion({ token }: { token: string }) {
             <tr className="text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
               <th className="pb-3 font-medium">İşlem ID</th>
               <th className="pb-3 font-medium">Alıcı</th>
+              <th className="pb-3 font-medium">Satıcı</th>
               <th className="pb-3 font-medium text-right">İşlem Tutarı</th>
             </tr>
           </thead>
@@ -592,6 +593,7 @@ function RevenueDailyAccordion({ token }: { token: string }) {
               >
                 <td className="py-3 text-gray-900 dark:text-white font-medium">#{order.orderID?.split('-')[0] || order.id || 'Bilinmiyor'}</td>
                 <td className="py-3 text-gray-500 dark:text-white/60">{order.buyer?.userName} {order.buyer?.userSurname}</td>
+                <td className="py-3 text-gray-500 dark:text-white/60">{order.seller?.userName} {order.seller?.userSurname}</td>
                 <td className="py-3 text-emerald-600 dark:text-emerald-400 font-bold text-right">+{order.totalAmount} ₺</td>
               </tr>
             ))}
@@ -630,7 +632,7 @@ function PendingRevenueAccordion({ token }: { token: string }) {
                 onClick={() => router.push('/dashboard/sysop/order-management')}
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
-                <td className="py-3 text-gray-400 dark:text-white/40">{formatDatesDual(order.orderDate || order.createdAt, order.deliveredAt || order.shippedAt || order.updatedAt, order.status, order.deliveryConfirmedAt)}</td>
+                <td className="py-3">{formatDatesDual(order.orderDate || order.createdAt, order.deliveredAt || order.shippedAt || order.updatedAt, order.status, order.deliveryConfirmedAt)}</td>
                 <td className="py-3 text-gray-900 dark:text-white font-medium">{order.seller?.userName || 'Sistem İşlemi'}</td>
                 <td className="py-3 text-blue-600 dark:text-blue-400 font-bold text-right">{order.totalAmount} ₺</td>
               </tr>
@@ -649,8 +651,8 @@ function CommissionAccordion({ token }: { token: string }) {
 
   if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Komisyon Detayları Yükleniyor...</div>;
 
-  const completedOrders = orders.filter((o: any) => o.status === 'DELIVERED' || o.status === 'COMPLETED');
-  const pendingOrders = orders.filter((o: any) => o.status === 'PROCESSING' || o.status === 'PENDING' || o.status === 'SHIPPED');
+  const completedOrders = orders.filter((o: any) => ['delivered', 'completed', 'DELIVERED', 'COMPLETED'].includes(o.status));
+  const pendingOrders = orders.filter((o: any) => ['processing', 'pending', 'shipped', 'paid', 'pending_payment', 'PROCESSING', 'PENDING', 'SHIPPED'].includes(o.status));
 
   const formatCompactNumber = (num: number) => num.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
 
