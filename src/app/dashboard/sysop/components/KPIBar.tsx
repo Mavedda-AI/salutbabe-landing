@@ -4,17 +4,17 @@ import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
 import {
-  ArrowDown01Icon,
-  BankIcon,
-  Calendar01Icon,
-  CheckmarkBadge01Icon,
-  Image01Icon,
-  PercentCircleIcon,
-  ShoppingCart01Icon,
-  Tag01Icon,
-  UserCircleIcon,
-  UserGroupIcon,
-  Wallet01Icon
+    ArrowDown01Icon,
+    BankIcon,
+    Calendar01Icon,
+    CheckmarkBadge01Icon,
+    Image01Icon,
+    PercentCircleIcon,
+    ShoppingCart01Icon,
+    Tag01Icon,
+    UserCircleIcon,
+    UserGroupIcon,
+    Wallet01Icon
 } from 'hugeicons-react';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
@@ -224,7 +224,7 @@ function SupportTicketListAccordion({ token }: { token: string }) {
 
 function UserListAccordion({ token }: { token: string }) {
   const router = useRouter();
-  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users'), token] : null, ([url, t]) => fetcher(url, t));
+  const { data, isLoading } = useSWR(token ? [apiUrl('/admin/users?sort=lastSeenAt'), token] : null, ([url, t]) => fetcher(url, t));
   const users = data?.payload?.users || [];
 
   if (isLoading) return <div className="p-6 text-center text-gray-500 dark:text-white/40 text-sm animate-pulse">Kullanıcılar Yükleniyor...</div>;
