@@ -775,8 +775,10 @@ function CargoPendingAccordion({ token }: { token: string }) {
                 className="border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <td className="py-3 text-gray-900 dark:text-white font-medium">#{order.orderID?.split('-')[0] || order.id || 'Bilinmiyor'}</td>
-                <td className="py-3 text-gray-500 dark:text-white/60">{order.shippingCompany || order.shippingProvider || 'Bilinmeyen Kargo'}</td>
-                <td className="py-3 text-amber-600 dark:text-amber-400 font-bold text-right">-{Number(order.shippingPrice || order.shippingCost || 0).toLocaleString('tr-TR')} ₺</td>
+                <td className="py-3 text-gray-500 dark:text-white/60">{order.selectedCargoCompanyName || order.cargoCompany || 'Bilinmeyen Kargo'}</td>
+                <td className="py-3 text-amber-600 dark:text-amber-400 font-bold text-right">
+                  -{Number(order.items?.reduce((sum: number, item: any) => sum + Number(item.listing?.shippingPrice || 0), 0) || 0).toLocaleString('tr-TR')} ₺
+                </td>
               </tr>
             ))}
           </tbody>
@@ -962,7 +964,7 @@ export default function KPIBar() {
   const calculatedActiveOrders = (!useCalculated && payload.activeOrders) ? payload.activeOrders : activeOrdersArr.length;
   const calculatedTotalOrders = (!useCalculated && payload.totalOrders) ? payload.totalOrders : orders.length;
   const calculatedTotalUsers = (!useCalculated && payload.totalUsers) ? payload.totalUsers : (users.length || payload.users?.length || 0);
-  const calculatedCargoPending = (!useCalculated && payload.totalCargoCost) ? payload.totalCargoCost : activeOrdersArr.reduce((acc: number, order: any) => acc + Number(order.shippingPrice || order.shippingCost || 0), 0);
+  const calculatedCargoPending = (!useCalculated && payload.totalCargoCost) ? payload.totalCargoCost : activeOrdersArr.reduce((acc: number, order: any) => acc + (order.items?.reduce((sum: number, item: any) => sum + Number(item.listing?.shippingPrice || 0), 0) || 0), 0);
 
   const reportsCount = reportsData?.payload?.total || reportsData?.payload?.reports?.length || 0;
 
