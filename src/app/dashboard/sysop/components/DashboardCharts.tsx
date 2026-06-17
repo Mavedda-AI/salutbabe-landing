@@ -55,6 +55,23 @@ export default function DashboardCharts() {
   const revenueTrend = chartsData?.revenueTrend || [];
   const orderStatuses = chartsData?.orderStatuses || [];
 
+  const statusLabels: Record<string, string> = {
+    'shared_for_payment': 'Ödeme İçin Paylaşıldı',
+    'pending_payment': 'Ödeme Bekliyor',
+    'paid': 'Yeni',
+    'processing': 'Hazırlanıyor',
+    'shipped': 'Kargoda',
+    'delivered': 'Tamamlandı',
+    'cancelled': 'İptal',
+    'refunded': 'İade',
+    'accepted': 'Onaylandı'
+  };
+
+  const formattedOrderStatuses = orderStatuses.map((s: any) => ({
+    ...s,
+    name: statusLabels[s.name] || s.name
+  }));
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
@@ -156,7 +173,7 @@ export default function DashboardCharts() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={orderStatuses}
+                    data={formattedOrderStatuses}
                     cx="50%"
                     cy="45%"
                     innerRadius={55}
@@ -165,7 +182,7 @@ export default function DashboardCharts() {
                     dataKey="value"
                     stroke="none"
                   >
-                    {orderStatuses.map((entry: any, index: number) => (
+                    {formattedOrderStatuses.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
