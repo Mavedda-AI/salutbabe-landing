@@ -27,11 +27,8 @@ export default function SalutOrganikManagementPage() {
   const [pendingProducts, setPendingProducts] = useState<any[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
 
-  // Placeholder Data for Producers
-  const pendingProducers = [
-    { id: 1, name: "Ahmet Yılmaz", farmName: "Yılmaz Organik Çiftliği", location: "İzmir, Seferihisar", status: "pending", certificate: "EkoTar Sertifikası" },
-    { id: 2, name: "Ayşe Demir", farmName: "Ayşe'nin Doğal Ürünleri", location: "Aydın, Söke", status: "pending", certificate: "Organik Tarım Belgesi" }
-  ];
+  const [pendingProducers, setPendingProducers] = useState<any[]>([]);
+  const [loadingProducers, setLoadingProducers] = useState(false);
 
   const fetchPendingProducts = async () => {
     try {
@@ -54,10 +51,30 @@ export default function SalutOrganikManagementPage() {
     }
   };
 
-  useEffect(() => {
-    if (currentTab === 'products') {
-      fetchPendingProducts();
+  const fetchPendingProducers = async () => {
+    try {
+      setLoadingProducers(true);
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl("/salut-organic/admin/farmers/pending?page=1&limit=50"), {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        setPendingProducers(data.payload?.producers || []);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingProducers(false);
     }
+  };
+
+  useEffect(() => {
+    if (currentTab === 'products') fetchPendingProducts();
+    if (currentTab === 'producers') fetchPendingProducers();
   }, [currentTab]);
 
   const handleApprove = async (id: string | number, type: string) => {
@@ -83,7 +100,26 @@ export default function SalutOrganikManagementPage() {
         showToast("Bir hata oluştu", "error");
       }
     } else {
-      showToast(`Üretici başarıyla onaylandı!`, "success");
+      try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(apiUrl(`/salut-organic/admin/farmers/${id}/approve`), {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "X-Device-Type": "web"
+          }
+        });
+        const data = await res.json();
+        if (data.request?.requestResult) {
+          setPendingProducers(prev => prev.filter(p => p.storeID !== id));
+          showToast(`Üretici başarıyla onaylandı!`, "success");
+        } else {
+          showToast(`Onaylanamadı: ${data.request?.requestMessage}`, "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showToast("Bir hata oluştu", "error");
+      }
     }
   };
 
@@ -112,7 +148,28 @@ export default function SalutOrganikManagementPage() {
         showToast("Bir hata oluştu", "error");
       }
     } else {
-      showToast(`Üretici başvurusu reddedildi.`, "error");
+      try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(apiUrl(`/salut-organic/admin/farmers/${id}/reject`), {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "X-Device-Type": "web",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ reason: "Sistem tarafından reddedildi." })
+        });
+        const data = await res.json();
+        if (data.request?.requestResult) {
+          setPendingProducers(prev => prev.filter(p => p.storeID !== id));
+          showToast(`Üretici başvurusu reddedildi.`, "error");
+        } else {
+          showToast(`Reddedilemedi: ${data.request?.requestMessage}`, "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showToast("Bir hata oluştu", "error");
+      }
     }
   };
 
@@ -178,7 +235,7 @@ export default function SalutOrganikManagementPage() {
         {currentTab === 'producers' && (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {pendingProducers.map((producer) => (
-              <div key={producer.id} className="group flex flex-col bg-white dark:bg-[#101516] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-xl transition-all duration-300">
+              <div key={producer.storeID} className="group flex flex-col bg-white dark:bg-[#101516] rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-xl transition-all duration-300">
                 <div className="p-6 pb-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
@@ -187,10 +244,10 @@ export default function SalutOrganikManagementPage() {
                       </div>
                       <div>
                         <div className="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">
-                          {producer.farmName}
+                          {producer.storeName}
                         </div>
                         <div className="text-xs font-medium text-gray-500 dark:text-white/50 mt-0.5">
-                          {producer.name} • {producer.location}
+                          {producer.owner?.userName} {producer.owner?.userSurname} • {producer.owner?.eMail}
                         </div>
                       </div>
                     </div>
@@ -201,7 +258,7 @@ export default function SalutOrganikManagementPage() {
                       Sertifika Belgesi
                     </div>
                     <div className="text-xs font-bold text-gray-700 dark:text-white/80">
-                      {producer.certificate}
+                      {producer.organicCertificates && producer.organicCertificates.length > 0 ? `${producer.organicCertificates.length} Sertifika Eklendi` : 'Belge Yok'}
                     </div>
                     <button onClick={() => setSelectedProducer(producer)} className="mt-3 text-xs font-bold text-gray-900 dark:text-white hover:underline">
                       Tüm Başvuru Detaylarını Gör &rarr;
@@ -211,14 +268,14 @@ export default function SalutOrganikManagementPage() {
 
                 <div className="grid grid-cols-2 border-t border-gray-100 dark:border-white/10">
                   <button 
-                    onClick={() => handleReject(producer.id, 'producer')}
+                    onClick={() => handleReject(producer.storeID, 'producer')}
                     className="flex items-center justify-center gap-2 p-4 text-sm font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-500/10 transition-colors"
                   >
                     <Cancel01Icon size={18} />
                     <span>Reddet</span>
                   </button>
                   <button 
-                    onClick={() => handleApprove(producer.id, 'producer')}
+                    onClick={() => handleApprove(producer.storeID, 'producer')}
                     className="flex items-center justify-center gap-2 p-4 text-sm font-bold text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-1000/10 transition-colors border-l border-gray-100 dark:border-white/10"
                   >
                     <TickDouble01Icon size={18} />
@@ -390,7 +447,7 @@ export default function SalutOrganikManagementPage() {
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white">Başvuru Detayları</h3>
-                <p className="text-sm text-gray-500 dark:text-white/50 mt-1">{selectedProducer?.farmName} ({selectedProducer?.name})</p>
+                <p className="text-sm text-gray-500 dark:text-white/50 mt-1">{selectedProducer?.storeName} ({selectedProducer?.owner?.userName} {selectedProducer?.owner?.userSurname})</p>
               </div>
               <button onClick={() => setSelectedProducer(null)} className="text-gray-400 hover:text-gray-900 dark:hover:text-white p-2 bg-gray-50 dark:bg-white/5 rounded-full"><Cancel01Icon size={24} /></button>
             </div>
@@ -398,11 +455,11 @@ export default function SalutOrganikManagementPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10">
                   <div className="text-[10px] font-black uppercase text-gray-500 dark:text-white/40 mb-1">Lokasyon</div>
-                  <div className="text-sm font-bold text-gray-900 dark:text-white">{selectedProducer?.location}</div>
+                  <div className="text-sm font-bold text-gray-900 dark:text-white">{selectedProducer?.owner?.eMail || "Tanımsız"}</div>
                 </div>
                 <div className="p-4 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10">
                   <div className="text-[10px] font-black uppercase text-gray-500 dark:text-white/40 mb-1">Sertifika Türü</div>
-                  <div className="text-sm font-bold text-gray-900 dark:text-white">{selectedProducer?.certificate}</div>
+                  <div className="text-sm font-bold text-gray-900 dark:text-white">{selectedProducer?.organicCertificates && selectedProducer.organicCertificates.length > 0 ? `${selectedProducer.organicCertificates.length} Sertifika` : 'Belge Yok'}</div>
                 </div>
               </div>
               <div className="p-6 bg-gray-100 dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10 flex flex-col items-center justify-center text-center">
