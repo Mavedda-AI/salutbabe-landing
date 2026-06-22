@@ -231,9 +231,17 @@ function UserListAccordion({ token }: { token: string }) {
 
   return (
     <div className="p-6 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#050505]">
-      <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <UserCircleIcon size={18} className="text-blue-500" /> Son Kayıt Olan Kullanıcılar
-      </h4>
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <UserCircleIcon size={18} className="text-blue-500" /> Son Kayıt Olan Kullanıcılar
+        </h4>
+        <button 
+          onClick={() => router.push('/dashboard/sysop/user-management')}
+          className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg"
+        >
+          Tüm Kullanıcıları Yönet
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead>
@@ -258,7 +266,7 @@ function UserListAccordion({ token }: { token: string }) {
                   {user.userName} {user.userSurname}
                   {user.isEmailVerified && <CheckmarkBadge01Icon size={14} className="text-blue-500" />}
                 </td>
-                <td className="py-3 text-gray-500 dark:text-white/60">{user.userEmail}</td>
+                <td className="py-3 text-gray-500 dark:text-white/60">{user.eMail || user.email || 'Bilinmiyor'}</td>
                 <td className="py-3">
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${user.role === 'ADMIN' ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400' : 'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60'}`}>
                     {user.role || 'USER'}

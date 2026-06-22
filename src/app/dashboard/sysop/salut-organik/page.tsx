@@ -333,107 +333,40 @@ export default function SalutOrganikManagementPage() {
 
         {/* KAMPANYA TABI */}
         {currentTab === 'campaigns' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-[#101516] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Mevcut Kampanya Afişleri</h3>
-              <div className="space-y-4">
-                <div className="group relative rounded-2xl overflow-hidden aspect-video border border-gray-200 dark:border-white/10">
-                  <img src="https://images.unsplash.com/photo-1472476443507-c7a5948772fc?q=80&w=600" className="w-full h-full object-cover" alt="Doğal Salça" />
-                  <div className="absolute inset-0 bg-black/40 flex flex-col justify-end p-4">
-                    <h4 className="text-white font-bold">Doğal Salça Neden Önemli?</h4>
-                    <p className="text-white/80 text-xs mt-1">Geleneksel odun ateşinde saatlerce kaynatılan gerçek lezzet</p>
-                  </div>
-                  <button className="absolute top-3 right-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white p-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Cancel01Icon size={16} />
-                  </button>
-                </div>
-              </div>
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-[#101516] rounded-3xl border border-gray-200 dark:border-white/10 shadow-sm text-center px-4">
+            <div className="w-20 h-20 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-6">
+              <Image01Icon size={32} className="text-gray-400 dark:text-white/40" />
             </div>
-
-            <div className="bg-white dark:bg-[#101516] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Yeni Afiş Ekle</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 dark:text-white/50 mb-2 uppercase tracking-wider">Afiş Başlığı</label>
-                  <input type="text" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white" placeholder="Örn: Zeytinyağı Hasadı Başladı" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 dark:text-white/50 mb-2 uppercase tracking-wider">Alt Başlık (Açıklama)</label>
-                  <input type="text" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white" placeholder="Örn: Erken hasat, soğuk sıkım doğal lezzet..." />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 dark:text-white/50 mb-2 uppercase tracking-wider">Görsel URL veya Yükle</label>
-                  <div className="w-full border-2 border-dashed border-gray-200 dark:border-white/20 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <Image01Icon className="text-gray-400 dark:text-white/40 mb-2" size={24} />
-                    <span className="text-sm font-medium text-gray-500 dark:text-white/60">Görsel yüklemek için tıklayın</span>
-                  </div>
-                </div>
-                <button className="w-full py-4 mt-2 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900 font-bold rounded-xl shadow-sm transition-all flex justify-center items-center gap-2">
-                  <TickDouble01Icon size={18} />
-                  Afişi Yayınla
-                </button>
-              </div>
-            </div>
+            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Çok Yakında</h3>
+            <p className="text-sm font-medium text-gray-500 dark:text-white/60 max-w-md">
+              Kampanya ve Afiş yönetimi modülü şu anda geliştirme aşamasındadır. Yakında bu alandan tüm kampanya görsel operasyonlarınızı yönetebileceksiniz.
+            </p>
           </div>
         )}
 
         {/* LAB TABI */}
         {currentTab === 'lab' && (
-          <div className="grid grid-cols-1 gap-6">
-            <div className="bg-white dark:bg-[#101516] rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-sm flex flex-col items-center justify-center text-center py-12">
-              <div className="w-20 h-20 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
-                <CheckmarkBadge01Icon size={32} className="text-gray-500 dark:text-white/60" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Pestisit & Laboratuvar Raporları</h3>
-              <p className="text-sm text-gray-500 dark:text-white/50 max-w-lg mb-6">
-                Üreticilerin sisteme yüklediği ilaç kalıntı (pestisit) raporlarını ve sertifika bitiş tarihlerini doğrulayabileceğiniz otomasyon merkezi buraya entegre edilecektir.
-              </p>
-              <button className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl shadow-sm transition-all">
-                Laboratuvar Partneri API Bağla
-              </button>
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-[#101516] rounded-3xl border border-gray-200 dark:border-white/10 shadow-sm text-center px-4">
+            <div className="w-20 h-20 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-6">
+              <CheckmarkBadge01Icon size={32} className="text-gray-400 dark:text-white/40" />
             </div>
+            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Çok Yakında</h3>
+            <p className="text-sm font-medium text-gray-500 dark:text-white/60 max-w-md">
+              Laboratuvar partneri API entegrasyonu ve otomatik pestisit raporu doğrulama sistemi şu anda yapım aşamasındadır.
+            </p>
           </div>
         )}
 
         {/* HARİTA TABI */}
         {currentTab === 'map' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-gray-100 dark:bg-[#1A1E1F] rounded-3xl border border-gray-200 dark:border-white/10 overflow-hidden flex flex-col relative h-[500px]">
-              <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-                <Location01Icon size={48} className="text-gray-400 dark:text-white/20 mb-4" />
-                <h3 className="text-2xl font-black text-gray-400 dark:text-white/20">Harita Yükleniyor...</h3>
-              </div>
-              <div className="absolute top-4 left-4 right-4 z-20 flex gap-2">
-                <div className="flex-1 bg-white dark:bg-[#101516] rounded-2xl p-2 px-4 shadow-lg border border-gray-200 dark:border-white/10 flex items-center gap-2">
-                  <Search01Icon size={20} className="text-gray-400" />
-                  <input type="text" placeholder="Üretici veya bölge ara (Örn: Ege Bölgesi)" className="bg-transparent border-none outline-none text-sm w-full font-bold dark:text-white" />
-                </div>
-              </div>
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-[#101516] rounded-3xl border border-gray-200 dark:border-white/10 shadow-sm text-center px-4">
+            <div className="w-20 h-20 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-6">
+              <Location01Icon size={32} className="text-gray-400 dark:text-white/40" />
             </div>
-            <div className="bg-white dark:bg-[#101516] rounded-3xl p-6 border border-gray-200 dark:border-white/10 flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Bölgesel Yoğunluk</h3>
-              
-              <div className="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-bold text-gray-900 dark:text-white">Ege Bölgesi</span>
-                  <span className="text-xs font-bold px-2 py-1 bg-gray-900 text-white rounded-lg">14 Üretici</span>
-                </div>
-                <div className="text-xs text-gray-500">Zeytinyağı, İncir, Domates ağırlıklı</div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-bold text-gray-900 dark:text-white">Karadeniz Bölgesi</span>
-                  <span className="text-xs font-bold px-2 py-1 bg-gray-900 text-white rounded-lg">8 Üretici</span>
-                </div>
-                <div className="text-xs text-gray-500">Bal, Fındık, Çay ağırlıklı</div>
-              </div>
-
-              <div className="p-4 rounded-2xl border-2 border-dashed border-gray-200 dark:border-white/20 flex flex-col items-center justify-center text-center mt-auto py-8">
-                <span className="text-xs text-gray-500 font-bold mb-2">Taze Gönderim / Soğuk Zincir</span>
-                <button className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold rounded-lg w-full">Kargo Bölgelerini Çiz</button>
-              </div>
-            </div>
+            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Çok Yakında</h3>
+            <p className="text-sm font-medium text-gray-500 dark:text-white/60 max-w-md">
+              Canlı hasat haritası ve bölgesel üretici yoğunluğu analiz ekranı yakın zamanda yayına alınacaktır.
+            </p>
           </div>
         )}
 

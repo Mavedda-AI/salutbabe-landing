@@ -16,7 +16,7 @@ export default function AdminUsersPage() {
     }).format(amount);
   };
 
-  const [users, setUsers] = useState<any[]>([]);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState<any>(null);
   const [balanceInput, setBalanceInput] = useState("");
@@ -27,10 +27,19 @@ export default function AdminUsersPage() {
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
   const [showAllDetails, setShowAllDetails] = useState(false);
 
+  // Pagination State
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(20);
+  
+  // Sort State
+  const [sortBy, setSortBy] = useState('date');
+  const [sortOrder, setSortOrder] = useState('DESC');
+
   const fetchUsers = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem("auth_token");
-      const res = await fetch(apiUrl("/admin/users"), {
+      const res = await fetch(apiUrl(`/admin/users?limit=5000`), {
         headers: {
           Authorization: `Bearer ${token}`,
           "X-Device-Type": "web",
@@ -38,7 +47,7 @@ export default function AdminUsersPage() {
       });
       const data = await res.json();
       if (data.request?.requestResult) {
-        setUsers(data.payload?.users || []);
+        setAllUsers(data.payload?.users || []);
       }
     } catch (e) {
       console.error(e);
@@ -50,6 +59,30 @@ export default function AdminUsersPage() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const sortedUsers = React.useMemo(() => {
+    const sorted = [...allUsers];
+    if (sortBy === 'name') {
+      sorted.sort((a, b) => {
+        const nameA = (a.userName || '').toLowerCase();
+        const nameB = (b.userName || '').toLowerCase();
+        if (sortOrder === 'ASC') return nameA.localeCompare(nameB);
+        return nameB.localeCompare(nameA);
+      });
+    } else if (sortBy === 'date') {
+      sorted.sort((a, b) => {
+        const dateA = a.registrationDate || a.createdAt || 0;
+        const dateB = b.registrationDate || b.createdAt || 0;
+        if (sortOrder === 'ASC') return dateA - dateB;
+        return dateB - dateA;
+      });
+    }
+    return sorted;
+  }, [allUsers, sortBy, sortOrder]);
+
+  const totalUsers = sortedUsers.length;
+  const totalPages = Math.max(1, Math.ceil(totalUsers / limit));
+  const users = sortedUsers.slice((page - 1) * limit, page * limit);
 
   const handleUpdateBalance = async () => {
     if (!editingUser) return;
@@ -203,6 +236,21 @@ export default function AdminUsersPage() {
           <div className="hidden lg:block w-[1px] h-8 bg-border-color/50 dark:bg-white/5 mx-2" />
 
           <div className="flex items-center gap-2">
+           <select 
+             value={`${sortBy}-${sortOrder}`}
+             onChange={(e) => {
+               const [by, order] = e.target.value.split('-');
+               setSortBy(by);
+               setSortOrder(order);
+               setPage(1);
+             }}
+             className={`px-3 sm:px-4 h-10 rounded-xl text-[10px] sm:text-[11px] font-black tracking-wider transition-all shadow-sm outline-none bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary focus:bg-white focus:border focus:border-primary/20 dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white dark:focus:bg-white/10`}
+           >
+             <option value="date-DESC">YENİDEN ESKİYE</option>
+             <option value="date-ASC">ESKİDEN YENİYE</option>
+             <option value="name-ASC">A'DAN Z'YE</option>
+           </select>
+           
            <button 
              onClick={() => setShowAllDetails(!showAllDetails)}
              className={`px-3 sm:px-4 h-10 rounded-xl text-[10px] sm:text-[11px] font-black tracking-wider transition-all shadow-sm ${showAllDetails ? 'bg-[#101516] dark:bg-white text-[#101516] shadow-[#54E6D4]/20' : 'bg-gray-50 text-text-secondary hover:bg-primary/10 hover:text-primary dark:bg-white/5 dark:text-text-secondary dark:hover:bg-white/10 dark:hover:text-white'}`}>
@@ -230,156 +278,127 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Users Rendering */}
-      <div className={viewMode === 'list' ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"}>
-        {users.map((user) => (
-          viewMode === 'list' ? (
-            /* List View Card - Compacted */
-            <div key={user.userID} className={`p-4 lg:p-5 rounded-[1.5rem] border transition-all duration-500 group hover:scale-[1.01]
-              bg-white border-border-color shadow-sm hover:shadow-lg hover:border-primary/20 dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl dark:hover:bg-[#121214] dark:hover:border-white/10`}>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-                {/* User Info Section */}
-                <div className="lg:col-span-3 flex flex-row items-center gap-4 text-left">
-                  <div className="relative shrink-0">
-                    <div className={`w-12 h-12 rounded-[1rem] flex items-center justify-center font-black text-lg transition-all duration-500 group-hover:rotate-6
-                      bg-primary/10 text-primary border-2 border-primary/20 dark:bg-primary/20 dark:text-primary dark:border-2 dark:border-primary/20`}>
-                      {user.userName?.[0] || user.eMail[0].toUpperCase()}
-                    </div>
-                    <div className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center
-                      bg-white border-white dark:bg-[#12141C] dark:border-[#121214]`}>
-                      <div className={`w-2 h-2 rounded-full ${user.isActive ? 'bg-green-500' : 'bg-red-500'}`} />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-[14px] font-black text-text-primary tracking-tight mb-0.5 truncate">{user.userName} {user.userSurname}</h4>
-                    <p className="text-[10px] font-bold text-text-secondary/60 lowercase tracking-widest truncate">@{user.userNickname || t('dashboard.anonymous')}</p>
-                  </div>
-                </div>
+      {viewMode === 'list' && users.length > 0 && (
+        <div className="bg-white dark:bg-[#12141C]/60 dark:backdrop-blur-xl border border-border-color dark:border-white/5 shadow-sm rounded-3xl overflow-hidden overflow-x-auto w-full transition-all duration-300">
+          <table className="w-full text-left text-sm whitespace-nowrap">
+            <thead className="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10 text-gray-500 dark:text-white/40">
+              <tr>
+                <th className="px-6 py-4 font-bold text-xs uppercase tracking-wider w-16 text-center">#</th>
+                <th className="px-6 py-4 font-bold text-xs uppercase tracking-wider">Kullanıcı</th>
+                <th className="px-6 py-4 font-bold text-xs uppercase tracking-wider">İletişim</th>
+                <th className="px-6 py-4 font-bold text-xs uppercase tracking-wider">Rol</th>
+                <th className="px-6 py-4 font-bold text-xs uppercase tracking-wider text-right">Bakiye</th>
+                <th className="px-6 py-4 font-bold text-xs uppercase tracking-wider text-right">İşlemler</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+              {users.map((user, idx) => {
+                const customerNo = sortBy === 'date' && sortOrder === 'DESC'
+                  ? totalUsers - ((page - 1) * limit + idx)
+                  : sortBy === 'date' && sortOrder === 'ASC'
+                    ? (page - 1) * limit + idx + 1
+                    : "?";
 
-                {/* Contact Info Section */}
-                <div className="lg:col-span-3">
-                  <div className="flex flex-col gap-1.5">
-                     <div className="flex items-center gap-2">
-                       <svg className="w-3.5 h-3.5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                       <span className="text-[11px] font-bold text-text-primary tracking-tight truncate">{user.eMail}</span>
-                     </div>
-                     <div className="flex items-center gap-2">
-                       <svg className="w-3.5 h-3.5 text-text-secondary/40 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                       <span className="text-[11px] font-bold text-text-secondary/60 truncate">{user.phoneNumber || t('dashboard.no_phone')}</span>
-                     </div>
-                  </div>
-                </div>
+                return (
+                <React.Fragment key={user.userID}>
+                  <tr className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                    <td className="px-6 py-4 text-center font-black text-text-secondary/40 text-[11px]">
+                      {customerNo}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm bg-primary/10 text-primary border border-primary/20 dark:bg-primary/20 dark:border-primary/20">
+                            {user.userName?.[0] || user.eMail[0].toUpperCase()}
+                          </div>
+                          <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white dark:border-[#12141C] ${user.isActive ? 'bg-green-500' : 'bg-red-500'}`} />
+                        </div>
+                        <div>
+                          <div className="font-bold text-text-primary text-[13px]">{user.userName} {user.userSurname}</div>
+                          <div className="text-[11px] text-text-secondary/60">@{user.userNickname || t('dashboard.anonymous')}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1">
+                        <div className="font-bold text-text-primary text-[12px]">{user.eMail}</div>
+                        <div className="text-[11px] text-text-secondary/60">{user.phoneNumber || t('dashboard.no_phone')}</div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-1 flex-wrap">
+                        {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, rIdx: number) => (
+                          <span key={rIdx} className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${role === 'SYSOP' ? 'bg-primary/10 text-primary' : role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500' : 'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60'}`}>
+                            {t('dashboard.role_' + role.toLowerCase())}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="font-black text-text-primary text-[14px]">{formatBalance(user.balance || 0)} ₺</div>
+                      <div className="text-[10px] text-text-secondary/60 font-bold opacity-80">{formatBalance(user.pendingBalance || 0)} ₺ Bekleyen</div>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => setExpandedUser(expandedUser === user.userID ? null : user.userID)} className={`p-2 rounded-lg transition-colors ${expandedUser === user.userID || showAllDetails ? 'bg-primary text-white shadow-md' : 'bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-text-secondary'}`}>
+                          <svg className={`w-4 h-4 transform transition-transform ${expandedUser === user.userID || showAllDetails ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <button onClick={() => { setEditingUser(user); setBalanceInput(user.balance?.toString() || "0"); setPendingBalanceInput(user.pendingBalance?.toString() || "0"); }} className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-text-secondary transition-colors">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" /></svg>
+                        </button>
+                        <button onClick={() => { setEditingRoleUser(user); setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]); }} className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-blue-500 transition-colors">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        </button>
+                        <button onClick={() => handleBlockUser(user.userID, !user.isActive)} className={`p-2 rounded-lg transition-colors ${!user.isActive ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}>
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {(expandedUser === user.userID || showAllDetails) && (
+                    <tr className="bg-gray-50/50 dark:bg-white/[0.02]">
+                      <td colSpan={6} className="px-6 py-6 border-t border-gray-100 dark:border-white/5">
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 text-left">
+                           <div>
+                             <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Kayıt Tarihi</p>
+                             <p className="text-[12px] font-bold text-text-primary">{user.createdAt ? new Date(user.createdAt).toLocaleDateString('tr-TR') : 'Belirtilmemiş'}</p>
+                           </div>
+                           <div>
+                             <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Son Görülme</p>
+                             <p className="text-[12px] font-bold text-text-primary">{user.lastSeenAt ? new Date(Number(user.lastSeenAt)).toLocaleDateString('tr-TR') : 'Bilinmiyor'}</p>
+                           </div>
+                           <div>
+                             <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">TC Kimlik / VKN</p>
+                             <p className="text-[12px] font-bold text-text-primary">{user.tc || user.tcNo || user.vkn || 'Belirtilmemiş'}</p>
+                           </div>
+                           <div>
+                             <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Doğum Tarihi</p>
+                             <p className="text-[12px] font-bold text-text-primary">{user.birthDate || user.dob ? new Date(user.birthDate || user.dob).toLocaleDateString('tr-TR') : 'Belirtilmemiş'}</p>
+                           </div>
+                           <div>
+                             <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Cinsiyet</p>
+                             <p className="text-[12px] font-bold text-text-primary">{user.gender === 'MALE' ? 'Erkek' : user.gender === 'FEMALE' ? 'Kadın' : user.gender || 'Belirtilmemiş'}</p>
+                           </div>
+                           <div className="lg:col-span-2">
+                             <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Adres</p>
+                             <p className="text-[12px] font-bold text-text-primary truncate" title={user.address || user.fullAddress}>{user.address || user.fullAddress || 'Adres bilgisi bulunamadı.'}</p>
+                           </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ); })}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-                {/* Roles Section */}
-                <div className="lg:col-span-2 flex flex-wrap gap-1.5">
-                   {(Array.isArray(user.userType) ? user.userType : [user.userType]).map((role: string, idx: number) => (
-                     <span key={idx} className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider border transition-all duration-300
-                       ${role === 'SYSOP' ? 'bg-primary/10 text-primary border-primary/20' : 
-                         role === 'ADMIN' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
-                         'bg-text-secondary/10 text-text-secondary border-transparent'}`}>
-                       {t('dashboard.role_' + role.toLowerCase())}
-                     </span>
-                   ))}
-                </div>
-
-                {/* Balance Section */}
-                <div className="lg:col-span-2 flex flex-col justify-center text-right lg:text-left">
-                   <p className="text-[9px] font-black text-text-secondary/40 uppercase tracking-[0.2em] mb-0.5">{t('dashboard.table_balance')}</p>
-                   <div className="flex items-baseline gap-1 justify-end lg:justify-start">
-                     <span className="text-[16px] font-black text-text-primary tracking-tight">{formatBalance(user.balance || 0)}</span>
-                     <span className="text-[11px] font-black text-primary">₺</span>
-                   </div>
-                   <div className="flex items-center gap-1 justify-end lg:justify-start">
-                     <div className="w-1.5 h-1.5 rounded-full bg-[#101516] dark:bg-white animate-pulse" />
-                     <span className="text-[9px] font-black text-[#101516] dark:text-white uppercase opacity-80">{formatBalance(user.pendingBalance || 0)} ₺</span>
-                   </div>
-                </div>
-
-                {/* Actions Section */}
-                <div className="lg:col-span-2">
-                  <div className="flex lg:flex-col gap-2">
-                    <button 
-                      onClick={() => {
-                        setEditingUser(user);
-                        setBalanceInput(user.balance?.toString() || "0");
-                        setPendingBalanceInput(user.pendingBalance?.toString() || "0");
-                      }}
-                      className={`flex-1 flex items-center justify-center lg:justify-between px-3 py-2 rounded-xl text-[11px] font-black transition-all group/btn
-                        bg-gray-50 text-text-primary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-primary dark:hover:bg-primary dark:hover:text-white dark:shadow-lg`}
-                    >
-                      <span>{t('dashboard.btn_balance')}</span>
-                      <svg className="hidden lg:block w-3.5 h-3.5 opacity-40 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </button>
-                    
-                    <div className="flex lg:grid lg:grid-cols-3 gap-2">
-                      <button 
-                        onClick={() => setExpandedUser(expandedUser === user.userID ? null : user.userID)}
-                        className={`flex-1 lg:flex-none flex items-center justify-center p-2 rounded-xl transition-all ${expandedUser === user.userID || showAllDetails ? 'bg-primary text-white shadow-lg' : 'bg-gray-50 text-text-secondary hover:bg-gray-200 dark:bg-white/5 dark:text-white/50 dark:hover:bg-white/10'}`}
-                      >
-                        <svg className={`w-3.5 h-3.5 transform transition-transform ${expandedUser === user.userID || showAllDetails ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                      </button>
-                      <button 
-                        onClick={() => {
-                          setEditingRoleUser(user);
-                          setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
-                        }}
-                        className={`flex-1 lg:flex-none flex items-center justify-center p-2 rounded-xl transition-all
-                          bg-gray-50 text-blue-500 hover:bg-blue-500 hover:text-white dark:bg-white/5 dark:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white`}
-                      >
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                      </button>
-                      <button 
-                        onClick={() => handleBlockUser(user.userID, !user.isActive)}
-                        className={`flex-1 lg:flex-none flex items-center justify-center p-2 rounded-xl transition-all
-                          ${!user.isActive 
-                            ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' 
-                            : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}
-                      >
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                          {user.isActive ? <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Expanded Details Section */}
-                <div className={`col-span-full overflow-hidden transition-all duration-300 ${expandedUser === user.userID || showAllDetails ? 'max-h-[500px] opacity-100 mt-2 pt-4 border-t border-gray-100 dark:border-white/5' : 'max-h-0 opacity-0 mt-0 pt-0 border-transparent'}`}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div>
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Kullanıcı ID</p>
-                      <p className="text-[12px] font-bold text-text-primary">{user.userID}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Kayıt Tarihi</p>
-                      <p className="text-[12px] font-bold text-text-primary">{user.createdAt ? new Date(user.createdAt).toLocaleString('tr-TR') : 'Belirtilmemiş'}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Son Görülme</p>
-                      <p className="text-[12px] font-bold text-text-primary">{user.lastSeenAt ? new Date(Number(user.lastSeenAt)).toLocaleString('tr-TR') : 'Bilinmiyor'}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">TC Kimlik / VKN</p>
-                      <p className="text-[12px] font-bold text-text-primary">{user.tc || user.tcNo || user.vkn || 'Belirtilmemiş'}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Doğum Tarihi</p>
-                      <p className="text-[12px] font-bold text-text-primary">{user.birthDate || user.dob ? new Date(user.birthDate || user.dob).toLocaleDateString('tr-TR') : 'Belirtilmemiş'}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Cinsiyet</p>
-                      <p className="text-[12px] font-bold text-text-primary">{user.gender === 'MALE' ? 'Erkek' : user.gender === 'FEMALE' ? 'Kadın' : user.gender || 'Belirtilmemiş'}</p>
-                    </div>
-                    <div className="lg:col-span-2">
-                      <p className="text-[10px] font-black text-text-secondary/40 uppercase tracking-widest mb-1">Adres</p>
-                      <p className="text-[12px] font-bold text-text-primary truncate w-full" title={user.address || user.fullAddress}>{user.address || user.fullAddress || 'Adres bilgisi bulunamadı.'}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* Grid View Card */
+      {viewMode === 'grid' && users.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {users.map((user) => (
             <div key={user.userID} className={`p-8 rounded-[3rem] border transition-all duration-500 group hover:scale-[1.02] flex flex-col items-center text-center
               bg-white border-border-color shadow-sm hover:shadow-2xl hover:border-primary/20 dark:bg-[#12141C]/60 dark:backdrop-blur-xl dark:border-white/5 dark:shadow-2xl dark:hover:bg-[#121214] dark:hover:border-white/10`}>
               
@@ -500,19 +519,19 @@ export default function AdminUsersPage() {
                   </div>
               </div>
             </div>
-          )
-        ))}
+          ))}
+        </div>
+      )}
 
-        {users.length === 0 && (
-          <div className={`p-20 text-center rounded-[3rem] border-2 border-dashed
-            bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
-            <div className="w-16 h-16 rounded-full bg-text-secondary/5 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-text-secondary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-            </div>
-            <p className="text-[13px] font-bold text-text-secondary">{t('dashboard.empty_users')}</p>
+      {users.length === 0 && (
+        <div className={`p-20 text-center rounded-[3rem] border-2 border-dashed
+          bg-gray-50 border-border-color dark:bg-white/5 dark:border-white/5`}>
+          <div className="w-16 h-16 rounded-full bg-text-secondary/5 flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-text-secondary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
           </div>
-        )}
-      </div>
+          <p className="text-[13px] font-bold text-text-secondary">{t('dashboard.empty_users')}</p>
+        </div>
+      )}
 
       {/* Pagination Bar */}
       <div className={`p-4 rounded-[2rem] border flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-300
@@ -520,27 +539,37 @@ export default function AdminUsersPage() {
         <div className="flex items-center gap-4">
            <div className={`px-4 py-2 rounded-xl text-[11px] font-black tracking-wider
              bg-gray-50 text-text-secondary dark:bg-white/5 dark:text-text-secondary`}>
-             {t('dashboard.admin_users_total').replace('{count}', users.length.toString())}
+             {t('dashboard.admin_users_total').replace('{count}', totalUsers.toString())}
            </div>
         </div>
 
         <div className="flex items-center gap-2">
-           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-gray-50 text-text-secondary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-secondary dark:hover:bg-primary dark:hover:text-white`}>
+           <button 
+             onClick={() => setPage(p => Math.max(1, p - 1))} 
+             disabled={page === 1} 
+             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${page === 1 ? 'opacity-50 cursor-not-allowed bg-gray-50 text-text-secondary dark:bg-white/5 dark:text-text-secondary/50' : 'bg-gray-50 text-text-secondary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-secondary dark:hover:bg-primary dark:hover:text-white'}`}>
              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
            </button>
-           <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[12px] font-black bg-primary text-white shadow-lg shadow-primary/20`}>1</div>
-           <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-gray-50 text-text-secondary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-secondary dark:hover:bg-primary dark:hover:text-white`}>
+           <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[12px] font-black bg-primary text-white shadow-lg shadow-primary/20`}>{page}</div>
+           <button 
+             onClick={() => setPage(p => Math.min(totalPages, p + 1))} 
+             disabled={page >= totalPages} 
+             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${page >= totalPages ? 'opacity-50 cursor-not-allowed bg-gray-50 text-text-secondary dark:bg-white/5 dark:text-text-secondary/50' : 'bg-gray-50 text-text-secondary hover:bg-primary hover:text-white dark:bg-white/5 dark:text-text-secondary dark:hover:bg-primary dark:hover:text-white'}`}>
              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
            </button>
         </div>
 
         <div className="flex items-center gap-3">
            <span className="text-[11px] font-black text-text-secondary/40 uppercase tracking-widest">{t('dashboard.show_label')}:</span>
-           <select className={`px-4 h-10 rounded-xl text-[11px] font-black outline-none transition-all
+           <select 
+             value={limit} 
+             onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }} 
+             className={`px-4 h-10 rounded-xl text-[11px] font-black outline-none transition-all
              bg-gray-50 text-text-primary focus:bg-white border border-transparent focus:border-primary/20 dark:bg-white/5 dark:text-text-primary dark:focus:bg-white/10 dark:border dark:border-transparent dark:focus:border-white/10`}>
-             <option>10</option>
-             <option>20</option>
-             <option>50</option>
+             <option value={10}>10</option>
+             <option value={20}>20</option>
+             <option value={50}>50</option>
+             <option value={100}>100</option>
            </select>
         </div>
       </div>

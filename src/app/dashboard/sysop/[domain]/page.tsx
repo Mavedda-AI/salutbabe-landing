@@ -47,50 +47,9 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
   const [activeTab, setActiveTab] = useState<string>("Bekleyenler");
   const [timeframe, setTimeframe] = useState<string>("Tümü");
 
-  const MOCK_MODE = false;
   let mockData: any = null;
 
-  if (MOCK_MODE && domainKey === 'financial') {
-    mockData = {
-      payload: {
-        stats: {
-          kpis: [
-            { l: 'Gerçekleşen Toplam Ciro', v: '100M ₺', t: '+%15 Büyüme' },
-            { l: 'Aktarılacak Satıcı Hakedişi', v: '65M ₺', t: 'Öncelikli Onay' },
-            { l: 'Platform Komisyon Geliri', v: '15M ₺', t: 'Net Kar' },
-          ],
-          columns: ['İşlem ID', 'Departman / Tip', 'Tutar', 'Durum', 'Tarih'],
-          details: [
-            { col1: '#TRX-001', col2: 'Satıcı Ödemeleri (Toplu)', col3: '22,5M ₺', col4: 'BEKLİYOR', col5: 'Bugün 15:30' },
-            { col1: '#TRX-002', col2: 'Kargo Firması (Aras Kargo)', col3: '4,2M ₺', col4: 'ONAYLANDI', col5: 'Dün 09:15' },
-            { col1: '#TRX-003', col2: 'Kargo Firması (Yurtiçi)', col3: '5,1M ₺', col4: 'BEKLİYOR', col5: 'Bugün 10:00' },
-            { col1: '#TRX-004', col2: 'Vergi Kesintileri (Aylık)', col3: '3M ₺', col4: 'TASLAK', col5: '25 Haziran' },
-            { col1: '#TRX-005', col2: 'Platform İade Rezervi', col3: '5M ₺', col4: 'ONAYLANDI', col5: 'Dün 14:00' },
-          ]
-        }
-      }
-    };
-  } else if (MOCK_MODE && domainKey === 'risk') {
-    mockData = {
-      payload: {
-        stats: {
-          kpis: [
-            { l: 'Toplam Riskteki Ciro', v: '1,95M ₺', t: 'Aksiyon Gerekiyor' },
-            { l: 'Başarısız İşlem Sayısı', v: '331 İşlem', t: 'Son 24 Saat' },
-            { l: 'Fraud (Şüpheli) Oranı', v: '%4.2', t: 'Normalin Üstünde' },
-          ],
-          columns: ['İşlem ID', 'Hata Türü', 'Etkilenen Tutar', 'Kullanıcı IP / Skor', 'Tarih'],
-          details: [
-            { col1: '#ERR-812', col2: 'Yetersiz Bakiye', col3: '4.500 ₺', col4: '192.168.1.1 (Risk: Düşük)', col5: '12 dk önce' },
-            { col1: '#ERR-813', col2: 'Banka Reddi (05 Do Not Honor)', col3: '12.450 ₺', col4: '88.241.12.x (Risk: Orta)', col5: '24 dk önce' },
-            { col1: '#ERR-814', col2: 'Fraud Şüphesi (Çalıntı Kart)', col3: '85.000 ₺', col4: '45.12.98.x (Risk: ÇOK YÜKSEK)', col5: '1 saat önce' },
-            { col1: '#ERR-815', col2: 'Altyapı Zaman Aşımı', col3: '1.200 ₺', col4: 'Sistem Hatası', col5: '2 saat önce' },
-            { col1: '#ERR-816', col2: 'Yetersiz Bakiye', col3: '8.900 ₺', col4: '176.45.12.x (Risk: Düşük)', col5: '3 saat önce' },
-          ]
-        }
-      }
-    };
-  } else if (domainKey === 'accounting') {
+  if (domainKey === 'accounting') {
     const orders = ordersData?.payload?.orders || [];
     const now = Date.now();
     const invoiceOrders = orders.filter((o: any) => { 
@@ -145,24 +104,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
       // Günlük KDV toplamını kuruş cinsinden biriktiriyoruz
       dailyKdvMap[dayOfMonth] = (dailyKdvMap[dayOfMonth] || 0) + commKdvAmountCents;
 
-      // Eksik veriler için gerçekçi (realistic) örnek veri havuzu
-      const mockNames = ['Ahmet Yılmaz', 'Ayşe Kaya', 'Mehmet Demir', 'Fatma Çelik', 'Can Özkan', 'Zeynep Arslan'];
-      const mockEmails = ['ahmet.yilmaz@gmail.com', 'ayse.kaya@hotmail.com', 'm.demir@sirket.com.tr', 'fatma.celik@yahoo.com', 'can.ozkan@outlook.com', 'zeynep.arslan@icloud.com'];
-      const mockAddresses = [
-        'Atatürk Mah. Cumhuriyet Cad. No: 12/4, Şişli / İstanbul',
-        'Bahçelievler Mah. 3. Sokak Gül Apt: 4, Çankaya / Ankara',
-        'Güzelyalı Mah. Sahil Yolu No: 88, Konak / İzmir',
-        'Yeni Mahalle İstiklal Cad. No: 1A, Nilüfer / Bursa',
-        'Fener Mah. Tekelioğlu Cad. No: 45/2, Muratpaşa / Antalya',
-        'Cemalpaşa Mah. Gazipaşa Blv. No: 14, Seyhan / Adana'
-      ];
-      const mockTcs = ['12345678901', '98765432109', '45678912304', '78912345607', '32165498702', '65432198705'];
-      
-      // Sipariş ID'sine göre tutarlı (deterministic) bir indeks seçelim ki her yenilemede değişmesin
-      const hash = String(o.orderID || o.id || '123').split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
-      const rIdx = hash % mockEmails.length;
-
-      let fullName = mockNames[rIdx];
+      let fullName = 'İsimsiz Kullanıcı';
       if (o.buyer?.userName || o.buyer?.userSurname) {
         fullName = `${o.buyer.userName || ''} ${o.buyer.userSurname || ''}`.trim();
       }
@@ -170,7 +112,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
       const tcNo = o.buyer?.tc || o.buyer?.tcKimlikNo || '11111111111';
       
       // Eğer backend'den gerçek mail veya adres geliyorsa onu kullan, yoksa gerçekçi örnek veriyi kullan
-      const email = o.buyer?.eMail || o.buyer?.email || o.eMail || mockEmails[rIdx];
+      const email = o.buyer?.eMail || o.buyer?.email || o.eMail || 'E-posta Belirtilmemiş';
       
       let addressStr = '';
       if (o.shippingAddress && (o.shippingAddress.addressName || o.shippingAddress.cityName)) {
@@ -181,7 +123,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
          addressStr = o.buyer.address;
       }
       
-      const address = addressStr || mockAddresses[rIdx];
+      const address = addressStr || 'Bilinmeyen Adres';
 
       detailsList.push({
         col1: `#ORD-${(o.orderID || '000').split('-')[0]} (Komisyon)`,
@@ -638,7 +580,7 @@ export default function DomainDetailPage({ params }: { params: Promise<{ domain:
           <div className="flex-1 border border-dashed border-gray-300 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center text-gray-400 dark:text-white/20 py-20 mt-12">
             <AnalyticsUpIcon size={48} className="mb-4 opacity-50" />
             <span className="font-bold uppercase tracking-widest text-sm text-gray-500 dark:text-white/40">Grafik Verileri Yükleniyor...</span>
-            <span className="text-xs mt-2 max-w-sm text-center">Bu alan Recharts kullanılarak gerçek zamanlı veya mock verilerle doldurulacaktır. İlgili alana ait Trendler, Anomali Tespitleri ve Tahminlemeler (Forecast) burada gösterilecektir.</span>
+            <span className="text-xs mt-2 max-w-sm text-center">Bu modül için gerçek zamanlı grafik ve yapay zeka analiz entegrasyonu hazırlanmaktadır.</span>
           </div>
         )}
       </div>
