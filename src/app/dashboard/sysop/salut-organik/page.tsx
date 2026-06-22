@@ -1,6 +1,7 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {API_BASE_URL, apiUrl} from "../../../../lib/api";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
 import {useToast} from "../../../../context/ToastContext";
 import {
@@ -23,23 +24,96 @@ export default function SalutOrganikManagementPage() {
   const [selectedProducer, setSelectedProducer] = useState<any>(null);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
-  // Placeholder Data
+  const [pendingProducts, setPendingProducts] = useState<any[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+
+  // Placeholder Data for Producers
   const pendingProducers = [
     { id: 1, name: "Ahmet Yılmaz", farmName: "Yılmaz Organik Çiftliği", location: "İzmir, Seferihisar", status: "pending", certificate: "EkoTar Sertifikası" },
     { id: 2, name: "Ayşe Demir", farmName: "Ayşe'nin Doğal Ürünleri", location: "Aydın, Söke", status: "pending", certificate: "Organik Tarım Belgesi" }
   ];
 
-  const pendingProducts = [
-    { id: 101, title: "El Yapımı Domates Salçası", category: "Salça & Sos", producer: "Yılmaz Organik Çiftliği", price: "250 TL" },
-    { id: 102, title: "Soğuk Sıkım Zeytinyağı 5L", category: "Zeytinyağı", producer: "Ege İncisi Tarım", price: "1200 TL" }
-  ];
-
-  const handleApprove = (id: number, type: string) => {
-    showToast(`${type === 'producer' ? 'Üretici' : 'İlan'} başarıyla onaylandı!`, "success");
+  const fetchPendingProducts = async () => {
+    try {
+      setLoadingProducts(true);
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl("/salut-organic/admin/products/pending?page=1&limit=50"), {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        setPendingProducts(data.payload?.products || []);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingProducts(false);
+    }
   };
 
-  const handleReject = (id: number, type: string) => {
-    showToast(`${type === 'producer' ? 'Üretici' : 'İlan'} başvurusu reddedildi.`, "error");
+  useEffect(() => {
+    if (currentTab === 'products') {
+      fetchPendingProducts();
+    }
+  }, [currentTab]);
+
+  const handleApprove = async (id: string | number, type: string) => {
+    if (type === 'product') {
+      try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(apiUrl(`/salut-organic/admin/products/${id}/approve`), {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "X-Device-Type": "web"
+          }
+        });
+        const data = await res.json();
+        if (data.request?.requestResult) {
+          setPendingProducts(prev => prev.filter(p => p.id !== id));
+          showToast(`İlan başarıyla onaylandı!`, "success");
+        } else {
+          showToast(`Onaylanamadı: ${data.request?.requestMessage}`, "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showToast("Bir hata oluştu", "error");
+      }
+    } else {
+      showToast(`Üretici başarıyla onaylandı!`, "success");
+    }
+  };
+
+  const handleReject = async (id: string | number, type: string) => {
+    if (type === 'product') {
+      try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(apiUrl(`/salut-organic/admin/products/${id}/reject`), {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "X-Device-Type": "web",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ reason: "Sistem tarafından reddedildi." })
+        });
+        const data = await res.json();
+        if (data.request?.requestResult) {
+          setPendingProducts(prev => prev.filter(p => p.id !== id));
+          showToast(`İlan reddedildi.`, "error");
+        } else {
+          showToast(`Reddedilemedi: ${data.request?.requestMessage}`, "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showToast("Bir hata oluştu", "error");
+      }
+    } else {
+      showToast(`Üretici başvurusu reddedildi.`, "error");
+    }
   };
 
   return (
@@ -174,7 +248,7 @@ export default function SalutOrganikManagementPage() {
                     {product.title}
                   </h4>
                   <p className="text-sm text-gray-500 dark:text-white/60">
-                    Üretici: <span className="font-semibold">{product.producer}</span>
+                    Üretici: <span className="font-semibold">{product.store?.storeName || product.producer}</span>
                   </p>
                 </div>
                 <div className="grid grid-cols-2 border-t border-gray-100 dark:border-white/10">
@@ -368,7 +442,7 @@ export default function SalutOrganikManagementPage() {
                 </div>
                 <div className="col-span-2">
                   <div className="text-[10px] font-black uppercase text-gray-500 mb-1">Üretici</div>
-                  <div className="text-sm font-bold text-gray-900 dark:text-white">{selectedProduct?.producer}</div>
+                  <div className="text-sm font-bold text-gray-900 dark:text-white">{selectedProduct?.store?.storeName || selectedProduct?.producer}</div>
                 </div>
               </div>
             </div>
