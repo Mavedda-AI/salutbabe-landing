@@ -13,6 +13,7 @@ export default function ReportManagementPage() {
   const [reports, setReports] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentTab, setCurrentTab] = useState<'pending' | 'resolved'>('pending');
+  const [selectedReport, setSelectedReport] = useState<any>(null);
 
   const fetchReports = async () => {
     try {
@@ -172,6 +173,7 @@ export default function ReportManagementPage() {
                     <span>Kapat</span>
                   </button>
                   <button 
+                    onClick={() => setSelectedReport(report)}
                     className="flex items-center justify-center gap-2 p-4 text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors border-l border-gray-100 dark:border-white/10"
                   >
                     <span>İncele</span>
@@ -183,6 +185,114 @@ export default function ReportManagementPage() {
           </div>
         )}
       </div>
+
+      {/* Review Modal */}
+      {selectedReport && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-[#101516] rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-white/10 flex flex-col max-h-[90vh]">
+            <div className="p-6 border-b border-gray-100 dark:border-white/10 flex items-center justify-between">
+              <h3 className="text-xl font-black text-gray-900 dark:text-white">Şikayet Detayı</h3>
+              <button onClick={() => setSelectedReport(null)} className="p-2 text-gray-500 hover:text-gray-900 dark:text-white/40 dark:hover:text-white transition-colors">
+                <Cancel01Icon size={24} />
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto custom-scrollbar flex-1 flex flex-col gap-8">
+              {/* Reporter Info */}
+              <div>
+                <h4 className="text-xs font-black text-gray-400 dark:text-white/40 uppercase tracking-widest mb-3">Şikayet Eden Kullanıcı</h4>
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
+                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-white/10 overflow-hidden shrink-0">
+                    {selectedReport.reporter?.profilePhoto ? (
+                      <img src={selectedReport.reporter.profilePhoto} alt="User" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center font-bold text-gray-500">
+                        {selectedReport.reporter?.userName?.[0] || 'U'}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900 dark:text-white text-base">
+                      {selectedReport.reporter?.userName} {selectedReport.reporter?.userSurname}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-white/60">
+                      {selectedReport.reporter?.eMail}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Report Info */}
+              <div>
+                <h4 className="text-xs font-black text-gray-400 dark:text-white/40 uppercase tracking-widest mb-3">Şikayet Sebebi & Açıklama</h4>
+                <div className="p-5 rounded-2xl bg-red-50/50 dark:bg-red-500/5 border border-red-100 dark:border-red-500/10">
+                  <div className="font-black text-red-600 dark:text-red-400 text-lg mb-2">
+                    {selectedReport.reason}
+                  </div>
+                  <p className="text-gray-700 dark:text-white/70 leading-relaxed">
+                    {selectedReport.description || 'Kullanıcı tarafından ek bir açıklama girilmemiş.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Target Info */}
+              {selectedReport.targetType === 'listing' && selectedReport.listing && (
+                <div>
+                  <h4 className="text-xs font-black text-gray-400 dark:text-white/40 uppercase tracking-widest mb-3">Şikayet Edilen İlan</h4>
+                  <div className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
+                    <div className="w-32 h-32 rounded-xl bg-gray-200 dark:bg-white/10 overflow-hidden shrink-0">
+                      {selectedReport.listing.images?.[0]?.imageUrl && (
+                        <img src={selectedReport.listing.images[0].imageUrl} alt="Listing" className="w-full h-full object-cover" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-gray-900 dark:text-white text-lg mb-1">
+                        {selectedReport.listing.title || 'İsimsiz İlan'}
+                      </div>
+                      <div className="text-xs font-medium text-gray-500 dark:text-white/40 mb-3">
+                        İlan ID: {selectedReport.listing.listingID}
+                      </div>
+                      
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/10">
+                        <span className="text-xs text-gray-500 dark:text-white/60">Satıcı:</span>
+                        <span className="text-xs font-bold text-gray-900 dark:text-white">
+                          {selectedReport.listing.seller?.userName} {selectedReport.listing.seller?.userSurname}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="p-6 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/[0.02] flex items-center justify-end gap-3">
+              <button 
+                onClick={() => setSelectedReport(null)}
+                className="px-6 py-3 rounded-xl font-bold text-gray-600 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+              >
+                Vazgeç
+              </button>
+              <button 
+                onClick={() => {
+                  handleDismiss(selectedReport.reportID);
+                  setSelectedReport(null);
+                }}
+                className="px-6 py-3 rounded-xl font-bold bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:scale-105 transition-transform shadow-lg"
+              >
+                Şikayeti Kapat (Sorun Yok)
+              </button>
+              {selectedReport.targetType === 'listing' && (
+                <button 
+                  onClick={() => alert("İlanı yayından kaldırma modülü geliştirme aşamasındadır.")}
+                  className="px-6 py-3 rounded-xl font-bold bg-red-500 text-white hover:bg-red-600 hover:scale-105 transition-transform shadow-lg shadow-red-500/30"
+                >
+                  İlanı Yayından Kaldır
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
