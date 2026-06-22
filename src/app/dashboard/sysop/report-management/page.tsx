@@ -49,9 +49,10 @@ export default function ReportManagementPage() {
     showToast("Şikayet kapatıldı.", "success");
   };
 
-  const filteredReports = reports.filter(r => 
-    currentTab === 'pending' ? r.status === 'pending' : r.status !== 'pending'
-  );
+  const filteredReports = reports.filter(r => {
+    const status = (r.status || '').toLowerCase();
+    return currentTab === 'pending' ? status === 'pending' : status !== 'pending';
+  });
 
   return (
     <div className="flex flex-col h-full overflow-hidden relative pb-20">
@@ -146,8 +147,8 @@ export default function ReportManagementPage() {
                   {report.targetType === 'listing' && report.listing && (
                     <div className="mt-auto flex items-center gap-4 p-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
                       <div className="w-12 h-12 rounded-xl bg-gray-200 dark:bg-white/10 overflow-hidden shrink-0">
-                        {report.listing.images?.[0]?.photoUrl && (
-                          <img src={report.listing.images[0].photoUrl} alt="Listing" className="w-full h-full object-cover" />
+                        {report.listing.images?.[0]?.imageUrl && (
+                          <img src={report.listing.images[0].imageUrl} alt="Listing" className="w-full h-full object-cover" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
