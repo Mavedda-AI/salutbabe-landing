@@ -168,9 +168,9 @@ export default function PartnerPage() {
                 Hemen uygulamayı indir, partner hesabını oluştur ve kendi topluluğunu kurarak sınırsız kazanç elde etmeye başla.
               </p>
               
-              <Link href="/" className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                Uygulamayı İndir
-                <ArrowRight className="w-5 h-5" />
+              <Link href="/" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_40px_rgba(236,72,153,0.3)]">
+                <span>Uygulamayı İndir</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
