@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import {useRouter} from 'next/navigation';
 import {apiUrl} from '../../../../lib/api';
 import {useAuthStore} from '../../../../store/useAuthStore';
+import ReportedProductsBox from './ReportedProductsBox';
 
 const fetcher = (url: string, token: string) => fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.json());
 
@@ -63,7 +64,11 @@ export default function AlertCenter() {
             {expandedAlert === idx && (
               <div className="px-4 pb-4 pt-2 border-t border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-black/20 text-sm z-10 relative">
                 <div className="mt-2 text-gray-600 dark:text-white/70 leading-relaxed mb-4">
-                  Bu anomali, sistemdeki yapay zeka analiz motoru tarafından otomatik olarak tespit edilmiştir. İlgili modülde potansiyel bir risk veya performans düşüklüğü gözlemleniyor. Lütfen sorunu çözmek için detaylı inceleme yapın.
+                  {alert.text.toLowerCase().includes('şikayet') ? (
+                    <ReportedProductsBox />
+                  ) : (
+                    "Bu anomali, sistemdeki yapay zeka analiz motoru tarafından otomatik olarak tespit edilmiştir. İlgili modülde potansiyel bir risk veya performans düşüklüğü gözlemleniyor. Lütfen sorunu çözmek için detaylı inceleme yapın."
+                  )}
                 </div>
                 <div className="flex items-center gap-3">
                   <button 

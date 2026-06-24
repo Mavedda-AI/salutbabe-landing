@@ -42,7 +42,6 @@ export default function FounderOS() {
             <FounderSummary />
             <AlertCenter />
             <div className="grid grid-cols-1 gap-6 items-start">
-              <ReportedProductsBox />
             </div>
           </div>
           <div className="lg:col-span-1">
