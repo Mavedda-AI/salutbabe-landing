@@ -52,7 +52,7 @@ export default function ReportedProductsBox() {
         {displayReports.map((report: any) => {
           const listing = report.listing;
           const reporter = report.reporter;
-          const image = listing?.images?.[0]?.photoUrl || 'https://via.placeholder.com/150';
+          const image = listing?.images?.[0]?.imageUrl || 'https://via.placeholder.com/150';
           const previousCount = report.previousReports?.length || 0;
 
           return (
