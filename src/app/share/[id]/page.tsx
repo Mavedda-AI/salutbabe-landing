@@ -34,14 +34,23 @@ export default function SharedPaymentPage() {
         if (!header || !header.requestResult) {
           throw new Error(header?.resultMessage || 'Link bulunamadı veya süresi dolmuş.');
         }
+        
+        if (res.payload.type === 'product' && res.payload.product) {
+          router.replace(`/product/${res.payload.product.listingID}`);
+          return; // Skip setting data to prevent rendering checkout and keep loading state
+        }
+        
         setData(res.payload);
         if (res.payload.orders) {
           setSelectedOrders(res.payload.orders.map((o: any) => o.orderID));
         }
+        setLoading(false);
       })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [id, API_URL, API_VER]);
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [id, API_URL, API_VER, router]);
 
   const toggleOrder = (orderID: string) => {
     setSelectedOrders((prev) =>

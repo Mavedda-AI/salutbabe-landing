@@ -20,14 +20,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     let isMounted = true;
     const fetchProduct = async () => {
       try {
-        // Fetch products list and find by ID (Since we don't have a single product endpoint atm)
-        const res = await fetch(apiUrl('/listings/products?limit=48'), {
+        const res = await fetch(apiUrl(`/listings/get-product-details/${id}`), {
           headers: { 'X-Device-Type': 'web' }
         });
         const data = await res.json();
-        if (isMounted && data?.payload?.products) {
-          const found = data.payload.products.find((p: any) => p.listingID === id);
-          setProduct(found);
+        if (isMounted && data?.payload) {
+          setProduct(data.payload);
         }
       } catch (error) {
         console.error("Error fetching product:", error);
