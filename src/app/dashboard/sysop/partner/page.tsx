@@ -2,13 +2,14 @@
 
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../../../lib/api";
-import {LinkSquare01Icon, Money04Icon, Search01Icon, Share01Icon, UserMultiple02Icon} from "hugeicons-react";
+import {LinkSquare01Icon, Money04Icon, Search01Icon, Share01Icon, UserMultiple02Icon, CheckmarkCircle02Icon, Cancel01Icon} from "hugeicons-react";
 
 export default function PartnerManagementPage() {
   const [users, setUsers] = useState<any[]>([]);
+  const [applications, setApplications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState<'performance' | 'all'>('performance');
+  const [activeTab, setActiveTab] = useState<'performance' | 'all' | 'applications'>('applications');
   const [partnerPerformance, setPartnerPerformance] = useState<any[]>([]);
 
   const fetchUsers = async () => {
@@ -38,6 +39,21 @@ export default function PartnerManagementPage() {
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const fetchApplications = async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl("/admin/partners/applications"), {
+        headers: { Authorization: `Bearer ${token}`, "X-Device-Type": "web" },
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        setApplications(data.payload || []);
+      }
+    } catch (e) {
+      console.error(e);
     } finally {
       setLoading(false);
     }
@@ -46,11 +62,31 @@ export default function PartnerManagementPage() {
   useEffect(() => {
     fetchUsers();
     fetchPartnerPerformance();
+    fetchApplications();
   }, []);
+
+  const handleApplicationAction = async (id: string, status: 'approved' | 'rejected') => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      await fetch(apiUrl(`/admin/partners/applications/${id}/approve`), {
+        method: 'POST',
+        headers: { 
+          Authorization: `Bearer ${token}`, 
+          "X-Device-Type": "web",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ status })
+      });
+      fetchApplications();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // Calculate some stats
   const totalPartners = users.filter(u => u.referralCode).length;
   const totalReferred = users.filter(u => u.referrer).length;
+  const pendingApplications = applications.filter(a => a.status === 'pending').length;
 
   const filteredPartners = partnerPerformance.filter(p => {
     const searchLower = searchTerm.toLowerCase();
@@ -75,16 +111,35 @@ export default function PartnerManagementPage() {
     );
   });
 
+  const filteredApplications = applications.filter((app) => {
+    const searchLower = searchTerm.toLowerCase();
+    const fullName = `${app.firstName || ""} ${app.lastName || ""}`.toLowerCase();
+    return (
+      fullName.includes(searchLower) ||
+      (app.email || "").toLowerCase().includes(searchLower) ||
+      (app.socialMediaHandle || "").toLowerCase().includes(searchLower)
+    );
+  });
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Partner & Referans Yönetimi</h1>
         <p className="text-gray-500 dark:text-white/60 mt-1">
-          Kullanıcıların hangi referans kodlarıyla geldiğini ve partner ağını takip edin.
+          Kullanıcıların hangi referans kodlarıyla geldiğini, partner ağını takip edin ve başvuruları yönetin.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white dark:bg-[#050505] rounded-xl border border-gray-200 dark:border-white/10 p-6 flex items-center gap-4 hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400">
+            <CheckmarkCircle02Icon size={24} />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-white/60 font-medium">Bekleyen Başvurular</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{pendingApplications}</p>
+          </div>
+        </div>
         <div className="bg-white dark:bg-[#050505] rounded-xl border border-gray-200 dark:border-white/10 p-6 flex items-center gap-4 hover:shadow-md transition-shadow">
           <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
             <UserMultiple02Icon size={24} />
@@ -119,7 +174,17 @@ export default function PartnerManagementPage() {
         {/* Header & Tabs */}
         <div className="p-6 border-b border-gray-200 dark:border-white/10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 overflow-x-auto whitespace-nowrap">
+              <button 
+                onClick={() => setActiveTab('applications')}
+                className={`relative pb-2 text-base font-bold transition-colors ${activeTab === 'applications' ? 'text-black dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-white/80'}`}
+              >
+                Bekleyen Başvurular
+                {pendingApplications > 0 && <span className="ml-2 bg-pink-500 text-white text-[10px] px-2 py-0.5 rounded-full">{pendingApplications}</span>}
+                {activeTab === 'applications' && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black dark:bg-white rounded-t-full"></span>
+                )}
+              </button>
               <button 
                 onClick={() => setActiveTab('performance')}
                 className={`relative pb-2 text-base font-bold transition-colors ${activeTab === 'performance' ? 'text-black dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-white/80'}`}
@@ -159,7 +224,16 @@ export default function PartnerManagementPage() {
           ) : (
             <table className="w-full text-left text-sm">
               <thead>
-                {activeTab === 'performance' ? (
+                {activeTab === 'applications' && (
+                  <tr className="bg-gray-50/80 dark:bg-[#0a0a0a] text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
+                    <th className="p-4 font-medium">Başvuru Sahibi</th>
+                    <th className="p-4 font-medium">İletişim</th>
+                    <th className="p-4 font-medium">Sosyal Medya</th>
+                    <th className="p-4 font-medium">Tarih</th>
+                    <th className="p-4 font-medium text-right">Durum / Aksiyon</th>
+                  </tr>
+                )}
+                {activeTab === 'performance' && (
                   <tr className="bg-gray-50/80 dark:bg-[#0a0a0a] text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
                     <th className="p-4 font-medium">Partner (Davet Eden)</th>
                     <th className="p-4 font-medium">Referans Kodu</th>
@@ -169,7 +243,8 @@ export default function PartnerManagementPage() {
                     <th className="p-4 font-medium text-right">Hakediş (%30)</th>
                     <th className="p-4 font-medium text-right">Aksiyon</th>
                   </tr>
-                ) : (
+                )}
+                {activeTab === 'all' && (
                   <tr className="bg-gray-50/80 dark:bg-[#0a0a0a] text-gray-500 dark:text-white/40 border-b border-gray-200 dark:border-white/10">
                     <th className="p-4 font-medium">Kullanıcı</th>
                     <th className="p-4 font-medium">Kişisel Ref. Kodu</th>
@@ -179,7 +254,47 @@ export default function PartnerManagementPage() {
                 )}
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-white/5">
-                {activeTab === 'performance' ? (
+                {activeTab === 'applications' && (
+                  <>
+                    {filteredApplications.map((app) => (
+                      <tr key={app.applicationID} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                        <td className="p-4 font-bold text-gray-900 dark:text-white">
+                          {app.firstName} {app.lastName}
+                        </td>
+                        <td className="p-4 text-gray-500 dark:text-white/60">
+                          {app.email}
+                        </td>
+                        <td className="p-4 text-blue-600 dark:text-blue-400 font-medium">
+                          {app.socialMediaHandle}
+                        </td>
+                        <td className="p-4 text-gray-500 dark:text-white/60">
+                          {new Date(app.createdAt).toLocaleDateString("tr-TR")}
+                        </td>
+                        <td className="p-4 text-right">
+                          {app.status === 'pending' ? (
+                            <div className="flex justify-end gap-2">
+                              <button onClick={() => handleApplicationAction(app.applicationID, 'approved')} className="px-3 py-1.5 bg-green-500/10 text-green-600 hover:bg-green-500/20 rounded-lg text-xs font-bold transition-colors">Onayla</button>
+                              <button onClick={() => handleApplicationAction(app.applicationID, 'rejected')} className="px-3 py-1.5 bg-red-500/10 text-red-600 hover:bg-red-500/20 rounded-lg text-xs font-bold transition-colors">Reddet</button>
+                            </div>
+                          ) : (
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold ${app.status === 'approved' ? 'bg-green-500/10 text-green-600' : 'bg-red-500/10 text-red-600'}`}>
+                              {app.status === 'approved' ? 'Onaylandı' : 'Reddedildi'}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                    {filteredApplications.length === 0 && (
+                      <tr>
+                        <td colSpan={5} className="p-12 text-center text-gray-500">
+                          Başvuru bulunamadı.
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                )}
+
+                {activeTab === 'performance' && (
                   <>
                     {filteredPartners.map((p) => (
                       <tr key={p.partner.userID} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
@@ -248,7 +363,9 @@ export default function PartnerManagementPage() {
                       </tr>
                     )}
                   </>
-                ) : (
+                )}
+
+                {activeTab === 'all' && (
                   <>
                     {filteredUsers.map((user) => (
                       <tr key={user.userID} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
@@ -325,4 +442,3 @@ export default function PartnerManagementPage() {
     </div>
   );
 }
-
