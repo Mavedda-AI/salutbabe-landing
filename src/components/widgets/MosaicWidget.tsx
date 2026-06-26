@@ -118,7 +118,8 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
            setDynamicSubCategories(subCatsDict);
         }
       } catch (err) {
-        console.error("Categories fetch error", err);
+        // Backend kapalıysa veya ulaşılamıyorsa sadece uyarı ver (Next.js hata overlay'ini tetiklememek için)
+        console.warn("Categories fetch error (Sunucu kapalı olabilir):", err);
       }
     };
     fetchCats();
@@ -165,7 +166,8 @@ export default function MosaicWidget({ activeCategory = "Tümü", setActiveCateg
           setProducts(data.payload.products);
         }
       } catch (error) {
-        console.error("Error fetching live products:", error);
+        // Backend kapalıysa sadece uyarı ver
+        console.warn("Error fetching live products (Sunucu kapalı olabilir):", error);
       } finally {
         if (isMounted) setLoading(false);
       }

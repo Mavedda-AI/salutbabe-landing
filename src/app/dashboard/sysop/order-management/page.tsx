@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {useThemeLanguage} from "../../../../context/ThemeLanguageContext";
+import {useToast} from "../../../../context/ToastContext";
 import {apiUrl, API_BASE_URL} from "../../../../lib/api";
 
 interface Order {
@@ -60,11 +61,15 @@ const translateStatus = (status: string) => {
 
 export default function OrderManagementPage() {
   const { theme, t, language } = useThemeLanguage();
+  const { showToast } = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [cancelingOrder, setCancelingOrder] = useState<Order | null>(null);
 
   const fetchOrders = async (p = 1) => {
     try {
@@ -90,6 +95,32 @@ export default function OrderManagementPage() {
   useEffect(() => {
     fetchOrders(page);
   }, [page]);
+
+  const handleCancelOrder = async () => {
+    if (!cancelingOrder) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(apiUrl(`/admin/orders/${cancelingOrder.orderID}/cancel`), {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Device-Type": "web"
+        }
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        showToast(data.payload?.message || "Sipariş başarıyla iptal edildi ve iade süreci başlatıldı.", "success");
+        setCancelModalOpen(false);
+        setCancelingOrder(null);
+        fetchOrders(page);
+      } else {
+        showToast(data.request?.errorDetails || "Sipariş iptal edilirken bir hata oluştu.", "error");
+      }
+    } catch (e) {
+      console.error(e);
+      showToast("Bir hata oluştu.", "error");
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -183,13 +214,28 @@ export default function OrderManagementPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                     <button className={`p-2.5 rounded-xl transition-all ${isExpanded ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 dark:bg-white/5 text-text-secondary hover:text-primary hover:bg-primary/10'}`}>
-                        {isExpanded ? (
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
-                        ) : (
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                        )}
-                     </button>
+                     <div className="flex items-center justify-end gap-2">
+                       {order.status !== 'cancelled' && order.status !== 'refunded' && (
+                         <button 
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             setCancelingOrder(order);
+                             setCancelModalOpen(true);
+                           }}
+                           className="p-2.5 rounded-xl transition-all bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white"
+                           title="İptal Et / İade Yap"
+                         >
+                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                         </button>
+                       )}
+                       <button className={`p-2.5 rounded-xl transition-all ${isExpanded ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 dark:bg-white/5 text-text-secondary hover:text-primary hover:bg-primary/10'}`}>
+                          {isExpanded ? (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                          ) : (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                          )}
+                       </button>
+                     </div>
                   </td>
                 </tr>
                 {isExpanded && (
@@ -315,6 +361,46 @@ export default function OrderManagementPage() {
           </button>
         </div>
       )}
+
+      {/* Cancel Modal */}
+      {cancelModalOpen && cancelingOrder && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+          <div className={`rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl animate-scale-in border
+            bg-white border-border-color dark:bg-[#18181B] dark:border-white/5`}>
+            
+            <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-6 text-red-500">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+
+            <h3 className="text-2xl font-black text-text-primary mb-2 tracking-tight">Siparişi İptal Et</h3>
+            <p className="text-[13px] font-bold text-text-secondary/80 mb-6 leading-relaxed">
+              <strong>#{cancelingOrder.orderID.split('-')[0].toUpperCase()}</strong> numaralı siparişi zorla iptal edip, alıcıya para iadesi başlatmak üzeresiniz. Bu işlem <strong className="text-red-500">geri alınamaz</strong>. Onaylıyor musunuz?
+            </p>
+            
+            <div className="flex gap-4 mt-8">
+              <button 
+                onClick={() => {
+                  setCancelModalOpen(false);
+                  setCancelingOrder(null);
+                }}
+                className={`flex-1 h-14 rounded-2xl font-black text-[14px] transition-all
+                  bg-gray-100 text-text-primary hover:bg-gray-200 dark:bg-white/5 dark:text-text-primary dark:hover:bg-white/10`}
+              >
+                Vazgeç
+              </button>
+              <button 
+                onClick={handleCancelOrder}
+                className="flex-1 h-14 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-black text-[14px] shadow-xl shadow-red-500/30 hover:scale-[1.02] transition-all"
+              >
+                Evet, İptal Et
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -23,6 +23,8 @@ export default function AdminUsersPage() {
   const [pendingBalanceInput, setPendingBalanceInput] = useState("");
   const [editingRoleUser, setEditingRoleUser] = useState<any>(null);
   const [roleInput, setRoleInput] = useState<string[]>([]);
+  const [editingBadgesUser, setEditingBadgesUser] = useState<any>(null);
+  const [badgesInput, setBadgesInput] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
   const [showAllDetails, setShowAllDetails] = useState(false);
@@ -166,6 +168,41 @@ export default function AdminUsersPage() {
       setRoleInput(roleInput.filter(r => r !== role));
     } else {
       setRoleInput([...roleInput, role]);
+    }
+  };
+
+  const handleUpdateBadges = async () => {
+    if (!editingBadgesUser) return;
+    try {
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(apiUrl(`/admin/users/${editingBadgesUser.userID}/custom-badges`), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-Device-Type": "web",
+        },
+        body: JSON.stringify({ customBadges: badgesInput }),
+      });
+      const data = await res.json();
+      if (data.request?.requestResult) {
+        showToast(t('dashboard.success'), "success");
+        setEditingBadgesUser(null);
+        fetchUsers();
+      } else {
+        showToast(t('dashboard.error'), "error");
+      }
+    } catch (e) {
+      console.error(e);
+      showToast(t('dashboard.error'), "error");
+    }
+  };
+
+  const toggleBadge = (badge: string) => {
+    if (badgesInput.includes(badge)) {
+      setBadgesInput(badgesInput.filter(b => b !== badge));
+    } else {
+      setBadgesInput([...badgesInput, badge]);
     }
   };
 
@@ -346,8 +383,11 @@ export default function AdminUsersPage() {
                         <button onClick={() => { setEditingUser(user); setBalanceInput(user.balance?.toString() || "0"); setPendingBalanceInput(user.pendingBalance?.toString() || "0"); }} className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-text-secondary transition-colors">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" /></svg>
                         </button>
-                        <button onClick={() => { setEditingRoleUser(user); setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]); }} className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-blue-500 transition-colors">
+                        <button onClick={() => { setEditingRoleUser(user); setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]); }} className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-blue-500 transition-colors" title="Rol Düzenle">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        </button>
+                        <button onClick={() => { setEditingBadgesUser(user); setBadgesInput(Array.isArray(user.customBadges) ? user.customBadges : []); }} className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-pink-500 transition-colors" title="Özel Rozetler">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
                         </button>
                         <button onClick={() => handleBlockUser(user.userID, !user.isActive)} className={`p-2 rounded-lg transition-colors ${!user.isActive ? 'bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white' : 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white'}`}>
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -454,7 +494,7 @@ export default function AdminUsersPage() {
               <p className="text-[13px] font-bold text-text-primary/80 mb-8 truncate w-full px-2">{user.eMail}</p>
 
               {/* Actions Grid */}
-              <div className="w-full grid grid-cols-4 gap-2">
+              <div className="w-full grid grid-cols-5 gap-2">
                  <button 
                    onClick={() => setExpandedUser(expandedUser === user.userID ? null : user.userID)}
                    className={`h-12 rounded-2xl flex items-center justify-center transition-all ${expandedUser === user.userID || showAllDetails ? 'bg-primary text-white shadow-lg' : 'bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-white/50'}`}>
@@ -476,8 +516,17 @@ export default function AdminUsersPage() {
                      setRoleInput(Array.isArray(user.userType) ? user.userType : [user.userType]);
                    }}
                    className={`h-12 rounded-2xl flex items-center justify-center transition-all
-                     bg-gray-100 text-blue-500 dark:bg-white/5 dark:text-blue-500`}>
+                     bg-gray-100 text-blue-500 dark:bg-white/5 dark:text-blue-500`} title="Rol Düzenle">
                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                 </button>
+                 <button 
+                   onClick={() => {
+                     setEditingBadgesUser(user);
+                     setBadgesInput(Array.isArray(user.customBadges) ? user.customBadges : []);
+                   }}
+                   className={`h-12 rounded-2xl flex items-center justify-center transition-all
+                     bg-gray-100 text-pink-500 dark:bg-white/5 dark:text-pink-500`} title="Özel Rozetler">
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
                  </button>
                  <button 
                    onClick={() => handleBlockUser(user.userID, !user.isActive)}
@@ -669,6 +718,61 @@ export default function AdminUsersPage() {
                 <button 
                   onClick={handleUpdateRole}
                   className="flex-1 h-14 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black text-[14px] shadow-xl shadow-primary/30 hover:scale-[1.02] transition-all"
+                >
+                  {t('dashboard.btn_save')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingBadgesUser && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+          <div className={`rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl animate-scale-in border
+            bg-white border-border-color dark:bg-[#18181B] dark:border-white/5`}>
+            <h3 className="text-2xl font-black text-text-primary mb-2 tracking-tight">Özel Rozetler</h3>
+            <p className="text-[13px] font-bold text-text-secondary/60 mb-8">{editingBadgesUser.userName} kullanıcısına özel rozetler atayın.</p>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {[
+                { id: 'founder_mom', title: 'Kurucu Anne', icon: '👑', color: '#F43F5E' },
+                { id: 'verified_influencer', title: 'Onaylı Influencer', icon: '⭐', color: '#8B5CF6' }
+              ].map(badge => (
+                <label key={badge.id} className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all group
+                  ${badgesInput.includes(badge.id) 
+                    ? 'bg-pink-500/10 border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.1)]' 
+                    : 'bg-gray-50 border-transparent hover:border-pink-500/20 dark:bg-white/5 dark:border-transparent dark:hover:border-white/10'}`}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{badge.icon}</span>
+                    <span className={`text-[14px] font-black transition-colors ${badgesInput.includes(badge.id) ? 'text-pink-500' : 'text-text-primary'}`}>{badge.title}</span>
+                  </div>
+                  <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
+                    ${badgesInput.includes(badge.id) ? 'bg-pink-500 border-pink-500' : 'border-text-secondary/20 group-hover:border-pink-500/50'}`}>
+                    {badgesInput.includes(badge.id) && (
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    )}
+                  </div>
+                  <input 
+                    type="checkbox" 
+                    className="hidden"
+                    checked={badgesInput.includes(badge.id)}
+                    onChange={() => toggleBadge(badge.id)}
+                  />
+                </label>
+              ))}
+              
+              <div className="flex gap-4 mt-10">
+                <button 
+                  onClick={() => setEditingBadgesUser(null)}
+                  className={`flex-1 h-14 rounded-2xl font-black text-[14px] transition-all
+                    bg-gray-100 text-text-primary hover:bg-gray-200 dark:bg-white/5 dark:text-text-primary dark:hover:bg-white/10`}
+                >
+                  {t('dashboard.btn_cancel')}
+                </button>
+                <button 
+                  onClick={handleUpdateBadges}
+                  className="flex-1 h-14 bg-pink-500 hover:bg-pink-600 text-white rounded-2xl font-black text-[14px] shadow-xl shadow-pink-500/30 hover:scale-[1.02] transition-all"
                 >
                   {t('dashboard.btn_save')}
                 </button>
